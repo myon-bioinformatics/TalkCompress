@@ -1,0 +1,5 @@
+{"role": "system", "text": "You are a helpful assistant. Keep answers short."}
+{"role": "user", "text": "um thank you for your information about the pull request"}
+{"role": "assistant", "text": "As soon as possible I will look into the configuration and send a message."}
+{"role": "user", "text": "I have 3 animals and 2 people waiting. Please let me know."}
+{"role": "assistant", "text": "Hello there. World is fine. こんにちは。また今度。"}

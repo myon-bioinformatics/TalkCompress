@@ -5,7 +5,10 @@ Used primarily by MorphoZip (E); filler stripping is also safe for ShorthandLab 
 
 from __future__ import annotations
 
+import json
 import re
+from pathlib import Path
+from typing import Any
 
 # Light fillers / interjections to drop while compressing (case-insensitive for Latin).
 # Keep content words; only strip discourse grease.
@@ -325,3 +328,53 @@ def apply_etymon_align(text: str) -> str:
             out = out.replace(surface, etymon)
             out = out.replace(surface[:1].upper() + surface[1:], etymon)
     return out
+
+
+# --- JSON policy load/dump (process-local override) ---
+
+
+def dump_policy() -> dict[str, Any]:
+    """Serialize current FILLERS / UNIQUE / ETYMON tables to a JSON-friendly dict."""
+    return {
+        "fillers_en": list(FILLERS_EN),
+        "fillers_ja": list(FILLERS_JA),
+        "unique_readings": dict(UNIQUE_READINGS),
+        "unique_compact": dict(UNIQUE_COMPACT),
+        "etymon_align": dict(ETYMON_ALIGN),
+        "aggressive_only": sorted(_AGGRESSIVE_ONLY),
+    }
+
+
+def load_policy(path: str | Path) -> dict[str, Any]:
+    """Load JSON policy and override module-level tables in-process.
+
+    Keys (all optional): fillers_en, fillers_ja, unique_readings, unique_compact,
+    etymon_align, aggressive_only. Missing keys leave current values unchanged.
+    Returns the applied payload (merged view of what was set).
+    """
+    global FILLERS_EN, FILLERS_JA, UNIQUE_READINGS, UNIQUE_COMPACT, ETYMON_ALIGN, _AGGRESSIVE_ONLY
+
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("lex policy JSON must be an object")
+
+    applied: dict[str, Any] = {}
+    if "fillers_en" in data:
+        FILLERS_EN = tuple(str(x) for x in data["fillers_en"])
+        applied["fillers_en"] = list(FILLERS_EN)
+    if "fillers_ja" in data:
+        FILLERS_JA = tuple(str(x) for x in data["fillers_ja"])
+        applied["fillers_ja"] = list(FILLERS_JA)
+    if "unique_readings" in data:
+        UNIQUE_READINGS = {str(k): str(v) for k, v in dict(data["unique_readings"]).items()}
+        applied["unique_readings"] = dict(UNIQUE_READINGS)
+    if "unique_compact" in data:
+        UNIQUE_COMPACT = {str(k): str(v) for k, v in dict(data["unique_compact"]).items()}
+        applied["unique_compact"] = dict(UNIQUE_COMPACT)
+    if "etymon_align" in data:
+        ETYMON_ALIGN = {str(k): str(v) for k, v in dict(data["etymon_align"]).items()}
+        applied["etymon_align"] = dict(ETYMON_ALIGN)
+    if "aggressive_only" in data:
+        _AGGRESSIVE_ONLY = frozenset(str(x) for x in data["aggressive_only"])
+        applied["aggressive_only"] = sorted(_AGGRESSIVE_ONLY)
+    return applied

@@ -12,6 +12,8 @@ MAC:   HMAC-SHA256(key, magic||ver||nonce||aad_len||aad||ciphertext)
 Optional associated context (``aad`` / channel label) is folded into the MAC
 so the same plaintext+key under different labels do not verify interchangeably.
 AAD is NOT written into the envelope — both peers must supply the same label.
+
+Key resolution: ``--key`` / ``--key-file``, else env ``TALKCOMPRESS_ZIP_KEY``.
 """
 
 from __future__ import annotations
@@ -20,6 +22,7 @@ import argparse
 import base64
 import hashlib
 import hmac
+import os
 import secrets
 import struct
 import sys
@@ -155,19 +158,50 @@ def decode(
     return bytes(a ^ b for a, b in zip(ct, ks, strict=True))
 
 
+def encode_frames(
+    payloads: list[bytes],
+    *,
+    key: bytes | str,
+    aad: bytes | str | None = None,
+) -> bytes:
+    """Encode each payload as its own envelope; join with newlines (batch bot messages)."""
+    lines = [encode(p, key=key, aad=aad) for p in payloads]
+    return b"\n".join(lines)
+
+
+def decode_frames(
+    blob: bytes | str,
+    *,
+    key: bytes | str,
+    aad: bytes | str | None = None,
+) -> list[bytes]:
+    """Decode newline-separated envelopes; skip blank lines."""
+    raw = blob.encode("ascii") if isinstance(blob, str) else blob
+    out: list[bytes] = []
+    for line in raw.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        out.append(decode(line, key=key, aad=aad))
+    return out
+
+
 def _read_key(args: argparse.Namespace) -> bytes:
     if args.key_file:
         data = Path(args.key_file).read_bytes()
         return data.rstrip(b"\r\n")
     if args.key is not None:
         return args.key.encode("utf-8")
-    raise SystemExit("provide --key or --key-file")
+    env = os.environ.get("TALKCOMPRESS_ZIP_KEY")
+    if env:
+        return env.encode("utf-8")
+    raise SystemExit("provide --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
 
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Zipilogue: layer-1 authenticated machine encoding")
     p.add_argument("mode", choices=("encode", "decode"))
-    g = p.add_mutually_exclusive_group(required=True)
+    g = p.add_mutually_exclusive_group(required=False)
     g.add_argument("--key", help="shared passphrase (do not commit real keys)")
     g.add_argument("--key-file", help="read passphrase from file (trailing newline stripped)")
     p.add_argument("--text", help="UTF-8 text; otherwise stdin (encode: text/bytes, decode: envelope)")
@@ -179,19 +213,33 @@ def main(argv: list[str] | None = None) -> int:
         help="associated context / channel label folded into MAC (must match on decode)",
     )
     p.add_argument("--hex-in", action="store_true", help="decode mode: treat input as hex of envelope")
+    p.add_argument(
+        "--frames",
+        action="store_true",
+        help="line-oriented batch: encode each plaintext line as its own envelope; "
+        "decode splits envelopes by newline",
+    )
     args = p.parse_args(argv)
 
     key = _read_key(args)
     aad = args.aad or ""
 
     if args.mode == "encode":
-        if args.file:
-            raw = Path(args.file).read_bytes()
+        if args.frames:
+            if args.file:
+                raw_text = Path(args.file).read_text(encoding="utf-8")
+            elif args.text is not None:
+                raw_text = args.text
+            else:
+                raw_text = sys.stdin.read()
+            payloads = [ln.encode("utf-8") for ln in raw_text.splitlines() if ln.strip()]
+            env = encode_frames(payloads, key=key, aad=aad)
+        elif args.file:
+            env = encode(Path(args.file).read_bytes(), key=key, aad=aad)
         elif args.text is not None:
-            raw = args.text.encode("utf-8")
+            env = encode(args.text.encode("utf-8"), key=key, aad=aad)
         else:
-            raw = sys.stdin.buffer.read()
-        env = encode(raw, key=key, aad=aad)
+            env = encode(sys.stdin.buffer.read(), key=key, aad=aad)
         if args.out:
             Path(args.out).write_bytes(env + b"\n")
         else:
@@ -199,14 +247,22 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.file:
-        blob = Path(args.file).read_bytes().strip()
+        blob = Path(args.file).read_bytes()
     elif args.text is not None:
         blob = args.text.encode("ascii")
     else:
-        blob = sys.stdin.buffer.read().strip()
+        blob = sys.stdin.buffer.read()
     if args.hex_in:
-        blob = bytes.fromhex(blob.decode("ascii") if isinstance(blob, bytes) else blob)
-    plain = decode(blob, key=key, aad=aad)
+        blob = bytes.fromhex(blob.decode("ascii").strip())
+    if args.frames:
+        plains = decode_frames(blob, key=key, aad=aad)
+        out_bytes = b"\n".join(plains)
+        if args.out:
+            Path(args.out).write_bytes(out_bytes + b"\n")
+        else:
+            sys.stdout.buffer.write(out_bytes + b"\n")
+        return 0
+    plain = decode(blob.strip(), key=key, aad=aad)
     if args.out:
         Path(args.out).write_bytes(plain)
     else:

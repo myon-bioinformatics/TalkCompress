@@ -207,6 +207,19 @@ class Session:
                     continue
                 self.conventions[_norm_phrase(str(k))] = str(v)
 
+    def export_lexicon(self) -> dict:
+        """Dump effective map (base + conventions) for serialization."""
+        return {
+            "map": dict(self.effective),
+            "conventions": dict(self.conventions),
+        }
+
+    def export_lexicon_to(self, path: str | Path) -> None:
+        Path(path).write_text(
+            json.dumps(self.export_lexicon(), ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
 
 def compress(text: str, mapping: dict[str, str] | None = None, session: Session | None = None) -> str:
     """Apply conventions then lexicon; longest-match first. Declaration lines are consumed."""
@@ -266,12 +279,76 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
     return out
 
 
+
+def suggest_hereafter(text: str, *, min_count: int = 2) -> list[dict[str, str | int]]:
+    """Heuristic: detect repeated multi-word / CJK phrases and propose hereafter lines.
+
+    Criteria: ≥ ``min_count`` occurrences; phrase is ≥2 whitespace-separated words
+    OR a CJK run of length ≥4. Does not auto-apply.
+    Returns list of {long, short, count, line} where line is ``hereafter LONG = SHORT``.
+    """
+    from collections import Counter
+
+    # Multi-word Latin-ish ngrams (2–4 words)
+    words = re.findall(r"[A-Za-z0-9']+|[぀-ヿ㐀-鿿]{2,}", text)
+    # Also scan raw lowercased sliding windows of 2-3 space-separated tokens
+    lowered = text.lower()
+    latin_tokens = re.findall(r"[a-z0-9']+", lowered)
+    candidates: Counter[str] = Counter()
+    for n in (2, 3, 4):
+        for i in range(len(latin_tokens) - n + 1):
+            phrase = " ".join(latin_tokens[i : i + n])
+            if len(phrase) < 5:
+                continue
+            candidates[phrase] += 1
+    # CJK runs ≥4 chars appearing ≥min_count
+    for m in re.finditer(r"[぀-ヿ㐀-鿿]{4,}", text):
+        candidates[m.group(0)] += 1
+
+    # Recount properly for CJK (finditer already counted once per occurrence — OK)
+    # For latin ngrams, Counter above already tallied sliding windows.
+    suggestions: list[dict[str, str | int]] = []
+    used_shorts: set[str] = set()
+    for phrase, count in candidates.most_common(40):
+        if count < min_count:
+            continue
+        # Prefer true multi-word or long CJK
+        is_cjk = bool(re.search(r"[぀-ヿ㐀-鿿]", phrase))
+        if not is_cjk and len(phrase.split()) < 2:
+            continue
+        if is_cjk and len(phrase) < 4:
+            continue
+        # Build a short acronym-ish form
+        if is_cjk:
+            short = phrase[:2]
+        else:
+            parts = phrase.split()
+            short = "".join(p[0] for p in parts if p).upper()
+            if len(short) < 2:
+                short = phrase[:3]
+        base = short
+        i = 2
+        while short in used_shorts:
+            short = f"{base}{i}"
+            i += 1
+        used_shorts.add(short)
+        line = f"hereafter {phrase} = {short}"
+        suggestions.append({"long": phrase, "short": short, "count": count, "line": line})
+    return suggestions
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="ShorthandLab: layer-3 human shorthand")
-    p.add_argument("mode", choices=("compress", "expand"))
+    p.add_argument("mode", nargs="?", default="compress", choices=("compress", "expand", "suggest"))
     p.add_argument("--text", help="input; else stdin")
     p.add_argument("--state", help="JSON file for session conventions (read+write on compress)")
     p.add_argument("--lexicon", help="extra lexicon JSON to merge into session map")
+    p.add_argument("--export-lexicon", dest="export_lexicon", help="write effective map JSON to PATH")
+    p.add_argument(
+        "--apply-suggestions",
+        action="store_true",
+        help="with suggest/compress: declare suggested hereafter conventions into session",
+    )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     sess = Session()
@@ -279,6 +356,24 @@ def main(argv: list[str] | None = None) -> int:
         sess.load_lexicon(args.lexicon)
     if args.state and Path(args.state).exists():
         sess.load(args.state)
+
+    if args.mode == "suggest":
+        suggestions = suggest_hereafter(text)
+        if args.apply_suggestions:
+            for s in suggestions:
+                sess.declare(str(s["long"]), str(s["short"]))
+            if args.state:
+                sess.save(args.state)
+        for s in suggestions:
+            print(s["line"])
+        if args.export_lexicon:
+            sess.export_lexicon_to(args.export_lexicon)
+        return 0
+
+    if args.apply_suggestions:
+        for s in suggest_hereafter(text):
+            sess.declare(str(s["long"]), str(s["short"]))
+
     if args.mode == "compress":
         out = compress(text, session=sess)
         if args.state:
@@ -286,6 +381,8 @@ def main(argv: list[str] | None = None) -> int:
         print(out)
     else:
         print(expand(text, session=sess))
+    if args.export_lexicon:
+        sess.export_lexicon_to(args.export_lexicon)
     return 0
 
 

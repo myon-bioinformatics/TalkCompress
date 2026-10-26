@@ -236,7 +236,7 @@ def test_convo_jsonl():
         mode="compress",
     )
     raw = json.dumps({"role": "user", "text": "thank you"}, ensure_ascii=False)
-    out = c.process_jsonl("C", raw, ns)
+    out = c.process_jsonl(raw, ns, default_layer="C")
     obj = json.loads(out)
     assert obj["role"] == "user"
     assert "ty" in obj["text"].lower() or obj["text"] == "ty"

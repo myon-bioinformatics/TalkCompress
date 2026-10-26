@@ -40,7 +40,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 
 ## 使い方
 
-共通入口は `ConvoZip`。各層の詳細はサブディレクトリの README を参照。
+共通入口は `ConvoZip`。各層の詳細はサブディレクトリの README を参照。サンプルは [examples/](examples/)。
 
 ```bash
 uv sync
@@ -51,19 +51,50 @@ uv run python ConvoZip/convo_zip.py --layer E --stats --text "私は ready and w
 # パイプライン（層を順に適用）
 uv run python ConvoZip/convo_zip.py --pipeline C,E --text "um thank you for your information"
 
+# 予算: 既定 C,E を繰り返し、len<=N か縮小停止まで。最短結果を返す
+uv run python ConvoZip/convo_zip.py --budget 40 --stats --text "um thank you for your information please"
+
+# ヒューリスティック自動選択（B/C/E。鍵付きで --auto-machine なら末尾に A）
+uv run python ConvoZip/convo_zip.py --auto --text "Hello. こんにちは。Thanks for your information."
+
+# 役割別層（JSONL）。identity/skip は無変更。マルチ段は user=C+E
+uv run python ConvoZip/convo_zip.py --jsonl --role-layers 'user=C,assistant=E,system=identity' \
+  --file examples/sample_chat.jsonl
+
+# 変換トレース（stderr JSON）
+uv run python ConvoZip/convo_zip.py --pipeline C,E --trace --text "um thank you"
+
 # 層の密度比較（JSON Lines）
 uv run python ConvoZip/convo_zip.py --compare --text "I have 3 animals and 2 people"
 
-# ファイル入出力
+# ファイル入出力 / Zipilogue AAD・環境変数鍵
 uv run python ConvoZip/convo_zip.py --layer C --file in.txt --out out.txt
-uv run python ConvoZip/convo_zip.py --layer A --key secret --aad chat-room --file plain.txt --out env.txt
+TALKCOMPRESS_ZIP_KEY=secret uv run python ConvoZip/convo_zip.py --layer A --aad chat --file plain.txt --out env.txt
 
-# ShorthandLab 追加語彙 / MorphoZip 16進
-uv run python ConvoZip/convo_zip.py --layer C --lexicon extra.json --text "..."
-uv run python ConvoZip/convo_zip.py --layer E --hex-nums --text "retry 255 times"
+# 語彙ポリシー上書き（プロセス内） / MorphoZip 16進・expand
+uv run python ConvoZip/convo_zip.py --layer E --lex-policy policy.json --text "..."
+uv run python MorphoZip/morpho_zip.py --mode expand --text "3匹"
+uv run python MorphoZip/morpho_zip.py --hex-nums --text "retry 255 times"
+
+# ShorthandLab 語彙エクスポート / hereafter 提案
+uv run python ShorthandLab/shorthand_lab.py compress --text "..." --export-lexicon out.json
+uv run python ShorthandLab/shorthand_lab.py suggest --text "continuous integration ... continuous integration"
+
+# TesseraTalk 段落保持 / Zipilogue 複数フレーム
+uv run python TesseraTalk/tessera_talk.py compress --preserve-newlines --text $'Hello.\n\nこんにちは。'
+uv run python Zipilogue/zipilogue.py encode --key k --frames --text $'line1\nline2'
 
 uv run pytest -q
 ```
+
+### `--auto` の目安
+
+| 入力の傾向 | 選ばれやすい層 |
+| --- | --- |
+| ASCII スラング・略語寄り | `C` → 必要なら `E` |
+| 複数スクリプト / 多文の混在 | `B` → 必要なら `E` |
+| 短い / CJK 密度高め | `E` |
+| `--auto-machine` + 鍵あり | 末尾に `A`（暗号化は明示時のみ） |
 
 ## ライセンス
 

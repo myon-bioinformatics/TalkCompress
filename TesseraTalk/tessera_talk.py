@@ -41,6 +41,10 @@ _CUES: dict[str, tuple[str, ...]] = {
     "fr": ("le", "la", "les", "des", "une", "est", "que", "dans", "pour", "avec"),
     "de": ("der", "die", "das", "und", "ist", "nicht", "ein", "eine", "mit", "auf"),
     "pt": ("o", "a", "os", "as", "que", "de", "em", "um", "uma", "não", "para"),
+    "it": ("il", "lo", "la", "gli", "le", "che", "di", "per", "con", "una", "sono", "non"),
+    "nl": ("de", "het", "een", "van", "en", "is", "niet", "met", "voor", "op", "zijn"),
+    "id": ("yang", "dan", "dengan", "untuk", "tidak", "ini", "itu", "ada", "dari", "pada"),
+    "sv": ("och", "att", "det", "är", "en", "ett", "som", "för", "med", "inte", "på"),
     "ja": ("は", "を", "が", "に", "です", "ます", "した", "する", "こと"),
 }
 
@@ -104,6 +108,10 @@ def detect_lang(sentence: str) -> str:
             "fr": _cue_hits(sentence, "fr"),
             "de": _cue_hits(sentence, "de"),
             "pt": _cue_hits(sentence, "pt"),
+            "it": _cue_hits(sentence, "it"),
+            "nl": _cue_hits(sentence, "nl"),
+            "id": _cue_hits(sentence, "id"),
+            "sv": _cue_hits(sentence, "sv"),
         }
         best = max(scores, key=scores.get)
         if scores[best] > 0:
@@ -114,13 +122,34 @@ def detect_lang(sentence: str) -> str:
     return "und"
 
 
-def tag_sentences(text: str, langs: list[str] | None = None) -> list[tuple[str, str]]:
+def tag_sentences(
+    text: str,
+    langs: list[str] | None = None,
+    *,
+    preserve_newlines: bool = False,
+) -> list[tuple[str, str]]:
     """Tag each sentence. If langs is given and non-empty, use as fallback cycle
-    only when detector returns 'und'; otherwise prefer heuristic LID."""
-    sents = segment(text)
+    only when detector returns 'und'; otherwise prefer heuristic LID.
+
+    With ``preserve_newlines=True``, blank-line paragraph breaks become a synthetic
+    ``¶`` sentence so mosaic expand can restore paragraph structure.
+    """
+    if preserve_newlines and "\n" in text:
+        blocks = re.split(r"(\n\s*\n+)", text.strip())
+        sents: list[str] = []
+        for block in blocks:
+            if re.fullmatch(r"\n\s*\n+", block or ""):
+                sents.append("¶")
+                continue
+            sents.extend(segment(block))
+    else:
+        sents = segment(text)
     fallback = langs if langs else ["und"]
     tagged: list[tuple[str, str]] = []
     for i, s in enumerate(sents):
+        if s == "¶":
+            tagged.append(("¶", "¶"))
+            continue
         lang = detect_lang(s)
         if lang == "und" and fallback:
             lang = fallback[i % len(fallback)]
@@ -132,17 +161,28 @@ def render(tagged: list[tuple[str, str]]) -> str:
     return "\n".join(f"[{lang}] {sent}" for lang, sent in tagged)
 
 
-def compress(text: str, langs: list[str] | None = None, *, rle: bool = True) -> str:
+def compress(
+    text: str,
+    langs: list[str] | None = None,
+    *,
+    rle: bool = True,
+    preserve_newlines: bool = False,
+) -> str:
     """Compact mosaic. With ``rle=True`` (default), omit repeating lang tags in a run:
 
     ``en:Hello.|World.|ja:こんにちは。``
 
     With ``rle=False``: full ``lang:sent|lang:sent`` (legacy-compatible).
+    ``preserve_newlines`` keeps paragraph breaks as ``¶:¶`` tiles.
     """
-    tagged = tag_sentences(text, langs)
+    tagged = tag_sentences(text, langs, preserve_newlines=preserve_newlines)
     parts: list[str] = []
     prev_lang: str | None = None
     for lang, sent in tagged:
+        if lang == "¶":
+            parts.append("¶:¶")
+            prev_lang = None
+            continue
         safe = sent.replace("|", r"\|")
         if rle and prev_lang is not None and lang == prev_lang:
             parts.append(safe)
@@ -152,8 +192,11 @@ def compress(text: str, langs: list[str] | None = None, *, rle: bool = True) -> 
     return "|".join(parts)
 
 
-def expand(mosaic: str) -> str:
-    """Expand mosaic back to plain text. Accepts full tags and RLE (inherit lang)."""
+def expand(mosaic: str, *, preserve_newlines: bool = False) -> str:
+    """Expand mosaic back to plain text. Accepts full tags and RLE (inherit lang).
+
+    With ``preserve_newlines=True``, ``¶:¶`` / ``¶`` tiles become blank-line breaks.
+    """
     if not mosaic.strip():
         return ""
     parts = re.split(r"(?<!\\)\|", mosaic.strip())
@@ -161,7 +204,9 @@ def expand(mosaic: str) -> str:
     cur_lang: str | None = None
     for part in parts:
         part = part.replace(r"\|", "|")
-        # lang:body when lang looks like a short code (letters, optional digits)
+        if part in ("¶:¶", "¶") or part.startswith("¶:"):
+            sentences.append("¶")
+            continue
         m = re.match(r"^([a-zA-Z]{2,8}(?:-[a-zA-Z0-9]+)?):(.*)$", part, re.DOTALL)
         if m:
             cur_lang = m.group(1)
@@ -171,15 +216,20 @@ def expand(mosaic: str) -> str:
         body = body.strip()
         if body:
             sentences.append(body)
-        # cur_lang tracked for future use / stats; expand drops tags
         _ = cur_lang
     out: list[str] = []
     for i, s in enumerate(sentences):
-        if i == 0:
+        if s == "¶":
+            if preserve_newlines:
+                out.append("\n\n")
+            continue
+        if not out:
             out.append(s)
             continue
         prev = out[-1]
-        if re.search(r"[。？！]$", prev) or re.match(r"^[\u3040-\u30ff\u3400-\u9fff]", s):
+        if prev.endswith("\n\n"):
+            out.append(s)
+        elif re.search(r"[。？！]$", prev) or re.match(r"^[\u3040-\u30ff\u3400-\u9fff]", s):
             out.append(s)
         else:
             out.append(" " + s)
@@ -221,19 +271,25 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="print sentence count / lang histogram JSON to stderr",
     )
+    p.add_argument(
+        "--preserve-newlines",
+        action="store_true",
+        help="keep blank-line paragraph breaks as mosaic ¶ tiles",
+    )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     langs = [x.strip() for x in args.langs.split(",") if x.strip()] or None
+    pn = args.preserve_newlines
 
     if args.stats and args.mode != "expand":
         print(json.dumps(stats(text, langs), ensure_ascii=False), file=sys.stderr)
 
     if args.mode == "tag":
-        print(render(tag_sentences(text, langs)))
+        print(render(tag_sentences(text, langs, preserve_newlines=pn)))
     elif args.mode == "compress":
-        print(compress(text, langs, rle=not args.no_rle))
+        print(compress(text, langs, rle=not args.no_rle, preserve_newlines=pn))
     else:
-        print(expand(text))
+        print(expand(text, preserve_newlines=pn))
     return 0
 
 

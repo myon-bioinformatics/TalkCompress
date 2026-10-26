@@ -165,6 +165,135 @@ def compress(
     return out.strip()
 
 
+
+# Best-effort inverse maps (lossy / unambiguous subset only).
+_EXPAND_COUNTERS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"(\d+)匹"), r"\1 animals"),
+    (re.compile(r"(\d+)人"), r"\1 people"),
+    (re.compile(r"(\d+)回"), r"\1 times"),
+    (re.compile(r"(\d+)個"), r"\1 pieces"),
+    (re.compile(r"(\d+)日"), r"\1 days"),
+    (re.compile(r"(\d+)時間"), r"\1 hours"),
+    (re.compile(r"(\d+)分"), r"\1 minutes"),
+    (re.compile(r"(\d+)秒"), r"\1 seconds"),
+    (re.compile(r"(\d+)冊"), r"\1 books"),
+    (re.compile(r"(\d+)枚"), r"\1 sheets"),
+]
+
+# Unambiguous short → longer (subset of _SUBS / UNIQUE_COMPACT). Documented lossy.
+_EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\bw/o\b", re.I), "without"),
+    (re.compile(r"\bw/\b", re.I), "with"),
+    (re.compile(r"\bu r\b", re.I), "you are"),
+    (re.compile(r"\bbc\b", re.I), "because"),
+    (re.compile(r"\btho∴\b"), "nonetheless"),
+    (re.compile(r"\btho\b", re.I), "however"),
+    (re.compile(r"∴↓"), "hereinafter"),
+    (re.compile(r"∴→"), "hereafter"),
+    (re.compile(r"∴="), "hereinafter referred to as"),
+    (re.compile(r"∴of"), "thereof"),
+    (re.compile(r"∈there"), "therein"),
+    (re.compile(r"\b∀who\b"), "whoever"),
+    (re.compile(r"\b∀which\b"), "whichever"),
+    (re.compile(r"\b∀loc\b"), "wherever"),
+    (re.compile(r"\b∀when\b"), "whenever"),
+    (re.compile(r"\b∀\b"), "whatever"),
+    (re.compile(r"∵"), "whereas"),
+    (re.compile(r"∈"), "herein"),
+    (re.compile(r"∴"), "therefore"),
+    (re.compile(r"\bre:\b"), "について"),
+]
+
+
+def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
+    """Best-effort inverse of compress for counters / a subset of short forms.
+
+    Lossy: gender collapses, filler drops, unique-readings, and many _SUBS have no
+    unique inverse. Only unambiguous counter and short-token mappings are reversed.
+    """
+    from shared.lex_policy import UNIQUE_COMPACT
+
+    out = text
+    if counters:
+        for pat, repl in _EXPAND_COUNTERS:
+            out = pat.sub(repl, out)
+    # UNIQUE_COMPACT inverse (short → long) when unambiguous
+    if compact:
+        inv: dict[str, str] = {}
+        for long, short in UNIQUE_COMPACT.items():
+            if long == short:
+                continue
+            # skip collisions
+            if short in inv and inv[short] != long:
+                continue
+            if short not in inv:
+                inv[short] = long
+        for short, long in sorted(inv.items(), key=lambda kv: len(kv[0]), reverse=True):
+            out = re.sub(rf"(?i)\b{re.escape(short)}\b", long, out)
+    for pat, repl in _EXPAND_SUBS:
+        out = pat.sub(repl, out)
+    out = re.sub(r"[ \t]{2,}", " ", out)
+    return out.strip()
+
+
+_PACK_SPLIT = re.compile(
+    r"(\s+|[^\w\s\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
+    re.UNICODE,
+)
+
+
+def pack_tokens(text: str) -> str:
+    """Split on whitespace/punct and rejoin with minimal separators.
+
+    CJK / Hangul runs stay glued (no space inserted between CJK-adjacent tokens).
+    Latin/digit tokens get a single space between them. Punctuation stays attached
+    lightly for layer-4 packing experiments.
+    """
+    if not text:
+        return ""
+    parts = [p for p in _PACK_SPLIT.split(text) if p is not None and p != ""]
+    # Drop pure whitespace tokens; keep punct as their own tokens
+    tokens: list[str] = []
+    for p in parts:
+        if p.isspace():
+            continue
+        tokens.append(p)
+
+    def _is_cjkish(s: str) -> bool:
+        return bool(re.search(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]", s))
+
+    def _is_wordish(s: str) -> bool:
+        return bool(re.match(r"^[\w]+$", s, re.UNICODE))
+
+    out: list[str] = []
+    for tok in tokens:
+        if not out:
+            out.append(tok)
+            continue
+        prev = out[-1]
+        # No space between CJK runs or when either side is CJK-adjacent wordish
+        if _is_cjkish(prev) or _is_cjkish(tok):
+            out.append(tok)
+        elif _is_wordish(prev) and _is_wordish(tok):
+            out.append(" ")
+            out.append(tok)
+        elif _is_wordish(prev) and tok and tok[0] in "([{":
+            out.append(" ")
+            out.append(tok)
+        else:
+            # punctuation: attach without leading space for ,.;:!?)]}
+            if tok and tok[0] in ",.;:!?)]}":
+                out.append(tok)
+            elif prev and prev[-1] in "([{":
+                out.append(tok)
+            elif _is_wordish(tok):
+                out.append(" ")
+                out.append(tok)
+            else:
+                out.append(tok)
+    return "".join(out)
+
+
 def density(before: str, after: str) -> dict[str, float | int]:
     b, a = len(before), len(after)
     ratio = (a / b) if b else 0.0
@@ -178,6 +307,12 @@ def density(before: str, after: str) -> dict[str, float | int]:
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="MorphoZip: layer-4 grammar-minimal compress")
+    p.add_argument(
+        "--mode",
+        choices=("compress", "expand", "pack"),
+        default="compress",
+        help="compress (default), expand (lossy inverse), or pack_tokens",
+    )
     p.add_argument("--text", help="input; else stdin")
     p.add_argument("--stats", action="store_true", help="print density metrics to stderr")
     p.add_argument("--no-strip", action="store_true", help="keep fillers")
@@ -197,16 +332,21 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
-    out = compress(
-        text,
-        strip=not args.no_strip,
-        unique=not args.no_unique,
-        etymon=not args.no_etymon,
-        aggressive_fillers=args.aggressive_fillers,
-        counters=not args.no_counters,
-        hex_nums=args.hex_nums,
-        hex_prefix=not args.hex_bare,
-    )
+    if args.mode == "expand":
+        out = expand(text, counters=not args.no_counters)
+    elif args.mode == "pack":
+        out = pack_tokens(text)
+    else:
+        out = compress(
+            text,
+            strip=not args.no_strip,
+            unique=not args.no_unique,
+            etymon=not args.no_etymon,
+            aggressive_fillers=args.aggressive_fillers,
+            counters=not args.no_counters,
+            hex_nums=args.hex_nums,
+            hex_prefix=not args.hex_bare,
+        )
     if args.stats:
         import json
 
