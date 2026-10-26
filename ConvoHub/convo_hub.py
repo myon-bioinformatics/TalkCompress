@@ -34,10 +34,8 @@ _LAYER_ALIASES: dict[str, str] = {
     "tessera_talk": "B",
     "shorthand": "C",
     "shorthand_edge": "C",
-    "shorthand_lab": "C",  # compat
     "convo": "D",
     "convo_hub": "D",
-    "convo_zip": "D",  # compat
     "morpho": "E",
     "morpho_zip": "E",
     "identity": "identity",

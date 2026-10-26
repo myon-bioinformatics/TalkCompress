@@ -13,7 +13,6 @@
 | `3` / `C` / `shorthand` / `shorthand_edge` | ShorthandEdge |
 | `4` / `E` / `morpho` | MorphoZip |
 
-互換: `shorthand_lab`→C、`convo_zip`→D（旧名）。
 
 ## 使い方
 
