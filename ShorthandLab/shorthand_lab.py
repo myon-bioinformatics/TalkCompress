@@ -48,14 +48,70 @@ DEFAULT_MAP: dict[str, str] = {
     "right now": "rn",
     "what the hell": "wth",
     "what the fuck": "wtf",
+    # expanded EN / MCP / chat
+    "let me know": "lmk",
+    "to be fair": "tbf",
+    "in case you missed it": "ICYMI",
+    "too long; didn't read": "TL;DR",
+    "too long didnt read": "TL;DR",
+    "too long didn't read": "TL;DR",
+    "as far as i know": "AFAIK",
+    "as far as i can tell": "AFAICT",
+    "for the win": "FTW",
+    "on my way": "omw",
+    "got it": "gg",
+    "good game": "gg",
+    "pull request": "PR",
+    "merge request": "MR",
+    "continuous integration": "CI",
+    "continuous deployment": "CD",
+    "work in progress": "WIP",
+    "not applicable": "N/A",
+    "end of day": "EOD",
+    "end of week": "EOW",
+    "frequently asked questions": "FAQ",
+    "point of view": "POV",
+    "out of office": "OOO",
+    "direct message": "DM",
+    "call me back": "CMB",
+    "sounds good": "sg",
+    "looking forward to": "lft",
+    "by the way": "BTW",
+    "just so you know": "JSYK",
+    "in other words": "IOW",
+    "at the moment": "ATM",
+    "away from keyboard": "AFK",
+    "rolling on the floor laughing": "rofl",
+    "shaking my head": "smh",
+    "in my experience": "IME",
+    "your mileage may vary": "YMMV",
+    "fear of missing out": "FOMO",
+    "fear of better options": "FOBO",
+    "do it yourself": "DIY",
+    "original poster": "OP",
+    "thanks in advance": "TIA",
+    "best regards": "BR",
+    "kind regards": "KR",
     # JA 略語
     "よろしくお願いします": "よろ",
     "ありがとうございます": "あざす",
     "すみません": "すまん",
     "承知しました": "りょ",
     "了解です": "りょ",
+    "了解しました": "りょ",
     "お疲れ様です": "おつ",
     "どうでもいい": "どうでも",
+    "おはようございます": "おは",
+    "おやすみなさい": "おや",
+    "おめでとうございます": "おめ",
+    "大丈夫です": "だいじょぶ",
+    "問題ありません": "もんな",
+    "確認します": "かくにん",
+    "確認しました": "かくにん済",
+    "よろしくお願いします": "よろ",
+    "申し訳ございません": "めんご",
+    "とんでもないです": "とんでも",
+    "お疲れ様でした": "おつ",
     # emoji / signal
     "thumbs up": "👍",
     "thumbs down": "👎",
@@ -67,6 +123,20 @@ DEFAULT_MAP: dict[str, str] = {
     "sad": "😢",
     "heart": "❤️",
     "ok hand": "👌",
+    "rocket": "🚀",
+    "eyes": "👀",
+    "thinking face": "🤔",
+    "party": "🎉",
+    "clap": "👏",
+    "wave": "👋",
+    "skull": "💀",
+    "hundred": "💯",
+    "pin": "📌",
+    "link": "🔗",
+    "bug": "🐛",
+    "wrench": "🔧",
+    "hourglass": "⏳",
+    "bell": "🔔",
 }
 
 _HEREAFTER_RE = re.compile(
@@ -106,6 +176,22 @@ class Session:
                 return True
         return False
 
+    def merge_lexicon(self, mapping: dict[str, str]) -> None:
+        """Merge an extra lexicon into the session map (extra keys override defaults)."""
+        for k, v in mapping.items():
+            self.map[_norm_phrase(str(k))] = str(v)
+
+    def load_lexicon(self, path: str | Path) -> None:
+        """Load extra lexicon JSON: flat {long: short} or {\"map\": {...}}."""
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        if isinstance(data, dict) and "map" in data and isinstance(data["map"], dict):
+            self.merge_lexicon(data["map"])
+        elif isinstance(data, dict):
+            # ignore convention-only files that only have "conventions"
+            payload = {k: v for k, v in data.items() if k != "conventions"}
+            if payload:
+                self.merge_lexicon(payload)
+
     def save(self, path: str | Path) -> None:
         Path(path).write_text(
             json.dumps({"conventions": self.conventions}, ensure_ascii=False, indent=2) + "\n",
@@ -117,6 +203,8 @@ class Session:
         conv = data.get("conventions") or data
         if isinstance(conv, dict):
             for k, v in conv.items():
+                if k == "map":
+                    continue
                 self.conventions[_norm_phrase(str(k))] = str(v)
 
 
@@ -137,24 +225,20 @@ def compress(text: str, mapping: dict[str, str] | None = None, session: Session 
         if sess.ingest_line(line):
             continue
         kept.append(strip_fillers(_apply_map(line, sess.effective)))
-    # Preserve single-line vs multi
     if len(lines) == 1 and "\n" not in text:
         return kept[0] if kept else ""
     return "\n".join(kept)
 
 
 def _apply_map(text: str, m: dict[str, str]) -> str:
-    # Work on a copy; replace case-insensitively for latin phrases via regex.
     items = sorted(m.items(), key=lambda kv: len(kv[0]), reverse=True)
     out = text
     for long, short in items:
         if not long:
             continue
-        # CJK / emoji phrases: plain replace (also title/upper variants for ascii)
         if re.search(r"[^\x00-\x7f]", long) or not long.isascii():
             out = out.replace(long, short)
             continue
-        # Word-ish boundary for ASCII phrases
         pat = re.compile(re.escape(long), re.IGNORECASE)
         out = pat.sub(short, out)
     return out
@@ -166,7 +250,6 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
         for k, v in mapping.items():
             sess.map[_norm_phrase(k)] = v
     m = sess.effective
-    # Invert: short → longest long (if collisions, prefer longest long)
     inv: dict[str, str] = {}
     for long, short in sorted(m.items(), key=lambda kv: len(kv[0])):
         inv[short] = long
@@ -177,7 +260,6 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
         if re.search(r"[^\x00-\x7f]", short) or not short.isascii():
             out = out.replace(short, long)
         else:
-            # Case-sensitive short forms (ASAP, FYI) — exact
             out = out.replace(short, long)
             if short.lower() != short:
                 out = re.sub(re.escape(short), long, out, flags=re.IGNORECASE)
@@ -189,9 +271,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("mode", choices=("compress", "expand"))
     p.add_argument("--text", help="input; else stdin")
     p.add_argument("--state", help="JSON file for session conventions (read+write on compress)")
+    p.add_argument("--lexicon", help="extra lexicon JSON to merge into session map")
     args = p.parse_args(argv)
-    text = args.text if args.text is not None else __import__("sys").stdin.read()
+    text = args.text if args.text is not None else sys.stdin.read()
     sess = Session()
+    if args.lexicon:
+        sess.load_lexicon(args.lexicon)
     if args.state and Path(args.state).exists():
         sess.load(args.state)
     if args.mode == "compress":

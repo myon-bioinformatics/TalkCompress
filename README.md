@@ -19,7 +19,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 - 日本語の短い表現や助数詞（匹・個など）は有用なら採用
 - whatever / hereafter 系の「ほぼ1語」化も積極採用
 - 性別名詞の重い体系は避け、中性寄りでコストを下げる
-- 数字は `0-9`、必要なら `0-F`（16進）。数学記法も可
+- 数字は `0-9`、必要なら `0-F`（16進、`--hex-nums`）。数学記法も可
 - 層4は FILLER 除去・一意読み・語源寄せ（`shared/lex_policy.py`）。別サブプロジェクト F は当面なし
 
 ## サブプロジェクト（A–E）
@@ -47,6 +47,21 @@ uv sync
 uv run python ConvoZip/convo_zip.py --layer 3 --text "as soon as possible"
 uv run python ConvoZip/convo_zip.py --layer A --key 'shared' --text "hello bots"
 uv run python ConvoZip/convo_zip.py --layer E --stats --text "私は ready and waiting"
+
+# パイプライン（層を順に適用）
+uv run python ConvoZip/convo_zip.py --pipeline C,E --text "um thank you for your information"
+
+# 層の密度比較（JSON Lines）
+uv run python ConvoZip/convo_zip.py --compare --text "I have 3 animals and 2 people"
+
+# ファイル入出力
+uv run python ConvoZip/convo_zip.py --layer C --file in.txt --out out.txt
+uv run python ConvoZip/convo_zip.py --layer A --key secret --aad chat-room --file plain.txt --out env.txt
+
+# ShorthandLab 追加語彙 / MorphoZip 16進
+uv run python ConvoZip/convo_zip.py --layer C --lexicon extra.json --text "..."
+uv run python ConvoZip/convo_zip.py --layer E --hex-nums --text "retry 255 times"
+
 uv run pytest -q
 ```
 

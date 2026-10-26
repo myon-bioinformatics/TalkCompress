@@ -2,14 +2,23 @@
 """TesseraTalk (B): sentence-level language-switch mosaic (layer 2).
 
 Heuristic LID by Unicode script / light cues (not ML). Compress emits a compact
-tagged mosaic `lang:sentence|lang:sentence`; expand restores plain text.
+tagged mosaic. With ``rle=True`` (default), consecutive same-lang sentences omit
+repeating the lang tag after the first in a run:
+
+  en:Hello.|World.|ja:こんにちは。
+
+Expand accepts both the full ``lang:sent|lang:sent`` form and the RLE form
+(missing lang inherits the previous tag).
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import re
+import sys
 import unicodedata
+from collections import Counter
 
 # Split after terminator, keep terminator on the left sentence. LTR + CJK punct.
 _SENT_SPLIT = re.compile(
@@ -26,7 +35,6 @@ _CYRILLIC = re.compile(r"[\u0400-\u04FF]")
 _ARABIC = re.compile(r"[\u0600-\u06FF]")
 _DEVANAGARI = re.compile(r"[\u0900-\u097F]")
 
-# Light lexical cues (lowercase). Used only as tie-breakers.
 _CUES: dict[str, tuple[str, ...]] = {
     "en": ("the", "and", "is", "are", "you", "this", "that", "with", "for", "not"),
     "es": ("el", "la", "los", "las", "que", "y", "de", "en", "un", "una", "por", "con"),
@@ -67,7 +75,6 @@ def _cue_hits(s: str, lang: str) -> int:
     low = s.lower()
     words = re.findall(r"[a-zà-ÿ']+", low)
     cues = _CUES.get(lang, ())
-    # For JA cues, search substrings
     if lang == "ja":
         return sum(1 for c in cues if c in s)
     return sum(1 for w in words if w in cues)
@@ -91,7 +98,6 @@ def detect_lang(sentence: str) -> str:
     if sc["cjk"] > 0 and sc["hira"] + sc["kata"] == 0 and sc["latin"] == 0:
         return "zh"
     if sc["latin"] / total_script > 0.2 or sc["latin"] > 0:
-        # Tie-break among Romance / Germanic via cues
         scores = {
             "en": _cue_hits(sentence, "en"),
             "es": _cue_hits(sentence, "es"),
@@ -126,34 +132,47 @@ def render(tagged: list[tuple[str, str]]) -> str:
     return "\n".join(f"[{lang}] {sent}" for lang, sent in tagged)
 
 
-def compress(text: str, langs: list[str] | None = None) -> str:
-    """Compact mosaic: lang:sentence|lang:sentence (pipe-separated)."""
+def compress(text: str, langs: list[str] | None = None, *, rle: bool = True) -> str:
+    """Compact mosaic. With ``rle=True`` (default), omit repeating lang tags in a run:
+
+    ``en:Hello.|World.|ja:こんにちは。``
+
+    With ``rle=False``: full ``lang:sent|lang:sent`` (legacy-compatible).
+    """
     tagged = tag_sentences(text, langs)
     parts: list[str] = []
+    prev_lang: str | None = None
     for lang, sent in tagged:
-        # Escape bare pipes inside sentence
         safe = sent.replace("|", r"\|")
-        parts.append(f"{lang}:{safe}")
+        if rle and prev_lang is not None and lang == prev_lang:
+            parts.append(safe)
+        else:
+            parts.append(f"{lang}:{safe}")
+        prev_lang = lang
     return "|".join(parts)
 
 
 def expand(mosaic: str) -> str:
-    """Expand mosaic back to plain text (sentences joined by space)."""
+    """Expand mosaic back to plain text. Accepts full tags and RLE (inherit lang)."""
     if not mosaic.strip():
         return ""
-    # Split on unescaped |
     parts = re.split(r"(?<!\\)\|", mosaic.strip())
     sentences: list[str] = []
+    cur_lang: str | None = None
     for part in parts:
         part = part.replace(r"\|", "|")
-        if ":" in part:
-            _, body = part.split(":", 1)
+        # lang:body when lang looks like a short code (letters, optional digits)
+        m = re.match(r"^([a-zA-Z]{2,8}(?:-[a-zA-Z0-9]+)?):(.*)$", part, re.DOTALL)
+        if m:
+            cur_lang = m.group(1)
+            body = m.group(2)
         else:
             body = part
         body = body.strip()
         if body:
             sentences.append(body)
-    # Join: CJK-ending → no space before next CJK; else space
+        # cur_lang tracked for future use / stats; expand drops tags
+        _ = cur_lang
     out: list[str] = []
     for i, s in enumerate(sentences):
         if i == 0:
@@ -165,6 +184,16 @@ def expand(mosaic: str) -> str:
         else:
             out.append(" " + s)
     return "".join(out)
+
+
+def stats(text: str, langs: list[str] | None = None) -> dict:
+    """Sentence count and language histogram for tagged input text."""
+    tagged = tag_sentences(text, langs)
+    hist = Counter(lang for lang, _ in tagged)
+    return {
+        "sentences": len(tagged),
+        "langs": dict(sorted(hist.items())),
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -182,14 +211,27 @@ def main(argv: list[str] | None = None) -> int:
         default="",
         help="optional comma-separated fallback codes when LID is und",
     )
+    p.add_argument(
+        "--no-rle",
+        action="store_true",
+        help="emit full lang: tags every sentence (disable RLE mosaic)",
+    )
+    p.add_argument(
+        "--stats",
+        action="store_true",
+        help="print sentence count / lang histogram JSON to stderr",
+    )
     args = p.parse_args(argv)
-    text = args.text if args.text is not None else __import__("sys").stdin.read()
+    text = args.text if args.text is not None else sys.stdin.read()
     langs = [x.strip() for x in args.langs.split(",") if x.strip()] or None
+
+    if args.stats and args.mode != "expand":
+        print(json.dumps(stats(text, langs), ensure_ascii=False), file=sys.stderr)
 
     if args.mode == "tag":
         print(render(tag_sentences(text, langs)))
     elif args.mode == "compress":
-        print(compress(text, langs))
+        print(compress(text, langs, rle=not args.no_rle))
     else:
         print(expand(text))
     return 0

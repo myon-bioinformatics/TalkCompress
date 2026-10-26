@@ -17,15 +17,33 @@ FILLERS_EN: tuple[str, ...] = (
     "ah",
     "oh",
     "well",
-    "like",  # discourse "like", applied with word-boundary; may over-strip — see note in MorphoZip
+    "like",  # discourse "like"; may over-strip — MorphoZip notes
     "you know",
     "i mean",
     "sort of",
     "kind of",
     "basically",
-    "actually",  # often empty intensifier in chat
-    "literally",  # when used as filler intensifier
-    "just",  # hedge; aggressive — applied carefully
+    "actually",
+    "literally",
+    "just",
+    # expanded discourse grease
+    "you see",
+    "i guess",
+    "i suppose",
+    "right",
+    "anyway",
+    "anyhow",
+    "so yeah",
+    "yeah so",
+    "to be fair",
+    "at the end of the day",
+    "needless to say",
+    "as it were",
+    "per se",
+    "hmm",
+    "huh",
+    "mmm",
+    "y'know",
 )
 
 FILLERS_JA: tuple[str, ...] = (
@@ -41,14 +59,23 @@ FILLERS_JA: tuple[str, ...] = (
     "とりあえずね",
     "ですねー",
     "ですよね",
+    # expanded
+    "うーん",
+    "うんと",
+    "なんかこう",
+    "要するに",
+    "いわゆる",
+    "どっちかっていうと",
+    "どちらかというと",
+    "ぶっちゃけ",
+    "てか",
+    "っていうか",
+    "なんかその",
 )
 
-# Rank-1 / unique-reading substitutions: prefer jargon or specialized verbs
-# that admit fewer senses than basic verbs (paper-ish / procedural tone).
-# long → short unique form
+# Rank-1 / unique-reading: prefer jargon / specialized verbs (fewer senses).
 UNIQUE_READINGS: dict[str, str] = {
-    # basic → tighter
-    "get": "obtain",  # will be shortened further in morpho if needed
+    "get": "obtain",
     "make": "construct",
     "do": "perform",
     "put": "place",
@@ -65,10 +92,32 @@ UNIQUE_READINGS: dict[str, str] = {
     "come up with": "devise",
     "go ahead": "proceed",
     "check out": "examine",
+    # tech / procedural expansions
+    "write down": "record",
+    "run through": "traverse",
+    "break down": "decompose",
+    "build out": "implement",
+    "roll out": "deploy",
+    "spin up": "instantiate",
+    "tear down": "decommission",
+    "look into": "investigate",
+    "sort out": "disentangle",
+    "carry out": "execute",
+    "point out": "indicate",
+    "work out": "compute",
+    "turn on": "enable",
+    "turn off": "disable",
+    "send out": "dispatch",
+    "pull in": "ingest",
+    "push out": "emit",
+    "cut down": "reduce",
+    "speed up": "accelerate",
+    "slow down": "decelerate",
+    "keep track of": "monitor",
+    "make sure": "verify",
+    "go through": "iterate",
 }
 
-# Compact unique forms preferred after (or instead of) long jargon —
-# keep prediction candidates small while staying monosemous-ish in tech chat.
 UNIQUE_COMPACT: dict[str, str] = {
     "obtain": "obt",
     "construct": "ctor",
@@ -83,76 +132,170 @@ UNIQUE_COMPACT: dict[str, str] = {
     "resolve": "rsv",
     "configure": "cfg",
     "sanitize": "sanit",
-    "raise": "raise",  # already short / clear in tech
+    "raise": "raise",
     "devise": "devise",
     "proceed": "proc",
     "examine": "exam",
+    "record": "rec",
+    "traverse": "trav",
+    "decompose": "decomp",
+    "implement": "impl",
+    "deploy": "deploy",
+    "instantiate": "inst",
+    "decommission": "decom",
+    "investigate": "inv",
+    "disentangle": "untangle",
+    "execute": "exec",
+    "indicate": "ind",
+    "compute": "cmp",
+    "enable": "en",
+    "disable": "dis",
+    "dispatch": "disp",
+    "ingest": "ing",
+    "emit": "emit",
+    "reduce": "red",
+    "accelerate": "accel",
+    "decelerate": "decel",
+    "monitor": "mon",
+    "verify": "vfy",
+    "iterate": "iter",
 }
 
-# Etymon alignment: prefer a spelling/form that surfaces shared Latin/French roots
-# (or a shared short etymon token) so related LTR languages converge.
-# Map surface variants → shared etymon tag or common orthography.
+# Shared etymon clippings across EN/Latin/FR/ES/DE/IT.
+# Avoid false friends (e.g. FR nombre ≠ number).
 ETYMON_ALIGN: dict[str, str] = {
-    # information family
-    "information": "info",  # shared clipping across EN/FR/ES/DE tech
+    "information": "info",
     "información": "info",
     "informationen": "info",
     "informazione": "info",
-    # communication
     "communication": "comm",
     "comunicación": "comm",
     "kommunikation": "comm",
     "comunicazione": "comm",
-    # configuration / configurer
     "configuration": "cfg",
     "configuración": "cfg",
     "configurazione": "cfg",
-    # document / documento
+    "konfiguration": "cfg",
     "document": "doc",
     "documento": "doc",
     "dokument": "doc",
-    # problem / problème / problema
+    "documentation": "docs",
+    "documentación": "docs",
+    "documentazione": "docs",
     "problem": "prob",
     "problème": "prob",
     "problema": "prob",
-    # function / función
     "function": "fn",
     "función": "fn",
     "funktion": "fn",
     "funzione": "fn",
-    # example / ejemplo / exemple
+    "fonction": "fn",
     "example": "ex",
     "ejemplo": "ex",
     "exemple": "ex",
     "beispiel": "ex",
-    # number / número / nombre (FR false friend — skip FR nombre)
+    "esempio": "ex",
     "number": "num",
     "número": "num",
     "nummer": "num",
-    # answer / respuesta → resp (shared resp- root) / réponse
+    "numero": "num",
     "answer": "resp",
     "respuesta": "resp",
     "réponse": "resp",
     "antwort": "resp",
+    "risposta": "resp",
+    "message": "msg",
+    "mensaje": "msg",
+    "nachricht": "msg",
+    "messaggio": "msg",
+    "project": "proj",
+    "proyecto": "proj",
+    "projet": "proj",
+    "projekt": "proj",
+    "progetto": "proj",
+    "system": "sys",
+    "sistema": "sys",
+    "système": "sys",
+    "process": "proc",
+    "proceso": "proc",
+    "processus": "proc",
+    "prozess": "proc",
+    "processo": "proc",
+    "result": "res",
+    "resultado": "res",
+    "résultat": "res",
+    "ergebnis": "res",
+    "risultato": "res",
+    "service": "svc",
+    "servicio": "svc",
+    "dienst": "svc",
+    "servizio": "svc",
+    "request": "req",
+    "solicitud": "req",
+    "requête": "req",
+    "anfrage": "req",
+    "richiesta": "req",
+    "response": "resp",
+    "error": "err",
+    "erreur": "err",
+    "fehler": "err",
+    "errore": "err",
+    "version": "ver",
+    "versión": "ver",
+    "versione": "ver",
+    "parameter": "param",
+    "parámetro": "param",
+    "paramètre": "param",
+    "parametro": "param",
+    "directory": "dir",
+    "directorio": "dir",
+    "répertoire": "dir",
+    "verzeichnis": "dir",
+    "application": "app",
+    "aplicación": "app",
+    "anwendung": "app",
+    "applicazione": "app",
+    "database": "db",
+    "base de datos": "db",
+    "base de données": "db",
+    "datenbank": "db",
+    "network": "net",
+    "réseau": "net",
+    "netzwerk": "net",
+    "rete": "net",
+    "security": "sec",
+    "seguridad": "sec",
+    "sécurité": "sec",
+    "sicherheit": "sec",
+    "sicurezza": "sec",
+    "development": "dev",
+    "desarrollo": "dev",
+    "développement": "dev",
+    "entwicklung": "dev",
+    "sviluppo": "dev",
+    "production": "prod",
+    "producción": "prod",
+    "produktion": "prod",
+    "produzione": "prod",
 }
+
+_AGGRESSIVE_ONLY = frozenset(
+    {"like", "just", "actually", "literally", "right", "anyway", "anyhow", "per se"}
+)
 
 
 def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     """Remove light fillers / interjections. ``aggressive`` enables hedge words like just/like."""
     out = text
-    ja = sorted(FILLERS_JA, key=len, reverse=True)
-    for f in ja:
+    for f in sorted(FILLERS_JA, key=len, reverse=True):
         out = out.replace(f, "")
 
     en = list(FILLERS_EN)
     if not aggressive:
-        en = [f for f in en if f not in ("like", "just", "actually", "literally")]
+        en = [f for f in en if f not in _AGGRESSIVE_ONLY]
     en.sort(key=len, reverse=True)
     for f in en:
-        if " " in f:
-            out = re.sub(rf"(?i)\b{re.escape(f)}\b", "", out)
-        else:
-            out = re.sub(rf"(?i)\b{re.escape(f)}\b", "", out)
+        out = re.sub(rf"(?i)\b{re.escape(f)}\b", "", out)
 
     out = re.sub(r"[ \t]{2,}", " ", out)
     out = re.sub(r"\s+([,.;:!?])", r"\1", out)
@@ -162,8 +305,7 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
 def apply_unique_readings(text: str, *, compact: bool = True) -> str:
     """Replace polysemous basics with tighter verbs, optionally compact."""
     out = text
-    items = sorted(UNIQUE_READINGS.items(), key=lambda kv: len(kv[0]), reverse=True)
-    for long, tight in items:
+    for long, tight in sorted(UNIQUE_READINGS.items(), key=lambda kv: len(kv[0]), reverse=True):
         out = re.sub(rf"(?i)\b{re.escape(long)}\b", tight, out)
     if compact:
         for long, short in sorted(UNIQUE_COMPACT.items(), key=lambda kv: len(kv[0]), reverse=True):
@@ -177,11 +319,9 @@ def apply_etymon_align(text: str) -> str:
     """Collapse related-language surface forms toward a shared short etymon."""
     out = text
     for surface, etymon in sorted(ETYMON_ALIGN.items(), key=lambda kv: len(kv[0]), reverse=True):
-        # Case-sensitive for non-ascii; ignore-case for ascii
         if surface.isascii():
             out = re.sub(rf"(?i)\b{re.escape(surface)}\b", etymon, out)
         else:
             out = out.replace(surface, etymon)
-            # title-ish
             out = out.replace(surface[:1].upper() + surface[1:], etymon)
     return out
