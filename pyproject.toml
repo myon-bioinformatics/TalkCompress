@@ -1,0 +1,15 @@
+[project]
+name = "talk-compress"
+version = "0.1.0"
+description = "Conversation compression gradients across five subprojects"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "myon" }]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
