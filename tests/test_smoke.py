@@ -279,23 +279,29 @@ def test_lex_unique_and_etymon():
     u = apply_unique_readings("please find out the answer", compact=True)
     assert "ascrt" in u.lower()
     assert "find out" not in u.lower()
+    from shared.lex_policy import INFO_GLYPH
+
     e = apply_etymon_align("send the information and the document")
-    assert "info" in e
+    assert INFO_GLYPH in e
     assert "doc" in e
-    assert apply_etymon_align("información") == "info"
+    assert apply_etymon_align("información") == INFO_GLYPH
+    assert apply_etymon_align("info") == INFO_GLYPH
 
 
 def test_morpho_alone_keeps_fillers_no_compact():
     """E alone: fillers kept; UNIQUE_READINGS long form; no UNIQUE_COMPACT."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    out = m.compress("um 私は will find out the information about 3 animals")
+    from shared.lex_policy import INFO_GLYPH
+
+    out = m.compress("um 私は will find out the information about three animals")
     assert out.lower().startswith("um") or "um" in out.lower()
-    assert "I" in out
-    assert "info" in out
+    assert "I'll" in out or "I" in out
+    assert INFO_GLYPH in out
     assert "ascertain" in out.lower()
     assert "ascrt" not in out.lower()
     assert "find out" not in out.lower()
     assert "3匹" in out
+    assert " the " not in f" {out} "
 
 
 def test_morpho_opt_in_strip():

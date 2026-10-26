@@ -171,11 +171,16 @@ UNIQUE_COMPACT: dict[str, str] = {
 
 # Shared etymon clippings across EN/Latin/FR/ES/DE/IT.
 # Avoid false friends (e.g. FR nombre ≠ number).
+# Prefer INFORMATION SOURCE emoji (U+2139 U+FE0F) over Latin "info" for density.
+INFO_GLYPH = "ℹ️"  # U+2139 + U+FE0F
+
 ETYMON_ALIGN: dict[str, str] = {
-    "information": "info",
-    "información": "info",
-    "informationen": "info",
-    "informazione": "info",
+    "information": INFO_GLYPH,
+    "información": INFO_GLYPH,
+    "informationen": INFO_GLYPH,
+    "informazione": INFO_GLYPH,
+    "info": INFO_GLYPH,
+    "情報": INFO_GLYPH,
     "communication": "comm",
     "comunicación": "comm",
     "kommunikation": "comm",

@@ -7,13 +7,17 @@ gendered morphology and Chinese-only bias.
 
 Shared lexeme policy (``shared.lex_policy``) usage:
 - UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
-- ETYMON_ALIGN (information → info)
+- ETYMON_ALIGN (information / info / 情報 → ℹ️)
 - EN quantity phrases → short JA counters (experimental)
+- spelled EN number words → digits (before counters)
+- strip unquoted articles ``the`` / ``a`` / ``an`` (quoted forms keep the word)
+- light contractions (``I will`` → ``I'll``, …)
 - optional integer → hex rewrite (``hex_nums``)
 - protected spans ``[[keep:...]]`` / `` `keep:...` `` (wrappers stripped)
 
 Fillers and UNIQUE_COMPACT are **C (ShorthandEdge)** by default. Optional
 ``strip=True`` / ``--strip`` / ``--aggressive-fillers`` remain for opt-in.
+``--keep-articles`` disables article stripping.
 """
 
 from __future__ import annotations
@@ -35,9 +39,16 @@ from shared.lex_policy import (  # noqa: E402
 
 # (pattern, replacement) — applied in order; more specific first.
 _SUBS: list[tuple[re.Pattern[str], str]] = [
+    # JA first-person before EN "I will"/"I'm" so 私は will → I'll
+    (re.compile(r"私は|僕は|俺は|拙者は|わたしは|あたしは"), "I"),
+    (re.compile(r"私の|僕の|俺の|わたしの"), "my"),
+    (re.compile(r"私を|僕を|俺を|わたしを"), "me"),
     # EN multi-word → compact
     (re.compile(r"\bwithout\b", re.I), "w/o"),
     (re.compile(r"\bwith\b", re.I), "w/"),
+    (re.compile(r"\bI will\b", re.I), "I'll"),
+    (re.compile(r"\bI would\b", re.I), "I'd"),
+    (re.compile(r"\bI have\b", re.I), "I've"),
     (re.compile(r"\bI am\b", re.I), "I'm"),
     (re.compile(r"\byou are\b", re.I), "u r"),
     (re.compile(r"\bwe are\b", re.I), "we're"),
@@ -79,10 +90,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bthereof\b", re.I), "∴of"),
     (re.compile(r"\btherein\b", re.I), "∈there"),
     (re.compile(r"\bwhereas\b", re.I), "∵"),
-    # JA first-person / polite endings → low-ambiguity
-    (re.compile(r"私は|僕は|俺は|拙者は|わたしは|あたしは"), "I"),
-    (re.compile(r"私の|僕の|俺の|わたしの"), "my"),
-    (re.compile(r"私を|僕を|俺を|わたしを"), "me"),
+    # JA polite endings → low-ambiguity
     (re.compile(r"です。|ます。|でした。|ました。"), "。"),
     (re.compile(r"ですね|ますね"), "ね"),
     (re.compile(r"でしょうか"), "?"),
@@ -113,6 +121,104 @@ _COUNTER_SUBS: list[tuple[re.Pattern[str], str]] = [
 
 _DIGIT_FW = re.compile(r"[０-９]")
 _INT_RE = re.compile(r"\b(\d+)\b")
+
+
+# Spelled EN number words → digits (applied before counters).
+_ONES: dict[str, int] = {
+    "zero": 0,
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12,
+    "thirteen": 13,
+    "fourteen": 14,
+    "fifteen": 15,
+    "sixteen": 16,
+    "seventeen": 17,
+    "eighteen": 18,
+    "nineteen": 19,
+}
+_TENS: dict[str, int] = {
+    "twenty": 20,
+    "thirty": 30,
+    "forty": 40,
+    "fifty": 50,
+    "sixty": 60,
+    "seventy": 70,
+    "eighty": 80,
+    "ninety": 90,
+}
+_TENS_ALT = {"fourty": 40}  # common misspelling
+_ALL_NUM_WORDS: dict[str, int] = {**_ONES, **_TENS, **_TENS_ALT}
+
+_COMPOUND_NUM = re.compile(
+    r"\b("
+    + "|".join(sorted({**_TENS, **_TENS_ALT}, key=len, reverse=True))
+    + r")[\s-]+("
+    + "|".join(sorted(_ONES.keys() - {"zero", "ten", "eleven", "twelve", "thirteen",
+                                       "fourteen", "fifteen", "sixteen", "seventeen",
+                                       "eighteen", "nineteen"}, key=len, reverse=True))
+    + r")\b",
+    re.I,
+)
+_A_ONE_HUNDRED = re.compile(r"\b(?:a|one)\s+hundred\b", re.I)
+_A_ONE_THOUSAND = re.compile(r"\b(?:a|one)\s+thousand\b", re.I)
+_BARE_HUNDRED = re.compile(r"\bhundred\b", re.I)
+_BARE_THOUSAND = re.compile(r"\bthousand\b", re.I)
+
+
+def apply_spelled_numbers(text: str) -> str:
+    """Best-effort EN number words → digits (zero–twenty, tens, hundred/thousand).
+
+    Handles ``three``→``3``, ``twenty-one`` / ``twenty one``→``21``,
+    ``a hundred`` / ``one hundred``→``100``.
+    """
+    out = text
+    out = _A_ONE_HUNDRED.sub("100", out)
+    out = _A_ONE_THOUSAND.sub("1000", out)
+    out = _BARE_HUNDRED.sub("100", out)
+    out = _BARE_THOUSAND.sub("1000", out)
+
+    def _comp(m: re.Match[str]) -> str:
+        tens = _ALL_NUM_WORDS[m.group(1).lower()]
+        ones = _ONES[m.group(2).lower()]
+        return str(tens + ones)
+
+    out = _COMPOUND_NUM.sub(_comp, out)
+    for word, num in sorted(_ALL_NUM_WORDS.items(), key=lambda kv: len(kv[0]), reverse=True):
+        out = re.sub(rf"(?i)\b{re.escape(word)}\b", str(num), out)
+    return out
+
+
+# Unquoted EN articles. Quoted ``"the"`` / ``'the'`` keep the inner word (quotes dropped).
+_QUOTED_ARTICLE = re.compile(r"""(['"])(the|a|an)\1""", re.I)
+_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b", re.I)
+_ART_PLACEHOLDER = "⟦ART{0}⟧"
+
+
+def strip_articles(text: str) -> str:
+    """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only."""
+    restores: list[str] = []
+
+    def _mask(m: re.Match[str]) -> str:
+        restores.append(m.group(2))
+        return _ART_PLACEHOLDER.format(len(restores) - 1)
+
+    out = _QUOTED_ARTICLE.sub(_mask, text)
+    out = _ARTICLE_WORD.sub("", out)
+    for i, inner in enumerate(restores):
+        out = out.replace(_ART_PLACEHOLDER.format(i), inner)
+    out = re.sub(r"[ \t]{2,}", " ", out)
+    out = re.sub(r"\s+([,.;:!?])", r"\1", out)
+    return out
 
 
 def apply_counters(text: str) -> str:
@@ -193,6 +299,8 @@ def compress(
     etymon: bool = True,
     aggressive_fillers: bool = False,
     counters: bool = True,
+    spelled_nums: bool = True,
+    keep_articles: bool = False,
     hex_nums: bool = False,
     hex_prefix: bool = True,
     protect_regexes: list[str] | None = None,
@@ -202,6 +310,9 @@ def compress(
 
     Default: no filler strip, no UNIQUE_COMPACT (those belong to C).
     ``strip=True`` or ``aggressive_fillers=True`` opt into filler removal.
+    Unquoted articles ``the``/``a``/``an`` are stripped unless ``keep_articles``.
+    Quoted articles keep the inner word (quotes dropped). Spelled number words
+    become digits before counter mapping when ``spelled_nums`` is on.
     """
     out, restores = extract_protected(text, protect_regexes)
     # aggressive_fillers implies strip
@@ -212,8 +323,12 @@ def compress(
         out = apply_unique_readings(out, compact=False)
     if etymon:
         out = apply_etymon_align(out)
+    if spelled_nums:
+        out = apply_spelled_numbers(out)
     if counters:
         out = apply_counters(out)
+    if not keep_articles:
+        out = strip_articles(out)
     for pat, repl in _SUBS:
         out = pat.sub(repl, out)
     out = _DIGIT_FW.sub(lambda m: chr(ord(m.group(0)) - 0xFEE0), out)
@@ -410,6 +525,16 @@ def main(argv: list[str] | None = None) -> int:
         dest="protect_regex",
         help="regex whose matches are left unchanged (repeatable)",
     )
+    p.add_argument(
+        "--keep-articles",
+        action="store_true",
+        help="keep English articles the/a/an (default: strip unquoted)",
+    )
+    p.add_argument(
+        "--no-spelled-nums",
+        action="store_true",
+        help="skip spelled number words → digits",
+    )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     if args.mode == "expand":
@@ -424,6 +549,8 @@ def main(argv: list[str] | None = None) -> int:
             etymon=not args.no_etymon,
             aggressive_fillers=args.aggressive_fillers,
             counters=not args.no_counters,
+            spelled_nums=not args.no_spelled_nums,
+            keep_articles=args.keep_articles,
             hex_nums=args.hex_nums,
             hex_prefix=not args.hex_bare,
             protect_regexes=args.protect_regex,

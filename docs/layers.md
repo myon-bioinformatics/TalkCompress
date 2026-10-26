@@ -15,7 +15,7 @@ JUnit は CI で `build/test-results/pytest-<ver>.xml` に置き、artifact 名�
 語彙ヘルパーは `shared/lex_policy.py`。担当は:
 
 - **C**: FILLER 除去・UNIQUE_COMPACT（短縮クリップ）
-- **E**: UNIQUE_READINGS（長い形）・ETYMON_ALIGN・文法最小。フィラー/compact は既定オフ
+- **E**: UNIQUE_READINGS（長い形）・ETYMON_ALIGN（information→ℹ️）・冠詞落とし・スペル数字・`I'll`・助数詞。フィラー/compact は既定オフ
 - **D**: `C,E` パイプラインなら C が先にフィラーを落とす
 
 F は当面なし。

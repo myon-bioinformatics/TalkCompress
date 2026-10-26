@@ -57,14 +57,17 @@ def test_layer_ownership_matrix_classic_example():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     c = _load("convo_hub", "ConvoHub/convo_hub.py")
-    classic = "um 私は will find out the information about 3 animals"
+    classic = "um 私は will find out the information about three animals"
+
+    from shared.lex_policy import INFO_GLYPH
 
     e_out = m.compress(classic)
     assert "um" in e_out.lower()
     assert "ascertain" in e_out.lower()
     assert "ascrt" not in e_out.lower()
-    assert "info" in e_out
+    assert INFO_GLYPH in e_out
     assert "3匹" in e_out
+    assert "I'll" in e_out
 
     c_out = s.compress(classic)
     assert "um" not in c_out.lower()
@@ -72,8 +75,10 @@ def test_layer_ownership_matrix_classic_example():
 
     pipe = c.run_pipeline(["C", "E"], classic, _ns())
     assert "um" not in pipe.lower()
-    assert "ascrt" in pipe.lower() or "ascertain" not in pipe.lower()
-    assert "3匹" in pipe or "info" in pipe
+    assert "ascrt" in pipe.lower()
+    assert "3匹" in pipe
+    assert INFO_GLYPH in pipe
+    assert "I'll" in pipe
 
 
 # --- pipeline C→E ---
@@ -85,7 +90,9 @@ def test_pipeline_c_then_e():
     out = c.run_pipeline(["C", "E"], text, _ns())
     assert "um" not in out.lower()
     # C: thank you→ty, for your information→FYI; E may further shrink
-    assert "FYI" in out or "ty" in out.lower() or "info" in out
+    from shared.lex_policy import INFO_GLYPH
+
+    assert "FYI" in out or "ty" in out.lower() or INFO_GLYPH in out
     assert len(out) < len(text)
 
 
@@ -330,3 +337,54 @@ def test_convo_compare_cli():
     for ln in lines:
         obj = json.loads(ln)
         assert "ratio" in obj
+
+# --- MorphoZip articles / spelled nums / I\'ll / ℹ️ ---
+
+
+def test_morpho_strips_unquoted_articles_keeps_quoted():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    out = m.compress('see the cat and "the" dog', unique=False, etymon=False, counters=False)
+    assert "the cat" not in out.lower()
+    assert "the" in out  # from quoted "the"
+    assert "cat" in out and "dog" in out
+    kept = m.compress("keep the noun", keep_articles=True, unique=False, etymon=False, counters=False)
+    assert "the" in kept.lower()
+
+
+def test_morpho_spelled_numbers_to_counters():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert "3匹" in m.compress("I see three animals here")
+    assert "21匹" in m.compress("count twenty-one animals") or "21匹" in m.compress(
+        "count twenty one animals"
+    )
+    assert "100" in m.apply_spelled_numbers("a hundred") or "100" in m.compress(
+        "about a hundred", counters=False, unique=False, etymon=False
+    )
+
+
+def test_morpho_i_will_contraction():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    out = m.compress("I will go now", unique=False, etymon=False, counters=False)
+    assert "I'll" in out
+    assert "I will" not in out
+
+
+def test_morpho_information_to_info_glyph():
+    from shared.lex_policy import INFO_GLYPH, apply_etymon_align
+
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert apply_etymon_align("information") == INFO_GLYPH
+    assert INFO_GLYPH in m.compress("send the information please")
+
+
+def test_pipeline_c_e_classic_three_animals():
+    from shared.lex_policy import INFO_GLYPH
+
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    classic = "um 私は will find out the information about three animals"
+    pipe = c.run_pipeline(["C", "E"], classic, _ns())
+    assert "um" not in pipe.lower()
+    assert "ascrt" in pipe.lower()
+    assert "I'll" in pipe
+    assert INFO_GLYPH in pipe
+    assert "3匹" in pipe
