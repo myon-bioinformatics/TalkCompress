@@ -1,13 +1,32 @@
 # ConvoZip（D）
 
-**横断オーケストレーション。** 層の選択、共通入出力、他サブプロジェクトへの振り分けの受け口です。名前のとおり「会話を zip する」表玄関。
+**横断オーケストレーション。** 層の選択と共通入出力の表玄関。
 
-## スコープ
+## ルーティング
 
-- `--layer 1..4`（または A–E）でのルーティング
-- テキスト / JSONL 会話ログの読み書き（予定）
-- 各層モジュールの薄いラッパ
+| 指定 | 行き先 |
+| --- | --- |
+| `1` / `A` / `zipilogue` | Zipilogue |
+| `2` / `B` / `tessera` | TesseraTalk |
+| `3` / `C` / `shorthand` | ShorthandLab |
+| `4` / `E` / `morpho` | MorphoZip |
 
-## エントリ
+## 使い方
 
-- `convo_zip.py` — 骨格
+```bash
+# テキスト
+uv run python ConvoZip/convo_zip.py --layer 3 --text 'for your information'
+
+# 層1（鍵必須）
+uv run python ConvoZip/convo_zip.py --layer A --key secret --text 'hi'
+uv run python ConvoZip/convo_zip.py --layer A --key secret --mode decode --text '<envelope>'
+
+# stdin / JSONL 会話
+printf '%s\n' '{"role":"user","text":"thank you"}' \
+  | uv run python ConvoZip/convo_zip.py --layer C --jsonl
+
+# MorphoZip 密度
+uv run python ConvoZip/convo_zip.py --layer E --stats --text 'I am ready and waiting'
+```
+
+`--text` 省略時は stdin。`--mode` は層依存（compress/expand/tag/encode/decode）。

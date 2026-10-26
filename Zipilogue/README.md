@@ -1,13 +1,19 @@
 # Zipilogue（A）
 
-**層1 — 機械同士。** 共有鍵（または同等の共有秘密）を前提に、ボット同士だけで成立する強い符号化を扱います。人間が読めなくてもよい。
+**層1 — 機械同士。** 共有パスフレーズ前提の認証付き符号化。人間非可読でよい。
 
-## スコープ
+## 方式（stdlib のみ）
 
-- 往復メッセージの符号化 / 復号
-- 鍵・共有秘密の扱い（リポジトリに秘密を置かない）
-- デバッグ用の機械可読メタデータ（人間向け説明は最小）
+- KDF: `hashlib.scrypt` → 32-byte key
+- ストリーム: HMAC-SHA256 カウンタ鍵ストリーム XOR
+- MAC: HMAC-SHA256（改ざん検知）
+- 封筒: `ZIP1` + ver + nonce(16) + ciphertext + mac → **base64url（パディングなし）**
 
-## エントリ
+## CLI
 
-- `zipilogue.py` — CLI / ライブラリの受け口（骨格）
+```bash
+uv run python Zipilogue/zipilogue.py encode --key 'shared-secret' --text 'hello'
+uv run python Zipilogue/zipilogue.py decode --key-file ./key.txt   # stdin: envelope
+```
+
+秘密鍵をリポジトリに置かないこと。

@@ -20,6 +20,7 @@ default-groups = ["dev"]
 testpaths = ["tests"]
 pythonpath = [
   ".",
+  "shared",
   "Zipilogue",
   "TesseraTalk",
   "ShorthandLab",

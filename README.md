@@ -20,6 +20,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 - whatever / hereafter 系の「ほぼ1語」化も積極採用
 - 性別名詞の重い体系は避け、中性寄りでコストを下げる
 - 数字は `0-9`、必要なら `0-F`（16進）。数学記法も可
+- 層4は FILLER 除去・一意読み・語源寄せ（`shared/lex_policy.py`）。別サブプロジェクト F は当面なし
 
 ## サブプロジェクト（A–E）
 
@@ -37,13 +38,16 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 - CI は Aoi 寄り: `setup-uv`、pytest の JUnit を `build/test-results/`、親リポの reusable junit-identity。
 - A–E の親は本リポ。真親 myon-bioinformatics への child 登録はしない。[docs/subprojects.md](docs/subprojects.md)
 
-## 使い方（予定）
+## 使い方
 
-各サブプロジェクトに `*.py` のエントリを置き、`ConvoZip` から層を選んで呼び出す想定です。実装はこれから足します。
+共通入口は `ConvoZip`。各層の詳細はサブディレクトリの README を参照。
 
 ```bash
-# 例（未実装）
-uv run python ConvoZip/convo_zip.py --layer 3 --text "..."
+uv sync
+uv run python ConvoZip/convo_zip.py --layer 3 --text "as soon as possible"
+uv run python ConvoZip/convo_zip.py --layer A --key 'shared' --text "hello bots"
+uv run python ConvoZip/convo_zip.py --layer E --stats --text "私は ready and waiting"
+uv run pytest -q
 ```
 
 ## ライセンス

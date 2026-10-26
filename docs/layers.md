@@ -11,3 +11,5 @@
 | 横断ルーティング | ConvoZip (D) |
 
 JUnit は CI で `build/test-results/pytest-<ver>.xml` に置き、artifact 名は `junit-py*` です（Aoi / ascii_artist と同系）。
+
+層4は `shared/lex_policy.py` で FILLER 除去・一意読み・語源寄せを担う（F は当面なし。C は FILLER のみ共有）。
