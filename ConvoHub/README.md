@@ -2,7 +2,24 @@
 
 語源: *convo*（conversation）+ *hub*（横断の結節点）。Zip を付けない層横断ハブ。
 
-**横断オーケストレーション。** 層の選択と共通入出力の表玄関。
+**横断オーケストレーション。** 層の選択と共通入出力の表玄関。加えて **合意済み規約の台帳（ledger）** の置き場。
+
+## 合意台帳（ledger）
+
+ソース・オブ・トゥルースは [`ledger/conventions.json`](ledger/conventions.json)。読込・適用は `shared/ledger.py`。
+
+| kind | 役割 |
+| --- | --- |
+| `lex` | 置換（`from`→`to`）。`apply_layer` が指す層が適用（現状の字・記号置換は **E**） |
+| `policy` | 方針メモ（EN+ZH+JA ベース、接続詞/副詞は英語挿入が効きやすい、短い cognate 優先など）。実装は具体マッピング追加時 |
+
+例: `under`/`below` → `下`、`above` → `上`、`デコボコ`/`uneven`/`bumpy` → `凹凸`。
+
+```bash
+uv run python -m shared.ledger --list
+uv run python -m shared.ledger --apply 'under the table'
+uv run python MorphoZip/morpho_zip.py --text 'below average and デコボコ'
+```
 
 ## ルーティング
 

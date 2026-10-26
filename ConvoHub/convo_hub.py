@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""ConvoHub (D): cross-layer router / shared CLI for TalkCompress A–E.
+"""ConvoHub (D): cross-layer router / shared CLI + agreed-convention ledger.
 
 Supports single ``--layer``, sequential ``--pipeline C,E``, ``--budget``,
 ``--role-layers``, ``--auto``, ``--trace``, ``--window``, ``--profile``,
 quality gates, packs, protect spans, file I/O, ``--compare``, and
-Zipilogue ``--rule-state`` (shared-rule ledger; key optional).
+Zipilogue ``--rule-state`` (A evolving slang ledger; key optional).
+
+Agreed human conventions live under ``ConvoHub/ledger/conventions.json``
+(loaded via ``shared.ledger``; E applies lex entries such as under→下).
 """
 
 from __future__ import annotations

@@ -29,7 +29,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 | A | [Zipilogue](Zipilogue/) | 層1 — 共有ルール台帳＋任意の鍵付き封筒 |
 | B | [TesseraTalk](TesseraTalk/) | 層2 — 文単位の言語切替モザイク |
 | C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約・FILLER・UNIQUE_COMPACT |
-| D | [ConvoHub](ConvoHub/) | 横断 — 入出力・層の切替・共通CLIの受け口 |
+| D | [ConvoHub](ConvoHub/) | 横断 — 入出力・層の切替・共通CLI・**合意台帳（ledger）** |
 | E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小（フィラー除去は既定オフ） |
 
 ## 開発・CI

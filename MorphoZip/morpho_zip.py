@@ -8,6 +8,7 @@ gendered morphology and Chinese-only bias.
 Shared lexeme policy (``shared.lex_policy``) usage:
 - UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
 - ETYMON_ALIGN (information / info / 情報 → ℹ️)
+- ConvoHub (D) ledger lex (under/below→下, デコボコ→凹凸, …) via ``shared.ledger``
 - EN quantity phrases → short JA counters (experimental; needs digits already present)
 - strip unquoted articles ``the`` / ``a`` / ``an`` (quoted forms keep the word)
 - optional integer → hex rewrite (``hex_nums``)
@@ -30,6 +31,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+from shared.ledger import apply_ledger_lex  # noqa: E402
 from shared.lex_policy import (  # noqa: E402
     apply_etymon_align,
     apply_spelled_numbers,
@@ -207,6 +209,7 @@ def compress(
     strip: bool = False,
     unique: bool = True,
     etymon: bool = True,
+    ledger: bool = True,
     aggressive_fillers: bool = False,
     counters: bool = True,
     spelled_nums: bool = False,
@@ -234,6 +237,9 @@ def compress(
         out = apply_unique_readings(out, compact=False)
     if etymon:
         out = apply_etymon_align(out)
+    if ledger:
+        # D-owned agreed lex (上下・凹凸 …); E applies
+        out = apply_ledger_lex(out, apply_layer="E")
     if spelled_nums:
         out = apply_spelled_numbers(out)
     if counters:
@@ -413,6 +419,11 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("--no-unique", action="store_true", help="skip unique-reading pass")
     p.add_argument("--no-etymon", action="store_true", help="skip etymon alignment")
+    p.add_argument(
+        "--no-ledger",
+        action="store_true",
+        help="skip ConvoHub (D) ledger lex replacements (下/凹凸 …)",
+    )
     p.add_argument("--no-counters", action="store_true", help="skip EN→JA counter mapping")
     p.add_argument(
         "--aggressive-fillers",
@@ -458,6 +469,7 @@ def main(argv: list[str] | None = None) -> int:
             strip=args.strip and not args.no_strip,
             unique=not args.no_unique,
             etymon=not args.no_etymon,
+            ledger=not args.no_ledger,
             aggressive_fillers=args.aggressive_fillers,
             counters=not args.no_counters,
             spelled_nums=args.spelled_nums,

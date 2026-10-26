@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "title": "TalkCompress agreed conventions (ConvoHub / D ledger)",
+  "meta": {
+    "base_mix": ["en", "zh", "ja"],
+    "notes": [
+      "Base mix is EN + ZH + JA.",
+      "When conjunctions or adverbs show up, inserting English often helps readability.",
+      "Prefer shorter alphabet / cognate spellings when they align with meaning.",
+      "Concrete lex mappings live under conventions[]; policy-only items have kind=policy and are documentation for D."
+    ]
+  },
+  "conventions": [
+    {
+      "id": "spatial-up-down-phrase",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": ["up and down", "above and below", "上下"],
+      "to": "上下",
+      "rationale": "上下セットは短く視覚的に明確（1組で上下）"
+    },
+    {
+      "id": "spatial-under",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": ["under", "below", "beneath"],
+      "to": "下",
+      "rationale": "under/below は「下」1字で即座に分かる"
+    },
+    {
+      "id": "spatial-above",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": ["above"],
+      "to": "上",
+      "rationale": "under/below と対になる「上」"
+    },
+    {
+      "id": "uneven-凹凸",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": ["デコボコ", "でこぼこ", "凸凹", "uneven", "bumpy"],
+      "to": "凹凸",
+      "rationale": "凹凸は視覚的に分かりやすい"
+    },
+    {
+      "id": "policy-base-mix",
+      "kind": "policy",
+      "apply_layer": "D",
+      "rationale": "ベースは EN+ZH+JA。接続詞・副詞は英語挿入が効くことが多い。短いアルファベット/cognate スペルを優先。実装は今後の具体マッピング追加時。",
+      "payload": {
+        "base_mix": ["en", "zh", "ja"],
+        "conjunction_adverb_bias": "en",
+        "prefer_short_alphabet_cognates": true
+      }
+    }
+  ]
+}
