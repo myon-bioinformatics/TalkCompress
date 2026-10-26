@@ -14,6 +14,8 @@ so the same plaintext+key under different labels do not verify interchangeably.
 AAD is NOT written into the envelope — both peers must supply the same label.
 
 Key resolution: ``--key`` / ``--key-file``, else env ``TALKCOMPRESS_ZIP_KEY``.
+``key_fingerprint`` / CLI ``fingerprint`` confirm shared secrets without printing keys.
+``--dry-run`` on encode reports envelope length without dumping binary.
 """
 
 from __future__ import annotations
@@ -52,6 +54,17 @@ def derive_key(passphrase: bytes | str) -> bytes:
         p=_SCRYPT_P,
         dklen=KEY_LEN,
     )
+
+
+
+def key_fingerprint(passphrase: bytes | str, *, length: int = 16) -> str:
+    """Short hex fingerprint of the *derived* key (not the passphrase).
+
+    Bots can compare fingerprints to confirm a shared secret without printing
+    the key or passphrase. Default length is 16 hex chars (64 bits of SHA-256).
+    """
+    digest = hashlib.sha256(derive_key(passphrase)).hexdigest()
+    return digest[: max(8, min(length, 64))]
 
 
 def _keystream(key: bytes, nonce: bytes, length: int) -> bytes:
@@ -200,7 +213,7 @@ def _read_key(args: argparse.Namespace) -> bytes:
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Zipilogue: layer-1 authenticated machine encoding")
-    p.add_argument("mode", choices=("encode", "decode"))
+    p.add_argument("mode", choices=("encode", "decode", "fingerprint"))
     g = p.add_mutually_exclusive_group(required=False)
     g.add_argument("--key", help="shared passphrase (do not commit real keys)")
     g.add_argument("--key-file", help="read passphrase from file (trailing newline stripped)")
@@ -219,10 +232,31 @@ def main(argv: list[str] | None = None) -> int:
         help="line-oriented batch: encode each plaintext line as its own envelope; "
         "decode splits envelopes by newline",
     )
+    p.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="encode: print envelope byte length (and stats) without dumping binary",
+    )
+    p.add_argument(
+        "--stats",
+        action="store_true",
+        help="print JSON length/fingerprint stats to stderr",
+    )
     args = p.parse_args(argv)
 
     key = _read_key(args)
     aad = args.aad or ""
+
+    if args.mode == "fingerprint":
+        fp = key_fingerprint(key)
+        print(fp)
+        if args.stats:
+            import json as _json
+            print(
+                _json.dumps({"fingerprint": fp, "len": len(fp)}, ensure_ascii=False),
+                file=sys.stderr,
+            )
+        return 0
 
     if args.mode == "encode":
         if args.frames:
@@ -240,6 +274,22 @@ def main(argv: list[str] | None = None) -> int:
             env = encode(args.text.encode("utf-8"), key=key, aad=aad)
         else:
             env = encode(sys.stdin.buffer.read(), key=key, aad=aad)
+        if args.stats or args.dry_run:
+            import json as _json
+            print(
+                _json.dumps(
+                    {
+                        "envelope_bytes": len(env),
+                        "fingerprint": key_fingerprint(key),
+                        "dry_run": bool(args.dry_run),
+                    },
+                    ensure_ascii=False,
+                ),
+                file=sys.stderr,
+            )
+        if args.dry_run:
+            print(len(env))
+            return 0
         if args.out:
             Path(args.out).write_bytes(env + b"\n")
         else:

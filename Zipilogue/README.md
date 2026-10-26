@@ -20,3 +20,8 @@ uv run python Zipilogue/zipilogue.py decode --key-file ./key.txt   # stdin: enve
 ```
 
 秘密鍵をリポジトリに置かないこと。
+
+## Fingerprint / dry-run
+
+`key_fingerprint(passphrase)` → short hex of SHA-256(derived key). CLI: `fingerprint` mode. `--dry-run` on encode prints envelope length (with `--stats`, JSON on stderr) without dumping binary.
+

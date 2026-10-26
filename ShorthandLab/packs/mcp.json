@@ -1,0 +1,23 @@
+{
+  "map": {
+    "model context protocol": "MCP",
+    "tool call": "TC",
+    "tool result": "TR",
+    "function call": "FC",
+    "json rpc": "JSON-RPC",
+    "server sent events": "SSE",
+    "stdio transport": "stdio",
+    "resource uri": "RURI",
+    "prompt template": "PT",
+    "sampling request": "SAMP",
+    "list tools": "LT",
+    "call tool": "CT",
+    "list resources": "LR",
+    "read resource": "RR",
+    "list prompts": "LP",
+    "get prompt": "GP",
+    "context window": "CW",
+    "token budget": "TB",
+    "system prompt": "SP"
+  }
+}

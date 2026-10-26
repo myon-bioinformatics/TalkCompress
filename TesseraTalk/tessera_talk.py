@@ -84,8 +84,21 @@ def _cue_hits(s: str, lang: str) -> int:
     return sum(1 for w in words if w in cues)
 
 
-def detect_lang(sentence: str) -> str:
-    """Heuristic language tag for one sentence."""
+def script_mix(text: str) -> dict[str, int | float]:
+    """Public diagnostics: per-script char counts and simple ratios."""
+    sc = _script_scores(text)
+    total = sum(sc.values()) or 1
+    ratios = {f"{k}_ratio": round(v / total, 4) for k, v in sc.items()}
+    return {**sc, "total_script_chars": total, **ratios}
+
+
+def detect_lang(sentence: str, *, prefer_ltr: bool = False) -> str:
+    """Heuristic language tag for one sentence.
+
+    With ``prefer_ltr=True``, Latin+CJK mixes that lack hiragana/katakana bias
+    toward ``en`` (or cue-winning LTR) rather than ``zh``. Pure CJK without kana
+    still returns ``zh``.
+    """
     sc = _script_scores(sentence)
     total_script = sum(sc.values()) or 1
 
@@ -99,9 +112,12 @@ def detect_lang(sentence: str) -> str:
         return "ar"
     if sc["deva"] / total_script > 0.3:
         return "hi"
-    if sc["cjk"] > 0 and sc["hira"] + sc["kata"] == 0 and sc["latin"] == 0:
-        return "zh"
-    if sc["latin"] / total_script > 0.2 or sc["latin"] > 0:
+
+    # Latin present: prefer LTR tagging (especially under prefer_ltr with CJK mix)
+    latinish = sc["latin"] / total_script > 0.2 or sc["latin"] > 0
+    cjk_no_kana = sc["cjk"] > 0 and sc["hira"] + sc["kata"] == 0
+
+    if latinish:
         scores = {
             "en": _cue_hits(sentence, "en"),
             "es": _cue_hits(sentence, "es"),
@@ -116,7 +132,15 @@ def detect_lang(sentence: str) -> str:
         best = max(scores, key=scores.get)
         if scores[best] > 0:
             return best
+        # Mixed Latin+CJK without kana: avoid zh when prefer_ltr (or always for mix)
+        if cjk_no_kana and (prefer_ltr or sc["latin"] >= sc["cjk"]):
+            return "en"
+        if cjk_no_kana and prefer_ltr:
+            return "en"
         return "en"
+
+    if sc["cjk"] > 0 and sc["hira"] + sc["kata"] == 0 and sc["latin"] == 0:
+        return "zh"
     if sc["cjk"] > 0:
         return "zh"
     return "und"
@@ -127,12 +151,14 @@ def tag_sentences(
     langs: list[str] | None = None,
     *,
     preserve_newlines: bool = False,
+    prefer_ltr: bool = False,
 ) -> list[tuple[str, str]]:
     """Tag each sentence. If langs is given and non-empty, use as fallback cycle
     only when detector returns 'und'; otherwise prefer heuristic LID.
 
     With ``preserve_newlines=True``, blank-line paragraph breaks become a synthetic
     ``¶`` sentence so mosaic expand can restore paragraph structure.
+    ``prefer_ltr`` biases Latin+CJK mixes (no kana) toward en rather than zh.
     """
     if preserve_newlines and "\n" in text:
         blocks = re.split(r"(\n\s*\n+)", text.strip())
@@ -150,7 +176,7 @@ def tag_sentences(
         if s == "¶":
             tagged.append(("¶", "¶"))
             continue
-        lang = detect_lang(s)
+        lang = detect_lang(s, prefer_ltr=prefer_ltr)
         if lang == "und" and fallback:
             lang = fallback[i % len(fallback)]
         tagged.append((lang, s))
@@ -167,6 +193,7 @@ def compress(
     *,
     rle: bool = True,
     preserve_newlines: bool = False,
+    prefer_ltr: bool = False,
 ) -> str:
     """Compact mosaic. With ``rle=True`` (default), omit repeating lang tags in a run:
 
@@ -175,7 +202,9 @@ def compress(
     With ``rle=False``: full ``lang:sent|lang:sent`` (legacy-compatible).
     ``preserve_newlines`` keeps paragraph breaks as ``¶:¶`` tiles.
     """
-    tagged = tag_sentences(text, langs, preserve_newlines=preserve_newlines)
+    tagged = tag_sentences(
+        text, langs, preserve_newlines=preserve_newlines, prefer_ltr=prefer_ltr
+    )
     parts: list[str] = []
     prev_lang: str | None = None
     for lang, sent in tagged:
@@ -236,13 +265,19 @@ def expand(mosaic: str, *, preserve_newlines: bool = False) -> str:
     return "".join(out)
 
 
-def stats(text: str, langs: list[str] | None = None) -> dict:
-    """Sentence count and language histogram for tagged input text."""
-    tagged = tag_sentences(text, langs)
+def stats(
+    text: str,
+    langs: list[str] | None = None,
+    *,
+    prefer_ltr: bool = False,
+) -> dict:
+    """Sentence count, language histogram, and script_mix for tagged input text."""
+    tagged = tag_sentences(text, langs, prefer_ltr=prefer_ltr)
     hist = Counter(lang for lang, _ in tagged)
     return {
         "sentences": len(tagged),
         "langs": dict(sorted(hist.items())),
+        "script_mix": script_mix(text),
     }
 
 
@@ -276,18 +311,24 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="keep blank-line paragraph breaks as mosaic ¶ tiles",
     )
+    p.add_argument(
+        "--prefer-ltr",
+        action="store_true",
+        help="bias Latin+CJK mixes (no kana) toward en rather than zh",
+    )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     langs = [x.strip() for x in args.langs.split(",") if x.strip()] or None
     pn = args.preserve_newlines
+    pl = args.prefer_ltr
 
     if args.stats and args.mode != "expand":
-        print(json.dumps(stats(text, langs), ensure_ascii=False), file=sys.stderr)
+        print(json.dumps(stats(text, langs, prefer_ltr=pl), ensure_ascii=False), file=sys.stderr)
 
     if args.mode == "tag":
-        print(render(tag_sentences(text, langs, preserve_newlines=pn)))
+        print(render(tag_sentences(text, langs, preserve_newlines=pn, prefer_ltr=pl)))
     elif args.mode == "compress":
-        print(compress(text, langs, rle=not args.no_rle, preserve_newlines=pn))
+        print(compress(text, langs, rle=not args.no_rle, preserve_newlines=pn, prefer_ltr=pl))
     else:
         print(expand(text, preserve_newlines=pn))
     return 0

@@ -31,3 +31,14 @@ uv run python ConvoZip/convo_zip.py --pipeline C,E --trace --text "um thank you"
 # Lex policy override (process-local)
 uv run python ConvoZip/convo_zip.py --layer E --lex-policy /path/to/policy.json --text "um hello"
 ```
+
+## Window chat
+
+[`window_chat.jsonl`](window_chat.jsonl) — longer multi-role chat for `--window` / `--keep-system` demos.
+
+```bash
+uv run python ConvoZip/convo_zip.py --pipeline C,E --jsonl --window 3 --keep-system \
+  --file examples/window_chat.jsonl
+
+uv run python ConvoZip/convo_zip.py --profile mcp-short --jsonl --file examples/sample_chat.jsonl
+```

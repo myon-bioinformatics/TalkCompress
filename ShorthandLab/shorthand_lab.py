@@ -151,6 +151,45 @@ def _norm_phrase(s: str) -> str:
     return re.sub(r"\s+", " ", s.strip().lower())
 
 
+
+_PACKS_DIR = Path(__file__).resolve().parent / "packs"
+
+
+def list_packs() -> list[str]:
+    """Built-in pack names (stem of JSON files under packs/)."""
+    if not _PACKS_DIR.is_dir():
+        return []
+    return sorted(p.stem for p in _PACKS_DIR.glob("*.json"))
+
+
+def load_pack(name: str) -> dict[str, str]:
+    """Load a domain pack by name (``dev``, ``mcp``, ...) or absolute/relative path.
+
+    Returns a flat long→short map.
+    """
+    candidate = Path(name)
+    if candidate.suffix == ".json" and candidate.is_file():
+        path = candidate
+    else:
+        path = _PACKS_DIR / f"{name}.json"
+        if not path.is_file():
+            raise FileNotFoundError(f"unknown shorthand pack: {name} (looked in {_PACKS_DIR})")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(data, dict) and "map" in data and isinstance(data["map"], dict):
+        return {str(k): str(v) for k, v in data["map"].items()}
+    if isinstance(data, dict):
+        return {str(k): str(v) for k, v in data.items() if k != "conventions"}
+    raise ValueError(f"pack {name} must be a JSON object")
+
+
+def merge_packs(names: list[str]) -> dict[str, str]:
+    """Merge packs in order; later packs override earlier keys."""
+    merged: dict[str, str] = {}
+    for name in names:
+        merged.update(load_pack(name))
+    return merged
+
+
 class Session:
     """Mutable session conventions + lexicon."""
 
@@ -192,7 +231,12 @@ class Session:
             if payload:
                 self.merge_lexicon(payload)
 
+    def load_packs(self, names: list[str]) -> None:
+        """Merge domain packs (``dev``, ``mcp``, ...) into the session map."""
+        self.merge_lexicon(merge_packs(names))
+
     def save(self, path: str | Path) -> None:
+
         Path(path).write_text(
             json.dumps({"conventions": self.conventions}, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
@@ -343,6 +387,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--text", help="input; else stdin")
     p.add_argument("--state", help="JSON file for session conventions (read+write on compress)")
     p.add_argument("--lexicon", help="extra lexicon JSON to merge into session map")
+    p.add_argument(
+        "--pack",
+        action="append",
+        default=None,
+        dest="pack",
+        help="domain pack name under packs/ (repeatable: dev, mcp, ...)",
+    )
     p.add_argument("--export-lexicon", dest="export_lexicon", help="write effective map JSON to PATH")
     p.add_argument(
         "--apply-suggestions",
@@ -352,6 +403,8 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     sess = Session()
+    if args.pack:
+        sess.load_packs(args.pack)
     if args.lexicon:
         sess.load_lexicon(args.lexicon)
     if args.state and Path(args.state).exists():

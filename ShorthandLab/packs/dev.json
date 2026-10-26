@@ -1,0 +1,26 @@
+{
+  "map": {
+    "pull request": "PR",
+    "merge request": "MR",
+    "continuous integration": "CI",
+    "continuous deployment": "CD",
+    "work in progress": "WIP",
+    "unit test": "UT",
+    "integration test": "IT",
+    "end to end": "E2E",
+    "end-to-end": "E2E",
+    "source control": "SCM",
+    "version control": "VCS",
+    "code review": "CR",
+    "technical debt": "TD",
+    "definition of done": "DoD",
+    "minimum viable product": "MVP",
+    "application programming interface": "API",
+    "software development kit": "SDK",
+    "domain specific language": "DSL",
+    "continuous delivery": "CD",
+    "infrastructure as code": "IaC",
+    "pull requests": "PRs",
+    "merge requests": "MRs"
+  }
+}

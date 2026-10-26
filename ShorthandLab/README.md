@@ -15,3 +15,8 @@ uv run python ShorthandLab/shorthand_lab.py compress --text 'as soon as possible
 uv run python ShorthandLab/shorthand_lab.py compress --lexicon extra.json --text 'special phrase here'
 uv run python ShorthandLab/shorthand_lab.py compress --state /tmp/sh.json --text $'hereafter pull request=PR\nopen a pull request'
 ```
+
+## Domain packs
+
+Built-in packs under `packs/` (`dev`, `mcp`). `--pack NAME` (repeatable) merges into the session map.
+

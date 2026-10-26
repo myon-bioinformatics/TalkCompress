@@ -1,0 +1,5 @@
+{
+  "layer": "A",
+  "auto_machine": true,
+  "comment": "Requires --key, --key-file, or TALKCOMPRESS_ZIP_KEY. Fails clearly when absent."
+}

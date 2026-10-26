@@ -1,0 +1,5 @@
+{
+  "pipeline": "C,E",
+  "aggressive_fillers": true,
+  "pack": ["mcp", "dev"]
+}

@@ -42,3 +42,11 @@ uv run python ConvoZip/convo_zip.py --layer B --stats --text 'Hello. こんに�
 主な追加フラグ: `--pipeline`, `--compare`, `--file`, `--out`, `--lexicon`, `--aad`, `--hex-nums`, `--no-rle`。
 
 `--text` / `--file` 省略時は stdin。`--mode` は層依存（compress/expand/tag/encode/decode）。
+
+## Round-3
+
+- `--window N` / `--keep-system` / JSONL `--budget`（圧縮後に古い行から削除）
+- `--profile NAME` / `--profile-file`（`profiles/`。CLI が上書き）
+- `--min-ratio` / `--allow-weak` / `--max-loss-tokens` / `--strict-loss`
+- `--pack` / `--protect-regex` / `[[keep:...]]` / `--prefer-ltr` / `--fingerprint-key`
+

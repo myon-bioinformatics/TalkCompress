@@ -1,0 +1,8 @@
+{"role": "system", "text": "You are a concise assistant. Never drop this system line."}
+{"role": "user", "text": "um hello there, thank you for your information about the pull request"}
+{"role": "assistant", "text": "As soon as possible I will look into the configuration."}
+{"role": "user", "text": "please let me know when continuous integration is green"}
+{"role": "assistant", "text": "Got it. I will message you by the way when CI passes."}
+{"role": "user", "text": "I have 3 animals and 2 people waiting right now"}
+{"role": "assistant", "text": "Understood. Will proceed as soon as possible."}
+{"role": "user", "text": "final question: for your information the work in progress is ready"}

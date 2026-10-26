@@ -378,3 +378,89 @@ def load_policy(path: str | Path) -> dict[str, Any]:
         _AGGRESSIVE_ONLY = frozenset(str(x) for x in data["aggressive_only"])
         applied["aggressive_only"] = sorted(_AGGRESSIVE_ONLY)
     return applied
+
+
+def _as_keyset(section: str, data: dict[str, Any]) -> set[str]:
+    """Keys (or items for list sections) for diffing one policy section."""
+    if section in ("fillers_en", "fillers_ja", "aggressive_only"):
+        vals = data.get(section)
+        if vals is None:
+            return set()
+        return {str(x) for x in vals}
+    mapping = data.get(section)
+    if not isinstance(mapping, dict):
+        return set()
+    return {str(k) for k in mapping}
+
+
+def diff_policy(
+    a: dict[str, Any] | str | Path,
+    b: dict[str, Any] | str | Path,
+) -> dict[str, dict[str, list[str]]]:
+    """Diff two lex policies (dicts or JSON paths).
+
+    Returns ``{section: {"added": [...], "removed": [...]}}`` for
+    fillers_en/ja, unique_readings, unique_compact, etymon_align, aggressive_only.
+    ``added`` = in b but not a; ``removed`` = in a but not b.
+    For mapping sections, only keys are compared (not values).
+    """
+
+    def _load(x: dict[str, Any] | str | Path) -> dict[str, Any]:
+        if isinstance(x, dict):
+            return x
+        return json.loads(Path(x).read_text(encoding="utf-8"))
+
+    left = _load(a)
+    right = _load(b)
+    sections = (
+        "fillers_en",
+        "fillers_ja",
+        "unique_readings",
+        "unique_compact",
+        "etymon_align",
+        "aggressive_only",
+    )
+    out: dict[str, dict[str, list[str]]] = {}
+    for sec in sections:
+        ka, kb = _as_keyset(sec, left), _as_keyset(sec, right)
+        added = sorted(kb - ka)
+        removed = sorted(ka - kb)
+        if added or removed:
+            out[sec] = {"added": added, "removed": removed}
+        else:
+            out[sec] = {"added": [], "removed": []}
+    return out
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    import sys
+
+    p = argparse.ArgumentParser(description="TalkCompress shared lexeme policy tools")
+    p.add_argument("--dump", action="store_true", help="print current policy JSON to stdout")
+    p.add_argument(
+        "--diff",
+        metavar="OTHER.json",
+        help="diff current (or --base) policy keys against OTHER.json",
+    )
+    p.add_argument(
+        "--base",
+        metavar="BASE.json",
+        help="with --diff: use BASE.json instead of in-process dump as left side",
+    )
+    args = p.parse_args(argv)
+
+    if args.dump:
+        print(json.dumps(dump_policy(), ensure_ascii=False, indent=2))
+        return 0
+    if args.diff:
+        left = json.loads(Path(args.base).read_text(encoding="utf-8")) if args.base else dump_policy()
+        result = diff_policy(left, args.diff)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+    p.print_help()
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

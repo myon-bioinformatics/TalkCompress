@@ -29,3 +29,8 @@ uv run python MorphoZip/morpho_zip.py --text 'I see 3 animals and 2 people'
 uv run python MorphoZip/morpho_zip.py --hex-nums --text 'retry 255 times'
 uv run python MorphoZip/morpho_zip.py --no-unique --text '...'   # 一意化オフ
 ```
+
+## Protected spans
+
+`[[keep:...]]` and `` `keep:...` `` wrappers are stripped; inner text is preserved unchanged through compress. `--protect-regex` (repeatable) masks full matches the same way.
+

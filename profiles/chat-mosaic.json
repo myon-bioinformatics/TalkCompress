@@ -1,0 +1,5 @@
+{
+  "pipeline": "B,E",
+  "no_rle": false,
+  "preserve_newlines": true
+}

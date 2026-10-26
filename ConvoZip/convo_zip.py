@@ -2,7 +2,8 @@
 """ConvoZip (D): cross-layer router / shared CLI for TalkCompress A–E.
 
 Supports single ``--layer``, sequential ``--pipeline C,E``, ``--budget``,
-``--role-layers``, ``--auto``, ``--trace``, file I/O, and ``--compare``.
+``--role-layers``, ``--auto``, ``--trace``, ``--window``, ``--profile``,
+quality gates, packs, protect spans, file I/O, and ``--compare``.
 """
 
 from __future__ import annotations
@@ -98,6 +99,249 @@ def parse_role_layers(raw: str) -> dict[str, str | list[str]]:
     return mapping
 
 
+
+
+# --- round-3: profiles / window / quality ---
+
+_PROFILE_FLAG_KEYS = (
+    "layer",
+    "pipeline",
+    "budget",
+    "role_layers",
+    "auto",
+    "auto_machine",
+    "aggressive_fillers",
+    "no_rle",
+    "preserve_newlines",
+    "prefer_ltr",
+    "hex_nums",
+    "hex_bare",
+    "no_strip",
+    "no_unique",
+    "no_etymon",
+    "no_counters",
+    "langs",
+    "aad",
+    "lexicon",
+    "lex_policy",
+    "pack",
+    "protect_regex",
+    "min_ratio",
+    "max_loss_tokens",
+    "allow_weak",
+    "strict_loss",
+    "stats",
+    "trace",
+    "window",
+    "keep_system",
+    "mode",
+)
+
+
+def load_profile(name: str | None = None, path: str | None = None) -> dict[str, Any]:
+    """Load a JSON profile from ``profiles/<name>.json`` or an explicit path."""
+    if path:
+        p = pathlib.Path(path)
+    elif name:
+        p = ROOT / "profiles" / f"{name}.json"
+    else:
+        raise SystemExit("profile requires --profile NAME or --profile-file PATH")
+    if not p.is_file():
+        raise SystemExit(f"profile not found: {p}")
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise SystemExit(f"profile must be a JSON object: {p}")
+    # drop documentation-only keys
+    return {k: v for k, v in data.items() if not str(k).startswith("comment") and k != "comment"}
+
+
+def apply_profile(args: argparse.Namespace, profile: dict[str, Any], *, cli_explicit: set[str]) -> None:
+    """Apply profile keys onto args. CLI-explicit flags win over profile values.
+
+    ``cli_explicit`` is the set of dest names the user passed on the command line.
+    """
+    # Map profile JSON keys (kebab or snake) → argparse dest
+    aliases = {
+        "role-layers": "role_layers",
+        "auto-machine": "auto_machine",
+        "aggressive-fillers": "aggressive_fillers",
+        "no-rle": "no_rle",
+        "preserve-newlines": "preserve_newlines",
+        "prefer-ltr": "prefer_ltr",
+        "hex-nums": "hex_nums",
+        "hex-bare": "hex_bare",
+        "no-strip": "no_strip",
+        "no-unique": "no_unique",
+        "no-etymon": "no_etymon",
+        "no-counters": "no_counters",
+        "lex-policy": "lex_policy",
+        "protect-regex": "protect_regex",
+        "min-ratio": "min_ratio",
+        "max-loss-tokens": "max_loss_tokens",
+        "allow-weak": "allow_weak",
+        "strict-loss": "strict_loss",
+        "keep-system": "keep_system",
+    }
+    # If CLI fixed a routing mode, do not also apply the other from profile.
+    skip = set(cli_explicit)
+    if "layer" in cli_explicit:
+        skip.update({"pipeline", "auto", "compare"})
+    if "pipeline" in cli_explicit:
+        skip.update({"layer", "auto", "compare"})
+    if "auto" in cli_explicit:
+        skip.update({"layer", "pipeline", "compare"})
+    if "compare" in cli_explicit:
+        skip.update({"layer", "pipeline", "auto"})
+
+    for raw_key, val in profile.items():
+        dest = aliases.get(raw_key, raw_key.replace("-", "_"))
+        if dest not in _PROFILE_FLAG_KEYS and dest not in ("pack",):
+            continue
+        if dest in skip:
+            continue
+        setattr(args, dest, val)
+
+
+def _parse_jsonl_rows(raw: str) -> list[dict[str, Any]]:
+    """Parse JSONL into row dicts with role/text; plain lines become {role:None,text:...}."""
+    rows: list[dict[str, Any]] = []
+    for line in raw.splitlines():
+        if not line.strip():
+            continue
+        role = None
+        body = line
+        if line.lstrip().startswith("{"):
+            try:
+                obj: dict[str, Any] = json.loads(line)
+            except json.JSONDecodeError:
+                obj = {}
+            if obj:
+                role = obj.get("role")
+                body = str(obj.get("text") or obj.get("content") or obj.get("message") or "")
+                rows.append({"role": role, "text": body, "raw_obj": obj})
+                continue
+        rows.append({"role": role, "text": body, "raw_obj": None})
+    return rows
+
+
+def apply_window(
+    rows: list[dict[str, Any]],
+    *,
+    window: int | None = None,
+    budget: int | None = None,
+    keep_system: bool = False,
+) -> list[dict[str, Any]]:
+    """Drop oldest messages after compress.
+
+    Precedence (documented): callers must compress each line *first*, then call
+    this. If both ``window`` and ``budget`` are set: first keep last N by
+    ``window``, then drop oldest further until total chars ≤ budget.
+    With ``keep_system``, ``role=system`` lines are never dropped (they still
+    count toward budget/window totals).
+    """
+    if not rows:
+        return rows
+
+    def _is_system(r: dict[str, Any]) -> bool:
+        return keep_system and str(r.get("role") or "").lower() == "system"
+
+    out = list(rows)
+    if window is not None and window >= 0:
+        if keep_system:
+            systems = [r for r in out if _is_system(r)]
+            nonsys = [r for r in out if not _is_system(r)]
+            nonsys = nonsys[-window:] if window > 0 else []
+            # preserve relative order: systems in original positions among kept nonsys
+            # simpler: all systems first (stable among themselves) then last N nonsys
+            # Better: filter to systems ∪ last-window nonsys keeping original order
+            keep_ids = set(id(r) for r in systems) | set(id(r) for r in nonsys)
+            # recompute nonsys by index from end
+            nonsys_idx = [i for i, r in enumerate(out) if not _is_system(r)]
+            keep_nonsys = set(nonsys_idx[-window:] if window > 0 else [])
+            out = [
+                r
+                for i, r in enumerate(out)
+                if _is_system(r) or i in keep_nonsys
+            ]
+        else:
+            out = out[-window:] if window > 0 else []
+
+    if budget is not None and budget >= 0:
+        def total_chars(rs: list[dict[str, Any]]) -> int:
+            return sum(len(str(r.get("text") or "")) for r in rs)
+
+        while len(out) > 0 and total_chars(out) > budget:
+            # drop oldest non-system if keep_system, else oldest
+            drop_at = None
+            for i, r in enumerate(out):
+                if _is_system(r):
+                    continue
+                drop_at = i
+                break
+            if drop_at is None:
+                # only system lines left but still over budget — stop (cannot drop)
+                break
+            out.pop(drop_at)
+    return out
+
+
+def content_token_loss(before: str, after: str) -> int:
+    """Rough whitespace-split heuristic: tokens present in before but not after (multiset)."""
+    import collections
+
+    def toks(s: str) -> collections.Counter:
+        return collections.Counter(t for t in re.split(r"\s+", s.strip()) if t)
+
+    b, a = toks(before), toks(after)
+    lost = 0
+    for tok, n in b.items():
+        lost += max(0, n - a.get(tok, 0))
+    return lost
+
+
+def check_quality(
+    before: str,
+    after: str,
+    args: argparse.Namespace,
+) -> int:
+    """Return exit code contribution: 0 ok, 1 fail. Prints warnings to stderr when soft."""
+    rc = 0
+    before_n = len(before)
+    after_n = len(after)
+    ratio = (after_n / before_n) if before_n else 0.0
+    min_ratio = getattr(args, "min_ratio", None)
+    if min_ratio is not None:
+        # insufficient shrink if ratio > R (still large)
+        if before_n > 0 and ratio > float(min_ratio):
+            msg = {
+                "quality": "weak_shrink",
+                "chars_before": before_n,
+                "chars_after": after_n,
+                "ratio": round(ratio, 4),
+                "min_ratio": float(min_ratio),
+            }
+            if getattr(args, "allow_weak", False):
+                if getattr(args, "stats", False):
+                    print(json.dumps(msg, ensure_ascii=False), file=sys.stderr)
+            else:
+                print(json.dumps(msg, ensure_ascii=False), file=sys.stderr)
+                rc = 1
+
+    max_loss = getattr(args, "max_loss_tokens", None)
+    if max_loss is not None:
+        lost = content_token_loss(before, after)
+        if lost > int(max_loss):
+            msg = {
+                "quality": "token_loss",
+                "lost_tokens": lost,
+                "max_loss_tokens": int(max_loss),
+            }
+            print(json.dumps(msg, ensure_ascii=False), file=sys.stderr)
+            if getattr(args, "strict_loss", False):
+                rc = 1
+    return rc
+
+
 def _read_input(args: argparse.Namespace) -> str:
     if getattr(args, "file", None):
         return pathlib.Path(args.file).read_text(encoding="utf-8")
@@ -160,18 +404,25 @@ def _run_b(text: str, args: argparse.Namespace) -> str:
         langs = [x.strip() for x in args.langs.split(",") if x.strip()]
     rle = not getattr(args, "no_rle", False)
     pn = getattr(args, "preserve_newlines", False)
+    pl = getattr(args, "prefer_ltr", False)
     if getattr(args, "stats", False) and mode != "expand":
-        print(json.dumps(t.stats(text, langs), ensure_ascii=False), file=sys.stderr)
+        print(json.dumps(t.stats(text, langs, prefer_ltr=pl), ensure_ascii=False), file=sys.stderr)
     if mode == "tag":
-        return t.render(t.tag_sentences(text, langs, preserve_newlines=pn))
+        return t.render(t.tag_sentences(text, langs, preserve_newlines=pn, prefer_ltr=pl))
     if mode == "expand":
         return t.expand(text, preserve_newlines=pn)
-    return t.compress(text, langs, rle=rle, preserve_newlines=pn)
+    return t.compress(text, langs, rle=rle, preserve_newlines=pn, prefer_ltr=pl)
 
 
 def _run_c(text: str, args: argparse.Namespace) -> str:
     s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
     sess = s.Session()
+    packs = getattr(args, "pack", None)
+    if packs:
+        # profile may set pack as a single string
+        if isinstance(packs, str):
+            packs = [packs]
+        sess.load_packs(list(packs))
     lexicon = getattr(args, "lexicon", None)
     if lexicon:
         sess.load_lexicon(lexicon)
@@ -196,6 +447,9 @@ def _run_e(text: str, args: argparse.Namespace) -> str:
         return m.expand(text, counters=not getattr(args, "no_counters", False))
     if mode == "pack":
         return m.pack_tokens(text)
+    protect = getattr(args, "protect_regex", None)
+    if isinstance(protect, str):
+        protect = [protect]
     out = m.compress(
         text,
         strip=not getattr(args, "no_strip", False),
@@ -205,6 +459,7 @@ def _run_e(text: str, args: argparse.Namespace) -> str:
         counters=not getattr(args, "no_counters", False),
         hex_nums=getattr(args, "hex_nums", False),
         hex_prefix=not getattr(args, "hex_bare", False),
+        protect_regexes=protect,
     )
     if getattr(args, "stats", False):
         print(json.dumps(m.density(text, out), ensure_ascii=False), file=sys.stderr)
@@ -485,21 +740,16 @@ def process_jsonl(
     default_layer: str | None = None,
     trace: list[dict[str, Any]] | None = None,
 ) -> str:
-    """Each line: plain text, or JSON {\"role\": \"...\", \"text\": \"...\"} / {\"content\": \"...\"}."""
-    outs: list[str] = []
-    for line in raw.splitlines():
-        if not line.strip():
-            continue
-        role = None
-        body = line
-        if line.lstrip().startswith("{"):
-            try:
-                obj: dict[str, Any] = json.loads(line)
-            except json.JSONDecodeError:
-                obj = {}
-            if obj:
-                role = obj.get("role")
-                body = str(obj.get("text") or obj.get("content") or obj.get("message") or "")
+    """Each line: plain text, or JSON role/text. Optional window/budget after compress.
+
+    Precedence: per-line compress first (layer/pipeline/role-layers/auto), then
+    drop oldest via ``--window`` / ``--budget``. ``--keep-system`` retains system rows.
+    """
+    rows_in = _parse_jsonl_rows(raw)
+    transformed_rows: list[dict[str, Any]] = []
+    for row in rows_in:
+        role = row.get("role")
+        body = str(row.get("text") or "")
         transformed = _apply_for_body(
             body,
             args,
@@ -509,6 +759,25 @@ def process_jsonl(
             default_layer=default_layer,
             trace=trace,
         )
+        transformed_rows.append({"role": role, "text": transformed})
+
+    window = getattr(args, "window", None)
+    budget = getattr(args, "budget", None) if getattr(args, "jsonl", False) else None
+    # When jsonl + budget: budget applies as sliding char budget (drop oldest), not
+    # the iterative pipeline budget used for plain text.
+    keep_system = getattr(args, "keep_system", False)
+    if window is not None or (budget is not None and getattr(args, "jsonl", False)):
+        transformed_rows = apply_window(
+            transformed_rows,
+            window=window,
+            budget=budget,
+            keep_system=keep_system,
+        )
+
+    outs: list[str] = []
+    for row in transformed_rows:
+        role = row.get("role")
+        transformed = str(row.get("text") or "")
         if role is not None:
             outs.append(json.dumps({"role": role, "text": transformed}, ensure_ascii=False))
         else:
@@ -526,6 +795,8 @@ def build_parser() -> argparse.ArgumentParser:
   uv run python ConvoZip/convo_zip.py --budget 40 --text "um thank you for your information please"
   uv run python ConvoZip/convo_zip.py --auto --text "Hello. こんにちは。Thanks a lot."
   uv run python ConvoZip/convo_zip.py --compare --text "I have 3 animals and 2 people"
+  uv run python ConvoZip/convo_zip.py --profile mcp-short --text "um thank you"
+  uv run python ConvoZip/convo_zip.py --pipeline C,E --jsonl --window 3 --keep-system --file examples/window_chat.jsonl
 """,
     )
     g = p.add_mutually_exclusive_group(required=False)
@@ -614,12 +885,164 @@ def build_parser() -> argparse.ArgumentParser:
         "--lex-policy",
         help="JSON path to override shared FILLERS/UNIQUE/ETYMON (process-local)",
     )
+    p.add_argument(
+        "--window",
+        type=int,
+        default=None,
+        help="with --jsonl: keep only the last N messages after compress "
+        "(then --budget drops oldest further). See docs for precedence.",
+    )
+    p.add_argument(
+        "--keep-system",
+        action="store_true",
+        help="with --window/--budget on JSONL: never drop role=system lines",
+    )
+    p.add_argument(
+        "--profile",
+        default=None,
+        help="load profiles/<NAME>.json (CLI flags override profile values)",
+    )
+    p.add_argument(
+        "--profile-file",
+        default=None,
+        help="load a profile JSON from PATH",
+    )
+    p.add_argument(
+        "--pack",
+        action="append",
+        default=None,
+        dest="pack",
+        help="ShorthandLab domain pack (repeatable: dev, mcp)",
+    )
+    p.add_argument(
+        "--protect-regex",
+        action="append",
+        default=None,
+        dest="protect_regex",
+        help="MorphoZip: regex matches left unchanged (repeatable); also [[keep:...]]",
+    )
+    p.add_argument(
+        "--prefer-ltr",
+        action="store_true",
+        help="TesseraTalk: bias Latin+CJK mixes toward en rather than zh",
+    )
+    p.add_argument(
+        "--min-ratio",
+        type=float,
+        default=None,
+        help="fail (exit 1) if chars_after/chars_before > R unless --allow-weak",
+    )
+    p.add_argument(
+        "--allow-weak",
+        action="store_true",
+        help="with --min-ratio: warn (on --stats) instead of failing",
+    )
+    p.add_argument(
+        "--max-loss-tokens",
+        type=int,
+        default=None,
+        help="experimental: warn if stripping removed >K content-ish tokens",
+    )
+    p.add_argument(
+        "--strict-loss",
+        action="store_true",
+        help="with --max-loss-tokens: exit 1 on excess token loss",
+    )
+    p.add_argument(
+        "--fingerprint-key",
+        action="store_true",
+        help="print Zipilogue key fingerprint to stderr and exit 0 (needs key)",
+    )
     return p
 
 
 def main(argv: list[str] | None = None) -> int:
+    argv_list = list(argv) if argv is not None else None
     p = build_parser()
-    args = p.parse_args(argv)
+    args = p.parse_args(argv_list)
+
+    # Track CLI-explicit dests so profile values do not clobber user flags.
+    cli_explicit: set[str] = set()
+    if argv_list is None:
+        argv_list = sys.argv[1:]
+    # Rough parse of option dests present on CLI
+    opt_map = {
+        "--layer": "layer",
+        "--pipeline": "pipeline",
+        "--compare": "compare",
+        "--demo-compare": "compare",
+        "--auto": "auto",
+        "--budget": "budget",
+        "--role-layers": "role_layers",
+        "--trace": "trace",
+        "--auto-machine": "auto_machine",
+        "--aggressive-fillers": "aggressive_fillers",
+        "--no-rle": "no_rle",
+        "--preserve-newlines": "preserve_newlines",
+        "--prefer-ltr": "prefer_ltr",
+        "--hex-nums": "hex_nums",
+        "--hex-bare": "hex_bare",
+        "--no-strip": "no_strip",
+        "--no-unique": "no_unique",
+        "--no-etymon": "no_etymon",
+        "--no-counters": "no_counters",
+        "--langs": "langs",
+        "--aad": "aad",
+        "--lexicon": "lexicon",
+        "--lex-policy": "lex_policy",
+        "--pack": "pack",
+        "--protect-regex": "protect_regex",
+        "--min-ratio": "min_ratio",
+        "--max-loss-tokens": "max_loss_tokens",
+        "--allow-weak": "allow_weak",
+        "--strict-loss": "strict_loss",
+        "--stats": "stats",
+        "--window": "window",
+        "--keep-system": "keep_system",
+        "--mode": "mode",
+        "--jsonl": "jsonl",
+        "--key": "key",
+        "--key-file": "key_file",
+    }
+    i = 0
+    while i < len(argv_list):
+        tok = argv_list[i]
+        if tok in opt_map:
+            cli_explicit.add(opt_map[tok])
+        elif "=" in tok and tok.startswith("--"):
+            cli_explicit.add(opt_map.get(tok.split("=", 1)[0], tok.split("=", 1)[0].lstrip("-").replace("-", "_")))
+        i += 1
+
+    if getattr(args, "profile", None) or getattr(args, "profile_file", None):
+        profile = load_profile(args.profile, args.profile_file)
+        apply_profile(args, profile, cli_explicit=cli_explicit)
+
+    # Ensure attrs exist even when profile not used
+    for attr, default in (
+        ("window", None),
+        ("keep_system", False),
+        ("pack", None),
+        ("protect_regex", None),
+        ("prefer_ltr", False),
+        ("min_ratio", None),
+        ("allow_weak", False),
+        ("max_loss_tokens", None),
+        ("strict_loss", False),
+        ("fingerprint_key", False),
+        ("profile", None),
+        ("profile_file", None),
+    ):
+        if not hasattr(args, attr):
+            setattr(args, attr, default)
+
+    if getattr(args, "fingerprint_key", False):
+        key = _resolve_zip_key(args)
+        if not key:
+            raise SystemExit("--fingerprint-key requires --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
+        z = _load("zipilogue", "Zipilogue/zipilogue.py")
+        fp = z.key_fingerprint(key)
+        print(fp, file=sys.stderr)
+        return 0
 
     if not any(
         [
@@ -629,9 +1052,22 @@ def main(argv: list[str] | None = None) -> int:
             args.auto,
             args.budget is not None,
             args.role_layers,
+            getattr(args, "window", None) is not None,
+            getattr(args, "profile", None),
+            getattr(args, "profile_file", None),
         ]
     ):
-        p.error("one of --layer / --pipeline / --compare / --auto / --budget / --role-layers is required")
+        p.error(
+            "one of --layer / --pipeline / --compare / --auto / --budget / "
+            "--role-layers / --window / --profile is required"
+        )
+
+    # machine profile without key: fail clearly
+    if args.layer and resolve_layer(str(args.layer)) == "A" and not _resolve_zip_key(args):
+        if getattr(args, "mode", None) != "decode":
+            raise SystemExit(
+                "profile/layer A (Zipilogue) requires --key, --key-file, or TALKCOMPRESS_ZIP_KEY"
+            )
 
     if getattr(args, "lex_policy", None):
         if str(ROOT) not in sys.path:
@@ -641,6 +1077,7 @@ def main(argv: list[str] | None = None) -> int:
         load_policy(args.lex_policy)
 
     raw = _read_input(args)
+    before_raw = raw
     trace: list[dict[str, Any]] | None = [] if args.trace else None
     role_map = parse_role_layers(args.role_layers) if args.role_layers else None
 
@@ -651,7 +1088,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(row, ensure_ascii=False))
         return 0
 
-    # Budget mode (may compose with pipeline / auto / role-layers for jsonl)
+    # Budget mode for plain text (JSONL budget is window-style drop-oldest)
     if args.budget is not None and not args.jsonl:
         layers: list[str] | None = None
         if args.pipeline:
@@ -664,7 +1101,7 @@ def main(argv: list[str] | None = None) -> int:
         if trace is not None:
             print(json.dumps({"trace": trace}, ensure_ascii=False), file=sys.stderr)
         _write_output(out, args)
-        return 0
+        return check_quality(before_raw, out, args)
 
     if args.auto and not args.jsonl:
         layers = choose_auto_layers(raw, args)
@@ -677,14 +1114,13 @@ def main(argv: list[str] | None = None) -> int:
         if trace is not None:
             print(json.dumps({"trace": trace, "auto_layers": layers}, ensure_ascii=False), file=sys.stderr)
         _write_output(out, args)
-        return 0
+        return check_quality(before_raw, out, args)
 
     default_layers: list[str] | None = None
     default_layer: str | None = None
     if args.pipeline:
         default_layers = parse_pipeline(args.pipeline)
     elif args.auto:
-        # for jsonl without per-line auto, use a single auto choice on whole raw as fallback
         default_layers = choose_auto_layers(raw, args)
     elif args.layer:
         default_layer = resolve_layer(args.layer)
@@ -692,8 +1128,10 @@ def main(argv: list[str] | None = None) -> int:
             p.error("D is this router; pick A–C or E / layers 1–4")
     elif role_map:
         default_layer = "C"
+    elif getattr(args, "window", None) is not None:
+        default_layer = "C"
     else:
-        p.error("need --layer, --pipeline, --auto, --budget, or --role-layers")
+        p.error("need --layer, --pipeline, --auto, --budget, --role-layers, or --window")
 
     if args.mode is None and default_layer == "A":
         args.mode = "encode"
@@ -705,7 +1143,6 @@ def main(argv: list[str] | None = None) -> int:
         args.mode = "decode"
 
     if args.jsonl:
-        # role-layers wins per line when set; else pipeline/layer
         out = process_jsonl(
             raw,
             args,
@@ -714,14 +1151,10 @@ def main(argv: list[str] | None = None) -> int:
             default_layer=default_layer,
             trace=trace,
         )
-        if args.budget is not None:
-            # post-budget on the joined text is ambiguous; apply per-line already done.
-            # Optionally shrink further each line already transformed — skip.
-            pass
         if trace is not None:
             print(json.dumps({"trace": trace}, ensure_ascii=False), file=sys.stderr)
         _write_output(out, args)
-        return 0
+        return check_quality(before_raw, out, args)
 
     if default_layers:
         out = run_pipeline(default_layers, raw, args, trace=trace)
@@ -731,7 +1164,9 @@ def main(argv: list[str] | None = None) -> int:
     if trace is not None:
         print(json.dumps({"trace": trace}, ensure_ascii=False), file=sys.stderr)
     _write_output(out, args)
-    return 0
+    return check_quality(before_raw, out, args)
+
+
 
 
 if __name__ == "__main__":

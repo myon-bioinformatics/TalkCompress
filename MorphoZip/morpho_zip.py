@@ -11,6 +11,7 @@ Also applies shared lexeme policy (``shared.lex_policy``):
 - light etymon alignment across related LTR languages
 - EN quantity phrases → short JA counters (experimental)
 - optional integer → hex rewrite (``hex_nums``)
+- protected spans ``[[keep:...]]`` / `` `keep:...` `` (wrappers stripped)
 """
 
 from __future__ import annotations
@@ -135,6 +136,53 @@ def apply_hex_nums(text: str, *, prefix: bool = True) -> str:
     return _INT_RE.sub(_repl, text)
 
 
+
+# Protected spans: [[keep:...]] wrappers are stripped; inner text is preserved
+# verbatim through compress. Optional --protect-regex patterns similarly mask
+# matched text (full match restored unchanged).
+_KEEP_SPAN = re.compile(r"\[\[keep:(.*?)\]\]", re.DOTALL)
+_KEEP_BT = re.compile(r"`keep:(.+?)`", re.DOTALL)
+_PROTECT_PLACEHOLDER = "⟦KEEP{0}⟧"
+
+
+def extract_protected(
+    text: str,
+    protect_regexes: list[str] | None = None,
+) -> tuple[str, list[str]]:
+    """Mask protected spans; return (masked_text, list_of_inner_strings).
+
+    Recognized forms (in order):
+    - ``[[keep:...]]`` — wrappers stripped, inner preserved
+    - `` `keep:...` `` — backtick form, wrappers stripped
+    - each ``protect_regex`` — full match preserved as-is
+    """
+    restores: list[str] = []
+
+    def _mask_keep(m: re.Match[str]) -> str:
+        restores.append(m.group(1))
+        return _PROTECT_PLACEHOLDER.format(len(restores) - 1)
+
+    out = _KEEP_SPAN.sub(_mask_keep, text)
+    out = _KEEP_BT.sub(_mask_keep, out)
+    for pat in protect_regexes or []:
+        cre = re.compile(pat)
+
+        def _mask_full(m: re.Match[str], _cre=cre) -> str:
+            restores.append(m.group(0))
+            return _PROTECT_PLACEHOLDER.format(len(restores) - 1)
+
+        out = cre.sub(_mask_full, out)
+    return out, restores
+
+
+def restore_protected(text: str, restores: list[str]) -> str:
+    """Put protected inners back (placeholders → original text)."""
+    out = text
+    for i, inner in enumerate(restores):
+        out = out.replace(_PROTECT_PLACEHOLDER.format(i), inner)
+    return out
+
+
 def compress(
     text: str,
     *,
@@ -145,8 +193,12 @@ def compress(
     counters: bool = True,
     hex_nums: bool = False,
     hex_prefix: bool = True,
+    protect_regexes: list[str] | None = None,
 ) -> str:
-    out = text
+    """Compress text. ``[[keep:...]]`` / `` `keep:...` `` spans and optional
+    ``protect_regexes`` are left unchanged (wrappers stripped for keep-forms).
+    """
+    out, restores = extract_protected(text, protect_regexes)
     if strip:
         out = strip_fillers(out, aggressive=aggressive_fillers)
     if unique:
@@ -162,7 +214,8 @@ def compress(
         out = apply_hex_nums(out, prefix=hex_prefix)
     out = re.sub(r"[ \t]{2,}", " ", out)
     out = re.sub(r" *\n *", "\n", out)
-    return out.strip()
+    out = out.strip()
+    return restore_protected(out, restores)
 
 
 
@@ -330,6 +383,13 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="with --hex-nums, omit 0x prefix (bare 0-F style)",
     )
+    p.add_argument(
+        "--protect-regex",
+        action="append",
+        default=None,
+        dest="protect_regex",
+        help="regex whose matches are left unchanged (repeatable)",
+    )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     if args.mode == "expand":
@@ -346,6 +406,7 @@ def main(argv: list[str] | None = None) -> int:
             counters=not args.no_counters,
             hex_nums=args.hex_nums,
             hex_prefix=not args.hex_bare,
+            protect_regexes=args.protect_regex,
         )
     if args.stats:
         import json

@@ -23,3 +23,8 @@ uv run python TesseraTalk/tessera_talk.py compress --no-rle --text 'Hello. World
 uv run python TesseraTalk/tessera_talk.py expand --text 'en:Hello.|World.|ja:こんにちは。'
 uv run python TesseraTalk/tessera_talk.py compress --stats --text 'Hello. こんにちは。'
 ```
+
+## prefer-ltr / script_mix
+
+`--prefer-ltr` biases Latin+CJK mixes without kana toward `en` rather than `zh`. `script_mix(text)` returns script counts/ratios; included in `--stats` JSON.
+

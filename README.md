@@ -96,6 +96,35 @@ uv run pytest -q
 | 短い / CJK 密度高め | `E` |
 | `--auto-machine` + 鍵あり | 末尾に `A`（暗号化は明示時のみ） |
 
+
+### Round-3 追加
+
+```bash
+# スライディング窓（JSONL）: 圧縮後に末尾 N 件。--keep-system で system は落とさない
+# --window と --budget 併用時: 先に行ごと圧縮 → window → さらに古い行から budget まで削除
+uv run python ConvoZip/convo_zip.py --pipeline C,E --jsonl --window 3 --keep-system \
+  --file examples/window_chat.jsonl
+
+# 名前付きプロファイル（CLI が上書き）。profiles/mcp-short.json など
+uv run python ConvoZip/convo_zip.py --profile mcp-short --text "um thank you for your information"
+uv run python ConvoZip/convo_zip.py --profile chat-mosaic --text "Hello. こんにちは。"
+
+# 品質ゲート（既定は非厳格）。shrink 不足で終了コード 1。--allow-weak で警告のみ
+uv run python ConvoZip/convo_zip.py --layer C --min-ratio 0.5 --text "xyzzy" || true
+
+# ドメインパック / 保護スパン（[[keep:...]] はラッパ除去・中身そのまま）
+uv run python ConvoZip/convo_zip.py --layer C --pack mcp --pack dev --text "model context protocol"
+uv run python ConvoZip/convo_zip.py --layer E --text 'um [[keep:thank you for your information]] please'
+
+# Zipilogue 鍵指紋（鍵自体は出さない） / encode dry-run
+uv run python ConvoZip/convo_zip.py --fingerprint-key --key 'shared'
+uv run python Zipilogue/zipilogue.py fingerprint --key 'shared'
+uv run python Zipilogue/zipilogue.py encode --key k --dry-run --stats --text hello
+
+# 語彙ポリシー差分
+uv run python shared/lex_policy.py --diff other_policy.json
+```
+
 ## ライセンス
 
 MIT
