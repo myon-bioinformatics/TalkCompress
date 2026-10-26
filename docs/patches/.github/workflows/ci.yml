@@ -53,8 +53,8 @@ jobs:
           python -m py_compile \
             Zipilogue/zipilogue.py \
             TesseraTalk/tessera_talk.py \
-            ShorthandLab/shorthand_lab.py \
-            ConvoZip/convo_zip.py \
+            ShorthandEdge/shorthand_edge.py \
+            ConvoHub/convo_hub.py \
             MorphoZip/morpho_zip.py
       - name: Test with JUnit
         run: |

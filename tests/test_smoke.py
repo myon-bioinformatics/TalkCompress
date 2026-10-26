@@ -128,22 +128,22 @@ def test_tessera_compress_expand():
     assert "こんにちは世界" in back
 
 
-# --- C ShorthandLab ---
+# --- C ShorthandEdge ---
 
 
 def test_shorthand_compress():
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     assert "ASAP" in s.compress("please reply as soon as possible")
     assert "FYI" in s.compress("for your information this is ready")
 
 
 def test_shorthand_expand():
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     assert "as soon as possible" in s.expand("do it ASAP")
 
 
 def test_shorthand_hereafter_convention():
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     sess = s.Session()
     text = "hereafter pull request=PR\nplease open a pull request soon"
     out = s.compress(text, session=sess)
@@ -154,7 +154,7 @@ def test_shorthand_hereafter_convention():
 
 
 def test_shorthand_state_file(tmp_path):
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     path = tmp_path / "state.json"
     sess = s.Session()
     s.compress("hereafter unit test=UT\nok", session=sess)
@@ -200,11 +200,11 @@ def test_morpho_counters_kept():
     assert "個" in m.compress("飴が7個ある")
 
 
-# --- D ConvoZip ---
+# --- D ConvoHub ---
 
 
 def test_convo_resolve_layer():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     assert c.resolve_layer("1") == "A"
     assert c.resolve_layer("tessera") == "B"
     assert c.resolve_layer("C") == "C"
@@ -212,7 +212,7 @@ def test_convo_resolve_layer():
 
 
 def test_convo_route_shorthand():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     ns = c.argparse.Namespace(
         key=None,
         key_file=None,
@@ -226,7 +226,7 @@ def test_convo_route_shorthand():
 
 
 def test_convo_jsonl():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     ns = c.argparse.Namespace(
         key=None,
         key_file=None,
@@ -243,7 +243,7 @@ def test_convo_jsonl():
 
 
 def test_convo_zipilogue_route():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     ns = c.argparse.Namespace(
         key="route-key",
         key_file=None,
@@ -292,7 +292,7 @@ def test_morpho_strips_fillers_and_pins_lexemes():
 
 
 def test_shorthand_also_strips_fillers():
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     out = s.compress("um for your information")
     assert "FYI" in out
     assert "um" not in out.lower()

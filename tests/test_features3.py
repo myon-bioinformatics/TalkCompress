@@ -23,7 +23,7 @@ def _load(name: str, rel: str):
 
 
 def _ns(**kwargs):
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     defaults = dict(
         key=None,
         key_file=None,
@@ -74,7 +74,7 @@ def _ns(**kwargs):
 
 
 def test_window_keeps_last_n():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     raw = "\n".join(
         [
             json.dumps({"role": "user", "text": "one ASAP"}),
@@ -94,7 +94,7 @@ def test_window_keeps_last_n():
 
 
 def test_window_keep_system():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     raw = "\n".join(
         [
             json.dumps({"role": "system", "text": "SYSTEM_PROMPT_KEEP"}),
@@ -118,7 +118,7 @@ def test_window_keep_system():
 
 
 def test_window_budget_drops_oldest():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     raw = "\n".join(
         [
             json.dumps({"role": "user", "text": "AAAAAAAAAA"}),
@@ -142,14 +142,14 @@ def test_window_budget_drops_oldest():
 
 
 def test_profile_load_mcp_short():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     prof = c.load_profile("mcp-short")
     assert prof.get("pipeline") == "C,E"
     assert prof.get("aggressive_fillers") is True
 
 
 def test_profile_cli_override(capsys):
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     # CLI --layer E overrides profile pipeline
     rc = c.main(
         [
@@ -167,7 +167,7 @@ def test_profile_cli_override(capsys):
 
 
 def test_profile_machine_needs_key():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     env_key = os.environ.pop("TALKCOMPRESS_ZIP_KEY", None)
     try:
         try:
@@ -184,7 +184,7 @@ def test_profile_machine_needs_key():
 
 
 def test_min_ratio_fail():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     # identity layer won't shrink → ratio ~1.0 > 0.5
     rc = c.main(
         [
@@ -202,7 +202,7 @@ def test_min_ratio_fail():
 
 
 def test_min_ratio_allow_weak():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     rc = c.main(
         [
             "--layer",
@@ -237,7 +237,7 @@ def test_protect_regex():
 
 
 def test_protect_via_convo():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     rc = c.main(
         [
             "--layer",
@@ -253,7 +253,7 @@ def test_protect_via_convo():
 
 
 def test_pack_dev_loads():
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     m = s.load_pack("dev")
     assert "pull request" in m or "Pull request".lower() in {k.lower() for k in m}
     sess = s.Session()
@@ -263,7 +263,7 @@ def test_pack_dev_loads():
 
 
 def test_pack_via_convo(capsys):
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     rc = c.main(
         [
             "--layer",
@@ -294,7 +294,7 @@ def test_key_fingerprint_stable():
 
 
 def test_fingerprint_key_cli(capsys):
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     rc = c.main(["--fingerprint-key", "--key", "secret-demo", "--layer", "C", "--text", "x"])
     # fingerprint-key exits before requiring meaningful transform; returns 0
     assert rc == 0
@@ -387,7 +387,7 @@ def test_script_mix_in_stats():
 
 
 def test_apply_window_unit():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     rows = [
         {"role": "system", "text": "S"},
         {"role": "user", "text": "a"},

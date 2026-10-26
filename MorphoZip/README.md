@@ -20,7 +20,7 @@
 2. **一意読み** — 多義の基本動詞を論文調・手順寄りの語へ（find out → ascertain → `ascrt` など）
 3. **語源寄せ** — 近縁 LTR で共有ルートが見える短い形へ（information/información → `info`）。FR `nombre` は偽友なので対象外
 
-F サブプロジェクトは作らず、この層に集約。C（ShorthandLab）は FILLER 除去のみ共有。
+F サブプロジェクトは作らず、この層に集約。C（ShorthandEdge）は FILLER 除去のみ共有。
 
 ```bash
 uv run python MorphoZip/morpho_zip.py --text 'um 私は will find out the information'

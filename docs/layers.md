@@ -6,9 +6,9 @@
 | --- | --- |
 | 1 機械同士 | Zipilogue (A) |
 | 2 文単位多言語 | TesseraTalk (B) |
-| 3 人間ギリギリ | ShorthandLab (C) |
+| 3 人間ギリギリ | ShorthandEdge (C) |
 | 4 文内・文法最小 | MorphoZip (E) |
-| 横断ルーティング | ConvoZip (D) |
+| 横断ルーティング | ConvoHub (D) |
 
 JUnit は CI で `build/test-results/pytest-<ver>.xml` に置き、artifact 名は `junit-py*` です（Aoi / ascii_artist と同系）。
 

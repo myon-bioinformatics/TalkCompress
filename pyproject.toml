@@ -23,7 +23,7 @@ pythonpath = [
   "shared",
   "Zipilogue",
   "TesseraTalk",
-  "ShorthandLab",
-  "ConvoZip",
+  "ShorthandEdge",
+  "ConvoHub",
   "MorphoZip",
 ]

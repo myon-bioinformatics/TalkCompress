@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ShorthandLab (C): slang / abbreviation / emoji / session conventions (layer 3)."""
+"""ShorthandEdge (C): slang / abbreviation / emoji / session conventions (layer 3)."""
 
 from __future__ import annotations
 
@@ -382,7 +382,7 @@ def suggest_hereafter(text: str, *, min_count: int = 2) -> list[dict[str, str | 
 
 
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description="ShorthandLab: layer-3 human shorthand")
+    p = argparse.ArgumentParser(description="ShorthandEdge: layer-3 human shorthand")
     p.add_argument("mode", nargs="?", default="compress", choices=("compress", "expand", "suggest"))
     p.add_argument("--text", help="input; else stdin")
     p.add_argument("--state", help="JSON file for session conventions (read+write on compress)")

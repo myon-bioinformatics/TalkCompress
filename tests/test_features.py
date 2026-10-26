@@ -21,7 +21,7 @@ def _load(name: str, rel: str):
 
 
 def _ns(**kwargs):
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     defaults = dict(
         key=None,
         key_file=None,
@@ -51,7 +51,7 @@ def _ns(**kwargs):
 
 
 def test_pipeline_c_then_e():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     text = "um thank you for your information"
     out = c.run_pipeline(["C", "E"], text, _ns())
     assert "um" not in out.lower()
@@ -61,7 +61,7 @@ def test_pipeline_c_then_e():
 
 
 def test_pipeline_a_without_key_errors():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     try:
         c.run_pipeline(["A", "C"], "hi", _ns(key=None))
         raised = False
@@ -72,7 +72,7 @@ def test_pipeline_a_without_key_errors():
 
 
 def test_parse_pipeline():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     assert c.parse_pipeline("C,E") == ["C", "E"]
     assert c.parse_pipeline("3,4") == ["C", "E"]
     assert c.parse_pipeline("shorthand,morpho") == ["C", "E"]
@@ -82,7 +82,7 @@ def test_parse_pipeline():
 
 
 def test_shorthand_lexicon_load(tmp_path):
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     lex = tmp_path / "lex.json"
     lex.write_text(json.dumps({"continuous delivery": "CDel", "hello world": "hw"}), encoding="utf-8")
     sess = s.Session()
@@ -92,7 +92,7 @@ def test_shorthand_lexicon_load(tmp_path):
 
 
 def test_convo_lexicon_flag(tmp_path):
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     lex = tmp_path / "lex.json"
     lex.write_text(json.dumps({"special phrase": "SP"}), encoding="utf-8")
     out = c.transform_line("C", "use the special phrase now", _ns(lexicon=str(lex)))
@@ -246,7 +246,7 @@ def test_zipilogue_file_cli(tmp_path):
 
 
 def test_compare_json_shape():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     rows = c.compare_layers("thank you for your information about 3 animals", _ns())
     assert len(rows) >= 3
     for row in rows:
@@ -262,7 +262,7 @@ def test_compare_json_shape():
 
 
 def test_convo_file_and_out(tmp_path):
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     inp = tmp_path / "in.txt"
     outp = tmp_path / "out.txt"
     inp.write_text("for your information", encoding="utf-8")
@@ -272,7 +272,7 @@ def test_convo_file_and_out(tmp_path):
 
 
 def test_convo_pipeline_cli():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     buf = io.StringIO()
     old = sys.stdout
     try:
@@ -287,7 +287,7 @@ def test_convo_pipeline_cli():
 
 
 def test_convo_compare_cli():
-    c = _load("convo_zip", "ConvoZip/convo_zip.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
     buf = io.StringIO()
     old = sys.stdout
     try:

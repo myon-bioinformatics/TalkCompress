@@ -1,4 +1,6 @@
-# ShorthandLab（C）
+# ShorthandEdge（C）
+
+語源: *shorthand*（速記・略語）+ *edge*（人間側の縁・境界）。層3の「人間ギリギリ」のエッジ。
 
 **層3 — 人間同士のギリギリ。** スラング・略語・絵文字・「以降こう書く」規約。
 
@@ -11,9 +13,9 @@
 - `compress` / `expand` 双方向
 
 ```bash
-uv run python ShorthandLab/shorthand_lab.py compress --text 'as soon as possible'
-uv run python ShorthandLab/shorthand_lab.py compress --lexicon extra.json --text 'special phrase here'
-uv run python ShorthandLab/shorthand_lab.py compress --state /tmp/sh.json --text $'hereafter pull request=PR\nopen a pull request'
+uv run python ShorthandEdge/shorthand_edge.py compress --text 'as soon as possible'
+uv run python ShorthandEdge/shorthand_edge.py compress --lexicon extra.json --text 'special phrase here'
+uv run python ShorthandEdge/shorthand_edge.py compress --state /tmp/sh.json --text $'hereafter pull request=PR\nopen a pull request'
 ```
 
 ## Domain packs

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ConvoZip (D): cross-layer router / shared CLI for TalkCompress A–E.
+"""ConvoHub (D): cross-layer router / shared CLI for TalkCompress A–E.
 
 Supports single ``--layer``, sequential ``--pipeline C,E``, ``--budget``,
 ``--role-layers``, ``--auto``, ``--trace``, ``--window``, ``--profile``,
@@ -33,9 +33,11 @@ _LAYER_ALIASES: dict[str, str] = {
     "tessera": "B",
     "tessera_talk": "B",
     "shorthand": "C",
-    "shorthand_lab": "C",
+    "shorthand_edge": "C",
+    "shorthand_lab": "C",  # compat
     "convo": "D",
-    "convo_zip": "D",
+    "convo_hub": "D",
+    "convo_zip": "D",  # compat
     "morpho": "E",
     "morpho_zip": "E",
     "identity": "identity",
@@ -67,7 +69,7 @@ def parse_pipeline(raw: str) -> list[str]:
     layers = [resolve_layer(p) for p in parts]
     for layer in layers:
         if layer == "D":
-            raise SystemExit("D is this router; omit from --pipeline")
+            raise SystemExit("D (ConvoHub) is this router; omit from --pipeline")
         if layer == "identity":
             continue
         if layer not in ("A", "B", "C", "E"):
@@ -415,7 +417,7 @@ def _run_b(text: str, args: argparse.Namespace) -> str:
 
 
 def _run_c(text: str, args: argparse.Namespace) -> str:
-    s = _load("shorthand_lab", "ShorthandLab/shorthand_lab.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     sess = s.Session()
     packs = getattr(args, "pack", None)
     if packs:
@@ -659,7 +661,7 @@ def compare_layers(text: str, args: argparse.Namespace) -> list[dict[str, Any]]:
     rows.append(
         {
             "layer": "C",
-            "name": "ShorthandLab",
+            "name": "ShorthandEdge",
             "chars_before": before,
             "chars_after": len(c_out),
             "ratio": round(len(c_out) / before, 4) if before else 0.0,
@@ -787,16 +789,16 @@ def process_jsonl(
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        description="ConvoZip: route TalkCompress layers A–E / 1–4",
+        description="ConvoHub: route TalkCompress layers A–E / 1–4",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""examples:
-  uv run python ConvoZip/convo_zip.py --layer 3 --text "as soon as possible"
-  uv run python ConvoZip/convo_zip.py --pipeline C,E --text "um thank you for your information"
-  uv run python ConvoZip/convo_zip.py --budget 40 --text "um thank you for your information please"
-  uv run python ConvoZip/convo_zip.py --auto --text "Hello. こんにちは。Thanks a lot."
-  uv run python ConvoZip/convo_zip.py --compare --text "I have 3 animals and 2 people"
-  uv run python ConvoZip/convo_zip.py --profile mcp-short --text "um thank you"
-  uv run python ConvoZip/convo_zip.py --pipeline C,E --jsonl --window 3 --keep-system --file examples/window_chat.jsonl
+  uv run python ConvoHub/convo_hub.py --layer 3 --text "as soon as possible"
+  uv run python ConvoHub/convo_hub.py --pipeline C,E --text "um thank you for your information"
+  uv run python ConvoHub/convo_hub.py --budget 40 --text "um thank you for your information please"
+  uv run python ConvoHub/convo_hub.py --auto --text "Hello. こんにちは。Thanks a lot."
+  uv run python ConvoHub/convo_hub.py --compare --text "I have 3 animals and 2 people"
+  uv run python ConvoHub/convo_hub.py --profile mcp-short --text "um thank you"
+  uv run python ConvoHub/convo_hub.py --pipeline C,E --jsonl --window 3 --keep-system --file examples/window_chat.jsonl
 """,
     )
     g = p.add_mutually_exclusive_group(required=False)
@@ -866,12 +868,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="TesseraTalk: keep blank-line paragraph breaks",
     )
-    p.add_argument("--state", help="ShorthandLab session JSON path")
-    p.add_argument("--lexicon", help="ShorthandLab extra lexicon JSON to merge")
+    p.add_argument("--state", help="ShorthandEdge session JSON path")
+    p.add_argument("--lexicon", help="ShorthandEdge extra lexicon JSON to merge")
     p.add_argument(
         "--export-lexicon",
         dest="export_lexicon",
-        help="ShorthandLab: dump effective lexicon JSON to PATH after compress",
+        help="ShorthandEdge: dump effective lexicon JSON to PATH after compress",
     )
     p.add_argument("--stats", action="store_true", help="MorphoZip/TesseraTalk/budget stats on stderr")
     p.add_argument("--no-strip", action="store_true", help="MorphoZip: keep fillers")
@@ -912,7 +914,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         default=None,
         dest="pack",
-        help="ShorthandLab domain pack (repeatable: dev, mcp)",
+        help="ShorthandEdge domain pack (repeatable: dev, mcp)",
     )
     p.add_argument(
         "--protect-regex",
@@ -1125,7 +1127,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.layer:
         default_layer = resolve_layer(args.layer)
         if default_layer == "D":
-            p.error("D is this router; pick A–C or E / layers 1–4")
+            p.error("D (ConvoHub) is this router; pick A–C or E / layers 1–4")
     elif role_map:
         default_layer = "C"
     elif getattr(args, "window", None) is not None:

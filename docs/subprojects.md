@@ -6,8 +6,8 @@ TalkCompress は A–E の**親**です。将来まとめて切り出すとき�
 | --- | --- | --- |
 | A | `Zipilogue/` | 1 機械同士 |
 | B | `TesseraTalk/` | 2 文単位多言語 |
-| C | `ShorthandLab/` | 3 人間ギリギリ |
-| D | `ConvoZip/` | 横断ルーティング |
+| C | `ShorthandEdge/` | 3 人間ギリギリ |
+| D | `ConvoHub/` | 横断ルーティング |
 | E | `MorphoZip/` | 4 文内・文法最小 |
 
 ## 真親への登録はしない

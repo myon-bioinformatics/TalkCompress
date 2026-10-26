@@ -1,6 +1,6 @@
 """Lexeme policy: fillers, unique-reading preference, light etymon alignment.
 
-Used primarily by MorphoZip (E); filler stripping is also safe for ShorthandLab (C).
+Used primarily by MorphoZip (E); filler stripping is also safe for ShorthandEdge (C).
 """
 
 from __future__ import annotations
