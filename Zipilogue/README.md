@@ -49,7 +49,7 @@ uv run python Zipilogue/zipilogue.py rule-decode --state book.json --text '...'
 uv run python Zipilogue/zipilogue.py rule-sim --state book.json --corpus turns.txt
 ```
 
-ConvoHub からは `--layer A --rule-state book.json`（鍵は任意）。
+DispatchHub からは `--layer A --rule-state book.json`（鍵は任意）。
 
 ## 任意: MAC 封筒（stdlib のみ）
 

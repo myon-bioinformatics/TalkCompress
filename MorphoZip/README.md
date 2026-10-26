@@ -19,9 +19,8 @@
 
 1. **一意読み（長い形）** — find out → `ascertain`（UNIQUE_COMPACT の `ascrt` は付けない）
 2. **語源寄せ** — information/info/情報/información → `ℹ️`（U+2139 U+FE0F）
-3. **D 台帳 lex** — `ConvoHub/ledger/conventions.json`（`shared.ledger`）。under/below→`下`、デコボコ→`凹凸` など。`--no-ledger` でオフ
 
-**FILLER 除去・UNIQUE_COMPACT（ascrt）・`I'll`・スペル数字→桁は C（ShorthandEdge）の担当。** E 単体ではフィラーを残し、`I will` のまま、スペル数字も残す。`--strip` / `--aggressive-fillers` / `--spelled-nums` でオプトイン可。パイプライン `C,E` なら C が先にフィラー・I'll・桁化を行う。
+**FILLER 除去・UNIQUE_COMPACT（ascrt）・`I'll`・スペル数字→桁・合意台帳 lex（下/凹凸）は C（ShorthandEdge）の担当。** E 単体ではフィラーを残し、`I will` のまま、スペル数字も残し、under もそのまま。`--strip` / `--aggressive-fillers` / `--spelled-nums` でオプトイン可。パイプライン `C,E` なら C が先にフィラー・I'll・桁化・台帳 lex を行う。
 
 ```bash
 uv run python MorphoZip/morpho_zip.py --text '私は will find out the information about three animals'

@@ -1,4 +1,4 @@
-"""ConvoHub (D) agreed-convention ledger: load + E-applied lex."""
+"""ShorthandEdge (C) agreed-convention ledger: load + C-applied lex."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ def _load(name: str, rel: str):
 
 
 def _ns(**kwargs):
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     defaults = dict(
         key=None,
         key_file=None,
@@ -78,6 +78,9 @@ def test_ledger_file_exists_and_loads():
 
     path = default_ledger_path()
     assert path.is_file()
+    assert "ShorthandEdge" in str(path)
+    assert "ConvoHub" not in str(path)
+    assert "DispatchHub" not in str(path)
     data = load_ledger()
     assert data["version"] == 1
     assert "meta" in data
@@ -86,8 +89,10 @@ def test_ledger_file_exists_and_loads():
     assert "spatial-under" in ids
     assert "uneven-凹凸" in ids
     assert "policy-base-mix" in ids
-    lex = list_conventions(kind="lex", apply_layer="E")
+    lex = list_conventions(kind="lex", apply_layer="C")
     assert any(c["id"] == "spatial-under" for c in lex)
+    # E-tagged lex rows should be empty (all current lex is C)
+    assert list_conventions(kind="lex", apply_layer="E") == []
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -110,35 +115,45 @@ def test_ledger_lex_under_below_and_凹凸():
     assert "understand" in apply_ledger_lex("I understand now").lower()
 
 
-def test_morpho_applies_ledger_under_and_凹凸():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    out = m.compress("put it under the table", unique=False, etymon=False, counters=False)
+def test_shorthand_applies_ledger_under_and_凹凸():
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    out = s.compress("put it under the table")
     assert "下" in out
     assert "under" not in out.lower()
-    # articles stripped → 下 table-ish
-    assert "the" not in out.lower() or "下" in out
 
-    out2 = m.compress("below average results", unique=False, etymon=False, counters=False)
+    out2 = s.compress("below average results")
     assert "下" in out2
     assert "below" not in out2.lower()
 
-    out3 = m.compress("この道はデコボコだ", unique=False, etymon=False, counters=False)
+    out3 = s.compress("この道はデコボコだ")
     assert "凹凸" in out3
     assert "デコボコ" not in out3
 
-    out4 = m.compress("bumpy path", unique=False, etymon=False, counters=False)
+    out4 = s.compress("bumpy path")
     assert "凹凸" in out4
 
     # opt-out
-    kept = m.compress("under the table", ledger=False, unique=False, etymon=False, counters=False)
+    kept = s.compress("under the table", ledger=False)
     assert "under" in kept.lower()
 
 
+def test_morpho_does_not_apply_ledger_under():
+    """E alone should leave under/凹凸 alone (C owns ledger lex)."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    out = m.compress("put it under the table", unique=False, etymon=False, counters=False)
+    assert "under" in out.lower()
+    assert "下" not in out
+
+    out3 = m.compress("この道はデコボコだ", unique=False, etymon=False, counters=False)
+    assert "デコボコ" in out3
+    assert "凹凸" not in out3
+
+
 def test_classic_matrix_still_holds_with_ledger():
-    """Regression: tip 5648184 ownership matrix (I'll/nums on C; ℹ️ on E)."""
+    """Regression: I'll/nums/ledger on C; ℹ️ on E."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     classic = "um 私は will find out the information about three animals"
 
     from shared.lex_policy import INFO_GLYPH
@@ -168,3 +183,12 @@ def test_classic_matrix_still_holds_with_ledger():
     assert pipe == "I'll ascrt ℹ️ about 3匹" or (
         "I'll" in pipe and "ascrt" in pipe.lower() and INFO_GLYPH in pipe and "3匹" in pipe
     )
+
+
+def test_d_does_not_own_ledger_path():
+    from shared.ledger import default_ledger_path
+
+    path = default_ledger_path()
+    assert path == ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
+    assert not (ROOT / "DispatchHub" / "ledger").exists()
+    assert not (ROOT / "ConvoHub").exists()

@@ -24,6 +24,6 @@ pythonpath = [
   "Zipilogue",
   "TesseraTalk",
   "ShorthandEdge",
-  "ConvoHub",
+  "DispatchHub",
   "MorphoZip",
 ]

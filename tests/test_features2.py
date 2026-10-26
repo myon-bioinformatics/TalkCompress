@@ -24,7 +24,7 @@ def _load(name: str, rel: str):
 
 
 def _ns(**kwargs):
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     defaults = dict(
         key=None,
         key_file=None,
@@ -58,7 +58,7 @@ def _ns(**kwargs):
 
 
 def test_budget_shrinks():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     text = "um thank you for your information please let me know as soon as possible"
     out = c.run_budget(text, _ns(), budget=40, layers=["C", "E"])
     assert len(out) < len(text)
@@ -66,14 +66,14 @@ def test_budget_shrinks():
 
 
 def test_budget_passthrough_when_under():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     text = "hi"
     out = c.run_budget(text, _ns(), budget=100, layers=["C", "E"])
     assert out == text
 
 
 def test_budget_cli_stats(capsys):
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     rc = c.main(
         [
             "--budget",
@@ -93,7 +93,7 @@ def test_budget_cli_stats(capsys):
 
 
 def test_role_layers_jsonl():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     raw = "\n".join(
         [
             json.dumps({"role": "system", "text": "Keep this exact system prompt."}),
@@ -111,7 +111,7 @@ def test_role_layers_jsonl():
 
 
 def test_role_layers_cli(tmp_path):
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     inp = tmp_path / "chat.jsonl"
     inp.write_text(
         json.dumps({"role": "user", "text": "for your information"}) + "\n"
@@ -137,7 +137,7 @@ def test_role_layers_cli(tmp_path):
 
 
 def test_trace_shape():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     trace: list = []
     c.run_pipeline(["C", "E"], "um thank you for your information", _ns(), trace=trace)
     assert len(trace) == 2
@@ -152,7 +152,7 @@ def test_trace_shape():
 
 
 def test_trace_cli(capsys):
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     rc = c.main(["--pipeline", "C,E", "--trace", "--text", "um thank you"])
     assert rc == 0
     err = capsys.readouterr().err
@@ -162,7 +162,7 @@ def test_trace_cli(capsys):
 
 
 def test_auto_returns_nonempty():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     text = "Hello there friend. こんにちは世界。Thanks for your information."
     layers = c.choose_auto_layers(text, _ns())
     assert layers
@@ -173,7 +173,7 @@ def test_auto_returns_nonempty():
 
 
 def test_auto_cli(capsys):
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     rc = c.main(["--auto", "--text", "lol as soon as possible please"])
     assert rc == 0
     out = capsys.readouterr().out.strip()
@@ -182,7 +182,7 @@ def test_auto_cli(capsys):
 
 
 def test_auto_machine_appends_a_when_key():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     layers = c.choose_auto_layers("hello world asap", _ns(auto_machine=True, key="secret"))
     assert "A" in layers
 
@@ -291,7 +291,7 @@ def test_convo_lex_policy_flag(tmp_path):
     import shared.lex_policy as lp
 
     backup = lp.dump_policy()
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     pol = tmp_path / "p.json"
     pol.write_text(
         json.dumps({"fillers_en": ["zzzzz"], "fillers_ja": []}),
@@ -328,7 +328,7 @@ def test_tessera_preserve_newlines():
 
 
 def test_parse_role_layers_plus():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     m = c.parse_role_layers("user=C+E,system=skip")
     assert m["user"] == ["C", "E"]
     assert m["system"] == "identity"

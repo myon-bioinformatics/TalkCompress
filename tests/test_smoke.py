@@ -202,11 +202,11 @@ def test_morpho_counters_kept():
     assert "個" in m.compress("飴が7個ある")
 
 
-# --- D ConvoHub ---
+# --- D DispatchHub ---
 
 
 def test_convo_resolve_layer():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     assert c.resolve_layer("1") == "A"
     assert c.resolve_layer("tessera") == "B"
     assert c.resolve_layer("C") == "C"
@@ -214,7 +214,7 @@ def test_convo_resolve_layer():
 
 
 def test_convo_route_shorthand():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     ns = c.argparse.Namespace(
         key=None,
         key_file=None,
@@ -228,7 +228,7 @@ def test_convo_route_shorthand():
 
 
 def test_convo_jsonl():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     ns = c.argparse.Namespace(
         key=None,
         key_file=None,
@@ -245,7 +245,7 @@ def test_convo_jsonl():
 
 
 def test_convo_zipilogue_route():
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     ns = c.argparse.Namespace(
         key="route-key",
         key_file=None,

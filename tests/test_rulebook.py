@@ -133,8 +133,8 @@ def test_rule_encode_with_optional_key(tmp_path, capsys):
     assert "ping pong" in buf.out
 
 
-def test_convo_hub_rule_state_without_key(tmp_path):
-    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+def test_dispatch_hub_rule_state_without_key(tmp_path):
+    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
     state = tmp_path / "book.json"
     book = rb.RuleBook.load(state)

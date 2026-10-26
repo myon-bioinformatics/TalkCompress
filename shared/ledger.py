@@ -1,12 +1,13 @@
-"""ConvoHub (D) agreed-convention ledger loader.
+"""ShorthandEdge (C) agreed-convention ledger loader.
 
-D owns ``ConvoHub/ledger/conventions.json`` as the source of truth for
-already-decided policies and lex replacements across A–E. Layers (typically E
-for etymon/symbol/字 substitutions) load via this module rather than hardcoding
-only in MorphoZip.
+C owns ``ShorthandEdge/ledger/conventions.json`` as the source of truth for
+already-decided lex replacements and policy notes (first-round registration).
+ShorthandEdge applies lex entries during compress by default.
 
 Zipilogue RuleBook (A) remains a separate evolving slang ledger for machine
 peers; this file is the static human-agreed registry.
+
+D (DispatchHub) is router-only and does not own this ledger.
 """
 
 from __future__ import annotations
@@ -18,7 +19,7 @@ from pathlib import Path
 from typing import Any
 
 _ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_LEDGER_PATH = _ROOT / "ConvoHub" / "ledger" / "conventions.json"
+DEFAULT_LEDGER_PATH = _ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
 
 
 def default_ledger_path() -> Path:
@@ -26,7 +27,7 @@ def default_ledger_path() -> Path:
 
 
 def load_ledger(path: str | Path | None = None) -> dict[str, Any]:
-    """Load the ConvoHub conventions ledger JSON (source of truth under D)."""
+    """Load the ShorthandEdge conventions ledger JSON (source of truth under C)."""
     p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
     data = json.loads(p.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
@@ -59,7 +60,7 @@ def list_conventions(
 def lex_replacements(
     path: str | Path | None = None,
     *,
-    apply_layer: str = "E",
+    apply_layer: str = "C",
 ) -> list[tuple[str, str]]:
     """Flatten lex conventions for ``apply_layer`` into (from, to) pairs.
 
@@ -82,9 +83,9 @@ def apply_ledger_lex(
     text: str,
     path: str | Path | None = None,
     *,
-    apply_layer: str = "E",
+    apply_layer: str = "C",
 ) -> str:
-    """Apply D-ledger lex replacements owned by ``apply_layer`` (default E).
+    """Apply C-ledger lex replacements owned by ``apply_layer`` (default C).
 
     ASCII sources use word boundaries; non-ASCII (JA/ZH) use plain replace.
     """
@@ -107,7 +108,7 @@ def apply_ledger_lex_cached(
     text: str,
     path: str | Path | None = None,
     *,
-    apply_layer: str = "E",
+    apply_layer: str = "C",
 ) -> str:
     """Same as ``apply_ledger_lex`` but caches the replacement table per path."""
     p = str(Path(path) if path is not None else DEFAULT_LEDGER_PATH)
@@ -126,13 +127,16 @@ def convention_ids(path: str | Path | None = None) -> list[str]:
 
 def main(argv: list[str] | None = None) -> int:
     import argparse
-    import sys
 
-    p = argparse.ArgumentParser(description="TalkCompress ConvoHub (D) convention ledger")
-    p.add_argument("--path", default=None, help="ledger JSON (default: ConvoHub/ledger/conventions.json)")
+    p = argparse.ArgumentParser(description="TalkCompress ShorthandEdge (C) convention ledger")
+    p.add_argument(
+        "--path",
+        default=None,
+        help="ledger JSON (default: ShorthandEdge/ledger/conventions.json)",
+    )
     p.add_argument("--list", action="store_true", help="list convention ids / summaries")
-    p.add_argument("--apply", metavar="TEXT", help="apply E-layer lex replacements to TEXT")
-    p.add_argument("--layer", default="E", help="apply_layer filter (default E)")
+    p.add_argument("--apply", metavar="TEXT", help="apply C-layer lex replacements to TEXT")
+    p.add_argument("--layer", default="C", help="apply_layer filter (default C)")
     args = p.parse_args(argv)
     if args.list:
         for c in list_conventions(args.path):
