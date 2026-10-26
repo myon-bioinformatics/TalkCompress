@@ -54,3 +54,7 @@ uv run python DispatchHub/dispatch_hub.py --layer B --stats --text 'Hello. こ�
 - `--profile NAME` / `--profile-file`（`profiles/`。CLI が上書き）
 - `--min-ratio` / `--allow-weak` / `--max-loss-tokens` / `--strict-loss`
 - `--pack` / `--protect-regex` / `[[keep:...]]` / `--prefer-ltr` / `--fingerprint-key`
+
+## テスト
+
+**D 所有の pytest は実質ゼロ。** 層単体はリポ直下 `tests/`、またぎは `tests/integration/`（結合・総合）。詳細は [`DispatchHub/tests/README.md`](tests/README.md)。

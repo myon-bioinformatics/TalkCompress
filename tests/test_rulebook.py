@@ -133,20 +133,6 @@ def test_rule_encode_with_optional_key(tmp_path, capsys):
     assert "ping pong" in buf.out
 
 
-def test_dispatch_hub_rule_state_without_key(tmp_path):
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
-    state = tmp_path / "book.json"
-    book = rb.RuleBook.load(state)
-    book.declare("alpha beta gamma", "r1")
-    book.save()
-    ns = c.build_parser().parse_args(
-        ["--layer", "A", "--rule-state", str(state), "--text", "see alpha beta gamma"]
-    )
-    out = c._run_a("see alpha beta gamma", ns, decode=False)
-    assert "r1" in out
-    assert "alpha beta gamma" not in out
-
 
 def test_crypto_roundtrip_still_works():
     """Do not regress classic Zipilogue envelope."""

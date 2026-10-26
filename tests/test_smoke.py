@@ -1,4 +1,7 @@
-"""Smoke + behavioral tests for TalkCompress A–E."""
+"""Smoke + behavioral tests for TalkCompress A/B/C/E (layer unit).
+
+Cross-layer / DispatchHub wiring → tests/integration/.
+"""
 
 from __future__ import annotations
 
@@ -201,63 +204,6 @@ def test_morpho_counters_kept():
     assert "匹" in m.compress("犬が3匹いる")
     assert "個" in m.compress("飴が7個ある")
 
-
-# --- D DispatchHub ---
-
-
-def test_convo_resolve_layer():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    assert c.resolve_layer("1") == "A"
-    assert c.resolve_layer("tessera") == "B"
-    assert c.resolve_layer("C") == "C"
-    assert c.resolve_layer("morpho") == "E"
-
-
-def test_convo_route_shorthand():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    ns = c.argparse.Namespace(
-        key=None,
-        key_file=None,
-        langs=None,
-        state=None,
-        stats=False,
-        mode="compress",
-    )
-    out = c.transform_line("C", "for your information", ns)
-    assert "FYI" in out
-
-
-def test_convo_jsonl():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    ns = c.argparse.Namespace(
-        key=None,
-        key_file=None,
-        langs=None,
-        state=None,
-        stats=False,
-        mode="compress",
-    )
-    raw = json.dumps({"role": "user", "text": "thank you"}, ensure_ascii=False)
-    out = c.process_jsonl(raw, ns, default_layer="C")
-    obj = json.loads(out)
-    assert obj["role"] == "user"
-    assert "ty" in obj["text"].lower() or obj["text"] == "ty"
-
-
-def test_convo_zipilogue_route():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    ns = c.argparse.Namespace(
-        key="route-key",
-        key_file=None,
-        langs=None,
-        state=None,
-        stats=False,
-        mode="encode",
-    )
-    env = c.transform_line("A", "hi", ns)
-    ns.mode = "decode"
-    plain = c.transform_line("A", env, ns)
-    assert plain == "hi"
 
 
 # --- shared lex_policy / E uniqueness ---

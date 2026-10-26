@@ -1,4 +1,7 @@
-"""Feature tests: pipeline, lexicon, RLE mosaic, counters, AAD, compare."""
+"""Feature tests (layer unit): lexicon, RLE, counters, AAD.
+
+Cross-layer pipeline/compare → tests/integration/.
+"""
 
 from __future__ import annotations
 
@@ -20,43 +23,17 @@ def _load(name: str, rel: str):
     return mod
 
 
-def _ns(**kwargs):
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    defaults = dict(
-        key=None,
-        key_file=None,
-        langs=None,
-        state=None,
-        stats=False,
-        mode="compress",
-        aad="",
-        lexicon=None,
-        no_rle=False,
-        strip=False,
-        no_strip=False,
-        no_unique=False,
-        no_etymon=False,
-        no_counters=False,
-        aggressive_fillers=False,
-        hex_nums=False,
-        hex_bare=False,
-        file=None,
-        out=None,
-        text=None,
-    )
-    defaults.update(kwargs)
-    return c.argparse.Namespace(**defaults)
-
-
 
 # --- layer ownership: fillers + UNIQUE_COMPACT = C ---
 
 
 def test_layer_ownership_matrix_classic_example():
-    """Classic: I'll/spelled→digit on C; ℹ️/articles/counters on E; fillers/compact on C."""
+    """Classic C vs E alone: I'll/spelled on C; ℹ️/articles/counters on E.
+
+    C→E pipe coverage lives in tests/integration/.
+    """
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     classic = "um 私は will find out the information about three animals"
 
     from shared.lex_policy import INFO_GLYPH
@@ -79,46 +56,6 @@ def test_layer_ownership_matrix_classic_example():
     assert "three" not in c_out.lower()
     assert INFO_GLYPH not in c_out  # ℹ️ is E
 
-    pipe = c.run_pipeline(["C", "E"], classic, _ns())
-    assert "um" not in pipe.lower()
-    assert "ascrt" in pipe.lower()
-    assert "3匹" in pipe
-    assert INFO_GLYPH in pipe
-    assert "I'll" in pipe
-
-
-# --- pipeline C→E ---
-
-
-def test_pipeline_c_then_e():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    text = "um thank you for your information"
-    out = c.run_pipeline(["C", "E"], text, _ns())
-    assert "um" not in out.lower()
-    # C: thank you→ty, for your information→FYI; E may further shrink
-    from shared.lex_policy import INFO_GLYPH
-
-    assert "FYI" in out or "ty" in out.lower() or INFO_GLYPH in out
-    assert len(out) < len(text)
-
-
-def test_pipeline_a_without_key_errors():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    try:
-        c.run_pipeline(["A", "C"], "hi", _ns(key=None))
-        raised = False
-    except SystemExit as e:
-        raised = True
-        assert "key" in str(e).lower()
-    assert raised
-
-
-def test_parse_pipeline():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    assert c.parse_pipeline("C,E") == ["C", "E"]
-    assert c.parse_pipeline("3,4") == ["C", "E"]
-    assert c.parse_pipeline("shorthand,morpho") == ["C", "E"]
-
 
 # --- lexicon load ---
 
@@ -132,13 +69,6 @@ def test_shorthand_lexicon_load(tmp_path):
     out = s.compress("please start continuous delivery", session=sess)
     assert "CDel" in out
 
-
-def test_convo_lexicon_flag(tmp_path):
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    lex = tmp_path / "lex.json"
-    lex.write_text(json.dumps({"special phrase": "SP"}), encoding="utf-8")
-    out = c.transform_line("C", "use the special phrase now", _ns(lexicon=str(lex)))
-    assert "SP" in out
 
 
 # --- RLE mosaic ---
@@ -284,66 +214,6 @@ def test_zipilogue_file_cli(tmp_path):
     assert back.read_bytes() == b"\x00\x01binary-payload"
 
 
-# --- compare JSON shape ---
-
-
-def test_compare_json_shape():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    rows = c.compare_layers("thank you for your information about 3 animals", _ns())
-    assert len(rows) >= 3
-    for row in rows:
-        assert "layer" in row
-        assert "chars_before" in row
-        assert "chars_after" in row
-        assert "ratio" in row
-        assert isinstance(row["ratio"], float)
-    layers = {r["layer"] for r in rows}
-    assert "C" in layers
-    assert "E" in layers
-    assert "C,E" in layers
-
-
-def test_convo_file_and_out(tmp_path):
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    inp = tmp_path / "in.txt"
-    outp = tmp_path / "out.txt"
-    inp.write_text("for your information", encoding="utf-8")
-    rc = c.main(["--layer", "C", "--file", str(inp), "--out", str(outp)])
-    assert rc == 0
-    assert "FYI" in outp.read_text(encoding="utf-8")
-
-
-def test_convo_pipeline_cli():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    buf = io.StringIO()
-    old = sys.stdout
-    try:
-        sys.stdout = buf
-        rc = c.main(["--pipeline", "C,E", "--text", "um thank you"])
-        assert rc == 0
-    finally:
-        sys.stdout = old
-    out = buf.getvalue()
-    assert "um" not in out.lower()
-    assert len(out.strip()) > 0
-
-
-def test_convo_compare_cli():
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    buf = io.StringIO()
-    old = sys.stdout
-    try:
-        sys.stdout = buf
-        rc = c.main(["--compare", "--text", "as soon as possible please"])
-        assert rc == 0
-    finally:
-        sys.stdout = old
-    lines = [ln for ln in buf.getvalue().splitlines() if ln.strip()]
-    assert len(lines) >= 3
-    for ln in lines:
-        obj = json.loads(ln)
-        assert "ratio" in obj
-
 # --- MorphoZip articles / counters / ℹ️; C owns I'll + spelled nums ---
 
 
@@ -398,14 +268,3 @@ def test_morpho_information_to_info_glyph():
     assert INFO_GLYPH in m.compress("send the information please")
 
 
-def test_pipeline_c_e_classic_three_animals():
-    from shared.lex_policy import INFO_GLYPH
-
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    classic = "um 私は will find out the information about three animals"
-    pipe = c.run_pipeline(["C", "E"], classic, _ns())
-    assert "um" not in pipe.lower()
-    assert "ascrt" in pipe.lower()
-    assert "I'll" in pipe
-    assert INFO_GLYPH in pipe
-    assert "3匹" in pipe

@@ -21,58 +21,6 @@ def _load(name: str, rel: str):
     return mod
 
 
-def _ns(**kwargs):
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    defaults = dict(
-        key=None,
-        key_file=None,
-        langs=None,
-        state=None,
-        stats=False,
-        mode="compress",
-        aad="",
-        lexicon=None,
-        export_lexicon=None,
-        no_rle=False,
-        preserve_newlines=False,
-        prefer_ltr=False,
-        strip=False,
-        no_strip=False,
-        no_unique=False,
-        no_etymon=False,
-        no_counters=False,
-        aggressive_fillers=False,
-        hex_nums=False,
-        hex_bare=False,
-        file=None,
-        out=None,
-        text=None,
-        pipeline=None,
-        auto_machine=False,
-        lex_policy=None,
-        trace=False,
-        jsonl=False,
-        window=None,
-        keep_system=False,
-        pack=None,
-        protect_regex=None,
-        min_ratio=None,
-        allow_weak=False,
-        max_loss_tokens=None,
-        strict_loss=False,
-        budget=None,
-        role_layers=None,
-        auto=False,
-        layer=None,
-        compare=False,
-        keep_articles=False,
-        spelled_nums=False,
-        rule_state=None,
-    )
-    defaults.update(kwargs)
-    return c.argparse.Namespace(**defaults)
-
-
 def test_ledger_file_exists_and_loads():
     from shared.ledger import convention_ids, default_ledger_path, list_conventions, load_ledger
 
@@ -150,10 +98,9 @@ def test_morpho_does_not_apply_ledger_under():
 
 
 def test_classic_matrix_still_holds_with_ledger():
-    """Regression: I'll/nums/ledger on C; ℹ️ on E."""
+    """Regression C/E alone: I'll/nums/ledger on C; ℹ️ on E (pipe → integration)."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    c = _load("dispatch_hub", "DispatchHub/dispatch_hub.py")
     classic = "um 私は will find out the information about three animals"
 
     from shared.lex_policy import INFO_GLYPH
@@ -173,16 +120,6 @@ def test_classic_matrix_still_holds_with_ledger():
     assert "I'll" in c_out
     assert "3" in c_out
     assert INFO_GLYPH not in c_out
-
-    pipe = c.run_pipeline(["C", "E"], classic, _ns())
-    assert "um" not in pipe.lower()
-    assert "ascrt" in pipe.lower()
-    assert "3匹" in pipe
-    assert INFO_GLYPH in pipe
-    assert "I'll" in pipe
-    assert pipe == "I'll ascrt ℹ️ about 3匹" or (
-        "I'll" in pipe and "ascrt" in pipe.lower() and INFO_GLYPH in pipe and "3匹" in pipe
-    )
 
 
 def test_d_does_not_own_ledger_path():
