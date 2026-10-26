@@ -236,43 +236,9 @@ def test_lex_unique_and_etymon():
     assert apply_etymon_align("info") == INFO_GLYPH
 
 
-def test_morpho_alone_keeps_fillers_no_compact():
-    """E alone: fillers kept; UNIQUE_READINGS long form; no UNIQUE_COMPACT/I'll/spelled."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    from shared.lex_policy import INFO_GLYPH
-
-    out = m.compress("um 私は will find out the information about three animals")
-    assert out.lower().startswith("um") or "um" in out.lower()
-    assert "I" in out
-    assert "I'll" not in out
-    assert "I will" in out
-    assert INFO_GLYPH in out
-    assert "ascertain" in out.lower()
-    assert "ascrt" not in out.lower()
-    assert "find out" not in out.lower()
-    assert "three" in out.lower()
-    assert "3匹" not in out
-    assert " the " not in f" {out} "
-
-
 def test_morpho_opt_in_strip():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     out = m.compress("um ready", strip=True)
     assert "um" not in out.lower()
     assert "ready" in out
 
-
-def test_shorthand_strips_fillers_and_compacts():
-    """C alone: fillers stripped + UNIQUE_COMPACT (ascrt) + I'll + spelled→digit."""
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    out = s.compress("um for your information")
-    assert "FYI" in out
-    assert "um" not in out.lower()
-    out2 = s.compress("please find out the answer")
-    assert "ascrt" in out2.lower()
-    assert "find out" not in out2.lower()
-    out3 = s.compress("um 私は will find out about three animals")
-    assert "um" not in out3.lower()
-    assert "I'll" in out3
-    assert "ascrt" in out3.lower()
-    assert "3" in out3

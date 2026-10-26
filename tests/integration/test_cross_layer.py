@@ -47,6 +47,7 @@ def test_parse_pipeline():
 
 
 def test_pipeline_c_e_classic_three_animals():
+    """Canonical C→E pipe for classic example (C/E alone → test_features)."""
     from shared.lex_policy import INFO_GLYPH
 
     c = load("dispatch_hub", "DispatchHub/dispatch_hub.py")
@@ -57,33 +58,6 @@ def test_pipeline_c_e_classic_three_animals():
     assert "I'll" in pipe
     assert INFO_GLYPH in pipe
     assert "3匹" in pipe
-
-
-def test_layer_ownership_matrix_c_then_e_pipe():
-    """Alsoぎ: C→E pipe for classic example (C/E alone covered in layer tests)."""
-    from shared.lex_policy import INFO_GLYPH
-
-    c = load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    classic = "um 私は will find out the information about three animals"
-    pipe = c.run_pipeline(["C", "E"], classic, ns())
-    assert "um" not in pipe.lower()
-    assert "ascrt" in pipe.lower()
-    assert "3匹" in pipe
-    assert INFO_GLYPH in pipe
-    assert "I'll" in pipe
-
-
-def test_classic_matrix_pipe_with_ledger():
-    from shared.lex_policy import INFO_GLYPH
-
-    c = load("dispatch_hub", "DispatchHub/dispatch_hub.py")
-    classic = "um 私は will find out the information about three animals"
-    pipe = c.run_pipeline(["C", "E"], classic, ns())
-    assert "um" not in pipe.lower()
-    assert "ascrt" in pipe.lower()
-    assert "3匹" in pipe
-    assert INFO_GLYPH in pipe
-    assert "I'll" in pipe
     assert pipe == "I'll ascrt ℹ️ about 3匹" or (
         "I'll" in pipe and "ascrt" in pipe.lower() and INFO_GLYPH in pipe and "3匹" in pipe
     )

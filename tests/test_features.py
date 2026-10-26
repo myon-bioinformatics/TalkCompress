@@ -28,10 +28,7 @@ def _load(name: str, rel: str):
 
 
 def test_layer_ownership_matrix_classic_example():
-    """Classic C vs E alone: I'll/spelled on C; ℹ️/articles/counters on E.
-
-    C→E pipe coverage lives in tests/integration/.
-    """
+    """Canonical C vs E alone: I'll/spelled on C; ℹ️ on E (pipe → integration)."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     classic = "um 私は will find out the information about three animals"
@@ -228,10 +225,13 @@ def test_morpho_strips_unquoted_articles_keeps_quoted():
 
 
 def test_morpho_digit_counters_without_spelled_default():
-    """E counters need digits; spelled→digit is off by default (C owns it)."""
+    """E counters need digits; spelled→digit is off by default (C owns it).
+
+    Digit→counter (3 animals→3匹) lives in test_morpho_counters.
+    """
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert "3匹" in m.compress("I see 3 animals here")
     assert "three" in m.compress("I see three animals here").lower()
+    assert "3匹" not in m.compress("I see three animals here")
     assert "3匹" in m.compress("I see three animals here", spelled_nums=True)
     assert "21匹" in m.compress("count twenty-one animals", spelled_nums=True) or "21匹" in m.compress(
         "count twenty one animals", spelled_nums=True
@@ -249,13 +249,12 @@ def test_morpho_does_not_contract_ill_by_default():
 
 
 def test_shorthand_ill_and_spelled_numbers():
+    """Focused C I'll + spelled→digit (full classic matrix → ownership test above)."""
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     out = s.compress("I will go now")
     assert "I'll" in out
     assert "I will" not in out
-    out2 = s.compress("um 私は will see three animals")
-    assert "um" not in out2.lower()
-    assert "I'll" in out2
+    out2 = s.compress("see three animals")
     assert "3" in out2
     assert "three" not in out2.lower()
 

@@ -26,9 +26,12 @@ def test_ledger_file_exists_and_loads():
 
     path = default_ledger_path()
     assert path.is_file()
+    assert path == ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
     assert "ShorthandEdge" in str(path)
     assert "ConvoHub" not in str(path)
     assert "DispatchHub" not in str(path)
+    assert not (ROOT / "DispatchHub" / "ledger").exists()
+    assert not (ROOT / "ConvoHub").exists()
     data = load_ledger()
     assert data["version"] == 1
     assert "meta" in data
@@ -96,36 +99,3 @@ def test_morpho_does_not_apply_ledger_under():
     assert "デコボコ" in out3
     assert "凹凸" not in out3
 
-
-def test_classic_matrix_still_holds_with_ledger():
-    """Regression C/E alone: I'll/nums/ledger on C; ℹ️ on E (pipe → integration)."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    classic = "um 私は will find out the information about three animals"
-
-    from shared.lex_policy import INFO_GLYPH
-
-    e_out = m.compress(classic)
-    assert "um" in e_out.lower()
-    assert "ascertain" in e_out.lower()
-    assert "ascrt" not in e_out.lower()
-    assert INFO_GLYPH in e_out
-    assert "I'll" not in e_out
-    assert "three" in e_out.lower()
-    assert "3匹" not in e_out
-
-    c_out = s.compress(classic)
-    assert "um" not in c_out.lower()
-    assert "ascrt" in c_out.lower()
-    assert "I'll" in c_out
-    assert "3" in c_out
-    assert INFO_GLYPH not in c_out
-
-
-def test_d_does_not_own_ledger_path():
-    from shared.ledger import default_ledger_path
-
-    path = default_ledger_path()
-    assert path == ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
-    assert not (ROOT / "DispatchHub" / "ledger").exists()
-    assert not (ROOT / "ConvoHub").exists()
