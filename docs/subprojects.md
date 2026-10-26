@@ -5,7 +5,7 @@ TalkCompress は A–E の**親**です。将来まとめて切り出すとき�
 | ID | ディレクトリ | 層 |
 | --- | --- | --- |
 | A | `Zipilogue/` | 1 機械同士 |
-| B | `TesseraTalk/` | 2 文単位多言語 |
+| B | `TesseraTalk/` | 2 文単位多言語 + 翻訳トークン最短 |
 | C | `ShorthandEdge/` | 3 人間ギリギリ |
 | D | `DispatchHub/` | 横断ルーティングのみ（仮名; 台帳は C） |
 | E | `MorphoZip/` | 4 文内・文法最小 |

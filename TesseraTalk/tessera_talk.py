@@ -9,6 +9,12 @@ repeating the lang tag after the first in a run:
 
 Expand accepts both the full ``lang:sent|lang:sent`` form and the RLE form
 (missing lang inherits the previous tag).
+
+Translation token-min (opt-in ``translate_min=True`` / ``--translate-min``):
+per sentence, pick a shorter EN/JA/ZH (or natural short) candidate from a
+deterministic bank when ``estimate_tokens`` drops. Unlike ShorthandEdge (C),
+B does **not** apply the agreed ledger (under→下 etc.); only natural shorter
+forms from the translation path.
 """
 
 from __future__ import annotations
@@ -19,6 +25,9 @@ import re
 import sys
 import unicodedata
 from collections import Counter
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
 
 # Split after terminator, keep terminator on the left sentence. LTR + CJK punct.
 _SENT_SPLIT = re.compile(
@@ -194,6 +203,8 @@ def compress(
     rle: bool = True,
     preserve_newlines: bool = False,
     prefer_ltr: bool = False,
+    translate_min: bool = False,
+    translation_bank: str | Path | None = None,
 ) -> str:
     """Compact mosaic. With ``rle=True`` (default), omit repeating lang tags in a run:
 
@@ -201,7 +212,15 @@ def compress(
 
     With ``rle=False``: full ``lang:sent|lang:sent`` (legacy-compatible).
     ``preserve_newlines`` keeps paragraph breaks as ``¶:¶`` tiles.
+    With ``translate_min=True``, first rewrite each sentence to a shorter bank
+    translation (EN/JA/ZH / natural short) when tokens drop — not C ledger.
     """
+    if translate_min:
+        text = minify_by_translation(
+            text,
+            bank_path=translation_bank,
+            preserve_newlines=preserve_newlines,
+        )
     tagged = tag_sentences(
         text, langs, preserve_newlines=preserve_newlines, prefer_ltr=prefer_ltr
     )
@@ -281,6 +300,170 @@ def stats(
     }
 
 
+# --- translation token-min (deterministic bank; no live MT) ---
+
+_FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
+DEFAULT_TRANSLATION_BANK = _FIXTURES_DIR / "translations.json"
+
+_CJK_CHAR = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]")
+_LATIN_WORD = re.compile(r"[A-Za-z0-9\u00C0-\u024F']+")
+_OTHER_WORD = re.compile(r"[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F]+")
+
+
+def estimate_tokens(text: str) -> int:
+    """Rough multilingual token estimate for ranking translation candidates.
+
+    Heuristic (stdlib-only, deterministic):
+    - each CJK / kana / Hangul character ≈ 1 token
+    - each Latin / digit word ≈ max(1, ceil(chars/4)) (GPT-ish subword)
+    - other script letter-runs ≈ 1 each
+    Punctuation and whitespace do not add tokens. Absolute counts are approximate;
+    relative ranking across EN/JA/ZH is what matters for B.
+    """
+    if not text or not text.strip():
+        return 0
+    s = unicodedata.normalize("NFC", text)
+    n = len(_CJK_CHAR.findall(s))
+    for w in _LATIN_WORD.findall(s):
+        n += max(1, (len(w) + 3) // 4)
+    for w in _OTHER_WORD.findall(s):
+        n += max(1, (len(w) + 3) // 4)
+    return n
+
+
+def _norm_lookup_key(s: str) -> str:
+    s = unicodedata.normalize("NFC", s.strip())
+    # Strip trailing sentence punct for lookup flexibility
+    s = re.sub(r"[.!?。？！…]+$", "", s).strip()
+    # Latin-heavy → lowercase; pure CJK stays
+    if _LATIN.findall(s) and not _CJK.findall(s) and not _HIRAGANA.findall(s):
+        return s.lower()
+    if _LATIN.findall(s):
+        return s.lower()
+    return s
+
+
+@lru_cache(maxsize=4)
+def load_translation_bank(path: str | None = None) -> dict[str, Any]:
+    """Load deterministic translation candidate bank (JSON)."""
+    p = Path(path) if path is not None else DEFAULT_TRANSLATION_BANK
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or "entries" not in data:
+        raise ValueError(f"translation bank missing entries: {p}")
+    return data
+
+
+def translation_index(
+    path: str | Path | None = None,
+) -> dict[str, list[tuple[str, str]]]:
+    """Map normalized source → list of (lang, candidate_text)."""
+    data = load_translation_bank(str(path) if path is not None else None)
+    idx: dict[str, list[tuple[str, str]]] = {}
+    for entry in data.get("entries") or []:
+        cands = entry.get("candidates") or {}
+        pairs = [(str(lang), str(text)) for lang, text in cands.items() if text]
+        for src in entry.get("from") or []:
+            key = _norm_lookup_key(str(src))
+            if not key:
+                continue
+            idx.setdefault(key, [])
+            # merge unique
+            seen = {(a, b) for a, b in idx[key]}
+            for pair in pairs:
+                if pair not in seen:
+                    idx[key].append(pair)
+                    seen.add(pair)
+    return idx
+
+
+def pick_shortest_translation(
+    sentence: str,
+    candidates: list[tuple[str, str]] | dict[str, str] | None = None,
+    *,
+    bank_path: str | Path | None = None,
+    allow_langs: set[str] | None = None,
+) -> tuple[str, str, int]:
+    """Pick original or a shorter translation candidate by ``estimate_tokens``.
+
+    Returns ``(chosen_text, lang_or_'src', token_count)``.
+    Keeps the original when nothing is strictly shorter (ties → original).
+    ``allow_langs`` defaults to ``{en, ja, zh}`` plus any natural short ``en`` forms.
+    Does **not** consult the C ShorthandEdge ledger.
+    """
+    src = unicodedata.normalize("NFC", sentence.strip())
+    if not src:
+        return "", "src", 0
+    src_n = estimate_tokens(src)
+
+    pairs: list[tuple[str, str]] = []
+    if candidates is None:
+        idx = translation_index(bank_path)
+        pairs = list(idx.get(_norm_lookup_key(src), []))
+    elif isinstance(candidates, dict):
+        pairs = [(str(k), str(v)) for k, v in candidates.items()]
+    else:
+        pairs = list(candidates)
+
+    allowed = allow_langs if allow_langs is not None else {"en", "ja", "zh"}
+    best_text, best_lang, best_n = src, "src", src_n
+    for lang, text in pairs:
+        if allowed is not None and lang not in allowed:
+            continue
+        text = unicodedata.normalize("NFC", text.strip())
+        if not text:
+            continue
+        n = estimate_tokens(text)
+        if n < best_n:
+            best_text, best_lang, best_n = text, lang, n
+    return best_text, best_lang, best_n
+
+
+def minify_by_translation(
+    text: str,
+    *,
+    bank_path: str | Path | None = None,
+    allow_langs: set[str] | None = None,
+    preserve_newlines: bool = False,
+) -> str:
+    """Per-sentence: replace with a shorter bank translation when tokens drop.
+
+    Segmentation matches ``tag_sentences``. Empty / paragraph markers unchanged.
+    """
+    tagged = tag_sentences(text, preserve_newlines=preserve_newlines)
+    if not tagged:
+        return ""
+    out_parts: list[str] = []
+    for lang, sent in tagged:
+        if lang == "¶" or sent == "¶":
+            out_parts.append("¶")
+            continue
+        chosen, _, _ = pick_shortest_translation(
+            sent, bank_path=bank_path, allow_langs=allow_langs
+        )
+        out_parts.append(chosen)
+    # Rejoin similar to expand
+    flat: list[str] = []
+    for i, s in enumerate(out_parts):
+        if s == "¶":
+            if preserve_newlines:
+                flat.append("\n\n")
+            continue
+        if not flat:
+            flat.append(s)
+            continue
+        prev = flat[-1]
+        if prev.endswith("\n\n"):
+            flat.append(s)
+        elif re.search(r"[。？！]$", prev) or re.match(
+            r"^[\u3040-\u30ff\u3400-\u9fff]", s
+        ):
+            flat.append(s)
+        else:
+            flat.append(" " + s)
+    return "".join(flat)
+
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="TesseraTalk: layer-2 sentence mosaic")
     p.add_argument(
@@ -316,6 +499,16 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="bias Latin+CJK mixes (no kana) toward en rather than zh",
     )
+    p.add_argument(
+        "--translate-min",
+        action="store_true",
+        help="per sentence: adopt shorter EN/JA/ZH bank translation when tokens drop",
+    )
+    p.add_argument(
+        "--translation-bank",
+        default="",
+        help="optional path to translation candidates JSON (default: fixtures/translations.json)",
+    )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     langs = [x.strip() for x in args.langs.split(",") if x.strip()] or None
@@ -325,10 +518,26 @@ def main(argv: list[str] | None = None) -> int:
     if args.stats and args.mode != "expand":
         print(json.dumps(stats(text, langs, prefer_ltr=pl), ensure_ascii=False), file=sys.stderr)
 
+    bank = args.translation_bank or None
+    tm = args.translate_min
+    if tm and args.mode in ("tag", "compress"):
+        text = minify_by_translation(text, bank_path=bank, preserve_newlines=pn)
+
     if args.mode == "tag":
         print(render(tag_sentences(text, langs, preserve_newlines=pn, prefer_ltr=pl)))
     elif args.mode == "compress":
-        print(compress(text, langs, rle=not args.no_rle, preserve_newlines=pn, prefer_ltr=pl))
+        # translate_min already applied above when set; avoid double-apply
+        print(
+            compress(
+                text,
+                langs,
+                rle=not args.no_rle,
+                preserve_newlines=pn,
+                prefer_ltr=pl,
+                translate_min=False,
+                translation_bank=bank,
+            )
+        )
     else:
         print(expand(text, preserve_newlines=pn))
     return 0

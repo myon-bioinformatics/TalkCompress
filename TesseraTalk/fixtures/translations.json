@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "title": "TesseraTalk (B) deterministic translation candidates for token-min",
+  "notes": [
+    "Not a C ledger. Natural shorter forms (incl. abbreviations that arise from translation) are allowed.",
+    "Keys are normalized lookup forms (lowercased Latin; CJK kept as-is). Values are {lang: text} candidates.",
+    "Chooser picks the lowest estimate_tokens among original + candidates; keeps original on ties."
+  ],
+  "entries": [
+    {
+      "id": "info-three-animals",
+      "from": [
+        "I will find out the information about three animals.",
+        "I will find out the information about three animals",
+        "will find out the information about three animals"
+      ],
+      "candidates": {
+        "en": "I'll find info on 3 animals.",
+        "zh": "我会查明三只动物的信息。",
+        "ja": "3匹の動物の情報を調べる。"
+      }
+    },
+    {
+      "id": "please-reply-asap",
+      "from": [
+        "Please reply as soon as possible.",
+        "please reply as soon as possible",
+        "Please reply as soon as possible"
+      ],
+      "candidates": {
+        "en": "Please reply ASAP.",
+        "zh": "请尽快回复。",
+        "ja": "至急返信ください。"
+      }
+    },
+    {
+      "id": "good-morning",
+      "from": [
+        "Good morning.",
+        "good morning",
+        "Good morning"
+      ],
+      "candidates": {
+        "zh": "早。",
+        "ja": "おはよう。",
+        "en": "Morning."
+      }
+    },
+    {
+      "id": "thank-you-very-much",
+      "from": [
+        "Thank you very much.",
+        "thank you very much",
+        "Thank you very much"
+      ],
+      "candidates": {
+        "zh": "多谢。",
+        "ja": "ありがとう。",
+        "en": "Thanks."
+      }
+    },
+    {
+      "id": "how-are-you",
+      "from": [
+        "How are you?",
+        "how are you?",
+        "How are you"
+      ],
+      "candidates": {
+        "zh": "你好吗？",
+        "ja": "元気？",
+        "en": "How r u?"
+      }
+    },
+    {
+      "id": "ja-weather-long",
+      "from": [
+        "今日はとても良い天気ですね。",
+        "今日はとても良い天気ですね"
+      ],
+      "candidates": {
+        "zh": "今天天气很好。",
+        "en": "Nice weather today.",
+        "ja": "いい天気。"
+      }
+    },
+    {
+      "id": "zh-meeting-long",
+      "from": [
+        "我们今天下午三点开会讨论这个问题。",
+        "我们今天下午三点开会讨论这个问题"
+      ],
+      "candidates": {
+        "zh": "下午3点开会。",
+        "en": "Meeting at 3pm.",
+        "ja": "15時に会議。"
+      }
+    },
+    {
+      "id": "en-already-short",
+      "from": [
+        "OK.",
+        "ok",
+        "OK"
+      ],
+      "candidates": {
+        "zh": "好的。",
+        "ja": "了解です。",
+        "en": "Okay, that sounds good to me."
+      }
+    },
+    {
+      "id": "under-table-keep",
+      "from": [
+        "The cat is under the table.",
+        "the cat is under the table",
+        "The cat is under the table"
+      ],
+      "candidates": {
+        "en": "Cat under table.",
+        "zh": "猫在桌下。",
+        "ja": "猫は机の下。"
+      }
+    },
+    {
+      "id": "bumpy-road",
+      "from": [
+        "The road is bumpy.",
+        "the road is bumpy",
+        "The road is bumpy"
+      ],
+      "candidates": {
+        "en": "Bumpy road.",
+        "zh": "路不平。",
+        "ja": "凸凹な道。"
+      }
+    },
+    {
+      "id": "for-your-information",
+      "from": [
+        "For your information, the build is ready.",
+        "for your information, the build is ready",
+        "For your information, the build is ready"
+      ],
+      "candidates": {
+        "en": "FYI, build ready.",
+        "zh": "供参考，构建已就绪。",
+        "ja": "参考：ビルド完了。"
+      }
+    },
+    {
+      "id": "see-you-later",
+      "from": [
+        "See you later.",
+        "see you later",
+        "See you later"
+      ],
+      "candidates": {
+        "en": "CUL8R.",
+        "zh": "再见。",
+        "ja": "またね。"
+      }
+    }
+  ]
+}
