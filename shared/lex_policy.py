@@ -2,9 +2,11 @@
 
 Layer ownership (TalkCompress):
 - **C ShorthandEdge**: ``strip_fillers``, ``UNIQUE_COMPACT`` (via ``apply_unique_readings(..., compact=True)``
-  or ``apply_unique_compact``). Also slang / hereafter / packs.
-- **E MorphoZip**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN``,
-  first-person / counters / grammar-min. Does **not** strip fillers or apply UNIQUE_COMPACT by default.
+  or ``apply_unique_compact``), same-language EN contractions (``I will``→``I'll``),
+  spelled EN number words → digits. Also slang / hereafter / packs.
+- **E MorphoZip**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN`` (ℹ️),
+  first-person / counters / articles / grammar-min. Does **not** strip fillers, apply UNIQUE_COMPACT,
+  contract ``I'll``, or digitize spelled numbers by default.
 - Helpers live here so both layers can import them; callers choose which passes to run.
 """
 
@@ -295,6 +297,134 @@ ETYMON_ALIGN: dict[str, str] = {
 _AGGRESSIVE_ONLY = frozenset(
     {"like", "just", "actually", "literally", "right", "anyway", "anyhow", "per se"}
 )
+
+
+# --- C-owned same-language abbreviation helpers ---------------------------------
+
+_ONES: dict[str, int] = {
+    "zero": 0,
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12,
+    "thirteen": 13,
+    "fourteen": 14,
+    "fifteen": 15,
+    "sixteen": 16,
+    "seventeen": 17,
+    "eighteen": 18,
+    "nineteen": 19,
+}
+_TENS: dict[str, int] = {
+    "twenty": 20,
+    "thirty": 30,
+    "forty": 40,
+    "fifty": 50,
+    "sixty": 60,
+    "seventy": 70,
+    "eighty": 80,
+    "ninety": 90,
+}
+_TENS_ALT = {"fourty": 40}  # common misspelling
+_ALL_NUM_WORDS: dict[str, int] = {**_ONES, **_TENS, **_TENS_ALT}
+
+_COMPOUND_NUM = re.compile(
+    r"\b("
+    + "|".join(sorted({**_TENS, **_TENS_ALT}, key=len, reverse=True))
+    + r")[\s-]+("
+    + "|".join(
+        sorted(
+            _ONES.keys()
+            - {
+                "zero",
+                "ten",
+                "eleven",
+                "twelve",
+                "thirteen",
+                "fourteen",
+                "fifteen",
+                "sixteen",
+                "seventeen",
+                "eighteen",
+                "nineteen",
+            },
+            key=len,
+            reverse=True,
+        )
+    )
+    + r")\b",
+    re.I,
+)
+_A_ONE_HUNDRED = re.compile(r"\b(?:a|one)\s+hundred\b", re.I)
+_A_ONE_THOUSAND = re.compile(r"\b(?:a|one)\s+thousand\b", re.I)
+_BARE_HUNDRED = re.compile(r"\bhundred\b", re.I)
+_BARE_THOUSAND = re.compile(r"\bthousand\b", re.I)
+
+
+def apply_spelled_numbers(text: str) -> str:
+    """Best-effort EN number words → digits (zero–twenty, tens, hundred/thousand).
+
+    C (ShorthandEdge) owns this pass. Handles ``three``→``3``,
+    ``twenty-one`` / ``twenty one``→``21``, ``a hundred`` / ``one hundred``→``100``.
+    """
+    out = text
+    out = _A_ONE_HUNDRED.sub("100", out)
+    out = _A_ONE_THOUSAND.sub("1000", out)
+    out = _BARE_HUNDRED.sub("100", out)
+    out = _BARE_THOUSAND.sub("1000", out)
+
+    def _comp(m: re.Match[str]) -> str:
+        tens = _ALL_NUM_WORDS[m.group(1).lower()]
+        ones = _ONES[m.group(2).lower()]
+        return str(tens + ones)
+
+    out = _COMPOUND_NUM.sub(_comp, out)
+    for word, num in sorted(_ALL_NUM_WORDS.items(), key=lambda kv: len(kv[0]), reverse=True):
+        out = re.sub(rf"(?i)\b{re.escape(word)}\b", str(num), out)
+    return out
+
+
+# Light EN contractions (same-language abbreviation). C-owned.
+# JA subject → I first so ``私は will`` → ``I'll``.
+_FIRST_PERSON_SUBJ = re.compile(r"私は|僕は|俺は|拙者は|わたしは|あたしは")
+_EN_CONTRACTIONS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\bI will\b", re.I), "I'll"),
+    (re.compile(r"\bI would\b", re.I), "I'd"),
+    (re.compile(r"\bI have\b", re.I), "I've"),
+    (re.compile(r"\bI am\b", re.I), "I'm"),
+    (re.compile(r"\byou are\b", re.I), "u r"),
+    (re.compile(r"\bwe are\b", re.I), "we're"),
+    (re.compile(r"\bthey are\b", re.I), "they're"),
+    (re.compile(r"\bit is\b", re.I), "it's"),
+    (re.compile(r"\bthat is\b", re.I), "that's"),
+    (re.compile(r"\bthere is\b", re.I), "there's"),
+    (re.compile(r"\bthere are\b", re.I), "there're"),
+    (re.compile(r"\bdo not\b", re.I), "don't"),
+    (re.compile(r"\bdoes not\b", re.I), "doesn't"),
+    (re.compile(r"\bcannot\b", re.I), "can't"),
+    (re.compile(r"\bwill not\b", re.I), "won't"),
+    (re.compile(r"\bshould not\b", re.I), "shouldn't"),
+    (re.compile(r"\bwould not\b", re.I), "wouldn't"),
+]
+
+
+def apply_en_contractions(text: str) -> str:
+    """Same-language EN contractions (``I will``→``I'll``, …). C-owned.
+
+    Applies JA first-person subject → ``I`` first so ``私は will`` becomes ``I'll``.
+    """
+    out = _FIRST_PERSON_SUBJ.sub("I", text)
+    for pat, repl in _EN_CONTRACTIONS:
+        out = pat.sub(repl, out)
+    return out
 
 
 def strip_fillers(text: str, *, aggressive: bool = False) -> str:

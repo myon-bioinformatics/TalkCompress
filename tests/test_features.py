@@ -53,7 +53,7 @@ def _ns(**kwargs):
 
 
 def test_layer_ownership_matrix_classic_example():
-    """Classic example: E alone keeps um/ascertain; C alone & C,E strip + compact."""
+    """Classic: I'll/spelled→digit on C; ℹ️/articles/counters on E; fillers/compact on C."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     c = _load("convo_hub", "ConvoHub/convo_hub.py")
@@ -66,12 +66,18 @@ def test_layer_ownership_matrix_classic_example():
     assert "ascertain" in e_out.lower()
     assert "ascrt" not in e_out.lower()
     assert INFO_GLYPH in e_out
-    assert "3匹" in e_out
-    assert "I'll" in e_out
+    assert "I'll" not in e_out
+    assert "I will" in e_out or " will " in f" {e_out} "
+    assert "three" in e_out.lower()  # spelled nums are C-owned
+    assert "3匹" not in e_out
 
     c_out = s.compress(classic)
     assert "um" not in c_out.lower()
     assert "ascrt" in c_out.lower()
+    assert "I'll" in c_out
+    assert "3" in c_out  # three → 3
+    assert "three" not in c_out.lower()
+    assert INFO_GLYPH not in c_out  # ℹ️ is E
 
     pipe = c.run_pipeline(["C", "E"], classic, _ns())
     assert "um" not in pipe.lower()
@@ -338,7 +344,7 @@ def test_convo_compare_cli():
         obj = json.loads(ln)
         assert "ratio" in obj
 
-# --- MorphoZip articles / spelled nums / I\'ll / ℹ️ ---
+# --- MorphoZip articles / counters / ℹ️; C owns I'll + spelled nums ---
 
 
 def test_morpho_strips_unquoted_articles_keeps_quoted():
@@ -351,22 +357,37 @@ def test_morpho_strips_unquoted_articles_keeps_quoted():
     assert "the" in kept.lower()
 
 
-def test_morpho_spelled_numbers_to_counters():
+def test_morpho_digit_counters_without_spelled_default():
+    """E counters need digits; spelled→digit is off by default (C owns it)."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert "3匹" in m.compress("I see three animals here")
-    assert "21匹" in m.compress("count twenty-one animals") or "21匹" in m.compress(
-        "count twenty one animals"
+    assert "3匹" in m.compress("I see 3 animals here")
+    assert "three" in m.compress("I see three animals here").lower()
+    assert "3匹" in m.compress("I see three animals here", spelled_nums=True)
+    assert "21匹" in m.compress("count twenty-one animals", spelled_nums=True) or "21匹" in m.compress(
+        "count twenty one animals", spelled_nums=True
     )
-    assert "100" in m.apply_spelled_numbers("a hundred") or "100" in m.compress(
-        "about a hundred", counters=False, unique=False, etymon=False
-    )
+    from shared.lex_policy import apply_spelled_numbers
+
+    assert "100" in apply_spelled_numbers("a hundred")
 
 
-def test_morpho_i_will_contraction():
+def test_morpho_does_not_contract_ill_by_default():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     out = m.compress("I will go now", unique=False, etymon=False, counters=False)
+    assert "I'll" not in out
+    assert "I will" in out
+
+
+def test_shorthand_ill_and_spelled_numbers():
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    out = s.compress("I will go now")
     assert "I'll" in out
     assert "I will" not in out
+    out2 = s.compress("um 私は will see three animals")
+    assert "um" not in out2.lower()
+    assert "I'll" in out2
+    assert "3" in out2
+    assert "three" not in out2.lower()
 
 
 def test_morpho_information_to_info_glyph():

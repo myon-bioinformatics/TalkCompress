@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """ShorthandEdge (C): slang / abbreviation / emoji / session conventions (layer 3).
 
-Also owns filler stripping and UNIQUE_COMPACT (ascertain→ascrt etc.).
+Also owns filler stripping, UNIQUE_COMPACT (ascertain→ascrt etc.),
+same-language EN contractions (``I will``→``I'll``), and spelled EN number
+words → digits (``three``→``3``).
 """
 
 from __future__ import annotations
@@ -16,7 +18,12 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from shared.lex_policy import apply_unique_readings, strip_fillers  # noqa: E402
+from shared.lex_policy import (  # noqa: E402
+    apply_en_contractions,
+    apply_spelled_numbers,
+    apply_unique_readings,
+    strip_fillers,
+)
 
 # phrase (lowercase) → short form. Longer keys win via sorted replace.
 DEFAULT_MAP: dict[str, str] = {
@@ -284,9 +291,13 @@ def compress(text: str, mapping: dict[str, str] | None = None, session: Session 
     for line in lines:
         if sess.ingest_line(line):
             continue
-        line_out = strip_fillers(_apply_map(line, sess.effective))
+        # Same-lang abbrev: 私は will → I'll (before lexicon map)
+        line_out = apply_en_contractions(line)
+        line_out = strip_fillers(_apply_map(line_out, sess.effective))
         # UNIQUE_READINGS + UNIQUE_COMPACT (C ownership): find out → ascrt
         line_out = apply_unique_readings(line_out, compact=True)
+        # Spelled nums after map so bare "hundred"→💯 is kept; three→3 still applies
+        line_out = apply_spelled_numbers(line_out)
         kept.append(line_out)
     if len(lines) == 1 and "\n" not in text:
         return kept[0] if kept else ""

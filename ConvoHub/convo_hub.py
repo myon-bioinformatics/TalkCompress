@@ -123,7 +123,7 @@ _PROFILE_FLAG_KEYS = (
     "no_etymon",
     "no_counters",
     "keep_articles",
-    "no_spelled_nums",
+    "spelled_nums",
     "langs",
     "aad",
     "lexicon",
@@ -180,7 +180,7 @@ def apply_profile(args: argparse.Namespace, profile: dict[str, Any], *, cli_expl
         "no-etymon": "no_etymon",
         "no-counters": "no_counters",
         "keep-articles": "keep_articles",
-        "no-spelled-nums": "no_spelled_nums",
+        "spelled-nums": "spelled_nums",
         "lex-policy": "lex_policy",
         "protect-regex": "protect_regex",
         "min-ratio": "min_ratio",
@@ -500,7 +500,7 @@ def _run_e(text: str, args: argparse.Namespace) -> str:
         etymon=not getattr(args, "no_etymon", False),
         aggressive_fillers=getattr(args, "aggressive_fillers", False),
         counters=not getattr(args, "no_counters", False),
-        spelled_nums=not getattr(args, "no_spelled_nums", False),
+        spelled_nums=getattr(args, "spelled_nums", False),
         keep_articles=getattr(args, "keep_articles", False),
         hex_nums=getattr(args, "hex_nums", False),
         hex_prefix=not getattr(args, "hex_bare", False),
@@ -944,9 +944,9 @@ def build_parser() -> argparse.ArgumentParser:
         help="MorphoZip: keep English articles the/a/an (default strips unquoted)",
     )
     p.add_argument(
-        "--no-spelled-nums",
+        "--spelled-nums",
         action="store_true",
-        help="MorphoZip: skip spelled number words → digits",
+        help="MorphoZip opt-in: spelled number words → digits (default off; C owns this)",
     )
     p.add_argument(
         "--aggressive-fillers",
@@ -1062,7 +1062,7 @@ def main(argv: list[str] | None = None) -> int:
         "--no-etymon": "no_etymon",
         "--no-counters": "no_counters",
         "--keep-articles": "keep_articles",
-        "--no-spelled-nums": "no_spelled_nums",
+        "--spelled-nums": "spelled_nums",
         "--langs": "langs",
         "--aad": "aad",
         "--lexicon": "lexicon",
