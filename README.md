@@ -8,7 +8,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 
 | 層 | 読める相手 | ねらい |
 | --- | --- | --- |
-| 1 | 機械同士 | 共有鍵前提の強い符号化。人間非可読でよい |
+| 1 | 機械同士 | 共有ルール台帳でスラング的に短縮（鍵付き封筒は任意）。人間非可読でよい |
 | 2 | 機械 + 高度な人間 | 文単位で言語が切り替わる多言語（LTR優先） |
 | 3 | 人間同士のギリギリ | スラング・略語・絵文字・「以降こう書く」型の規約 |
 | 4 | 文内多言語・文法最小 | 1語/1字の高密度、接続詞的つなぎ、予測候補が少ない表現 |
@@ -26,7 +26,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 
 | ID | 名前 | 主な担当 |
 | --- | --- | --- |
-| A | [Zipilogue](Zipilogue/) | 層1 — 機械同士の符号化・鍵付き往復 |
+| A | [Zipilogue](Zipilogue/) | 層1 — 共有ルール台帳＋任意の鍵付き封筒 |
 | B | [TesseraTalk](TesseraTalk/) | 層2 — 文単位の言語切替モザイク |
 | C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約・FILLER・UNIQUE_COMPACT |
 | D | [ConvoHub](ConvoHub/) | 横断 — 入出力・層の切替・共通CLIの受け口 |
@@ -46,6 +46,9 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 uv sync
 uv run python ConvoHub/convo_hub.py --layer 3 --text "as soon as possible"
 uv run python ConvoHub/convo_hub.py --layer A --key 'shared' --text "hello bots"
+# A 共有ルール台帳（鍵なしでも可。頻出フレーズが r1… に育つ）
+uv run python Zipilogue/zipilogue.py rule-sim --state /tmp/book.json --threshold 3 --text $'ready and waiting\nready and waiting\nready and waiting\nready and waiting'
+uv run python ConvoHub/convo_hub.py --layer A --rule-state /tmp/book.json --text "ready and waiting"
 uv run python ConvoHub/convo_hub.py --layer E --stats --text "私は ready and waiting"
 
 # パイプライン（層を順に適用）
@@ -123,6 +126,16 @@ uv run python Zipilogue/zipilogue.py encode --key k --dry-run --stats --text hel
 
 # 語彙ポリシー差分
 uv run python shared/lex_policy.py --diff other_policy.json
+```
+
+### Zipilogue RuleBook（A）
+
+送受信が同じ JSON 台帳をロードし、宣言（`rule: long => short`）や反復観察で短いトークンを育てます。暗号封筒は `--key` があるときだけ巻きます。詳細は [Zipilogue/README.md](Zipilogue/README.md)。
+
+```bash
+uv run python Zipilogue/zipilogue.py rule-declare --state book.json --long 'status update complete' --short r1
+uv run python Zipilogue/zipilogue.py rule-observe --state book.json --text 'status update complete please'
+uv run python Zipilogue/zipilogue.py rule-encode --state book.json --text 'status update complete'
 ```
 
 ## ライセンス

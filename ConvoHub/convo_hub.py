@@ -3,7 +3,8 @@
 
 Supports single ``--layer``, sequential ``--pipeline C,E``, ``--budget``,
 ``--role-layers``, ``--auto``, ``--trace``, ``--window``, ``--profile``,
-quality gates, packs, protect spans, file I/O, and ``--compare``.
+quality gates, packs, protect spans, file I/O, ``--compare``, and
+Zipilogue ``--rule-state`` (shared-rule ledger; key optional).
 """
 
 from __future__ import annotations
@@ -386,16 +387,46 @@ def _sample_delta(before: str, after: str, limit: int = 48) -> str:
 
 
 def _run_a(text: str, args: argparse.Namespace, *, decode: bool = False) -> str:
+    """A: shared RuleBook shortenings, optionally wrapped in MAC envelope.
+
+    --rule-state alone → rule encode/decode.
+    --key alone → classic envelope.
+    both → rule-encode then envelope (or unwrap then rule-decode).
+    """
     z = _load("zipilogue", "Zipilogue/zipilogue.py")
     key = _resolve_zip_key(args)
-    if not key:
-        raise SystemExit("layer 1 / Zipilogue requires --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
+    rule_state = getattr(args, "rule_state", None)
     aad = getattr(args, "aad", None) or ""
-    if decode:
-        return z.decode(text.strip().encode("ascii"), key=key, aad=aad).decode(
-            "utf-8", errors="replace"
+    if not key and not rule_state:
+        raise SystemExit(
+            "layer 1 / Zipilogue requires --rule-state and/or --key/--key-file/TALKCOMPRESS_ZIP_KEY"
         )
-    return z.encode(text.encode("utf-8"), key=key, aad=aad).decode("ascii")
+
+    rb_mod = None
+    book = None
+    if rule_state:
+        rb_mod = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+        book = rb_mod.RuleBook.load(rule_state)
+
+    if decode:
+        plain = text
+        if key:
+            plain = z.decode(text.strip().encode("ascii"), key=key, aad=aad).decode(
+                "utf-8", errors="replace"
+            )
+        if book is not None:
+            plain = book.decode_with_rules(plain)
+        return plain
+
+    payload = text
+    if book is not None:
+        # observe so counts grow when ConvoHub routes through A with a ledger
+        book.observe(payload)
+        payload = book.encode_with_rules(payload)
+        book.save()
+    if key:
+        return z.encode(payload.encode("utf-8"), key=key, aad=aad).decode("ascii")
+    return payload
 
 
 def _run_b(text: str, args: argparse.Namespace) -> str:
@@ -526,9 +557,10 @@ def run_pipeline(
 ) -> str:
     """Run layers in sequence on the same text. A without key errors clearly."""
     if "A" in layers:
-        if not _resolve_zip_key(args):
+        if not _resolve_zip_key(args) and not getattr(args, "rule_state", None):
             raise SystemExit(
-                "pipeline includes A (Zipilogue) but no --key/--key-file/TALKCOMPRESS_ZIP_KEY"
+                "pipeline includes A (Zipilogue) but no --rule-state and/or "
+                "--key/--key-file/TALKCOMPRESS_ZIP_KEY"
             )
     out = text
     saved_mode = getattr(args, "mode", None)
@@ -863,6 +895,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--key", help="Zipilogue passphrase")
     p.add_argument("--key-file", help="Zipilogue passphrase file")
     p.add_argument(
+        "--rule-state",
+        dest="rule_state",
+        help="Zipilogue RuleBook JSON path (shared-rule slang ledger; key optional)",
+    )
+    p.add_argument(
         "--aad",
         default="",
         help="Zipilogue associated context / channel label (folded into MAC)",
@@ -1053,6 +1090,7 @@ def main(argv: list[str] | None = None) -> int:
         ("fingerprint_key", False),
         ("profile", None),
         ("profile_file", None),
+        ("rule_state", None),
     ):
         if not hasattr(args, attr):
             setattr(args, attr, default)
@@ -1084,12 +1122,14 @@ def main(argv: list[str] | None = None) -> int:
             "--role-layers / --window / --profile is required"
         )
 
-    # machine profile without key: fail clearly
-    if args.layer and resolve_layer(str(args.layer)) == "A" and not _resolve_zip_key(args):
-        if getattr(args, "mode", None) != "decode":
-            raise SystemExit(
-                "profile/layer A (Zipilogue) requires --key, --key-file, or TALKCOMPRESS_ZIP_KEY"
-            )
+    # machine profile without key/rule-state: fail clearly
+    if args.layer and resolve_layer(str(args.layer)) == "A":
+        if not _resolve_zip_key(args) and not getattr(args, "rule_state", None):
+            if getattr(args, "mode", None) != "decode":
+                raise SystemExit(
+                    "profile/layer A (Zipilogue) requires --rule-state and/or "
+                    "--key/--key-file/TALKCOMPRESS_ZIP_KEY"
+                )
 
     if getattr(args, "lex_policy", None):
         if str(ROOT) not in sys.path:

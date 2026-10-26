@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
-"""Zipilogue (A): machine-to-machine authenticated encoding (layer 1).
+"""Zipilogue (A): machine-to-machine shared-rule channel + optional MAC envelope.
 
-Envelope (base64url, no padding) of a self-describing binary frame:
+Core idea: sender and receiver grow a shared RuleBook across turns — declare
+``rule: long => short`` or auto-adopt repeated phrases (threshold default 3)
+into opaque tokens (r1, r2, …). Alphabet / regularity / length are free as long
+as both sides recognize the assertions. Conversations start longer; after
+dozens of turns frequent patterns shorten like slang.
+
+Optional crypto envelope (base64url, no padding) remains a transport wrap:
 
   magic(4) | ver(1) | nlen(1) | nonce | ct_len(4 BE) | ciphertext | mac(32)
 
@@ -211,15 +217,71 @@ def _read_key(args: argparse.Namespace) -> bytes:
     raise SystemExit("provide --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
 
 
+def _load_rulebook():
+    """Import sibling rulebook module without requiring package install."""
+    import importlib.util
+
+    rb_path = Path(__file__).resolve().parent / "rulebook.py"
+    spec = importlib.util.spec_from_file_location("zipilogue_rulebook", rb_path)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"cannot load {rb_path}")
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules["zipilogue_rulebook"] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _rule_text(args: argparse.Namespace) -> str:
+    if args.file:
+        return Path(args.file).read_text(encoding="utf-8")
+    if args.text is not None:
+        return args.text
+    return sys.stdin.read()
+
+
+def _maybe_wrap_envelope(text: str, args: argparse.Namespace) -> str:
+    """If --key present, wrap UTF-8 rule text in MAC envelope; else return text."""
+    has_key = bool(args.key or args.key_file or os.environ.get("TALKCOMPRESS_ZIP_KEY"))
+    if not has_key:
+        return text
+    key = _read_key(args)
+    aad = args.aad or ""
+    env = encode(text.encode("utf-8"), key=key, aad=aad)
+    return env.decode("ascii")
+
+
+def _maybe_unwrap_envelope(blob: str, args: argparse.Namespace) -> str:
+    has_key = bool(args.key or args.key_file or os.environ.get("TALKCOMPRESS_ZIP_KEY"))
+    if not has_key:
+        return blob
+    key = _read_key(args)
+    aad = args.aad or ""
+    return decode(blob.strip().encode("ascii"), key=key, aad=aad).decode("utf-8", errors="replace")
+
+
 def main(argv: list[str] | None = None) -> int:
-    p = argparse.ArgumentParser(description="Zipilogue: layer-1 authenticated machine encoding")
-    p.add_argument("mode", choices=("encode", "decode", "fingerprint"))
+    p = argparse.ArgumentParser(
+        description="Zipilogue: shared-rule ledger + optional MAC envelope (layer 1)"
+    )
+    p.add_argument(
+        "mode",
+        choices=(
+            "encode",
+            "decode",
+            "fingerprint",
+            "rule-observe",
+            "rule-declare",
+            "rule-encode",
+            "rule-decode",
+            "rule-sim",
+        ),
+    )
     g = p.add_mutually_exclusive_group(required=False)
     g.add_argument("--key", help="shared passphrase (do not commit real keys)")
     g.add_argument("--key-file", help="read passphrase from file (trailing newline stripped)")
     p.add_argument("--text", help="UTF-8 text; otherwise stdin (encode: text/bytes, decode: envelope)")
-    p.add_argument("--file", help="read binary input from PATH (encode: plaintext; decode: envelope)")
-    p.add_argument("--out", help="write binary output to PATH instead of stdout")
+    p.add_argument("--file", help="read input from PATH")
+    p.add_argument("--out", help="write output to PATH instead of stdout")
     p.add_argument(
         "--aad",
         default="",
@@ -240,10 +302,139 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument(
         "--stats",
         action="store_true",
-        help="print JSON length/fingerprint stats to stderr",
+        help="print JSON length/fingerprint/rule stats to stderr",
+    )
+    p.add_argument(
+        "--state",
+        help="RuleBook JSON path (required for rule-* modes)",
+    )
+    p.add_argument("--long", dest="rule_long", help="rule-declare: long form")
+    p.add_argument("--short", dest="rule_short", help="rule-declare: short token")
+    p.add_argument(
+        "--threshold",
+        type=int,
+        default=None,
+        help="rule-observe/sim: auto-adopt after N sightings (default 3 / book value)",
+    )
+    p.add_argument(
+        "--corpus",
+        help="rule-sim: line-oriented corpus file (else --file/--text/stdin)",
+    )
+    p.add_argument(
+        "--no-auto-adopt",
+        action="store_true",
+        help="rule-observe/sim: record proposals only, do not adopt",
     )
     args = p.parse_args(argv)
 
+    # --- shared-rule modes (key optional) ---
+    if args.mode.startswith("rule-"):
+        import json as _json
+
+        rb = _load_rulebook()
+        if not args.state:
+            raise SystemExit(f"{args.mode} requires --state PATH")
+        book = rb.RuleBook.load(args.state, threshold=args.threshold)
+        if args.no_auto_adopt:
+            book.auto_adopt = False
+
+        if args.mode == "rule-declare":
+            if not args.rule_long:
+                raise SystemExit("rule-declare needs --long")
+            rule = book.declare(args.rule_long, args.rule_short)
+            book.save()
+            print(rule.short)
+            if args.stats:
+                print(_json.dumps({"declared": rule.to_dict(), **book.stats()}, ensure_ascii=False), file=sys.stderr)
+            return 0
+
+        if args.mode == "rule-observe":
+            text = _rule_text(args)
+            info = book.observe(text)
+            encoded = book.encode_with_rules(text)
+            book.save()
+            out = encoded
+            if args.out:
+                Path(args.out).write_text(out + ("\n" if not out.endswith("\n") else ""), encoding="utf-8")
+            else:
+                print(out)
+            print(_json.dumps(info, ensure_ascii=False), file=sys.stderr)
+            return 0
+
+        if args.mode == "rule-encode":
+            text = _rule_text(args)
+            encoded = book.encode_with_rules(text)
+            wrapped = _maybe_wrap_envelope(encoded, args)
+            if args.out:
+                Path(args.out).write_text(wrapped + "\n", encoding="utf-8")
+            else:
+                print(wrapped)
+            if args.stats:
+                print(
+                    _json.dumps(
+                        {
+                            "chars_before": len(text),
+                            "chars_after": len(encoded),
+                            "wrapped": wrapped != encoded,
+                            **book.stats(),
+                        },
+                        ensure_ascii=False,
+                    ),
+                    file=sys.stderr,
+                )
+            return 0
+
+        if args.mode == "rule-decode":
+            blob = _rule_text(args)
+            unwrapped = _maybe_unwrap_envelope(blob, args)
+            decoded = book.decode_with_rules(unwrapped)
+            if args.out:
+                Path(args.out).write_text(decoded + ("\n" if not decoded.endswith("\n") else ""), encoding="utf-8")
+            else:
+                print(decoded)
+            if args.stats:
+                print(
+                    _json.dumps(
+                        {"chars_before": len(unwrapped), "chars_after": len(decoded), **book.stats()},
+                        ensure_ascii=False,
+                    ),
+                    file=sys.stderr,
+                )
+            return 0
+
+        if args.mode == "rule-sim":
+            if args.corpus:
+                corpus = Path(args.corpus).read_text(encoding="utf-8")
+            else:
+                corpus = _rule_text(args)
+            lines = [ln for ln in corpus.splitlines() if ln.strip()]
+            rows = []
+            for i, line in enumerate(lines, start=1):
+                before = line
+                info = book.observe(line)
+                after = book.encode_with_rules(line)
+                row = {
+                    "turn": book.turn,
+                    "chars_before": len(before),
+                    "chars_after": len(after),
+                    "adopted": info.get("adopted", []),
+                    "text": after,
+                }
+                rows.append(row)
+                print(f"[{book.turn}] {len(before)}→{len(after)} {after}")
+            book.save()
+            print(
+                _json.dumps(
+                    {"turns": len(rows), "final_rules": len(book.rules), "rules": [r.to_dict() for r in book.rules]},
+                    ensure_ascii=False,
+                ),
+                file=sys.stderr,
+            )
+            return 0
+
+        raise SystemExit(f"unhandled rule mode: {args.mode}")
+
+    # --- crypto envelope modes (key required) ---
     key = _read_key(args)
     aad = args.aad or ""
 
@@ -318,6 +509,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         sys.stdout.buffer.write(plain)
     return 0
+
 
 
 if __name__ == "__main__":
