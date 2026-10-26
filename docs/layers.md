@@ -1,6 +1,6 @@
 # 層とサブプロジェクトの対応
 
-詳細はルート README を参照。実装が進んだら、ここにコーパス例と往復プロトコルを足す。
+詳細はルート README と [subprojects.md](subprojects.md) を参照。
 
 | 層 | サブプロジェクト |
 | --- | --- |
@@ -9,3 +9,5 @@
 | 3 人間ギリギリ | ShorthandLab (C) |
 | 4 文内・文法最小 | MorphoZip (E) |
 | 横断ルーティング | ConvoZip (D) |
+
+JUnit は CI で `build/test-results/pytest-<ver>.xml` に置き、artifact 名は `junit-py*` です（Aoi / ascii_artist と同系）。

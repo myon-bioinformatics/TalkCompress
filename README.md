@@ -31,6 +31,12 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 | D | [ConvoZip](ConvoZip/) | 横断 — 入出力・層の切替・共通CLIの受け口 |
 | E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・形態素/文法最小の圧縮 |
 
+## 開発・CI
+
+- Python は `uv` 管理（`uv.lock` をコミット）。`uv sync` のあと `uv run pytest`。
+- CI は Aoi 寄り: `setup-uv`、pytest の JUnit を `build/test-results/`、親リポの reusable junit-identity。
+- A–E の親は本リポ。真親 myon-bioinformatics への child 登録はしない。[docs/subprojects.md](docs/subprojects.md)
+
 ## 使い方（予定）
 
 各サブプロジェクトに `*.py` のエントリを置き、`ConvoZip` から層を選んで呼び出す想定です。実装はこれから足します。

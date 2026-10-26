@@ -6,10 +6,23 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [{ name = "myon" }]
+dependencies = []
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = ["pytest>=8"]
+
+# Runtime modules stay dependency-light; uv manages contributor/CI tools.
+[tool.uv]
+package = false
+default-groups = ["dev"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = [
+  ".",
+  "Zipilogue",
+  "TesseraTalk",
+  "ShorthandLab",
+  "ConvoZip",
+  "MorphoZip",
+]
