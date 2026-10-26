@@ -1,6 +1,6 @@
 # MorphoZip（E）
 
-**層4 — 文内多言語・文法最小。** 予測候補が少ない短い形を優先。語彙の一意読み（rank-1）もここで扱う。
+**層4 — 文内多言語・文法最小。** 予測候補が少ない短い形を優先。一意読み（rank-1・長い形）と語源寄せもここで扱う。
 
 ## 方針
 
@@ -14,23 +14,23 @@
 
 ## 語彙ポリシー（揺らぎ削減）
 
-`shared/lex_policy.py` を利用:
+`shared/lex_policy.py` を利用（**E 既定**）:
 
-1. **FILLER 除去** — um / えーと / I mean など
-2. **一意読み** — 多義の基本動詞を論文調・手順寄りの語へ（find out → ascertain → `ascrt` など）
-3. **語源寄せ** — 近縁 LTR で共有ルートが見える短い形へ（information/información → `info`）。FR `nombre` は偽友なので対象外
+1. **一意読み（長い形）** — find out → `ascertain`（UNIQUE_COMPACT の `ascrt` は付けない）
+2. **語源寄せ** — information/información → `info`
 
-F サブプロジェクトは作らず、この層に集約。C（ShorthandEdge）は FILLER 除去のみ共有。
+**FILLER 除去と UNIQUE_COMPACT（ascrt など）は C（ShorthandEdge）の担当。** E 単体ではフィラーを残す。`--strip` / `--aggressive-fillers` でオプトイン可。パイプライン `C,E` なら C が先にフィラーを落とす。
 
 ```bash
-uv run python MorphoZip/morpho_zip.py --text 'um 私は will find out the information'
+uv run python MorphoZip/morpho_zip.py --text '私は will find out the information about 3 animals'
+# → I will ascertain the info about 3匹
 uv run python MorphoZip/morpho_zip.py --stats --text 'I am here with you'
 uv run python MorphoZip/morpho_zip.py --text 'I see 3 animals and 2 people'
 uv run python MorphoZip/morpho_zip.py --hex-nums --text 'retry 255 times'
+uv run python MorphoZip/morpho_zip.py --strip --text 'um ready'   # オプトイン
 uv run python MorphoZip/morpho_zip.py --no-unique --text '...'   # 一意化オフ
 ```
 
 ## Protected spans
 
 `[[keep:...]]` and `` `keep:...` `` wrappers are stripped; inner text is preserved unchanged through compress. `--protect-regex` (repeatable) masks full matches the same way.
-

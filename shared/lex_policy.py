@@ -1,6 +1,11 @@
 """Lexeme policy: fillers, unique-reading preference, light etymon alignment.
 
-Used primarily by MorphoZip (E); filler stripping is also safe for ShorthandEdge (C).
+Layer ownership (TalkCompress):
+- **C ShorthandEdge**: ``strip_fillers``, ``UNIQUE_COMPACT`` (via ``apply_unique_readings(..., compact=True)``
+  or ``apply_unique_compact``). Also slang / hereafter / packs.
+- **E MorphoZip**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN``,
+  first-person / counters / grammar-min. Does **not** strip fillers or apply UNIQUE_COMPACT by default.
+- Helpers live here so both layers can import them; callers choose which passes to run.
 """
 
 from __future__ import annotations
@@ -305,16 +310,27 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     return out.strip()
 
 
-def apply_unique_readings(text: str, *, compact: bool = True) -> str:
-    """Replace polysemous basics with tighter verbs, optionally compact."""
+def apply_unique_readings(text: str, *, compact: bool = False) -> str:
+    """Replace polysemous basics with tighter verbs; optionally UNIQUE_COMPACT.
+
+    Default ``compact=False`` (E / anti-ambiguity long form). Pass ``compact=True``
+    from C (ShorthandEdge) to also clip ascertain→ascrt etc.
+    """
     out = text
     for long, tight in sorted(UNIQUE_READINGS.items(), key=lambda kv: len(kv[0]), reverse=True):
         out = re.sub(rf"(?i)\b{re.escape(long)}\b", tight, out)
     if compact:
-        for long, short in sorted(UNIQUE_COMPACT.items(), key=lambda kv: len(kv[0]), reverse=True):
-            if long == short:
-                continue
-            out = re.sub(rf"(?i)\b{re.escape(long)}\b", short, out)
+        out = apply_unique_compact(out)
+    return out
+
+
+def apply_unique_compact(text: str) -> str:
+    """Apply UNIQUE_COMPACT only (C ownership). ascertain→ascrt, configure→cfg, …"""
+    out = text
+    for long, short in sorted(UNIQUE_COMPACT.items(), key=lambda kv: len(kv[0]), reverse=True):
+        if long == short:
+            continue
+        out = re.sub(rf"(?i)\b{re.escape(long)}\b", short, out)
     return out
 
 

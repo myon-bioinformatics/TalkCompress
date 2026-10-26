@@ -273,26 +273,44 @@ def test_lex_strip_fillers():
 def test_lex_unique_and_etymon():
     from shared.lex_policy import apply_etymon_align, apply_unique_readings
 
+    u_long = apply_unique_readings("please find out the answer", compact=False)
+    assert "ascertain" in u_long.lower()
+    assert "ascrt" not in u_long.lower()
     u = apply_unique_readings("please find out the answer", compact=True)
-    assert "ascrt" in u or "ascertain" in u or "find out" not in u.lower()
+    assert "ascrt" in u.lower()
+    assert "find out" not in u.lower()
     e = apply_etymon_align("send the information and the document")
     assert "info" in e
     assert "doc" in e
     assert apply_etymon_align("información") == "info"
 
 
-def test_morpho_strips_fillers_and_pins_lexemes():
+def test_morpho_alone_keeps_fillers_no_compact():
+    """E alone: fillers kept; UNIQUE_READINGS long form; no UNIQUE_COMPACT."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    out = m.compress("um 私は will find out the information")
-    assert "um" not in out.lower()
+    out = m.compress("um 私は will find out the information about 3 animals")
+    assert out.lower().startswith("um") or "um" in out.lower()
     assert "I" in out
     assert "info" in out
-    # find out → unique path (ascrt or similar compact)
+    assert "ascertain" in out.lower()
+    assert "ascrt" not in out.lower()
     assert "find out" not in out.lower()
+    assert "3匹" in out
 
 
-def test_shorthand_also_strips_fillers():
+def test_morpho_opt_in_strip():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    out = m.compress("um ready", strip=True)
+    assert "um" not in out.lower()
+    assert "ready" in out
+
+
+def test_shorthand_strips_fillers_and_compacts():
+    """C alone: fillers stripped + UNIQUE_COMPACT (ascrt)."""
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     out = s.compress("um for your information")
     assert "FYI" in out
     assert "um" not in out.lower()
+    out2 = s.compress("please find out the answer")
+    assert "ascrt" in out2.lower()
+    assert "find out" not in out2.lower()

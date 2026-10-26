@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""ShorthandEdge (C): slang / abbreviation / emoji / session conventions (layer 3)."""
+"""ShorthandEdge (C): slang / abbreviation / emoji / session conventions (layer 3).
+
+Also owns filler stripping and UNIQUE_COMPACT (ascertain→ascrt etc.).
+"""
 
 from __future__ import annotations
 
@@ -13,7 +16,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from shared.lex_policy import strip_fillers  # noqa: E402
+from shared.lex_policy import apply_unique_readings, strip_fillers  # noqa: E402
 
 # phrase (lowercase) → short form. Longer keys win via sorted replace.
 DEFAULT_MAP: dict[str, str] = {
@@ -281,7 +284,10 @@ def compress(text: str, mapping: dict[str, str] | None = None, session: Session 
     for line in lines:
         if sess.ingest_line(line):
             continue
-        kept.append(strip_fillers(_apply_map(line, sess.effective)))
+        line_out = strip_fillers(_apply_map(line, sess.effective))
+        # UNIQUE_READINGS + UNIQUE_COMPACT (C ownership): find out → ascrt
+        line_out = apply_unique_readings(line_out, compact=True)
+        kept.append(line_out)
     if len(lines) == 1 and "\n" not in text:
         return kept[0] if kept else ""
     return "\n".join(kept)

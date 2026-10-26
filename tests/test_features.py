@@ -32,6 +32,7 @@ def _ns(**kwargs):
         aad="",
         lexicon=None,
         no_rle=False,
+        strip=False,
         no_strip=False,
         no_unique=False,
         no_etymon=False,
@@ -45,6 +46,34 @@ def _ns(**kwargs):
     )
     defaults.update(kwargs)
     return c.argparse.Namespace(**defaults)
+
+
+
+# --- layer ownership: fillers + UNIQUE_COMPACT = C ---
+
+
+def test_layer_ownership_matrix_classic_example():
+    """Classic example: E alone keeps um/ascertain; C alone & C,E strip + compact."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    c = _load("convo_hub", "ConvoHub/convo_hub.py")
+    classic = "um 私は will find out the information about 3 animals"
+
+    e_out = m.compress(classic)
+    assert "um" in e_out.lower()
+    assert "ascertain" in e_out.lower()
+    assert "ascrt" not in e_out.lower()
+    assert "info" in e_out
+    assert "3匹" in e_out
+
+    c_out = s.compress(classic)
+    assert "um" not in c_out.lower()
+    assert "ascrt" in c_out.lower()
+
+    pipe = c.run_pipeline(["C", "E"], classic, _ns())
+    assert "um" not in pipe.lower()
+    assert "ascrt" in pipe.lower() or "ascertain" not in pipe.lower()
+    assert "3匹" in pipe or "info" in pipe
 
 
 # --- pipeline C→E ---

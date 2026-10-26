@@ -12,4 +12,10 @@
 
 JUnit は CI で `build/test-results/pytest-<ver>.xml` に置き、artifact 名は `junit-py*` です（Aoi / ascii_artist と同系）。
 
-層4は `shared/lex_policy.py` で FILLER 除去・一意読み・語源寄せを担う（F は当面なし。C は FILLER のみ共有）。
+語彙ヘルパーは `shared/lex_policy.py`。担当は:
+
+- **C**: FILLER 除去・UNIQUE_COMPACT（短縮クリップ）
+- **E**: UNIQUE_READINGS（長い形）・ETYMON_ALIGN・文法最小。フィラー/compact は既定オフ
+- **D**: `C,E` パイプラインなら C が先にフィラーを落とす
+
+F は当面なし。

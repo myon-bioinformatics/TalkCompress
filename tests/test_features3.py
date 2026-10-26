@@ -37,6 +37,7 @@ def _ns(**kwargs):
         no_rle=False,
         preserve_newlines=False,
         prefer_ltr=False,
+        strip=False,
         no_strip=False,
         no_unique=False,
         no_etymon=False,

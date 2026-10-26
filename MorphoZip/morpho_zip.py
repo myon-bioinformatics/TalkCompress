@@ -5,13 +5,15 @@ Prefer short low-ambiguity tokens that shrink prediction candidates
 (e.g. ``I`` over 私は/僕は/俺は). Keep useful counters (匹/個). Avoid heavy
 gendered morphology and Chinese-only bias.
 
-Also applies shared lexeme policy (``shared.lex_policy``):
-- strip fillers / light interjections
-- unique-reading (rank-1) verb/phrase choice
-- light etymon alignment across related LTR languages
+Shared lexeme policy (``shared.lex_policy``) usage:
+- UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
+- ETYMON_ALIGN (information → info)
 - EN quantity phrases → short JA counters (experimental)
 - optional integer → hex rewrite (``hex_nums``)
 - protected spans ``[[keep:...]]`` / `` `keep:...` `` (wrappers stripped)
+
+Fillers and UNIQUE_COMPACT are **C (ShorthandEdge)** by default. Optional
+``strip=True`` / ``--strip`` / ``--aggressive-fillers`` remain for opt-in.
 """
 
 from __future__ import annotations
@@ -186,7 +188,7 @@ def restore_protected(text: str, restores: list[str]) -> str:
 def compress(
     text: str,
     *,
-    strip: bool = True,
+    strip: bool = False,
     unique: bool = True,
     etymon: bool = True,
     aggressive_fillers: bool = False,
@@ -197,12 +199,17 @@ def compress(
 ) -> str:
     """Compress text. ``[[keep:...]]`` / `` `keep:...` `` spans and optional
     ``protect_regexes`` are left unchanged (wrappers stripped for keep-forms).
+
+    Default: no filler strip, no UNIQUE_COMPACT (those belong to C).
+    ``strip=True`` or ``aggressive_fillers=True`` opt into filler removal.
     """
     out, restores = extract_protected(text, protect_regexes)
-    if strip:
+    # aggressive_fillers implies strip
+    do_strip = strip or aggressive_fillers
+    if do_strip:
         out = strip_fillers(out, aggressive=aggressive_fillers)
     if unique:
-        out = apply_unique_readings(out, compact=True)
+        out = apply_unique_readings(out, compact=False)
     if etymon:
         out = apply_etymon_align(out)
     if counters:
@@ -261,7 +268,7 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
 def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     """Best-effort inverse of compress for counters / a subset of short forms.
 
-    Lossy: gender collapses, filler drops, unique-readings, and many _SUBS have no
+    Lossy: gender collapses, optional filler drops, unique-readings, and many _SUBS have no
     unique inverse. Only unambiguous counter and short-token mappings are reversed.
     """
     from shared.lex_policy import UNIQUE_COMPACT
@@ -368,11 +375,24 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("--text", help="input; else stdin")
     p.add_argument("--stats", action="store_true", help="print density metrics to stderr")
-    p.add_argument("--no-strip", action="store_true", help="keep fillers")
+    p.add_argument(
+        "--strip",
+        action="store_true",
+        help="opt-in filler strip (default off; fillers are C/ShorthandEdge)",
+    )
+    p.add_argument(
+        "--no-strip",
+        action="store_true",
+        help="compat: fillers already kept by default",
+    )
     p.add_argument("--no-unique", action="store_true", help="skip unique-reading pass")
     p.add_argument("--no-etymon", action="store_true", help="skip etymon alignment")
     p.add_argument("--no-counters", action="store_true", help="skip EN→JA counter mapping")
-    p.add_argument("--aggressive-fillers", action="store_true")
+    p.add_argument(
+        "--aggressive-fillers",
+        action="store_true",
+        help="opt-in aggressive filler strip (implies --strip)",
+    )
     p.add_argument(
         "--hex-nums",
         action="store_true",
@@ -399,7 +419,7 @@ def main(argv: list[str] | None = None) -> int:
     else:
         out = compress(
             text,
-            strip=not args.no_strip,
+            strip=args.strip and not args.no_strip,
             unique=not args.no_unique,
             etymon=not args.no_etymon,
             aggressive_fillers=args.aggressive_fillers,

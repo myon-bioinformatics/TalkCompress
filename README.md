@@ -20,7 +20,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 - whatever / hereafter 系の「ほぼ1語」化も積極採用
 - 性別名詞の重い体系は避け、中性寄りでコストを下げる
 - 数字は `0-9`、必要なら `0-F`（16進、`--hex-nums`）。数学記法も可
-- 層4は FILLER 除去・一意読み・語源寄せ（`shared/lex_policy.py`）。別サブプロジェクト F は当面なし
+- 層3（C）が FILLER 除去と UNIQUE_COMPACT。層4（E）は一意読み（長い形）・語源寄せ・文法最小（`shared/lex_policy.py`）。F は当面なし
 
 ## サブプロジェクト（A–E）
 
@@ -28,9 +28,9 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 | --- | --- | --- |
 | A | [Zipilogue](Zipilogue/) | 層1 — 機械同士の符号化・鍵付き往復 |
 | B | [TesseraTalk](TesseraTalk/) | 層2 — 文単位の言語切替モザイク |
-| C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約辞書 |
+| C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約・FILLER・UNIQUE_COMPACT |
 | D | [ConvoHub](ConvoHub/) | 横断 — 入出力・層の切替・共通CLIの受け口 |
-| E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・形態素/文法最小の圧縮 |
+| E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小（フィラー除去は既定オフ） |
 
 ## 開発・CI
 
@@ -114,7 +114,7 @@ uv run python ConvoHub/convo_hub.py --layer C --min-ratio 0.5 --text "xyzzy" || 
 
 # ドメインパック / 保護スパン（[[keep:...]] はラッパ除去・中身そのまま）
 uv run python ConvoHub/convo_hub.py --layer C --pack mcp --pack dev --text "model context protocol"
-uv run python ConvoHub/convo_hub.py --layer E --text 'um [[keep:thank you for your information]] please'
+uv run python ConvoHub/convo_hub.py --layer E --text '[[keep:thank you for your information]] please'
 
 # Zipilogue 鍵指紋（鍵自体は出さない） / encode dry-run
 uv run python ConvoHub/convo_hub.py --fingerprint-key --key 'shared'

@@ -111,6 +111,7 @@ _PROFILE_FLAG_KEYS = (
     "auto",
     "auto_machine",
     "aggressive_fillers",
+    "strip",
     "no_rle",
     "preserve_newlines",
     "prefer_ltr",
@@ -170,6 +171,7 @@ def apply_profile(args: argparse.Namespace, profile: dict[str, Any], *, cli_expl
         "prefer-ltr": "prefer_ltr",
         "hex-nums": "hex_nums",
         "hex-bare": "hex_bare",
+        "strip": "strip",
         "no-strip": "no_strip",
         "no-unique": "no_unique",
         "no-etymon": "no_etymon",
@@ -450,9 +452,15 @@ def _run_e(text: str, args: argparse.Namespace) -> str:
     protect = getattr(args, "protect_regex", None)
     if isinstance(protect, str):
         protect = [protect]
+    # E default: no filler strip (C owns fillers). --strip / --aggressive-fillers opt in.
+    want_strip = bool(getattr(args, "strip", False)) or bool(
+        getattr(args, "aggressive_fillers", False)
+    )
+    if getattr(args, "no_strip", False):
+        want_strip = False
     out = m.compress(
         text,
-        strip=not getattr(args, "no_strip", False),
+        strip=want_strip,
         unique=not getattr(args, "no_unique", False),
         etymon=not getattr(args, "no_etymon", False),
         aggressive_fillers=getattr(args, "aggressive_fillers", False),
@@ -874,11 +882,24 @@ def build_parser() -> argparse.ArgumentParser:
         help="ShorthandEdge: dump effective lexicon JSON to PATH after compress",
     )
     p.add_argument("--stats", action="store_true", help="MorphoZip/TesseraTalk/budget stats on stderr")
-    p.add_argument("--no-strip", action="store_true", help="MorphoZip: keep fillers")
+    p.add_argument(
+        "--strip",
+        action="store_true",
+        help="MorphoZip: opt-in filler strip (default off; C owns fillers)",
+    )
+    p.add_argument(
+        "--no-strip",
+        action="store_true",
+        help="MorphoZip: force keep fillers (overrides --strip / profile)",
+    )
     p.add_argument("--no-unique", action="store_true", help="MorphoZip: skip unique-reading")
     p.add_argument("--no-etymon", action="store_true", help="MorphoZip: skip etymon align")
     p.add_argument("--no-counters", action="store_true", help="MorphoZip: skip counter map")
-    p.add_argument("--aggressive-fillers", action="store_true", help="MorphoZip aggressive fillers")
+    p.add_argument(
+        "--aggressive-fillers",
+        action="store_true",
+        help="MorphoZip: opt-in aggressive filler strip (implies strip)",
+    )
     p.add_argument("--hex-nums", action="store_true", help="MorphoZip: integers → hex")
     p.add_argument("--hex-bare", action="store_true", help="MorphoZip: bare hex (no 0x)")
     p.add_argument(
@@ -982,6 +1003,7 @@ def main(argv: list[str] | None = None) -> int:
         "--prefer-ltr": "prefer_ltr",
         "--hex-nums": "hex_nums",
         "--hex-bare": "hex_bare",
+        "--strip": "strip",
         "--no-strip": "no_strip",
         "--no-unique": "no_unique",
         "--no-etymon": "no_etymon",
