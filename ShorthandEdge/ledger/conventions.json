@@ -29,7 +29,8 @@
       "family=relative (E 関係代名詞/関代): which→that (EN-internal; tok 2→1; post-nominal/non-restrictive gate; not interrogative which?/pied-pipe prep which); whom→who; Romance/DE long forms (lequel/welcher*/el que…)→que shared pivot. Do NOT emit bare q. deixis that→eso and complementizer/relative-that skip gate unchanged. Skip: whose (no clear short), lo que (what-clause 揺らぎ), relative where/donde/où/wo (ever-wherever/wo 揺らぎ), bare qui rewrite of who.",
       "gap-fill closed thin: det/quant + conj purpose + reciprocal + hedges + colloquial aux (tip after 1f5fbb4)",
       "C eng/dev abbrev tranche (QED/LGTM/DRY/…): established engineer/programmer acronyms as family=abbrev acronym; iff already →⇔ via symbol-iff (math preferred).",
-      "C path/unix-short tranche (family=path, id path-*): src/doc(s)/tmp/lib/bin/dist/pkg/cfg/util/bak/incl/impl/misc/log(s)/fmt/arg(s)/argv/diff/recv/snd/cc/bcc. dual token+utf8; meaning gates via skip_if_re. Folded etc→conj-etc. Skips: temp→tmp token-flat as sole sample (alias ok); conf≺cfg; utils≺util; bare send/sent→snd; bare log; bare argv; Δ/≠ keep symbol sense vs path-diff."
+      "C path/unix-short tranche (family=path, id path-*): src/doc(s)/tmp/lib/bin/dist/pkg/cfg/util/bak/incl/impl/misc/log(s)/fmt/arg(s)/argv/diff/recv/snd/cc/bcc. dual token+utf8; meaning gates via skip_if_re. Folded etc→conj-etc. Skips: temp→tmp token-flat as sole sample (alias ok); conf≺cfg; utils≺util; bare send/sent→snd; bare log; bare argv; Δ/≠ keep symbol sense vs path-diff.",
+      "C music-term abbrev tranche (family=music, id music-*): aug/dim/dim7/sus/sus4/sus2/add9/maj/maj7/min/min7 + dynamics ff/pp/mf/mp/sfz/cresc + rit/pizz/arp. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: diminuendo→dim（chord dim と衝突）; bare add/added; bare major/minor/m/M; accel/gliss/vib/trem/DC/DS/flat-sharp（天井・次枠）; JP 増三和音等は任意で未投入。"
     ],
     "abbrev_sync": {
       "upserted": [
@@ -25015,6 +25016,794 @@
             "before": 136,
             "after": 24,
             "delta": -112
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-aug",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "augmented triad",
+        "augmented chord",
+        "augmented interval",
+        "augmented"
+      ],
+      "to": "aug",
+      "rationale": "Music: augmented (triad/chord/interval) → aug",
+      "breakdown": "略",
+      "meaning_gate": "chord/interval quality; skip AR / verb 'augmented'",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "augmented triad",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "augmented triad",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\baugmented\\s+reality\\b|\\baugmented\\s+with\\b|\\b(?:was|were|been|have|has|had|is|are|being)\\s+augmented\\b"
+    },
+    {
+      "id": "music-dim",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "diminished triad",
+        "diminished chord",
+        "diminished"
+      ],
+      "to": "dim",
+      "rationale": "Music: diminished (chord/triad) → dim；diminuendo→dim は衝突のため見送り",
+      "breakdown": "略",
+      "meaning_gate": "chord quality; skip diminished returns/capacity; diminuendo not in from[]",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "diminished triad",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "diminished triad",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bdiminished\\s+(?:returns?|capacity|responsibility|role|value|importance|expectations?)\\b"
+    },
+    {
+      "id": "music-dim7",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "diminished seventh",
+        "diminished 7th"
+      ],
+      "to": "dim7",
+      "rationale": "Music: diminished seventh → dim7",
+      "breakdown": "略",
+      "meaning_gate": "chord symbol dim7",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "diminished seventh",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 32,
+          "delta": -112,
+          "ratio": 0.2222,
+          "sample_from": "diminished seventh",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 32,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bdiminished\\s+(?:returns?|capacity)\\b"
+    },
+    {
+      "id": "music-sus",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "suspended chord",
+        "suspended"
+      ],
+      "to": "sus",
+      "rationale": "Music: suspended chord → sus",
+      "breakdown": "略",
+      "meaning_gate": "chord quality; skip legal/HR suspend / suspicious / suspension (not bare 'suspended chord')",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "suspended chord",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "suspended chord",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bsuspended\\s+(?:sentence|animation|from|for|account|license|operations?|belief)\\b|\\bsuspension\\b|\\bsuspicious\\b|\\bsuspends?\\b|\\bsuspending\\b"
+    },
+    {
+      "id": "music-sus4",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "suspended fourth",
+        "suspended 4th"
+      ],
+      "to": "sus4",
+      "rationale": "Music: suspended fourth → sus4",
+      "breakdown": "略",
+      "meaning_gate": "chord symbol sus4",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "suspended fourth",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 32,
+          "delta": -96,
+          "ratio": 0.25,
+          "sample_from": "suspended fourth",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 32,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-sus2",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "suspended second",
+        "suspended 2nd"
+      ],
+      "to": "sus2",
+      "rationale": "Music: suspended second → sus2",
+      "breakdown": "略",
+      "meaning_gate": "chord symbol sus2",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "suspended second",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 32,
+          "delta": -96,
+          "ratio": 0.25,
+          "sample_from": "suspended second",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 32,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-add9",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "added ninth",
+        "added 9th",
+        "added ninth chord"
+      ],
+      "to": "add9",
+      "rationale": "Music: added ninth → add9（bare add/added は日常動詞のため未登録）",
+      "breakdown": "略",
+      "meaning_gate": "chord add9; skip everyday added a/to/value",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "added ninth",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 32,
+          "delta": -56,
+          "ratio": 0.3636,
+          "sample_from": "added ninth",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 32,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\badded\\s+(?:a|an|the|to|value|benefit)\\b"
+    },
+    {
+      "id": "music-maj",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "major triad",
+        "major chord",
+        "major key"
+      ],
+      "to": "maj",
+      "rationale": "Music: major triad/chord/key → maj（bare major/M 見送り）",
+      "breakdown": "略",
+      "meaning_gate": "chord/key quality; bare major/M skipped",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "major triad",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "major triad",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bmajor\\s+(?:problem|issue|part|role|concern|city|general|league)\\b"
+    },
+    {
+      "id": "music-maj7",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "major seventh",
+        "major 7th"
+      ],
+      "to": "maj7",
+      "rationale": "Music: major seventh → maj7",
+      "breakdown": "略",
+      "meaning_gate": "chord symbol maj7",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "major seventh",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 32,
+          "delta": -72,
+          "ratio": 0.3077,
+          "sample_from": "major seventh",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 32,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-min",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "minor triad",
+        "minor chord",
+        "minor key"
+      ],
+      "to": "min",
+      "rationale": "Music: minor triad/chord/key → min（bare minor/m 見送り）",
+      "breakdown": "略",
+      "meaning_gate": "chord/key quality; bare minor/m skipped",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "minor triad",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "minor triad",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bminor\\s+(?:problem|issue|part|role|concern|injury|offense)\\b"
+    },
+    {
+      "id": "music-min7",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "minor seventh",
+        "minor 7th"
+      ],
+      "to": "min7",
+      "rationale": "Music: minor seventh → min7",
+      "breakdown": "略",
+      "meaning_gate": "chord symbol min7",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "minor seventh",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 32,
+          "delta": -72,
+          "ratio": 0.3077,
+          "sample_from": "minor seventh",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 32,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-ff",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "fortissimo"
+      ],
+      "to": "ff",
+      "rationale": "Music dynamics: fortissimo → ff",
+      "breakdown": "略",
+      "meaning_gate": "score dynamic ff",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "fortissimo",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "fortissimo",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-pp",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "pianissimo"
+      ],
+      "to": "pp",
+      "rationale": "Music dynamics: pianissimo → pp",
+      "breakdown": "略",
+      "meaning_gate": "score dynamic pp",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "pianissimo",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "pianissimo",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-mf",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "mezzo forte",
+        "mezzo-forte"
+      ],
+      "to": "mf",
+      "rationale": "Music dynamics: mezzo forte → mf",
+      "breakdown": "略",
+      "meaning_gate": "score dynamic mf",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "mezzo forte",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 16,
+          "delta": -72,
+          "ratio": 0.1818,
+          "sample_from": "mezzo forte",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 16,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-mp",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "mezzo piano",
+        "mezzo-piano"
+      ],
+      "to": "mp",
+      "rationale": "Music dynamics: mezzo piano → mp",
+      "breakdown": "略",
+      "meaning_gate": "score dynamic mp",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "mezzo piano",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 16,
+          "delta": -72,
+          "ratio": 0.1818,
+          "sample_from": "mezzo piano",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 16,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-sfz",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "sforzando",
+        "sforzato"
+      ],
+      "to": "sfz",
+      "rationale": "Music dynamics: sforzando/sforzato → sfz",
+      "breakdown": "略",
+      "meaning_gate": "score dynamic sfz",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "sforzando",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 24,
+          "delta": -48,
+          "ratio": 0.3333,
+          "sample_from": "sforzando",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 24,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-cresc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "crescendo"
+      ],
+      "to": "cresc",
+      "rationale": "Music: crescendo → cresc",
+      "breakdown": "略",
+      "meaning_gate": "score marking cresc",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "crescendo",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 40,
+          "delta": -32,
+          "ratio": 0.5556,
+          "sample_from": "crescendo",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 40,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-rit",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "ritardando"
+      ],
+      "to": "rit",
+      "rationale": "Music: ritardando → rit",
+      "breakdown": "略",
+      "meaning_gate": "score tempo rit",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "ritardando",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "ritardando",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-pizz",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "pizzicato"
+      ],
+      "to": "pizz",
+      "rationale": "Music: pizzicato → pizz",
+      "breakdown": "略",
+      "meaning_gate": "score articulation pizz",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "pizzicato",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 32,
+          "delta": -40,
+          "ratio": 0.4444,
+          "sample_from": "pizzicato",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 32,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "music-arp",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "music",
+      "from": [
+        "arpeggio",
+        "arpeggios"
+      ],
+      "to": "arp",
+      "rationale": "Music: arpeggio(s) → arp",
+      "breakdown": "略",
+      "meaning_gate": "score/technique arp",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "arpeggio",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 24,
+          "delta": -40,
+          "ratio": 0.375,
+          "sample_from": "arpeggio",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
           },
           "inventory": null
         }

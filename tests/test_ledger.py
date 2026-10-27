@@ -1334,3 +1334,86 @@ def test_path_unix_short_tranche():
     assert by_id["path-util"]["to"] == "util"
     assert "send" not in [str(x).lower() for x in by_id["path-snd"]["from"]]
 
+
+
+def test_music_term_abbrev_tranche():
+    """Music chord/dynamics/score shorts (family=music): dual-metric WIN + gates."""
+    from shared.ledger import (
+        BREAKDOWN_ALLOWED,
+        apply_ledger_lex,
+        list_conventions,
+        validate_ledger_metrics,
+    )
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+
+    expected = {
+        "music-aug": "aug",
+        "music-dim": "dim",
+        "music-dim7": "dim7",
+        "music-sus": "sus",
+        "music-sus4": "sus4",
+        "music-sus2": "sus2",
+        "music-add9": "add9",
+        "music-maj": "maj",
+        "music-maj7": "maj7",
+        "music-min": "min",
+        "music-min7": "min7",
+        "music-ff": "ff",
+        "music-pp": "pp",
+        "music-mf": "mf",
+        "music-mp": "mp",
+        "music-sfz": "sfz",
+        "music-cresc": "cresc",
+        "music-rit": "rit",
+        "music-pizz": "pizz",
+        "music-arp": "arp",
+    }
+    for cid, dst in expected.items():
+        c = by_id[cid]
+        assert c["to"] == dst, cid
+        assert c["apply_layer"] == "C"
+        assert c["family"] == "music"
+        assert c["breakdown"] in BREAKDOWN_ALLOWED
+        m = c["metrics"]
+        assert m["token"]["delta"] < 0, cid
+        assert m["bit"]["utf8"]["delta"] < 0, cid
+        assert m["token"]["sample_from"] == c["from"][0]
+
+    # apply positives
+    assert apply_ledger_lex("augmented triad") == "aug"
+    assert apply_ledger_lex("diminished chord") == "dim"
+    assert apply_ledger_lex("diminished seventh") == "dim7"
+    assert apply_ledger_lex("suspended chord") == "sus"
+    assert apply_ledger_lex("suspended fourth") == "sus4"
+    assert apply_ledger_lex("suspended second") == "sus2"
+    assert apply_ledger_lex("added ninth") == "add9"
+    assert apply_ledger_lex("major triad") == "maj"
+    assert apply_ledger_lex("major seventh") == "maj7"
+    assert apply_ledger_lex("minor chord") == "min"
+    assert apply_ledger_lex("minor seventh") == "min7"
+    assert apply_ledger_lex("fortissimo") == "ff"
+    assert apply_ledger_lex("pianissimo") == "pp"
+    assert apply_ledger_lex("mezzo forte") == "mf"
+    assert apply_ledger_lex("mezzo piano") == "mp"
+    assert apply_ledger_lex("sforzando") == "sfz"
+    assert apply_ledger_lex("crescendo") == "cresc"
+    assert apply_ledger_lex("ritardando") == "rit"
+    assert apply_ledger_lex("pizzicato") == "pizz"
+    assert apply_ledger_lex("arpeggio") == "arp"
+
+    # everyday / non-music senses gated or never registered as from[]
+    assert "augmented reality" in apply_ledger_lex("augmented reality headset")
+    assert "diminished returns" in apply_ledger_lex("diminished returns on capital")
+    assert "suspended sentence" in apply_ledger_lex("suspended sentence for theft")
+    assert "suspicious" in apply_ledger_lex("that looks suspicious")
+    assert "add a column" in apply_ledger_lex("add a column to the sheet")
+    assert "added a new" in apply_ledger_lex("added a new feature")
+    assert "major problem" in apply_ledger_lex("major problem ahead")
+    assert "minor issue" in apply_ledger_lex("minor issue only")
+
+    # collision / skip policy: diminuendo not folded to dim; no bare add emit
+    assert "diminuendo" in apply_ledger_lex("play diminuendo here")
+    assert all(c.get("to") != "add" for c in by_id.values() if str(c.get("id", "")).startswith("music-"))
+    assert "music-accel" not in by_id and "music-gliss" not in by_id
