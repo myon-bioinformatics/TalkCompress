@@ -272,6 +272,111 @@ class RuleBook:
             **self.stats(),
         }
 
+    # --- export / import / threshold ---
+
+    def set_threshold(self, n: int) -> None:
+        """Tune auto-adopt threshold (must be >= 1). Persists on next save."""
+        if n < 1:
+            raise ValueError("threshold must be >= 1")
+        self.threshold = int(n)
+
+    def export_rules(self, path: str | Path | None = None) -> dict[str, Any]:
+        """Export rules (+ meta) for sharing / negotiation merge.
+
+        Writes JSON when ``path`` is given. Returns the payload dict.
+        """
+        payload = {
+            "version": self.version,
+            "threshold": self.threshold,
+            "auto_adopt": self.auto_adopt,
+            "next_id": self.next_id,
+            "rules": [r.to_dict() for r in self.rules],
+            "proposals": list(self.proposals),
+        }
+        if path is not None:
+            p = Path(path)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+        return payload
+
+    def import_rules(
+        self,
+        source: str | Path | dict[str, Any],
+        *,
+        merge: bool = True,
+        adopt_proposals: bool = False,
+    ) -> dict[str, Any]:
+        """Import rules from another book export or live peer.
+
+        With ``merge=True`` (default), declare each incoming long→short (rebinding
+        free shorts). With ``merge=False``, replace ``self.rules`` entirely.
+        Optionally adopt foreign proposals as declarations.
+        Returns stats: added / updated / proposals_taken.
+        """
+        if isinstance(source, dict):
+            data = source
+        else:
+            data = json.loads(Path(source).read_text(encoding="utf-8"))
+        added = 0
+        updated = 0
+        if not merge:
+            self.rules = []
+            self.next_id = int(data.get("next_id", 1))
+        for rd in data.get("rules") or []:
+            long = str(rd.get("long", ""))
+            short = str(rd.get("short", ""))
+            if not long:
+                continue
+            before = self._find_by_long(_normalize_phrase(long))
+            rule = self.declare(long, short or None)
+            if before is None:
+                added += 1
+            elif before.short != rule.short or before.long != rule.long:
+                updated += 1
+            # preserve higher count
+            rule.count = max(rule.count, int(rd.get("count", 0)))
+        proposals_taken = 0
+        if adopt_proposals:
+            for prop in data.get("proposals") or []:
+                long = str(prop.get("long", ""))
+                short = str(prop.get("short") or "") or None
+                if not long or self._find_by_long(_normalize_phrase(long)):
+                    continue
+                self.declare(long, short)
+                proposals_taken += 1
+        # bump next_id past any rN we now hold
+        max_n = self.next_id
+        for r in self.rules:
+            m = re.match(r"^r(\d+)$", r.id) or re.match(r"^r(\d+)$", r.short)
+            if m:
+                max_n = max(max_n, int(m.group(1)) + 1)
+        self.next_id = max(self.next_id, max_n)
+        return {
+            "added": added,
+            "updated": updated,
+            "proposals_taken": proposals_taken,
+            "rules": len(self.rules),
+        }
+
+    def negotiate(
+        self,
+        peer_exports: list[str | Path | dict[str, Any]],
+        *,
+        adopt_proposals: bool = True,
+    ) -> dict[str, Any]:
+        """Multi-peer merge: import each peer export into this book.
+
+        Models a simple negotiation round where agents share rule dumps and
+        converge on a union of long→short mappings.
+        """
+        rounds: list[dict[str, Any]] = []
+        for src in peer_exports:
+            rounds.append(self.import_rules(src, merge=True, adopt_proposals=adopt_proposals))
+        return {"peers": len(peer_exports), "rounds": rounds, **self.stats()}
+
     # --- encode / decode ---
 
     def encode_with_rules(self, text: str) -> str:

@@ -66,3 +66,7 @@ uv run python Zipilogue/zipilogue.py fingerprint --key 'shared'
 ```
 
 秘密鍵をリポジトリに置かないこと。
+
+## Round-4
+
+`rule-export` / `rule-import` / `rule-threshold` / `rule-negotiate` — ルール共有・閾値調整・複数ピア合流。

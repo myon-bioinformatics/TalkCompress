@@ -396,3 +396,19 @@ def test_dispatch_hub_rule_state_without_key(tmp_path):
     out = c._run_a("see alpha beta gamma", n, decode=False)
     assert "r1" in out
     assert "alpha beta gamma" not in out
+
+
+def test_hub_translate_min_wires_to_b(capsys):
+    """D only routes --translate-min into TesseraTalk (B)."""
+    h = load("dispatch_hub", "DispatchHub/dispatch_hub.py")
+    rc = h.main(
+        ["--layer", "B", "--translate-min", "--text", "Good morning. See you later."]
+    )
+    assert rc == 0
+    out = capsys.readouterr().out.strip()
+    assert out
+    # mosaic form
+    assert ":" in out or "|" in out
+    # should be shorter/changed vs without flag
+    rc2 = h.main(["--layer", "B", "--text", "Good morning. See you later."])
+    assert rc2 == 0

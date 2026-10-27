@@ -100,7 +100,38 @@ _COUNTER_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\b(\d+)\s+(?:seconds?|secs?)\b", re.I), r"\1秒"),
     (re.compile(r"\b(\d+)\s+(?:books?|volumes?)\b", re.I), r"\1冊"),
     (re.compile(r"\b(\d+)\s+(?:sheets?|pages?|papers?)\b", re.I), r"\1枚"),
+    (re.compile(r"\b(\d+)\s+(?:cars?|vehicles?|trucks?|buses|taxis?)\b", re.I), r"\1台"),
+    (re.compile(r"\b(\d+)\s+(?:machines?|devices?|units?)\b", re.I), r"\1機"),
+    (re.compile(r"\b(\d+)\s+(?:buildings?|houses?|homes?)\b", re.I), r"\1棟"),
+    (re.compile(r"\b(\d+)\s+(?:floors?|storeys?|stories)\b", re.I), r"\1階"),
+    (re.compile(r"\b(\d+)\s+(?:cups?|glasses|bowls?)\b", re.I), r"\1杯"),
+    (re.compile(r"\b(\d+)\s+(?:pairs?|sets?)\b", re.I), r"\1組"),
+    (re.compile(r"\b(\d+)\s+(?:companies?|firms?|corporations?)\b", re.I), r"\1社"),
+    (re.compile(r"\b(\d+)\s+(?:letters?|emails?|messages?)\b", re.I), r"\1通"),
 ]
+
+# Multi-word grammar-min applied *before* etymon so "for example" → e.g.
+# is not eaten by example→ex.
+_PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\bthat is to say\b", re.I), "i.e."),
+    (re.compile(r"\bfor example\b", re.I), "e.g."),
+    (re.compile(r"\bfor instance\b", re.I), "e.g."),
+    (re.compile(r"\bin particular\b", re.I), "esp."),
+    (re.compile(r"\bin addition\b", re.I), "+"),
+    (re.compile(r"\binstead of\b", re.I), "vs"),
+    (re.compile(r"\badditionally\b", re.I), "also"),
+    (re.compile(r"\bespecially\b", re.I), "esp."),
+    (re.compile(r"\bthat is\b", re.I), "i.e."),
+    (re.compile(r"\bversus\b", re.I), "vs"),
+]
+
+
+def apply_phrase_grammar(text: str) -> str:
+    out = text
+    for pat, repl in _PHRASE_GRAMMAR:
+        out = pat.sub(repl, out)
+    return out
+
 
 _DIGIT_FW = re.compile(r"[０-９]")
 _INT_RE = re.compile(r"\b(\d+)\b")
@@ -109,7 +140,12 @@ _INT_RE = re.compile(r"\b(\d+)\b")
 
 
 # Unquoted EN articles. Quoted ``"the"`` / ``'the'`` keep the inner word (quotes dropped).
-_QUOTED_ARTICLE = re.compile(r"""(['"])(the|a|an)\1""", re.I)
+# Straight quotes: "the" / 'the'. Smart quotes: “the” / ‘the’.
+_QUOTED_ARTICLE = re.compile(
+    r"""(['"])(the|a|an)\1"""
+    r"""|[\u201c\u2018](the|a|an)[\u201d\u2019]""",
+    re.I,
+)
 _ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b", re.I)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
@@ -119,7 +155,8 @@ def strip_articles(text: str) -> str:
     restores: list[str] = []
 
     def _mask(m: re.Match[str]) -> str:
-        restores.append(m.group(2))
+        inner = m.group(2) or m.group(3)
+        restores.append(inner)
         return _ART_PLACEHOLDER.format(len(restores) - 1)
 
     out = _QUOTED_ARTICLE.sub(_mask, text)
@@ -232,6 +269,7 @@ def compress(
         out = strip_fillers(out, aggressive=aggressive_fillers)
     if unique:
         out = apply_unique_readings(out, compact=False)
+    out = apply_phrase_grammar(out)
     if etymon:
         out = apply_etymon_align(out)
     if spelled_nums:
@@ -264,6 +302,14 @@ _EXPAND_COUNTERS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(\d+)秒"), r"\1 seconds"),
     (re.compile(r"(\d+)冊"), r"\1 books"),
     (re.compile(r"(\d+)枚"), r"\1 sheets"),
+    (re.compile(r"(\d+)台"), r"\1 vehicles"),
+    (re.compile(r"(\d+)機"), r"\1 machines"),
+    (re.compile(r"(\d+)棟"), r"\1 buildings"),
+    (re.compile(r"(\d+)階"), r"\1 floors"),
+    (re.compile(r"(\d+)杯"), r"\1 cups"),
+    (re.compile(r"(\d+)組"), r"\1 pairs"),
+    (re.compile(r"(\d+)社"), r"\1 companies"),
+    (re.compile(r"(\d+)通"), r"\1 messages"),
 ]
 
 # Unambiguous short → longer (subset of _SUBS / UNIQUE_COMPACT). Documented lossy.

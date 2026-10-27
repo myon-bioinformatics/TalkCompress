@@ -123,6 +123,8 @@ _PROFILE_FLAG_KEYS = (
     "no_rle",
     "preserve_newlines",
     "prefer_ltr",
+    "translate_min",
+    "translation_bank",
     "hex_nums",
     "hex_bare",
     "no_strip",
@@ -179,6 +181,8 @@ def apply_profile(args: argparse.Namespace, profile: dict[str, Any], *, cli_expl
         "no-rle": "no_rle",
         "preserve-newlines": "preserve_newlines",
         "prefer-ltr": "prefer_ltr",
+        "translate-min": "translate_min",
+        "translation-bank": "translation_bank",
         "hex-nums": "hex_nums",
         "hex-bare": "hex_bare",
         "strip": "strip",
@@ -449,13 +453,25 @@ def _run_b(text: str, args: argparse.Namespace) -> str:
     rle = not getattr(args, "no_rle", False)
     pn = getattr(args, "preserve_newlines", False)
     pl = getattr(args, "prefer_ltr", False)
+    tm = bool(getattr(args, "translate_min", False))
+    bank = getattr(args, "translation_bank", None) or None
     if getattr(args, "stats", False) and mode != "expand":
         print(json.dumps(t.stats(text, langs, prefer_ltr=pl), ensure_ascii=False), file=sys.stderr)
     if mode == "tag":
+        if tm:
+            text = t.minify_by_translation(text, bank_path=bank, preserve_newlines=pn)
         return t.render(t.tag_sentences(text, langs, preserve_newlines=pn, prefer_ltr=pl))
     if mode == "expand":
         return t.expand(text, preserve_newlines=pn)
-    return t.compress(text, langs, rle=rle, preserve_newlines=pn, prefer_ltr=pl)
+    return t.compress(
+        text,
+        langs,
+        rle=rle,
+        preserve_newlines=pn,
+        prefer_ltr=pl,
+        translate_min=tm,
+        translation_bank=bank,
+    )
 
 
 def _run_c(text: str, args: argparse.Namespace) -> str:
@@ -1008,6 +1024,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="TesseraTalk: bias Latin+CJK mixes toward en rather than zh",
     )
     p.add_argument(
+        "--translate-min",
+        action="store_true",
+        help="TesseraTalk: adopt shorter EN/JA/ZH bank translation per sentence when tokens drop",
+    )
+    p.add_argument(
+        "--translation-bank",
+        default="",
+        help="TesseraTalk: optional translation candidates JSON path",
+    )
+    p.add_argument(
         "--min-ratio",
         type=float,
         default=None,
@@ -1061,6 +1087,8 @@ def main(argv: list[str] | None = None) -> int:
         "--no-rle": "no_rle",
         "--preserve-newlines": "preserve_newlines",
         "--prefer-ltr": "prefer_ltr",
+        "--translate-min": "translate_min",
+        "--translation-bank": "translation_bank",
         "--hex-nums": "hex_nums",
         "--hex-bare": "hex_bare",
         "--strip": "strip",
@@ -1108,6 +1136,8 @@ def main(argv: list[str] | None = None) -> int:
         ("pack", None),
         ("protect_regex", None),
         ("prefer_ltr", False),
+        ("translate_min", False),
+        ("translation_bank", ""),
         ("min_ratio", None),
         ("allow_weak", False),
         ("max_loss_tokens", None),

@@ -274,6 +274,10 @@ def main(argv: list[str] | None = None) -> int:
             "rule-encode",
             "rule-decode",
             "rule-sim",
+            "rule-export",
+            "rule-import",
+            "rule-threshold",
+            "rule-negotiate",
         ),
     )
     g = p.add_mutually_exclusive_group(required=False)
@@ -324,6 +328,32 @@ def main(argv: list[str] | None = None) -> int:
         "--no-auto-adopt",
         action="store_true",
         help="rule-observe/sim: record proposals only, do not adopt",
+    )
+    p.add_argument(
+        "--export",
+        dest="export_path",
+        help="rule-export: write rules dump to PATH (default stdout JSON)",
+    )
+    p.add_argument(
+        "--import",
+        dest="import_path",
+        help="rule-import / rule-negotiate: peer export JSON path (repeat via --peer)",
+    )
+    p.add_argument(
+        "--peer",
+        action="append",
+        default=[],
+        help="rule-negotiate: additional peer export JSON (repeatable)",
+    )
+    p.add_argument(
+        "--replace",
+        action="store_true",
+        help="rule-import: replace rules instead of merge",
+    )
+    p.add_argument(
+        "--adopt-proposals",
+        action="store_true",
+        help="rule-import/negotiate: also declare peer proposals",
     )
     args = p.parse_args(argv)
 
@@ -430,6 +460,51 @@ def main(argv: list[str] | None = None) -> int:
                 ),
                 file=sys.stderr,
             )
+            return 0
+
+
+        if args.mode == "rule-export":
+            dest = args.export_path or args.out
+            payload = book.export_rules(dest)
+            if not dest:
+                print(_json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(dest)
+            if args.stats:
+                print(_json.dumps(book.stats(), ensure_ascii=False), file=sys.stderr)
+            return 0
+
+        if args.mode == "rule-import":
+            src = args.import_path
+            if not src:
+                raise SystemExit("rule-import needs --import PATH")
+            info = book.import_rules(
+                src, merge=not args.replace, adopt_proposals=args.adopt_proposals
+            )
+            book.save()
+            print(_json.dumps(info, ensure_ascii=False))
+            return 0
+
+        if args.mode == "rule-threshold":
+            if args.threshold is None:
+                raise SystemExit("rule-threshold needs --threshold N")
+            book.set_threshold(args.threshold)
+            book.save()
+            print(book.threshold)
+            if args.stats:
+                print(_json.dumps(book.stats(), ensure_ascii=False), file=sys.stderr)
+            return 0
+
+        if args.mode == "rule-negotiate":
+            peers: list = []
+            if args.import_path:
+                peers.append(args.import_path)
+            peers.extend(args.peer or [])
+            if not peers:
+                raise SystemExit("rule-negotiate needs --import and/or --peer PATH")
+            info = book.negotiate(peers, adopt_proposals=True)
+            book.save()
+            print(_json.dumps(info, ensure_ascii=False))
             return 0
 
         raise SystemExit(f"unhandled rule mode: {args.mode}")

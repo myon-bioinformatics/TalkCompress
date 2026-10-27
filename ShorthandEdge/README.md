@@ -44,3 +44,7 @@ uv run python ShorthandEdge/shorthand_edge.py compress --state /tmp/sh.json --te
 ## Domain packs
 
 Built-in packs under `packs/` (`dev`, `mcp`). `--pack NAME` (repeatable) merges into the session map.
+
+## Round-4
+
+台帳に左右・前後・内外・大小と接続詞英語短形。`packs/chat.json`。

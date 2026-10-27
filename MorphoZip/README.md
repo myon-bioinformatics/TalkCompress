@@ -36,3 +36,7 @@ uv run python MorphoZip/morpho_zip.py --no-unique --text '...'   # 一意化オ�
 ## Protected spans
 
 `[[keep:...]]` and `` `keep:...` `` wrappers are stripped; inner text is preserved unchanged through compress. `--protect-regex` (repeatable) masks full matches the same way.
+
+## Round-4
+
+助数詞（台・棟・杯・組・社・通・機・階）、e.g./i.e.、スマート引用符の冠詞保持。

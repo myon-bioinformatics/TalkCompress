@@ -58,3 +58,7 @@ uv run python DispatchHub/dispatch_hub.py --layer B --stats --text 'Hello. こ�
 ## テスト
 
 **D 所有の pytest は実質ゼロ。** 層単体はリポ直下 `tests/`、またぎは `tests/integration/`（結合・総合）。詳細は [`DispatchHub/tests/README.md`](tests/README.md)。
+
+## Round-4
+
+`--translate-min` / `--translation-bank` を B へ配線（D は変換しない）。

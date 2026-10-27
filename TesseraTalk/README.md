@@ -41,3 +41,7 @@ uv run python TesseraTalk/tessera_talk.py compress --translate-min --text 'Good 
 | 短縮の主因 | 文の翻訳でトークンが減るなら採用 | 登録済み略語・合意台帳 lex |
 | 略語 | 翻訳結果として自然に出るもの OK | パッチ／台帳で明示登録 |
 | under→下 等 | しない（翻訳バンク経由のみ） | 台帳で適用 |
+
+## Round-4
+
+翻訳バンク拡充。`--translate-min` は DispatchHub 経由でも可。

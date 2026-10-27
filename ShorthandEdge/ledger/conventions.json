@@ -79,6 +79,111 @@
         "conjunction_adverb_bias": "en",
         "prefer_short_alphabet_cognates": true
       }
+    },
+    {
+      "id": "spatial-left-right",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "left and right",
+        "left or right",
+        "左右"
+      ],
+      "to": "左右",
+      "rationale": "左右は短く視覚的（左右セット）"
+    },
+    {
+      "id": "spatial-front-back",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "front and back",
+        "前後"
+      ],
+      "to": "前後",
+      "rationale": "前後は視覚的に明確"
+    },
+    {
+      "id": "spatial-in-out",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "inside and outside",
+        "in and out",
+        "内外"
+      ],
+      "to": "内外",
+      "rationale": "内外は1組で明確"
+    },
+    {
+      "id": "spatial-big-small",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "large and small",
+        "big and small",
+        "大小"
+      ],
+      "to": "大小",
+      "rationale": "大小は短く対比が明確"
+    },
+    {
+      "id": "conj-moreover",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "moreover",
+        "furthermore",
+        "in addition"
+      ],
+      "to": "also",
+      "rationale": "接続・副詞は英語短形を挟む（also）"
+    },
+    {
+      "id": "conj-nevertheless",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "nevertheless",
+        "nonetheless"
+      ],
+      "to": "but",
+      "rationale": "逆接は英語短形 but"
+    },
+    {
+      "id": "conj-therefore",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "therefore",
+        "consequently",
+        "as a result"
+      ],
+      "to": "so",
+      "rationale": "帰結は英語短形 so"
+    },
+    {
+      "id": "conj-for-example",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "for example",
+        "for instance"
+      ],
+      "to": "e.g.",
+      "rationale": "例示は e.g. の短いアルファベット形"
+    },
+    {
+      "id": "conj-that-is",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "that is to say",
+        "that is",
+        "in other words"
+      ],
+      "to": "i.e.",
+      "rationale": "言い換えは i.e.（短い cognate）"
     }
   ]
 }

@@ -160,6 +160,134 @@
         "zh": "再见。",
         "ja": "またね。"
       }
+    },
+    {
+      "id": "good-night",
+      "from": [
+        "Good night.",
+        "good night",
+        "Good night"
+      ],
+      "candidates": {
+        "zh": "晚安。",
+        "ja": "おやすみ。",
+        "en": "Night."
+      }
+    },
+    {
+      "id": "please-wait",
+      "from": [
+        "Please wait a moment.",
+        "please wait a moment",
+        "Please wait a moment"
+      ],
+      "candidates": {
+        "zh": "稍等。",
+        "ja": "少々お待ちを。",
+        "en": "Wait pls."
+      }
+    },
+    {
+      "id": "i-understand",
+      "from": [
+        "I understand.",
+        "i understand",
+        "I understand"
+      ],
+      "candidates": {
+        "zh": "明白。",
+        "ja": "了解。",
+        "en": "Got it."
+      }
+    },
+    {
+      "id": "what-time-is-it",
+      "from": [
+        "What time is it?",
+        "what time is it?",
+        "What time is it"
+      ],
+      "candidates": {
+        "zh": "几点？",
+        "ja": "何時？",
+        "en": "Time?"
+      }
+    },
+    {
+      "id": "see-you-tomorrow",
+      "from": [
+        "See you tomorrow.",
+        "see you tomorrow",
+        "See you tomorrow"
+      ],
+      "candidates": {
+        "zh": "明天见。",
+        "ja": "また明日。",
+        "en": "CUL8R tmrw."
+      }
+    },
+    {
+      "id": "please-confirm",
+      "from": [
+        "Please confirm receipt.",
+        "please confirm receipt",
+        "Please confirm receipt"
+      ],
+      "candidates": {
+        "zh": "请确认收妥。",
+        "ja": "受領確認を。",
+        "en": "Confirm receipt."
+      }
+    },
+    {
+      "id": "ja-thanks-long",
+      "from": [
+        "どうもありがとうございました。",
+        "どうもありがとうございました"
+      ],
+      "candidates": {
+        "zh": "多谢。",
+        "en": "Thanks.",
+        "ja": "あざす。"
+      }
+    },
+    {
+      "id": "zh-welcome",
+      "from": [
+        "欢迎参加今天的会议。",
+        "欢迎参加今天的会议"
+      ],
+      "candidates": {
+        "zh": "欢迎参会。",
+        "en": "Welcome.",
+        "ja": "会議へようこそ。"
+      }
+    },
+    {
+      "id": "en-let-me-know",
+      "from": [
+        "Please let me know if you have any questions.",
+        "please let me know if you have any questions",
+        "Please let me know if you have any questions"
+      ],
+      "candidates": {
+        "en": "LMK if Qs.",
+        "zh": "有问题告诉我。",
+        "ja": "質問あれば連絡を。"
+      }
+    },
+    {
+      "id": "as-soon-as-possible-phrase",
+      "from": [
+        "as soon as possible",
+        "As soon as possible.",
+        "As soon as possible"
+      ],
+      "candidates": {
+        "en": "ASAP",
+        "zh": "尽快。",
+        "ja": "至急。"
+      }
     }
   ]
 }

@@ -1,0 +1,24 @@
+{
+  "map": {
+    "direct message": "DM",
+    "group chat": "GC",
+    "voice message": "VM",
+    "read receipt": "RR",
+    "status update": "SU",
+    "talk to you soon": "ttys",
+    "catch you later": "cyl",
+    "no worries": "nw",
+    "all good": "ag",
+    "fair enough": "fe",
+    "makes sense": "ms",
+    "long story short": "LSS",
+    "bottom line": "BL",
+    "circle back": "CB",
+    "touch base": "TB",
+    "sync up": "sync",
+    "follow up": "FU",
+    "action item": "AI",
+    "next steps": "NS",
+    "heads up": "HU"
+  }
+}

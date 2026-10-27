@@ -18,6 +18,11 @@
     "get prompt": "GP",
     "context window": "CW",
     "token budget": "TB",
-    "system prompt": "SP"
+    "system prompt": "SP",
+    "user prompt": "UP",
+    "assistant message": "AM",
+    "retrieval augmented generation": "RAG",
+    "large language model": "LLM",
+    "multi agent": "MA"
   }
 }

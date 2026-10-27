@@ -149,6 +149,20 @@ DEFAULT_MAP: dict[str, str] = {
     "wrench": "🔧",
     "hourglass": "⏳",
     "bell": "🔔",
+    # round-4 growth
+    "please advise": "PA",
+    "as discussed": "AD",
+    "as mentioned": "AM",
+    "per our conversation": "POC",
+    "looking forward to hearing from you": "LFTHFY",
+    "to whom it may concern": "TWIMC",
+    "for your reference": "FYR",
+    "for your consideration": "FYC",
+    "with regard to": "WRT",
+    "with respect to": "WRT",
+    "on the other hand": "OTOH",
+    "at this time": "ATM",
+    "as soon as you can": "ASAYC",
 }
 
 _HEREAFTER_RE = re.compile(

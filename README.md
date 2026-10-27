@@ -128,6 +128,25 @@ uv run python Zipilogue/zipilogue.py encode --key k --dry-run --stats --text hel
 uv run python shared/lex_policy.py --diff other_policy.json
 ```
 
+### Round-4 追加
+
+```bash
+# A: RuleBook の export / import / threshold / 複数ピア交渉マージ
+uv run python Zipilogue/zipilogue.py rule-export --state book.json --export /tmp/rules.json
+uv run python Zipilogue/zipilogue.py rule-import --state book.json --import /tmp/peer.json
+uv run python Zipilogue/zipilogue.py rule-threshold --state book.json --threshold 2
+uv run python Zipilogue/zipilogue.py rule-negotiate --state book.json --import /tmp/p1.json --peer /tmp/p2.json
+
+# B: 翻訳トークン最短をハブ経由（D は配線のみ）
+uv run python DispatchHub/dispatch_hub.py --layer B --translate-min --text "Good morning. See you later."
+
+# C: 台帳（左右・前後・接続詞英語短形）/ chat パック
+uv run python ShorthandEdge/shorthand_edge.py compress --text "check left and right" --pack chat
+
+# E: 助数詞（台・棟・杯…）・e.g./i.e.・スマート引用符の冠詞保持
+uv run python MorphoZip/morpho_zip.py --text "I have 3 cars for example"
+```
+
 ### Zipilogue RuleBook（A）
 
 送受信が同じ JSON 台帳をロードし、宣言（`rule: long => short`）や反復観察で短いトークンを育てます。暗号封筒は `--key` があるときだけ巻きます。詳細は [Zipilogue/README.md](Zipilogue/README.md)。
