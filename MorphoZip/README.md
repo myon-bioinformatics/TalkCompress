@@ -16,6 +16,8 @@
 
 ## 代名詞（2-bit 在庫）
 
+**指標の整理（代名詞）:** 主 = **ビット**（在庫 `ceil(log2(N))`、コア 2bit でゲート）。副・軽め = **トークン**（例: `y'all` はトークン観点で **1トークン** 扱い）。代名詞の選択をトークン軸で深く吟味・最適化はしない（トークン見積は B TesseraTalk `estimate_tokens` の参考表示のみ）。
+
 主指標は **在庫インデックス幅**（UTF-8 長ではない）:
 
 `bits_per_pronoun = ceil(log2(N))` where `N = len(PRONOUN_CANONICAL)`（出現ごと・表層 UTF 長はコストに入れない）。

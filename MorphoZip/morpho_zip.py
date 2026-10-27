@@ -112,6 +112,8 @@ def canonicalize_pronoun(form: str, *, extended: bool = False) -> str | None:
     return canon
 
 
+# Pronouns gate on bits (inventory ceil(log2 N)); token estimates for pronouns
+# (B TesseraTalk estimate_tokens, e.g. y'all ~ 1 token) are informational only.
 def pronoun_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
     """Sum flat inventory bits for each pronoun occurrence in ``text``.
 

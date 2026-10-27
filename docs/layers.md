@@ -26,7 +26,7 @@ JUnit は CI で `build/test-results/pytest-<ver>.xml` に置き、artifact 名�
 
 - **B**: LID/RLE モザイク。文ごとに翻訳候補（fixtures）でトークンが減るなら採用。EN+ZH+JA は開始セットであり天井ではない（Romance es/fr/pt/it、Germanic de/nl/en、Greek el、ja/zh がスコープ）。自然短形 OK。ライブ MT（`--translate-engine=deep|argos`）は対象言語へ並列翻訳し、短さ＋揺らぎで選ぶ。C 合意台帳パッチは適用しない。**`estimate_tokens` / translate-min の本体**
 - **C**: FILLER 除去・UNIQUE_COMPACT（短縮クリップ）・同一言語の省略（`I'll` など）・スペル数字→桁・**合意台帳 lex**（under/below→下、家具 `table`→机/桌 ほか多言語の机相当、デコボコ→凹凸 など）。ベース語彙は EN+ZH+JA 寄りだが他言語 cognate も可。接続詞短縮は **曖昧さゲート**（`also` 衝突時や `--prefer-precision` で原文維持）
-- **E**: UNIQUE_READINGS（長い形）・ETYMON_ALIGN（information→ℹ️）・冠詞落とし・助数詞・**コンパクト代名詞在庫**（コア N=4→2bit: I/君/彼/they|them|y'all；她は彼スロットの表層；it は拡張で3bit）。フィラー/compact/`I'll`/スペル数字/台帳 lex は既定オフ。**`pronoun_inventory_bits` / `pronoun_bit_cost` / `density()` の本体**
+- **E**: UNIQUE_READINGS（長い形）・ETYMON_ALIGN（information→ℹ️）・冠詞落とし・助数詞・**コンパクト代名詞在庫**（コア N=4→2bit: I/君/彼/they|them|y'all；她は彼スロットの表層；it は拡張で3bit；**代名詞はビット主・トークン従**＝トークン観点では `y'all` も1トークン程度とみなし、トークン軸では深追いしない）。フィラー/compact/`I'll`/スペル数字/台帳 lex は既定オフ。**`pronoun_inventory_bits` / `pronoun_bit_cost` / `density()` の本体**
 - **D DensityZip**: 層横断オーケストレーション（pipeline / auto / budget / window / profile / quality / compare）+ **density 指標ファサード**（token 寄りは budget / compare / B `estimate_tokens` の表出、bit 寄りは E `density()` / `pronoun_bit_cost` の集約）。`C,E` パイプラインなら C が先にフィラー・I'll・スペル数字・台帳 lex を処理し、E が ℹ️・冠詞・助数詞を適用する。台帳は持たない
 
 **テスト分担:** D 専用 pytest は実質ゼロ。層単体 → `tests/test_*.py`；層またぎ（pipeline C→E・compare・budget/window/profile 等）→ `tests/integration/`（結合・総合）。`DensityZip/tests/` にテストモジュールは置かない。同一ケースの二重断言は避け、層単体は 1 箇所・またぎは integration に寄せる。
