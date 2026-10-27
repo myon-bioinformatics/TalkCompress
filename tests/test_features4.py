@@ -189,7 +189,8 @@ def test_e_new_counters_and_grammar():
     assert "4組" in m.compress("prepare 4 pairs now")
     assert "7通" in m.compress("send 7 emails today")
     out = m.compress("additionally for example that is fine", unique=False, etymon=False)
-    assert "also" in out
+    assert "+" in out  # additionally→+ (gap-fill; was also)
+    assert "additionally" not in out.lower()
     assert "e.g." in out
     assert "i.e." in out
     # expand counters subset

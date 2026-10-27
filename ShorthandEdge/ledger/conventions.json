@@ -26,7 +26,8 @@
       "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap).",
       "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/関代/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/relative/…) rewrite to these.",
       "Formal/legal + connective tranche (finite): therein→∈it, thereto→∴to, henceforth→∴→, notwithstanding→雖 (in spite of は prep 側), insofar-as→insofar, provided that→if, instead of→vs (in lieu of / rather than / pursuant to は prep cycle2), namely→viz, hence/thus→∴, albeit→tho, the foregoing→supra, aforementioned→said, vice versa→⇄, T&C, etal, given that→bc. hereof/thereby/hereto/herewith skipped (sense clash with thereof/∴/thereto/therewith). cycle11 filled spaced deferred (as of/latin/loc-time). Prep/adverb thickening is a separate tranche.",
-      "family=relative (E 関係代名詞/関代): which→that (EN-internal; tok 2→1; post-nominal/non-restrictive gate; not interrogative which?/pied-pipe prep which); whom→who; Romance/DE long forms (lequel/welcher*/el que…)→que shared pivot. Do NOT emit bare q. deixis that→eso and complementizer/relative-that skip gate unchanged. Skip: whose (no clear short), lo que (what-clause 揺らぎ), relative where/donde/où/wo (ever-wherever/wo 揺らぎ), bare qui rewrite of who."
+      "family=relative (E 関係代名詞/関代): which→that (EN-internal; tok 2→1; post-nominal/non-restrictive gate; not interrogative which?/pied-pipe prep which); whom→who; Romance/DE long forms (lequel/welcher*/el que…)→que shared pivot. Do NOT emit bare q. deixis that→eso and complementizer/relative-that skip gate unchanged. Skip: whose (no clear short), lo que (what-clause 揺らぎ), relative where/donde/où/wo (ever-wherever/wo 揺らぎ), bare qui rewrite of who.",
+      "gap-fill closed thin: det/quant + conj purpose + reciprocal + hedges + colloquial aux (tip after 1f5fbb4)"
     ],
     "abbrev_sync": {
       "upserted": [
@@ -160,6 +161,10 @@
       "pair": {
         "layer": "C",
         "description": "Paired noun forms (e.g. table/desk→机)."
+      },
+      "det": {
+        "layer": "E",
+        "description": "Determiners / quantifiers (every→∀, some→∃, none→∅, both→両, numerous→多, …)."
       }
     }
   },
@@ -2032,10 +2037,11 @@
       "apply_layer": "E",
       "from": [
         "approximately",
+        "roughly",
         "~"
       ],
       "to": "~",
-      "rationale": "approximately → ~",
+      "rationale": "approximately → ~；折り込み roughly",
       "inventory": "adverb",
       "metrics": {
         "token": {
@@ -2047,25 +2053,19 @@
           "via": "B TesseraTalk estimate_tokens"
         },
         "bit": {
-          "model": "inventory",
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
+          "model": "utf8",
+          "before": 104,
+          "after": 8,
+          "delta": -96,
+          "ratio": 0.0769,
           "sample_from": "approximately",
-          "via": "E MorphoZip closed_inventory_bits(adverb)",
+          "via": "E MorphoZip utf8_bits",
           "utf8": {
             "before": 104,
             "after": 8,
             "delta": -96
           },
-          "inventory": {
-            "name": "adverb",
-            "bits_per": 2,
-            "n": 4,
-            "extended": false,
-            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
-          }
+          "inventory": null
         }
       },
       "breakdown": "副"
@@ -16102,10 +16102,11 @@
       "from": [
         "as usual",
         "as always",
+        "usually",
         "常"
       ],
       "to": "常",
-      "rationale": "as usual|always → 常",
+      "rationale": "as usual|always → 常；折り込み usually",
       "breakdown": "副",
       "metrics": {
         "token": {
@@ -21772,6 +21773,989 @@
             "before": 48,
             "after": 24,
             "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "det-every",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "every",
+        "∀"
+      ],
+      "to": "∀",
+      "rationale": "every→∀（tok+utf8; everywhere等は先行）",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "every",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "every",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "det-each",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "each",
+        "各"
+      ],
+      "to": "各",
+      "rationale": "each→各（each other は先行）",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "each",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "each",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "det-some",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "some",
+        "∃"
+      ],
+      "to": "∃",
+      "rationale": "some→∃（to some extent/in some way/somehow/somewhat/somewhere は先行）",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 0,
+          "delta": -1,
+          "ratio": 0.0,
+          "sample_from": "some",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "some",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "det-none",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "none",
+        "∅"
+      ],
+      "to": "∅",
+      "rationale": "none→∅（determiner-no は utf8非勝で見送り）",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 0,
+          "delta": -1,
+          "ratio": 0.0,
+          "sample_from": "none",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "none",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "det-both",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "both",
+        "両"
+      ],
+      "to": "両",
+      "rationale": "both→両（2は数字衝突で不採用）",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "both",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "both",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "quant-several",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "several",
+        "数"
+      ],
+      "to": "数",
+      "rationale": "several→数",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "several",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 24,
+          "delta": -32,
+          "ratio": 0.4286,
+          "sample_from": "several",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 24,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "quant-various",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "various",
+        "諸"
+      ],
+      "to": "諸",
+      "rationale": "various→諸",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "various",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 24,
+          "delta": -32,
+          "ratio": 0.4286,
+          "sample_from": "various",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 24,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "quant-numerous",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "numerous",
+        "a lot of",
+        "lots of",
+        "多"
+      ],
+      "to": "多",
+      "rationale": "numerous|a lot of|lots of→多（manyより多が安い）",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "numerous",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 24,
+          "delta": -40,
+          "ratio": 0.375,
+          "sample_from": "numerous",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "quant-a-few",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "a few",
+        "few"
+      ],
+      "to": "few",
+      "rationale": "a few→few（EN内; 数と同位）",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "a few",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "a few",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "quant-a-little",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "a little",
+        "少"
+      ],
+      "to": "少",
+      "rationale": "a little→少",
+      "breakdown": "限",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "a little",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 24,
+          "delta": -40,
+          "ratio": 0.375,
+          "sample_from": "a little",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      },
+      "family": "det"
+    },
+    {
+      "id": "conj-unless",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "unless",
+        "!if"
+      ],
+      "to": "!if",
+      "rationale": "unless→!if（除非同位だが!if優先）",
+      "breakdown": "接",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "unless",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 24,
+          "delta": -24,
+          "ratio": 0.5,
+          "sample_from": "unless",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      },
+      "family": "conj"
+    },
+    {
+      "id": "conj-whether",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "whether",
+        "if"
+      ],
+      "to": "if",
+      "rationale": "whether→if（?は曖昧; whether or not→if or not）",
+      "breakdown": "接",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "whether",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 16,
+          "delta": -40,
+          "ratio": 0.2857,
+          "sample_from": "whether",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 16,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      },
+      "family": "conj"
+    },
+    {
+      "id": "conj-while",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "while",
+        "whilst",
+        "∥"
+      ],
+      "to": "∥",
+      "rationale": "while|whilst→∥（meanwhile同終端; once in a while/a while ゲート）",
+      "breakdown": "接",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "while",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "while",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      },
+      "family": "conj"
+    },
+    {
+      "id": "conj-so-that",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "so that",
+        "so"
+      ],
+      "to": "so",
+      "rationale": "so that→so（目的; ∴はtherefore族）",
+      "breakdown": "接",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "so that",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 16,
+          "delta": -40,
+          "ratio": 0.2857,
+          "sample_from": "so that",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 16,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      },
+      "family": "conj"
+    },
+    {
+      "id": "conj-in-order-to",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in order to",
+        "to"
+      ],
+      "to": "to",
+      "rationale": "in order to→to（目的; 4はfor族）",
+      "breakdown": "接",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in order to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 16,
+          "delta": -72,
+          "ratio": 0.1818,
+          "sample_from": "in order to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 16,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      },
+      "family": "conj"
+    },
+    {
+      "id": "pronoun-each-other",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "each other",
+        "one another",
+        "互"
+      ],
+      "to": "互",
+      "rationale": "each other|one another→互",
+      "breakdown": "代",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "each other",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "each other",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "adv-maybe",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "maybe",
+        "perhaps",
+        "或"
+      ],
+      "to": "或",
+      "rationale": "maybe|perhaps→或（?は曖昧）",
+      "breakdown": "副",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "maybe",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "maybe",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "adv-probably",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "probably",
+        "恐"
+      ],
+      "to": "恐",
+      "rationale": "probably→恐（≒はapprox-equal衝突）",
+      "breakdown": "副",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "probably",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 24,
+          "delta": -40,
+          "ratio": 0.375,
+          "sample_from": "probably",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "adv-already",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "already",
+        "既"
+      ],
+      "to": "既",
+      "rationale": "already→既",
+      "breakdown": "副",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "already",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 24,
+          "delta": -32,
+          "ratio": 0.4286,
+          "sample_from": "already",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 24,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "adv-also",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "also",
+        "additionally",
+        "+"
+      ],
+      "to": "+",
+      "rationale": "also|additionally→+（も/+と揃える; C moreover→also の先はC）",
+      "breakdown": "副",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 0,
+          "delta": -1,
+          "ratio": 0.0,
+          "sample_from": "also",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 8,
+          "delta": -24,
+          "ratio": 0.25,
+          "sample_from": "also",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 8,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "adv-only",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "only",
+        "僅"
+      ],
+      "to": "僅",
+      "rationale": "only→僅（justはjust then揺らぎで見送り）",
+      "breakdown": "副",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "only",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "only",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "adv-still",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "still",
+        "尚"
+      ],
+      "to": "尚",
+      "rationale": "still→尚",
+      "breakdown": "副",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "still",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "still",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "aux-wanna",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "want to",
+        "wanna"
+      ],
+      "to": "wanna",
+      "rationale": "want to→wanna（俗）",
+      "breakdown": "俗",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "want to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 40,
+          "delta": -16,
+          "ratio": 0.7143,
+          "sample_from": "want to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "aux-kinda",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "kind of",
+        "kinda"
+      ],
+      "to": "kinda",
+      "rationale": "kind of→kinda（俗; C filler除去と併存）",
+      "breakdown": "俗",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "kind of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 40,
+          "delta": -16,
+          "ratio": 0.7143,
+          "sample_from": "kind of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "aux-sorta",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "sort of",
+        "sorta"
+      ],
+      "to": "sorta",
+      "rationale": "sort of→sorta（俗; C filler除去と併存）",
+      "breakdown": "俗",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "sort of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 40,
+          "delta": -16,
+          "ratio": 0.7143,
+          "sample_from": "sort of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "adv-a-while",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "a while",
+        "awhile"
+      ],
+      "to": "awhile",
+      "rationale": "a while→awhile（名詞用法保護; while→∥ と衝突回避）",
+      "breakdown": "副",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "a while",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 48,
+          "delta": -8,
+          "ratio": 0.8571,
+          "sample_from": "a while",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 48,
+            "delta": -8
           },
           "inventory": null
         }

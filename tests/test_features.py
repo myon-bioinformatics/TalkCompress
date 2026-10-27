@@ -930,6 +930,63 @@ def test_morpho_relative_pronouns():
 
 
 
+
+
+def test_morpho_objective_gap_fill_closed_thin():
+    """Objective gap-fill: det/quant, conj purpose, reciprocal, hedges, colloquial aux."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    kw = dict(unique=False, etymon=False, counters=False)
+    # determiners / quantifiers
+    assert "∀" in m.compress("every item counts", **kw)
+    assert "everywhere" not in m.compress("everywhere else", **kw).lower() or "∀loc" in m.compress("everywhere else", **kw)
+    assert "∀loc" in m.compress("everywhere else", **kw)
+    assert "各" in m.compress("each team wins", **kw)
+    assert "互" in m.compress("they help each other", **kw)
+    assert "互" in m.compress("they help one another", **kw)
+    assert "∃" in m.compress("some cats sleep", **kw)
+    assert "某处" in m.compress("somewhere else", **kw) or "somewhere" not in m.compress("somewhere else", **kw).lower()
+    assert "或程" in m.compress("to some extent true", **kw)
+    assert "∅" in m.compress("none remain", **kw)
+    assert "両" in m.compress("both sides agree", **kw)
+    assert "数" in m.compress("several options", **kw)
+    assert "諸" in m.compress("various reasons", **kw)
+    assert "多" in m.compress("numerous bugs", **kw)
+    assert "多" in m.compress("a lot of bugs", **kw)
+    assert "多" in m.compress("lots of bugs", **kw)
+    assert "few" in m.compress("a few bugs", **kw)
+    assert "少" in m.compress("a little water", **kw)
+    # conjunctions / purpose
+    assert "!if" in m.compress("unless ready", **kw)
+    assert "if" in m.compress("whether ready", **kw)
+    assert "whether" not in m.compress("whether ready", **kw).lower()
+    assert "∥" in m.compress("while waiting", **kw)
+    assert "偶" in m.compress("once in a while", **kw)
+    assert "awhile" in m.compress("wait a while", **kw)
+    assert "so" in m.compress("speak so that all hear", **kw)
+    out_so = m.compress("speak so that all hear", **kw)
+    assert "so that" not in out_so.lower()
+    assert "to" in m.compress("in order to win", **kw)
+    assert "in order" not in m.compress("in order to win", **kw).lower()
+    # hedges
+    assert "或" in m.compress("maybe later", **kw)
+    assert "或" in m.compress("perhaps later", **kw)
+    assert "恐" in m.compress("probably true", **kw)
+    assert "~" in m.compress("roughly 10", **kw)
+    assert "常" in m.compress("usually late", **kw)
+    assert "既" in m.compress("already done", **kw)
+    assert "+" in m.compress("also true", **kw)
+    assert "+" in m.compress("additionally true", **kw)
+    assert "僅" in m.compress("only one", **kw)
+    assert "尚" in m.compress("still open", **kw)
+    # colloquial aux
+    assert "wanna" in m.compress("want to go", **kw)
+    assert "kinda" in m.compress("kind of nice", **kw)
+    assert "sorta" in m.compress("sort of nice", **kw)
+    # gates: existing multiword some/any untouched in spirit
+    assert "何れ" in m.compress("in any case ok", **kw)
+    assert "最早" in m.compress("any longer valid", **kw)
+
+
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")

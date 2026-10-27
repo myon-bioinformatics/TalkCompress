@@ -1110,6 +1110,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\balthough\b", re.I), "tho"),
     (re.compile(r"\balbeit\b", re.I), "tho"),
     (re.compile(r"\bapproximately\b", re.I), "~"),
+    (re.compile(r"\broughly\b(?!\s+equal\b)", re.I), "~"),
     # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≧/≦).
     # greater than stays > (strict); less than → ≦ via phrase grammar.
     (re.compile(r"\bgreater than\b", re.I), ">"),
@@ -1714,7 +1715,8 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bafterward\b", re.I), "後"),
     (re.compile(r"\bconsidering\b", re.I), "鑑"),
     (re.compile(r"\bvis-a-vis\b", re.I), "vs"),
-    (re.compile(r"\badditionally\b", re.I), "also"),
+    (re.compile(r"\badditionally\b", re.I), "+"),
+    (re.compile(r"\balso\b", re.I), "+"),
     (re.compile(r"\bespecially\b", re.I), "esp."),
     (re.compile(r"\bthat is\b", re.I), "i.e."),
     (re.compile(r"\bversus\b", re.I), "vs"),
@@ -1769,6 +1771,40 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     # DE
     (re.compile(r"\bmehr als\b", re.I), "≧"),
     (re.compile(r"\bweniger als\b", re.I), "≦"),
+    # --- objective gap-fill: thin closed-class (det/quant/conj/reciprocal/hedge/aux) ---
+    # Protect noun "a while" before while→∥; multiword before article strip / bare dets.
+    (re.compile(r"\ba while\b", re.I), "awhile"),
+    (re.compile(r"\beach other\b", re.I), "互"),
+    (re.compile(r"\bone another\b", re.I), "互"),
+    (re.compile(r"\ba lot of\b", re.I), "多"),
+    (re.compile(r"\blots of\b", re.I), "多"),
+    (re.compile(r"\ba few\b", re.I), "few"),
+    (re.compile(r"\ba little\b", re.I), "少"),
+    (re.compile(r"\bin order to\b", re.I), "to"),
+    (re.compile(r"\bso that\b", re.I), "so"),
+    (re.compile(r"\bwant to\b", re.I), "wanna"),
+    (re.compile(r"\bkind of\b", re.I), "kinda"),
+    (re.compile(r"\bsort of\b", re.I), "sorta"),
+    (re.compile(r"\bunless\b", re.I), "!if"),
+    (re.compile(r"\bwhether\b", re.I), "if"),
+    (re.compile(r"(?<!\bonce in a )(?<!\ba )\bwhilst\b", re.I), "∥"),
+    (re.compile(r"(?<!\bonce in a )(?<!\ba )\bwhile\b", re.I), "∥"),
+    (re.compile(r"\bmaybe\b", re.I), "或"),
+    (re.compile(r"\bperhaps\b", re.I), "或"),
+    (re.compile(r"\bprobably\b", re.I), "恐"),
+    (re.compile(r"\busually\b", re.I), "常"),
+    (re.compile(r"\balready\b", re.I), "既"),
+    (re.compile(r"\bonly\b", re.I), "僅"),
+    (re.compile(r"\bstill\b", re.I), "尚"),
+    # gap-fill bare dets/quants (AFTER multiword some/every/each phrases)
+    (re.compile(r"\bevery\b(?!where\b|one\b|body\b|day\b|time\b|thing\b)", re.I), "∀"),
+    (re.compile(r"\beach\b(?!\s+other\b)", re.I), "各"),
+    (re.compile(r"\bsome\b(?!where\b|how\b|what\b|one\b|body\b|times?\b|thing\b|day\b|extent\b|ways?\b)", re.I), "∃"),
+    (re.compile(r"\bnone\b", re.I), "∅"),
+    (re.compile(r"\bboth\b", re.I), "両"),
+    (re.compile(r"\bseveral\b", re.I), "数"),
+    (re.compile(r"\bvarious\b", re.I), "諸"),
+    (re.compile(r"\bnumerous\b", re.I), "多"),
     # --- relative pronouns / 関係代名詞 (after that is→i.e.; not deixis/interrogative) ---
     # EN: which→that (post-nominal / non-restrictive); whom→who. Prefer EN-internal that over que.
     # Do NOT emit bare q. Keep deixis that→eso gate; complementizer that untouched.

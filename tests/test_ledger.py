@@ -623,6 +623,41 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["rel-which"]["breakdown"] == "関代"
     assert by_id["rel-whom"]["breakdown"] == "関代"
     assert by_id["rel-que"]["breakdown"] == "関代"
+
+    # objective gap-fill closed thin
+    assert by_id["det-every"]["to"] == "∀"
+    assert by_id["det-each"]["to"] == "各"
+    assert by_id["det-some"]["to"] == "∃"
+    assert by_id["det-none"]["to"] == "∅"
+    assert by_id["det-both"]["to"] == "両"
+    assert by_id["quant-several"]["to"] == "数"
+    assert by_id["quant-various"]["to"] == "諸"
+    assert by_id["quant-numerous"]["to"] == "多"
+    assert "a lot of" in by_id["quant-numerous"]["from"]
+    assert by_id["quant-a-few"]["to"] == "few"
+    assert by_id["quant-a-little"]["to"] == "少"
+    assert by_id["det-every"]["breakdown"] == "限"
+    assert by_id["quant-numerous"]["breakdown"] == "限"
+    assert by_id["conj-unless"]["to"] == "!if"
+    assert by_id["conj-whether"]["to"] == "if"
+    assert by_id["conj-while"]["to"] == "∥"
+    assert by_id["conj-so-that"]["to"] == "so"
+    assert by_id["conj-in-order-to"]["to"] == "to"
+    assert by_id["pronoun-each-other"]["to"] == "互"
+    assert "one another" in by_id["pronoun-each-other"]["from"]
+    assert by_id["adv-maybe"]["to"] == "或"
+    assert by_id["adv-probably"]["to"] == "恐"
+    assert by_id["adv-already"]["to"] == "既"
+    assert by_id["adv-also"]["to"] == "+"
+    assert by_id["adv-only"]["to"] == "僅"
+    assert by_id["adv-still"]["to"] == "尚"
+    assert "roughly" in by_id["adv-approx"]["from"]
+    assert "usually" in by_id["adv-as-usual"]["from"]
+    assert by_id["adv-a-while"]["to"] == "awhile"
+    assert by_id["aux-wanna"]["to"] == "wanna"
+    assert by_id["aux-kinda"]["to"] == "kinda"
+    assert by_id["aux-sorta"]["to"] == "sorta"
+    assert by_id["aux-kinda"]["breakdown"] == "俗"
     assert by_id["prep-as-of"]["breakdown"] == "前"
     assert by_id["adv-mutatis-mutandis"]["breakdown"] == "連"
     assert "vis-a-vis" in by_id["prep-as-opposed-to"]["from"]

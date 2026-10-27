@@ -168,6 +168,8 @@ def infer_breakdown(convention: dict[str, Any]) -> str:
         return "連"
     if fam == "relative":
         return "関代"
+    if fam == "det":
+        return "限"
     if fam == "conj":
         return "接"
     if fam == "pair":
@@ -179,6 +181,8 @@ def infer_breakdown(convention: dict[str, Any]) -> str:
         ("pronoun-", "代"),
         ("deixis-", "示"),
         ("rel-", "関代"),
+        ("det-", "限"),
+        ("quant-", "限"),
         ("particle-", "助"),
         ("prep-", "前"),
         ("prep2-", "前"),
