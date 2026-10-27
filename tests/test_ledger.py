@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 650
+    assert 14 <= len(all_lex) <= 680  # soft raise: cmd/unix-shell tranche (user-asked)
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -1417,3 +1417,108 @@ def test_music_term_abbrev_tranche():
     assert "diminuendo" in apply_ledger_lex("play diminuendo here")
     assert all(c.get("to") != "add" for c in by_id.values() if str(c.get("id", "")).startswith("music-"))
     assert "music-accel" not in by_id and "music-gliss" not in by_id
+
+
+def test_cmd_unix_shell_abbrev_tranche():
+    """Unix/shell command shorts (family=cmd): dual-metric WIN + meaning gates."""
+    from shared.ledger import (
+        BREAKDOWN_ALLOWED,
+        apply_ledger_lex,
+        list_conventions,
+        validate_ledger_metrics,
+    )
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+
+    expected = {
+        "cmd-mkdir": "mkdir",
+        "cmd-rmdir": "rmdir",
+        "cmd-rm": "rm",
+        "cmd-ls": "ls",
+        "cmd-cp": "cp",
+        "cmd-mv": "mv",
+        "cmd-cd": "cd",
+        "cmd-pwd": "pwd",
+        "cmd-cat": "cat",
+        "cmd-touch": "touch",
+        "cmd-ln": "ln",
+        "cmd-symlink": "symlink",
+        "cmd-chmod": "chmod",
+        "cmd-chown": "chown",
+        "cmd-grep": "grep",
+        "cmd-ps": "ps",
+        "cmd-kill": "kill",
+        "cmd-df": "df",
+        "cmd-du": "du",
+        "cmd-man": "man",
+        "cmd-ssh": "ssh",
+        "cmd-sudo": "sudo",
+    }
+    for cid, dst in expected.items():
+        c = by_id[cid]
+        assert c["to"] == dst, cid
+        assert c["apply_layer"] == "C"
+        assert c["family"] == "cmd"
+        assert c["breakdown"] in BREAKDOWN_ALLOWED
+        m = c["metrics"]
+        assert m["token"]["delta"] < 0, cid
+        assert m["bit"]["utf8"]["delta"] < 0, cid
+        assert m["token"]["sample_from"] == c["from"][0]
+
+    # apply positives
+    assert apply_ledger_lex("make directory") == "mkdir"
+    assert apply_ledger_lex("make a directory") == "mkdir"
+    assert apply_ledger_lex("remove directory") == "rmdir"
+    assert apply_ledger_lex("remove file") == "rm"
+    assert apply_ledger_lex("delete files") == "rm"
+    assert apply_ledger_lex("list files") == "ls"
+    assert apply_ledger_lex("list directory") == "ls"
+    assert apply_ledger_lex("copy file") == "cp"
+    assert apply_ledger_lex("move file") == "mv"
+    assert apply_ledger_lex("rename file") == "mv"
+    assert apply_ledger_lex("change directory") == "cd"
+    assert apply_ledger_lex("print working directory") == "pwd"
+    assert apply_ledger_lex("concatenate files") == "cat"
+    assert apply_ledger_lex("create empty file") == "touch"
+    assert apply_ledger_lex("hard link") == "ln"
+    assert apply_ledger_lex("symbolic link") == "symlink"
+    assert apply_ledger_lex("change permissions") == "chmod"
+    assert apply_ledger_lex("change owner") == "chown"
+    assert apply_ledger_lex("search in files") == "grep"
+    assert apply_ledger_lex("process status") == "ps"
+    assert apply_ledger_lex("kill process") == "kill"
+    assert apply_ledger_lex("terminate process") == "kill"
+    assert apply_ledger_lex("disk free") == "df"
+    assert apply_ledger_lex("disk usage") == "du"
+    assert apply_ledger_lex("manual page") == "man"
+    assert apply_ledger_lex("man page") == "man"
+    assert apply_ledger_lex("read the man page") == "read the man"
+    assert apply_ledger_lex("secure shell") == "ssh"
+    assert apply_ledger_lex("superuser do") == "sudo"
+    assert apply_ledger_lex("run as root") == "sudo"
+
+    # everyday / non-shell senses gated or never registered as from[]
+    assert "remove from the list" in apply_ledger_lex("remove from the list")
+    assert "delete the account" in apply_ledger_lex("delete the account")
+    assert "list of reasons" in apply_ledger_lex("list of reasons")
+    assert "to-do list" in apply_ledger_lex("to-do list")
+    assert "waitlist" in apply_ledger_lex("waitlist")
+    assert "copyright" in apply_ledger_lex("copyright notice")
+    assert "copy of" in apply_ledger_lex("copy of the book")
+    assert "on the move" in apply_ledger_lex("on the move again")
+    assert "make a move" in apply_ledger_lex("make a move now")
+    assert "change of mind" in apply_ledger_lex("change of mind")
+    assert "get in touch" in apply_ledger_lex("get in touch soon")
+    assert "due process" in apply_ledger_lex("due process clause")
+    assert "kill someone" in apply_ledger_lex("kill someone")
+    assert "manual labor" in apply_ledger_lex("manual labor")
+    assert "a man walked" in apply_ledger_lex("a man walked by")
+
+    # collision / skip policy: continuous delivery stays CD; no bare cat/which/find
+    assert apply_ledger_lex("continuous delivery") == "CD"
+    assert all(c.get("to") != "which" for c in by_id.values() if str(c.get("id", "")).startswith("cmd-"))
+    assert "cmd-which" not in by_id and "cmd-find" not in by_id
+    assert "cmd-whoami" not in by_id
+    assert "cat" not in [str(x).lower() for x in by_id["cmd-cat"]["from"]]
+    assert "soft link" in [str(x).lower() for x in by_id["cmd-symlink"]["from"]]  # alias ok

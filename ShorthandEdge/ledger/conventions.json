@@ -30,7 +30,8 @@
       "gap-fill closed thin: det/quant + conj purpose + reciprocal + hedges + colloquial aux (tip after 1f5fbb4)",
       "C eng/dev abbrev tranche (QED/LGTM/DRY/…): established engineer/programmer acronyms as family=abbrev acronym; iff already →⇔ via symbol-iff (math preferred).",
       "C path/unix-short tranche (family=path, id path-*): src/doc(s)/tmp/lib/bin/dist/pkg/cfg/util/bak/incl/impl/misc/log(s)/fmt/arg(s)/argv/diff/recv/snd/cc/bcc. dual token+utf8; meaning gates via skip_if_re. Folded etc→conj-etc. Skips: temp→tmp token-flat as sole sample (alias ok); conf≺cfg; utils≺util; bare send/sent→snd; bare log; bare argv; Δ/≠ keep symbol sense vs path-diff.",
-      "C music-term abbrev tranche (family=music, id music-*): aug/dim/dim7/sus/sus4/sus2/add9/maj/maj7/min/min7 + dynamics ff/pp/mf/mp/sfz/cresc + rit/pizz/arp. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: diminuendo→dim（chord dim と衝突）; bare add/added; bare major/minor/m/M; accel/gliss/vib/trem/DC/DS/flat-sharp（天井・次枠）; JP 増三和音等は任意で未投入。"
+      "C music-term abbrev tranche (family=music, id music-*): aug/dim/dim7/sus/sus4/sus2/add9/maj/maj7/min/min7 + dynamics ff/pp/mf/mp/sfz/cresc + rit/pizz/arp. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: diminuendo→dim（chord dim と衝突）; bare add/added; bare major/minor/m/M; accel/gliss/vib/trem/DC/DS/flat-sharp（天井・次枠）; JP 増三和音等は任意で未投入。",
+      "C cmd/unix-shell abbrev tranche (family=cmd, id cmd-*): mkdir/rmdir/rm/ls/cp/mv/cd/pwd/cat/touch/ln/symlink/chmod/chown/grep/ps/kill/df/du/man/ssh/sudo. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: which（関代衝突）; find/echo/clear/env/export/less/more/source（曖昧）; whoami（who am i 会話衝突）; bare make; soft-link sole sample tok-flat（alias only）; head/tail/scp/curl/wget/tar/gzip/zip/rsync/tee（天井・次枠）; diff→path-diff 既存。"
     ],
     "abbrev_sync": {
       "upserted": [
@@ -168,6 +169,10 @@
       "det": {
         "layer": "E",
         "description": "Determiners / quantifiers (every→∀, some→∃, none→∅, both→両, numerous→多, …)."
+      },
+      "cmd": {
+        "layer": "C",
+        "description": "Unix/shell command abbrevs (mkdir/rm/ls/cp/mv/cd/…)."
       }
     }
   },
@@ -25808,6 +25813,905 @@
           "inventory": null
         }
       }
+    },
+    {
+      "id": "cmd-mkdir",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "make directory",
+        "make a directory",
+        "create directory",
+        "create a directory"
+      ],
+      "to": "mkdir",
+      "rationale": "Unix/shell: make/create directory → mkdir",
+      "breakdown": "略",
+      "meaning_gate": "filesystem mkdir sense; phrase-focused",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "make directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 40,
+          "delta": -72,
+          "ratio": 0.3571,
+          "sample_from": "make directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 40,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bmake\\s+(?:a\\s+)?(?:decision|difference|sense|point|money|progress|sure|way)\\b|\\bcreate\\s+(?:a\\s+)?(?:account|user|team|company|opportunity)\\b"
+    },
+    {
+      "id": "cmd-rmdir",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "remove directory",
+        "remove dir",
+        "delete directory",
+        "delete dir"
+      ],
+      "to": "rmdir",
+      "rationale": "Unix/shell: remove/delete directory → rmdir",
+      "breakdown": "略",
+      "meaning_gate": "empty-dir remove sense; phrase-focused",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "remove directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 40,
+          "delta": -88,
+          "ratio": 0.3125,
+          "sample_from": "remove directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 40,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bremove\\s+(?:from|the)\\s+(?:list|board|agenda|ballot)\\b|\\bdelete\\s+(?:the\\s+)?(?:account|user|post|comment|message)\\b"
+    },
+    {
+      "id": "cmd-rm",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "remove file",
+        "remove files",
+        "delete file",
+        "delete files"
+      ],
+      "to": "rm",
+      "rationale": "Unix/shell: remove/delete file(s) → rm",
+      "breakdown": "略",
+      "meaning_gate": "filesystem rm sense; gate everyday remove/delete",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "remove file",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 16,
+          "delta": -72,
+          "ratio": 0.1818,
+          "sample_from": "remove file",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 16,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bremove\\s+(?:from|the)\\s+(?:list|board|agenda|ballot|team|group)\\b|\\bdelete\\s+(?:the\\s+)?(?:account|user|post|comment|message|email|tweet)\\b|\\bremove\\s+(?:obstacles?|barriers?|doubt|fear)\\b"
+    },
+    {
+      "id": "cmd-ls",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "list files",
+        "list directory",
+        "list dir",
+        "list the files"
+      ],
+      "to": "ls",
+      "rationale": "Unix/shell: list files/directory → ls",
+      "breakdown": "略",
+      "meaning_gate": "filesystem listing; gate list-of / waitlist / to-do",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "list files",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "list files",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\blist\\s+of\\b|\\bto-?do\\s+list\\b|\\bwaitlist\\b|\\bwaiting\\s+list\\b|\\bpacking\\s+list\\b|\\bguest\\s+list\\b|\\bshopping\\s+list\\b|\\bchecklist\\b|\\blist\\s+(?:the\\s+)?(?:reasons?|pros|cons|items?|names?|people)\\b"
+    },
+    {
+      "id": "cmd-cp",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "copy file",
+        "copy files",
+        "copy a file"
+      ],
+      "to": "cp",
+      "rationale": "Unix/shell: copy file(s) → cp",
+      "breakdown": "略",
+      "meaning_gate": "filesystem copy; gate carbon-copy / copyright / copy of",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "copy file",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 16,
+          "delta": -56,
+          "ratio": 0.2222,
+          "sample_from": "copy file",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 16,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bcarbon\\s+cop(?:y|ies)\\b|\\bcopyright\\b|\\bcopy\\s+of\\b|\\bcopy\\s+(?:and\\s+)?paste\\b|\\bcopy\\s+(?:the\\s+)?(?:text|email|message|idea)\\b"
+    },
+    {
+      "id": "cmd-mv",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "move file",
+        "move files",
+        "rename file",
+        "rename files"
+      ],
+      "to": "mv",
+      "rationale": "Unix/shell: move/rename file(s) → mv",
+      "breakdown": "略",
+      "meaning_gate": "filesystem mv; gate on the move / make a move",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "move file",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 16,
+          "delta": -56,
+          "ratio": 0.2222,
+          "sample_from": "move file",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 16,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bon\\s+the\\s+move\\b|\\bmake\\s+a\\s+move\\b|\\bmove\\s+(?:on|forward|ahead|away|in|out|up|down)\\b|\\bmove\\s+(?:the\\s+)?(?:meeting|deadline|goalposts?)\\b|\\brename\\s+(?:the\\s+)?(?:company|team|project|city)\\b"
+    },
+    {
+      "id": "cmd-cd",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "change directory",
+        "change dir"
+      ],
+      "to": "cd",
+      "rationale": "Unix/shell: change directory → cd（CD=continuous delivery は c-cd 別スロット）",
+      "breakdown": "略",
+      "meaning_gate": "chdir sense; phrase-only; not compact-disc / certificate-of-deposit / Canada",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "change directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 16,
+          "delta": -112,
+          "ratio": 0.125,
+          "sample_from": "change directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 16,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bchange\\s+(?:of\\s+)?(?:direction|mind|heart|pace|subject|topic|hands|gear)\\b|\\bcompact\\s+disc\\b|\\bcertificate\\s+of\\s+deposit\\b"
+    },
+    {
+      "id": "cmd-pwd",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "print working directory",
+        "print work directory"
+      ],
+      "to": "pwd",
+      "rationale": "Unix/shell: print working directory → pwd",
+      "breakdown": "略",
+      "meaning_gate": "getcwd/pwd sense; phrase-only",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 1,
+          "delta": -6,
+          "ratio": 0.1429,
+          "sample_from": "print working directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 184,
+          "after": 24,
+          "delta": -160,
+          "ratio": 0.1304,
+          "sample_from": "print working directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 184,
+            "after": 24,
+            "delta": -160
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bworking\\s+directory\\s+(?:of\\s+)?(?:the\\s+)?(?:board|committee|staff)\\b|\\bprint\\s+working\\s+(?:draft|copy|paper)\\b"
+    },
+    {
+      "id": "cmd-cat",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "concatenate files",
+        "concatenate file"
+      ],
+      "to": "cat",
+      "rationale": "Unix/shell: concatenate file(s) → cat；bare cat/animal 見送り",
+      "breakdown": "略",
+      "meaning_gate": "concat file contents; never bare animal cat",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "concatenate files",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 24,
+          "delta": -112,
+          "ratio": 0.1765,
+          "sample_from": "concatenate files",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 24,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bconcatenat(?:e|ed|ing|ion)\\s+(?:with|to|and)\\b|\\bcatalog(?:ue)?\\b|\\bcategory\\b"
+    },
+    {
+      "id": "cmd-touch",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "create empty file",
+        "touch a file",
+        "touch file"
+      ],
+      "to": "touch",
+      "rationale": "Unix/shell: create empty / update mtime file → touch",
+      "breakdown": "略",
+      "meaning_gate": "filesystem touch; gate physical/emotional touch",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "create empty file",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 40,
+          "delta": -96,
+          "ratio": 0.2941,
+          "sample_from": "create empty file",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 40,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\btouch\\s+(?:someone|somebody|him|her|them|me|us|base|on\\s+the)\\b|\\bget\\s+in\\s+touch\\b|\\bstay\\s+in\\s+touch\\b|\\btouch\\s+(?:and\\s+go|screen|pad|typing)\\b|\\bcreate\\s+(?:an?\\s+)?empty\\s+(?:room|space|seat|promise)\\b"
+    },
+    {
+      "id": "cmd-ln",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "hard link",
+        "create hard link",
+        "make hard link"
+      ],
+      "to": "ln",
+      "rationale": "Unix/shell: hard link → ln",
+      "breakdown": "略",
+      "meaning_gate": "hard-link sense; soft/symbolic → cmd-symlink",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "hard link",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 16,
+          "delta": -56,
+          "ratio": 0.2222,
+          "sample_from": "hard link",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 16,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bhard\\s+link(?:age)?\\s+(?:between|to)\\s+(?:people|countries|ideas)\\b|\\bhard\\s+to\\s+link\\b"
+    },
+    {
+      "id": "cmd-symlink",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "symbolic link",
+        "soft link"
+      ],
+      "to": "symlink",
+      "rationale": "Unix/shell: symbolic/soft link → symlink（soft link は token 非縮小だが alias）",
+      "breakdown": "略",
+      "meaning_gate": "symlink sense; phrase-only",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "symbolic link",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 56,
+          "delta": -48,
+          "ratio": 0.5385,
+          "sample_from": "symbolic link",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 56,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "cmd-chmod",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "change permissions",
+        "change file permissions",
+        "change mode",
+        "change file mode"
+      ],
+      "to": "chmod",
+      "rationale": "Unix/shell: change mode/permissions → chmod",
+      "breakdown": "略",
+      "meaning_gate": "filesystem mode bits; gate change mode of transport etc.",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "change permissions",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 40,
+          "delta": -104,
+          "ratio": 0.2778,
+          "sample_from": "change permissions",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 40,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bchange\\s+(?:the\\s+)?mode\\s+of\\s+(?:transport|operation|thinking|address)\\b|\\bchange\\s+permissions?\\s+(?:to\\s+)?(?:speak|enter|leave|publish)\\b"
+    },
+    {
+      "id": "cmd-chown",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "change owner",
+        "change ownership",
+        "change file owner"
+      ],
+      "to": "chown",
+      "rationale": "Unix/shell: change owner/ownership → chown",
+      "breakdown": "略",
+      "meaning_gate": "filesystem ownership; gate business ownership",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "change owner",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 40,
+          "delta": -56,
+          "ratio": 0.4167,
+          "sample_from": "change owner",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 40,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bchange\\s+(?:of\\s+)?ownership\\s+(?:of\\s+)?(?:the\\s+)?(?:company|business|team|club|house|property)\\b|\\bchange\\s+(?:the\\s+)?owner\\s+of\\s+(?:the\\s+)?(?:company|business|team|club|house|property)\\b"
+    },
+    {
+      "id": "cmd-grep",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "search in files",
+        "search files for"
+      ],
+      "to": "grep",
+      "rationale": "Unix/shell: search in/files for → grep",
+      "breakdown": "略",
+      "meaning_gate": "file-content search; gate general search",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "search in files",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 32,
+          "delta": -88,
+          "ratio": 0.2667,
+          "sample_from": "search in files",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 32,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bsearch\\s+in\\s+(?:vain|peace|files?\\s+for\\s+(?:a\\s+)?(?:job|partner|meaning))\\b|\\bsearch\\s+files\\s+for\\s+(?:bankruptcy|divorce)\\b"
+    },
+    {
+      "id": "cmd-ps",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "process status",
+        "process list",
+        "list processes"
+      ],
+      "to": "ps",
+      "rationale": "Unix/shell: process status/list → ps",
+      "breakdown": "略",
+      "meaning_gate": "process table; gate legal process / list processes metaphor",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "process status",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 16,
+          "delta": -96,
+          "ratio": 0.1429,
+          "sample_from": "process status",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 16,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bprocess\\s+status\\s+(?:update|report|hearing)\\b|\\bdue\\s+process\\b|\\blegal\\s+process\\b|\\blist\\s+processes\\s+for\\s+(?:approval|review)\\b"
+    },
+    {
+      "id": "cmd-kill",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "kill process",
+        "terminate process",
+        "end process"
+      ],
+      "to": "kill",
+      "rationale": "Unix/shell: kill/terminate process → kill",
+      "breakdown": "略",
+      "meaning_gate": "signal process; gate violence / kill time",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "kill process",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 32,
+          "delta": -64,
+          "ratio": 0.3333,
+          "sample_from": "kill process",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 32,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bkill\\s+(?:someone|somebody|him|her|them|people|civilians|time|two\\s+birds)\\b|\\bterminate\\s+(?:someone|somebody|him|her|them|the\\s+contract|employment)\\b|\\bend\\s+process\\s+(?:of|with)\\b"
+    },
+    {
+      "id": "cmd-df",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "disk free",
+        "disk free space",
+        "free disk space"
+      ],
+      "to": "df",
+      "rationale": "Unix/shell: disk free → df",
+      "breakdown": "略",
+      "meaning_gate": "filesystem free space",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "disk free",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 16,
+          "delta": -56,
+          "ratio": 0.2222,
+          "sample_from": "disk free",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 16,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bdisk\\s+free\\s+of\\s+(?:charge|cost)\\b|\\bfree\\s+disk\\s+space\\s+in\\s+(?:the\\s+)?(?:press|media)\\b"
+    },
+    {
+      "id": "cmd-du",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "disk usage",
+        "directory usage"
+      ],
+      "to": "du",
+      "rationale": "Unix/shell: disk/directory usage → du",
+      "breakdown": "略",
+      "meaning_gate": "du sense; phrase-focused",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "disk usage",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "disk usage",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bdisk\\s+usage\\s+(?:policy|agreement|rights)\\b|\\bdirectory\\s+usage\\s+(?:policy|guidelines)\\b"
+    },
+    {
+      "id": "cmd-man",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "manual page",
+        "man page"
+      ],
+      "to": "man",
+      "rationale": "Unix/shell: manual/man page → man",
+      "breakdown": "略",
+      "meaning_gate": "man(1) page; gate human man / manual labor / car manual",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "manual page",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "manual page",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bmanual\\s+(?:labor|labour|transmission|override|review|process|work|dexterity)\\b|\\bman\\s+page\\s+(?:of\\s+)?(?:history|the\\s+book)\\b|\\b(?:a|the)\\s+man\\b(?!\\s+page\\b)"
+    },
+    {
+      "id": "cmd-ssh",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "secure shell",
+        "secure shell login"
+      ],
+      "to": "ssh",
+      "rationale": "Unix/shell: secure shell → ssh",
+      "breakdown": "略",
+      "meaning_gate": "ssh protocol/login; phrase-only",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "secure shell",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "secure shell",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\bsecure\\s+shell\\s+(?:company|corporation|game)\\b"
+    },
+    {
+      "id": "cmd-sudo",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "cmd",
+      "from": [
+        "superuser do",
+        "run as superuser",
+        "run as root"
+      ],
+      "to": "sudo",
+      "rationale": "Unix/shell: superuser do / run as root → sudo",
+      "breakdown": "略",
+      "meaning_gate": "privilege escalation; phrase-focused",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "superuser do",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 32,
+          "delta": -64,
+          "ratio": 0.3333,
+          "sample_from": "superuser do",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 32,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      },
+      "skip_if_re": "\\brun\\s+as\\s+root\\s+(?:cause|metaphor|vegetable)\\b|\\bsuperuser\\s+do\\s+not\\b"
     }
   ]
 }
