@@ -534,10 +534,21 @@ def test_morpho_prep_compounds_and_legal_shorts():
     assert "∴of" in m.compress("portion thereof", **kw)
     # hereof: no dual-metric win — leave
     assert "hereof" in m.compress("terms hereof", **kw).lower()
+    # thereby stays (∴by is whereby; ∴ is therefore)
+    assert "thereby" in m.compress("agreed thereby", **kw).lower()
+    assert "∈it" in m.compress("the parties therein", **kw)
+    assert "∴to" in m.compress("annexed thereto", **kw)
+    assert m.compress("henceforth", **kw) == "∴→"
+    assert "∴" in m.compress("hence we agree", **kw)
+    assert "雖" in m.compress("notwithstanding section 5", **kw)
+    assert "despite" not in m.compress("notwithstanding section 5", **kw).lower()
     # expand subset
     assert "throughout" in m.expand("通 year").lower()
     assert "therewith" in m.expand("∴w/").lower()
     assert "whereby" in m.expand("∴by").lower()
+    assert "therein" in m.expand("∈it").lower()
+    assert "thereto" in m.expand("∴to").lower()
+    assert "vice versa" in m.expand("⇄").lower()
 
 
 

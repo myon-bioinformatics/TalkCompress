@@ -24,7 +24,8 @@
       "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: math/symbol first when meaning is clear, else emoji — prefer existing inventory over inventing new math or emoji peers (check→✓ not ✅; star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / policy-cross-lang-cheapest (token then utf8).",
       "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
       "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap).",
-      "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/…) rewrite to these."
+      "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/…) rewrite to these.",
+      "Formal/legal + connective tranche (finite): therein→∈it, thereto→∴to, henceforth→∴→, notwithstanding→雖 (in spite of は prep 側), insofar-as→insofar, provided that→if, instead of→vs (in lieu of / rather than / pursuant to は prep cycle2), namely→viz, hence/thus→∴, albeit→tho, the foregoing→supra, aforementioned→said, vice versa→⇄, T&C, etal, given that→bc. hereof/thereby/hereto/herewith skipped (no dual-metric win or sense clash). Prep/adverb thickening is a separate tranche."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -12461,6 +12462,660 @@
             "before": 88,
             "after": 24,
             "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-therein",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "therein",
+        "∈it"
+      ],
+      "to": "∈it",
+      "rationale": "therein → ∈it（∈there は utf8 増；in it は token 非勝利）。∈ 単体は herein",
+      "breakdown": "略",
+      "cross_layer_note": "∈there は legacy expand のみ。toward の → とは別",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "therein",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 40,
+          "delta": -16,
+          "ratio": 0.7143,
+          "sample_from": "therein",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-thereto",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "thereto",
+        "∴to"
+      ],
+      "to": "∴to",
+      "rationale": "thereto → ∴to（to that）。→ は toward なので意味ゲートで除外",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "thereto",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 40,
+          "delta": -16,
+          "ratio": 0.7143,
+          "sample_from": "thereto",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-henceforth",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "henceforth"
+      ],
+      "to": "∴→",
+      "rationale": "henceforth → ∴→（hereafter と同義・同表層。別 id）",
+      "breakdown": "略",
+      "cross_layer_note": "expand(∴→) は hereafter。同義の損失展開",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "henceforth",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 48,
+          "delta": -32,
+          "ratio": 0.6,
+          "sample_from": "henceforth",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 48,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-notwithstanding",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "conj",
+      "from": [
+        "notwithstanding"
+      ],
+      "to": "雖",
+      "rationale": "notwithstanding → 雖。tho/but は前置用法を落とす。in spite of は prep-in-spite-of、despite は prep-despite が既に 雖",
+      "breakdown": "接",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "notwithstanding",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "notwithstanding",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "conj-insofar",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "conj",
+      "from": [
+        "insofar as",
+        "in so far as",
+        "to the extent that"
+      ],
+      "to": "insofar",
+      "rationale": "範囲の接続句 → insofar。裸の to the extent（of $N）は意味が違うので見送り",
+      "breakdown": "連",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "insofar as",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 56,
+          "delta": -24,
+          "ratio": 0.7,
+          "sample_from": "insofar as",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 56,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "conj-provided",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "conj",
+      "from": [
+        "provided, however, that",
+        "provided that",
+        "in the event that"
+      ],
+      "to": "if",
+      "rationale": "条件の法務句 → if。subject to は governed-by と揺れるので見送り。if は曖昧ゲート",
+      "breakdown": "連",
+      "ambiguity_sensitive": true,
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "provided, however, that",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 184,
+          "after": 16,
+          "delta": -168,
+          "ratio": 0.087,
+          "sample_from": "provided, however, that",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 184,
+            "after": 16,
+            "delta": -168
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "conj-in-lieu",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "conj",
+      "from": [
+        "instead of"
+      ],
+      "to": "vs",
+      "rationale": "instead of → vs。in lieu of は prep-in-lieu-of→代、rather than / as opposed to は prep-as-opposed-to→vs",
+      "breakdown": "連",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "instead of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "instead of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-namely",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "latin",
+      "from": [
+        "namely",
+        "viz.",
+        "viz"
+      ],
+      "to": "viz",
+      "rationale": "namely → viz（viz. より token 同・utf8 安。i.e. は言い換えで別）",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "namely",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 24,
+          "delta": -24,
+          "ratio": 0.5,
+          "sample_from": "namely",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "conj-hence",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "conj",
+      "from": [
+        "hence",
+        "thus",
+        "accordingly",
+        "now therefore",
+        "for this reason",
+        "as a consequence"
+      ],
+      "to": "∴",
+      "rationale": "結果接続 → ∴（so より token 安；C の therefore→so とは別経路）。thereby は by-that-means で ∴by=whereby と衝突するため見送り",
+      "breakdown": "接",
+      "cross_layer_note": "C conj-therefore は therefore/consequently/as a result→so。hence/thus/now therefore はより長い句を先に ∴ へ（therefore 断片の so 化を避ける）。E _SUBS も ∴",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "hence",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "hence",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "conj-albeit",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "conj",
+      "from": [
+        "even though",
+        "although",
+        "albeit"
+      ],
+      "to": "tho",
+      "rationale": "譲歩 although/albeit/even though → tho。対照 however の意味ゲートは触らない",
+      "breakdown": "接",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "even though",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "even though",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-foregoing",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "from": [
+        "the foregoing",
+        "supra"
+      ],
+      "to": "supra",
+      "rationale": "the foregoing → supra。above は token/utf8 同点だが spatial above→上 に連鎖するので除外",
+      "breakdown": "連",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "the foregoing",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 40,
+          "delta": -64,
+          "ratio": 0.3846,
+          "sample_from": "the foregoing",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 40,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-aforementioned",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "from": [
+        "aforementioned",
+        "aforesaid"
+      ],
+      "to": "said",
+      "rationale": "aforementioned/aforesaid → said（法務限定詞）。動詞 said と衝突し得る",
+      "breakdown": "略",
+      "ambiguity_sensitive": true,
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "aforementioned",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 32,
+          "delta": -80,
+          "ratio": 0.2857,
+          "sample_from": "aforementioned",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 32,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-vice-versa",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "vice versa",
+        "⇄"
+      ],
+      "to": "⇄",
+      "rationale": "vice versa → ⇄（vv より token 安；select_cheapest）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "vice versa",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "vice versa",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-tnc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "terms and conditions"
+      ],
+      "to": "T&C",
+      "rationale": "terms and conditions → T&C",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 2,
+          "delta": -4,
+          "ratio": 0.3333,
+          "sample_from": "terms and conditions",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 160,
+          "after": 24,
+          "delta": -136,
+          "ratio": 0.15,
+          "sample_from": "terms and conditions",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 160,
+            "after": 24,
+            "delta": -136
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-et-al",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "latin",
+      "from": [
+        "and others",
+        "et al"
+      ],
+      "to": "etal",
+      "rationale": "and others / et al. → etal（et al より token+utf8 安。FR et→& は alias-only で et を食わない）",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "and others",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 32,
+          "delta": -48,
+          "ratio": 0.4,
+          "sample_from": "and others",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 32,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "conj-given-that",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "conj",
+      "from": [
+        "given that",
+        "inasmuch as"
+      ],
+      "to": "bc",
+      "rationale": "given that / inasmuch as → bc（理由。insofar は範囲なので混ぜない）",
+      "breakdown": "連",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "given that",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "given that",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-null-void",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "null and void"
+      ],
+      "to": "void",
+      "rationale": "null and void → void（法務の二重語。意味は void に残る）",
+      "breakdown": "連",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "null and void",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 32,
+          "delta": -72,
+          "ratio": 0.3077,
+          "sample_from": "null and void",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 32,
+            "delta": -72
           },
           "inventory": null
         }

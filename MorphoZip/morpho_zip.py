@@ -1078,6 +1078,11 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
 
     (re.compile(r"\bbecause\b", re.I), "bc"),
     (re.compile(r"\btherefore\b", re.I), "∴"),
+    # Resultatives share ∴ (cheaper than so). thereby stays: by-that-means ≠ therefore,
+    # and ∴by is whereby.
+    (re.compile(r"\bhence\b", re.I), "∴"),
+    (re.compile(r"\bthus\b", re.I), "∴"),
+    (re.compile(r"\baccordingly\b", re.I), "∴"),
     # Contrastive however → though (general EN synonym). Skip concessive/degree
     # "however hard/much/…" (however + Adj/Adv). Safe on "However," / "however I …".
     # Separate rule below: though → tho (informal EN clip). Two general rules,
@@ -1098,6 +1103,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     ),
     # Informal EN clipping: though → tho (not a foreign-language form).
     (re.compile(r"\bthough\b", re.I), "tho"),
+    # Formal concessives (not contrastive however). even though is phrase-grammar.
+    (re.compile(r"\balthough\b", re.I), "tho"),
+    (re.compile(r"\balbeit\b", re.I), "tho"),
     (re.compile(r"\bapproximately\b", re.I), "~"),
     # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≧/≦).
     # greater than stays > (strict); less than → ≦ via phrase grammar.
@@ -1216,11 +1224,21 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bhereinafter referred to as\b", re.I), "∴="),
     (re.compile(r"\bhereinafter\b", re.I), "∴↓"),
     (re.compile(r"\bhereafter\b", re.I), "∴→"),
+    (re.compile(r"\bhenceforth\b", re.I), "∴→"),  # same sense as hereafter
     (re.compile(r"\bherein\b", re.I), "∈"),
     (re.compile(r"\bthereof\b", re.I), "∴of"),
-    (re.compile(r"\btherein\b", re.I), "∈there"),
+    # ∈there loses utf8; ∈it is the dual-metric win (in that). Not herein's bare ∈.
+    (re.compile(r"\btherein\b", re.I), "∈it"),
+    (re.compile(r"\bthereto\b", re.I), "∴to"),  # to that; not → (toward)
     (re.compile(r"\bwhereby\b", re.I), "∴by"),
     (re.compile(r"\bwhereas\b", re.I), "∵"),
+    # Prepositional concessive. tho/but lose "notwithstanding §5".
+    # despite itself is already →雖 (prep tranche); emit that terminal directly.
+    (re.compile(r"\bnotwithstanding\b", re.I), "雖"),
+    (re.compile(r"\bnamely\b", re.I), "viz"),
+    (re.compile(r"\bviz\."), "viz"),
+    (re.compile(r"\baforementioned\b", re.I), "said"),
+    (re.compile(r"\baforesaid\b", re.I), "said"),
     # JA polite endings → low-ambiguity
     (re.compile(r"です。|ます。|でした。|ました。"), "。"),
     (re.compile(r"ですね|ますね"), "ね"),
@@ -1297,6 +1315,28 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bespecially\b", re.I), "esp."),
     (re.compile(r"\bthat is\b", re.I), "i.e."),
     (re.compile(r"\bversus\b", re.I), "vs"),
+    # Formal/legal phrases before for→4 / that-deixis / and→& eat a piece.
+    (re.compile(r"\bprovided, however, that\b", re.I), "if"),
+    (re.compile(r"\bprovided that\b", re.I), "if"),
+    (re.compile(r"\bin the event that\b", re.I), "if"),
+    (re.compile(r"\bto the extent that\b", re.I), "insofar"),
+    (re.compile(r"\bin so far as\b", re.I), "insofar"),
+    (re.compile(r"\binsofar as\b", re.I), "insofar"),
+    # pursuant to / in accordance with → 準, in lieu of → 代,
+    # as opposed to / rather than → vs are prep cycle2 (_SUBS)
+    (re.compile(r"\bgiven that\b", re.I), "bc"),
+    (re.compile(r"\binasmuch as\b", re.I), "bc"),
+    (re.compile(r"\beven though\b", re.I), "tho"),
+    (re.compile(r"\bnow therefore\b", re.I), "∴"),
+    (re.compile(r"\bfor this reason\b", re.I), "∴"),
+    (re.compile(r"\bas a consequence\b", re.I), "∴"),
+    (re.compile(r"\bnull and void\b", re.I), "void"),
+    (re.compile(r"\bterms and conditions\b", re.I), "T&C"),
+    (re.compile(r"\band others\b", re.I), "etal"),
+    # Consume the optional period; \b after "." never matches.
+    (re.compile(r"\bet al\.?(?!\w)", re.I), "etal"),
+    (re.compile(r"\bthe foregoing\b", re.I), "supra"),
+    (re.compile(r"\bvice versa\b", re.I), "⇄"),
     # compare / equality — language-agnostic → ≧/≦/= /≒ (BEFORE and/or/at/_SUBS)
     (re.compile(r"\bapproximately equal(?: to)?\b", re.I), "≒"),
     (re.compile(r"\babout equal(?: to)?\b", re.I), "≒"),
@@ -1601,6 +1641,7 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"∴of"), "thereof"),
     (re.compile(r"∴w/"), "therewith"),
     (re.compile(r"∴by"), "whereby"),
+    (re.compile(r"∴to"), "thereto"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])通(?![\w\u3040-\u30ff\u3400-\u9fff])"), "throughout"),
     (re.compile(r"↔"), "across"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])沿(?![\w\u3040-\u30ff\u3400-\u9fff])"), "along"),
@@ -1657,7 +1698,9 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])対比(?![\w\u3040-\u30ff\u3400-\u9fff])"), "in contrast to"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])過程(?![\w\u3040-\u30ff\u3400-\u9fff])"), "in the course of"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])面前(?![\w\u3040-\u30ff\u3400-\u9fff])"), "in the face of"),
-    (re.compile(r"∈there"), "therein"),
+    (re.compile(r"∈there"), "therein"),  # legacy; compress now emits ∈it
+    (re.compile(r"∈it"), "therein"),
+    (re.compile(r"⇄"), "vice versa"),
     (re.compile(r"\b∀who\b"), "whoever"),
     (re.compile(r"\b∀opt\b"), "whichever"),
     (re.compile(r"\b∀which\b"), "whichever"),  # legacy
