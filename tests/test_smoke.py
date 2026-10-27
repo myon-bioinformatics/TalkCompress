@@ -1,6 +1,6 @@
 """Smoke + behavioral tests for TalkCompress A/B/C/E (layer unit).
 
-Cross-layer / DispatchHub wiring → tests/integration/.
+Cross-layer / DensityZip wiring → tests/integration/.
 """
 
 from __future__ import annotations

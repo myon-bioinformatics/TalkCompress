@@ -20,7 +20,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 - whatever / hereafter 系の「ほぼ1語」化も積極採用
 - 性別名詞の重い体系は避け、中性寄りでコストを下げる
 - 数字は `0-9`、必要なら `0-F`（16進、`--hex-nums`）。数学記法も可
-- 層3（C）が FILLER 除去・UNIQUE_COMPACT・I'll・スペル数字・合意台帳 lex。層4（E）は一意読み（長い形）・語源寄せ（ℹ️）・文法最小（`shared/lex_policy.py`）。D はルーターのみ（仮名 DispatchHub）。F は当面なし
+- 層3（C）が FILLER 除去・UNIQUE_COMPACT・I'll・スペル数字・合意台帳 lex。層4（E）は一意読み（長い形）・語源寄せ（ℹ️）・文法最小（`shared/lex_policy.py`）。D は **DensityZip**（横断オーケストレーション + density 指標ファサード）。 A Zipilogue / D DensityZip / E MorphoZip は別物（単独「Zip」は使わない）。F は当面なし
 
 ## サブプロジェクト（A–E）
 
@@ -29,7 +29,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 | A | [Zipilogue](Zipilogue/) | 層1 — 共有ルール台帳＋任意の鍵付き封筒 |
 | B | [TesseraTalk](TesseraTalk/) | 層2 — 文単位モザイク + 翻訳トークン最短（Romance/Germanic/Greek + JA/ZH） |
 | C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約・FILLER・UNIQUE_COMPACT・I'll・スペル数字・**合意台帳** |
-| D | [DispatchHub](DispatchHub/) | 横断 — 入出力・層の切替・共通CLI（**仮名**; 台帳は持たない） |
+| D | [DensityZip](DensityZip/) | 横断 — 入出力・層切替・共通CLI + **density** 指標ファサード（台帳は持たない; Zipilogue/MorphoZip とは別） |
 | E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小・ℹ️・冠詞・助数詞（フィラー除去は既定オフ） |
 
 ## 開発・CI
@@ -40,42 +40,42 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 
 ## 使い方
 
-共通入口は `DispatchHub`。各層の詳細はサブディレクトリの README を参照。サンプルは [examples/](examples/)。
+共通入口は `DensityZip`（`uv run python DensityZip/density_zip.py ...`）。 Zip 系は **Zipilogue (A)** / **DensityZip (D)** / **MorphoZip (E)** をフルネームで区別。 各層の詳細はサブディレクトリの README を参照。サンプルは [examples/](examples/)。
 
 ```bash
 uv sync
-uv run python DispatchHub/dispatch_hub.py --layer 3 --text "as soon as possible"
-uv run python DispatchHub/dispatch_hub.py --layer A --key 'shared' --text "hello bots"
+uv run python DensityZip/density_zip.py --layer 3 --text "as soon as possible"
+uv run python DensityZip/density_zip.py --layer A --key 'shared' --text "hello bots"
 # A 共有ルール台帳（鍵なしでも可。頻出フレーズが r1… に育つ）
 uv run python Zipilogue/zipilogue.py rule-sim --state /tmp/book.json --threshold 3 --text $'ready and waiting\nready and waiting\nready and waiting\nready and waiting'
-uv run python DispatchHub/dispatch_hub.py --layer A --rule-state /tmp/book.json --text "ready and waiting"
-uv run python DispatchHub/dispatch_hub.py --layer E --stats --text "私は ready and waiting"
+uv run python DensityZip/density_zip.py --layer A --rule-state /tmp/book.json --text "ready and waiting"
+uv run python DensityZip/density_zip.py --layer E --stats --text "私は ready and waiting"
 
 # パイプライン（層を順に適用）
-uv run python DispatchHub/dispatch_hub.py --pipeline C,E --text "um thank you for your information"
+uv run python DensityZip/density_zip.py --pipeline C,E --text "um thank you for your information"
 
 # 予算: 既定 C,E を繰り返し、len<=N か縮小停止まで。最短結果を返す
-uv run python DispatchHub/dispatch_hub.py --budget 40 --stats --text "um thank you for your information please"
+uv run python DensityZip/density_zip.py --budget 40 --stats --text "um thank you for your information please"
 
 # ヒューリスティック自動選択（B/C/E。鍵付きで --auto-machine なら末尾に A）
-uv run python DispatchHub/dispatch_hub.py --auto --text "Hello. こんにちは。Thanks for your information."
+uv run python DensityZip/density_zip.py --auto --text "Hello. こんにちは。Thanks for your information."
 
 # 役割別層（JSONL）。identity/skip は無変更。マルチ段は user=C+E
-uv run python DispatchHub/dispatch_hub.py --jsonl --role-layers 'user=C,assistant=E,system=identity' \
+uv run python DensityZip/density_zip.py --jsonl --role-layers 'user=C,assistant=E,system=identity' \
   --file examples/sample_chat.jsonl
 
 # 変換トレース（stderr JSON）
-uv run python DispatchHub/dispatch_hub.py --pipeline C,E --trace --text "um thank you"
+uv run python DensityZip/density_zip.py --pipeline C,E --trace --text "um thank you"
 
 # 層の密度比較（JSON Lines）
-uv run python DispatchHub/dispatch_hub.py --compare --text "I have 3 animals and 2 people"
+uv run python DensityZip/density_zip.py --compare --text "I have 3 animals and 2 people"
 
 # ファイル入出力 / Zipilogue AAD・環境変数鍵
-uv run python DispatchHub/dispatch_hub.py --layer C --file in.txt --out out.txt
-TALKCOMPRESS_ZIP_KEY=secret uv run python DispatchHub/dispatch_hub.py --layer A --aad chat --file plain.txt --out env.txt
+uv run python DensityZip/density_zip.py --layer C --file in.txt --out out.txt
+TALKCOMPRESS_ZIP_KEY=secret uv run python DensityZip/density_zip.py --layer A --aad chat --file plain.txt --out env.txt
 
 # 語彙ポリシー上書き（プロセス内） / MorphoZip 16進・expand
-uv run python DispatchHub/dispatch_hub.py --layer E --lex-policy policy.json --text "..."
+uv run python DensityZip/density_zip.py --layer E --lex-policy policy.json --text "..."
 uv run python MorphoZip/morpho_zip.py --mode expand --text "3匹"
 uv run python MorphoZip/morpho_zip.py --hex-nums --text "retry 255 times"
 
@@ -105,22 +105,22 @@ uv run pytest -q
 ```bash
 # スライディング窓（JSONL）: 圧縮後に末尾 N 件。--keep-system で system は落とさない
 # --window と --budget 併用時: 先に行ごと圧縮 → window → さらに古い行から budget まで削除
-uv run python DispatchHub/dispatch_hub.py --pipeline C,E --jsonl --window 3 --keep-system \
+uv run python DensityZip/density_zip.py --pipeline C,E --jsonl --window 3 --keep-system \
   --file examples/window_chat.jsonl
 
 # 名前付きプロファイル（CLI が上書き）。profiles/mcp-short.json など
-uv run python DispatchHub/dispatch_hub.py --profile mcp-short --text "um thank you for your information"
-uv run python DispatchHub/dispatch_hub.py --profile chat-mosaic --text "Hello. こんにちは。"
+uv run python DensityZip/density_zip.py --profile mcp-short --text "um thank you for your information"
+uv run python DensityZip/density_zip.py --profile chat-mosaic --text "Hello. こんにちは。"
 
 # 品質ゲート（既定は非厳格）。shrink 不足で終了コード 1。--allow-weak で警告のみ
-uv run python DispatchHub/dispatch_hub.py --layer C --min-ratio 0.5 --text "xyzzy" || true
+uv run python DensityZip/density_zip.py --layer C --min-ratio 0.5 --text "xyzzy" || true
 
 # ドメインパック / 保護スパン（[[keep:...]] はラッパ除去・中身そのまま）
-uv run python DispatchHub/dispatch_hub.py --layer C --pack mcp --pack dev --text "model context protocol"
-uv run python DispatchHub/dispatch_hub.py --layer E --text '[[keep:thank you for your information]] please'
+uv run python DensityZip/density_zip.py --layer C --pack mcp --pack dev --text "model context protocol"
+uv run python DensityZip/density_zip.py --layer E --text '[[keep:thank you for your information]] please'
 
 # Zipilogue 鍵指紋（鍵自体は出さない） / encode dry-run
-uv run python DispatchHub/dispatch_hub.py --fingerprint-key --key 'shared'
+uv run python DensityZip/density_zip.py --fingerprint-key --key 'shared'
 uv run python Zipilogue/zipilogue.py fingerprint --key 'shared'
 uv run python Zipilogue/zipilogue.py encode --key k --dry-run --stats --text hello
 
@@ -138,7 +138,7 @@ uv run python Zipilogue/zipilogue.py rule-threshold --state book.json --threshol
 uv run python Zipilogue/zipilogue.py rule-negotiate --state book.json --import /tmp/p1.json --peer /tmp/p2.json
 
 # B: 翻訳トークン最短をハブ経由（D は配線のみ）
-uv run python DispatchHub/dispatch_hub.py --layer B --translate-min --text "Good morning. See you later."
+uv run python DensityZip/density_zip.py --layer B --translate-min --text "Good morning. See you later."
 
 # C: 台帳（左右・前後・接続詞英語短形）/ chat パック
 uv run python ShorthandEdge/shorthand_edge.py compress --text "check left and right" --pack chat

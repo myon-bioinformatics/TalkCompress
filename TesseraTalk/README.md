@@ -60,4 +60,4 @@ uv run python TesseraTalk/tessera_talk.py compress --translate-min --allow-langs
 
 ## Round notes
 
-翻訳バンクに ES/FR/PT/IT/DE/NL/EL を拡充。`--translate-min` は DispatchHub 経由でも可。`--translate-engine=deep|argos` は並列多言語→長さ＋揺らぎで採用。
+翻訳バンクに ES/FR/PT/IT/DE/NL/EL を拡充。`--translate-min` は DensityZip 経由でも可。`--translate-engine=deep|argos` は並列多言語→長さ＋揺らぎで採用。

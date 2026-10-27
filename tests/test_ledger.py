@@ -29,8 +29,8 @@ def test_ledger_file_exists_and_loads():
     assert path == ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
     assert "ShorthandEdge" in str(path)
     assert "ConvoHub" not in str(path)
-    assert "DispatchHub" not in str(path)
-    assert not (ROOT / "DispatchHub" / "ledger").exists()
+    assert "DensityZip" not in str(path)
+    assert not (ROOT / "DensityZip" / "ledger").exists()
     assert not (ROOT / "ConvoHub").exists()
     data = load_ledger()
     assert data["version"] == 1

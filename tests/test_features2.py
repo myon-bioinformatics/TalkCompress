@@ -1,6 +1,6 @@
 """Round-2 layer-unit tests: expand, frames, lex-policy, packs helpers.
 
-Budget/role/trace/auto via hub → tests/integration/.
+Budget/role/trace/auto via DensityZip → tests/integration/.
 """
 
 from __future__ import annotations

@@ -4,11 +4,15 @@ TalkCompress は A–E の**親**です。将来まとめて切り出すとき�
 
 | ID | ディレクトリ | 層 |
 | --- | --- | --- |
-| A | `Zipilogue/` | 1 機械同士 |
+| A | `Zipilogue/` | 1 機械同士（共有ルール / 任意封筒） |
 | B | `TesseraTalk/` | 2 文単位多言語 + 翻訳トークン最短 |
-| C | `ShorthandEdge/` | 3 人間ギリギリ |
-| D | `DispatchHub/` | 横断ルーティングのみ（仮名; 台帳は C） |
-| E | `MorphoZip/` | 4 文内・文法最小 |
+| C | `ShorthandEdge/` | 3 人間ギリギリ（合意台帳はここ） |
+| D | `DensityZip/` | 横断オーケストレーション + **density** 指標ファサード |
+| E | `MorphoZip/` | 4 文内・文法最小・代名詞在庫ビット |
+
+### Zip 名の区別
+
+A **Zipilogue** / D **DensityZip** / E **MorphoZip** は別物。散文では単独の「Zip」を使わずフルネームで書く。モジュールも `density_zip.py` / `morpho_zip.py` / `zipilogue.py` とフルに揃える。
 
 ## 真親への登録はしない
 

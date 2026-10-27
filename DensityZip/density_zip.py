@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
-"""DispatchHub (D): cross-layer router / shared CLI.
+"""DensityZip (D): cross-layer orchestration + density metric façade / shared CLI.
 
-# TODO(D): provisional name DispatchHub — may rename / redefine role later
+Decided name (2026-10-27): replaces provisional DispatchHub. Not Hub/Convo/Dispatch.
+Distinct from **Zipilogue** (A) and **MorphoZip** (E) — always use the full name.
 
 Supports single ``--layer``, sequential ``--pipeline C,E``, ``--budget``,
 ``--role-layers``, ``--auto``, ``--trace``, ``--window``, ``--profile``,
 quality gates, packs, protect spans, file I/O, ``--compare``, and
 Zipilogue ``--rule-state`` (A evolving slang ledger; key optional).
 
+Density façade: ``--compare`` / ``--budget`` / ``--stats`` surface token-ish
+metrics (budget, ``content_token_loss``, B ``estimate_tokens`` via wiring) and
+bit-ish metrics (E ``density()`` / ``pronoun_bit_cost`` aggregated here).
+B owns ``estimate_tokens``; E owns pronoun inventory bits; C owns the ledger.
+
 Agreed human conventions (under/below→下, 凹凸, …) live under
 ``ShorthandEdge/ledger/conventions.json`` and are applied by **C**, not D.
-D is router / orchestration only.
 """
 
 from __future__ import annotations
@@ -41,9 +46,9 @@ _LAYER_ALIASES: dict[str, str] = {
     "tessera_talk": "B",
     "shorthand": "C",
     "shorthand_edge": "C",
-    "dispatch": "D",
-    "dispatch_hub": "D",
-    "dispatchhub": "D",
+    "density": "D",
+    "density_zip": "D",
+    "densityzip": "D",
     "morpho": "E",
     "morpho_zip": "E",
     "identity": "identity",
@@ -75,7 +80,7 @@ def parse_pipeline(raw: str) -> list[str]:
     layers = [resolve_layer(p) for p in parts]
     for layer in layers:
         if layer == "D":
-            raise SystemExit("D (DispatchHub) is this router; omit from --pipeline")
+            raise SystemExit("D (DensityZip) is this router; omit from --pipeline")
         if layer == "identity":
             continue
         if layer not in ("A", "B", "C", "E"):
@@ -437,7 +442,7 @@ def _run_a(text: str, args: argparse.Namespace, *, decode: bool = False) -> str:
 
     payload = text
     if book is not None:
-        # observe so counts grow when DispatchHub routes through A with a RuleBook
+        # observe so counts grow when DensityZip routes through A with a RuleBook
         book.observe(payload)
         payload = book.encode_with_rules(payload)
         book.save()
@@ -862,22 +867,22 @@ def process_jsonl(
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        description="DispatchHub: route TalkCompress layers A–E / 1–4",
+        description="DensityZip: density façade + route TalkCompress layers A–E / 1–4",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""examples:
-  uv run python DispatchHub/dispatch_hub.py --layer 3 --text "as soon as possible"
-  uv run python DispatchHub/dispatch_hub.py --pipeline C,E --text "um thank you for your information"
-  uv run python DispatchHub/dispatch_hub.py --budget 40 --text "um thank you for your information please"
-  uv run python DispatchHub/dispatch_hub.py --auto --text "Hello. こんにちは。Thanks a lot."
-  uv run python DispatchHub/dispatch_hub.py --compare --text "I have 3 animals and 2 people"
-  uv run python DispatchHub/dispatch_hub.py --profile mcp-short --text "um thank you"
-  uv run python DispatchHub/dispatch_hub.py --pipeline C,E --jsonl --window 3 --keep-system --file examples/window_chat.jsonl
+  uv run python DensityZip/density_zip.py --layer 3 --text "as soon as possible"
+  uv run python DensityZip/density_zip.py --pipeline C,E --text "um thank you for your information"
+  uv run python DensityZip/density_zip.py --budget 40 --text "um thank you for your information please"
+  uv run python DensityZip/density_zip.py --auto --text "Hello. こんにちは。Thanks a lot."
+  uv run python DensityZip/density_zip.py --compare --text "I have 3 animals and 2 people"
+  uv run python DensityZip/density_zip.py --profile mcp-short --text "um thank you"
+  uv run python DensityZip/density_zip.py --pipeline C,E --jsonl --window 3 --keep-system --file examples/window_chat.jsonl
 """,
     )
     g = p.add_mutually_exclusive_group(required=False)
     g.add_argument(
         "--layer",
-        help="1–4, A–E, or names: zipilogue|tessera|shorthand|morpho",
+        help="1–4, A–E, or names: zipilogue|tessera|shorthand|density|morpho",
     )
     g.add_argument(
         "--pipeline",
@@ -1256,7 +1261,7 @@ def main(argv: list[str] | None = None) -> int:
     elif args.layer:
         default_layer = resolve_layer(args.layer)
         if default_layer == "D":
-            p.error("D (DispatchHub) is this router; pick A–C or E / layers 1–4")
+            p.error("D (DensityZip) is this router; pick A–C or E / layers 1–4")
     elif role_map:
         default_layer = "C"
     elif getattr(args, "window", None) is not None:

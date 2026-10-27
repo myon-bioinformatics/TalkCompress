@@ -7,7 +7,7 @@ ShorthandEdge applies lex entries during compress by default.
 Zipilogue RuleBook (A) remains a separate evolving slang ledger for machine
 peers; this file is the static human-agreed registry.
 
-D (DispatchHub) is router-only and does not own this ledger.
+D (DensityZip) is orchestration + density façade and does not own this ledger.
 
 Ambiguity gate (C-owned): high-churn conjunction shortenings (moreover→also,
 therefore→so, …) are skipped when the short form already collides in-text, or

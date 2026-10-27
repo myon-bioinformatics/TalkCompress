@@ -20,8 +20,8 @@ def load(name: str, rel: str):
 
 
 def ns(**kwargs):
-    """Namespace for DispatchHub transform helpers (結合テスト用)."""
-    c = load("dispatch_hub", "DispatchHub/dispatch_hub.py")
+    """Namespace for DensityZip transform helpers (結合テスト用)."""
+    c = load("density_zip", "DensityZip/density_zip.py")
     defaults = dict(
         key=None,
         key_file=None,

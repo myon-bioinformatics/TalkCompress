@@ -1,6 +1,6 @@
 """Round-3 layer-unit tests: protect, packs, fingerprint, policy diff, LID mix.
 
-Window/profile/quality via hub → tests/integration/.
+Window/profile/quality via DensityZip → tests/integration/.
 """
 
 from __future__ import annotations

@@ -49,7 +49,7 @@ uv run python Zipilogue/zipilogue.py rule-decode --state book.json --text '...'
 uv run python Zipilogue/zipilogue.py rule-sim --state book.json --corpus turns.txt
 ```
 
-DispatchHub からは `--layer A --rule-state book.json`（鍵は任意）。
+DensityZip からは `--layer A --rule-state book.json`（鍵は任意）。
 
 ## 任意: MAC 封筒（stdlib のみ）
 
@@ -70,3 +70,10 @@ uv run python Zipilogue/zipilogue.py fingerprint --key 'shared'
 ## Round-4
 
 `rule-export` / `rule-import` / `rule-threshold` / `rule-negotiate` — ルール共有・閾値調整・複数ピア合流。
+
+## 実験方針（2026-10-27）
+
+軽量ローカルモデル（**llama.cpp または同等の軽量 GGUF** スタック；同クラス。既定では重いフル精度サーバは使わない）で継続会話を回し、間隔をおいてエージェントが独自の共有表現・スラング（RuleBook 成長）を発明するかを観察する想定。二者だけの脆い構成より、**複数エージェントを並列のグループ**として回す方を優先。ランナー実装は未着手（方針メモのみ）。
+
+**Zipilogue (A)** は **DensityZip (D)** / **MorphoZip (E)** とは別サブプロジェクト（単独の「Zip」表記は使わない）。
+

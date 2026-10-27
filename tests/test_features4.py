@@ -1,6 +1,6 @@
 """Round-4 layer-unit tests: A export/negotiate, B bank+mosaic, C ledger, E counters.
 
-Hub wiring for --translate-min → tests/integration/.
+DensityZip wiring for --translate-min → tests/integration/.
 """
 
 from __future__ import annotations
