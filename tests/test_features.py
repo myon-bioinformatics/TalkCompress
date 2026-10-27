@@ -313,3 +313,122 @@ def test_morpho_information_to_info_glyph():
     assert INFO_GLYPH in m.compress("send the information please")
 
 
+
+
+# --- MorphoZip closed POS inventories (articles/conj/adv/aux/prep) ---
+
+
+def test_morpho_closed_inventory_bits_table():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert set(m.list_closed_inventories()) >= {
+        "pronoun",
+        "article",
+        "conjunction",
+        "adverb",
+        "auxiliary",
+        "preposition",
+    }
+    assert m.closed_inventory_bits("article") == 0  # N=1 → ∅
+    assert m.closed_inventory_bits("conjunction") == 2
+    assert m.closed_inventory_bits("adverb") == 2
+    assert m.closed_inventory_bits("auxiliary") == 2
+    assert m.closed_inventory_bits("preposition") == 2
+    assert m.closed_inventory_bits("preposition", extended=True) == 3  # N=7
+    assert m.closed_inventory_bits("conjunction", extended=True) == 3  # N=6
+
+
+def test_morpho_article_inventory():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.ARTICLE_CANONICAL == ("∅",)
+    assert m.canonicalize_closed("article", "the") == "∅"
+    assert m.canonicalize_closed("article", "an") == "∅"
+    cost = m.article_bit_cost("the cat and a dog")
+    assert cost["bits_per"] == 0
+    assert cost["count"] == 2  # the, a  (and is conj)
+    assert cost["total_bits"] == 0
+    out = m.compress("see the cat", unique=False, etymon=False, counters=False)
+    assert "the" not in out.lower()
+    assert "cat" in out
+
+
+def test_morpho_conjunction_inventory():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.CONJ_CANONICAL == ("&", "/", "bc", "∴")
+    out = m.compress("cats and dogs or birds because rain therefore fly", unique=False, etymon=False)
+    assert "&" in out and "/" in out and "bc" in out and "∴" in out
+    assert m.canonicalize_closed("conjunction", "and") == "&"
+    assert m.canonicalize_closed("conjunction", "because") == "bc"
+    c = m.conjunction_bit_cost("a & b / c bc d ∴ e")
+    assert c["bits_per"] == 2
+    assert c["count"] >= 4
+    assert c["total_bits"] == c["count"] * 2
+    # C-owned moreover left alone on E
+    assert "moreover" in m.compress("moreover we continue", unique=False, etymon=False).lower()
+
+
+def test_morpho_adverb_inventory():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.ADVERB_CANONICAL == ("tho", "~", "˅", "esp.")
+    out = m.compress(
+        "however approximately very particularly ready",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert "tho" in out and "~" in out and "˅" in out and "esp." in out
+    assert m.canonicalize_closed("adverb", "very") == "˅"
+    assert m.adverb_bit_cost("tho ~ ˅ esp.")["total_bits"] == 8  # 4×2
+
+
+def test_morpho_auxiliary_inventory():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.AUX_CANONICAL == ("can", "will", "must", "may")
+    out = m.compress(
+        "I could go and I would stay and I should rest and I might leave",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert "can" in out and "will" in out and "must" in out and "may" in out
+    assert "could" not in out.lower()
+    assert "would" not in out.lower()
+    # I'll stays C — E keeps I will
+    assert "I'll" not in m.compress("I will go", unique=False, etymon=False, counters=False)
+    assert "I will" in m.compress("I will go", unique=False, etymon=False, counters=False)
+    assert m.canonicalize_closed("auxiliary", "should") == "must"
+    assert m.auxiliary_bit_cost("can will must may")["total_bits"] == 8
+    ja = m.compress("勉強しなければならないかもしれない", unique=False, etymon=False)
+    assert "must" in ja and "may" in ja
+    ja2 = m.compress("行かなければならない", unique=False, etymon=False)
+    assert "must" in ja2
+
+
+def test_morpho_preposition_inventory():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.PREP_CANONICAL == ("w/", "4", "fr", "@")
+    out = m.compress(
+        "go for lunch from home with friends at noon without fear",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert "4" in out and "fr" in out and "w/" in out and "@" in out and "w/o" in out
+    # C ledger spatial left alone on E
+    under = m.compress("under the table above the shelf", unique=False, etymon=False, counters=False)
+    assert "under" in under.lower() and "above" in under.lower()
+    assert m.canonicalize_closed("preposition", "for") == "4"
+    assert m.canonicalize_closed("preposition", "without", extended=True) == "w/o"
+    assert m.canonicalize_closed("preposition", "without") is None  # core-only
+    c = m.preposition_bit_cost("w/ 4 fr @")
+    assert c["bits_per"] == 2 and c["count"] == 4 and c["total_bits"] == 8
+
+
+def test_morpho_density_closed_summary():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    before = "I could go for lunch with you however very soon"
+    after = m.compress(before, unique=False, etymon=False, counters=False)
+    d = m.density(before, after)
+    assert "closed" in d
+    assert d["closed"]["auxiliary"]["bits_per"] == 2
+    assert d["closed"]["preposition"]["bits_per"] == 2
+    assert d["closed"]["adverb"]["bits_per"] == 2

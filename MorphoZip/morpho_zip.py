@@ -3,8 +3,9 @@
 
 Prefer short low-ambiguity tokens that shrink prediction candidates
 (e.g. ``I`` over 私は/僕は/俺は). Keep useful counters (匹/個). Compact
-pronoun inventory (2-bit core: I / 君 / 彼 / they|them|y'all). Avoid
-Chinese-only bias.
+pronoun inventory (2-bit core: I / 君 / 彼 / they|them|y'all) plus closed
+POS inventories (articles / conjunctions / adverbs / auxiliaries /
+prepositions). Avoid Chinese-only bias.
 
 Shared lexeme policy (``shared.lex_policy``) usage:
 - UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
@@ -39,15 +40,69 @@ from shared.lex_policy import (  # noqa: E402
     strip_fillers,
 )
 
-# --- Compact pronoun inventory (E grammar-min) --------------------------------
-# 2-bit core (N=4 → ceil(log2(4))=2): I | 君 | 彼 | they
-# Slot "they" = free surface among they / them / y'all (same bit cost).
-# 她 is a gendered *surface* of the 彼 slot (bits still 彼).
-# ``it`` is optional extended (N=5 → 3 bits) via pronoun_inventory_bits(extended=True).
+# --- Closed POS inventories (E grammar-min, bits-primary) ---------------------
+# Shared pattern with pronouns: bits_per = ceil(log2(N)), prefer N<=4 → 2 bits.
+# Token view is informational only (B TesseraTalk estimate_tokens).
+# C owns fillers / I'll / ledger (under→下, above→上, moreover→also, …).
+
+class ClosedInventory:
+    """One closed POS family: core (+ optional extended) slots and aliases."""
+
+    __slots__ = ("name", "canonical", "extended", "aliases", "surface_re", "note")
+
+    def __init__(
+        self,
+        name: str,
+        canonical: tuple[str, ...],
+        extended: tuple[str, ...],
+        aliases: dict[str, str],
+        surface_re: re.Pattern[str],
+        note: str = "",
+    ) -> None:
+        self.name = name
+        self.canonical = canonical
+        self.extended = extended
+        self.aliases = aliases
+        self.surface_re = surface_re
+        self.note = note
+
+
+def utf8_bits(s: str) -> int:
+    """Secondary metric: UTF-8 payload bits (not the inventory budget gate)."""
+    return len(s.encode("utf-8")) * 8
+
+
+def _ceil_log2(n: int) -> int:
+    if n <= 1:
+        return 0
+    return math.ceil(math.log2(n))
+
+
+def _norm_surface(form: str) -> str:
+    if not form:
+        return ""
+    key = form.lower() if form.isascii() else form
+    return key.replace("\u2019", "'").replace("'", "'")
+
+
+def _build_surface_re(surfaces: list[str]) -> re.Pattern[str]:
+    """Longest-first alternation; ASCII wordish surfaces get \\b."""
+    parts: list[str] = []
+    for s in sorted(set(surfaces), key=len, reverse=True):
+        if not s or s == "∅":
+            continue
+        if s.isascii() and re.match(r"^[\w']+$", s):
+            parts.append(rf"\b{re.escape(s)}\b")
+        else:
+            parts.append(re.escape(s))
+    if not parts:
+        return re.compile(r"(?!)")  # never matches
+    return re.compile("|".join(parts), re.I)
+
+
+# --- pronoun -----------------------------------------------------------------
 PRONOUN_CANONICAL: tuple[str, ...] = ("I", "君", "彼", "they")
 PRONOUN_EXTENDED: tuple[str, ...] = ("I", "君", "彼", "they", "it")
-
-# Surface / alias → canonical slot (core). they/them/y'all share "they".
 PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
     "i": "I",
     "me": "I",
@@ -57,7 +112,7 @@ PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
     "君の": "君",
     "彼": "彼",
     "彼の": "彼",
-    "她": "彼",  # surface gender variant; bit slot = 彼
+    "她": "彼",
     "她の": "彼",
     "they": "they",
     "them": "they",
@@ -67,49 +122,248 @@ PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
     "it": "it",
     "its": "it",
 }
-
-# Match longest pronoun surfaces first (post-compress / bit scan).
 _PRONOUN_SURFACE_RE = re.compile(
-    r"y'all|君の|彼の|她の|\btheirs\b|\btheir\b|\bthem\b|\bthey\b|\bmine\b|君|彼|她|\bI\b|\bme\b|\bmy\b|\bits\b|\bit\b",
+    r"y'all|君の|彼の|她の|\btheirs\b|\btheir\b|\bthem\b|\bthey\b|\bmine\b|"
+    r"君|彼|她|\bI\b|\bme\b|\bmy\b|\bits\b|\bit\b",
     re.I,
 )
 
+# --- article (冠詞): drop → ∅ ; N=1 → 0 bits ----------------------------------
+ARTICLE_CANONICAL: tuple[str, ...] = ("∅",)
+ARTICLE_EXTENDED: tuple[str, ...] = ("∅",)
+ARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "the": "∅",
+    "a": "∅",
+    "an": "∅",
+}
+_ARTICLE_SURFACE_RE = re.compile(r"\b(?:the|a|an)\b", re.I)
 
-def utf8_bits(s: str) -> int:
-    """Secondary metric: UTF-8 payload bits (not the inventory budget gate)."""
-    return len(s.encode("utf-8")) * 8
+# --- conjunction (接続詞): high-freq logical; C owns moreover/nevertheless ----
+CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "bc", "∴")
+CONJ_EXTENDED: tuple[str, ...] = ("&", "/", "bc", "∴", "∵", "+")
+CONJ_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "&": "&",
+    "and": "&",
+    "および": "&",
+    "並びに": "&",
+    "かつ": "&",
+    "/": "/",
+    "or": "/",
+    "または": "/",
+    "若しくは": "/",
+    "もしくは": "/",
+    "bc": "bc",
+    "because": "bc",
+    "∴": "∴",
+    "therefore": "∴",
+    "∵": "∵",
+    "whereas": "∵",
+    "+": "+",
+    "in addition": "+",
+}
+_CONJ_SURFACE_RE = re.compile(
+    r"および|並びに|もしくは|若しくは|または|かつ|"
+    r"\bbecause\b|\btherefore\b|\bwhereas\b|\bin addition\b|"
+    r"\band\b|\bor\b|\bbc\b|[＆&/∴∵+]",
+    re.I,
+)
 
+# --- adverb (副詞): discourse / degree ----------------------------------------
+ADVERB_CANONICAL: tuple[str, ...] = ("tho", "~", "˅", "esp.")
+ADVERB_EXTENDED: tuple[str, ...] = ("tho", "~", "˅", "esp.", "also")
+ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "tho": "tho",
+    "however": "tho",
+    "~": "~",
+    "approximately": "~",
+    "˅": "˅",
+    "very": "˅",
+    "really": "˅",
+    "extremely": "˅",
+    "esp.": "esp.",
+    "esp": "esp.",
+    "especially": "esp.",
+    "particularly": "esp.",
+    "also": "also",
+    "additionally": "also",
+}
+_ADVERB_SURFACE_RE = re.compile(
+    r"\bapproximately\b|\bespecially\b|\bparticularly\b|\badditionally\b|"
+    r"\bhowever\b|\bextremely\b|\breally\b|\bvery\b|\besp\.|\btho\b|\balso\b|[~˅]",
+    re.I,
+)
+
+# --- auxiliary (助動詞): modality; I'll stays C --------------------------------
+AUX_CANONICAL: tuple[str, ...] = ("can", "will", "must", "may")
+AUX_EXTENDED: tuple[str, ...] = ("can", "will", "must", "may")
+AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "can": "can",
+    "could": "can",
+    "できる": "can",
+    "will": "will",
+    "would": "will",
+    "だろう": "will",
+    "でしょう": "will",
+    "must": "must",
+    "should": "must",
+    "しなければならない": "must",
+    "しなくてはならない": "must",
+    "しねばならない": "must",
+    "なければならない": "must",
+    "なくてはならない": "must",
+    "ねばならない": "must",
+    "may": "may",
+    "might": "may",
+    "かもしれない": "may",
+}
+_AUX_SURFACE_RE = re.compile(
+    r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない|かもしれない|"
+    r"できる|でしょう|だろう|"
+    r"\bcould\b|\bwould\b|\bshould\b|\bmight\b|\bcan\b|\bwill\b|\bmust\b|\bmay\b",
+    re.I,
+)
+
+# --- preposition (前置詞): skip C ledger under/above/below/beneath ------------
+PREP_CANONICAL: tuple[str, ...] = ("w/", "4", "fr", "@")
+PREP_EXTENDED: tuple[str, ...] = ("w/", "4", "fr", "@", "of", "to", "w/o")
+PREP_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "w/": "w/",
+    "with": "w/",
+    "4": "4",
+    "for": "4",
+    "fr": "fr",
+    "from": "fr",
+    "@": "@",
+    "at": "@",
+    "of": "of",
+    "to": "to",
+    "w/o": "w/o",
+    "without": "w/o",
+}
+_PREP_SURFACE_RE = re.compile(
+    r"\bwithout\b|\bwith\b|\bfrom\b|\bfor\b|\bof\b|\bto\b|\bat\b|w/o|w/|fr|\b4\b|@",
+    re.I,
+)
+
+CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
+    "pronoun": ClosedInventory(
+        "pronoun",
+        PRONOUN_CANONICAL,
+        PRONOUN_EXTENDED,
+        PRONOUN_ALIAS_TO_CANONICAL,
+        _PRONOUN_SURFACE_RE,
+        "2-bit core; 她=彼 surface; they/them/y'all same slot",
+    ),
+    "article": ClosedInventory(
+        "article",
+        ARTICLE_CANONICAL,
+        ARTICLE_EXTENDED,
+        ARTICLE_ALIAS_TO_CANONICAL,
+        _ARTICLE_SURFACE_RE,
+        "the/a/an → ∅ (drop); N=1 → 0 bits; quoted kept",
+    ),
+    "conjunction": ClosedInventory(
+        "conjunction",
+        CONJ_CANONICAL,
+        CONJ_EXTENDED,
+        CONJ_ALIAS_TO_CANONICAL,
+        _CONJ_SURFACE_RE,
+        "C owns moreover→also / nevertheless→but (ambiguity gate)",
+    ),
+    "adverb": ClosedInventory(
+        "adverb",
+        ADVERB_CANONICAL,
+        ADVERB_EXTENDED,
+        ADVERB_ALIAS_TO_CANONICAL,
+        _ADVERB_SURFACE_RE,
+        "discourse/degree; bits-primary",
+    ),
+    "auxiliary": ClosedInventory(
+        "auxiliary",
+        AUX_CANONICAL,
+        AUX_EXTENDED,
+        AUX_ALIAS_TO_CANONICAL,
+        _AUX_SURFACE_RE,
+        "could→can would→will should→must might→may; I'll is C",
+    ),
+    "preposition": ClosedInventory(
+        "preposition",
+        PREP_CANONICAL,
+        PREP_EXTENDED,
+        PREP_ALIAS_TO_CANONICAL,
+        _PREP_SURFACE_RE,
+        "skip C under/above; in/on deferred (ambiguous)",
+    ),
+}
+
+
+def closed_inventory_bits(name: str, *, extended: bool = False) -> int:
+    """Flat bits per closed-inventory occurrence: ceil(log2(N))."""
+    inv = CLOSED_INVENTORIES[name]
+    slots = inv.extended if extended else inv.canonical
+    return _ceil_log2(len(slots))
+
+
+def canonicalize_closed(
+    name: str, form: str, *, extended: bool = False
+) -> str | None:
+    """Map a surface form to a canonical slot for ``name``, or None."""
+    inv = CLOSED_INVENTORIES[name]
+    key = _norm_surface(form)
+    if name == "pronoun" and key == "i":
+        canon = "I"
+    else:
+        canon = inv.aliases.get(key) or inv.aliases.get(form)
+    if canon is None:
+        return None
+    slots = inv.extended if extended else inv.canonical
+    if canon not in slots:
+        return None
+    return canon
+
+
+def closed_bit_cost(
+    name: str, text: str, *, extended: bool = False
+) -> dict[str, float | int | list[str]]:
+    """Sum flat inventory bits for each in-inventory occurrence in ``text``."""
+    inv = CLOSED_INVENTORIES[name]
+    slots = inv.extended if extended else inv.canonical
+    width = _ceil_log2(len(slots))
+    found: list[str] = []
+    for m in inv.surface_re.finditer(text):
+        canon = canonicalize_closed(name, m.group(0), extended=extended)
+        if canon is not None:
+            found.append(canon)
+    return {
+        "name": name,
+        "inventory": list(slots),
+        "inventory_n": len(slots),
+        "bits_per": width,
+        "count": len(found),
+        "total_bits": len(found) * width,
+        "canonicals": found,
+        "utf8_bits_text": utf8_bits(text),
+        "note": inv.note,
+    }
+
+
+def list_closed_inventories() -> list[str]:
+    return list(CLOSED_INVENTORIES.keys())
+
+
+# --- pronoun wrappers (stable API) --------------------------------------------
 
 def pronoun_inventory_bits(*, extended: bool = False) -> int:
     """Flat bits per pronoun occurrence: ceil(log2(N)), N = inventory size.
 
     Core (extended=False): N=4 → 2 bits. Extended (+it): N=5 → 3 bits.
     """
-    inv = PRONOUN_EXTENDED if extended else PRONOUN_CANONICAL
-    n = len(inv)
-    if n <= 1:
-        return 0
-    return math.ceil(math.log2(n))
+    return closed_inventory_bits("pronoun", extended=extended)
 
 
 def canonicalize_pronoun(form: str, *, extended: bool = False) -> str | None:
     """Map a surface form to a canonical inventory slot, or None if outside inventory."""
-    if not form:
-        return None
-    key = form.lower() if form.isascii() else form
-    # normalize curly apostrophe in y'all
-    key = key.replace("\u2019", "'").replace("'", "'")
-    if key == "i":
-        canon = "I"
-    else:
-        canon = PRONOUN_ALIAS_TO_CANONICAL.get(key) or PRONOUN_ALIAS_TO_CANONICAL.get(form)
-    if canon is None:
-        return None
-    inv = PRONOUN_EXTENDED if extended else PRONOUN_CANONICAL
-    if canon not in inv:
-        # e.g. it when core-only → outside budget inventory
-        return None
-    return canon
+    return canonicalize_closed("pronoun", form, extended=extended)
 
 
 # Pronouns gate on bits (inventory ceil(log2 N)); token estimates for pronouns
@@ -120,23 +374,57 @@ def pronoun_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | 
     Primary budget metric (not UTF-8 length). they / them / y'all each cost the
     same ``pronoun_inventory_bits()`` width.
     """
-    width = pronoun_inventory_bits(extended=extended)
-    inv = PRONOUN_EXTENDED if extended else PRONOUN_CANONICAL
-    found: list[str] = []
-    for m in _PRONOUN_SURFACE_RE.finditer(text):
-        canon = canonicalize_pronoun(m.group(0), extended=extended)
-        if canon is not None:
-            found.append(canon)
+    raw = closed_bit_cost("pronoun", text, extended=extended)
     return {
-        "inventory": list(inv),
-        "inventory_n": len(inv),
-        "bits_per_pronoun": width,
-        "count": len(found),
-        "total_bits": len(found) * width,
-        "canonicals": found,
-        "utf8_bits_text": utf8_bits(text),
+        "inventory": raw["inventory"],
+        "inventory_n": raw["inventory_n"],
+        "bits_per_pronoun": raw["bits_per"],
+        "count": raw["count"],
+        "total_bits": raw["total_bits"],
+        "canonicals": raw["canonicals"],
+        "utf8_bits_text": raw["utf8_bits_text"],
     }
 
+
+# Thin aliases for other POS (mirror pronouns).
+def article_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("article", extended=extended)
+
+
+def article_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("article", text, extended=extended)
+
+
+def conjunction_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("conjunction", extended=extended)
+
+
+def conjunction_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("conjunction", text, extended=extended)
+
+
+def adverb_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("adverb", extended=extended)
+
+
+def adverb_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("adverb", text, extended=extended)
+
+
+def auxiliary_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("auxiliary", extended=extended)
+
+
+def auxiliary_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("auxiliary", text, extended=extended)
+
+
+def preposition_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("preposition", extended=extended)
+
+
+def preposition_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("preposition", text, extended=extended)
 
 # (pattern, replacement) — applied in order; more specific first.
 _SUBS: list[tuple[re.Pattern[str], str]] = [
@@ -208,6 +496,24 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bequal to\b", re.I), "="),
     (re.compile(r"\bgreater than\b", re.I), ">"),
     (re.compile(r"\bless than\b", re.I), "<"),
+    # --- adverbs (closed inventory): very/really/extremely → ˅ ; particularly → esp.
+    (re.compile(r"\bextremely\b", re.I), "˅"),
+    (re.compile(r"\breally\b", re.I), "˅"),
+    (re.compile(r"\bvery\b", re.I), "˅"),
+    (re.compile(r"\bparticularly\b", re.I), "esp."),
+    # --- auxiliaries (closed inventory); I'll stays C — do not contract I will
+    (re.compile(r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない"), "must"),
+    (re.compile(r"かもしれない"), "may"),
+    (re.compile(r"することができ(?:る|ます)"), "can"),
+    (re.compile(r"でしょう|だろう"), "will"),
+    (re.compile(r"\bcould\b", re.I), "can"),
+    (re.compile(r"\bwould\b", re.I), "will"),
+    (re.compile(r"\bshould\b", re.I), "must"),
+    (re.compile(r"\bmight\b", re.I), "may"),
+    # --- prepositions (closed inventory); C owns under/above/below/beneath — skip
+    (re.compile(r"\bfrom\b", re.I), "fr"),
+    (re.compile(r"\bfor\b", re.I), "4"),
+    (re.compile(r"\bat\b", re.I), "@"),
     # whatever-compounds → compact signals
     (re.compile(r"\bwhatever\b", re.I), "∀"),
     (re.compile(r"\bwhoever\b", re.I), "∀who"),
@@ -571,10 +877,20 @@ def pack_tokens(text: str) -> str:
     return "".join(out)
 
 
-def density(before: str, after: str, *, extended_pronouns: bool = False) -> dict[str, float | int]:
+def density(before: str, after: str, *, extended_pronouns: bool = False) -> dict[str, float | int | dict]:
     b, a = len(before), len(after)
     ratio = (a / b) if b else 0.0
     pb = pronoun_bit_cost(after, extended=extended_pronouns)
+    closed: dict[str, dict[str, float | int | list[str] | str]] = {}
+    for name in list_closed_inventories():
+        ext = extended_pronouns if name == "pronoun" else False
+        c = closed_bit_cost(name, after, extended=ext)
+        closed[name] = {
+            "inventory_n": c["inventory_n"],
+            "bits_per": c["bits_per"],
+            "count": c["count"],
+            "total_bits": c["total_bits"],
+        }
     return {
         "chars_before": b,
         "chars_after": a,
@@ -585,6 +901,7 @@ def density(before: str, after: str, *, extended_pronouns: bool = False) -> dict
         "pronoun_count": pb["count"],
         "pronoun_bits_total": pb["total_bits"],
         "utf8_bits_after": pb["utf8_bits_text"],
+        "closed": closed,
     }
 
 
