@@ -540,6 +540,26 @@ def test_morpho_prep_compounds_and_legal_shorts():
     assert "whereby" in m.expand("∴by").lower()
 
 
+
+def test_morpho_prep_like_finite_set():
+    """High-freq prep / prep-like adv finite shorts (not closed-N inflation)."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    kw = dict(unique=False, etymon=False, counters=False)
+    assert m.compress("across the river", **kw).startswith("↔")
+    assert "沿" in m.compress("along the road", **kw)
+    assert "中" in m.compress("among friends", **kw)
+    assert "間" in m.compress("between A and B", **kw)
+    assert "通" in m.compress("through the gate", **kw)
+    assert m.compress("until Monday", **kw).startswith("〜")
+    assert "共" in m.compress("together we", **kw)
+    assert "∥" in m.compress("meanwhile wait", **kw)
+    assert "近" in m.compress("nearby shop", **kw)
+    assert "下" in m.compress("underneath the floor", **kw)
+    # instead of stays phrase→vs; bare instead→代
+    assert "vs" in m.compress("instead of tea", **kw).lower()
+    assert "代" in m.compress("go instead", **kw)
+
+
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")

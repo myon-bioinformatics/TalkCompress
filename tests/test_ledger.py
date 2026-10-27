@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 220
+    assert 14 <= len(all_lex) <= 260
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -315,6 +315,16 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["c-regarding"]["to"] == "re:"
     assert by_id["c-as-follows"]["to"] == "↓"
     assert by_id["c-inter-alia"]["to"] == "i.a."
+    # prep / prep-like adv finite set
+    assert by_id["prep-across"]["to"] == "↔"
+    assert by_id["prep-among"]["to"] == "中"
+    assert by_id["prep-between"]["to"] == "間"
+    assert by_id["prep-through"]["to"] == "通"
+    assert by_id["prep-until"]["to"] == "〜"
+    assert by_id["adv-meanwhile"]["to"] == "∥"
+    assert by_id["adv-together"]["to"] == "共"
+    assert by_id["adv-nearby"]["to"] == "近"
+    assert "underneath" in by_id["spatial-under"]["from"]
     assert by_id["e-conj-whereas"].get("extended") is True
     # no lex emits fr
     assert all(c.get("to") != "fr" for c in by_id.values())
