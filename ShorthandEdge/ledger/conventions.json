@@ -1281,7 +1281,11 @@
         "sin",
         "sans",
         "ohne",
-        "无"
+        "无",
+        "free of",
+        "free from",
+        "devoid of",
+        "in the absence of"
       ],
       "to": "无",
       "rationale": "without → 无；w/o 別名；ML sin/sans/ohne",
@@ -7139,7 +7143,8 @@
         "not equal",
         "unequal",
         "not equals",
-        "≠"
+        "≠",
+        "unlike"
       ],
       "to": "≠",
       "rationale": "not equal→≠（E に equal/=・≒ はあるが ≠ は未登録；記号優先）",
@@ -9104,7 +9109,10 @@
         "except",
         "除",
         "sauf",
-        "außer"
+        "außer",
+        "with the exception of",
+        "exclusive of",
+        "save for"
       ],
       "to": "除",
       "rationale": "except → 除",
@@ -9143,7 +9151,8 @@
         "including",
         "含",
         "incl.",
-        "inkl."
+        "inkl.",
+        "inclusive of"
       ],
       "to": "含",
       "rationale": "including → 含",
@@ -9181,7 +9190,8 @@
       "from": [
         "inside",
         "内",
-        "dentro"
+        "dentro",
+        "inside of"
       ],
       "to": "内",
       "rationale": "inside → 内（withinと共有）",
@@ -9220,7 +9230,8 @@
         "outside",
         "外",
         "fuera",
-        "außen"
+        "außen",
+        "outside of"
       ],
       "to": "外",
       "rationale": "outside → 外",
@@ -10345,7 +10356,8 @@
       "apply_layer": "E",
       "from": [
         "away from",
-        "離"
+        "離",
+        "clear of"
       ],
       "to": "離",
       "rationale": "away from → 離（apartと共有）",
@@ -10978,7 +10990,8 @@
       "from": [
         "in accordance with",
         "pursuant to",
-        "準"
+        "準",
+        "as per"
       ],
       "to": "準",
       "rationale": "in accordance with/pursuant to → 準（依=according toと分離）",
@@ -11466,7 +11479,8 @@
       "from": [
         "along with",
         "together with",
-        "共"
+        "共",
+        "in conjunction with"
       ],
       "to": "共",
       "rationale": "along with/together with → 共",
@@ -11504,7 +11518,8 @@
       "from": [
         "as opposed to",
         "rather than",
-        "vs"
+        "vs",
+        "vis-à-vis"
       ],
       "to": "vs",
       "rationale": "as opposed to/rather than → vs",
@@ -11726,7 +11741,9 @@
       "apply_layer": "E",
       "from": [
         "by virtue of",
-        "力"
+        "力",
+        "by dint of",
+        "by force of"
       ],
       "to": "力",
       "rationale": "by virtue of → 力（依=according toと分離）",
@@ -11801,7 +11818,10 @@
       "from": [
         "on account of",
         "by reason of",
-        "因"
+        "因",
+        "thanks to",
+        "on the grounds of",
+        "on grounds of"
       ],
       "to": "因",
       "rationale": "on account of/by reason of → 因（owing/dueと共有）",
@@ -11913,7 +11933,12 @@
       "apply_layer": "E",
       "from": [
         "in regard to",
-        "re:"
+        "re:",
+        "in connection with",
+        "relative to",
+        "in respect of",
+        "as regards",
+        "apropos of"
       ],
       "to": "re:",
       "rationale": "in regard to → re:（with regard toはC WRT）",
@@ -11987,7 +12012,8 @@
       "apply_layer": "E",
       "from": [
         "at the expense of",
-        "犠牲"
+        "犠牲",
+        "at the cost of"
       ],
       "to": "犠牲",
       "rationale": "at the expense of → 犠牲",
@@ -12136,7 +12162,9 @@
       "apply_layer": "E",
       "from": [
         "on the verge of",
-        "瀕"
+        "瀕",
+        "on the brink of",
+        "on the point of"
       ],
       "to": "瀕",
       "rationale": "on the verge of → 瀕",
@@ -12174,7 +12202,9 @@
       "from": [
         "for lack of",
         "for want of",
-        "欠"
+        "欠",
+        "short of",
+        "in default of"
       ],
       "to": "欠",
       "rationale": "for lack of/for want of → 欠",
@@ -12324,7 +12354,8 @@
       "apply_layer": "E",
       "from": [
         "in the course of",
-        "過程"
+        "過程",
+        "in the process of"
       ],
       "to": "過程",
       "rationale": "in the course of → 過程",
@@ -13155,6 +13186,1123 @@
             "before": 104,
             "after": 32,
             "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-for-purpose-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "for the purpose of",
+        "for purposes of",
+        "目的"
+      ],
+      "to": "目的",
+      "rationale": "for the purpose(s) of → 目的",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "for the purpose of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 48,
+          "delta": -96,
+          "ratio": 0.3333,
+          "sample_from": "for the purpose of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 48,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-for-benefit-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "for the benefit of",
+        "益"
+      ],
+      "to": "益",
+      "rationale": "for the benefit of → 益",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "for the benefit of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 24,
+          "delta": -120,
+          "ratio": 0.1667,
+          "sample_from": "for the benefit of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 24,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-interest-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in the interest of",
+        "in the interests of",
+        "利"
+      ],
+      "to": "利",
+      "rationale": "in the interest(s) of → 利",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "in the interest of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 24,
+          "delta": -120,
+          "ratio": 0.1667,
+          "sample_from": "in the interest of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 24,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-to-detriment-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "to the detriment of",
+        "害"
+      ],
+      "to": "害",
+      "rationale": "to the detriment of → 害",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "to the detriment of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 24,
+          "delta": -128,
+          "ratio": 0.1579,
+          "sample_from": "to the detriment of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 24,
+            "delta": -128
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-support-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in support of",
+        "援"
+      ],
+      "to": "援",
+      "rationale": "in support of → 援",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in support of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "in support of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-charge-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in charge of",
+        "責"
+      ],
+      "to": "責",
+      "rationale": "in charge of → 責",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in charge of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "in charge of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-control-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in control of",
+        "制"
+      ],
+      "to": "制",
+      "rationale": "in control of → 制",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in control of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "in control of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-search-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in search of",
+        "求"
+      ],
+      "to": "求",
+      "rationale": "in search of → 求",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in search of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "in search of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-need-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in need of",
+        "要"
+      ],
+      "to": "要",
+      "rationale": "in need of → 要",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "in need of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "in need of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-hope-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in hopes of",
+        "in hope of",
+        "希"
+      ],
+      "to": "希",
+      "rationale": "in hope(s) of → 希",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in hopes of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "in hopes of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-wake-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in the wake of",
+        "跡"
+      ],
+      "to": "跡",
+      "rationale": "in the wake of → 跡",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in the wake of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "in the wake of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-name-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in the name of",
+        "名"
+      ],
+      "to": "名",
+      "rationale": "in the name of → 名",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in the name of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "in the name of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-at-hands-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "at the hands of",
+        "手"
+      ],
+      "to": "手",
+      "rationale": "at the hands of → 手",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "at the hands of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "at the hands of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-at-mercy-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "at the mercy of",
+        "弄"
+      ],
+      "to": "弄",
+      "rationale": "at the mercy of → 弄（左右は spatial と衝突）",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "at the mercy of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "at the mercy of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-ahead-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "ahead of",
+        "in advance of",
+        "先"
+      ],
+      "to": "先",
+      "rationale": "ahead of / in advance of → 先（beforehand/preceding と同終端）",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "ahead of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 24,
+          "delta": -40,
+          "ratio": 0.375,
+          "sample_from": "ahead of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-association-with",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in association with",
+        "連携"
+      ],
+      "to": "連携",
+      "rationale": "in association with → 連携",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "in association with",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 48,
+          "delta": -104,
+          "ratio": 0.3158,
+          "sample_from": "in association with",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 48,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-comparison",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in comparison with",
+        "in comparison to",
+        "比"
+      ],
+      "to": "比",
+      "rationale": "in comparison with|to → 比",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "in comparison with",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 24,
+          "delta": -120,
+          "ratio": 0.1667,
+          "sample_from": "in comparison with",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 24,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-common-with",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in common with",
+        "共通"
+      ],
+      "to": "共通",
+      "rationale": "in common with → 共通",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "in common with",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 48,
+          "delta": -64,
+          "ratio": 0.4286,
+          "sample_from": "in common with",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 48,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-subject-to",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "subject to",
+        "条件"
+      ],
+      "to": "条件",
+      "rationale": "subject to → 条件",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "subject to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 48,
+          "delta": -32,
+          "ratio": 0.6,
+          "sample_from": "subject to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 48,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-adjacent-to",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "adjacent to",
+        "隣"
+      ],
+      "to": "隣",
+      "rationale": "adjacent to → 隣（next to=傍 と分離）",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "adjacent to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "adjacent to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-defiance-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in defiance of",
+        "反"
+      ],
+      "to": "反",
+      "rationale": "in defiance of → 反（against=対 と分離）",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in defiance of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "in defiance of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-by-order-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "by order of",
+        "命"
+      ],
+      "to": "命",
+      "rationale": "by order of → 命",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "by order of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "by order of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-under-cover-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "under cover of",
+        "覆"
+      ],
+      "to": "覆",
+      "rationale": "under cover of → 覆",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "under cover of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "under cover of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-at-odds-with",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "at odds with",
+        "対立"
+      ],
+      "to": "対立",
+      "rationale": "at odds with → 対立",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "at odds with",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 48,
+          "delta": -48,
+          "ratio": 0.5,
+          "sample_from": "at odds with",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 48,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-with-a-view-to",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "with a view to",
+        "with an eye to",
+        "狙"
+      ],
+      "to": "狙",
+      "rationale": "with a view|eye to → 狙",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "with a view to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "with a view to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-on-basis-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "on the basis of",
+        "基"
+      ],
+      "to": "基",
+      "rationale": "on the basis of → 基",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "on the basis of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "on the basis of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-presence-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in the presence of",
+        "在"
+      ],
+      "to": "在",
+      "rationale": "in the presence of → 在（面前=in the face of）",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "in the presence of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 24,
+          "delta": -120,
+          "ratio": 0.1667,
+          "sample_from": "in the presence of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 24,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-at-price-of",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "at the price of",
+        "代価"
+      ],
+      "to": "代価",
+      "rationale": "at the price of → 代価（犠牲=expense/cost）",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "at the price of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 48,
+          "delta": -72,
+          "ratio": 0.4,
+          "sample_from": "at the price of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 48,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-under-auspices",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "under the auspices of",
+        "傘"
+      ],
+      "to": "傘",
+      "rationale": "under the auspices of → 傘",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "under the auspices of",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 168,
+          "after": 24,
+          "delta": -144,
+          "ratio": 0.1429,
+          "sample_from": "under the auspices of",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 168,
+            "after": 24,
+            "delta": -144
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-in-parallel-with",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "in parallel with",
+        "in tandem with",
+        "∥"
+      ],
+      "to": "∥",
+      "rationale": "in parallel|tandem with → ∥（meanwhile と同終端）",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 0,
+          "delta": -4,
+          "ratio": 0.0,
+          "sample_from": "in parallel with",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "in parallel with",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
           },
           "inventory": null
         }
