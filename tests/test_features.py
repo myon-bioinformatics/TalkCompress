@@ -422,14 +422,15 @@ def test_morpho_auxiliary_inventory():
 
 def test_morpho_preposition_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.PREP_CANONICAL == ("w/", "4", "fr", "@")
+    assert m.PREP_CANONICAL == ("w/", "4", "←", "@")
     out = m.compress(
         "go for lunch from home with friends at noon without fear",
         unique=False,
         etymon=False,
         counters=False,
     )
-    assert "4" in out and "fr" in out and "w/" in out and "@" in out and "无" in out
+    assert "4" in out and "←" in out and "w/" in out and "@" in out and "无" in out
+    assert not __import__("re").search(r"\bfr\b", out, __import__("re").I)  # ← canonical; fr not emitted
     # C ledger spatial left alone on E
     under = m.compress("under the table above the shelf", unique=False, etymon=False, counters=False)
     assert "under" in under.lower() and "above" in under.lower()
@@ -437,8 +438,13 @@ def test_morpho_preposition_inventory():
     assert m.canonicalize_closed("preposition", "without") is None  # moved to prep2
     assert m.canonicalize_closed("prep2", "without") == "无"
     assert m.canonicalize_closed("prep2", "w/o") == "无"
-    c = m.preposition_bit_cost("w/ 4 fr @")
+    c = m.preposition_bit_cost("w/ 4 ← @")
     assert c["bits_per"] == 2 and c["count"] == 4 and c["total_bits"] == 8
+    assert m.canonicalize_closed("preposition", "from") == "←"
+    assert m.canonicalize_closed("preposition", "fr") == "←"  # alias
+    assert m.canonicalize_closed("preposition", "desde") == "←"
+    assert m.canonicalize_closed("preposition", "con") == "w/"
+    assert m.canonicalize_closed("preposition", "pour") == "4"
 
 
 def test_morpho_prep2_inventory():
@@ -459,6 +465,10 @@ def test_morpho_prep2_inventory():
     assert m.canonicalize_closed("prep2", "before") == "前"
     assert m.canonicalize_closed("prep2", "after") == "後"
     assert m.canonicalize_closed("prep2", "后") == "後"
+    assert m.canonicalize_closed("prep2", "sans") == "无"
+    assert m.canonicalize_closed("prep2", "antes") == "前"
+    assert m.canonicalize_closed("prep2", "après") == "後"
+    assert m.canonicalize_closed("prep2", "vor") == "前"
     c = m.prep2_bit_cost("de 无 内 前 後")
     assert c["bits_per"] == 3 and c["count"] == 5 and c["total_bits"] == 15
     # w/o surface still aliases to 无
@@ -513,7 +523,7 @@ def test_morpho_adverb_polarity():
 
 
 def test_morpho_particle_inventory():
-    """JA particles → ∅/→/∈/〜 core (2bit); ext +|&|fr; C ledger untouched."""
+    """JA particles → ∅/→/∈/〜 core (2bit); ext +|&|←; C ledger untouched."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     assert m.PARTICLE_CANONICAL == ("∅", "→", "∈", "〜")
     assert m.particle_inventory_bits() == 2
@@ -523,7 +533,8 @@ def test_morpho_particle_inventory():
     assert m.canonicalize_closed("particle", "を") == "∅"
     assert m.canonicalize_closed("particle", "も", extended=True) == "+"
     assert m.canonicalize_closed("particle", "と", extended=True) == "&"
-    assert m.canonicalize_closed("particle", "から", extended=True) == "fr"
+    assert m.canonicalize_closed("particle", "から", extended=True) == "←"
+    assert m.canonicalize_closed("particle", "fr", extended=True) == "←"
     out = m.compress(
         "猫は魚を食べる。学校に行く。家で働く。駅まで歩く。",
         unique=False,
@@ -534,7 +545,8 @@ def test_morpho_particle_inventory():
     assert "→" in out and "∈" in out and "〜" in out
     assert "猫魚食べる" in out.replace("。", "") or "猫魚食べる" in out
     out2 = m.compress("東京から来る。彼と話す。水もあるよ", unique=False, etymon=False, counters=False)
-    assert "fr" in out2 and "&" in out2 and "+" in out2
+    assert "←" in out2 and "&" in out2 and "+" in out2
+    assert not __import__("re").search(r"\bfr\b", out2, __import__("re").I)
     # modality finals dropped
     assert not out2.endswith("よ")
     # C spatial pairs not invented here
@@ -592,3 +604,33 @@ def test_morpho_compare_inventory():
     assert m.canonicalize_closed("compare", "más de") == "≧"
     assert m.canonicalize_closed("compare", "weniger als") == "≦"
     assert m.compare_bit_cost("≧ ≦")["total_bits"] == 2
+
+
+def test_morpho_from_arrow_and_ml_aliases():
+    """from/から → ← canonical; fr alias; ES/FR/DE prep+subject fold when bits match."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.PREP_CANONICAL == ("w/", "4", "←", "@")
+    assert m.PARTICLE_EXTENDED[-1] == "←"
+    en = m.compress("from home", unique=False, etymon=False, counters=False)
+    assert "←" in en and not __import__("re").search(r"\bfr\b", en, __import__("re").I)
+    ja = m.compress("東京から来る", unique=False, etymon=False, counters=False)
+    assert "←" in ja
+    es = m.compress("desde casa con amigos para comer", unique=False, etymon=False, counters=False)
+    assert "←" in es and "w/" in es and "4" in es
+    fr = m.compress("depuis Paris avec Marie pour toi", unique=False, etymon=False, counters=False)
+    assert "←" in fr and "w/" in fr and "4" in fr
+    de = m.compress("aus Berlin mit Anna für dich bei uns", unique=False, etymon=False, counters=False)
+    assert "←" in de and "w/" in de and "4" in de and "@" in de
+    # subject-side pronouns
+    assert m.canonicalize_closed("pronoun", "yo") == "I"
+    assert m.canonicalize_closed("pronoun", "tú") == "君"
+    assert m.canonicalize_closed("pronoun", "él") == "彼"
+    assert m.canonicalize_closed("pronoun", "ellos") == "they"
+    assert m.canonicalize_closed("pronoun", "je") == "I"
+    assert m.canonicalize_closed("pronoun", "ich") == "I"
+    subj = m.compress("yo voy y ella queda", unique=False, etymon=False, counters=False)
+    assert "I" in subj and "她" in subj
+    # と → & kept
+    assert "&" in m.compress("猫と犬", unique=False, etymon=False, counters=False)
+    # expand ←
+    assert "from" in m.expand("← home").lower()

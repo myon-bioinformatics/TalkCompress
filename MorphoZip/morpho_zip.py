@@ -109,22 +109,40 @@ PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
     "me": "I",
     "my": "I",
     "mine": "I",
+    "yo": "I",  # ES
+    "je": "I",  # FR
+    "ich": "I",  # DE
     "君": "君",
     "君の": "君",
+    "tú": "君",  # ES
+    "tu": "君",  # ES/FR (unaccented)
+    "du": "君",  # DE
+    "usted": "君",  # ES formal you
     "彼": "彼",
     "彼の": "彼",
     "她": "彼",
     "她の": "彼",
+    "él": "彼",  # ES accented (bare el = article — not aliased)
+    "il": "彼",  # FR
+    "ella": "彼",  # ES
+    "elle": "彼",  # FR
     "they": "they",
     "them": "they",
     "their": "they",
     "theirs": "they",
     "y'all": "they",
+    "ellos": "they",  # ES
+    "ellas": "they",
+    "ustedes": "they",  # ES pl / y'all-like
+    "ils": "they",  # FR
+    "elles": "they",
     "it": "it",
     "its": "it",
 }
 _PRONOUN_SURFACE_RE = re.compile(
     r"y'all|君の|彼の|她の|\btheirs\b|\btheir\b|\bthem\b|\bthey\b|\bmine\b|"
+    r"\bustedes\b|\busted\b|\bellos\b|\bellas\b|\belles\b|\bils\b|"
+    r"\byo\b|\bje\b|\bich\b|\bt[uú]\b|\bdu\b|\b[eé]l\b|\bil\b|\bella\b|\belle\b|"
     r"君|彼|她|\bI\b|\bme\b|\bmy\b|\bits\b|\bit\b",
     re.I,
 )
@@ -145,11 +163,16 @@ CONJ_EXTENDED: tuple[str, ...] = ("&", "/", "bc", "∴", "∵", "+")
 CONJ_ALIAS_TO_CANONICAL: dict[str, str] = {
     "&": "&",
     "and": "&",
+    "y": "&",  # ES
+    "et": "&",  # FR
+    "und": "&",  # DE
     "および": "&",
     "並びに": "&",
     "かつ": "&",
     "/": "/",
     "or": "/",
+    "ou": "/",  # FR (bare ES o skipped — too ambiguous)
+    "oder": "/",  # DE
     "または": "/",
     "若しくは": "/",
     "もしくは": "/",
@@ -165,7 +188,7 @@ CONJ_ALIAS_TO_CANONICAL: dict[str, str] = {
 _CONJ_SURFACE_RE = re.compile(
     r"および|並びに|もしくは|若しくは|または|かつ|"
     r"\bbecause\b|\btherefore\b|\bwhereas\b|\bin addition\b|"
-    r"\band\b|\bor\b|\bbc\b|[＆&/∴∵+]",
+    r"\band\b|\bor\b|\bund\b|\bet\b|\by\b|\boder\b|\bou\b|\bbc\b|[＆&/∴∵+]",
     re.I,
 )
 
@@ -231,21 +254,38 @@ _AUX_SURFACE_RE = re.compile(
 
 # --- preposition (前置詞 pack1): skip C ledger under/above/below/beneath ------
 # Pack1 core N=4 → 2bit. of/without/within/before/after live in prep2 (below).
-PREP_CANONICAL: tuple[str, ...] = ("w/", "4", "fr", "@")
-PREP_EXTENDED: tuple[str, ...] = ("w/", "4", "fr", "@", "to")
+# from/から canonical is ← (pairs with particle →); fr kept as alias only —
+# colloquial EN "for real" (fr) 揺らぎ risk; do not prefer emitting fr.
+PREP_CANONICAL: tuple[str, ...] = ("w/", "4", "←", "@")
+PREP_EXTENDED: tuple[str, ...] = ("w/", "4", "←", "@", "to")
 PREP_ALIAS_TO_CANONICAL: dict[str, str] = {
     "w/": "w/",
     "with": "w/",
+    "con": "w/",  # ES
+    "avec": "w/",  # FR
+    "mit": "w/",  # DE
     "4": "4",
     "for": "4",
-    "fr": "fr",
-    "from": "fr",
+    "para": "4",  # ES purpose-for
+    "pour": "4",  # FR
+    "für": "4",  # DE
+    "fur": "4",
+    "←": "←",
+    "from": "←",
+    "fr": "←",  # alias; for-real 揺らぎ — prefer ← as emitted short
+    "desde": "←",  # ES
+    "depuis": "←",  # FR
+    "aus": "←",  # DE out-of/from
     "@": "@",
     "at": "@",
+    "bei": "@",  # DE at/by
     "to": "to",
 }
 _PREP_SURFACE_RE = re.compile(
-    r"\bwith\b|\bfrom\b|\bfor\b|\bto\b|\bat\b|w/|fr|\b4\b|@",
+    r"\bwith\b|\bfrom\b|\bfor\b|\bto\b|\bat\b|"
+    r"\bcon\b|\bavec\b|\bmit\b|\bpara\b|\bpour\b|\bf[uü]r\b|"
+    r"\bdesde\b|\bdepuis\b|\baus\b|\bbei\b|"
+    r"w/|\bfr\b|\b4\b|@|←",
     re.I,
 )
 
@@ -261,18 +301,33 @@ PREP2_ALIAS_TO_CANONICAL: dict[str, str] = {
     "无": "无",
     "without": "无",
     "w/o": "无",
-    "sin": "无",
+    "sin": "无",  # ES
+    "sans": "无",  # FR
+    "ohne": "无",  # DE
     "内": "内",
     "within": "内",
+    "dentro": "内",  # ES
+    "innerhalb": "内",  # DE
     "前": "前",
     "before": "前",
+    "antes": "前",  # ES
+    "avant": "前",  # FR
+    "vor": "前",  # DE
     "後": "後",
     "后": "後",
     "after": "後",
+    "después": "後",  # ES
+    "despues": "後",
+    "après": "後",  # FR
+    "apres": "後",
+    "nach": "後",  # DE after (also to — accepted alias)
 }
 _PREP2_SURFACE_RE = re.compile(
     r"\bwithout\b|\bwithin\b|\bbefore\b|\bafter\b|\bof\b|w/o|"
-    r"无|内|前|后|後|\bde\b|\bsin\b",
+    r"\bsin\b|\bsans\b|\bohne\b|\bdentro\b|\binnerhalb\b|"
+    r"\bantes\b|\bavant\b|\bvor\b|"
+    r"\bdespu[eé]s\b|\bapr[eè]s\b|\bnach\b|"
+    r"无|内|前|后|後|\bde\b",
     re.I,
 )
 
@@ -325,11 +380,12 @@ _COMPARE_SURFACE_RE = re.compile(
 
 # --- particle (助詞): JA case/modality → symbol / drop ---------------------------------
 # Core N=4 → 2bit. Language-agnostic minimal surfaces (symbols OK).
-# Conflicts (documented): と→& overlaps conj &; から→fr overlaps prep from;
+# Conflicts (documented): と→& overlaps conj & (OK tokenize-wise);
+# から→← shares prep from slot (← pairs with に/へ→→); fr is alias only (for-real 揺らぎ).
 # で→∈ (not @; @ is prep at). C ledger 前後/内外 pairs untouched (bare 前/後 are prep2).
 # は/が topic vs subject collapsed to ∅ (recoverable); を→∅; ね/よ/さ→∅.
 PARTICLE_CANONICAL: tuple[str, ...] = ("∅", "→", "∈", "〜")
-PARTICLE_EXTENDED: tuple[str, ...] = ("∅", "→", "∈", "〜", "+", "&", "fr")
+PARTICLE_EXTENDED: tuple[str, ...] = ("∅", "→", "∈", "〜", "+", "&", "←")
 PARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "∅": "∅",
     "は": "∅",
@@ -349,14 +405,15 @@ PARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "も": "+",
     "&": "&",
     "と": "&",
-    "fr": "fr",
-    "から": "fr",
+    "←": "←",
+    "から": "←",
+    "fr": "←",  # alias only; same as prep from
 }
 _PARTICLE_SURFACE_RE = re.compile(
     r"までは|からは|には|では|とは|"
     r"まで|から|"
     r"[はねよさをがにへとでも]|"
-    r"→|∈|〜|\+|\bfr\b|&",
+    r"→|←|∈|〜|\+|\bfr\b|&",
 )
 
 # Polarity flag (! / ¬): extra 1 bit, separate from aux/adverb inventory width.
@@ -371,7 +428,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         PRONOUN_EXTENDED,
         PRONOUN_ALIAS_TO_CANONICAL,
         _PRONOUN_SURFACE_RE,
-        "2-bit core; 她=彼 surface; they/them/y'all same slot",
+        "2-bit core; 她=彼 surface; they/them/y'all same slot; ES/FR/DE subject aliases (yo/je/ich, tú/tu/du, él/il/ella/elle, ellos/ils…) when bits+tokenize match",
     ),
     "article": ClosedInventory(
         "article",
@@ -413,7 +470,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         PREP_EXTENDED,
         PREP_ALIAS_TO_CANONICAL,
         _PREP_SURFACE_RE,
-        "pack1 w/|4|fr|@ → 2bit; skip C under/above; in/on deferred; for→4 揺らぎ別評価",
+        "pack1 w/|4|←|@ → 2bit; from/から→← (fr alias, for-real 揺らぎ); ML con/avec/mit, para/pour/für, desde/depuis/aus, bei; skip C under/above; in/on deferred; for→4 揺らぎ別評価",
     ),
     "prep2": ClosedInventory(
         "prep2",
@@ -421,7 +478,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         PREP2_EXTENDED,
         PREP2_ALIAS_TO_CANONICAL,
         _PREP2_SURFACE_RE,
-        "pack2 de|无|内|前|後 → N=5→3bit; of→de without→无(w/o alias) within→内 before→前 after→後",
+        "pack2 de|无|内|前|後 → N=5→3bit; ML sin/sans/ohne, dentro/innerhalb, antes/avant/vor, después/après/nach; of→de without→无 within→内 before→前 after→後",
     ),
     "compare": ClosedInventory(
         "compare",
@@ -651,6 +708,22 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"私の|僕の|俺の|わたしの"), "my"),
     (re.compile(r"私を|僕を|俺を|わたしを"), "me"),
     (re.compile(r"我"), "I"),
+    # ES/FR/DE subject-side (same bit slots; skip ambiguous el/er/sie/vous)
+    (re.compile(r"\byo\b", re.I), "I"),
+    (re.compile(r"\bje\b", re.I), "I"),
+    (re.compile(r"\bich\b", re.I), "I"),
+    (re.compile(r"\bustedes\b", re.I), "y'all"),
+    (re.compile(r"\busted\b", re.I), "君"),
+    (re.compile(r"\bt[uú]\b", re.I), "君"),
+    # DE du: alias-only (FR du = de+le false friend)
+    (re.compile(r"\bellos\b", re.I), "they"),
+    (re.compile(r"\bellas\b", re.I), "they"),
+    (re.compile(r"\belles\b", re.I), "they"),
+    (re.compile(r"\bils\b", re.I), "they"),
+    (re.compile(r"\bella\b", re.I), "她"),
+    (re.compile(r"\belle\b", re.I), "她"),
+    (re.compile(r"\bél\b", re.I), "彼"),  # accented only (el = article)
+    (re.compile(r"\bil\b", re.I), "彼"),
     # 3sg F before 彼 (彼女 contains 彼); surface 她, bit slot 彼
     (re.compile(r"彼女の"), "她の"),
     (re.compile(r"彼女は|彼女が|彼女を|彼女"), "她"),
@@ -683,7 +756,12 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bw/o\b", re.I), "无"),
     (re.compile(r"\bwith\b", re.I), "w/"),
     (re.compile(r"\band\b", re.I), "&"),
+    (re.compile(r"\bund\b", re.I), "&"),  # DE
+    # FR et / ES y: alias-only (et al.; EN "x and y")
     (re.compile(r"\bor\b", re.I), "/"),
+    (re.compile(r"\boder\b", re.I), "/"),  # DE
+    (re.compile(r"\bou\b", re.I), "/"),  # FR
+
     (re.compile(r"\bbecause\b", re.I), "bc"),
     (re.compile(r"\btherefore\b", re.I), "∴"),
     (re.compile(r"\bhowever\b", re.I), "tho"),
@@ -734,14 +812,14 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bnot\b", re.I), "!"),
     # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
     # Compounds before singles. Avoid で in できる/です/である/でも…
-    (re.compile(r"からは"), "fr"),
+    (re.compile(r"からは"), "←"),
     (re.compile(r"までは"), "〜"),
     (re.compile(r"には"), "→"),
     (re.compile(r"では(?!ない)"), "∈"),
     (re.compile(r"とは"), "&"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])まで"), "〜"),
-    # から: particle-from → fr (causal から ambiguous; same surface as prep intentionally)
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])から"), "fr"),
+    # から: particle-from → ← (pairs with に/へ→→; fr is alias only — for-real 揺らぎ)
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])から"), "←"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])(?:に|へ)"), "→"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), "∈"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
@@ -753,12 +831,33 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # sentence-final modality particles
     (re.compile(r"[ねよさ]+(?=[。．.!！？?]|$)"), ""),
     # --- prepositions pack1; C owns under/above/below/beneath — skip
-    (re.compile(r"\bfrom\b", re.I), "fr"),
+    # from/から → ← (LTR-minimal; pairs with →). fr not emitted (for-real 揺らぎ); fr alias in inventory only.
+    (re.compile(r"\bdesde\b", re.I), "←"),  # ES
+    (re.compile(r"\bdepuis\b", re.I), "←"),  # FR
+    (re.compile(r"\baus\b", re.I), "←"),  # DE
+    (re.compile(r"\bfrom\b", re.I), "←"),
     # NOTE(for→4): 表層 4 は数字の four と揺らぎうる。ビット在庫(2bit)とは別に評価し、将来 for（原形）等へ戻る可能性あり（現状は 4 のまま）。
+    (re.compile(r"\bpara\b", re.I), "4"),  # ES purpose-for
+    (re.compile(r"\bpour\b", re.I), "4"),  # FR
+    (re.compile(r"\bf[uü]r\b", re.I), "4"),  # DE
     (re.compile(r"\bfor\b", re.I), "4"),
+    (re.compile(r"\bcon\b", re.I), "w/"),  # ES
+    (re.compile(r"\bavec\b", re.I), "w/"),  # FR
+    (re.compile(r"\bmit\b", re.I), "w/"),  # DE
+    (re.compile(r"\bbei\b", re.I), "@"),  # DE at/by
     (re.compile(r"\bat\b", re.I), "@"),
     # --- prep2: of→de / before→前 / after→後 (within/without already above)
+    (re.compile(r"\binnerhalb\b", re.I), "内"),
+    (re.compile(r"\bdentro\b", re.I), "内"),
+    # sin/sans: alias-only (EN false friends); ohne rare enough to rewrite
+    (re.compile(r"\bohne\b", re.I), "无"),
+    (re.compile(r"\bantes\b", re.I), "前"),
+    (re.compile(r"\bavant\b", re.I), "前"),
+    (re.compile(r"\bvor\b", re.I), "前"),
     (re.compile(r"\bbefore\b", re.I), "前"),
+    (re.compile(r"\bdespu[eé]s\b", re.I), "後"),
+    (re.compile(r"\bapr[eè]s\b", re.I), "後"),
+    (re.compile(r"\bnach\b", re.I), "後"),
     (re.compile(r"\bafter\b", re.I), "後"),
     (re.compile(r"\bof\b", re.I), "de"),
     # --- compare: 以上/以下 → ≧/≦ (JA priority). EN multi-word in _PHRASE_GRAMMAR.
@@ -1063,6 +1162,8 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"≧"), "以上"),
     (re.compile(r"≦"), "以下"),
     (re.compile(r"≒"), "approximately equal"),
+    (re.compile(r"←"), "from"),
+    (re.compile(r"\bfr\b", re.I), "from"),  # legacy alias short
     (re.compile(r"\bw/\b", re.I), "with"),
     (re.compile(r"\bu r\b", re.I), "you are"),
     (re.compile(r"\bbc\b", re.I), "because"),

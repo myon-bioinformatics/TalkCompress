@@ -12,7 +12,8 @@
 - [ ] E 前置詞 for→`4`: 数字 four との揺らぎを在庫ビットとは別に評価。`for` へ戻すか検討（現状 `4`）。
 
 - [x] E 助動詞・副詞 × **not / 肯定**: 否定 `!can/!will/!must/!may`・`don't/not→!`・`never→¬`；肯定は素形；極性1bit（`polarity_bit_cost`）。時制の深い畳み込みは残 TODO。I'll は C。
-- [x] E 助詞 particle: コア ∅|→|∈|〜（2bit）。拡張 +|&|fr。接続/前置との表層共有に注意。
+- [x] E 助詞 particle: コア ∅|→|∈|〜（2bit）。拡張 +|&|←（から=from スロット；fr は別名・for-real 揺らぎ）。と=& OK。
+- [x] E from canonical: `←`（`fr` 別名のみ）。ML prep/pronoun エイリアス（ES/FR/DE、bits+tokenize 同スロット）。
 - [ ] E 助動詞・時制: 過去/完了と極性の深い相互作用は未着手。
 - [ ] E because 表記: `bc` 採用（cuz 否定せず）。点々／数学記号寄りの型が後から載る可能性。
 - [ ] E prep2: of→de / without→无 / within→内 / before→前 / after→後。pack1 と分離（3bit）。C 前後・内外ペアと役割分担を観察。
