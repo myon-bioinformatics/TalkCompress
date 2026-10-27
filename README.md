@@ -27,7 +27,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 | ID | 名前 | 主な担当 |
 | --- | --- | --- |
 | A | [Zipilogue](Zipilogue/) | 層1 — 共有ルール台帳＋任意の鍵付き封筒 |
-| B | [TesseraTalk](TesseraTalk/) | 層2 — 文単位モザイク + 翻訳トークン最短（Romance/Germanic/Greek + JA/ZH） |
+| B | [TesseraTalk](TesseraTalk/) | 層2 — 文単位モザイク + 翻訳トークン最短（Romance/Germanic/Greek + JA/ZH）+ 最終トークン削減（複合形/ZH・ES/FR 時制・zh\|de） |
 | C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約・FILLER・UNIQUE_COMPACT・I'll・スペル数字・**合意台帳** |
 | D | [DensityZip](DensityZip/) | 横断 — 入出力・層切替・共通CLI + **density** 指標ファサード（台帳は持たない; Zipilogue/MorphoZip とは別） |
 | E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小・語源寄せ・冠詞・助数詞（ℹ️ は C；フィラー除去は既定オフ） |
@@ -139,6 +139,10 @@ uv run python Zipilogue/zipilogue.py rule-negotiate --state book.json --import /
 
 # B: 翻訳トークン最短をハブ経由（D は配線のみ）
 uv run python DensityZip/density_zip.py --layer B --translate-min --text "Good morning. See you later."
+
+# 最終トークン削減（複合形/ZH densifier・ES/FR 短時制・zh|de；--auto でも末尾に付く）
+uv run python DensityZip/density_zip.py --pipeline C,E --final-zh-de \
+  --text "I will go to the train station as soon as possible."
 
 # C: 台帳（左右・前後・接続詞英語短形）/ chat パック
 uv run python ShorthandEdge/shorthand_edge.py compress --text "check left and right" --pack chat

@@ -18,6 +18,14 @@ accepts any language present in the fixtures. Live MT is opt-in via
 ``--translate-engine`` (fixtures stay the pytest-deterministic default): deep/argos
 fan out to target langs **in parallel**, then rank by shortness + low 揺らぎ
 (ambiguity). Unlike ShorthandEdge (C), B does **not** apply the agreed ledger.
+
+Final token pass (``final_zh_de_token_pass`` / ``--final-zh-de``): last-stage
+cheapest-token candidates — compounds (incl. adj+noun), ZH densifiers, ES/FR short
+tense conjugations, then sentence minify restricted to ``zh|de``. Aims to **reduce**
+``estimate_tokens``. Wired by DensityZip as the pipeline end after A–E
+(``B-final-zh-de``). Prefer both token+utf8 shrink; token-only wins must be
+dictionary-clear and documented. 複合名詞 etc. are labels for candidate forms, not
+a noun-only policy.
 """
 
 from __future__ import annotations
@@ -71,6 +79,7 @@ SCOPE_LANGS: frozenset[str] = frozenset(
 ROMANCE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "it"})
 GERMANIC_LANGS: frozenset[str] = frozenset({"en", "de", "nl"})
 GREEK_LANGS: frozenset[str] = frozenset({"el"})
+FINAL_TOKEN_LANGS: frozenset[str] = frozenset({"zh", "de"})
 
 _CUES: dict[str, tuple[str, ...]] = {
     "en": (
@@ -393,6 +402,8 @@ def stats(
 
 _FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 DEFAULT_TRANSLATION_BANK = _FIXTURES_DIR / "translations.json"
+DEFAULT_ZH_DE_PHRASE_BANK = _FIXTURES_DIR / "zh_de_phrases.json"
+DEFAULT_ES_FR_TENSE_BANK = _FIXTURES_DIR / "es_fr_tense.json"
 TRANSLATE_ENGINES = ("fixture", "argos", "deep")
 
 _CJK_CHAR = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]")
@@ -791,6 +802,221 @@ def minify_by_translation(
 
 
 
+# --- final token pass (pipeline end; reduce estimate_tokens) ---
+# ZH densifiers / DE compounds / ES/FR short tense — candidate classes only
+# (複合名詞 etc. are labels for forms, not a noun-only policy).
+
+
+@lru_cache(maxsize=4)
+def load_zh_de_phrase_bank(path: str | None = None) -> dict[str, Any]:
+    """Load curated compounds / ZH densifiers for the final token pass."""
+    p = Path(path) if path is not None else DEFAULT_ZH_DE_PHRASE_BANK
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or "entries" not in data:
+        raise ValueError(f"zh/de phrase bank missing entries: {p}")
+    return data
+
+
+@lru_cache(maxsize=4)
+def load_es_fr_tense_bank(path: str | None = None) -> dict[str, Any]:
+    """Load curated ES/FR short conjugations for tense token control."""
+    p = Path(path) if path is not None else DEFAULT_ES_FR_TENSE_BANK
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or "entries" not in data:
+        raise ValueError(f"es/fr tense bank missing entries: {p}")
+    return data
+
+
+def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = None) -> list[tuple[str, str, str]]:
+    """(source, replacement, lang) from a bank; longest source first."""
+    pairs: list[tuple[str, str, str]] = []
+    for entry in data.get("entries") or []:
+        to = str(entry.get("to") or "").strip()
+        lang = str(entry.get("lang") or "").strip() or "und"
+        if not to:
+            continue
+        if allow_langs is not None and lang not in allow_langs:
+            continue
+        for src in entry.get("from") or []:
+            s = str(src).strip()
+            if s:
+                pairs.append((s, to, lang))
+    pairs.sort(key=lambda t: (-len(t[0]), t[0].lower(), t[1]))
+    return pairs
+
+
+def zh_de_phrase_pairs(
+    path: str | Path | None = None,
+) -> list[tuple[str, str, str]]:
+    """Return (source_phrase, replacement, lang) for ZH/DE densifier bank."""
+    data = load_zh_de_phrase_bank(str(path) if path is not None else None)
+    return _bank_phrase_pairs(data, allow_langs=set(FINAL_TOKEN_LANGS))
+
+
+def es_fr_tense_pairs(
+    path: str | Path | None = None,
+) -> list[tuple[str, str, str]]:
+    """Return (source_phrase, replacement, lang) for ES/FR tense bank."""
+    data = load_es_fr_tense_bank(str(path) if path is not None else None)
+    return _bank_phrase_pairs(data, allow_langs={"es", "fr"})
+
+
+def _phrase_token_wins(src: str, dst: str) -> bool:
+    """True iff replacement strictly reduces estimate_tokens."""
+    return estimate_tokens(dst) < estimate_tokens(src)
+
+
+def _utf8_len(s: str) -> int:
+    return len(s.encode("utf-8"))
+
+
+def _cheapest_repl(src: str, cands: list[tuple[str, str]]) -> str | None:
+    """Pick replacement with lowest estimate_tokens, then utf8 bytes, then len.
+
+    ``cands`` is ``(replacement, lang)``. Returns None if nothing beats ``src``.
+    """
+    best: tuple[int, int, int, str] | None = None
+    src_n = estimate_tokens(src)
+    for repl, _lang in cands:
+        n = estimate_tokens(repl)
+        if n >= src_n:
+            continue
+        key = (n, _utf8_len(repl), len(repl), repl)
+        if best is None or key < best:
+            best = key
+    return best[3] if best else None
+
+
+def _apply_phrase_pairs(
+    text: str,
+    pairs: list[tuple[str, str, str]],
+    *,
+    require_token_drop: bool = True,
+) -> str:
+    """Apply phrase pairs with longest-first match; cheapest wins on collisions."""
+    src = unicodedata.normalize("NFC", text or "")
+    if not src.strip() or not pairs:
+        return src
+    # Group by lowercase source for collision handling
+    by_src: dict[str, list[tuple[str, str]]] = {}
+    order: list[str] = []
+    for phrase, repl, lang in pairs:
+        key = phrase.lower()
+        if key not in by_src:
+            by_src[key] = []
+            order.append(phrase)  # preserve longest-first original casing sample
+        by_src[key].append((repl, lang))
+
+    out = src
+    for phrase in order:
+        key = phrase.lower()
+        cands = by_src[key]
+        # Latin / ASCII phrase → word-boundary, case-insensitive
+        if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9' -]*", phrase):
+            pat = re.compile(
+                rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9])",
+                re.IGNORECASE,
+            )
+
+            def _sub(
+                m: re.Match[str],
+                *,
+                _cands: list[tuple[str, str]] = cands,
+                _phrase: str = phrase,
+            ) -> str:
+                span = m.group(0)
+                chosen = _cheapest_repl(span if require_token_drop else _phrase, _cands)
+                if chosen is None and not require_token_drop:
+                    chosen = _cands[0][0]
+                return chosen if chosen is not None else span
+
+            out = pat.sub(_sub, out)
+        else:
+            if phrase in out:
+                chosen = _cheapest_repl(phrase, cands)
+                if chosen is not None:
+                    out = out.replace(phrase, chosen)
+    return out
+
+
+def apply_zh_de_phrases(
+    text: str,
+    *,
+    bank_path: str | Path | None = None,
+    require_token_drop: bool = True,
+) -> str:
+    """Replace curated multiword phrases with ZH densifiers / DE compounds when tokens drop.
+
+    Compounds (incl. adj+noun) are a candidate class for cheapest tokens — not a
+    noun-only policy. Skips when ``estimate_tokens`` does not fall.
+    """
+    return _apply_phrase_pairs(
+        text,
+        zh_de_phrase_pairs(bank_path),
+        require_token_drop=require_token_drop,
+    )
+
+
+def apply_es_fr_tense(
+    text: str,
+    *,
+    bank_path: str | Path | None = None,
+    require_token_drop: bool = True,
+) -> str:
+    """Replace stacked EN auxiliaries with short ES/FR conjugations when tokens drop.
+
+    High-frequency go/come/do/be/have/must/want present/past/future (+ aspect-ish
+    progressive → present). Meaning-clear dictionary forms only.
+    """
+    return _apply_phrase_pairs(
+        text,
+        es_fr_tense_pairs(bank_path),
+        require_token_drop=require_token_drop,
+    )
+
+
+def final_zh_de_token_pass(
+    text: str,
+    *,
+    phrase_bank: str | Path | None = None,
+    tense_bank: str | Path | None = None,
+    translation_bank: str | Path | None = None,
+    preserve_newlines: bool = False,
+    translate_engine: str = "fixture",
+    translate_fn: Any | None = None,
+    prefer_low_ambiguity: bool = True,
+    apply_phrases: bool = True,
+    apply_tense: bool = True,
+    apply_sentences: bool = True,
+) -> str:
+    """Final-stage token reduction: compounds/ZH densifiers, ES/FR tense, then zh|de sentences.
+
+    Order: (1) curated ZH/DE phrase densifiers (compounds when they cut tokens),
+    (2) ES/FR short conjugations for tense,
+    (3) per-sentence ``minify_by_translation`` restricted to ``FINAL_TOKEN_LANGS``
+    (zh|de). B owns the pass; DensityZip runs it last as ``B-final-zh-de``.
+    """
+    out = unicodedata.normalize("NFC", text or "")
+    if not out.strip():
+        return out
+    if apply_phrases:
+        out = apply_zh_de_phrases(out, bank_path=phrase_bank)
+    if apply_tense:
+        out = apply_es_fr_tense(out, bank_path=tense_bank)
+    if apply_sentences:
+        out = minify_by_translation(
+            out,
+            bank_path=translation_bank,
+            allow_langs=set(FINAL_TOKEN_LANGS),
+            preserve_newlines=preserve_newlines,
+            translate_engine=translate_engine,
+            translate_fn=translate_fn,
+            prefer_low_ambiguity=prefer_low_ambiguity,
+        )
+    return out
+
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="TesseraTalk: layer-2 sentence mosaic")
     p.add_argument(
@@ -847,6 +1073,21 @@ def main(argv: list[str] | None = None) -> int:
         default="",
         help="optional comma-separated lang filter for translate-min (default: all bank langs)",
     )
+    p.add_argument(
+        "--final-zh-de",
+        action="store_true",
+        help="final-stage ZH/DE token pass: phrase densifiers + sentence minify allow_langs=zh,de",
+    )
+    p.add_argument(
+        "--zh-de-phrase-bank",
+        default="",
+        help="optional path to ZH/DE phrase densifier JSON (default: fixtures/zh_de_phrases.json)",
+    )
+    p.add_argument(
+        "--es-fr-tense-bank",
+        default="",
+        help="optional path to ES/FR tense conjugation JSON (default: fixtures/es_fr_tense.json)",
+    )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
     langs = [x.strip() for x in args.langs.split(",") if x.strip()] or None
@@ -860,7 +1101,18 @@ def main(argv: list[str] | None = None) -> int:
     tm = args.translate_min
     te = args.translate_engine
     allow = {x.strip() for x in args.allow_langs.split(",") if x.strip()} or None
-    if tm and args.mode in ("tag", "compress"):
+    phrase_bank = args.zh_de_phrase_bank or None
+    tense_bank = args.es_fr_tense_bank or None
+    if args.final_zh_de and args.mode in ("tag", "compress"):
+        text = final_zh_de_token_pass(
+            text,
+            phrase_bank=phrase_bank,
+            tense_bank=tense_bank,
+            translation_bank=bank,
+            preserve_newlines=pn,
+            translate_engine=te,
+        )
+    elif tm and args.mode in ("tag", "compress"):
         text = minify_by_translation(
             text,
             bank_path=bank,

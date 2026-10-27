@@ -160,7 +160,7 @@ def test_auto_returns_nonempty():
     text = "Hello there friend. こんにちは世界。Thanks for your information."
     layers = c.choose_auto_layers(text, ns())
     assert layers
-    assert all(x in ("A", "B", "C", "E") for x in layers)
+    assert all(x in ("A", "B", "C", "E", "B-final-zh-de") for x in layers)
     out = c.run_pipeline(layers, text, ns())
     assert isinstance(out, str)
     assert len(out) > 0

@@ -13,6 +13,10 @@ Density façade: ``--compare`` / ``--budget`` / ``--stats`` surface token-ish
 metrics (budget, ``content_token_loss``, B ``estimate_tokens`` via wiring) and
 bit-ish metrics (E ``density()`` / ``pronoun_bit_cost`` aggregated here).
 B owns ``estimate_tokens``; E owns pronoun inventory bits; C owns the ledger.
+Final pipeline step ``B-final-zh-de`` (``--final-zh-de`` / ``--auto`` default end):
+B ``final_zh_de_token_pass`` — compounds/ZH densifiers + ES/FR short tense + zh|de
+sentence minify to **reduce** tokens after A–E (複合名詞 etc. are candidate labels,
+not a noun-only policy).
 
 Agreed human conventions (under/below→下, 凹凸, …) live under
 ``ShorthandEdge/ledger/conventions.json`` and are applied by **C**, not D.
@@ -53,7 +57,14 @@ _LAYER_ALIASES: dict[str, str] = {
     "morpho_zip": "E",
     "identity": "identity",
     "skip": "identity",
+    # Final ZH/DE token pass (B-owned; not a new layer letter)
+    "b-final-zh-de": "B-final-zh-de",
+    "final-zh-de": "B-final-zh-de",
+    "zhde": "B-final-zh-de",
+    "zh-de": "B-final-zh-de",
 }
+
+FINAL_ZH_DE_STEP = "B-final-zh-de"
 
 
 def _load(mod_name: str, rel: str):
@@ -69,7 +80,15 @@ def _load(mod_name: str, rel: str):
 
 def resolve_layer(raw: str) -> str:
     key = raw.strip()
-    return _LAYER_ALIASES.get(key, _LAYER_ALIASES.get(key.lower(), key.upper()))
+    if key in _LAYER_ALIASES:
+        return _LAYER_ALIASES[key]
+    low = key.lower()
+    if low in _LAYER_ALIASES:
+        return _LAYER_ALIASES[low]
+    # Preserve synthetic final-step id
+    if low in ("b-final-zh-de", "final-zh-de", "zhde", "zh-de"):
+        return FINAL_ZH_DE_STEP
+    return key.upper()
 
 
 def parse_pipeline(raw: str) -> list[str]:
@@ -82,6 +101,8 @@ def parse_pipeline(raw: str) -> list[str]:
         if layer == "D":
             raise SystemExit("D (DensityZip) is this router; omit from --pipeline")
         if layer == "identity":
+            continue
+        if layer == FINAL_ZH_DE_STEP:
             continue
         if layer not in ("A", "B", "C", "E"):
             raise SystemExit(f"unknown pipeline layer: {layer}")
@@ -131,6 +152,10 @@ _PROFILE_FLAG_KEYS = (
     "translate_min",
     "translation_bank",
     "translate_engine",
+    "final_zh_de",
+    "no_final_zh_de",
+    "zh_de_phrase_bank",
+    "es_fr_tense_bank",
     "hex_nums",
     "hex_bare",
     "no_strip",
@@ -190,6 +215,10 @@ def apply_profile(args: argparse.Namespace, profile: dict[str, Any], *, cli_expl
         "translate-min": "translate_min",
         "translation-bank": "translation_bank",
         "translate-engine": "translate_engine",
+        "final-zh-de": "final_zh_de",
+        "no-final-zh-de": "no_final_zh_de",
+        "zh-de-phrase-bank": "zh_de_phrase_bank",
+        "es-fr-tense-bank": "es_fr_tense_bank",
         "hex-nums": "hex_nums",
         "hex-bare": "hex_bare",
         "strip": "strip",
@@ -545,6 +574,30 @@ def _run_e(text: str, args: argparse.Namespace) -> str:
     return out
 
 
+def _run_final_zh_de(text: str, args: argparse.Namespace) -> str:
+    """B final token pass — compounds/ZH densifiers + ES/FR tense + zh|de minify."""
+    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    bank = getattr(args, "translation_bank", None) or None
+    if isinstance(bank, str) and not bank.strip():
+        bank = None
+    phrase = getattr(args, "zh_de_phrase_bank", None) or None
+    if isinstance(phrase, str) and not str(phrase).strip():
+        phrase = None
+    tense = getattr(args, "es_fr_tense_bank", None) or None
+    if isinstance(tense, str) and not str(tense).strip():
+        tense = None
+    te = getattr(args, "translate_engine", None) or "fixture"
+    pn = bool(getattr(args, "preserve_newlines", False))
+    return t.final_zh_de_token_pass(
+        text,
+        phrase_bank=phrase,
+        tense_bank=tense,
+        translation_bank=bank,
+        preserve_newlines=pn,
+        translate_engine=te,
+    )
+
+
 def transform_line(
     layer: str,
     text: str,
@@ -573,6 +626,8 @@ def transform_line(
         out = _run_c(text, args)
     elif layer == "E":
         out = _run_e(text, args)
+    elif layer == FINAL_ZH_DE_STEP:
+        out = _run_final_zh_de(text, args)
     else:
         raise SystemExit(f"unhandled layer: {layer}")
     if trace is not None:
@@ -585,6 +640,21 @@ def transform_line(
                 "sample_delta": _sample_delta(before, out),
             }
         )
+    return out
+
+
+def with_final_zh_de(layers: list[str], args: argparse.Namespace) -> list[str]:
+    """Append ``B-final-zh-de`` when ``--final-zh-de`` (or auto default) asks for it.
+
+    ``--no-final-zh-de`` always suppresses. Explicit pipeline already containing
+    the step is left unchanged. ``--auto`` enables via ``choose_auto_layers``.
+    """
+    out = list(layers)
+    if getattr(args, "no_final_zh_de", False):
+        return [x for x in out if x != FINAL_ZH_DE_STEP]
+    want = bool(getattr(args, "final_zh_de", False)) or bool(getattr(args, "auto", False))
+    if want and FINAL_ZH_DE_STEP not in out:
+        out.append(FINAL_ZH_DE_STEP)
     return out
 
 
@@ -727,6 +797,10 @@ def choose_auto_layers(text: str, args: argparse.Namespace) -> list[str]:
 
     if getattr(args, "auto_machine", False) and _resolve_zip_key(args):
         layers = layers + ["A"]
+    # Default end of --auto: ZH/DE token densify (unless --no-final-zh-de)
+    if not getattr(args, "no_final_zh_de", False):
+        if FINAL_ZH_DE_STEP not in layers:
+            layers = layers + [FINAL_ZH_DE_STEP]
     return layers
 
 
@@ -1051,6 +1125,27 @@ def build_parser() -> argparse.ArgumentParser:
         help="TesseraTalk: fixture=bank only (default); argos/deep=opt-in live MT if installed",
     )
     p.add_argument(
+        "--final-zh-de",
+        action="store_true",
+        help="append B-final-zh-de (compounds/ZH densifiers + ES/FR tense + zh|de) as last pipeline step; on by default with --auto",
+    )
+    p.add_argument(
+        "--no-final-zh-de",
+        action="store_true",
+        help="suppress the final token pass (overrides --final-zh-de / --auto default)",
+    )
+    p.add_argument(
+        "--zh-de-phrase-bank",
+        default="",
+        help="optional ZH/DE phrase densifier JSON for B-final-zh-de (compounds/ZH)",
+    )
+    p.add_argument(
+        "--es-fr-tense-bank",
+        default="",
+        help="optional ES/FR tense bank JSON (default: TesseraTalk fixtures)",
+    )
+
+    p.add_argument(
         "--min-ratio",
         type=float,
         default=None,
@@ -1107,6 +1202,10 @@ def main(argv: list[str] | None = None) -> int:
         "--translate-min": "translate_min",
         "--translation-bank": "translation_bank",
         "--translate-engine": "translate_engine",
+        "--final-zh-de": "final_zh_de",
+        "--no-final-zh-de": "no_final_zh_de",
+        "--zh-de-phrase-bank": "zh_de_phrase_bank",
+        "--es-fr-tense-bank": "es_fr_tense_bank",
         "--hex-nums": "hex_nums",
         "--hex-bare": "hex_bare",
         "--strip": "strip",
@@ -1157,6 +1256,10 @@ def main(argv: list[str] | None = None) -> int:
         ("translate_min", False),
         ("translation_bank", ""),
         ("translate_engine", "fixture"),
+        ("final_zh_de", False),
+        ("no_final_zh_de", False),
+        ("zh_de_phrase_bank", ""),
+        ("es_fr_tense_bank", ""),
         ("min_ratio", None),
         ("allow_weak", False),
         ("max_loss_tokens", None),
@@ -1228,11 +1331,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.budget is not None and not args.jsonl:
         layers: list[str] | None = None
         if args.pipeline:
-            layers = parse_pipeline(args.pipeline)
+            layers = with_final_zh_de(parse_pipeline(args.pipeline), args)
         elif args.auto:
             layers = choose_auto_layers(raw, args)
         elif args.layer:
-            layers = [resolve_layer(args.layer)]
+            layers = with_final_zh_de([resolve_layer(args.layer)], args)
         out = run_budget(raw, args, budget=args.budget, layers=layers, trace=trace)
         if trace is not None:
             print(json.dumps({"trace": trace}, ensure_ascii=False), file=sys.stderr)
@@ -1255,7 +1358,7 @@ def main(argv: list[str] | None = None) -> int:
     default_layers: list[str] | None = None
     default_layer: str | None = None
     if args.pipeline:
-        default_layers = parse_pipeline(args.pipeline)
+        default_layers = with_final_zh_de(parse_pipeline(args.pipeline), args)
     elif args.auto:
         default_layers = choose_auto_layers(raw, args)
     elif args.layer:
@@ -1292,6 +1395,11 @@ def main(argv: list[str] | None = None) -> int:
         _write_output(out, args)
         return check_quality(before_raw, out, args)
 
+    if default_layers is None and default_layer is not None:
+        maybe = with_final_zh_de([default_layer], args)
+        if len(maybe) > 1 or (maybe and maybe[-1] == FINAL_ZH_DE_STEP and default_layer != FINAL_ZH_DE_STEP):
+            default_layers = maybe
+            default_layer = None
     if default_layers:
         out = run_pipeline(default_layers, raw, args, trace=trace)
     else:

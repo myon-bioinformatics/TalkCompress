@@ -1,0 +1,295 @@
+{
+  "version": 1,
+  "title": "Final-stage ZH/DE token densifiers (phrase-level)",
+  "notes": [
+    "Applied as TalkCompress final pass after A–E (B final_zh_de_token_pass).",
+    "Goal: reduce estimate_tokens. Compounds (incl. adj+noun), ZH densifiers, and ES/FR tense are candidate classes for cheapest tokens — not a noun-only policy.",
+    "Prefer both token and utf8 shrink; token-only wins allowed only for dictionary-clear forms (document metrics).",
+    "Use compound forms freely when they cut tokens; skip when estimate_tokens does not drop.",
+    "Not a C ShorthandEdge ledger."
+  ],
+  "entries": [
+    {
+      "id": "bahnhof",
+      "from": [
+        "train station",
+        "railway station"
+      ],
+      "to": "Bahnhof",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 56,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "datenschutz",
+      "from": [
+        "data protection",
+        "privacy policy"
+      ],
+      "to": "Datenschutz",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 88,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "asap-zh",
+      "from": [
+        "as soon as possible"
+      ],
+      "to": "尽快",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 2,
+        "utf8_bits_before": 152,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "thanks-zh",
+      "from": [
+        "thank you very much"
+      ],
+      "to": "多谢",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 2,
+        "utf8_bits_before": 152,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "morning-zh",
+      "from": [
+        "good morning"
+      ],
+      "to": "早",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 24,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "later-zh",
+      "from": [
+        "see you later"
+      ],
+      "to": "再见",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "night-zh",
+      "from": [
+        "good night"
+      ],
+      "to": "晚安",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "wait-zh",
+      "from": [
+        "wait a moment"
+      ],
+      "to": "稍等",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "understand-zh",
+      "from": [
+        "I understand",
+        "i understand"
+      ],
+      "to": "明白",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "time-zh",
+      "from": [
+        "what time is it"
+      ],
+      "to": "几点",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "tomorrow-zh",
+      "from": [
+        "see you tomorrow"
+      ],
+      "to": "明天见",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 128,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "fyi-zh",
+      "from": [
+        "for your information"
+      ],
+      "to": "供参考",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 3,
+        "utf8_bits_before": 160,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "course-zh",
+      "from": [
+        "of course"
+      ],
+      "to": "当然",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 72,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "opinion-zh",
+      "from": [
+        "in my opinion"
+      ],
+      "to": "我认为",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "btw-zh",
+      "from": [
+        "by the way"
+      ],
+      "to": "顺便",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "high-speed-zh",
+      "from": [
+        "high speed",
+        "high-speed"
+      ],
+      "to": "高速",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "short-term-zh",
+      "from": [
+        "short term",
+        "short-term"
+      ],
+      "to": "短期",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "green-tea-zh",
+      "from": [
+        "green tea"
+      ],
+      "to": "绿茶",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "black-tea-zh",
+      "from": [
+        "black tea"
+      ],
+      "to": "红茶",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    }
+  ]
+}

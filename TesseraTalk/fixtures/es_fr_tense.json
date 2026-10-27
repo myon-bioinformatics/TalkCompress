@@ -1,0 +1,329 @@
+{
+  "version": 1,
+  "title": "Final-pass ES/FR short tense conjugations (token densifiers)",
+  "notes": [
+    "Part of B final token-reduction pass (with ZH densifiers / DE compounds).",
+    "Prefer short ES/FR conjugations over stacked EN auxiliaries when meaning stays clear.",
+    "Only forms that beat the English source on estimate_tokens are listed.",
+    "EN contractions (I'll) remain C; this bank is B final-pass only — not a C ledger.",
+    "複合名詞 / compounds here are just another candidate class for cheapest tokens (incl. adj+noun when they win), not a noun-only policy."
+  ],
+  "entries": [
+    {
+      "id": "go-fut-1s",
+      "from": [
+        "I will go",
+        "I'll go"
+      ],
+      "to": "iré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-pres-1s",
+      "from": [
+        "I go",
+        "I am going",
+        "I'm going"
+      ],
+      "to": "voy",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-past-1s",
+      "from": [
+        "I went"
+      ],
+      "to": "fui",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-fut-fr",
+      "from": [
+        "I will go"
+      ],
+      "to": "je vais",
+      "lang": "fr",
+      "tense": "near-future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true,
+        "note": "alt; ES iré usually cheaper — select_cheapest prefers iré"
+      }
+    },
+    {
+      "id": "go-fut-3sm",
+      "from": [
+        "he will go"
+      ],
+      "to": "irá",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-fut-3sf",
+      "from": [
+        "she will go"
+      ],
+      "to": "irá",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-fut-2s",
+      "from": [
+        "you will go"
+      ],
+      "to": "irás",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-fut-1p",
+      "from": [
+        "we will go"
+      ],
+      "to": "iremos",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-past-3s",
+      "from": [
+        "she went",
+        "he went"
+      ],
+      "to": "fue",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "come-fut-1s",
+      "from": [
+        "I will come"
+      ],
+      "to": "vendré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "come-past-1s",
+      "from": [
+        "I came"
+      ],
+      "to": "vine",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "come-prog-1s",
+      "from": [
+        "I am coming",
+        "I'm coming"
+      ],
+      "to": "vengo",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "do-pres-1s",
+      "from": [
+        "I do"
+      ],
+      "to": "hago",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "do-fut-1s",
+      "from": [
+        "I will do",
+        "I'll do"
+      ],
+      "to": "haré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "do-past-1s",
+      "from": [
+        "I did"
+      ],
+      "to": "hice",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "be-pres-1s",
+      "from": [
+        "I am"
+      ],
+      "to": "soy",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "be-past-1s",
+      "from": [
+        "I was"
+      ],
+      "to": "fui",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "be-fut-1s",
+      "from": [
+        "I will be",
+        "I'll be"
+      ],
+      "to": "seré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "have-fut-1s",
+      "from": [
+        "I will have"
+      ],
+      "to": "tendré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "have-past-1s",
+      "from": [
+        "I had"
+      ],
+      "to": "tuve",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "must-pres-1s",
+      "from": [
+        "I must"
+      ],
+      "to": "debo",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "want-fut-1s",
+      "from": [
+        "I will want"
+      ],
+      "to": "querré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    }
+  ]
+}
