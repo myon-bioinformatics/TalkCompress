@@ -19,3 +19,4 @@
 - [ ] E prep2: of→de / without→无 / within→内 / before→前 / after→後。pack1 と分離（3bit）。C 前後・内外ペアと役割分担を観察。
 - [x] C 台帳 dual metrics: lex に token（B estimate_tokens）+ bit（E utf8_bits / inventory）を必須記録。候補絞り用。
 - [x] C 台帳: **ビット変化ゼロ**（utf8/primary bit delta=0）の lex を削除。token のみ改善は残さない（私たち→we 等の縮む行は維持）。
+- [x] C 台帳: 100件予算で見送った brb/AFAIK/whereas 等を、ゼロビット剪定後に追加（utf8 縮む分のみ・≤100）。

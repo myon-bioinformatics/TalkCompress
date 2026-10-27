@@ -302,5 +302,10 @@ def test_ledger_pos_registrations_dual_metrics():
     # C still owns spatial / furniture apply
     assert by_id["spatial-under"]["apply_layer"] == "C"
     assert by_id["conj-etc"]["apply_layer"] == "C"
+    # deferred-at-100 batch (restored after zero-bit prune)
+    assert "c-brb" in by_id and by_id["c-brb"]["to"] == "brb"
+    assert "c-afaik" in by_id and by_id["c-afaik"]["to"] == "AFAIK"
+    assert by_id["e-conj-whereas"]["to"] == "∵"
+    assert by_id["e-conj-whereas"].get("extended") is True
     # no lex emits fr
     assert all(c.get("to") != "fr" for c in by_id.values())

@@ -18,7 +18,8 @@
       "Ambiguity gate (C): conjunction shortenings marked ambiguity_sensitive skip when short form already collides in-text, or prefer_precision=True (CLI --prefer-precision).",
       "lex metrics (required): token = B TesseraTalk estimate_tokens; bit = E MorphoZip utf8_bits (default) or closed_inventory_bits when inventory applies. Both views narrow registration candidates.",
       "E MorphoZip closed-POS mappings are registered here as apply_layer=E (metrics + inventory) for the shared ledger; rewrite engine ownership stays on E. C apply_ledger_lex only applies apply_layer=C.",
-      "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots."
+      "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots.",
+      "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds)."
     ]
   },
   "conventions": [
@@ -3456,6 +3457,686 @@
             "before": 80,
             "after": 24,
             "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-brb",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "be right back"
+      ],
+      "to": "brb",
+      "rationale": "定番略語（100件予算で未登録だった追加分）",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "be right back",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "be right back",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-afaik",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "as far as i know",
+        "as far as I know"
+      ],
+      "to": "AFAIK",
+      "rationale": "定番略語（100件予算で未登録だった追加分）",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "as far as i know",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 40,
+          "delta": -88,
+          "ratio": 0.3125,
+          "sample_from": "as far as i know",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 40,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "e-conj-whereas",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "whereas",
+        "∵"
+      ],
+      "to": "∵",
+      "rationale": "E extended conj: whereas → ∵（100件予算で未登録だった追加分）",
+      "inventory": "conjunction",
+      "extended": true,
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "whereas",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "whereas",
+          "via": "E MorphoZip closed_inventory_bits(conjunction)",
+          "utf8": {
+            "before": 56,
+            "after": 24,
+            "delta": -32
+          },
+          "inventory": {
+            "name": "conjunction",
+            "bits_per": 3,
+            "n": 6,
+            "extended": true,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "c-imho",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "in my humble opinion"
+      ],
+      "to": "IMHO",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "in my humble opinion",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 160,
+          "after": 32,
+          "delta": -128,
+          "ratio": 0.2,
+          "sample_from": "in my humble opinion",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 160,
+            "after": 32,
+            "delta": -128
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-fwiw",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "for what it's worth",
+        "for what its worth"
+      ],
+      "to": "FWIW",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "for what it's worth",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 32,
+          "delta": -120,
+          "ratio": 0.2105,
+          "sample_from": "for what it's worth",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 32,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ttyl",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "talk to you later"
+      ],
+      "to": "ttyl",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "talk to you later",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 32,
+          "delta": -104,
+          "ratio": 0.2353,
+          "sample_from": "talk to you later",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 32,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-tldr",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "too long; didn't read",
+        "too long didn't read",
+        "too long didnt read"
+      ],
+      "to": "TL;DR",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "too long; didn't read",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 168,
+          "after": 40,
+          "delta": -128,
+          "ratio": 0.2381,
+          "sample_from": "too long; didn't read",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 168,
+            "after": 40,
+            "delta": -128
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-afk",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "away from keyboard"
+      ],
+      "to": "AFK",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "away from keyboard",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 24,
+          "delta": -120,
+          "ratio": 0.1667,
+          "sample_from": "away from keyboard",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 24,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-lmk",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "let me know"
+      ],
+      "to": "lmk",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "let me know",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "let me know",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-otoh",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "on the other hand"
+      ],
+      "to": "OTOH",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "on the other hand",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 32,
+          "delta": -104,
+          "ratio": 0.2353,
+          "sample_from": "on the other hand",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 32,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wrt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "with regard to",
+        "with respect to"
+      ],
+      "to": "WRT",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "with regard to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "with regard to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ymmv",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "your mileage may vary"
+      ],
+      "to": "YMMV",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "your mileage may vary",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 168,
+          "after": 32,
+          "delta": -136,
+          "ratio": 0.1905,
+          "sample_from": "your mileage may vary",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 168,
+            "after": 32,
+            "delta": -136
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-icymi",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "in case you missed it"
+      ],
+      "to": "ICYMI",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 2,
+          "delta": -4,
+          "ratio": 0.3333,
+          "sample_from": "in case you missed it",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 168,
+          "after": 40,
+          "delta": -128,
+          "ratio": 0.2381,
+          "sample_from": "in case you missed it",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 168,
+            "after": 40,
+            "delta": -128
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wip",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "work in progress"
+      ],
+      "to": "WIP",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "work in progress",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "work in progress",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-tia",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "thanks in advance"
+      ],
+      "to": "TIA",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "thanks in advance",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 24,
+          "delta": -112,
+          "ratio": 0.1765,
+          "sample_from": "thanks in advance",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 24,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-afaict",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "as far as i can tell",
+        "as far as I can tell"
+      ],
+      "to": "AFAICT",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 2,
+          "delta": -4,
+          "ratio": 0.3333,
+          "sample_from": "as far as i can tell",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 160,
+          "after": 48,
+          "delta": -112,
+          "ratio": 0.3,
+          "sample_from": "as far as i can tell",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 160,
+            "after": 48,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-jsyk",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "just so you know"
+      ],
+      "to": "JSYK",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "just so you know",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 32,
+          "delta": -96,
+          "ratio": 0.25,
+          "sample_from": "just so you know",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 32,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-rofl",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "rolling on the floor laughing"
+      ],
+      "to": "rofl",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 8,
+          "after": 1,
+          "delta": -7,
+          "ratio": 0.125,
+          "sample_from": "rolling on the floor laughing",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 232,
+          "after": 32,
+          "delta": -200,
+          "ratio": 0.1379,
+          "sample_from": "rolling on the floor laughing",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 232,
+            "after": 32,
+            "delta": -200
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-irl",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "in real life"
+      ],
+      "to": "IRL",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "in real life",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "in real life",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
           },
           "inventory": null
         }
