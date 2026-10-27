@@ -743,6 +743,38 @@ def test_morpho_prep_like_finite_set():
     assert "再" in m.compress("once again try", **kw)
     assert "今" in m.compress("right now go", **kw)
 
+    # cycle7 spatial / state prep + prep-like adv
+    assert "北" in m.compress("north of town", **kw)
+    assert "南" in m.compress("south of here", **kw)
+    assert "東" in m.compress("east of the river", **kw)
+    assert "西" in m.compress("west of campus", **kw)
+    assert "左" in m.compress("to the left of me", **kw)
+    assert "右" in m.compress("to the right of you", **kw)
+    assert "側" in m.compress("on the part of the board", **kw)
+    assert "無視" in m.compress("in disregard of rules", **kw)
+    assert "暴走" in m.compress("out of control car", **kw)
+    assert "廃" in m.compress("out of date policy", **kw)
+    assert "故障" in m.compress("out of order machine", **kw)
+    assert "圧" in m.compress("under pressure now", **kw)
+    assert "制御" in m.compress("under control again", **kw)
+    assert "負" in m.compress("liable to fail", **kw)
+    assert "耐" in m.compress("resistant to heat", **kw)
+    assert "敏" in m.compress("sensitive to light", **kw)
+    assert "劣" in m.compress("inferior to gold", **kw)
+    assert "優" in m.compress("superior to iron", **kw)
+    assert "最早" in m.compress("no longer valid", **kw)
+    assert "未" in m.compress("as yet unknown", **kw)
+    assert "一方" in m.compress("on one hand good", **kw)
+    assert "短期" in m.compress("in the short run costly", **kw)
+    assert "大程" in m.compress("to a large extent true", **kw)
+    assert "直後" in m.compress("shortly after noon", **kw)
+    assert "直前" in m.compress("shortly before dawn", **kw)
+    assert "日々" in m.compress("day by day better", **kw)
+    assert "年々" in m.compress("year by year growth", **kw)
+    assert "対面" in m.compress("face to face talk", **kw)
+    assert "偶" in m.compress("every now and then visit", **kw)
+    assert "実" in m.compress("as a matter of fact yes", **kw)
+
 
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""

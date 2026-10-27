@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 460
+    assert 14 <= len(all_lex) <= 500
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -458,6 +458,39 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-in-detail"]["to"] == "詳"
     assert by_id["adv-in-retrospect"]["to"] == "回顧"
     assert by_id["adv-without-fail"]["to"] == "必ず"
+    # cycle7
+    assert by_id["prep-north-of"]["to"] == "北"
+    assert by_id["prep-south-of"]["to"] == "南"
+    assert by_id["prep-east-of"]["to"] == "東"
+    assert by_id["prep-west-of"]["to"] == "西"
+    assert by_id["prep-to-the-left-of"]["to"] == "左"
+    assert by_id["prep-to-the-right-of"]["to"] == "右"
+    assert by_id["prep-on-the-part-of"]["to"] == "側"
+    assert by_id["prep-in-disregard-of"]["to"] == "無視"
+    assert by_id["prep-out-of-control"]["to"] == "暴走"
+    assert by_id["prep-out-of-date"]["to"] == "廃"
+    assert by_id["prep-out-of-order"]["to"] == "故障"
+    assert by_id["prep-under-pressure"]["to"] == "圧"
+    assert by_id["prep-under-control"]["to"] == "制御"
+    assert by_id["prep-liable-to"]["to"] == "負"
+    assert by_id["prep-resistant-to"]["to"] == "耐"
+    assert by_id["prep-sensitive-to"]["to"] == "敏"
+    assert by_id["prep-inferior-to"]["to"] == "劣"
+    assert by_id["prep-superior-to"]["to"] == "優"
+    assert by_id["adv-no-longer"]["to"] == "最早"
+    assert by_id["adv-as-yet"]["to"] == "未"
+    assert by_id["adv-on-one-hand"]["to"] == "一方"
+    assert by_id["adv-in-short-run"]["to"] == "短期"
+    assert by_id["adv-to-large-extent"]["to"] == "大程"
+    assert by_id["adv-shortly-after"]["to"] == "直後"
+    assert by_id["adv-shortly-before"]["to"] == "直前"
+    assert by_id["adv-day-by-day"]["to"] == "日々"
+    assert by_id["adv-year-by-year"]["to"] == "年々"
+    assert by_id["adv-face-to-face"]["to"] == "対面"
+    assert "exclusive of" in by_id["prep-except"]["from"]
+    assert "every now and then" in by_id["adv-from-time-to-time"]["from"]
+    assert by_id["prep-north-of"]["breakdown"] == "前"
+    assert by_id["adv-no-longer"]["breakdown"] == "副"
     assert "with regard to" in by_id["prep-in-regard-to"]["from"]
     assert "once again" in by_id["adv-anew"]["from"]
     assert "right now" in by_id["adv-at-present"]["from"]
