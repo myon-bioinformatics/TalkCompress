@@ -131,10 +131,56 @@ def test_morpho_hex_nums():
     assert "255" in plain
 
 
-def test_morpho_gender_light_extra():
+def test_morpho_pronoun_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert "they" in m.compress("he or she will go")
-    assert "them" in m.compress("彼を呼ぶ")
+    # Stop collapsing he/she and 彼/彼女 into they
+    assert "彼" in m.compress("he or she will go")
+    assert "她" in m.compress("he or she will go")
+    assert "they" not in m.compress("he or she will go").lower()
+    assert m.compress("彼を呼ぶ") == "彼呼ぶ"
+    assert "她" in m.compress("彼女は来る")
+    assert "她" in m.compress("she will go")
+    assert "君" in m.compress("I see you")
+    assert "you know" in m.compress("you know me")  # discourse filler untouched
+    assert "y'all" in m.compress("you all ready")
+    assert "y'all" in m.compress("you guys win")
+    assert "they" in m.compress("they saw them")
+    assert "them" in m.compress("they saw them")
+    assert m.compress("私は行く") == "I行く"
+    assert "it" in m.compress("それは本")
+
+
+def test_morpho_pronoun_bits():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.pronoun_inventory_bits() == 2
+    assert len(m.PRONOUN_CANONICAL) == 4
+    assert m.pronoun_inventory_bits(extended=True) == 3
+    # they / them / y'all same canonical + same flat cost
+    assert m.canonicalize_pronoun("they") == "they"
+    assert m.canonicalize_pronoun("them") == "they"
+    assert m.canonicalize_pronoun("y'all") == "they"
+    w = m.pronoun_inventory_bits()
+    for form in ("they", "them", "y'all"):
+        c = m.pronoun_bit_cost(form)
+        assert c["bits_per_pronoun"] == w == 2
+        assert c["count"] == 1
+        assert c["total_bits"] == 2
+    # 她: core path aliases to 彼 (2 bits); utf8 secondary = 24
+    assert m.canonicalize_pronoun("她") == "彼"
+    assert m.utf8_bits("她") == 24
+    her = m.pronoun_bit_cost("她")
+    assert her["total_bits"] == 2
+    assert her["canonicals"] == ["彼"]
+    # it outside core; in extended
+    assert m.canonicalize_pronoun("it") is None
+    assert m.canonicalize_pronoun("it", extended=True) == "it"
+    assert m.pronoun_bit_cost("it")["count"] == 0
+    assert m.pronoun_bit_cost("it", extended=True)["total_bits"] == 3
+    # density exposes pronoun bit fields
+    d = m.density("he saw her", m.compress("he saw her"))
+    assert d["pronoun_bits_each"] == 2
+    assert d["pronoun_inventory_n"] == 4
+    assert d["pronoun_count"] >= 1
 
 
 # --- lex_policy expansions smoke ---

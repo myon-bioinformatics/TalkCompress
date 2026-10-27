@@ -2,8 +2,9 @@
 """MorphoZip (E): intra-sentence multilingual / grammar-minimal compression (layer 4).
 
 Prefer short low-ambiguity tokens that shrink prediction candidates
-(e.g. ``I`` over 私は/僕は/俺は). Keep useful counters (匹/個). Avoid heavy
-gendered morphology and Chinese-only bias.
+(e.g. ``I`` over 私は/僕は/俺は). Keep useful counters (匹/個). Compact
+pronoun inventory (2-bit core: I / 君 / 彼 / they|them|y'all). Avoid
+Chinese-only bias.
 
 Shared lexeme policy (``shared.lex_policy``) usage:
 - UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
@@ -22,6 +23,7 @@ digitization are **C (ShorthandEdge)** by default. Optional ``strip=True`` /
 from __future__ import annotations
 
 import argparse
+import math
 import re
 import sys
 from pathlib import Path
@@ -37,19 +39,164 @@ from shared.lex_policy import (  # noqa: E402
     strip_fillers,
 )
 
+# --- Compact pronoun inventory (E grammar-min) --------------------------------
+# 2-bit core (N=4 → ceil(log2(4))=2): I | 君 | 彼 | they
+# Slot "they" = free surface among they / them / y'all (same bit cost).
+# 她 is a gendered *surface* of the 彼 slot (bits still 彼).
+# ``it`` is optional extended (N=5 → 3 bits) via pronoun_inventory_bits(extended=True).
+PRONOUN_CANONICAL: tuple[str, ...] = ("I", "君", "彼", "they")
+PRONOUN_EXTENDED: tuple[str, ...] = ("I", "君", "彼", "they", "it")
+
+# Surface / alias → canonical slot (core). they/them/y'all share "they".
+PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "i": "I",
+    "me": "I",
+    "my": "I",
+    "mine": "I",
+    "君": "君",
+    "君の": "君",
+    "彼": "彼",
+    "彼の": "彼",
+    "她": "彼",  # surface gender variant; bit slot = 彼
+    "她の": "彼",
+    "they": "they",
+    "them": "they",
+    "their": "they",
+    "theirs": "they",
+    "y'all": "they",
+    "it": "it",
+    "its": "it",
+}
+
+# Match longest pronoun surfaces first (post-compress / bit scan).
+_PRONOUN_SURFACE_RE = re.compile(
+    r"y'all|君の|彼の|她の|\btheirs\b|\btheir\b|\bthem\b|\bthey\b|\bmine\b|君|彼|她|\bI\b|\bme\b|\bmy\b|\bits\b|\bit\b",
+    re.I,
+)
+
+
+def utf8_bits(s: str) -> int:
+    """Secondary metric: UTF-8 payload bits (not the inventory budget gate)."""
+    return len(s.encode("utf-8")) * 8
+
+
+def pronoun_inventory_bits(*, extended: bool = False) -> int:
+    """Flat bits per pronoun occurrence: ceil(log2(N)), N = inventory size.
+
+    Core (extended=False): N=4 → 2 bits. Extended (+it): N=5 → 3 bits.
+    """
+    inv = PRONOUN_EXTENDED if extended else PRONOUN_CANONICAL
+    n = len(inv)
+    if n <= 1:
+        return 0
+    return math.ceil(math.log2(n))
+
+
+def canonicalize_pronoun(form: str, *, extended: bool = False) -> str | None:
+    """Map a surface form to a canonical inventory slot, or None if outside inventory."""
+    if not form:
+        return None
+    key = form.lower() if form.isascii() else form
+    # normalize curly apostrophe in y'all
+    key = key.replace("\u2019", "'").replace("'", "'")
+    if key == "i":
+        canon = "I"
+    else:
+        canon = PRONOUN_ALIAS_TO_CANONICAL.get(key) or PRONOUN_ALIAS_TO_CANONICAL.get(form)
+    if canon is None:
+        return None
+    inv = PRONOUN_EXTENDED if extended else PRONOUN_CANONICAL
+    if canon not in inv:
+        # e.g. it when core-only → outside budget inventory
+        return None
+    return canon
+
+
+def pronoun_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    """Sum flat inventory bits for each pronoun occurrence in ``text``.
+
+    Primary budget metric (not UTF-8 length). they / them / y'all each cost the
+    same ``pronoun_inventory_bits()`` width.
+    """
+    width = pronoun_inventory_bits(extended=extended)
+    inv = PRONOUN_EXTENDED if extended else PRONOUN_CANONICAL
+    found: list[str] = []
+    for m in _PRONOUN_SURFACE_RE.finditer(text):
+        canon = canonicalize_pronoun(m.group(0), extended=extended)
+        if canon is not None:
+            found.append(canon)
+    return {
+        "inventory": list(inv),
+        "inventory_n": len(inv),
+        "bits_per_pronoun": width,
+        "count": len(found),
+        "total_bits": len(found) * width,
+        "canonicals": found,
+        "utf8_bits_text": utf8_bits(text),
+    }
+
+
 # (pattern, replacement) — applied in order; more specific first.
 _SUBS: list[tuple[re.Pattern[str], str]] = [
-    # JA first-person → EN (grammar-min). Contractions (I'll) belong to C.
+    # --- pronouns (multi-word / longer first). Contractions (I'll) belong to C.
+    # 2pl → y'all (same bit slot as they/them)
+    (re.compile(r"\by'all\b", re.I), "y'all"),
+    (re.compile(r"\byou all\b", re.I), "y'all"),
+    (re.compile(r"\byou guys\b", re.I), "y'all"),
+    (re.compile(r"\byou folks\b", re.I), "y'all"),
+    (re.compile(r"\byou lot\b", re.I), "y'all"),
+    (re.compile(r"皆さん|みなさん|みんな|お前ら|あなたたち|君たち"), "y'all"),
+    (re.compile(r"你们"), "y'all"),
+    # Gender-pair phrases: keep both surfaces; do NOT collapse to they
+    (re.compile(r"\bhe or she\b", re.I), "彼/她"),
+    (re.compile(r"\bshe or he\b", re.I), "她/彼"),
+    (re.compile(r"\bhim or her\b", re.I), "彼/她"),
+    (re.compile(r"\bher or him\b", re.I), "她/彼"),
+    (re.compile(r"\bhis or her\b", re.I), "彼の/她の"),
+    (re.compile(r"\bher or his\b", re.I), "她の/彼の"),
+    # 3pl before bare 彼/他 (彼ら / 他们)
+    (re.compile(r"彼らを|かれらを"), "them"),
+    (re.compile(r"彼らの|かれらの"), "their"),
+    (re.compile(r"彼ら|かれら|あの人たち"), "they"),
+    (re.compile(r"他们|她们|她們"), "they"),
+    # 1pl before 我
+    (re.compile(r"私たちを|わたしたちを|我々を|僕たちを"), "us"),
+    (re.compile(r"私たちの|わたしたちの|我々の|僕たちの"), "our"),
+    (re.compile(r"私たちは|私たちが|わたしたちは|我々は|我々が|僕たちは|私たち|わたしたち|我々|僕たち|おれたち"), "we"),
+    (re.compile(r"我们"), "we"),
+    # 1sg JA / ZH
     (re.compile(r"私は|僕は|俺は|拙者は|わたしは|あたしは"), "I"),
     (re.compile(r"私の|僕の|俺の|わたしの"), "my"),
     (re.compile(r"私を|僕を|俺を|わたしを"), "me"),
+    (re.compile(r"我"), "I"),
+    # 3sg F before 彼 (彼女 contains 彼); surface 她, bit slot 彼
+    (re.compile(r"彼女の"), "她の"),
+    (re.compile(r"彼女は|彼女が|彼女を|彼女"), "她"),
+    (re.compile(r"\bshe\b", re.I), "她"),
+    (re.compile(r"\bhers\b", re.I), "她の"),
+    (re.compile(r"\bher\b", re.I), "她"),
+    # 3sg M
+    (re.compile(r"彼の"), "彼の"),
+    (re.compile(r"彼は|彼が|彼を"), "彼"),
+    (re.compile(r"\bhe\b", re.I), "彼"),
+    (re.compile(r"\bhim\b", re.I), "彼"),
+    (re.compile(r"\bhis\b", re.I), "彼の"),
+    (re.compile(r"他"), "彼"),
+    # 2sg → 君 (after 2pl). Skip discourse fillers "you know/see" (C-owned).
+    (re.compile(r"あなたの|お前の|君の"), "君の"),
+    (re.compile(r"あなたは|あなたが|あなたを|お前は|お前が|お前を|君は|君が|君を|あなた|お前"), "君"),
+    (re.compile(r"你"), "君"),
+    (re.compile(r"\byours\b", re.I), "君の"),
+    (re.compile(r"\byour\b", re.I), "君の"),
+    (re.compile(r"\byourself\b", re.I), "君"),
+    (re.compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "君"),
+    # 3sg inanimate (extended inventory slot when counting bits w/ extended=True)
+    (re.compile(r"それは|それが|それを|それの|それ"), "it"),
+    (re.compile(r"它"), "it"),
+    # they/them/their/we/us/our/I/me/my/it — already short; leave as-is
     # EN multi-word → compact symbols (not I'll-family contractions)
     (re.compile(r"\bwithout\b", re.I), "w/o"),
     (re.compile(r"\bwith\b", re.I), "w/"),
-    # Gender-light EN (before and/or collapse)
-    (re.compile(r"\bhe or she\b", re.I), "they"),
-    (re.compile(r"\bhim or her\b", re.I), "them"),
-    (re.compile(r"\bhis or her\b", re.I), "their"),
     (re.compile(r"\band\b", re.I), "&"),
     (re.compile(r"\bor\b", re.I), "/"),
     (re.compile(r"\bbecause\b", re.I), "bc"),
@@ -81,10 +228,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"または|若しくは|もしくは"), "/"),
     (re.compile(r"について"), "re:"),
     (re.compile(r"という"), "="),
-    # Gender-light collapses
-    (re.compile(r"彼は|彼女は"), "they"),
-    (re.compile(r"彼の|彼女の"), "their"),
-    (re.compile(r"彼を|彼女を"), "them"),
 ]
 
 # EN quantity phrases → JA counters (unambiguous layer-4 experiments).
@@ -340,7 +483,7 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
 def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     """Best-effort inverse of compress for counters / a subset of short forms.
 
-    Lossy: gender collapses, optional filler drops, unique-readings, and many _SUBS have no
+    Lossy: pronoun remaps, optional filler drops, unique-readings, and many _SUBS have no
     unique inverse. Only unambiguous counter and short-token mappings are reversed.
     """
     from shared.lex_policy import UNIQUE_COMPACT
@@ -426,14 +569,20 @@ def pack_tokens(text: str) -> str:
     return "".join(out)
 
 
-def density(before: str, after: str) -> dict[str, float | int]:
+def density(before: str, after: str, *, extended_pronouns: bool = False) -> dict[str, float | int]:
     b, a = len(before), len(after)
     ratio = (a / b) if b else 0.0
+    pb = pronoun_bit_cost(after, extended=extended_pronouns)
     return {
         "chars_before": b,
         "chars_after": a,
         "saved": b - a,
         "ratio": round(ratio, 4),
+        "pronoun_inventory_n": pb["inventory_n"],
+        "pronoun_bits_each": pb["bits_per_pronoun"],
+        "pronoun_count": pb["count"],
+        "pronoun_bits_total": pb["total_bits"],
+        "utf8_bits_after": pb["utf8_bits_text"],
     }
 
 

@@ -5,13 +5,44 @@
 ## 方針
 
 - 一人称 → `I`（私は/僕は/俺は…を潰す）
+- **代名詞 2-bit 在庫**（下記）
 - 接続 → `&` `/` `w/` `w/o` など
 - whatever 系 → `∀` / `∀loc` / `∀who` … / hereafter → `∴→`
 - 助数詞: JA 既存は維持。EN 数量句も実験的に短くする（`3 animals` → `3匹`, `2 people` → `2人` など）。桁化済みの数字が前提（スペル数字→桁は C）
 - 冠詞: 引用なしの `the`/`a`/`an` は落とす。`"the"` / `'the'` は内側の語だけ残す（引用符は外す）。`--keep-articles` で無効化
-- 性による屈折は避け、彼は/彼女は / he or she → `they`
 - 数字は既定で `0-9`。`--hex-nums` で小文字16進（`255` → `0xff`）。`--hex-bare` で `0x` なし（`0-F` スタイル）
 - 中国語偏重なし。`--stats` で文字密度
+
+
+## 代名詞（2-bit 在庫）
+
+主指標は **在庫インデックス幅**（UTF-8 長ではない）:
+
+`bits_per_pronoun = ceil(log2(N))` where `N = len(PRONOUN_CANONICAL)`（出現ごと・表層 UTF 長はコストに入れない）。
+
+**コア（≤2 bit 目標）:** `PRONOUN_CANONICAL = (I, 君, 彼, they)` → **N=4 → 2 bits/出現**。
+
+| スロット | ビット | 表層の自由変異（同じコスト） |
+| --- | --- | --- |
+| `I` | 2 | I / me / my（JA 私は…→I など） |
+| `君` | 2 | 君 / 君の ← you / your / あなた… |
+| `彼` | 2 | 彼 / 彼の ← he/him/his；**她 / 她の は表層のみ**（ビットは 彼） |
+| `they` | 2 | **they / them / y'all**（および their）— 同一スロット |
+
+2pl 入力（`you all` / `you guys` / 皆さん / 你们…）→ 表層 `y'all`（スロット `they`）。
+3pl は `they`/`them` のまま（潰さない）。`he or she` → `彼/她`（they へ畳まない）。
+
+**她について（両方の数字）:**
+
+| 経路 | コスト |
+| --- | --- |
+| コア在庫（彼女/she → 表層 她、スロット 彼） | **2 bits**/出現 |
+| 二次指標 `utf8_bits("她")` | **24 bits**（3 UTF-8 bytes × 8） |
+| もし 她を第5コアにすると | N≥5 → 全員 **3 bits**（採用しない） |
+
+**拡張（オプトイン）:** `PRONOUN_EXTENDED = (…, it)` → N=5 → 3 bits。`pronoun_inventory_bits(extended=True)` / `pronoun_bit_cost(..., extended=True)`。`it` は表層として出すが、コア予算ゲートには入れない。
+
+ヘルパー: `canonicalize_pronoun` / `pronoun_inventory_bits` / `pronoun_bit_cost` / `utf8_bits`。`--stats` の density に `pronoun_bits_*` を含む。
 
 ## 語彙ポリシー（揺らぎ削減）
 
