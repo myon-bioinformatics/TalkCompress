@@ -27,7 +27,8 @@
       "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/関代/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/relative/…) rewrite to these.",
       "Formal/legal + connective tranche (finite): therein→∈it, thereto→∴to, henceforth→∴→, notwithstanding→雖 (in spite of は prep 側), insofar-as→insofar, provided that→if, instead of→vs (in lieu of / rather than / pursuant to は prep cycle2), namely→viz, hence/thus→∴, albeit→tho, the foregoing→supra, aforementioned→said, vice versa→⇄, T&C, etal, given that→bc. hereof/thereby/hereto/herewith skipped (sense clash with thereof/∴/thereto/therewith). cycle11 filled spaced deferred (as of/latin/loc-time). Prep/adverb thickening is a separate tranche.",
       "family=relative (E 関係代名詞/関代): which→that (EN-internal; tok 2→1; post-nominal/non-restrictive gate; not interrogative which?/pied-pipe prep which); whom→who; Romance/DE long forms (lequel/welcher*/el que…)→que shared pivot. Do NOT emit bare q. deixis that→eso and complementizer/relative-that skip gate unchanged. Skip: whose (no clear short), lo que (what-clause 揺らぎ), relative where/donde/où/wo (ever-wherever/wo 揺らぎ), bare qui rewrite of who.",
-      "gap-fill closed thin: det/quant + conj purpose + reciprocal + hedges + colloquial aux (tip after 1f5fbb4)"
+      "gap-fill closed thin: det/quant + conj purpose + reciprocal + hedges + colloquial aux (tip after 1f5fbb4)",
+      "C eng/dev abbrev tranche (QED/LGTM/DRY/…): established engineer/programmer acronyms as family=abbrev acronym; iff already →⇔ via symbol-iff (math preferred)."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -22756,6 +22757,1239 @@
             "before": 56,
             "after": 48,
             "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-qed",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "quod erat demonstrandum",
+        "which was to be shown",
+        "which was to be demonstrated",
+        "Q.E.D."
+      ],
+      "to": "QED",
+      "rationale": "QED-style proof close → QED",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "quod erat demonstrandum",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 184,
+          "after": 24,
+          "delta": -160,
+          "ratio": 0.1304,
+          "sample_from": "quod erat demonstrandum",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 184,
+            "after": 24,
+            "delta": -160
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-lgtm",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "looks good to me"
+      ],
+      "to": "LGTM",
+      "rationale": "code-review slang → LGTM",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "looks good to me",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 32,
+          "delta": -96,
+          "ratio": 0.25,
+          "sample_from": "looks good to me",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 32,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-sgtm",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "sounds good to me"
+      ],
+      "to": "SGTM",
+      "rationale": "collab slang → SGTM",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "sounds good to me",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 32,
+          "delta": -104,
+          "ratio": 0.2353,
+          "sample_from": "sounds good to me",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 32,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ptal",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "please take a look"
+      ],
+      "to": "PTAL",
+      "rationale": "code-review slang → PTAL",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "please take a look",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 32,
+          "delta": -112,
+          "ratio": 0.2222,
+          "sample_from": "please take a look",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 32,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wdyt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "what do you think"
+      ],
+      "to": "WDYT",
+      "rationale": "collab slang → WDYT",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "what do you think",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 32,
+          "delta": -104,
+          "ratio": 0.2353,
+          "sample_from": "what do you think",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 32,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wfm",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "works for me"
+      ],
+      "to": "WFM",
+      "rationale": "collab slang → WFM",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "works for me",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "works for me",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-iirc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "if I recall correctly",
+        "if i recall correctly"
+      ],
+      "to": "IIRC",
+      "rationale": "recall hedge → IIRC",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 1,
+          "delta": -6,
+          "ratio": 0.1429,
+          "sample_from": "if I recall correctly",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 168,
+          "after": 32,
+          "delta": -136,
+          "ratio": 0.1905,
+          "sample_from": "if I recall correctly",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 168,
+            "after": 32,
+            "delta": -136
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-tbd",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "to be determined"
+      ],
+      "to": "TBD",
+      "rationale": "planning → TBD",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "to be determined",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "to be determined",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-tba",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "to be announced"
+      ],
+      "to": "TBA",
+      "rationale": "planning → TBA",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "to be announced",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "to be announced",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-eta",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "estimated time of arrival"
+      ],
+      "to": "ETA",
+      "rationale": "full phrase only (not et al.) → ETA",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 1,
+          "delta": -6,
+          "ratio": 0.1429,
+          "sample_from": "estimated time of arrival",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 200,
+          "after": 24,
+          "delta": -176,
+          "ratio": 0.12,
+          "sample_from": "estimated time of arrival",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 200,
+            "after": 24,
+            "delta": -176
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-faq",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "frequently asked questions"
+      ],
+      "to": "FAQ",
+      "rationale": "docs → FAQ",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 8,
+          "after": 1,
+          "delta": -7,
+          "ratio": 0.125,
+          "sample_from": "frequently asked questions",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 208,
+          "after": 24,
+          "delta": -184,
+          "ratio": 0.1154,
+          "sample_from": "frequently asked questions",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 208,
+            "after": 24,
+            "delta": -184
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-rtfm",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "read the fine manual",
+        "read the fucking manual"
+      ],
+      "to": "RTFM",
+      "rationale": "eng slang → RTFM",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "read the fine manual",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 160,
+          "after": 32,
+          "delta": -128,
+          "ratio": 0.2,
+          "sample_from": "read the fine manual",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 160,
+            "after": 32,
+            "delta": -128
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-dry",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "do not repeat yourself",
+        "don't repeat yourself"
+      ],
+      "to": "DRY",
+      "rationale": "eng principle → DRY",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "do not repeat yourself",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 176,
+          "after": 24,
+          "delta": -152,
+          "ratio": 0.1364,
+          "sample_from": "do not repeat yourself",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 176,
+            "after": 24,
+            "delta": -152
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-yagni",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "you aren't gonna need it",
+        "you are not going to need it",
+        "u r not going to need it",
+        "you aren't going to need it"
+      ],
+      "to": "YAGNI",
+      "rationale": "eng principle → YAGNI; include post-contraction 'u r not going to need it' (you are→u r runs before map)",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 2,
+          "delta": -5,
+          "ratio": 0.2857,
+          "sample_from": "you aren't gonna need it",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 192,
+          "after": 40,
+          "delta": -152,
+          "ratio": 0.2083,
+          "sample_from": "you aren't gonna need it",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 192,
+            "after": 40,
+            "delta": -152
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-kiss",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "keep it simple, stupid",
+        "keep it simple stupid",
+        "keep it simple"
+      ],
+      "to": "KISS",
+      "rationale": "eng principle → KISS (longest forms first in map)",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "keep it simple, stupid",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 176,
+          "after": 32,
+          "delta": -144,
+          "ratio": 0.1818,
+          "sample_from": "keep it simple, stupid",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 176,
+            "after": 32,
+            "delta": -144
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-poc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "proof of concept"
+      ],
+      "to": "PoC",
+      "rationale": "product → PoC (math>emoji; not per-our-conversation)",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "proof of concept",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "proof of concept",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-mvp",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "minimum viable product"
+      ],
+      "to": "MVP",
+      "rationale": "product → MVP",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "minimum viable product",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 176,
+          "after": 24,
+          "delta": -152,
+          "ratio": 0.1364,
+          "sample_from": "minimum viable product",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 176,
+            "after": 24,
+            "delta": -152
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-eof",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "end of file"
+      ],
+      "to": "EOF",
+      "rationale": "runtime/IO → EOF",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "end of file",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "end of file",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-eol",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "end of line"
+      ],
+      "to": "EOL",
+      "rationale": "runtime/IO → EOL",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "end of line",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "end of line",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-nan",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "not a number"
+      ],
+      "to": "NaN",
+      "rationale": "runtime → NaN",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "not a number",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "not a number",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-na",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "not applicable"
+      ],
+      "to": "N/A",
+      "rationale": "runtime/forms → N/A",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "not applicable",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "not applicable",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-oom",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "out of memory"
+      ],
+      "to": "OOM",
+      "rationale": "runtime error → OOM",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "out of memory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "out of memory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-npe",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "null pointer exception"
+      ],
+      "to": "NPE",
+      "rationale": "runtime error → NPE",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "null pointer exception",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 176,
+          "after": 24,
+          "delta": -152,
+          "ratio": 0.1364,
+          "sample_from": "null pointer exception",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 176,
+            "after": 24,
+            "delta": -152
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-segfault",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "segmentation fault"
+      ],
+      "to": "segfault",
+      "rationale": "runtime error → segfault",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "segmentation fault",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 64,
+          "delta": -80,
+          "ratio": 0.4444,
+          "sample_from": "segmentation fault",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 64,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-pr",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "pull request"
+      ],
+      "to": "PR",
+      "rationale": "git → PR",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "pull request",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 16,
+          "delta": -80,
+          "ratio": 0.1667,
+          "sample_from": "pull request",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 16,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-mr",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "merge request"
+      ],
+      "to": "MR",
+      "rationale": "git → MR",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "merge request",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 16,
+          "delta": -88,
+          "ratio": 0.1538,
+          "sample_from": "merge request",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 16,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ci",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "continuous integration"
+      ],
+      "to": "CI",
+      "rationale": "CI → CI",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "continuous integration",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 176,
+          "after": 16,
+          "delta": -160,
+          "ratio": 0.0909,
+          "sample_from": "continuous integration",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 176,
+            "after": 16,
+            "delta": -160
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-cd",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "continuous delivery",
+        "continuous deployment"
+      ],
+      "to": "CD",
+      "rationale": "CD → CD",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "continuous delivery",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 16,
+          "delta": -136,
+          "ratio": 0.1053,
+          "sample_from": "continuous delivery",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 16,
+            "delta": -136
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-cicd",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "continuous integration and continuous delivery",
+        "continuous integration and continuous deployment",
+        "continuous integration / continuous delivery",
+        "continuous integration/continuous delivery"
+      ],
+      "to": "CI/CD",
+      "rationale": "CI+CD phrase → CI/CD",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 12,
+          "after": 2,
+          "delta": -10,
+          "ratio": 0.1667,
+          "sample_from": "continuous integration and continuous delivery",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 368,
+          "after": 40,
+          "delta": -328,
+          "ratio": 0.1087,
+          "sample_from": "continuous integration and continuous delivery",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 368,
+            "after": 40,
+            "delta": -328
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-e2e",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "end to end",
+        "end-to-end"
+      ],
+      "to": "E2E",
+      "rationale": "testing → E2E",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "end to end",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "end to end",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-tdd",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "test driven development",
+        "test-driven development"
+      ],
+      "to": "TDD",
+      "rationale": "testing → TDD",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "test driven development",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 184,
+          "after": 24,
+          "delta": -160,
+          "ratio": 0.1304,
+          "sample_from": "test driven development",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 184,
+            "after": 24,
+            "delta": -160
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-semver",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "acronym",
+      "from": [
+        "semantic versioning"
+      ],
+      "to": "semver",
+      "rationale": "versioning → semver",
+      "breakdown": "頭",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "semantic versioning",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 48,
+          "delta": -104,
+          "ratio": 0.3158,
+          "sample_from": "semantic versioning",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 48,
+            "delta": -104
           },
           "inventory": null
         }

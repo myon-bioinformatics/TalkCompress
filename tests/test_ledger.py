@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 600
+    assert 14 <= len(all_lex) <= 650
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -1159,4 +1159,94 @@ def test_lex_breakdown_flat_pos_or_tag():
     assert compact_breakdown("collocation") == "連"
     assert compact_breakdown("acronym") == "頭"
     assert compact_breakdown("pronoun") == "代"
+
+
+
+def test_eng_dev_qed_abbrev_tranche():
+    """Engineer/programmer + QED-style acronyms: dual-metric WIN, C family=abbrev."""
+    from shared.ledger import apply_ledger_lex, list_conventions, validate_ledger_metrics
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+
+    expected = {
+        "c-qed": "QED",
+        "c-lgtm": "LGTM",
+        "c-sgtm": "SGTM",
+        "c-ptal": "PTAL",
+        "c-wdyt": "WDYT",
+        "c-wfm": "WFM",
+        "c-iirc": "IIRC",
+        "c-tbd": "TBD",
+        "c-tba": "TBA",
+        "c-eta": "ETA",
+        "c-faq": "FAQ",
+        "c-rtfm": "RTFM",
+        "c-dry": "DRY",
+        "c-yagni": "YAGNI",
+        "c-kiss": "KISS",
+        "c-poc": "PoC",
+        "c-mvp": "MVP",
+        "c-eof": "EOF",
+        "c-eol": "EOL",
+        "c-nan": "NaN",
+        "c-na": "N/A",
+        "c-oom": "OOM",
+        "c-npe": "NPE",
+        "c-segfault": "segfault",
+        "c-pr": "PR",
+        "c-mr": "MR",
+        "c-ci": "CI",
+        "c-cd": "CD",
+        "c-cicd": "CI/CD",
+        "c-e2e": "E2E",
+        "c-tdd": "TDD",
+        "c-semver": "semver",
+    }
+    for cid, dst in expected.items():
+        c = by_id[cid]
+        assert c["to"] == dst, cid
+        assert c["apply_layer"] == "C"
+        assert c["family"] == "abbrev"
+        assert c["abbrev_kind"] == "acronym"
+        assert c["breakdown"] == "頭"
+        m = c["metrics"]
+        assert m["token"]["delta"] < 0, cid
+        assert m["bit"]["utf8"]["delta"] < 0, cid
+        assert m["token"]["sample_from"] == c["from"][0]
+
+    # apply path (ledger)
+    assert apply_ledger_lex("looks good to me") == "LGTM"
+    assert apply_ledger_lex("proof of concept") == "PoC"
+    assert apply_ledger_lex("quod erat demonstrandum") == "QED"
+    assert apply_ledger_lex("pull request") == "PR"
+    assert apply_ledger_lex("end of file") == "EOF"
+    assert apply_ledger_lex("estimated time of arrival") == "ETA"
+    # et al. path untouched by ETA (full phrase only)
+    assert "etal" in apply_ledger_lex("smith and others")
+    # iff still math-preferred via symbol-iff
+    assert "⇔" in apply_ledger_lex("if and only if")
+    assert apply_ledger_lex("iff") == "⇔"
+
+    # DEFAULT_MAP / Session compress
+    import importlib.util
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "shorthand_edge", root / "ShorthandEdge" / "shorthand_edge.py"
+    )
+    s = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(s)
+    assert "LGTM" in s.compress("looks good to me")
+    assert "PoC" in s.compress("proof of concept")
+    assert "QED" in s.compress("quod erat demonstrandum")
+    assert "DRY" in s.compress("do not repeat yourself")
+    assert "YAGNI" in s.compress("you aren't gonna need it")
+    assert "YAGNI" in s.compress("you are not going to need it")  # via u r alias after contraction
+    assert "CI/CD" in s.compress("continuous integration and continuous delivery")
+    assert "perconvo" in s.compress("per our conversation")
+    assert "PoC" not in s.compress("per our conversation")
+
 

@@ -60,6 +60,7 @@ uv run python ShorthandEdge/shorthand_edge.py compress --state /tmp/sh.json --te
 | --- | --- | --- |
 | `contraction` | `c-ill` I will→I'll、`c-dont` do not→don't | `apply_en_contractions`（台帳は登録のみ / `ledger_apply=false`） |
 | `acronym` | `c-asap` / `c-brb` / `c-tldr` … | 台帳 lex + packs |
+| `acronym` (eng/dev) | `c-qed`/`c-lgtm`/`c-dry`/`c-pr`/`c-eof`… | 台帳 + DEFAULT_MAP + `packs/dev` |
 | `latin` | `conj-for-example`→e.g.、`conj-etc`、`conj-vs`、`conj-that-is`→i.e. | 台帳 lex |
 
 `EN_CONTRACTION_SPEC`（`shared/lex_policy.py`）が縮約の単一ソース。台帳へは:
@@ -69,6 +70,8 @@ uv run python -m shared.ledger --sync-contractions
 ```
 
 極性メモ: C が `do not`→`don't` / `cannot`→`can't` したあと、E は `don't`→`!` / `can't`→`!can` に畳み得る（パイプライン `C,E`）。
+
+**eng/dev + QED-style tranche:** 確立済みエンジニア／プログラマ略（`looks good to me`→`LGTM`、`proof of concept`→`PoC`、`pull request`→`PR`、`end of file`→`EOF`、`quod erat demonstrandum`→`QED` 等）。 `if and only if` / `iff` は既に `symbol-iff`→`⇔`（数学優先；iff 単体も ⇔ に畳む）。 `per our conversation` は `perconvo`（旧 POC は PoC と衝突のため退避）。
 
 
 
