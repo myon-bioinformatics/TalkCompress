@@ -584,6 +584,26 @@ def test_morpho_prep_like_finite_set():
     assert "per" in m.compress("per day", **kw).lower()
     assert "onto" in m.compress("onto the table", **kw).lower()
 
+    # cycle2 multiword + spatial/time prep-like
+    assert "pro" in m.compress("in favor of the plan", **kw).lower()
+    assert "代表" in m.compress("on behalf of the team", **kw)
+    assert "手段" in m.compress("by means of force", **kw)
+    assert "観点" in m.compress("in terms of cost", **kw)
+    assert "準" in m.compress("in accordance with law", **kw)
+    assert "≦" in m.compress("up to 5", **kw)
+    assert "至" in m.compress("down to zero", **kw)
+    assert "鑑" in m.compress("in light of evidence", **kw)
+    assert "為" in m.compress("for the sake of peace", **kw)
+    assert "場合" in m.compress("in case of fire", **kw)
+    assert "不問" in m.compress("regardless of age", **kw)
+    assert "共" in m.compress("along with friends", **kw)
+    assert "vs" in m.compress("rather than wait", **kw).lower()
+    assert "過" in m.compress("walk past the store", **kw)
+    assert "○" in m.compress("round the corner", **kw)
+    assert "次" in m.compress("following the meeting", **kw)
+    assert "先" in m.compress("preceding chapter", **kw)
+    assert "未決" in m.compress("pending approval", **kw)
+
 
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
