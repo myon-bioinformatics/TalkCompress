@@ -18,6 +18,12 @@ views are recorded — **token** via B TesseraTalk ``estimate_tokens``, and **bi
 via E MorphoZip ``utf8_bits`` (default) or ``closed_inventory_bits`` when an
 inventory applies. Together they narrow candidate short forms. Policy rows may
 omit ``metrics`` / set null. C calls B/E helpers; ownership stays with B/E.
+
+Abbrev family (``family=abbrev``): C-only bucket for contractions (``c-ill`` /
+``I will``→``I'll`` via ``apply_en_contractions``), chat acronyms (``c-asap``…),
+and latin shorts (``e.g.`` / ``etc.`` / ``vs`` / ``i.e.``). Contraction rows set
+``ledger_apply=false`` (registration only). Polarity: after C ``don't``/``can't``,
+E may fold to ``!`` / ``!can`` on a ``C,E`` pipeline.
 """
 
 from __future__ import annotations
@@ -264,6 +270,104 @@ def ensure_lex_metrics(convention: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
+
+def sync_abbrev_contraction_lex(
+    path: str | Path | None = None,
+    *,
+    write: bool = True,
+    skip_zero_utf8: bool = True,
+) -> dict[str, Any]:
+    """Upsert C abbrev contraction rows from ``EN_CONTRACTION_SPEC``.
+
+    Derives dual metrics; skips pairs whose utf8 bit delta is ≥ 0 when
+    ``skip_zero_utf8`` (default). Sets ``family=abbrev`` / ``abbrev_kind=contraction``
+    / ``ledger_apply=false``. Also tags known latin + acronym abbrev rows with
+    ``family=abbrev`` when missing. Bumps meta notes for the abbrev bucket.
+    """
+    from shared.lex_policy import en_contraction_ledger_rows
+
+    p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
+    data = load_ledger(p)
+    by_id = {
+        str(c.get("id")): i
+        for i, c in enumerate(data["conventions"])
+        if isinstance(c, dict) and c.get("id")
+    }
+    skipped: list[str] = []
+    upserted: list[str] = []
+    for row in en_contraction_ledger_rows():
+        filled = ensure_lex_metrics(row)
+        utf8 = (filled.get("metrics") or {}).get("bit", {}).get("utf8") or {}
+        delta = utf8.get("delta")
+        if skip_zero_utf8 and isinstance(delta, int) and delta >= 0:
+            skipped.append(str(filled["id"]))
+            continue
+        cid = str(filled["id"])
+        if cid in by_id:
+            # Preserve any extra keys; overwrite core + metrics from live spec.
+            idx = by_id[cid]
+            old = data["conventions"][idx]
+            merged = dict(old)
+            for k, v in filled.items():
+                merged[k] = v
+            data["conventions"][idx] = merged
+        else:
+            data["conventions"].append(filled)
+            by_id[cid] = len(data["conventions"]) - 1
+        upserted.append(cid)
+
+    # Tag existing abbrev-bucket rows (acronyms + latin shorts)
+    latin_ids = {
+        "conj-for-example": "latin",
+        "conj-that-is": "latin",
+        "conj-etc": "latin",
+        "conj-vs": "latin",
+    }
+    for c in data["conventions"]:
+        if not isinstance(c, dict):
+            continue
+        cid = str(c.get("id", ""))
+        if cid in latin_ids:
+            c.setdefault("family", "abbrev")
+            c.setdefault("abbrev_kind", latin_ids[cid])
+        elif cid.startswith("c-") and c.get("kind") == "lex":
+            c.setdefault("family", "abbrev")
+            if c.get("abbrev_kind") is None:
+                # contractions already set; remaining c-* are chat acronyms
+                if c.get("rewrite_via") == "apply_en_contractions":
+                    c["abbrev_kind"] = "contraction"
+                else:
+                    c["abbrev_kind"] = "acronym"
+
+    meta = data.setdefault("meta", {})
+    notes = meta.setdefault("notes", [])
+    abbrev_note = (
+        "family=abbrev (C-only): contractions (c-ill / I'll-family via "
+        "apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), "
+        "latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may "
+        "fold don't→! / can't→!can on C,E pipeline."
+    )
+    if isinstance(notes, list) and abbrev_note not in notes:
+        notes.append(abbrev_note)
+    meta["abbrev_sync"] = {
+        "upserted": upserted,
+        "skipped_nonshrink_utf8": skipped,
+        "source": "shared.lex_policy.EN_CONTRACTION_SPEC",
+    }
+    ver = data.get("version", 1)
+    try:
+        data["version"] = max(int(ver), 2)
+    except (TypeError, ValueError):
+        data["version"] = 2
+    if write:
+        p.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        load_ledger.cache_clear() if hasattr(load_ledger, "cache_clear") else None
+    return data
+
+
 def backfill_ledger_metrics(
     path: str | Path | None = None,
     *,
@@ -352,6 +456,8 @@ def lex_replacements(
     """
     pairs: list[tuple[str, str]] = []
     for c in list_conventions(path, kind="lex", apply_layer=apply_layer):
+        if c.get("ledger_apply") is False:
+            continue
         to = str(c.get("to", ""))
         if not to:
             continue
@@ -466,6 +572,8 @@ def apply_ledger_lex(
     # Build (src, dst, convention) sorted by src length desc
     items: list[tuple[str, str, dict[str, Any]]] = []
     for c in list_conventions(path, kind="lex", apply_layer=apply_layer):
+        if c.get("ledger_apply") is False:
+            continue  # registration-only (e.g. EN contractions via apply_en_contractions)
         to = str(c.get("to", ""))
         if not to:
             continue
@@ -545,6 +653,11 @@ def main(argv: list[str] | None = None) -> int:
         help="compute token+bit dual metrics for all lex rows and write ledger",
     )
     p.add_argument(
+        "--sync-contractions",
+        action="store_true",
+        help="upsert C abbrev contractions from EN_CONTRACTION_SPEC + tag family=abbrev",
+    )
+    p.add_argument(
         "--validate-metrics",
         action="store_true",
         help="check lex rows have metrics.token and metrics.bit (exit 1 on fail)",
@@ -555,6 +668,15 @@ def main(argv: list[str] | None = None) -> int:
         help="with --validate-metrics: warn only (exit 0) instead of strict fail",
     )
     args = p.parse_args(argv)
+    if args.sync_contractions:
+        data = sync_abbrev_contraction_lex(args.path, write=True)
+        info = (data.get("meta") or {}).get("abbrev_sync") or {}
+        print(
+            f"synced abbrev contractions upserted={info.get('upserted')} "
+            f"skipped_utf8={info.get('skipped_nonshrink_utf8')} "
+            f"→ {args.path or DEFAULT_LEDGER_PATH}"
+        )
+        return 0
     if args.backfill_metrics:
         data = backfill_ledger_metrics(args.path, write=True)
         n_lex = sum(1 for c in data["conventions"] if isinstance(c, dict) and c.get("kind") == "lex")

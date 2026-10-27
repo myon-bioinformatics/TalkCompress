@@ -50,8 +50,8 @@ def test_ledger_file_exists_and_loads():
     assert any(c["id"] == "particle-kara" for c in e_lex)
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
-    # zero-bit-delta rows pruned; keep dual-metric useful set under 100
-    assert 14 <= len(all_lex) <= 100
+    # zero-bit-delta rows pruned; ~100 base + EN contraction abbrev family (c-ill…)
+    assert 14 <= len(all_lex) <= 140
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -309,3 +309,46 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["e-conj-whereas"].get("extended") is True
     # no lex emits fr
     assert all(c.get("to") != "fr" for c in by_id.values())
+
+
+def test_abbrev_family_contractions_synced():
+    """c-ill-style EN contractions are C family=abbrev; code is rewrite source."""
+    from shared.ledger import apply_ledger_lex, list_conventions, validate_ledger_metrics
+    from shared.lex_policy import EN_CONTRACTION_SPEC, apply_en_contractions, en_contraction_ledger_rows
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+
+    # Every live SPEC row with utf8 shrink is registered
+    for row in en_contraction_ledger_rows():
+        cid = row["id"]
+        assert cid in by_id, cid
+        c = by_id[cid]
+        assert c["apply_layer"] == "C"
+        assert c["family"] == "abbrev"
+        assert c["abbrev_kind"] == "contraction"
+        assert c.get("ledger_apply") is False
+        assert c.get("rewrite_via") == "apply_en_contractions"
+        assert c["to"] == row["to"]
+        m = c["metrics"]
+        assert m["bit"]["utf8"]["delta"] < 0, cid
+
+    # Spec ↔ apply path
+    assert ("ill", "I will", "I'll") in EN_CONTRACTION_SPEC
+    assert apply_en_contractions("I will go") == "I'll go"
+    assert apply_en_contractions("do not go") == "don't go"
+    assert apply_en_contractions("cannot go") == "can't go"
+
+    # Registration-only: ledger apply must NOT emit I'll from I will
+    assert "I'll" not in apply_ledger_lex("I will go")
+    # latin abbrevs still apply via ledger
+    assert "e.g." in apply_ledger_lex("for example we try")
+    assert by_id["conj-etc"]["family"] == "abbrev"
+    assert by_id["conj-for-example"]["abbrev_kind"] == "latin"
+    assert by_id["c-asap"]["family"] == "abbrev"
+    assert by_id["c-asap"]["abbrev_kind"] == "acronym"
+
+    # E rows for polarity remain E; no duplicate I'll ownership
+    assert by_id["aux-neg-can"]["apply_layer"] == "E"
+    assert by_id["aux-neg-can"]["to"] == "!can"
+

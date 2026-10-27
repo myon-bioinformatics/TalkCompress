@@ -19,8 +19,32 @@
       "lex metrics (required): token = B TesseraTalk estimate_tokens; bit = E MorphoZip utf8_bits (default) or closed_inventory_bits when inventory applies. Both views narrow registration candidates.",
       "E MorphoZip closed-POS mappings are registered here as apply_layer=E (metrics + inventory) for the shared ledger; rewrite engine ownership stays on E. C apply_ledger_lex only applies apply_layer=C.",
       "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots.",
-      "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds)."
-    ]
+      "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds).",
+      "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline."
+    ],
+    "abbrev_sync": {
+      "upserted": [
+        "c-ill",
+        "c-id",
+        "c-ive",
+        "c-im",
+        "c-ur",
+        "c-were",
+        "c-theyre",
+        "c-its",
+        "c-thats",
+        "c-theres",
+        "c-therere",
+        "c-dont",
+        "c-doesnt",
+        "c-cant",
+        "c-wont",
+        "c-shouldnt",
+        "c-wouldnt"
+      ],
+      "skipped_nonshrink_utf8": [],
+      "source": "shared.lex_policy.EN_CONTRACTION_SPEC"
+    }
   },
   "conventions": [
     {
@@ -489,7 +513,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "latin"
     },
     {
       "id": "conj-that-is",
@@ -526,7 +552,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "latin"
     },
     {
       "id": "furniture-table",
@@ -2253,7 +2281,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "latin"
     },
     {
       "id": "conj-vs",
@@ -2289,7 +2319,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "latin"
     },
     {
       "id": "pronoun-yourself",
@@ -3119,7 +3151,7 @@
         "i will"
       ],
       "to": "I'll",
-      "rationale": "I'll は C 所有（E は I will のまま）",
+      "rationale": "I will→I'll は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
       "metrics": {
         "token": {
           "before": 2,
@@ -3144,7 +3176,11 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions"
     },
     {
       "id": "c-asap",
@@ -3179,7 +3215,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-fyi",
@@ -3214,7 +3252,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-btw",
@@ -3249,7 +3289,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-imo",
@@ -3284,7 +3326,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-tbh",
@@ -3319,7 +3363,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-idk",
@@ -3355,7 +3401,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-ty",
@@ -3390,7 +3438,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-pls",
@@ -3425,7 +3475,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-nvm",
@@ -3460,7 +3512,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-brb",
@@ -3495,7 +3549,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-afaik",
@@ -3531,7 +3587,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "e-conj-whereas",
@@ -3610,7 +3668,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-fwiw",
@@ -3646,7 +3706,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-ttyl",
@@ -3681,7 +3743,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-tldr",
@@ -3718,7 +3782,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-afk",
@@ -3753,7 +3819,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-lmk",
@@ -3788,7 +3856,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-otoh",
@@ -3823,7 +3893,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-wrt",
@@ -3859,7 +3931,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-ymmv",
@@ -3894,7 +3968,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-icymi",
@@ -3929,7 +4005,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-wip",
@@ -3964,7 +4042,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-tia",
@@ -3999,7 +4079,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-afaict",
@@ -4035,7 +4117,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-jsyk",
@@ -4070,7 +4154,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-rofl",
@@ -4105,7 +4191,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-irl",
@@ -4137,6 +4225,635 @@
             "before": 96,
             "after": 24,
             "delta": -72
+          },
+          "inventory": null
+        }
+      },
+      "family": "abbrev",
+      "abbrev_kind": "acronym"
+    },
+    {
+      "id": "c-id",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "I would",
+        "i would"
+      ],
+      "to": "I'd",
+      "rationale": "I would→I'd は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "I would",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 24,
+          "delta": -32,
+          "ratio": 0.4286,
+          "sample_from": "I would",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 24,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ive",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "I have",
+        "i have"
+      ],
+      "to": "I've",
+      "rationale": "I have→I've は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "I have",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "I have",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-im",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "I am",
+        "i am"
+      ],
+      "to": "I'm",
+      "rationale": "I am→I'm は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "I am",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "I am",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ur",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "you are"
+      ],
+      "to": "u r",
+      "rationale": "you are→u r は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "you are",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 24,
+          "delta": -32,
+          "ratio": 0.4286,
+          "sample_from": "you are",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 24,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-were",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "we are"
+      ],
+      "to": "we're",
+      "rationale": "we are→we're は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "we are",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 40,
+          "delta": -8,
+          "ratio": 0.8333,
+          "sample_from": "we are",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 40,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-theyre",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "they are"
+      ],
+      "to": "they're",
+      "rationale": "they are→they're は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "they are",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 56,
+          "delta": -8,
+          "ratio": 0.875,
+          "sample_from": "they are",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 56,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-its",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "it is"
+      ],
+      "to": "it's",
+      "rationale": "it is→it's は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "it is",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "it is",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-thats",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "that is"
+      ],
+      "to": "that's",
+      "rationale": "that is→that's は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "that is",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 48,
+          "delta": -8,
+          "ratio": 0.8571,
+          "sample_from": "that is",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 48,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-theres",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "there is"
+      ],
+      "to": "there's",
+      "rationale": "there is→there's は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "there is",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 56,
+          "delta": -8,
+          "ratio": 0.875,
+          "sample_from": "there is",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 56,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-therere",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "there are"
+      ],
+      "to": "there're",
+      "rationale": "there are→there're は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "there are",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 64,
+          "delta": -8,
+          "ratio": 0.8889,
+          "sample_from": "there are",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 64,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-dont",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "do not"
+      ],
+      "to": "don't",
+      "rationale": "do not→don't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "do not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 40,
+          "delta": -8,
+          "ratio": 0.8333,
+          "sample_from": "do not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 40,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-doesnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "does not"
+      ],
+      "to": "doesn't",
+      "rationale": "does not→doesn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "does not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 56,
+          "delta": -8,
+          "ratio": 0.875,
+          "sample_from": "does not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 56,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-cant",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "cannot"
+      ],
+      "to": "can't",
+      "rationale": "cannot→can't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "cannot",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 40,
+          "delta": -8,
+          "ratio": 0.8333,
+          "sample_from": "cannot",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 40,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wont",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "will not"
+      ],
+      "to": "won't",
+      "rationale": "will not→won't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "will not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 40,
+          "delta": -24,
+          "ratio": 0.625,
+          "sample_from": "will not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 40,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-shouldnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "should not"
+      ],
+      "to": "shouldn't",
+      "rationale": "should not→shouldn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "should not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 72,
+          "delta": -8,
+          "ratio": 0.9,
+          "sample_from": "should not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 72,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wouldnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "would not"
+      ],
+      "to": "wouldn't",
+      "rationale": "would not→wouldn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "would not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 64,
+          "delta": -8,
+          "ratio": 0.8889,
+          "sample_from": "would not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 64,
+            "delta": -8
           },
           "inventory": null
         }

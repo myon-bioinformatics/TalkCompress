@@ -394,26 +394,68 @@ def apply_spelled_numbers(text: str) -> str:
 
 # Light EN contractions (same-language abbreviation). C-owned.
 # JA subject → I first so ``私は will`` → ``I'll``.
+# Single source: EN_CONTRACTION_SPEC drives both apply path and C ledger registration.
 _FIRST_PERSON_SUBJ = re.compile(r"私は|僕は|俺は|拙者は|わたしは|あたしは")
+
+# (ledger id suffix after "c-", surface source, short form)
+EN_CONTRACTION_SPEC: tuple[tuple[str, str, str], ...] = (
+    ("ill", "I will", "I'll"),
+    ("id", "I would", "I'd"),
+    ("ive", "I have", "I've"),
+    ("im", "I am", "I'm"),
+    ("ur", "you are", "u r"),
+    ("were", "we are", "we're"),
+    ("theyre", "they are", "they're"),
+    ("its", "it is", "it's"),
+    ("thats", "that is", "that's"),
+    ("theres", "there is", "there's"),
+    ("therere", "there are", "there're"),
+    ("dont", "do not", "don't"),
+    ("doesnt", "does not", "doesn't"),
+    ("cant", "cannot", "can't"),
+    ("wont", "will not", "won't"),
+    ("shouldnt", "should not", "shouldn't"),
+    ("wouldnt", "would not", "wouldn't"),
+)
+
 _EN_CONTRACTIONS: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\bI will\b", re.I), "I'll"),
-    (re.compile(r"\bI would\b", re.I), "I'd"),
-    (re.compile(r"\bI have\b", re.I), "I've"),
-    (re.compile(r"\bI am\b", re.I), "I'm"),
-    (re.compile(r"\byou are\b", re.I), "u r"),
-    (re.compile(r"\bwe are\b", re.I), "we're"),
-    (re.compile(r"\bthey are\b", re.I), "they're"),
-    (re.compile(r"\bit is\b", re.I), "it's"),
-    (re.compile(r"\bthat is\b", re.I), "that's"),
-    (re.compile(r"\bthere is\b", re.I), "there's"),
-    (re.compile(r"\bthere are\b", re.I), "there're"),
-    (re.compile(r"\bdo not\b", re.I), "don't"),
-    (re.compile(r"\bdoes not\b", re.I), "doesn't"),
-    (re.compile(r"\bcannot\b", re.I), "can't"),
-    (re.compile(r"\bwill not\b", re.I), "won't"),
-    (re.compile(r"\bshould not\b", re.I), "shouldn't"),
-    (re.compile(r"\bwould not\b", re.I), "wouldn't"),
+    (re.compile(rf"\b{re.escape(src)}\b", re.I), dst)
+    for _sid, src, dst in EN_CONTRACTION_SPEC
 ]
+
+
+def en_contraction_ledger_rows() -> list[dict[str, Any]]:
+    """C ledger row skeletons for EN contractions (family=abbrev).
+
+    Rewrite engine is ``apply_en_contractions`` (``ledger_apply=False``) so the
+    ledger stays a registration record and does not fight latin abbrevs such as
+    ``that is``→``i.e.`` or double-apply. Pipeline note: after C ``do not``→
+    ``don't`` / ``cannot``→``can't``, E may fold ``don't``→``!`` / ``can't``→``!can``.
+    """
+    rows: list[dict[str, Any]] = []
+    for sid, src, dst in EN_CONTRACTION_SPEC:
+        forms = [src]
+        low = src.lower()
+        if low != src:
+            forms.append(low)
+        rows.append(
+            {
+                "id": f"c-{sid}",
+                "kind": "lex",
+                "apply_layer": "C",
+                "family": "abbrev",
+                "abbrev_kind": "contraction",
+                "ledger_apply": False,
+                "rewrite_via": "apply_en_contractions",
+                "from": forms,
+                "to": dst,
+                "rationale": (
+                    f"{src}→{dst} は C 同一言語略（I'll 族）。"
+                    "書換は apply_en_contractions；台帳は登録のみ。"
+                ),
+            }
+        )
+    return rows
 
 
 def apply_en_contractions(text: str) -> str:

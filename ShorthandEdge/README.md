@@ -49,6 +49,25 @@ uv run python ShorthandEdge/shorthand_edge.py compress --lexicon extra.json --te
 uv run python ShorthandEdge/shorthand_edge.py compress --state /tmp/sh.json --text $'hereafter pull request=PR\nopen a pull request'
 ```
 
+
+## Abbrev family（C 一層）
+
+略・縮約・頭字語は **C の `family=abbrev`** にまとめる（E は I'll 族を確立しない）。
+
+| abbrev_kind | 例 | 書換 |
+| --- | --- | --- |
+| `contraction` | `c-ill` I will→I'll、`c-dont` do not→don't | `apply_en_contractions`（台帳は登録のみ / `ledger_apply=false`） |
+| `acronym` | `c-asap` / `c-brb` / `c-tldr` … | 台帳 lex + packs |
+| `latin` | `conj-for-example`→e.g.、`conj-etc`、`conj-vs`、`conj-that-is`→i.e. | 台帳 lex |
+
+`EN_CONTRACTION_SPEC`（`shared/lex_policy.py`）が縮約の単一ソース。台帳へは:
+
+```bash
+uv run python -m shared.ledger --sync-contractions
+```
+
+極性メモ: C が `do not`→`don't` / `cannot`→`can't` したあと、E は `don't`→`!` / `can't`→`!can` に畳み得る（パイプライン `C,E`）。
+
 ## Domain packs
 
 Built-in packs under `packs/` (`dev`, `mcp`). `--pack NAME` (repeatable) merges into the session map.
