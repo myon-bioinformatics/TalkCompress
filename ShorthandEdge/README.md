@@ -69,6 +69,26 @@ uv run python -m shared.ledger --sync-contractions
 極性メモ: C が `do not`→`don't` / `cannot`→`can't` したあと、E は `don't`→`!` / `can't`→`!can` に畳み得る（パイプライン `C,E`）。
 
 
+
+
+## Ever family（C・5W1H 譲歩）
+
+`no matter how/what/…` や `regardless of how/…` など **複数語の譲歩句**を `-ever` に畳む（`family=ever`）。
+
+| wh | 例 from | to |
+| --- | --- | --- |
+| how | no matter how / regardless of how | however |
+| what | no matter what | whatever |
+| which | no matter which | whichever |
+| where | no matter where | wherever |
+| when | no matter when | whenever |
+| who | no matter who | whoever |
+
+- **however ゲート**: 逆接の however（しかし）は対象外。台帳の multiword `from[]` だけ置換。`ambiguity_sensitive`（衝突 / `--prefer-precision` で原文維持）。
+- **whyever** は不自然なので見送り。
+- ML cognate（`egal wie` / `no importa cómo` / `n'importe comment` 等）は `select_cheapest_form` が `-ever` を選び utf8 も縮むときだけ `from` 別名。
+- dual metrics 必須；utf8 必須縮小。`c-asap`（ASAP）は `尽快` より短いので C では ASAP 優先のまま。
+
 ## Emoji family（C 一層）
 
 語→絵文字の短縮は **C の `family=emoji`**（`family=abbrev` の隣）。台帳は **適用する**（`ledger_apply=true`）。

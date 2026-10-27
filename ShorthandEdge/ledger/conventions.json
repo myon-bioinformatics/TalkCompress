@@ -22,7 +22,8 @@
       "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds).",
       "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline.",
       "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: math/symbol first when meaning is clear, else emoji — prefer existing inventory over inventing new math or emoji peers (check→✓ not ✅; star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / policy-cross-lang-cheapest (token then utf8).",
-      "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form."
+      "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
+      "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap)."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -126,6 +127,19 @@
         "policy-cross-lang-cheapest"
       ],
       "source": "shared.lex_policy.SYMBOL_SPEC"
+    },
+    "ever_sync": {
+      "upserted": [
+        "ever-however",
+        "ever-whatever",
+        "ever-whichever",
+        "ever-wherever",
+        "ever-whenever",
+        "ever-whoever"
+      ],
+      "skipped": [
+        "whyever"
+      ]
     }
   },
   "conventions": [
@@ -7354,6 +7368,269 @@
           "inventory": null
         }
       }
+    },
+    {
+      "id": "ever-however",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "no matter how",
+        "regardless of how",
+        "no importa cómo",
+        "n'importe comment",
+        "egal wie"
+      ],
+      "to": "however",
+      "rationale": "譲歩の multiword（no matter how / regardless of how 等）→ however。逆接の however（しかし）は対象外 — 複数語の譲歩句だけ畳む。ambiguity_sensitive: 衝突時や prefer_precision では原文維持。",
+      "family": "ever",
+      "wh_slot": "how",
+      "ambiguity_sensitive": true,
+      "note": "Meaning gate: do not rewrite bare/contrastive however; only multiword concessive sources listed in from[].",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "no matter how",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 56,
+          "delta": -48,
+          "ratio": 0.5385,
+          "sample_from": "no matter how",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 56,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "ever-whatever",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "no matter what",
+        "regardless of what",
+        "no importa qué",
+        "n'importe quoi"
+      ],
+      "to": "whatever",
+      "rationale": "譲歩 no matter what 系 → whatever（5W1H -ever 族）",
+      "family": "ever",
+      "wh_slot": "what",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "no matter what",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 64,
+          "delta": -48,
+          "ratio": 0.5714,
+          "sample_from": "no matter what",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 64,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "ever-whichever",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "no matter which",
+        "regardless of which"
+      ],
+      "to": "whichever",
+      "rationale": "譲歩 no matter which → whichever",
+      "family": "ever",
+      "wh_slot": "which",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 3,
+          "delta": -2,
+          "ratio": 0.6,
+          "sample_from": "no matter which",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 72,
+          "delta": -48,
+          "ratio": 0.6,
+          "sample_from": "no matter which",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 72,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "ever-wherever",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "no matter where",
+        "regardless of where"
+      ],
+      "to": "wherever",
+      "rationale": "譲歩 no matter where → wherever",
+      "family": "ever",
+      "wh_slot": "where",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "no matter where",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 64,
+          "delta": -56,
+          "ratio": 0.5333,
+          "sample_from": "no matter where",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 64,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "ever-whenever",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "no matter when",
+        "regardless of when"
+      ],
+      "to": "whenever",
+      "rationale": "譲歩 no matter when → whenever",
+      "family": "ever",
+      "wh_slot": "when",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "no matter when",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 64,
+          "delta": -48,
+          "ratio": 0.5714,
+          "sample_from": "no matter when",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 64,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "ever-whoever",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "no matter who",
+        "regardless of who"
+      ],
+      "to": "whoever",
+      "rationale": "譲歩 no matter who → whoever",
+      "family": "ever",
+      "wh_slot": "who",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "no matter who",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 56,
+          "delta": -48,
+          "ratio": 0.5385,
+          "sample_from": "no matter who",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 56,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "policy-ever-concessive",
+      "kind": "policy",
+      "apply_layer": "C",
+      "payload": {
+        "family": "ever",
+        "map": {
+          "how": "however",
+          "what": "whatever",
+          "which": "whichever",
+          "where": "wherever",
+          "when": "whenever",
+          "who": "whoever"
+        },
+        "skipped": [
+          "whyever"
+        ],
+        "sources": [
+          "no matter X",
+          "regardless of X",
+          "clear ML cognates when cheapest"
+        ],
+        "however_gate": "Only multiword concessive → however; never rewrite bare/contrastive however.",
+        "metrics": "dual token+utf8; utf8 must shrink",
+        "asap_note": "c-asap ASAP preferred over 尽快 in C; B final-zh-de alone may still use 尽快"
+      },
+      "metrics": null
     }
   ]
 }

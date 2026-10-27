@@ -484,3 +484,113 @@ def test_select_cheapest_form_and_symbol_family():
     # force order: put ✓ first → chosen ✓; put ✅ first may still pick either equal
     pick3 = select_cheapest_form(["✓", "✅"], reference="check mark")
     assert pick3["chosen"] == "✓"
+
+
+def test_ever_family_no_matter_to_ever():
+    """5W1H concessive multiword → -ever; however gate; dual metrics shrink."""
+    from shared.ledger import (
+        apply_ledger_lex,
+        convention_ids,
+        list_conventions,
+        validate_ledger_metrics,
+    )
+
+    assert validate_ledger_metrics(strict=True) == []
+    ids = convention_ids()
+    for cid in (
+        "ever-however",
+        "ever-whatever",
+        "ever-whichever",
+        "ever-wherever",
+        "ever-whenever",
+        "ever-whoever",
+        "policy-ever-concessive",
+    ):
+        assert cid in ids, cid
+    assert "ever-whyever" not in ids
+
+    by_id = {c["id"]: c for c in list_conventions(kind="lex", apply_layer="C")}
+    for cid, dst, sample in (
+        ("ever-however", "however", "no matter how"),
+        ("ever-whatever", "whatever", "no matter what"),
+        ("ever-whichever", "whichever", "no matter which"),
+        ("ever-wherever", "wherever", "no matter where"),
+        ("ever-whenever", "whenever", "no matter when"),
+        ("ever-whoever", "whoever", "no matter who"),
+    ):
+        c = by_id[cid]
+        assert c["family"] == "ever"
+        assert c["to"] == dst
+        assert sample in [str(x).lower() for x in c["from"]]
+        m = c["metrics"]
+        assert m["token"]["delta"] < 0, cid
+        assert m["bit"]["utf8"]["delta"] < 0, cid
+        assert m["token"]["sample_from"] == sample
+
+    how = by_id["ever-however"]
+    assert how.get("ambiguity_sensitive") is True
+    assert "regardless of how" in [str(x).lower() for x in how["from"]]
+    note = (how.get("note") or "") + (how.get("rationale") or "")
+    assert "contrast" in note.lower() or "逆接" in note or "しかし" in note
+
+    # phrase compress drops tokens (estimate via shorter surface)
+    assert apply_ledger_lex("no matter how hard") == "however hard"
+    assert apply_ledger_lex("No matter what you say") == "whatever you say"
+    assert apply_ledger_lex("regardless of how difficult") == "however difficult"
+    assert apply_ledger_lex("no matter which option") == "whichever option"
+    assert apply_ledger_lex("no matter where you are") == "wherever you are"
+    assert apply_ledger_lex("no matter when you arrive") == "whenever you arrive"
+    assert apply_ledger_lex("no matter who comes") == "whoever comes"
+
+    # meaning gate: prefer_precision / collision keep multiword; bare However untouched
+    assert "no matter how" in apply_ledger_lex(
+        "no matter how hard", prefer_precision=True
+    ).lower()
+    collide = apply_ledger_lex("no matter how, however we try")
+    assert "no matter how" in collide.lower()
+    bare = apply_ledger_lex("However, we disagree.")
+    assert bare.startswith("However")
+
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    out = s.compress("No matter how hard it is, I will go.")
+    assert "however" in out.lower()
+    assert "no matter how" not in out.lower()
+    assert "I'll" in out or "i'll" in out.lower()
+
+
+def test_ever_family_staged_before_final_zh_de_keeps_asap():
+    """C then B-final-zh-de: -ever applies; ASAP stays preferred over 尽快."""
+    from tests._helpers import ns
+
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    d = _load("density_zip", "DensityZip/density_zip.py")
+
+    src = (
+        "No matter how hard it is, I will go to the train station "
+        "as soon as possible."
+    )
+    before = t.estimate_tokens(src)
+    c_out = s.compress(src)
+    assert "however" in c_out.lower()
+    assert "no matter how" not in c_out.lower()
+    assert "ASAP" in c_out
+    assert "尽快" not in c_out
+    mid = t.estimate_tokens(c_out)
+    assert mid < before
+
+    final = t.final_zh_de_token_pass(c_out)
+    after = t.estimate_tokens(final)
+    assert after <= mid
+    assert "however" in final.lower()
+    assert "ASAP" in final  # not rewritten to 尽快 after C
+    assert "尽快" not in final
+    assert "Bahnhof" in final or "iré" in final
+
+    trace: list = []
+    args = ns(final_zh_de=True, no_final_zh_de=False, translate_engine="fixture")
+    pipe = d.run_pipeline(["C", "B-final-zh-de"], src, args, trace=trace)
+    assert "however" in pipe.lower()
+    assert "ASAP" in pipe
+    assert "尽快" not in pipe
+    assert trace[-1]["layer"] == "B-final-zh-de"
