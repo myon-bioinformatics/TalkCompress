@@ -100,6 +100,7 @@ BREAKDOWN_COMPACT: dict[str, str] = {
     "adverb": "副", "conjunction": "接", "auxiliary": "助動", "article": "冠",
     "compare": "比", "emoji": "絵", "symbol": "記", "noun": "名", "verb": "動",
     "adjective": "形", "determiner": "限",
+    "relative": "関代", "関係詞": "関代", "関係代名詞": "関代",
     "collocation": "連", "熟語": "熟", "slang": "俗", "sentence": "文",
     "acronym": "頭", "abbrev": "略",
     "token圧縮": "↓T", "bit圧縮": "↓B", "時制": "時", "複合名詞": "複",
@@ -107,7 +108,7 @@ BREAKDOWN_COMPACT: dict[str, str] = {
 }
 BREAKDOWN_POS = frozenset({
     "代", "示", "助", "前", "副", "接", "助動", "冠", "比", "絵", "記",
-    "名", "動", "形", "限",
+    "名", "動", "形", "限", "関代",
 })
 BREAKDOWN_TAGS = frozenset({
     "連", "熟", "俗", "文", "頭", "略", "↓T", "↓B", "時", "複", "規", "・",
@@ -165,6 +166,8 @@ def infer_breakdown(convention: dict[str, Any]) -> str:
         return "連"
     if fam == "spatial":
         return "連"
+    if fam == "relative":
+        return "関代"
     if fam == "conj":
         return "接"
     if fam == "pair":
@@ -175,6 +178,7 @@ def infer_breakdown(convention: dict[str, Any]) -> str:
     for pref, tag in (
         ("pronoun-", "代"),
         ("deixis-", "示"),
+        ("rel-", "関代"),
         ("particle-", "助"),
         ("prep-", "前"),
         ("prep2-", "前"),

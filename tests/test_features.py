@@ -897,6 +897,39 @@ def test_morpho_prep_like_finite_set():
     assert "adhoc" in m.compress("ad hoc committee", **kw)
 
 
+def test_morpho_relative_pronouns():
+    """関係代名詞: which→that / whom→who / long Romance|DE→que; gates hold."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    kw = dict(unique=False, etymon=False, counters=False)
+    # EN which→that (restrictive + non-restrictive)
+    assert "that" in m.compress("the book which is red", **kw)
+    assert "which" not in m.compress("the book which is red", **kw).lower()
+    assert ", that" in m.compress("the report, which was long", **kw)
+    assert "that has" in m.compress("the car which has failed", **kw)
+    # interrogative / complement / pied-pipe stay
+    assert "Which" in m.compress("Which book is it?", **kw)
+    assert "which" in m.compress("decide which path to take", **kw).lower()
+    assert "which" in m.compress("the box in which it sits", **kw).lower()
+    # whom→who (case-preserving)
+    assert "who I" in m.compress("the person whom I met", **kw)
+    assert m.compress("Whom did you see?", **kw).startswith("Who ")
+    # complementizer + deixis unchanged
+    assert "that" in m.compress("I think that it works", **kw)
+    assert "eso" in m.compress("that book is mine", **kw)
+    assert "eso" in m.compress("That was wrong.", **kw)
+    # Romance/DE → que; lo que / interrogative Welche skipped
+    assert m.compress("lequel est venu", **kw).startswith("que ")
+    assert "que" in m.compress("el que vino ayer", **kw)
+    assert "que" in m.compress("das Buch welches ist rot", **kw)
+    assert "Welche" in m.compress("Welche Farbe?", **kw)
+    assert "lo que" in m.compress("lo que quiero", **kw)
+    # bare q never emitted as relative surface
+    out = m.compress("the book which is red and the person whom I met", **kw)
+    assert out.split().count("q") == 0
+
+
+
+
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")

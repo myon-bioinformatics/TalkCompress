@@ -613,6 +613,16 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-ad-hoc"]["to"] == "adhoc"
     assert "for good" in by_id["adv-forever"]["from"]
     assert "somehow" in by_id["adv-in-some-way"]["from"]
+    # relative / 関代
+    assert by_id["rel-which"]["to"] == "that"
+    assert by_id["rel-whom"]["to"] == "who"
+    assert by_id["rel-que"]["to"] == "que"
+    assert "which" in by_id["rel-which"]["from"]
+    assert "whom" in by_id["rel-whom"]["from"]
+    assert "lequel" in by_id["rel-que"]["from"]
+    assert by_id["rel-which"]["breakdown"] == "関代"
+    assert by_id["rel-whom"]["breakdown"] == "関代"
+    assert by_id["rel-que"]["breakdown"] == "関代"
     assert by_id["prep-as-of"]["breakdown"] == "前"
     assert by_id["adv-mutatis-mutandis"]["breakdown"] == "連"
     assert "vis-a-vis" in by_id["prep-as-opposed-to"]["from"]
@@ -1106,7 +1116,11 @@ def test_lex_breakdown_flat_pos_or_tag():
     assert infer_breakdown({"kind": "lex", "inventory": "pronoun", "from": ["I"], "to": "I"}) == "代"
     assert infer_breakdown({"kind": "lex", "family": "ever", "from": ["no matter how"], "to": "however"}) == "連"
     assert "代" in BREAKDOWN_POS
+    assert "関代" in BREAKDOWN_POS
+    assert infer_breakdown({"kind": "lex", "family": "relative", "from": ["which"], "to": "that"}) == "関代"
     from shared.ledger import compact_breakdown
+    assert compact_breakdown("relative") == "関代"
+    assert compact_breakdown("関係代名詞") == "関代"
     assert compact_breakdown("collocation") == "連"
     assert compact_breakdown("acronym") == "頭"
     assert compact_breakdown("pronoun") == "代"

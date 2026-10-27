@@ -941,7 +941,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # ("I think that…", "the book that…"). Keep bare that when ambiguous.
     (re.compile(r"\bthat('s|s)\b", re.I), r"eso\1"),
     (re.compile(r"\bthat\s+(one|ones|thing|stuff|guy|girl|man|woman|person|people|day|time|way|book|idea|problem|issue|point|part|side|end)\b", re.I), r"eso \1"),
-    (re.compile(r"\bthat\s+(is|was|were|are|be|being|been)\b", re.I), r"eso \1"),
+    # bare that+(is|was|…) → eso REMOVED: eats relative `N that BE` after which→that.
+    # Demonstrative "that is" → i.e. in _PHRASE_GRAMMAR; ^that / post-punct that /
+    # that's / that one|thing|… still cover deixis.
     (re.compile(r"(?m)^that\b", re.I), "eso"),
     (re.compile(r"([.!?…]\s*)that\b", re.I), r"\1eso"),
     (re.compile(r"\besto\b", re.I), "ça"),
@@ -1767,6 +1769,39 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     # DE
     (re.compile(r"\bmehr als\b", re.I), "≧"),
     (re.compile(r"\bweniger als\b", re.I), "≦"),
+    # --- relative pronouns / 関係代名詞 (after that is→i.e.; not deixis/interrogative) ---
+    # EN: which→that (post-nominal / non-restrictive); whom→who. Prefer EN-internal that over que.
+    # Do NOT emit bare q. Keep deixis that→eso gate; complementizer that untouched.
+    (re.compile(r",\s*which\b", re.I), ", that"),
+    (re.compile(
+        r"\b(?!(?:in|of|for|to|with|on|at|by|from|about|into|onto|upon|through|"
+        r"under|over|during|as|after|before|since|until|than|and|or|but|if|"
+        r"when|while|where|who|whom|whose|that|this|these|those)\b)"
+        r"([A-Za-z][A-Za-z0-9\-]*)\s+which\b"
+        r"(?=\s+(?:is|are|was|were|has|have|had|will|would|can|could|may|might|"
+        r"must|shall|should|do|does|did|I|he|she|it|we|they|you|U|my|his|her|"
+        r"its|our|their|not)\b)",
+        re.I,
+    ), r"\1 that"),
+    (re.compile(r"\bWhom\b"), "Who"),
+    (re.compile(r"\bwhom\b"), "who"),
+    # Romance/DE long relatives → que (shared pivot; dual-metric win)
+    (re.compile(r"\blesquelles\b", re.I), "que"),
+    (re.compile(r"\blesquels\b", re.I), "que"),
+    (re.compile(r"\blaquelle\b", re.I), "que"),
+    (re.compile(r"\blequel\b", re.I), "que"),
+    # DE welcher*: post-nominal relative only (bare Welche? = interrogative)
+    (re.compile(
+        r"\b([A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß0-9\-]*)\s+welch(?:er|e|es)\b"
+        r"(?=\s+(?:ist|sind|war|waren|hat|haben|hatte|hatten|wird|werden|"
+        r"kann|können|muss|müssen|soll|sollen|darf|dürfen|will|wollen|"
+        r"ich|du|er|sie|es|wir|ihr|Sie|mein|dein|sein|unser|euer|ihr)\b)",
+        re.I,
+    ), r"\1 que"),
+    (re.compile(r"\blos que\b", re.I), "que"),
+    (re.compile(r"\blas que\b", re.I), "que"),
+    (re.compile(r"\bel que\b", re.I), "que"),
+    (re.compile(r"\bla que\b", re.I), "que"),
 ]
 
 

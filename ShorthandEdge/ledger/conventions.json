@@ -24,8 +24,9 @@
       "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: math/symbol first when meaning is clear, else emoji — prefer existing inventory over inventing new math or emoji peers (check→✓ not ✅; star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / policy-cross-lang-cheapest (token then utf8).",
       "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
       "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap).",
-      "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/…) rewrite to these.",
-      "Formal/legal + connective tranche (finite): therein→∈it, thereto→∴to, henceforth→∴→, notwithstanding→雖 (in spite of は prep 側), insofar-as→insofar, provided that→if, instead of→vs (in lieu of / rather than / pursuant to は prep cycle2), namely→viz, hence/thus→∴, albeit→tho, the foregoing→supra, aforementioned→said, vice versa→⇄, T&C, etal, given that→bc. hereof/thereby/hereto/herewith skipped (sense clash with thereof/∴/thereto/therewith). cycle11 filled spaced deferred (as of/latin/loc-time). Prep/adverb thickening is a separate tranche."
+      "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/関代/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/relative/…) rewrite to these.",
+      "Formal/legal + connective tranche (finite): therein→∈it, thereto→∴to, henceforth→∴→, notwithstanding→雖 (in spite of は prep 側), insofar-as→insofar, provided that→if, instead of→vs (in lieu of / rather than / pursuant to は prep cycle2), namely→viz, hence/thus→∴, albeit→tho, the foregoing→supra, aforementioned→said, vice versa→⇄, T&C, etal, given that→bc. hereof/thereby/hereto/herewith skipped (sense clash with thereof/∴/thereto/therewith). cycle11 filled spaced deferred (as of/latin/loc-time). Prep/adverb thickening is a separate tranche.",
+      "family=relative (E 関係代名詞/関代): which→that (EN-internal; tok 2→1; post-nominal/non-restrictive gate; not interrogative which?/pied-pipe prep which); whom→who; Romance/DE long forms (lequel/welcher*/el que…)→que shared pivot. Do NOT emit bare q. deixis that→eso and complementizer/relative-that skip gate unchanged. Skip: whose (no clear short), lo que (what-clause 揺らぎ), relative where/donde/où/wo (ever-wherever/wo 揺らぎ), bare qui rewrite of who."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -21647,6 +21648,130 @@
             "before": 48,
             "after": 40,
             "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "rel-which",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "which",
+        "that"
+      ],
+      "to": "that",
+      "rationale": "関係代名詞 which→that（EN内; tok 2→1）。bare q は出さない。指示 that は deixis-eso、補文 that は対象外。",
+      "breakdown": "関代",
+      "family": "relative",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "which",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "which",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "rel-whom",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "whom",
+        "who"
+      ],
+      "to": "who",
+      "rationale": "関係代名詞 whom→who（目的格; tok同・utf8勝）。疑問 who? はゲート外のまま。",
+      "breakdown": "関代",
+      "family": "relative",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "whom",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "whom",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "rel-que",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "lequel",
+        "laquelle",
+        "lesquels",
+        "lesquelles",
+        "welcher",
+        "welche",
+        "welches",
+        "el que",
+        "la que",
+        "los que",
+        "las que",
+        "que"
+      ],
+      "to": "que",
+      "rationale": "Romance/DE 関係詞長形→que（shared pivot; select_cheapest）。lo que・bare q・whose・関係where は見送り。",
+      "breakdown": "関代",
+      "family": "relative",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "lequel",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 24,
+          "delta": -24,
+          "ratio": 0.5,
+          "sample_from": "lequel",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
           },
           "inventory": null
         }
