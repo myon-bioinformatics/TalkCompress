@@ -604,6 +604,25 @@ def test_morpho_prep_like_finite_set():
     assert "先" in m.compress("preceding chapter", **kw)
     assert "未決" in m.compress("pending approval", **kw)
 
+    # cycle3 multiword prep
+    assert "力" in m.compress("by virtue of authority", **kw)
+    assert "経" in m.compress("by way of example", **kw)
+    assert "因" in m.compress("on account of rain", **kw)
+    assert "恐" in m.compress("for fear of failure", **kw)
+    assert "⇔" in m.compress("in exchange for gold", **kw)
+    assert "且" in m.compress("on top of that", **kw)
+    assert "犠牲" in m.compress("at the expense of quality", **kw)
+    assert "危" in m.compress("at the risk of error", **kw)
+    assert "最中" in m.compress("in the middle of dinner", **kw)
+    assert "瀕" in m.compress("on the verge of collapse", **kw)
+    assert "欠" in m.compress("for lack of evidence", **kw)
+    assert "超" in m.compress("in excess of 100", **kw)
+    assert "対比" in m.compress("in contrast to prior", **kw)
+    assert "∴" in m.compress("as a result of delays", **kw)
+    assert "過程" in m.compress("in the course of duty", **kw)
+    assert "面前" in m.compress("in the face of danger", **kw)
+    assert "経" in m.compress("courtesy of NASA", **kw)
+
 
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""

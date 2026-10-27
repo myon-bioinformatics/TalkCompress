@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 300
+    assert 14 <= len(all_lex) <= 340
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -353,6 +353,18 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-past"]["to"] == "過"
     assert by_id["prep-following"]["to"] == "次"
     assert by_id["adv-pending"]["to"] == "未決"
+    # cycle3
+    assert by_id["prep-by-virtue-of"]["to"] == "力"
+    assert by_id["prep-by-way-of"]["to"] == "経"
+    assert by_id["prep-on-account-of"]["to"] == "因"
+    assert "by reason of" in by_id["prep-on-account-of"]["from"]
+    assert by_id["prep-in-exchange-for"]["to"] == "⇔"
+    assert by_id["prep-on-top-of"]["to"] == "且"
+    assert by_id["prep-at-expense-of"]["to"] == "犠牲"
+    assert by_id["prep-in-middle-of"]["to"] == "最中"
+    assert by_id["prep-as-result-of"]["to"] == "∴"
+    assert by_id["prep-courtesy-of"]["to"] == "経"
+    assert by_id["prep-by-virtue-of"]["breakdown"] == "前"
     assert by_id["prep-in-favor-of"]["breakdown"] == "前"
     assert by_id["prep-according-to"]["breakdown"] == "前"
     assert by_id["adv-forever"]["breakdown"] == "副"
