@@ -5,7 +5,7 @@ Prefer short low-ambiguity tokens that shrink prediction candidates
 (e.g. ``I`` over 私は/僕は/俺は). Keep useful counters (匹/個). Compact
 pronoun inventory (2-bit core: I / 君 / 彼 / they|them|y'all) plus closed
 POS inventories (articles / conjunctions / adverbs / auxiliaries /
-prepositions). Avoid Chinese-only bias.
+prepositions pack1 + prep2). Avoid Chinese-only bias.
 
 Shared lexeme policy (``shared.lex_policy``) usage:
 - UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
@@ -223,9 +223,10 @@ _AUX_SURFACE_RE = re.compile(
     re.I,
 )
 
-# --- preposition (前置詞): skip C ledger under/above/below/beneath ------------
+# --- preposition (前置詞 pack1): skip C ledger under/above/below/beneath ------
+# Pack1 core N=4 → 2bit. of/without/within/before/after live in prep2 (below).
 PREP_CANONICAL: tuple[str, ...] = ("w/", "4", "fr", "@")
-PREP_EXTENDED: tuple[str, ...] = ("w/", "4", "fr", "@", "of", "to", "w/o")
+PREP_EXTENDED: tuple[str, ...] = ("w/", "4", "fr", "@", "to")
 PREP_ALIAS_TO_CANONICAL: dict[str, str] = {
     "w/": "w/",
     "with": "w/",
@@ -235,13 +236,84 @@ PREP_ALIAS_TO_CANONICAL: dict[str, str] = {
     "from": "fr",
     "@": "@",
     "at": "@",
-    "of": "of",
     "to": "to",
-    "w/o": "w/o",
-    "without": "w/o",
 }
 _PREP_SURFACE_RE = re.compile(
-    r"\bwithout\b|\bwith\b|\bfrom\b|\bfor\b|\bof\b|\bto\b|\bat\b|w/o|w/|fr|\b4\b|@",
+    r"\bwith\b|\bfrom\b|\bfor\b|\bto\b|\bat\b|w/|fr|\b4\b|@",
+    re.I,
+)
+
+# --- prep2 (前置詞 pack2): of / without / within / before / after ------------
+# Second closed pack so pack1 stays N=4→2bit. Flat prep2 N=5 → 3bit (documented).
+# Preferred surfaces: of→de, without→无 (w/o alias), within→内, before→前, after→後.
+# Bare 前/後 for EN before/after; do not fight C ledger pair 前後/内外.
+PREP2_CANONICAL: tuple[str, ...] = ("de", "无", "内", "前", "後")
+PREP2_EXTENDED: tuple[str, ...] = ("de", "无", "内", "前", "後")
+PREP2_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "de": "de",
+    "of": "de",
+    "无": "无",
+    "without": "无",
+    "w/o": "无",
+    "sin": "无",
+    "内": "内",
+    "within": "内",
+    "前": "前",
+    "before": "前",
+    "後": "後",
+    "后": "後",
+    "after": "後",
+}
+_PREP2_SURFACE_RE = re.compile(
+    r"\bwithout\b|\bwithin\b|\bbefore\b|\bafter\b|\bof\b|w/o|"
+    r"无|内|前|后|後|\bde\b|\bsin\b",
+    re.I,
+)
+
+# --- compare (比較境界): 以上/以下 → ≧/≦ (JA priority; EN clear aliases) -----
+# N=2 → 1bit. Do NOT rewrite under/below/above alone (C ledger → 下/上).
+COMPARE_CANONICAL: tuple[str, ...] = ("≧", "≦")
+COMPARE_EXTENDED: tuple[str, ...] = ("≧", "≦")
+COMPARE_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "≧": "≧",
+    ">=": "≧",
+    "以上": "≧",
+    "at least": "≧",
+    "or more": "≧",
+    "and above": "≧",
+    "more than": "≧",
+    "más de": "≧",
+    "mas de": "≧",
+    "más que": "≧",
+    "mas que": "≧",
+    "al menos": "≧",
+    "plus de": "≧",
+    "plus que": "≧",
+    "mehr als": "≧",
+    "≦": "≦",
+    "<=": "≦",
+    "以下": "≦",
+    "at most": "≦",
+    "or less": "≦",
+    "and below": "≦",
+    "less than": "≦",
+    "menos de": "≦",
+    "menos que": "≦",
+    "como máximo": "≦",
+    "como maximo": "≦",
+    "moins de": "≦",
+    "moins que": "≦",
+    "weniger als": "≦",
+}
+_COMPARE_SURFACE_RE = re.compile(
+    r"以上|以下|"
+    r"\bat least\b|\bat most\b|\bor more\b|\bor less\b|"
+    r"\band above\b|\band below\b|\bmore than\b|\bless than\b|"
+    r"\bm[aá]s de\b|\bm[aá]s que\b|\bmenos de\b|\bmenos que\b|"
+    r"\bal menos\b|\bcomo m[aá]ximo\b|"
+    r"\bplus de\b|\bplus que\b|\bmoins de\b|\bmoins que\b|"
+    r"\bmehr als\b|\bweniger als\b|"
+    r">=|<=|≧|≦",
     re.I,
 )
 
@@ -268,7 +340,8 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         CONJ_EXTENDED,
         CONJ_ALIAS_TO_CANONICAL,
         _CONJ_SURFACE_RE,
-        "C owns moreover→also / nevertheless→but (ambiguity gate)",
+        "because→bc OK; cuz not ruled out but prefer math-symbol family (bc/∴); "
+        "dotted/math typing may land later; C owns moreover→also / nevertheless→but",
     ),
     "adverb": ClosedInventory(
         "adverb",
@@ -276,7 +349,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         ADVERB_EXTENDED,
         ADVERB_ALIAS_TO_CANONICAL,
         _ADVERB_SURFACE_RE,
-        "discourse/degree; bits-primary",
+        "discourse/degree; bits-primary; not/never polarity verification TODO w/ aux",
     ),
     "auxiliary": ClosedInventory(
         "auxiliary",
@@ -284,7 +357,8 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         AUX_EXTENDED,
         AUX_ALIAS_TO_CANONICAL,
         _AUX_SURFACE_RE,
-        "could→can would→will should→must might→may; I'll is C",
+        "could→can would→will should→must might→may; I'll is C; "
+        "negation/affirmation (not/can't/won't…) needs joint verification (TODO)",
     ),
     "preposition": ClosedInventory(
         "preposition",
@@ -292,7 +366,24 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         PREP_EXTENDED,
         PREP_ALIAS_TO_CANONICAL,
         _PREP_SURFACE_RE,
-        "skip C under/above; in/on deferred (ambiguous)",
+        "pack1 w/|4|fr|@ → 2bit; skip C under/above; in/on deferred; for→4 揺らぎ別評価",
+    ),
+    "prep2": ClosedInventory(
+        "prep2",
+        PREP2_CANONICAL,
+        PREP2_EXTENDED,
+        PREP2_ALIAS_TO_CANONICAL,
+        _PREP2_SURFACE_RE,
+        "pack2 de|无|内|前|後 → N=5→3bit; of→de without→无(w/o alias) within→内 before→前 after→後",
+    ),
+    "compare": ClosedInventory(
+        "compare",
+        COMPARE_CANONICAL,
+        COMPARE_EXTENDED,
+        COMPARE_ALIAS_TO_CANONICAL,
+        _COMPARE_SURFACE_RE,
+        "以上→≧ 以下→≦ (1bit); EN at least/or more/and above→≧; at most/or less/and below→≦; "
+        "bare under/below/above stay for C",
     ),
 }
 
@@ -426,6 +517,22 @@ def preposition_inventory_bits(*, extended: bool = False) -> int:
 def preposition_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
     return closed_bit_cost("preposition", text, extended=extended)
 
+
+def prep2_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("prep2", extended=extended)
+
+
+def prep2_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("prep2", text, extended=extended)
+
+
+def compare_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("compare", extended=extended)
+
+
+def compare_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("compare", text, extended=extended)
+
 # (pattern, replacement) — applied in order; more specific first.
 _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- pronouns (multi-word / longer first). Contractions (I'll) belong to C.
@@ -485,7 +592,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"它"), "it"),
     # they/them/their/we/us/our/I/me/my/it — already short; leave as-is
     # EN multi-word → compact symbols (not I'll-family contractions)
-    (re.compile(r"\bwithout\b", re.I), "w/o"),
+    # within before with (prefix); without→无 preferred (w/o remains alias in prep2)
+    (re.compile(r"\bwithin\b", re.I), "内"),
+    (re.compile(r"\bwithout\b", re.I), "无"),
+    (re.compile(r"\bw/o\b", re.I), "无"),
     (re.compile(r"\bwith\b", re.I), "w/"),
     (re.compile(r"\band\b", re.I), "&"),
     (re.compile(r"\bor\b", re.I), "/"),
@@ -493,15 +603,18 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\btherefore\b", re.I), "∴"),
     (re.compile(r"\bhowever\b", re.I), "tho"),
     (re.compile(r"\bapproximately\b", re.I), "~"),
-    (re.compile(r"\bequal to\b", re.I), "="),
+    # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≧/≦).
+    # greater than stays > (strict); less than → ≦ via phrase grammar.
     (re.compile(r"\bgreater than\b", re.I), ">"),
-    (re.compile(r"\bless than\b", re.I), "<"),
     # --- adverbs (closed inventory): very/really/extremely → ˅ ; particularly → esp.
     (re.compile(r"\bextremely\b", re.I), "˅"),
     (re.compile(r"\breally\b", re.I), "˅"),
     (re.compile(r"\bvery\b", re.I), "˅"),
     (re.compile(r"\bparticularly\b", re.I), "esp."),
     # --- auxiliaries (closed inventory); I'll stays C — do not contract I will
+    # Light negation probe: cannot/can't → !can (polarity+aux joint verification TODO)
+    (re.compile(r"\bcannot\b", re.I), "!can"),
+    (re.compile(r"\bcan'?t\b", re.I), "!can"),
     (re.compile(r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない"), "must"),
     (re.compile(r"かもしれない"), "may"),
     (re.compile(r"することができ(?:る|ます)"), "can"),
@@ -510,11 +623,21 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bwould\b", re.I), "will"),
     (re.compile(r"\bshould\b", re.I), "must"),
     (re.compile(r"\bmight\b", re.I), "may"),
-    # --- prepositions (closed inventory); C owns under/above/below/beneath — skip
+    # --- prepositions pack1; C owns under/above/below/beneath — skip
     (re.compile(r"\bfrom\b", re.I), "fr"),
     # NOTE(for→4): 表層 4 は数字の four と揺らぎうる。ビット在庫(2bit)とは別に評価し、将来 for（原形）等へ戻る可能性あり（現状は 4 のまま）。
     (re.compile(r"\bfor\b", re.I), "4"),
     (re.compile(r"\bat\b", re.I), "@"),
+    # --- prep2: of→de / before→前 / after→後 (within/without already above)
+    (re.compile(r"\bbefore\b", re.I), "前"),
+    (re.compile(r"\bafter\b", re.I), "後"),
+    (re.compile(r"\bof\b", re.I), "de"),
+    # --- compare: 以上/以下 → ≧/≦ (JA priority). EN multi-word in _PHRASE_GRAMMAR.
+    # Do not rewrite bare under/below/above (C ledger).
+    (re.compile(r"以上"), "≧"),
+    (re.compile(r"以下"), "≦"),
+    (re.compile(r">="), "≧"),
+    (re.compile(r"<="), "≦"),
     # whatever-compounds → compact signals
     (re.compile(r"\bwhatever\b", re.I), "∀"),
     (re.compile(r"\bwhoever\b", re.I), "∀who"),
@@ -575,6 +698,34 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bespecially\b", re.I), "esp."),
     (re.compile(r"\bthat is\b", re.I), "i.e."),
     (re.compile(r"\bversus\b", re.I), "vs"),
+    # compare / equality — language-agnostic → ≧/≦/= /≒ (BEFORE and/or/at/_SUBS)
+    (re.compile(r"\bapproximately equal(?: to)?\b", re.I), "≒"),
+    (re.compile(r"\babout equal(?: to)?\b", re.I), "≒"),
+    (re.compile(r"\broughly equal(?: to)?\b", re.I), "≒"),
+    (re.compile(r"\bequal to\b", re.I), "="),
+    (re.compile(r"\bat least\b", re.I), "≧"),
+    (re.compile(r"\bat most\b", re.I), "≦"),
+    (re.compile(r"\bor more\b", re.I), "≧"),
+    (re.compile(r"\bor less\b", re.I), "≦"),
+    (re.compile(r"\band above\b", re.I), "≧"),
+    (re.compile(r"\band below\b", re.I), "≦"),
+    (re.compile(r"\bmore than\b", re.I), "≧"),
+    (re.compile(r"\bless than\b", re.I), "≦"),
+    # ES
+    (re.compile(r"\bm[aá]s de\b", re.I), "≧"),
+    (re.compile(r"\bm[aá]s que\b", re.I), "≧"),
+    (re.compile(r"\bmenos de\b", re.I), "≦"),
+    (re.compile(r"\bmenos que\b", re.I), "≦"),
+    (re.compile(r"\bal menos\b", re.I), "≧"),
+    (re.compile(r"\bcomo m[aá]ximo\b", re.I), "≦"),
+    # FR
+    (re.compile(r"\bplus de\b", re.I), "≧"),
+    (re.compile(r"\bplus que\b", re.I), "≧"),
+    (re.compile(r"\bmoins de\b", re.I), "≦"),
+    (re.compile(r"\bmoins que\b", re.I), "≦"),
+    # DE
+    (re.compile(r"\bmehr als\b", re.I), "≧"),
+    (re.compile(r"\bweniger als\b", re.I), "≦"),
 ]
 
 
@@ -767,6 +918,16 @@ _EXPAND_COUNTERS: list[tuple[re.Pattern[str], str]] = [
 # Unambiguous short → longer (subset of _SUBS / UNIQUE_COMPACT). Documented lossy.
 _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bw/o\b", re.I), "without"),
+    # CJK prep2 shorts: only expand when space/punct bounded (avoid eating JA 前後…)
+    (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])无(?![\w\u3040-\u30ff\u3400-\u9fff])"), "without"),
+    (re.compile(r"\bde\b", re.I), "of"),
+    (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])内(?![\w\u3040-\u30ff\u3400-\u9fff])"), "within"),
+    (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])前(?![\w\u3040-\u30ff\u3400-\u9fff])"), "before"),
+    (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])(?:后|後)(?![\w\u3040-\u30ff\u3400-\u9fff])"), "after"),
+    (re.compile(r"!can\b"), "cannot"),
+    (re.compile(r"≧"), "以上"),
+    (re.compile(r"≦"), "以下"),
+    (re.compile(r"≒"), "approximately equal"),
     (re.compile(r"\bw/\b", re.I), "with"),
     (re.compile(r"\bu r\b", re.I), "you are"),
     (re.compile(r"\bbc\b", re.I), "because"),

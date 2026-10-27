@@ -2,11 +2,16 @@
 
 **層4 — 文内多言語・文法最小。** 予測候補が少ない短い形を優先。一意読み（rank-1・長い形）と語源寄せもここで扱う。
 
-## 方針
+## 方針（言語非依存の最短形）
+
+**ソース言語を問わず、意味が通る最短の表層へ畳む**（記号 OK）。英語専用・日本語専用の特例を増やさない。比較の `≧` `≦` `≒` `=` はその一例であり、代名詞・前置・接続なども同じ原則（君/彼/无/前/bc/∴ …）。
+
+### 具体
+
 
 - 一人称 → `I`（私は/僕は/俺は…を潰す）
 - **代名詞 2-bit 在庫**（下記）
-- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置詞）→ 下記。接続 → `&` `/` `bc` `∴`；前置 → `w/` `4` `fr` `@`；`w/o` は拡張
+- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・比較）→ 下記。接続 → `&` `/` `bc` `∴`；前置1 → `w/` `4` `fr` `@`；前置2 → `de` `无` `内` `前` `後`；比較 → `≧` `≦`
 - whatever 系 → `∀` / `∀loc` / `∀who` … / hereafter → `∴→`
 - 助数詞: JA 既存は維持。EN 数量句も実験的に短くする（`3 animals` → `3匹`, `2 people` → `2人` など）。桁化済みの数字が前提（スペル数字→桁は C）
 - 冠詞: 引用なしの `the`/`a`/`an` は落とす。`"the"` / `'the'` は内側の語だけ残す（引用符は外す）。`--keep-articles` で無効化
@@ -57,16 +62,22 @@
 | --- | --- | --- | --- | --- | --- |
 | 代名詞 pronoun | I / 君 / 彼 / they | 4 | 2 | they\|them\|y'all 同一；她→彼表層 | `he or she` → `彼/她` |
 | 冠詞 article | ∅ | 1 | **0** | the/a/an → 削除（引用は保持） | `the cat` → `cat` |
-| 接続詞 conjunction | & / bc / ∴ | 4 | 2 | and→& or→/ because→bc therefore→∴ | `and … because … therefore` → `& … bc … ∴` |
-| 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp. | `however very` → `tho ˅` |
-| 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can would→will should→must might→may；**I'll は C** | `I could` → `I can` |
+| 接続詞 conjunction | & / bc / ∴ | 4 | 2 | and→& or→/ **because→bc** therefore→∴（cuz は否定せず、数学記号系を優先；点々表記の余地） | `… because …` → `… bc …` |
+| 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；**not/never 極性は TODO**（助動詞と一緒に検証） | `however very` → `tho ˅` |
+| 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can would→will should→must might→may；**I'll は C**；軽プローブ `cannot`/`can't`→`!can`；**否定・肯定の両経路検証 TODO**（時制で複雑化） | `I could` → `I can`；`I can't` → `I !can` |
 | 前置詞 preposition | w/ / 4 / fr / @ | 4 | 2 | with→w/ for→4 from→fr at→@；**under/above は C** | `for lunch from home at noon` → `4 lunch fr home @ noon` |
+| 前置詞2 prep2 | de / 无 / 内 / 前 / 後 | 5 | **3** | of→de；without→**无**（`w/o` は別名）；within→内；before→前；after→後。pack1 を 2bit のままにするため分離。C の前後/内外ペアは触らない | `of … without … before …` → `de … 无 … 前 …` |
+| 比較 compare | ≧ / ≦ | 2 | **1** | **言語非依存**: JA/ZH 以上/以下；EN more than/at least/…；ES más de/al menos/…；FR plus/moins de；DE mehr/weniger als → 同じ ≧/≦。≒/=（approx-equal/equal）。単独 under/below/above は C | `18歳以上` / `más de 3` → `≧` |
 
 > **for→4 の注意**: `4` は数字 four と表現の揺らぎが出うる。ビット在庫（2bit）とは別評価とし、最終的に `for`（原形）などに戻る可能性あり（未変更・TODO）。
 
-**拡張:** conjunction +∵/+（N=6→3bit）；adverb +also；preposition +of/to/w/o（N=7→3bit）；pronoun +it（N=5→3bit）。
+**拡張:** conjunction +∵/+（N=6→3bit）；adverb +also；preposition +to（N=5→3bit）；pronoun +it（N=5→3bit）。prep2 はコアで N=5→3bit（pack 分離で pack1 は 2bit 維持）。
 
-**C との境界:** moreover/furthermore/nevertheless・under/above/below・I'll は C（台帳／曖昧さゲート／縮約）。E は触らない。`in`/`on` は曖昧のため自動書き換え見送り。
+**C との境界:** moreover/furthermore/nevertheless・under/above/below・I'll・台帳の前後/内外ペアは C。E の bare 前/後（EN before/after）と 以上/以下→≧/≦ は別。`in`/`on` は曖昧のため自動書き換え見送り。
+
+**because / cuz:** `because→bc` 採用。`cuz` は可能性として否定しないが、数学記号寄りの `bc` / `∴` 系を優先。将来点々付き表記が載る余地あり（bc のまま）。
+
+**助動詞・副詞 × not:** 時制が絡むと複雑。拡張時は **否定語と肯定の両継承を検証**する（TODO）。現状は `cannot`/`can't`→`!can` の軽プローブのみ。I'll は C 所有のまま。
 
 ## 語彙ポリシー（揺らぎ削減）
 

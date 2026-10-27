@@ -327,13 +327,17 @@ def test_morpho_closed_inventory_bits_table():
         "adverb",
         "auxiliary",
         "preposition",
+        "prep2",
+        "compare",
     }
     assert m.closed_inventory_bits("article") == 0  # N=1 → ∅
     assert m.closed_inventory_bits("conjunction") == 2
     assert m.closed_inventory_bits("adverb") == 2
     assert m.closed_inventory_bits("auxiliary") == 2
     assert m.closed_inventory_bits("preposition") == 2
-    assert m.closed_inventory_bits("preposition", extended=True) == 3  # N=7
+    assert m.closed_inventory_bits("preposition", extended=True) == 3  # N=5 (+to)
+    assert m.closed_inventory_bits("prep2") == 3  # N=5 → 3bit
+    assert m.closed_inventory_bits("compare") == 1  # N=2 → 1bit
     assert m.closed_inventory_bits("conjunction", extended=True) == 3  # N=6
 
 
@@ -412,15 +416,51 @@ def test_morpho_preposition_inventory():
         etymon=False,
         counters=False,
     )
-    assert "4" in out and "fr" in out and "w/" in out and "@" in out and "w/o" in out
+    assert "4" in out and "fr" in out and "w/" in out and "@" in out and "无" in out
     # C ledger spatial left alone on E
     under = m.compress("under the table above the shelf", unique=False, etymon=False, counters=False)
     assert "under" in under.lower() and "above" in under.lower()
     assert m.canonicalize_closed("preposition", "for") == "4"
-    assert m.canonicalize_closed("preposition", "without", extended=True) == "w/o"
-    assert m.canonicalize_closed("preposition", "without") is None  # core-only
+    assert m.canonicalize_closed("preposition", "without") is None  # moved to prep2
+    assert m.canonicalize_closed("prep2", "without") == "无"
+    assert m.canonicalize_closed("prep2", "w/o") == "无"
     c = m.preposition_bit_cost("w/ 4 fr @")
     assert c["bits_per"] == 2 and c["count"] == 4 and c["total_bits"] == 8
+
+
+def test_morpho_prep2_inventory():
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.PREP2_CANONICAL == ("de", "无", "内", "前", "後")
+    assert m.prep2_inventory_bits() == 3  # N=5
+    out = m.compress(
+        "of water without sugar within limits before noon after dusk",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert "de" in out and "无" in out and "内" in out and "前" in out and "後" in out
+    assert "without" not in out.lower()
+    assert "before" not in out.lower()
+    assert m.canonicalize_closed("prep2", "of") == "de"
+    assert m.canonicalize_closed("prep2", "within") == "内"
+    assert m.canonicalize_closed("prep2", "before") == "前"
+    assert m.canonicalize_closed("prep2", "after") == "後"
+    assert m.canonicalize_closed("prep2", "后") == "後"
+    c = m.prep2_bit_cost("de 无 内 前 後")
+    assert c["bits_per"] == 3 and c["count"] == 5 and c["total_bits"] == 15
+    # w/o surface still aliases to 无
+    assert "无" in m.compress("go w/o fear", unique=False, etymon=False, counters=False)
+
+
+def test_morpho_aux_negation_probe():
+    """Light cannot/can't → !can probe; I'll stays C; full not/affirm TODO."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    out = m.compress("I cannot go and I can't stay", unique=False, etymon=False, counters=False)
+    assert "!can" in out
+    assert "cannot" not in out.lower()
+    assert "can't" not in out.lower()
+    # I'll still not introduced by E
+    assert "I'll" not in m.compress("I will go", unique=False, etymon=False, counters=False)
 
 
 def test_morpho_density_closed_summary():
@@ -431,4 +471,44 @@ def test_morpho_density_closed_summary():
     assert "closed" in d
     assert d["closed"]["auxiliary"]["bits_per"] == 2
     assert d["closed"]["preposition"]["bits_per"] == 2
+    assert d["closed"]["prep2"]["bits_per"] == 3
+    assert d["closed"]["compare"]["bits_per"] == 1
     assert d["closed"]["adverb"]["bits_per"] == 2
+
+
+def test_morpho_compare_inventory():
+    """Language-agnostic ≧/≦; JA/ZH/EN/ES/FR/DE; bare under/below untouched (C)."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.COMPARE_CANONICAL == ("≧", "≦")
+    assert m.compare_inventory_bits() == 1
+    ja = m.compress("18歳以上 かつ 60歳以下", unique=False, etymon=False, counters=False)
+    assert "≧" in ja and "≦" in ja
+    assert "以上" not in ja and "以下" not in ja
+    zh = m.compress("18岁以上 60岁以下", unique=False, etymon=False, counters=False)
+    assert "≧" in zh and "≦" in zh
+    en = m.compress(
+        "3 or more and 10 or less; at least 2; at most 5; 18 and above; 65 and below",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert en.count("≧") >= 3 and en.count("≦") >= 3
+    en2 = m.compress("more than 3 less than 10", unique=False, etymon=False, counters=False)
+    assert "≧" in en2 and "≦" in en2
+    # one non-EN/JA form each direction
+    es = m.compress("más de 3 menos de 10 al menos 2 como máximo 5", unique=False, etymon=False, counters=False)
+    assert "≧" in es and "≦" in es
+    fr = m.compress("plus de 3 moins de 10", unique=False, etymon=False, counters=False)
+    assert "≧" in fr and "≦" in fr
+    de = m.compress("mehr als 3 weniger als 10", unique=False, etymon=False, counters=False)
+    assert "≧" in de and "≦" in de
+    approx = m.compress("approximately equal to 5; equal to 1", unique=False, etymon=False, counters=False)
+    assert "≒" in approx and "=" in approx
+    under = m.compress("under the table below the shelf", unique=False, etymon=False, counters=False)
+    assert "under" in under.lower() and "below" in under.lower()
+    assert m.canonicalize_closed("compare", "以上") == "≧"
+    assert m.canonicalize_closed("compare", "以下") == "≦"
+    assert m.canonicalize_closed("compare", "at least") == "≧"
+    assert m.canonicalize_closed("compare", "más de") == "≧"
+    assert m.canonicalize_closed("compare", "weniger als") == "≦"
+    assert m.compare_bit_cost("≧ ≦")["total_bits"] == 2
