@@ -11,7 +11,7 @@
 
 - 一人称 → `I`（私は/僕は/俺は…を潰す）
 - **代名詞 2-bit 在庫**（下記）
-- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・比較）→ 下記。接続 → `&` `/` `bc` `∴`；前置1 → `w/` `4` `fr` `@`；前置2 → `de` `无` `内` `前` `後`；比較 → `≧` `≦`
+- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・助詞・比較）→ 下記。接続 → `&` `/` `bc` `∴`；前置1 → `w/` `4` `fr` `@`；前置2 → `de` `无` `内` `前` `後`；助詞 → `∅` `→` `∈` `〜`；比較 → `≧` `≦`。極性 `!`/`¬` は在庫幅とは別の **1bit フラグ**
 - whatever 系 → `∀` / `∀loc` / `∀who` … / hereafter → `∴→`
 - 助数詞: JA 既存は維持。EN 数量句も実験的に短くする（`3 animals` → `3匹`, `2 people` → `2人` など）。桁化済みの数字が前提（スペル数字→桁は C）
 - 冠詞: 引用なしの `the`/`a`/`an` は落とす。`"the"` / `'the'` は内側の語だけ残す（引用符は外す）。`--keep-articles` で無効化
@@ -63,21 +63,23 @@
 | 代名詞 pronoun | I / 君 / 彼 / they | 4 | 2 | they\|them\|y'all 同一；她→彼表層 | `he or she` → `彼/她` |
 | 冠詞 article | ∅ | 1 | **0** | the/a/an → 削除（引用は保持） | `the cat` → `cat` |
 | 接続詞 conjunction | & / bc / ∴ | 4 | 2 | and→& or→/ **because→bc** therefore→∴（cuz は否定せず、数学記号系を優先；点々表記の余地） | `… because …` → `… bc …` |
-| 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；**not/never 極性は TODO**（助動詞と一緒に検証） | `however very` → `tho ˅` |
-| 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can would→will should→must might→may；**I'll は C**；軽プローブ `cannot`/`can't`→`!can`；**否定・肯定の両経路検証 TODO**（時制で複雑化） | `I could` → `I can`；`I can't` → `I !can` |
+| 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；拡張 □=always / oft=often；**never→¬ not→!**（極性は助動詞と共有・在庫外1bit）。∀ は whatever 用 | `however very` → `tho ˅`；`always never` → `□ ¬` |
+| 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can would→will should→must might→may；**I'll は C**；否定 `can't/won't/shouldn't/mustn't/may not`→`!can/!will/!must/!may`；`don't/not`→`!`；肯定は素の can/will/must/may。**極性 `!` = 在庫幅とは別1bit** | `I could` → `I can`；`I won't` → `I !will` |
 | 前置詞 preposition | w/ / 4 / fr / @ | 4 | 2 | with→w/ for→4 from→fr at→@；**under/above は C** | `for lunch from home at noon` → `4 lunch fr home @ noon` |
 | 前置詞2 prep2 | de / 无 / 内 / 前 / 後 | 5 | **3** | of→de；without→**无**（`w/o` は別名）；within→内；before→前；after→後。pack1 を 2bit のままにするため分離。C の前後/内外ペアは触らない | `of … without … before …` → `de … 无 … 前 …` |
+| 助詞 particle | ∅ / → / ∈ / 〜 | 4 | 2 | は/が/を/ねよさ→∅；に/へ→→；で→∈（`@` は前置 at と衝突回避）；まで→〜。拡張 も→+ と→& から→fr。**と=& は接続と表層共有；から=fr は前置 from と共有** | `学校に行く` → `学校→行く`；`猫は魚を` → `猫魚` |
 | 比較 compare | ≧ / ≦ | 2 | **1** | **言語非依存**: JA/ZH 以上/以下；EN more than/at least/…；ES más de/al menos/…；FR plus/moins de；DE mehr/weniger als → 同じ ≧/≦。≒/=（approx-equal/equal）。単独 under/below/above は C | `18歳以上` / `más de 3` → `≧` |
+| 極性 polarity | ! / ¬ | — | **1**/標 | 在庫幅ではないフラグ。助動詞否定・副詞 not/never で共有。肯定 = マーカー無し | `!can` は aux 2bit + 極性1bit |
 
 > **for→4 の注意**: `4` は数字 four と表現の揺らぎが出うる。ビット在庫（2bit）とは別評価とし、最終的に `for`（原形）などに戻る可能性あり（未変更・TODO）。
 
-**拡張:** conjunction +∵/+（N=6→3bit）；adverb +also；preposition +to（N=5→3bit）；pronoun +it（N=5→3bit）。prep2 はコアで N=5→3bit（pack 分離で pack1 は 2bit 維持）。
+**拡張:** conjunction +∵/+（N=6→3bit）；adverb +also/□/oft；preposition +to（N=5→3bit）；pronoun +it（N=5→3bit）；particle +/&/fr（N=7→3bit）。prep2 はコアで N=5→3bit（pack 分離で pack1 は 2bit 維持）。
 
-**C との境界:** moreover/furthermore/nevertheless・under/above/below・I'll・台帳の前後/内外ペアは C。E の bare 前/後（EN before/after）と 以上/以下→≧/≦ は別。`in`/`on` は曖昧のため自動書き換え見送り。
+**C との境界:** moreover/furthermore/nevertheless・under/above/below・I'll・台帳の前後/内外ペアは C。E の bare 前/後（EN before/after）と 以上/以下→≧/≦、助詞コアは別。`in`/`on` は曖昧のため自動書き換え見送り。
 
 **because / cuz:** `because→bc` 採用。`cuz` は可能性として否定しないが、数学記号寄りの `bc` / `∴` 系を優先。将来点々付き表記が載る余地あり（bc のまま）。
 
-**助動詞・副詞 × not:** 時制が絡むと複雑。拡張時は **否定語と肯定の両継承を検証**する（TODO）。現状は `cannot`/`can't`→`!can` の軽プローブのみ。I'll は C 所有のまま。
+**助動詞・副詞 × not（検証パス実装）:** 否定 `can't/won't/shouldn't/mustn't/may not/don't`→`!…` / `!`；肯定は素の can/will/must/may。副詞 `not→!` `never→¬`。極性は `polarity_bit_cost`（1bit/マーカー）。時制の深い畳み込みは未着手。I'll は C 所有のまま。
 
 ## 語彙ポリシー（揺らぎ削減）
 

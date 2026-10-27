@@ -5,7 +5,8 @@ Prefer short low-ambiguity tokens that shrink prediction candidates
 (e.g. ``I`` over 私は/僕は/俺は). Keep useful counters (匹/個). Compact
 pronoun inventory (2-bit core: I / 君 / 彼 / they|them|y'all) plus closed
 POS inventories (articles / conjunctions / adverbs / auxiliaries /
-prepositions pack1 + prep2). Avoid Chinese-only bias.
+prepositions pack1 + prep2 / particles / compare). Polarity ``!``/``¬``
+is a separate 1-bit flag (not inventory width). Avoid Chinese-only bias.
 
 Shared lexeme policy (``shared.lex_policy``) usage:
 - UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
@@ -170,7 +171,7 @@ _CONJ_SURFACE_RE = re.compile(
 
 # --- adverb (副詞): discourse / degree ----------------------------------------
 ADVERB_CANONICAL: tuple[str, ...] = ("tho", "~", "˅", "esp.")
-ADVERB_EXTENDED: tuple[str, ...] = ("tho", "~", "˅", "esp.", "also")
+ADVERB_EXTENDED: tuple[str, ...] = ("tho", "~", "˅", "esp.", "also", "□", "oft")
 ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "tho": "tho",
     "however": "tho",
@@ -186,10 +187,15 @@ ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "particularly": "esp.",
     "also": "also",
     "additionally": "also",
+    "□": "□",
+    "always": "□",
+    "oft": "oft",
+    "often": "oft",
 }
 _ADVERB_SURFACE_RE = re.compile(
     r"\bapproximately\b|\bespecially\b|\bparticularly\b|\badditionally\b|"
-    r"\bhowever\b|\bextremely\b|\breally\b|\bvery\b|\besp\.|\btho\b|\balso\b|[~˅]",
+    r"\bhowever\b|\bextremely\b|\breally\b|\bvery\b|\balways\b|\boften\b|"
+    r"\besp\.|\btho\b|\balso\b|\boft\b|[~˅□]",
     re.I,
 )
 
@@ -317,6 +323,47 @@ _COMPARE_SURFACE_RE = re.compile(
     re.I,
 )
 
+# --- particle (助詞): JA case/modality → symbol / drop ---------------------------------
+# Core N=4 → 2bit. Language-agnostic minimal surfaces (symbols OK).
+# Conflicts (documented): と→& overlaps conj &; から→fr overlaps prep from;
+# で→∈ (not @; @ is prep at). C ledger 前後/内外 pairs untouched (bare 前/後 are prep2).
+# は/が topic vs subject collapsed to ∅ (recoverable); を→∅; ね/よ/さ→∅.
+PARTICLE_CANONICAL: tuple[str, ...] = ("∅", "→", "∈", "〜")
+PARTICLE_EXTENDED: tuple[str, ...] = ("∅", "→", "∈", "〜", "+", "&", "fr")
+PARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
+    "∅": "∅",
+    "は": "∅",
+    "が": "∅",
+    "を": "∅",
+    "ね": "∅",
+    "よ": "∅",
+    "さ": "∅",
+    "→": "→",
+    "に": "→",
+    "へ": "→",
+    "∈": "∈",
+    "で": "∈",
+    "〜": "〜",
+    "まで": "〜",
+    "+": "+",
+    "も": "+",
+    "&": "&",
+    "と": "&",
+    "fr": "fr",
+    "から": "fr",
+}
+_PARTICLE_SURFACE_RE = re.compile(
+    r"までは|からは|には|では|とは|"
+    r"まで|から|"
+    r"[はねよさをがにへとでも]|"
+    r"→|∈|〜|\+|\bfr\b|&",
+)
+
+# Polarity flag (! / ¬): extra 1 bit, separate from aux/adverb inventory width.
+# Shared by auxiliary negation (!can) and adverb not/never.
+POLARITY_BIT = 1
+POLARITY_MARKERS: tuple[str, ...] = ("!", "¬")
+
 CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
     "pronoun": ClosedInventory(
         "pronoun",
@@ -349,7 +396,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         ADVERB_EXTENDED,
         ADVERB_ALIAS_TO_CANONICAL,
         _ADVERB_SURFACE_RE,
-        "discourse/degree; bits-primary; not/never polarity verification TODO w/ aux",
+        "discourse/degree; bits-primary; polarity !/¬ shared w/ aux (separate 1bit); ext □=always oft=often; ∀ kept for whatever",
     ),
     "auxiliary": ClosedInventory(
         "auxiliary",
@@ -358,7 +405,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         AUX_ALIAS_TO_CANONICAL,
         _AUX_SURFACE_RE,
         "could→can would→will should→must might→may; I'll is C; "
-        "negation/affirmation (not/can't/won't…) needs joint verification (TODO)",
+        "neg → !can/!will/!must/!may; don't/not → !; polarity flag = 1bit separate",
     ),
     "preposition": ClosedInventory(
         "preposition",
@@ -384,6 +431,15 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         _COMPARE_SURFACE_RE,
         "以上→≧ 以下→≦ (1bit); EN at least/or more/and above→≧; at most/or less/and below→≦; "
         "bare under/below/above stay for C",
+    ),
+    "particle": ClosedInventory(
+        "particle",
+        PARTICLE_CANONICAL,
+        PARTICLE_EXTENDED,
+        PARTICLE_ALIAS_TO_CANONICAL,
+        _PARTICLE_SURFACE_RE,
+        "core ∅|→|∈|〜 → 2bit; は/が/を/ねよさ→∅; に/へ→→; で→∈ (not @); まで→〜; "
+        "ext +|&|fr (も/と/から); と overlaps conj &; から overlaps prep fr",
     ),
 }
 
@@ -533,6 +589,35 @@ def compare_inventory_bits(*, extended: bool = False) -> int:
 def compare_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
     return closed_bit_cost("compare", text, extended=extended)
 
+
+def particle_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("particle", extended=extended)
+
+
+def particle_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("particle", text, extended=extended)
+
+
+def polarity_bit_cost(text: str) -> dict[str, float | int | list[str]]:
+    """Count polarity markers ``!`` / ``¬``; each costs POLARITY_BIT (1), not inventory width.
+
+    Shared by auxiliary negation (``!can``) and adverb not/never. Affirmation = absence of marker.
+    """
+    found: list[str] = []
+    for ch in text:
+        if ch in POLARITY_MARKERS:
+            found.append(ch)
+    return {
+        "name": "polarity",
+        "markers": list(POLARITY_MARKERS),
+        "bits_per": POLARITY_BIT,
+        "count": len(found),
+        "total_bits": len(found) * POLARITY_BIT,
+        "canonicals": found,
+        "note": "1-bit polarity flag separate from aux/adverb inventory width; I'll stays C",
+    }
+
+
 # (pattern, replacement) — applied in order; more specific first.
 _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- pronouns (multi-word / longer first). Contractions (I'll) belong to C.
@@ -606,15 +691,37 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≧/≦).
     # greater than stays > (strict); less than → ≦ via phrase grammar.
     (re.compile(r"\bgreater than\b", re.I), ">"),
-    # --- adverbs (closed inventory): very/really/extremely → ˅ ; particularly → esp.
+    # --- adverbs (closed inventory): degree + polarity-adjacent frequency
+    # always→□ (∀ kept for whatever); never→¬; often→oft; bare not→! (after may not etc.)
     (re.compile(r"\bextremely\b", re.I), "˅"),
     (re.compile(r"\breally\b", re.I), "˅"),
     (re.compile(r"\bvery\b", re.I), "˅"),
     (re.compile(r"\bparticularly\b", re.I), "esp."),
+    (re.compile(r"\balways\b", re.I), "□"),
+    (re.compile(r"\bnever\b", re.I), "¬"),
+    (re.compile(r"\boften\b", re.I), "oft"),
     # --- auxiliaries (closed inventory); I'll stays C — do not contract I will
-    # Light negation probe: cannot/can't → !can (polarity+aux joint verification TODO)
+    # Negation / affirmation: polarity ``!`` is +1 bit flag (see polarity_bit_cost).
+    # Longer neg forms before positives. should→must slot ⇒ shouldn't→!must.
     (re.compile(r"\bcannot\b", re.I), "!can"),
     (re.compile(r"\bcan'?t\b", re.I), "!can"),
+    (re.compile(r"\bcouldn'?t\b", re.I), "!can"),
+    (re.compile(r"\bwon'?t\b", re.I), "!will"),
+    (re.compile(r"\bwouldn'?t\b", re.I), "!will"),
+    (re.compile(r"\bshould not\b", re.I), "!must"),
+    (re.compile(r"\bshouldn'?t\b", re.I), "!must"),
+    (re.compile(r"\bmust not\b", re.I), "!must"),
+    (re.compile(r"\bmustn'?t\b", re.I), "!must"),
+    (re.compile(r"\bmay not\b", re.I), "!may"),
+    (re.compile(r"\bmight not\b", re.I), "!may"),
+    (re.compile(r"\bdo not\b", re.I), "!"),
+    (re.compile(r"\bdoes not\b", re.I), "!"),
+    (re.compile(r"\bdid not\b", re.I), "!"),
+    (re.compile(r"\bdon'?t\b", re.I), "!"),
+    (re.compile(r"\bdoesn'?t\b", re.I), "!"),
+    (re.compile(r"\bdidn'?t\b", re.I), "!"),
+    (re.compile(r"できない|出来ない"), "!can"),
+    (re.compile(r"ではない|じゃない|じゃありません|ではありません"), "!"),
     (re.compile(r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない"), "must"),
     (re.compile(r"かもしれない"), "may"),
     (re.compile(r"することができ(?:る|ます)"), "can"),
@@ -623,6 +730,28 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bwould\b", re.I), "will"),
     (re.compile(r"\bshould\b", re.I), "must"),
     (re.compile(r"\bmight\b", re.I), "may"),
+    # Bare not (after may not / do not phrases above)
+    (re.compile(r"\bnot\b", re.I), "!"),
+    # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
+    # Compounds before singles. Avoid で in できる/です/である/でも…
+    (re.compile(r"からは"), "fr"),
+    (re.compile(r"までは"), "〜"),
+    (re.compile(r"には"), "→"),
+    (re.compile(r"では(?!ない)"), "∈"),
+    (re.compile(r"とは"), "&"),
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])まで"), "〜"),
+    # から: particle-from → fr (causal から ambiguous; same surface as prep intentionally)
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])から"), "fr"),
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])(?:に|へ)"), "→"),
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), "∈"),
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])も"), "+"),
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])を"), ""),
+    # は/が: drop after CJK; skip は in はい/はあ discourse; が in known starts rare
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
+    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])が(?!る|ん|っ|ち|く|くせい)"), ""),
+    # sentence-final modality particles
+    (re.compile(r"[ねよさ]+(?=[。．.!！？?]|$)"), ""),
     # --- prepositions pack1; C owns under/above/below/beneath — skip
     (re.compile(r"\bfrom\b", re.I), "fr"),
     # NOTE(for→4): 表層 4 は数字の four と揺らぎうる。ビット在庫(2bit)とは別に評価し、将来 for（原形）等へ戻る可能性あり（現状は 4 のまま）。
@@ -925,6 +1054,12 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])前(?![\w\u3040-\u30ff\u3400-\u9fff])"), "before"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])(?:后|後)(?![\w\u3040-\u30ff\u3400-\u9fff])"), "after"),
     (re.compile(r"!can\b"), "cannot"),
+    (re.compile(r"!will\b"), "will not"),
+    (re.compile(r"!must\b"), "must not"),
+    (re.compile(r"!may\b"), "may not"),
+    (re.compile(r"□"), "always"),
+    (re.compile(r"¬"), "never"),
+    (re.compile(r"\boft\b", re.I), "often"),
     (re.compile(r"≧"), "以上"),
     (re.compile(r"≦"), "以下"),
     (re.compile(r"≒"), "approximately equal"),
@@ -1053,6 +1188,7 @@ def density(before: str, after: str, *, extended_pronouns: bool = False) -> dict
             "count": c["count"],
             "total_bits": c["total_bits"],
         }
+    pol = polarity_bit_cost(after)
     return {
         "chars_before": b,
         "chars_after": a,
@@ -1063,6 +1199,9 @@ def density(before: str, after: str, *, extended_pronouns: bool = False) -> dict
         "pronoun_count": pb["count"],
         "pronoun_bits_total": pb["total_bits"],
         "utf8_bits_after": pb["utf8_bits_text"],
+        "polarity_bits_each": pol["bits_per"],
+        "polarity_count": pol["count"],
+        "polarity_bits_total": pol["total_bits"],
         "closed": closed,
     }
 

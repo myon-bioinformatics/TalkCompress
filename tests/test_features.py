@@ -329,6 +329,7 @@ def test_morpho_closed_inventory_bits_table():
         "preposition",
         "prep2",
         "compare",
+        "particle",
     }
     assert m.closed_inventory_bits("article") == 0  # N=1 → ∅
     assert m.closed_inventory_bits("conjunction") == 2
@@ -338,7 +339,10 @@ def test_morpho_closed_inventory_bits_table():
     assert m.closed_inventory_bits("preposition", extended=True) == 3  # N=5 (+to)
     assert m.closed_inventory_bits("prep2") == 3  # N=5 → 3bit
     assert m.closed_inventory_bits("compare") == 1  # N=2 → 1bit
+    assert m.closed_inventory_bits("particle") == 2  # N=4 → 2bit
+    assert m.closed_inventory_bits("particle", extended=True) == 3  # N=7
     assert m.closed_inventory_bits("conjunction", extended=True) == 3  # N=6
+    assert m.POLARITY_BIT == 1
 
 
 def test_morpho_article_inventory():
@@ -382,6 +386,15 @@ def test_morpho_adverb_inventory():
     assert "tho" in out and "~" in out and "˅" in out and "esp." in out
     assert m.canonicalize_closed("adverb", "very") == "˅"
     assert m.adverb_bit_cost("tho ~ ˅ esp.")["total_bits"] == 8  # 4×2
+    freq = m.compress(
+        "always often never ready",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert "□" in freq and "oft" in freq and "¬" in freq
+    assert m.canonicalize_closed("adverb", "always", extended=True) == "□"
+    assert m.canonicalize_closed("adverb", "often", extended=True) == "oft"
 
 
 def test_morpho_auxiliary_inventory():
@@ -452,15 +465,80 @@ def test_morpho_prep2_inventory():
     assert "无" in m.compress("go w/o fear", unique=False, etymon=False, counters=False)
 
 
-def test_morpho_aux_negation_probe():
-    """Light cannot/can't → !can probe; I'll stays C; full not/affirm TODO."""
+def test_morpho_aux_negation_and_affirmation():
+    """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    out = m.compress("I cannot go and I can't stay", unique=False, etymon=False, counters=False)
-    assert "!can" in out
+    out = m.compress(
+        "I cannot go and I can't stay and I won't leave and I shouldn't rest "
+        "and I mustn't shout and I may not enter and I might not wait",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert "!can" in out and "!will" in out and "!must" in out and "!may" in out
     assert "cannot" not in out.lower()
-    assert "can't" not in out.lower()
+    assert "won't" not in out.lower()
+    assert "shouldn't" not in out.lower()
+    # do/does/did not → !
+    dn = m.compress("I do not know and I don't see and she doesn't care", unique=False, etymon=False, counters=False)
+    assert dn.count("!") >= 3
+    # affirmation path: bare positives stay
+    pos = m.compress("I can go and I will stay and I must rest and I may leave", unique=False, etymon=False, counters=False)
+    assert "!can" not in pos and "!will" not in pos
+    assert "can" in pos and "will" in pos and "must" in pos and "may" in pos
+    # JA aux neg
+    ja = m.compress("それはできない", unique=False, etymon=False, counters=False)
+    assert "!can" in ja
+    ja2 = m.compress("本物ではない", unique=False, etymon=False, counters=False)
+    assert "!" in ja2 and "ではない" not in ja2
     # I'll still not introduced by E
     assert "I'll" not in m.compress("I will go", unique=False, etymon=False, counters=False)
+    # polarity bit separate from aux width
+    pol = m.polarity_bit_cost("I !can & !will")
+    assert pol["bits_per"] == 1 and pol["count"] == 2 and pol["total_bits"] == 2
+    assert m.auxiliary_inventory_bits() == 2  # unchanged by !
+
+
+def test_morpho_adverb_polarity():
+    """not/never share polarity markers with aux; always→□ (∀=whatever)."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    out = m.compress("not ready and never late", unique=False, etymon=False, counters=False)
+    assert "!" in out and "¬" in out
+    assert "never" not in out.lower()
+    # whatever still ∀; always is □
+    w = m.compress("whatever always", unique=False, etymon=False, counters=False)
+    assert "∀" in w and "□" in w
+    pol = m.polarity_bit_cost("¬ ! ready")
+    assert pol["count"] == 2 and pol["total_bits"] == 2
+
+
+def test_morpho_particle_inventory():
+    """JA particles → ∅/→/∈/〜 core (2bit); ext +|&|fr; C ledger untouched."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.PARTICLE_CANONICAL == ("∅", "→", "∈", "〜")
+    assert m.particle_inventory_bits() == 2
+    assert m.canonicalize_closed("particle", "に") == "→"
+    assert m.canonicalize_closed("particle", "で") == "∈"
+    assert m.canonicalize_closed("particle", "まで") == "〜"
+    assert m.canonicalize_closed("particle", "を") == "∅"
+    assert m.canonicalize_closed("particle", "も", extended=True) == "+"
+    assert m.canonicalize_closed("particle", "と", extended=True) == "&"
+    assert m.canonicalize_closed("particle", "から", extended=True) == "fr"
+    out = m.compress(
+        "猫は魚を食べる。学校に行く。家で働く。駅まで歩く。",
+        unique=False,
+        etymon=False,
+        counters=False,
+    )
+    assert "は" not in out and "を" not in out
+    assert "→" in out and "∈" in out and "〜" in out
+    assert "猫魚食べる" in out.replace("。", "") or "猫魚食べる" in out
+    out2 = m.compress("東京から来る。彼と話す。水もあるよ", unique=False, etymon=False, counters=False)
+    assert "fr" in out2 and "&" in out2 and "+" in out2
+    # modality finals dropped
+    assert not out2.endswith("よ")
+    # C spatial pairs not invented here
+    assert "under" in m.compress("under the table", unique=False, etymon=False, counters=False).lower()
 
 
 def test_morpho_density_closed_summary():
@@ -474,6 +552,8 @@ def test_morpho_density_closed_summary():
     assert d["closed"]["prep2"]["bits_per"] == 3
     assert d["closed"]["compare"]["bits_per"] == 1
     assert d["closed"]["adverb"]["bits_per"] == 2
+    assert d["closed"]["particle"]["bits_per"] == 2
+    assert "polarity_bits_each" in d
 
 
 def test_morpho_compare_inventory():
