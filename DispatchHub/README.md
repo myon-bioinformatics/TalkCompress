@@ -61,4 +61,4 @@ uv run python DispatchHub/dispatch_hub.py --layer B --stats --text 'Hello. こ�
 
 ## Round-4
 
-`--translate-min` / `--translation-bank` を B へ配線（D は変換しない）。
+`--translate-min` / `--translation-bank` / `--translate-engine` を B へ配線（D は変換しない。engine 既定は fixture）。

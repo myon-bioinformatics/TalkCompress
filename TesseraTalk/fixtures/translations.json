@@ -4,7 +4,10 @@
   "notes": [
     "Not a C ledger. Natural shorter forms (incl. abbreviations that arise from translation) are allowed.",
     "Keys are normalized lookup forms (lowercased Latin; CJK kept as-is). Values are {lang: text} candidates.",
-    "Chooser picks the lowest estimate_tokens among original + candidates; keeps original on ties."
+    "Chooser picks the lowest estimate_tokens among original + candidates; keeps original on ties.",
+    "EN+ZH+JA was the starting mix, not a hard ceiling. In-scope for B token-min and LID include:",
+    "  Romance (es, fr, pt, it), Germanic (de, nl, en), Greek (el), plus ja/zh and other script tags LID can emit.",
+    "Default allow_langs=None accepts any bank language. Live MT is opt-in (--translate-engine); fixtures keep CI deterministic."
   ],
   "entries": [
     {
@@ -17,7 +20,14 @@
       "candidates": {
         "en": "I'll find info on 3 animals.",
         "zh": "我会查明三只动物的信息。",
-        "ja": "3匹の動物の情報を調べる。"
+        "ja": "3匹の動物の情報を調べる。",
+        "es": "Averiguo info de 3 animales.",
+        "fr": "Je trouve info sur 3 animaux.",
+        "de": "Info zu 3 Tieren klären.",
+        "nl": "Info over 3 dieren.",
+        "it": "Scopro info su 3 animali.",
+        "pt": "Descubro info de 3 animais.",
+        "el": "Βρίσκω info για 3 ζώα."
       }
     },
     {
@@ -30,7 +40,14 @@
       "candidates": {
         "en": "Please reply ASAP.",
         "zh": "请尽快回复。",
-        "ja": "至急返信ください。"
+        "ja": "至急返信ください。",
+        "es": "Por favor responde lo antes posible.",
+        "fr": "Réponds dès que possible s'il te plaît.",
+        "pt": "Por favor responda o mais rápido possível.",
+        "it": "Per favore rispondi il prima possibile.",
+        "de": "Bitte antworte so schnell wie möglich.",
+        "nl": "Antwoord zo snel mogelijk alsjeblieft.",
+        "el": "Παρακαλώ απάντησε το συντομότερο δυνατόν."
       }
     },
     {
@@ -43,7 +60,14 @@
       "candidates": {
         "zh": "早。",
         "ja": "おはよう。",
-        "en": "Morning."
+        "en": "Morning.",
+        "es": "Buenos días.",
+        "fr": "Bonjour.",
+        "pt": "Bom dia.",
+        "it": "Buongiorno.",
+        "de": "Guten Morgen.",
+        "nl": "Goedemorgen.",
+        "el": "Καλημέρα."
       }
     },
     {
@@ -56,7 +80,14 @@
       "candidates": {
         "zh": "多谢。",
         "ja": "ありがとう。",
-        "en": "Thanks."
+        "en": "Thanks.",
+        "es": "Muchas gracias.",
+        "fr": "Merci beaucoup.",
+        "pt": "Muito obrigado.",
+        "it": "Grazie mille.",
+        "de": "Vielen Dank.",
+        "nl": "Hartelijk dank.",
+        "el": "Ευχαριστώ πολύ."
       }
     },
     {
@@ -69,7 +100,14 @@
       "candidates": {
         "zh": "你好吗？",
         "ja": "元気？",
-        "en": "How r u?"
+        "en": "How r u?",
+        "es": "¿Cómo estás?",
+        "fr": "Ça va?",
+        "pt": "Tudo bem?",
+        "it": "Come stai?",
+        "de": "Wie geht's?",
+        "nl": "Hoe gaat het?",
+        "el": "Τι κάνεις;"
       }
     },
     {
@@ -119,7 +157,14 @@
       "candidates": {
         "en": "Cat under table.",
         "zh": "猫在桌下。",
-        "ja": "猫は机の下。"
+        "ja": "猫は机の下。",
+        "es": "Gato bajo mesa.",
+        "fr": "Chat sous table.",
+        "de": "Katze unter Tisch.",
+        "nl": "Kat onder tafel.",
+        "it": "Gatto sotto tavolo.",
+        "pt": "Gato sob mesa.",
+        "el": "Γάτα κάτω από τραπέζι."
       }
     },
     {
@@ -132,7 +177,12 @@
       "candidates": {
         "en": "Bumpy road.",
         "zh": "路不平。",
-        "ja": "凸凹な道。"
+        "ja": "凸凹な道。",
+        "es": "Camino irregular.",
+        "fr": "Route bosselée.",
+        "de": "Holprige Straße.",
+        "nl": "Hobbelige weg.",
+        "el": "Ανώμαλος δρόμος."
       }
     },
     {
@@ -145,7 +195,11 @@
       "candidates": {
         "en": "FYI, build ready.",
         "zh": "供参考，构建已就绪。",
-        "ja": "参考：ビルド完了。"
+        "ja": "参考：ビルド完了。",
+        "es": "Para tu información, la compilación está lista.",
+        "fr": "Pour information, le build est prêt.",
+        "de": "Zu Ihrer Information, der Build ist fertig.",
+        "el": "Προς ενημέρωσή σου, το build είναι έτοιμο."
       }
     },
     {
@@ -158,7 +212,14 @@
       "candidates": {
         "en": "CUL8R.",
         "zh": "再见。",
-        "ja": "またね。"
+        "ja": "またね。",
+        "es": "Hasta luego.",
+        "fr": "À plus.",
+        "pt": "Até logo.",
+        "it": "A dopo.",
+        "de": "Bis später.",
+        "nl": "Tot later.",
+        "el": "Τα λέμε."
       }
     },
     {
@@ -171,7 +232,14 @@
       "candidates": {
         "zh": "晚安。",
         "ja": "おやすみ。",
-        "en": "Night."
+        "en": "Night.",
+        "es": "Buenas noches.",
+        "fr": "Bonne nuit.",
+        "pt": "Boa noite.",
+        "it": "Buonanotte.",
+        "de": "Gute Nacht.",
+        "nl": "Welterusten.",
+        "el": "Καληνύχτα."
       }
     },
     {
@@ -184,7 +252,14 @@
       "candidates": {
         "zh": "稍等。",
         "ja": "少々お待ちを。",
-        "en": "Wait pls."
+        "en": "Wait pls.",
+        "es": "Espera.",
+        "fr": "Attendez.",
+        "pt": "Aguarde.",
+        "it": "Attendi.",
+        "de": "Warte.",
+        "nl": "Wacht.",
+        "el": "Περίμενε."
       }
     },
     {
@@ -197,7 +272,14 @@
       "candidates": {
         "zh": "明白。",
         "ja": "了解。",
-        "en": "Got it."
+        "en": "Got it.",
+        "es": "Entiendo.",
+        "fr": "Compris.",
+        "pt": "Entendi.",
+        "it": "Capito.",
+        "de": "Verstehe.",
+        "nl": "Begrepen.",
+        "el": "Κατάλαβα."
       }
     },
     {
@@ -210,7 +292,14 @@
       "candidates": {
         "zh": "几点？",
         "ja": "何時？",
-        "en": "Time?"
+        "en": "Time?",
+        "es": "¿Qué hora?",
+        "fr": "Quelle heure?",
+        "pt": "Que horas?",
+        "it": "Che ora?",
+        "de": "Wie spät?",
+        "nl": "Hoe laat?",
+        "el": "Τι ώρα;"
       }
     },
     {
@@ -223,7 +312,14 @@
       "candidates": {
         "zh": "明天见。",
         "ja": "また明日。",
-        "en": "CUL8R tmrw."
+        "en": "CUL8R tmrw.",
+        "es": "Hasta mañana.",
+        "fr": "À demain.",
+        "pt": "Até amanhã.",
+        "it": "A domani.",
+        "de": "Bis morgen.",
+        "nl": "Tot morgen.",
+        "el": "Αύριο."
       }
     },
     {
@@ -236,7 +332,11 @@
       "candidates": {
         "zh": "请确认收妥。",
         "ja": "受領確認を。",
-        "en": "Confirm receipt."
+        "en": "Confirm receipt.",
+        "es": "Confirma recepción.",
+        "fr": "Confirmez réception.",
+        "de": "Empfang bestätigen.",
+        "el": "Επιβεβαίωσε παραλαβή."
       }
     },
     {
@@ -273,7 +373,12 @@
       "candidates": {
         "en": "LMK if Qs.",
         "zh": "有问题告诉我。",
-        "ja": "質問あれば連絡を。"
+        "ja": "質問あれば連絡を。",
+        "es": "Avísame si Qs.",
+        "fr": "Dis-moi si Qs.",
+        "de": "LMK bei Qs.",
+        "nl": "LMK bij Qs.",
+        "el": "Πες μου αν Qs."
       }
     },
     {
@@ -286,7 +391,111 @@
       "candidates": {
         "en": "ASAP",
         "zh": "尽快。",
-        "ja": "至急。"
+        "ja": "至急。",
+        "es": "ASAP",
+        "fr": "ASAP",
+        "de": "ASAP",
+        "el": "ASAP"
+      }
+    },
+    {
+      "id": "congrats-outstanding",
+      "from": [
+        "Congratulations on your outstanding achievement today.",
+        "congratulations on your outstanding achievement today",
+        "Congratulations on your outstanding achievement today"
+      ],
+      "candidates": {
+        "en": "Congrats!",
+        "es": "¡Felicidades!",
+        "fr": "Bravo!",
+        "pt": "Parabéns!",
+        "it": "Complimenti!",
+        "de": "Glückwunsch!",
+        "nl": "Gefeliciteerd!",
+        "el": "Συγχαρητήρια!",
+        "zh": "恭喜你取得杰出成就。",
+        "ja": "素晴らしい成果おめでとうございます。"
+      }
+    },
+    {
+      "id": "grateful-assist",
+      "from": [
+        "I would be grateful if you could assist me with this issue.",
+        "i would be grateful if you could assist me with this issue",
+        "I would be grateful if you could assist me with this issue"
+      ],
+      "candidates": {
+        "es": "Ayúdame.",
+        "fr": "Aide-moi.",
+        "pt": "Ajuda-me.",
+        "it": "Aiutami.",
+        "de": "Hilf mir.",
+        "nl": "Help me.",
+        "el": "Βοήθησέ με.",
+        "en": "Please help.",
+        "zh": "请帮我一下这个问题。",
+        "ja": "この件で手伝ってもらえると助かります。"
+      }
+    },
+    {
+      "id": "where-is-the-station",
+      "from": [
+        "Where is the train station located near here?",
+        "where is the train station located near here?",
+        "Where is the train station located near here"
+      ],
+      "candidates": {
+        "es": "¿Dónde está la estación?",
+        "fr": "Où est la gare?",
+        "pt": "Onde fica a estação?",
+        "it": "Dov'è la stazione?",
+        "de": "Wo ist der Bahnhof?",
+        "nl": "Waar is het station?",
+        "el": "Πού είναι ο σταθμός;",
+        "en": "Where's the station?",
+        "zh": "附近的火车站在哪里？",
+        "ja": "この近くの駅はどこですか？"
+      }
+    },
+    {
+      "id": "happy-birthday-long",
+      "from": [
+        "I wish you a very happy birthday celebration.",
+        "i wish you a very happy birthday celebration",
+        "I wish you a very happy birthday celebration"
+      ],
+      "candidates": {
+        "es": "¡Feliz cumpleaños!",
+        "fr": "Bon anniversaire!",
+        "pt": "Feliz aniversário!",
+        "it": "Buon compleanno!",
+        "de": "Alles Gute!",
+        "nl": "Gefeliciteerd!",
+        "el": "Χρόνια πολλά!",
+        "en": "Happy birthday!",
+        "zh": "祝你生日快乐庆祝愉快。",
+        "ja": "お誕生日おめでとうございます。"
+      }
+    },
+    {
+      "id": "goodbye-friend",
+      "from": [
+        "It was wonderful spending time with you my friend.",
+        "it was wonderful spending time with you my friend",
+        "It was wonderful spending time with you my friend"
+      ],
+      "candidates": {
+        "es": "Adiós.",
+        "fr": "Salut.",
+        "pt": "Tchau.",
+        "it": "Ciao.",
+        "de": "Tschüss.",
+        "nl": "Doei.",
+        "el": "Γεια.",
+        "en": "Bye.",
+        "zh": "和你共度时光真是太棒了朋友。",
+        "ja": "友人と過ごせて素晴らしかった。"
       }
     }
   ]

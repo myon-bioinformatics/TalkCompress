@@ -5,7 +5,7 @@
 | 層 | サブプロジェクト |
 | --- | --- |
 | 1 機械同士 | Zipilogue (A) |
-| 2 文単位多言語 | TesseraTalk (B) — LID/RLE モザイク + **翻訳トークン最短**（EN/JA/ZH・自然短形。C 台帳は使わない） |
+| 2 文単位多言語 | TesseraTalk (B) — LID/RLE モザイク + **翻訳トークン最短**（Romance/Germanic/Greek + JA/ZH・自然短形。C 台帳は使わない） |
 | 3 人間ギリギリ | ShorthandEdge (C) |
 | 4 文内・文法最小 | MorphoZip (E) |
 | 横断ルーティング | DispatchHub (D) |
@@ -16,8 +16,8 @@ JUnit は CI で `build/test-results/pytest-<ver>.xml` に置き、artifact 名�
 
 語彙ヘルパーは `shared/lex_policy.py`。合意済み規約の台帳は **C** の `ShorthandEdge/ledger/conventions.json`（読込は `shared/ledger.py`）。担当は:
 
-- **B**: LID/RLE モザイク。文ごとに翻訳候補（fixtures）でトークンが減るなら EN/JA/ZH・自然短形を採用。C 合意台帳パッチは適用しない
-- **C**: FILLER 除去・UNIQUE_COMPACT（短縮クリップ）・同一言語の省略（`I'll` など）・スペル数字→桁・**合意台帳 lex**（under/below→下、家具 `table`→机/桌、デコボコ→凹凸 など）。接続詞短縮は **曖昧さゲート**（`also` 衝突時や `--prefer-precision` で原文維持）
+- **B**: LID/RLE モザイク。文ごとに翻訳候補（fixtures）でトークンが減るなら採用。EN+ZH+JA は開始セットであり天井ではない（Romance es/fr/pt/it、Germanic de/nl/en、Greek el、ja/zh がスコープ）。自然短形 OK。ライブ MT は `--translate-engine` で opt-in。C 合意台帳パッチは適用しない
+- **C**: FILLER 除去・UNIQUE_COMPACT（短縮クリップ）・同一言語の省略（`I'll` など）・スペル数字→桁・**合意台帳 lex**（under/below→下、家具 `table`→机/桌 ほか多言語の机相当、デコボコ→凹凸 など）。ベース語彙は EN+ZH+JA 寄りだが他言語 cognate も可。接続詞短縮は **曖昧さゲート**（`also` 衝突時や `--prefer-precision` で原文維持）
 - **E**: UNIQUE_READINGS（長い形）・ETYMON_ALIGN（information→ℹ️）・冠詞落とし・助数詞・一人称→I。フィラー/compact/`I'll`/スペル数字/台帳 lex は既定オフ
 - **D**: 層横断ルーター（pipeline / auto / budget / window / profile / quality / compare）のみ。`C,E` パイプラインなら C が先にフィラー・I'll・スペル数字・台帳 lex を処理し、E が ℹ️・冠詞・助数詞を適用する
 

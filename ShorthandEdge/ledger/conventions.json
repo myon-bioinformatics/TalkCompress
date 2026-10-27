@@ -9,12 +9,12 @@
     ],
     "notes": [
       "Owned by C (ShorthandEdge). Source of truth for first-round agreed lex / policy.",
-      "Base mix is EN + ZH + JA.",
+      "Base mix is EN + ZH + JA (starting set, not a hard ceiling across A–E; B also ranks Romance/Germanic/Greek).",
       "When conjunctions or adverbs show up, inserting English often helps readability.",
       "Prefer shorter alphabet / cognate spellings when they align with meaning.",
       "Concrete lex mappings live under conventions[]; policy-only items have kind=policy.",
       "ℹ️ (information) stays on E MorphoZip etymon path, not this ledger.",
-      "Furniture EN table → short JA/ZH desk lexeme (机 / 桌 / 桌子); canonical to=机; SQL/tech contexts keep table.",
+      "Furniture EN table → short desk/table lexeme; canonical to=机; allowed_to includes JA/ZH and Romance/Germanic/Greek desk equivalents (mesa/Tisch/tavolo/tafel/τραπέζι). SQL/tech contexts keep table.",
       "Ambiguity gate (C): conjunction shortenings marked ambiguity_sensitive skip when short form already collides in-text, or prefer_precision=True (CLI --prefer-precision)."
     ]
   },
@@ -71,7 +71,7 @@
       "id": "policy-base-mix",
       "kind": "policy",
       "apply_layer": "C",
-      "rationale": "ベースは EN+ZH+JA。接続詞・副詞は英語挿入が効くことが多い。短いアルファベット/cognate スペルを優先。C 台帳に保持。実装は今後の具体マッピング追加時。",
+      "rationale": "ベースは EN+ZH+JA（開始セット）。接続詞・副詞は英語挿入が効くことが多い。短いアルファベット/cognate スペルを優先。B の翻訳スコープ（Romance/Germanic/Greek）とは別。C 台帳に保持。",
       "payload": {
         "base_mix": [
           "en",
@@ -79,7 +79,15 @@
           "ja"
         ],
         "conjunction_adverb_bias": "en",
-        "prefer_short_alphabet_cognates": true
+        "prefer_short_alphabet_cognates": true,
+        "note": "starting_mix_not_ceiling",
+        "b_scope_families": [
+          "romance",
+          "germanic",
+          "greek",
+          "ja",
+          "zh"
+        ]
       }
     },
     {
@@ -202,9 +210,14 @@
       "allowed_to": [
         "机",
         "桌",
-        "桌子"
+        "桌子",
+        "mesa",
+        "Tisch",
+        "tavolo",
+        "tafel",
+        "τραπέζι"
       ],
-      "rationale": "EN table is polysemous (SQL/schema etc.). Furniture sense → short unambiguous desk/table lexeme in EN+ZH+JA bank: 机 (JA) or 桌/桌子 (ZH). Canonical to=机 (1 char); 桌 is an equally valid short target. Skip SQL/tech contexts.",
+      "rationale": "EN table is polysemous (SQL/schema etc.). Furniture sense → short unambiguous desk/table lexeme: 机 (JA), 桌/桌子 (ZH), or Romance/Germanic/Greek equivalents (mesa / Tisch / tavolo / tafel / τραπέζι). Canonical to=机 (1 char). Skip SQL/tech contexts.",
       "skip_sql_tech": true,
       "skip_near": [
         "sql",

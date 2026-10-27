@@ -11,7 +11,7 @@
 | kind | 役割 |
 | --- | --- |
 | `lex` | 置換（`from`→`to`）。`apply_layer=C` |
-| `policy` | 方針メモ（EN+ZH+JA ベースなど） |
+| `policy` | 方針メモ（EN+ZH+JA は開始セット；天井ではない） |
 
 ```bash
 uv run python -m shared.ledger --list
@@ -25,7 +25,7 @@ uv run python ShorthandEdge/shorthand_edge.py compress --text 'below average and
 - フィラー除去（um / えーと / I mean …）— E ではなくここが既定の担当
 - UNIQUE_READINGS + UNIQUE_COMPACT（find out → ascertain → `ascrt`）
 - 同一言語の短縮: `I will`→`I'll`（`私は will` も先に `I` 化）、`three`→`3` など
-- 合意台帳 lex: `under`/`below`→`下`、家具 `table`→`机`（同等に `桌`/`桌子` 可・SQL/tech は残す）、`デコボコ`/`bumpy`→`凹凸` など
+- 合意台帳 lex: `under`/`below`→`下`、家具 `table`→`机`（同等に `桌`/`桌子` や mesa/Tisch/tavolo/tafel/τραπέζι 可・SQL/tech は残す）、`デコボコ`/`bumpy`→`凹凸` など
 - 曖昧さゲート: `moreover`→`also` 等は衝突時または `--prefer-precision` で原文維持（C 所有）
 - `hereafter X=Y` / `∴ X=Y` / `以降 X=Y` をセッション規約として取り込み（パイプラインでも有効）
 - `--lexicon PATH` で追加語彙 JSON（`{long: short}` または `{"map": {...}}`）をマージ
@@ -48,7 +48,7 @@ Built-in packs under `packs/` (`dev`, `mcp`). `--pack NAME` (repeatable) merges 
 
 ## Round-4
 
-台帳に左右・前後・内外・大小・接続詞英語短形・家具 table→机/桌（SQL スキップ）・曖昧さゲート。`packs/chat.json`。
+台帳に左右・前後・内外・大小・接続詞英語短形・家具 table→机/桌ほか多言語の机相当（SQL スキップ）・曖昧さゲート。`packs/chat.json`。
 
 
 ## Ambiguity gate / furniture table
@@ -57,7 +57,7 @@ Owned entirely by C (`shared/ledger.py` + `ledger/conventions.json`).
 
 | Rule | Behavior |
 | --- | --- |
-| Furniture `table`/`tables` | → canonical **机** (allowed targets: 机 / 桌 / 桌子). Not 机-only dogma — pick a short EN+ZH+JA furniture lexeme. |
+| Furniture `table`/`tables` | → canonical **机** (allowed: 机 / 桌 / 桌子 / mesa / Tisch / tavolo / tafel / τραπέζι). Not 机-only dogma — short desk equivalents across JA/ZH and Romance/Germanic/Greek. |
 | SQL/tech context | Keep English `table` when cues like `SQL`, `SELECT`, `CREATE TABLE`, `JOIN`, `schema`, `db`, `database` appear. |
 | `ambiguity_sensitive` conj | e.g. moreover→also, therefore→so, nevertheless→but. Clear additive context still shortens. |
 | Collision | If the short form already appears in the text, keep the longer original. |

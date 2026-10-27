@@ -10,6 +10,9 @@ dependencies = []
 
 [dependency-groups]
 dev = ["pytest>=8"]
+# Opt-in live MT for TesseraTalk --translate-engine=deep (not pulled by default uv sync).
+# Argos is intentionally omitted here (heavy language packs); install manually if needed.
+translate = ["deep-translator>=1.11.4"]
 
 # Runtime modules stay dependency-light; uv manages contributor/CI tools.
 [tool.uv]

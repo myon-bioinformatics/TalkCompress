@@ -1,6 +1,7 @@
 """TesseraTalk (B): LID/RLE mosaic + translation token-min patterns.
 
-B weight: translation-based token savings (EN/JA/ZH + natural short forms).
+B weight: translation-based token savings (Romance/Germanic/Greek + JA/ZH + natural short forms).
+EN+ZH+JA was the starting mix, not a hard ceiling.
 Unlike C ShorthandEdge, B does not apply the agreed ledger patches.
 """
 
@@ -138,7 +139,7 @@ def test_pick_ja_to_shorter_ja_or_other():
     chosen, lang, n = t.pick_shortest_translation(src)
     assert n < t.estimate_tokens(src)
     assert chosen != src
-    assert lang in ("ja", "zh", "en")
+    assert lang in ("ja", "zh", "en") or lang in getattr(t, "SCOPE_LANGS", ())
 
 
 def test_pick_zh_to_shorter_when_tokens_drop():
@@ -285,3 +286,97 @@ def test_how_are_you_shorter():
     chosen, lang, n = t.pick_shortest_translation("How are you?")
     assert n < t.estimate_tokens("How are you?")
     assert chosen != "How are you?"
+
+
+# --- Romance / Germanic / Greek scope ---
+
+
+def test_scope_langs_includes_romance_germanic_greek():
+    t = _tessera()
+    assert {"es", "fr", "pt", "it"} <= t.ROMANCE_LANGS
+    assert {"de", "nl", "en"} <= t.GERMANIC_LANGS
+    assert "el" in t.GREEK_LANGS
+    assert t.ROMANCE_LANGS | t.GERMANIC_LANGS | t.GREEK_LANGS | {"ja", "zh"} <= t.SCOPE_LANGS
+
+
+def test_lid_romance_germanic_greek_sentences():
+    t = _tessera()
+    assert t.detect_lang("Hola, ¿cómo estás?") == "es"
+    assert t.detect_lang("Guten Tag, wie geht es Ihnen?") == "de"
+    assert t.detect_lang("Dit is een voorbeeld van het Nederlands.") == "nl"
+    assert t.detect_lang("Não posso ir para a escola hoje.") == "pt"
+    assert t.detect_lang("Ciao, come stai? Non sono sicuro.") == "it"
+    assert t.detect_lang("Γεια σου, τι κάνεις;") == "el"
+    # French: cue + accents
+    assert t.detect_lang("Bonjour, comment allez-vous aujourd'hui?") == "fr"
+
+
+def test_lid_mosaic_tags_romance_and_greek():
+    t = _tessera()
+    src = "Hola amigos. Γεια σου. Guten Morgen."
+    tagged = t.tag_sentences(src)
+    langs = {lang for lang, _ in tagged}
+    assert "es" in langs
+    assert "el" in langs
+    assert "de" in langs
+    mosaic = t.compress(src, rle=True)
+    assert "es:" in mosaic and "el:" in mosaic and "de:" in mosaic
+
+
+def test_estimate_tokens_counts_greek():
+    t = _tessera()
+    assert t.estimate_tokens("Συγχαρητήρια!") > 0
+    assert t.estimate_tokens("Καλημέρα.") > 0
+
+
+def test_romance_shorter_form_can_win():
+    t = _tessera()
+    src = "I would be grateful if you could assist me with this issue."
+    chosen, lang, n = t.pick_shortest_translation(src, allow_langs={"es", "fr", "pt", "it"})
+    assert n < t.estimate_tokens(src)
+    assert lang in {"es", "fr", "pt", "it"}
+    # unrestricted: a Romance/Germanic/Greek form may still beat long CJK paraphrases
+    chosen2, lang2, n2 = t.pick_shortest_translation(src)
+    assert n2 < t.estimate_tokens(src)
+    assert lang2 in t.SCOPE_LANGS
+    assert chosen2 != src
+
+
+def test_germanic_shorter_form_can_win():
+    t = _tessera()
+    src = "Congratulations on your outstanding achievement today."
+    chosen, lang, n = t.pick_shortest_translation(src, allow_langs={"de", "nl", "en"})
+    assert n < t.estimate_tokens(src)
+    assert lang in {"de", "nl", "en"}
+
+
+def test_greek_shorter_form_can_win():
+    t = _tessera()
+    src = "It was wonderful spending time with you my friend."
+    chosen, lang, n = t.pick_shortest_translation(src, allow_langs={"el"})
+    assert lang == "el"
+    assert n < t.estimate_tokens(src)
+    # Greek letters present
+    assert any("Ͱ" <= ch <= "Ͽ" or "ἀ" <= ch <= "῿" for ch in chosen)
+
+
+def test_translate_engine_fixture_is_default_and_offline():
+    t = _tessera()
+    assert t.live_translation_candidates("Hello world.", engine="fixture") == []
+    # Missing optional deps → empty, no raise
+    assert t.live_translation_candidates("Hello world.", engine="deep") == []
+    assert t.live_translation_candidates("Hello world.", engine="argos") == []
+    src = "Good morning."
+    a = t.minify_by_translation(src, translate_engine="fixture")
+    b = t.minify_by_translation(src)  # default fixture
+    assert a == b == "早。"
+
+
+def test_bank_has_romance_germanic_greek_keys():
+    t = _tessera()
+    data = t.load_translation_bank()
+    langs = set()
+    for e in data["entries"]:
+        langs.update((e.get("candidates") or {}).keys())
+    for code in ("es", "fr", "pt", "it", "de", "nl", "el", "en", "ja", "zh"):
+        assert code in langs, code

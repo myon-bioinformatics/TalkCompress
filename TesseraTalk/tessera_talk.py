@@ -11,10 +11,12 @@ Expand accepts both the full ``lang:sent|lang:sent`` form and the RLE form
 (missing lang inherits the previous tag).
 
 Translation token-min (opt-in ``translate_min=True`` / ``--translate-min``):
-per sentence, pick a shorter EN/JA/ZH (or natural short) candidate from a
-deterministic bank when ``estimate_tokens`` drops. Unlike ShorthandEdge (C),
-B does **not** apply the agreed ledger (under→下 etc.); only natural shorter
-forms from the translation path.
+per sentence, pick a shorter bank candidate when ``estimate_tokens`` drops.
+EN+ZH+JA was the *starting* mix, not a hard ceiling — Romance (es/fr/pt/it),
+Germanic (de/nl/en), Greek (el), and ja/zh are in-scope. Default bank filter
+accepts any language present in the fixtures. Live MT is opt-in via
+``--translate-engine`` (fixtures stay the pytest-deterministic default).
+Unlike ShorthandEdge (C), B does **not** apply the agreed ledger.
 """
 
 from __future__ import annotations
@@ -43,15 +45,72 @@ _HANGUL = re.compile(r"[\uAC00-\uD7AF\u1100-\u11FF]")
 _CYRILLIC = re.compile(r"[\u0400-\u04FF]")
 _ARABIC = re.compile(r"[\u0600-\u06FF]")
 _DEVANAGARI = re.compile(r"[\u0900-\u097F]")
+_GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
+
+# In-scope language families for B token-min / LID (starting mix was en/zh/ja only).
+SCOPE_LANGS: frozenset[str] = frozenset(
+    {
+        # starting mix
+        "en",
+        "zh",
+        "ja",
+        # Romance
+        "es",
+        "fr",
+        "pt",
+        "it",
+        # Germanic (en already listed)
+        "de",
+        "nl",
+        # Greek
+        "el",
+    }
+)
+ROMANCE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "it"})
+GERMANIC_LANGS: frozenset[str] = frozenset({"en", "de", "nl"})
+GREEK_LANGS: frozenset[str] = frozenset({"el"})
 
 _CUES: dict[str, tuple[str, ...]] = {
-    "en": ("the", "and", "is", "are", "you", "this", "that", "with", "for", "not"),
-    "es": ("el", "la", "los", "las", "que", "y", "de", "en", "un", "una", "por", "con"),
-    "fr": ("le", "la", "les", "des", "une", "est", "que", "dans", "pour", "avec"),
-    "de": ("der", "die", "das", "und", "ist", "nicht", "ein", "eine", "mit", "auf"),
-    "pt": ("o", "a", "os", "as", "que", "de", "em", "um", "uma", "não", "para"),
-    "it": ("il", "lo", "la", "gli", "le", "che", "di", "per", "con", "una", "sono", "non"),
-    "nl": ("de", "het", "een", "van", "en", "is", "niet", "met", "voor", "op", "zijn"),
+    "en": (
+        "the", "and", "is", "are", "you", "this", "that", "with", "for", "not", "of", "to",
+        "hello", "thanks", "please", "friend", "friends",
+    ),
+    "es": (
+        "el", "la", "los", "las", "que", "y", "de", "en", "un", "una", "por", "con",
+        "está", "estan", "estás", "para", "como", "más", "pero", "sí", "también",
+        "hola", "gracias", "buenos", "buenas", "amigos", "amigo", "usted", "dónde",
+        "cómo", "días", "noches",
+    ),
+    "fr": (
+        "le", "la", "les", "des", "une", "est", "que", "dans", "pour", "avec",
+        "pas", "plus", "tout", "nous", "vous", "être", "cette",
+        "bonjour", "merci", "comment", "allez", "aujourd", "salut", "bonne",
+    ),
+    "de": (
+        "der", "die", "das", "und", "ist", "nicht", "ein", "eine", "mit", "auf",
+        "den", "dem", "des", "ich", "sie", "wir", "auch", "aber", "werden",
+        "guten", "tag", "morgen", "wie", "geht", "ihnen", "bitte", "danke",
+        "nicht", "oder", "sehr", "gut", "herr", "frau",
+    ),
+    "pt": (
+        "o", "a", "os", "as", "que", "de", "em", "um", "uma", "não", "para",
+        "com", "por", "mais", "como", "está", "também",
+        "olá", "obrigado", "obrigada", "você", "não", "escola", "hoje", "posso",
+    ),
+    "it": (
+        "il", "lo", "la", "gli", "le", "che", "di", "per", "con", "una", "sono", "non",
+        "dei", "della", "questo", "anche", "come", "più",
+        "ciao", "grazie", "stai", "sono", "buongiorno", "prego", "sicuro",
+    ),
+    "nl": (
+        "de", "het", "een", "van", "en", "is", "niet", "met", "voor", "op", "zijn",
+        "ik", "hij", "zij", "ook", "maar", "naar", "dat", "dit",
+        "voorbeeld", "nederlands", "goedemorgen", "alsjeblieft", "dank",
+    ),
+    "el": (
+        "και", "το", "η", "του", "την", "να", "με", "για", "από", "είναι",
+        "δεν", "που", "στο", "της", "των", "γεια", "σου", "τι", "κάνεις", "καλημέρα",
+    ),
     "id": ("yang", "dan", "dengan", "untuk", "tidak", "ini", "itu", "ada", "dari", "pada"),
     "sv": ("och", "att", "det", "är", "en", "ett", "som", "för", "med", "inte", "på"),
     "ja": ("は", "を", "が", "に", "です", "ます", "した", "する", "こと"),
@@ -81,15 +140,19 @@ def _script_scores(s: str) -> dict[str, int]:
         "cyrillic": len(_CYRILLIC.findall(s)),
         "arabic": len(_ARABIC.findall(s)),
         "deva": len(_DEVANAGARI.findall(s)),
+        "greek": len(_GREEK.findall(s)),
     }
 
 
 def _cue_hits(s: str, lang: str) -> int:
-    low = s.lower()
-    words = re.findall(r"[a-zà-ÿ']+", low)
     cues = _CUES.get(lang, ())
     if lang == "ja":
         return sum(1 for c in cues if c in s)
+    if lang == "el":
+        words = re.findall(r"[\u0370-\u03FFa-zà-ÿ']+", s.lower())
+        return sum(1 for w in words if w in cues)
+    low = s.lower()
+    words = re.findall(r"[a-zà-ÿ']+", low)
     return sum(1 for w in words if w in cues)
 
 
@@ -121,6 +184,8 @@ def detect_lang(sentence: str, *, prefer_ltr: bool = False) -> str:
         return "ar"
     if sc["deva"] / total_script > 0.3:
         return "hi"
+    if sc["greek"] / total_script > 0.3:
+        return "el"
 
     # Latin present: prefer LTR tagging (especially under prefer_ltr with CJK mix)
     latinish = sc["latin"] / total_script > 0.2 or sc["latin"] > 0
@@ -138,6 +203,26 @@ def detect_lang(sentence: str, *, prefer_ltr: bool = False) -> str:
             "id": _cue_hits(sentence, "id"),
             "sv": _cue_hits(sentence, "sv"),
         }
+        # Distinctive orthography / greeting boosts
+        low = sentence.lower()
+        if re.search(r"[äöüß]", low):
+            scores["de"] = scores.get("de", 0) + 2
+        if re.search(r"\b(guten|tag|morgen|danke|bitte|ihnen)\b", low):
+            scores["de"] = scores.get("de", 0) + 2
+        if "ñ" in low or "¿" in sentence or "¡" in sentence:
+            scores["es"] = scores.get("es", 0) + 2
+        if re.search(r"\b(hola|gracias|amigos|buenos|buenas)\b", low):
+            scores["es"] = scores.get("es", 0) + 2
+        if re.search(r"[ãõ]", low) or "não" in low or "olá" in low:
+            scores["pt"] = scores.get("pt", 0) + 2
+        if re.search(r"\b(bonjour|merci|allez-vous|aujourd)\b", low):
+            scores["fr"] = scores.get("fr", 0) + 2
+        if re.search(r"[àâæçéèêëôœùûü]", low) and ("ç" in low or "œ" in low):
+            scores["fr"] = scores.get("fr", 0) + 1
+        if re.search(r"\b(gli|della|dei|sono|ciao|grazie)\b", low):
+            scores["it"] = scores.get("it", 0) + 2
+        if re.search(r"\b(het|niet|zijn|voor|nederlands|voorbeeld)\b", low):
+            scores["nl"] = scores.get("nl", 0) + 2
         best = max(scores, key=scores.get)
         if scores[best] > 0:
             return best
@@ -205,6 +290,7 @@ def compress(
     prefer_ltr: bool = False,
     translate_min: bool = False,
     translation_bank: str | Path | None = None,
+    translate_engine: str = "fixture",
 ) -> str:
     """Compact mosaic. With ``rle=True`` (default), omit repeating lang tags in a run:
 
@@ -213,13 +299,14 @@ def compress(
     With ``rle=False``: full ``lang:sent|lang:sent`` (legacy-compatible).
     ``preserve_newlines`` keeps paragraph breaks as ``¶:¶`` tiles.
     With ``translate_min=True``, first rewrite each sentence to a shorter bank
-    translation (EN/JA/ZH / natural short) when tokens drop — not C ledger.
+    (or opt-in live) translation when tokens drop — not C ledger.
     """
     if translate_min:
         text = minify_by_translation(
             text,
             bank_path=translation_bank,
             preserve_newlines=preserve_newlines,
+            translate_engine=translate_engine,
         )
     tagged = tag_sentences(
         text, langs, preserve_newlines=preserve_newlines, prefer_ltr=prefer_ltr
@@ -300,14 +387,18 @@ def stats(
     }
 
 
-# --- translation token-min (deterministic bank; no live MT) ---
+# --- translation token-min (deterministic bank; live MT opt-in) ---
 
 _FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 DEFAULT_TRANSLATION_BANK = _FIXTURES_DIR / "translations.json"
+TRANSLATE_ENGINES = ("fixture", "argos", "deep")
 
 _CJK_CHAR = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]")
 _LATIN_WORD = re.compile(r"[A-Za-z0-9\u00C0-\u024F']+")
-_OTHER_WORD = re.compile(r"[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F]+")
+# Cyrillic / Arabic / Devanagari / Greek letter-runs
+_OTHER_WORD = re.compile(
+    r"[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+"
+)
 
 
 def estimate_tokens(text: str) -> int:
@@ -316,9 +407,9 @@ def estimate_tokens(text: str) -> int:
     Heuristic (stdlib-only, deterministic):
     - each CJK / kana / Hangul character ≈ 1 token
     - each Latin / digit word ≈ max(1, ceil(chars/4)) (GPT-ish subword)
-    - other script letter-runs ≈ 1 each
+    - other script letter-runs (Cyrillic, Arabic, Devanagari, Greek) ≈ same subword rule
     Punctuation and whitespace do not add tokens. Absolute counts are approximate;
-    relative ranking across EN/JA/ZH is what matters for B.
+    relative ranking across in-scope langs (Romance / Germanic / Greek / ja / zh) matters for B.
     """
     if not text or not text.strip():
         return 0
@@ -387,7 +478,8 @@ def pick_shortest_translation(
 
     Returns ``(chosen_text, lang_or_'src', token_count)``.
     Keeps the original when nothing is strictly shorter (ties → original).
-    ``allow_langs`` defaults to ``{en, ja, zh}`` plus any natural short ``en`` forms.
+    ``allow_langs=None`` (default) accepts **any** bank language — EN+ZH+JA is
+    not a hard ceiling. Pass a set to restrict (e.g. Romance-only).
     Does **not** consult the C ShorthandEdge ledger.
     """
     src = unicodedata.normalize("NFC", sentence.strip())
@@ -404,18 +496,84 @@ def pick_shortest_translation(
     else:
         pairs = list(candidates)
 
-    allowed = allow_langs if allow_langs is not None else {"en", "ja", "zh"}
+    # None → no filter (all bank langs). Empty set → keep original only.
+    allowed = allow_langs
     best_text, best_lang, best_n = src, "src", src_n
-    for lang, text in pairs:
+    for lang, cand in pairs:
         if allowed is not None and lang not in allowed:
             continue
-        text = unicodedata.normalize("NFC", text.strip())
-        if not text:
+        cand = unicodedata.normalize("NFC", cand.strip())
+        if not cand:
             continue
-        n = estimate_tokens(text)
+        n = estimate_tokens(cand)
         if n < best_n:
-            best_text, best_lang, best_n = text, lang, n
+            best_text, best_lang, best_n = cand, lang, n
     return best_text, best_lang, best_n
+
+
+def live_translation_candidates(
+    sentence: str,
+    *,
+    engine: str,
+    target_langs: set[str] | None = None,
+) -> list[tuple[str, str]]:
+    """Opt-in live MT candidates. Default/tests never call this (fixture engine).
+
+    ``engine``:
+      - ``fixture``: empty (bank-only path)
+      - ``argos``: ``argostranslate`` if installed (offline packs; heavy optional)
+      - ``deep``: ``deep_translator`` if installed (network at call time)
+
+    Missing optional deps → empty list (caller falls back to bank / original).
+    Never raises for missing packages; network/engine errors are swallowed.
+    """
+    eng = (engine or "fixture").lower().strip()
+    if eng in ("", "fixture", "bank", "none"):
+        return []
+    targets = target_langs if target_langs is not None else set(SCOPE_LANGS) - {"en"}
+    # skip translating into same detected latin blob langs blindly; still try all targets
+    out: list[tuple[str, str]] = []
+    src = sentence.strip()
+    if not src:
+        return []
+    if eng == "deep":
+        try:
+            from deep_translator import GoogleTranslator  # type: ignore
+        except Exception:
+            return []
+        for lang in sorted(targets):
+            if lang in ("zh", "ja"):
+                google_code = "zh-CN" if lang == "zh" else "ja"
+            elif lang == "el":
+                google_code = "el"
+            else:
+                google_code = lang
+            try:
+                translated = GoogleTranslator(source="auto", target=google_code).translate(src)
+            except Exception:
+                continue
+            if translated and translated.strip() and translated.strip() != src:
+                out.append((lang, translated.strip()))
+        return out
+    if eng == "argos":
+        try:
+            import argostranslate.translate  # type: ignore
+        except Exception:
+            return []
+        # Argos uses installed language packs; map ISO codes directly when available.
+        for lang in sorted(targets):
+            try:
+                translated = argostranslate.translate.translate(src, "en", lang)
+            except Exception:
+                try:
+                    # some installs want from_code detection; try auto via installed langs
+                    translated = argostranslate.translate.translate(src, detect_lang(src), lang)
+                except Exception:
+                    continue
+            if translated and translated.strip() and translated.strip() != src:
+                out.append((lang, translated.strip()))
+        return out
+    raise ValueError(f"unknown translate engine: {engine!r}; choose from {TRANSLATE_ENGINES}")
 
 
 def minify_by_translation(
@@ -424,21 +582,40 @@ def minify_by_translation(
     bank_path: str | Path | None = None,
     allow_langs: set[str] | None = None,
     preserve_newlines: bool = False,
+    translate_engine: str = "fixture",
 ) -> str:
-    """Per-sentence: replace with a shorter bank translation when tokens drop.
+    """Per-sentence: replace with a shorter bank (or live) translation when tokens drop.
 
     Segmentation matches ``tag_sentences``. Empty / paragraph markers unchanged.
+    ``translate_engine='fixture'`` (default) uses only ``translations.json`` so
+    pytest stays offline-deterministic. ``argos`` / ``deep`` are opt-in extras.
     """
     tagged = tag_sentences(text, preserve_newlines=preserve_newlines)
     if not tagged:
         return ""
+    eng = (translate_engine or "fixture").lower().strip()
     out_parts: list[str] = []
     for lang, sent in tagged:
         if lang == "¶" or sent == "¶":
             out_parts.append("¶")
             continue
+        idx_pairs = translation_index(bank_path).get(_norm_lookup_key(sent), [])
+        live = live_translation_candidates(
+            sent,
+            engine=eng,
+            target_langs=allow_langs if allow_langs is not None else set(SCOPE_LANGS),
+        )
+        # Merge bank + live; bank first. Empty merged → pick keeps original.
+        merged: list[tuple[str, str]] = []
+        seen: set[tuple[str, str]] = set()
+        for pair in list(idx_pairs) + list(live):
+            if pair not in seen:
+                merged.append(pair)
+                seen.add(pair)
         chosen, _, _ = pick_shortest_translation(
-            sent, bank_path=bank_path, allow_langs=allow_langs
+            sent,
+            candidates=merged,
+            allow_langs=allow_langs,
         )
         out_parts.append(chosen)
     # Rejoin similar to expand
@@ -502,12 +679,23 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument(
         "--translate-min",
         action="store_true",
-        help="per sentence: adopt shorter EN/JA/ZH bank translation when tokens drop",
+        help="per sentence: adopt shorter bank translation when tokens drop (any in-scope lang)",
     )
     p.add_argument(
         "--translation-bank",
         default="",
         help="optional path to translation candidates JSON (default: fixtures/translations.json)",
+    )
+    p.add_argument(
+        "--translate-engine",
+        default="fixture",
+        choices=TRANSLATE_ENGINES,
+        help="fixture=bank only (default, CI-safe); argos/deep=opt-in live MT if installed",
+    )
+    p.add_argument(
+        "--allow-langs",
+        default="",
+        help="optional comma-separated lang filter for translate-min (default: all bank langs)",
     )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
@@ -520,8 +708,16 @@ def main(argv: list[str] | None = None) -> int:
 
     bank = args.translation_bank or None
     tm = args.translate_min
+    te = args.translate_engine
+    allow = {x.strip() for x in args.allow_langs.split(",") if x.strip()} or None
     if tm and args.mode in ("tag", "compress"):
-        text = minify_by_translation(text, bank_path=bank, preserve_newlines=pn)
+        text = minify_by_translation(
+            text,
+            bank_path=bank,
+            preserve_newlines=pn,
+            allow_langs=allow,
+            translate_engine=te,
+        )
 
     if args.mode == "tag":
         print(render(tag_sentences(text, langs, preserve_newlines=pn, prefer_ltr=pl)))
@@ -536,6 +732,7 @@ def main(argv: list[str] | None = None) -> int:
                 prefer_ltr=pl,
                 translate_min=False,
                 translation_bank=bank,
+                translate_engine=te,
             )
         )
     else:
