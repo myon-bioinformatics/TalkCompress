@@ -50,6 +50,7 @@ def test_ledger_file_exists_and_loads():
     assert any(c["id"] == "particle-kara" for c in e_lex)
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
+    # zero-bit-delta rows pruned; keep dual-metric useful set under 100
     assert 14 <= len(all_lex) <= 100
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
@@ -271,15 +272,15 @@ def test_ledger_pos_registrations_dual_metrics():
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
     for cid in (
         "pronoun-I",
-        "pronoun-they",
-        "particle-ni",
+        "pronoun-yo",
+        "pronoun-私たち",
+        "particle-to",
         "particle-kara",
         "prep-with",
         "prep-from",
         "prep2-without",
         "aux-can",
-        "aux-neg-will",
-        "article-drop",
+        "aux-neg-can",
         "e-conj-because",
         "compare-ge",
         "conj-etc",
