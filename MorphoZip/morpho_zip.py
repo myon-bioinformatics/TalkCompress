@@ -3,7 +3,7 @@
 
 Prefer short low-ambiguity tokens that shrink prediction candidates
 (e.g. ``I`` over 私は/僕は/俺は). Keep useful counters (匹/個). Compact
-pronoun inventory (2-bit core: I / 君 / 彼 / they|them|y'all) plus closed
+pronoun inventory (case-split nom/poss/obj: I–my–me … U–your–you … he–his–him … she–her … they–their–them; surface utf8+token first) plus closed
 POS inventories (articles / conjunctions / adverbs / auxiliaries /
 prepositions pack1 + prep2 / particles / compare). Polarity ``!``/``¬``
 is a separate 1-bit flag (not inventory width). Avoid Chinese-only bias.
@@ -20,6 +20,13 @@ Fillers, UNIQUE_COMPACT, EN contractions (``I'll``), and spelled-number
 digitization are **C (ShorthandEdge)** by default. Optional ``strip=True`` /
 ``--strip`` / ``--aggressive-fillers`` / ``--spelled-nums`` remain for opt-in.
 ``--keep-articles`` disables article stripping.
+
+``tho`` is informal **English** clipping of ``though`` (and contrastive
+``however`` via ``however``→``though``→``tho``); not a foreign-language form.
+Concessive/degree ``however hard…`` stays. Pronoun surfaces: you→``U``, he/she stay (open ``she`` slot; utf8+token first;
+君/彼/她 input aliases). After he/she, EN 3sg ``-s``→base (``he chooses``→``he choose``).
+``whichever``→``∀opt`` (no bare ``which`` residue). Purpose-for ML:
+para/pour/für/ために/为了→``4``.
 """
 
 from __future__ import annotations
@@ -102,48 +109,110 @@ def _build_surface_re(surfaces: list[str]) -> re.Pattern[str]:
 
 
 # --- pronoun -----------------------------------------------------------------
-PRONOUN_CANONICAL: tuple[str, ...] = ("I", "君", "彼", "they")
-PRONOUN_EXTENDED: tuple[str, ...] = ("I", "君", "彼", "they", "it")
+# Case axis (主格/所有格/目的格): do **not** collapse across case.
+# Rows (nom–poss–obj): I–my–me | we–our–us | U–your–you | y'all–y'all's–y'all |
+# he–his–him | she–her–her | it–its–it | they–their–them.
+# Surface still utf8+token first (you_nom→U; he/she stay; no 彼/君 emit).
+# Inventory bits = ceil(log2 N) for *design/report* only (same dual-metric spirit
+# as other lex: token + utf8, cheapest, meaning gate) — not a surface override.
+PRONOUN_CANONICAL: tuple[str, ...] = (
+    # 1sg
+    "I", "my", "me",
+    # 1pl
+    "we", "our", "us",
+    # 2sg
+    "U", "your", "you",
+    # 2pl (y'all = EN compact plural; nom+obj share surface)
+    "y'all", "y'all's",
+    # 3sg M/F/N
+    "he", "his", "him",
+    "she", "her", "hers",
+    "it", "its",
+    # 3pl
+    "they", "their", "them",
+)
+# Extended: mine/theirs (indep. poss) already partly in hers; keep mine/theirs opt-in
+PRONOUN_EXTENDED: tuple[str, ...] = PRONOUN_CANONICAL + ("mine", "theirs", "ours", "yours")
 PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
+    # --- 1sg ---
     "i": "I",
-    "me": "I",
-    "my": "I",
-    "mine": "I",
-    "yo": "I",  # ES
-    "je": "I",  # FR
-    "ich": "I",  # DE
-    "君": "君",
-    "君の": "君",
-    "tú": "君",  # ES
-    "tu": "君",  # ES/FR (unaccented)
-    "du": "君",  # DE
-    "usted": "君",  # ES formal you
-    "彼": "彼",
-    "彼の": "彼",
-    "她": "彼",
-    "她の": "彼",
-    "él": "彼",  # ES accented (bare el = article — not aliased)
-    "il": "彼",  # FR
-    "ella": "彼",  # ES
-    "elle": "彼",  # FR
-    "they": "they",
-    "them": "they",
-    "their": "they",
-    "theirs": "they",
-    "y'all": "they",
-    "ellos": "they",  # ES
-    "ellas": "they",
-    "ustedes": "they",  # ES pl / y'all-like
-    "ils": "they",  # FR
-    "elles": "they",
+    "my": "my",
+    "me": "me",
+    "mine": "mine",
+    "yo": "I",  # ES nom
+    "je": "I",
+    "ich": "I",
+    # --- 1pl ---
+    "we": "we",
+    "our": "our",
+    "ours": "ours",
+    "us": "us",
+    "nosotros": "we",
+    "nous": "we",
+    "wir": "we",
+    # --- 2sg: nom U / poss your / obj you ---
+    "u": "U",
+    "your": "your",
+    "yours": "yours",
+    "you": "you",  # objective (nom rewritten to U in _SUBS)
+    "君": "U",
+    "君の": "your",
+    "tú": "U",
+    "tu": "U",
+    "du": "U",
+    "usted": "U",
+    # --- 2pl ---
+    "y'all": "y'all",
+    "y'alls": "y'all's",
+    "y'all's": "y'all's",
+    "ustedes": "y'all",
+    # --- 3sg M ---
+    "he": "he",
+    "his": "his",
+    "him": "him",
+    "彼": "he",
+    "彼の": "his",
+    "他": "he",
+    "él": "he",
+    "il": "he",
+    # --- 3sg F (open she slot; do not fold into he) ---
+    "she": "she",
+    "her": "her",  # poss determiner + obj share EN surface
+    "hers": "hers",
+    "彼女": "she",
+    "彼女の": "her",
+    "她": "she",
+    "她的": "her",
+    "她の": "her",
+    "ella": "she",
+    "elle": "she",
+    # --- 3sg N (neuter = things/objects; NO separate 物 slot) ---
+    # Deixis (this/that/these/those, これ/それ/あれ, ça, eso, …) is a
+    # *separate axis* — do not alias into it. Register deixis later.
+    # 它 = ZH neuter pronoun for things (not deixis 这/那) → it.
     "it": "it",
-    "its": "it",
+    "its": "its",
+    "它": "it",
+    "它的": "its",
+    # --- 3pl ---
+    "they": "they",
+    "them": "them",
+    "their": "their",
+    "theirs": "theirs",
+    "ellos": "they",
+    "ellas": "they",
+    "ils": "they",
+    "elles": "they",
 }
 _PRONOUN_SURFACE_RE = re.compile(
-    r"y'all|君の|彼の|她の|\btheirs\b|\btheir\b|\bthem\b|\bthey\b|\bmine\b|"
-    r"\bustedes\b|\busted\b|\bellos\b|\bellas\b|\belles\b|\bils\b|"
+    r"y'all's|y'alls|y'all|君の|彼女の|彼の|她的|她の|"
+    r"\btheirs\b|\btheir\b|\bthem\b|\bthey\b|\bmine\b|\bours\b|\byours\b|"
+    r"\bustedes\b|\busted\b|\bellos\b|\bellas\b|\belles\b|\bils\b|\bnosotros\b|\bnous\b|\bwir\b|"
     r"\byo\b|\bje\b|\bich\b|\bt[uú]\b|\bdu\b|\b[eé]l\b|\bil\b|\bella\b|\belle\b|"
-    r"君|彼|她|\bI\b|\bme\b|\bmy\b|\bits\b|\bit\b",
+    r"\byou\b|\byour\b|\byourself\b|"
+    r"\bhe\b|\bhim\b|\bhis\b|\bshe\b|\bher\b|\bhers\b|"
+    r"\bwe\b|\bour\b|\bus\b|\bme\b|\bmy\b|\bits\b|\bit\b|"
+    r"彼女|君|彼|她|他|\bU\b|\bI\b",
     re.I,
 )
 
@@ -197,8 +266,9 @@ ADVERB_CANONICAL: tuple[str, ...] = ("tho", "~", "˅", "esp.")
 ADVERB_EXTENDED: tuple[str, ...] = ("tho", "~", "˅", "esp.", "also", "□", "oft")
 ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "tho": "tho",
-    # inventory alias only; compress rewrite gates concessive degree (see _SUBS)
-    "however": "tho",
+    # informal EN clip of though (not a foreign word). Compress: contrastive
+    # however→though (gated), then though→tho. Concessive however hard… stays.
+    "though": "tho",
     "~": "~",
     "approximately": "~",
     "˅": "˅",
@@ -218,7 +288,7 @@ ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
 }
 _ADVERB_SURFACE_RE = re.compile(
     r"\bapproximately\b|\bespecially\b|\bparticularly\b|\badditionally\b|"
-    r"\bhowever\b|\bextremely\b|\breally\b|\bvery\b|\balways\b|\boften\b|"
+    r"\bhowever\b|\bthough\b|\bextremely\b|\breally\b|\bvery\b|\balways\b|\boften\b|"
     r"\besp\.|\btho\b|\balso\b|\boft\b|[~˅□]",
     re.I,
 )
@@ -271,6 +341,9 @@ PREP_ALIAS_TO_CANONICAL: dict[str, str] = {
     "pour": "4",  # FR
     "für": "4",  # DE
     "fur": "4",
+    "ために": "4",  # JA purpose-for
+    "為に": "4",
+    "为了": "4",  # ZH purpose-for
     "←": "←",
     "from": "←",
     "fr": "←",  # alias; for-real 揺らぎ — prefer ← as emitted short
@@ -286,6 +359,7 @@ _PREP_SURFACE_RE = re.compile(
     r"\bwith\b|\bfrom\b|\bfor\b|\bto\b|\bat\b|"
     r"\bcon\b|\bavec\b|\bmit\b|\bpara\b|\bpour\b|\bf[uü]r\b|"
     r"\bdesde\b|\bdepuis\b|\baus\b|\bbei\b|"
+    r"ために|為に|为了|"
     r"w/|\bfr\b|\b4\b|@|←",
     re.I,
 )
@@ -429,7 +503,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         PRONOUN_EXTENDED,
         PRONOUN_ALIAS_TO_CANONICAL,
         _PRONOUN_SURFACE_RE,
-        "2-bit core; 她=彼 surface; they/them/y'all same slot; ES/FR/DE subject aliases (yo/je/ich, tú/tu/du, él/il/ella/elle, ellos/ils…) when bits+tokenize match",
+        "case-split core (nom/poss/obj): I/my/me … U/your/you … he/his/him … she/her/hers … it/its (neuter=things) … they/their/them + y'all; deixis (this/それ) separate axis — not folded into it; N→ceil(log2 N) bits design/report; surface utf8+token first; same ledger dual-metric rules as other lex",
     ),
     "article": ClosedInventory(
         "article",
@@ -471,7 +545,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         PREP_EXTENDED,
         PREP_ALIAS_TO_CANONICAL,
         _PREP_SURFACE_RE,
-        "pack1 w/|4|←|@ → 2bit; from/から→← (fr alias, for-real 揺らぎ); ML con/avec/mit, para/pour/für, desde/depuis/aus, bei; skip C under/above; in/on deferred; for→4 揺らぎ別評価",
+        "pack1 w/|4|←|@ → 2bit; from/から→← (fr alias, for-real 揺らぎ); ML con/avec/mit, para/pour/für, ために/為に/为了, desde/depuis/aus, bei; skip C under/above; in/on deferred; for→4 揺らぎ別評価",
     ),
     "prep2": ClosedInventory(
         "prep2",
@@ -687,13 +761,13 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\byou lot\b", re.I), "y'all"),
     (re.compile(r"皆さん|みなさん|みんな|お前ら|あなたたち|君たち"), "y'all"),
     (re.compile(r"你们"), "y'all"),
-    # Gender-pair phrases: keep both surfaces; do NOT collapse to they
-    (re.compile(r"\bhe or she\b", re.I), "彼/她"),
-    (re.compile(r"\bshe or he\b", re.I), "她/彼"),
-    (re.compile(r"\bhim or her\b", re.I), "彼/她"),
-    (re.compile(r"\bher or him\b", re.I), "她/彼"),
-    (re.compile(r"\bhis or her\b", re.I), "彼の/她の"),
-    (re.compile(r"\bher or his\b", re.I), "她の/彼の"),
+    # Gender-pair phrases: keep both EN surfaces; do NOT collapse to they
+    (re.compile(r"\bhe or she\b", re.I), "he/she"),
+    (re.compile(r"\bshe or he\b", re.I), "she/he"),
+    (re.compile(r"\bhim or her\b", re.I), "him/her"),
+    (re.compile(r"\bher or him\b", re.I), "her/him"),
+    (re.compile(r"\bhis or her\b", re.I), "his/her"),
+    (re.compile(r"\bher or his\b", re.I), "her/his"),
     # 3pl before bare 彼/他 (彼ら / 他们)
     (re.compile(r"彼らを|かれらを"), "them"),
     (re.compile(r"彼らの|かれらの"), "their"),
@@ -714,42 +788,51 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bje\b", re.I), "I"),
     (re.compile(r"\bich\b", re.I), "I"),
     (re.compile(r"\bustedes\b", re.I), "y'all"),
-    (re.compile(r"\busted\b", re.I), "君"),
-    (re.compile(r"\bt[uú]\b", re.I), "君"),
+    (re.compile(r"\busted\b", re.I), "U"),
+    (re.compile(r"\bt[uú]\b", re.I), "U"),
     # DE du: alias-only (FR du = de+le false friend)
     (re.compile(r"\bellos\b", re.I), "they"),
     (re.compile(r"\bellas\b", re.I), "they"),
     (re.compile(r"\belles\b", re.I), "they"),
     (re.compile(r"\bils\b", re.I), "they"),
-    (re.compile(r"\bella\b", re.I), "她"),
-    (re.compile(r"\belle\b", re.I), "她"),
-    (re.compile(r"\bél\b", re.I), "彼"),  # accented only (el = article)
-    (re.compile(r"\bil\b", re.I), "彼"),
-    # 3sg F before 彼 (彼女 contains 彼); surface 她, bit slot 彼
-    (re.compile(r"彼女の"), "她の"),
-    (re.compile(r"彼女は|彼女が|彼女を|彼女"), "她"),
-    (re.compile(r"\bshe\b", re.I), "她"),
-    (re.compile(r"\bhers\b", re.I), "她の"),
-    (re.compile(r"\bher\b", re.I), "她"),
-    # 3sg M
-    (re.compile(r"彼の"), "彼の"),
-    (re.compile(r"彼は|彼が|彼を"), "彼"),
-    (re.compile(r"\bhe\b", re.I), "彼"),
-    (re.compile(r"\bhim\b", re.I), "彼"),
-    (re.compile(r"\bhis\b", re.I), "彼の"),
-    (re.compile(r"他"), "彼"),
-    # 2sg → 君 (after 2pl). Skip discourse fillers "you know/see" (C-owned).
-    (re.compile(r"あなたの|お前の|君の"), "君の"),
-    (re.compile(r"あなたは|あなたが|あなたを|お前は|お前が|お前を|君は|君が|君を|あなた|お前"), "君"),
-    (re.compile(r"你"), "君"),
-    (re.compile(r"\byours\b", re.I), "君の"),
-    (re.compile(r"\byour\b", re.I), "君の"),
-    (re.compile(r"\byourself\b", re.I), "君"),
-    (re.compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "君"),
-    # 3sg inanimate (extended inventory slot when counting bits w/ extended=True)
-    (re.compile(r"それは|それが|それを|それの|それ"), "it"),
+    # 3sg Romance → he/she (EN surface; utf8+token over 彼/她)
+    (re.compile(r"\bella\b", re.I), "she"),
+    (re.compile(r"\belle\b", re.I), "she"),
+    (re.compile(r"\bél\b", re.I), "he"),  # accented only (el = article)
+    (re.compile(r"\bil\b", re.I), "he"),
+    # JA/ZH 3sg — case-split (do not emit 彼/她; do not collapse を into nom)
+    (re.compile(r"彼女の"), "her"),
+    (re.compile(r"彼女を"), "her"),
+    (re.compile(r"彼女は|彼女が|彼女"), "she"),
+    (re.compile(r"彼の|かれの"), "his"),
+    (re.compile(r"彼を|かれを"), "him"),
+    (re.compile(r"彼は|彼が|彼|かれ|他"), "he"),
+    (re.compile(r"她的"), "her"),
+    (re.compile(r"她"), "she"),
+    # EN 3sg: keep he/she/him/her/his (case intact; do NOT rewrite to 彼/她)
+    # 2sg case-split: nom→U, poss→your, obj→you. Skip discourse you know/see (C).
+    (re.compile(r"あなたの|お前の|君の"), "your"),
+    (re.compile(r"あなたを|お前を|君を"), "you"),
+    (re.compile(r"あなたは|あなたが|お前は|お前が|君は|君が|あなた|お前|君"), "U"),
+    (re.compile(r"你"), "U"),
+    # EN your/yours stay (poss); yourself → you (obj-ish)
+    (re.compile(r"\byourself\b", re.I), "you"),
+    # obj you after common verb/prep — sentinel so later nom you→U cannot re-eat
+    (re.compile(
+        r"\b(see|saw|seen|meet|met|tell|told|give|gave|given|ask|asked|"
+        r"for|to|with|from|at|on|about|of|near|call|called|show|showed|shown)\s+you\b",
+        re.I,
+    ), r"\1 <<YOUOBJ>>"),
+    (re.compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "U"),
+    # Neuter it/its = things/objects (no 物 slot). Do NOT fold deixis
+    # (this/that/these/those / これ/それ/あれ / ça/eso) into it — separate axis.
+    # EN it/its already short; leave as-is. ZH 它 = neuter thing pronoun → it.
+    (re.compile(r"它的"), "its"),
     (re.compile(r"它"), "it"),
-    # they/them/their/we/us/our/I/me/my/it — already short; leave as-is
+    # EN case forms already short — leave I/my/me/he/him/his/she/her/they/them/…
+    # Purpose-for JA/ZH before particle に→→ (ために would otherwise become ため→)
+    (re.compile(r"ために|為に"), "4"),
+    (re.compile(r"为了"), "4"),
     # EN multi-word → compact symbols (not I'll-family contractions)
     # within before with (prefix); without→无 preferred (w/o remains alias in prep2)
     (re.compile(r"\bwithin\b", re.I), "内"),
@@ -765,8 +848,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
 
     (re.compile(r"\bbecause\b", re.I), "bc"),
     (re.compile(r"\btherefore\b", re.I), "∴"),
-    # Contrastive however → tho; skip concessive/degree "however hard/much/…"
-    # (however + Adj/Adv). Safe on "However," / "however I …".
+    # Contrastive however → though (general EN synonym). Skip concessive/degree
+    # "however hard/much/…" (however + Adj/Adv). Safe on "However," / "however I …".
+    # Separate rule below: though → tho (informal EN clip). Two general rules,
+    # not a special-cased however→tho exception.
     (
         re.compile(
             r"\bhowever\b(?!\s+(?:"
@@ -779,8 +864,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
             r")\b)",
             re.I,
         ),
-        "tho",
+        "though",
     ),
+    # Informal EN clipping: though → tho (not a foreign-language form).
+    (re.compile(r"\bthough\b", re.I), "tho"),
     (re.compile(r"\bapproximately\b", re.I), "~"),
     # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≧/≦).
     # greater than stays > (strict); less than → ≦ via phrase grammar.
@@ -839,7 +926,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])(?:に|へ)"), "→"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), "∈"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
+    # After you→U / 彼→he, JA と/も may follow ASCII pronoun surfaces
+    (re.compile(r"\b(he|she|I|U|they|we|it)と(?!し|ころ|り|りあえず)", re.I), r"\1&"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])も"), "+"),
+    (re.compile(r"\b(he|she|I|U|they|we|it)も", re.I), r"\1+"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])を"), ""),
     # は/が: drop after CJK; skip は in はい/はあ discourse; が in known starts rare
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
@@ -885,7 +975,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # whatever-compounds → compact signals
     (re.compile(r"\bwhatever\b", re.I), "∀"),
     (re.compile(r"\bwhoever\b", re.I), "∀who"),
-    (re.compile(r"\bwhichever\b", re.I), "∀which"),
+    (re.compile(r"\bwhichever\b", re.I), "∀opt"),  # no bare "which" residue
     (re.compile(r"\bwherever\b", re.I), "∀loc"),
     (re.compile(r"\bwhenever\b", re.I), "∀when"),
     (re.compile(r"\bnonetheless\b", re.I), "tho∴"),
@@ -1077,6 +1167,58 @@ def extract_protected(
     return out, restores
 
 
+
+# --- EN 3sg → base after 3sg pronouns (he/she; legacy 彼/她) -------------------
+# Once subject is a marked 3sg pronoun, English 3sg -s is redundant → prototype.
+# you→U does not take 3sg. Irregulars: has/does/goes.
+_IRREG_3SG_BASE: dict[str, str] = {
+    "has": "have",
+    "does": "do",
+    "goes": "go",
+}
+# Fixed-width lookbehinds only: match pronoun+space+verb, keep pronoun.
+_AFTER_INV_PRON_VERB = re.compile(
+    r"\b([Hh]e|[Ss]he|彼|她)\s([A-Za-z]+)\b"
+)
+
+
+
+def _en_verb_base_from_3sg(verb: str) -> str:
+    """Map EN 3sg surface to base/prototype; leave non-3sg unchanged."""
+    low = verb.lower()
+    if low in _IRREG_3SG_BASE:
+        base = _IRREG_3SG_BASE[low]
+        if verb.isupper():
+            return base.upper()
+        if verb[0].isupper():
+            return base.capitalize()
+        return base
+    # flies → fly; watches → watch; comes → come
+    if len(low) > 3 and low.endswith("ies"):
+        stem = verb[:-3] + ("Y" if verb[-3].isupper() else "y")
+        return stem
+    if len(low) > 3 and low.endswith(("sses", "zzes", "xes", "ches", "shes")):
+        return verb[:-2]
+    if low.endswith("oes") and len(low) > 3:  # does already irregular; heroes-like rare
+        return verb[:-2]
+    if low.endswith("s") and not low.endswith("ss") and len(low) > 2:
+        # avoid stripping plural-looking nouns blindly: only clear verbal -s
+        return verb[:-1]
+    return verb
+
+
+def drop_3sg_after_inventory_pronoun(text: str) -> str:
+    """After he/she (or legacy 彼/她), fold EN 3sg -s to base verb (原型).
+
+    ``he chooses`` → ``he choose``. Possessives do not trigger.
+    """
+
+    def _sub(m: re.Match[str]) -> str:
+        return f"{m.group(1)} {_en_verb_base_from_3sg(m.group(2))}"
+
+    return _AFTER_INV_PRON_VERB.sub(_sub, text or "")
+
+
 def restore_protected(text: str, restores: list[str]) -> str:
     """Put protected inners back (placeholders → original text)."""
     out = text
@@ -1127,6 +1269,8 @@ def compress(
         out = strip_articles(out)
     for pat, repl in _SUBS:
         out = pat.sub(repl, out)
+    # Pronoun inventory already folded → drop redundant EN 3sg -s (原型)
+    out = drop_3sg_after_inventory_pronoun(out).replace('<<YOUOBJ>>', 'you')
     out = _DIGIT_FW.sub(lambda m: chr(ord(m.group(0)) - 0xFEE0), out)
     if hex_nums:
         out = apply_hex_nums(out, prefix=hex_prefix)
@@ -1181,17 +1325,19 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"←"), "from"),
     (re.compile(r"\bfr\b", re.I), "from"),  # legacy alias short
     (re.compile(r"\bw/\b", re.I), "with"),
+    (re.compile(r"\bU\b"), "you"),  # capital U pronoun surface
     (re.compile(r"\bu r\b", re.I), "you are"),
     (re.compile(r"\bbc\b", re.I), "because"),
     (re.compile(r"\btho∴\b"), "nonetheless"),
-    (re.compile(r"\btho\b", re.I), "however"),
+    (re.compile(r"\btho\b", re.I), "though"),  # informal EN clip inverse
     (re.compile(r"∴↓"), "hereinafter"),
     (re.compile(r"∴→"), "hereafter"),
     (re.compile(r"∴="), "hereinafter referred to as"),
     (re.compile(r"∴of"), "thereof"),
     (re.compile(r"∈there"), "therein"),
     (re.compile(r"\b∀who\b"), "whoever"),
-    (re.compile(r"\b∀which\b"), "whichever"),
+    (re.compile(r"\b∀opt\b"), "whichever"),
+    (re.compile(r"\b∀which\b"), "whichever"),  # legacy
     (re.compile(r"\b∀loc\b"), "wherever"),
     (re.compile(r"\b∀when\b"), "whenever"),
     (re.compile(r"\b∀\b"), "whatever"),

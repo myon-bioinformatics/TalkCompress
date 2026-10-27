@@ -80,9 +80,9 @@ ROMANCE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "it"})
 GERMANIC_LANGS: frozenset[str] = frozenset({"en", "de", "nl"})
 GREEK_LANGS: frozenset[str] = frozenset({"el"})
 FINAL_TOKEN_LANGS: frozenset[str] = frozenset({"zh", "de"})
-"""Langs for final-pass *sentence* minify (zh|de). Phrase bank may also pick EN acronyms."""
+"""Langs for final-pass *sentence* minify (zh|de). Phrase bank may pick EN acronyms + JA densifiers."""
 
-FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en"})
+FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja"})
 """Phrase densifier bank: ZH/DE compounds + EN acronyms competing via cheapest-form."""
 
 _CUES: dict[str, tuple[str, ...]] = {
@@ -464,12 +464,27 @@ def load_translation_bank(path: str | None = None) -> dict[str, Any]:
 def translation_index(
     path: str | Path | None = None,
 ) -> dict[str, list[tuple[str, str]]]:
-    """Map normalized source → list of (lang, candidate_text)."""
+    """Map normalized source → list of (lang, candidate_text).
+
+    ``candidates`` may map lang → str **or** lang → list[str] (EN paraphrases).
+    Multiple EN forms are kept so ``pick_shortest_translation`` can EN-first
+    ``select_cheapest`` (token→utf8) before cross-lang.
+    """
     data = load_translation_bank(str(path) if path is not None else None)
     idx: dict[str, list[tuple[str, str]]] = {}
     for entry in data.get("entries") or []:
         cands = entry.get("candidates") or {}
-        pairs = [(str(lang), str(text)) for lang, text in cands.items() if text]
+        pairs: list[tuple[str, str]] = []
+        for lang, text in cands.items():
+            if text is None or text == "":
+                continue
+            if isinstance(text, list):
+                for t in text:
+                    t = str(t).strip()
+                    if t:
+                        pairs.append((str(lang), t))
+            else:
+                pairs.append((str(lang), str(text)))
         for src in entry.get("from") or []:
             key = _norm_lookup_key(str(src))
             if not key:
@@ -581,6 +596,12 @@ def pick_shortest_translation(
     Keeps the original when nothing is strictly shorter (ties → original).
     With ``prefer_low_ambiguity=True`` (default), also applies 揺らぎ penalty so
     a wavy short can lose to a slightly longer clearer candidate or to original.
+
+    **EN-first:** when multiple ``en`` paraphrase candidates beat the source,
+    collapse them with token → utf8 → len (same as ``select_cheapest_form`` /
+    ``_cheapest_repl``) to **one** EN, then compete that EN against cross-lang.
+    Does not force EN over a cheaper ZH/JA densifier.
+
     ``allow_langs=None`` (default) accepts **any** bank language — EN+ZH+JA is
     not a hard ceiling. Pass a set to restrict (e.g. Romance-only).
     Does **not** consult the C ShorthandEdge ledger.
@@ -595,32 +616,70 @@ def pick_shortest_translation(
         idx = translation_index(bank_path)
         pairs = list(idx.get(_norm_lookup_key(src), []))
     elif isinstance(candidates, dict):
-        pairs = [(str(k), str(v)) for k, v in candidates.items()]
+        # lang → str | list[str]
+        for k, v in candidates.items():
+            if isinstance(v, list):
+                for t in v:
+                    if t:
+                        pairs.append((str(k), str(t)))
+            elif v:
+                pairs.append((str(k), str(v)))
     else:
         pairs = list(candidates)
 
     # None → no filter (all bank langs). Empty set → keep original only.
     allowed = allow_langs
-    best_text, best_lang, best_n = src, "src", src_n
-    best_key: tuple[int, int, int] | None = None
-    for lang, cand in pairs:
+
+    def _eligible(lang: str, cand: str) -> tuple[str, str, int, tuple] | None:
         if allowed is not None and lang not in allowed:
-            continue
-        cand = unicodedata.normalize("NFC", cand.strip())
-        if not cand:
-            continue
-        n = estimate_tokens(cand)
+            return None
+        cand_n = unicodedata.normalize("NFC", cand.strip())
+        if not cand_n:
+            return None
+        n = estimate_tokens(cand_n)
         if prefer_low_ambiguity:
-            key = score_translation_candidate(cand, src_tokens=src_n)
+            key = score_translation_candidate(cand_n, src_tokens=src_n)
             if key is None:
-                continue
-            if best_key is None or key < best_key:
-                best_key = key
-                best_text, best_lang, best_n = cand, lang, n
+                return None
+            # utf8 for cheapest tie-break. Do *not* use char-len — CJK
+            # fewer codepoints would beat equal-utf8 EN (ASAP≻尽快).
+            # Do *not* put cand text in the key (lexicographic "Aide"<"Ayú"
+            # would steal ties). Remaining ties → earlier pool (EN-first).
+            full = (*key, _utf8_len(cand_n))
+            return cand_n, lang, n, full
+        if n >= src_n:
+            return None
+        full = (n, 0, n, _utf8_len(cand_n))
+        return cand_n, lang, n, full
+
+    # EN-first: collapse multiple EN paraphrases to one cheapest EN, then let
+    # that single EN compete with cross-lang (token→utf8). Does not force EN
+    # over a cheaper ZH/JA densifier.
+    en_best: tuple[str, str, int, tuple] | None = None
+    others: list[tuple[str, str, int, tuple]] = []
+    for lang, cand in pairs:
+        got = _eligible(lang, cand)
+        if got is None:
+            continue
+        if lang == "en":
+            if en_best is None or got[3] < en_best[3]:
+                en_best = got
         else:
-            if n < best_n:
-                best_text, best_lang, best_n = cand, lang, n
-    return best_text, best_lang, best_n
+            others.append(got)
+
+    # Compete collapsed EN vs cross-lang. Strict < so ties keep earlier
+    # candidate (EN first → ASAP beats equal-token ZH densifier).
+    pool: list[tuple[str, str, int, tuple]] = []
+    if en_best is not None:
+        pool.append(en_best)
+    pool.extend(others)
+    if not pool:
+        return src, "src", src_n
+    winner = pool[0]
+    for got in pool[1:]:
+        if got[3] < winner[3]:
+            winner = got
+    return winner[0], winner[1], winner[2]
 
 
 def _google_target_code(lang: str) -> str:

@@ -133,57 +133,88 @@ def test_morpho_hex_nums():
 
 def test_morpho_pronoun_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    # Stop collapsing he/she and 彼/彼女 into they
-    assert "彼" in m.compress("he or she will go")
-    assert "她" in m.compress("he or she will go")
-    assert "they" not in m.compress("he or she will go").lower()
-    assert m.compress("彼を呼ぶ") == "彼呼ぶ"
-    assert "她" in m.compress("彼女は来る")
-    assert "她" in m.compress("she will go")
-    assert "君" in m.compress("I see you")
+    # Case-split nom/poss/obj; surface utf8+token; open she; neuter=it (things);
+    # deixis (それ/this) NOT folded into it.
+    assert "I" in m.PRONOUN_CANONICAL and "U" in m.PRONOUN_CANONICAL
+    assert "he" in m.PRONOUN_CANONICAL and "she" in m.PRONOUN_CANONICAL
+    assert "my" in m.PRONOUN_CANONICAL and "me" in m.PRONOUN_CANONICAL
+    assert "her" in m.PRONOUN_CANONICAL and "him" in m.PRONOUN_CANONICAL
+    assert "it" in m.PRONOUN_CANONICAL and "its" in m.PRONOUN_CANONICAL
+    hos = m.compress("he or she will go")
+    assert "he/she" in hos or ("he" in hos and "she" in hos)
+    assert "they" not in hos.lower()
+    assert "彼" not in hos and "她" not in hos
+    assert m.compress("彼を呼ぶ") == "him呼ぶ"
+    assert "she" in m.compress("彼女は来る")
+    assert "her" in m.compress("彼女を呼ぶ")
+    assert "she" in m.compress("she will go")
+    assert "U" in m.compress("you choose")
+    assert "君" not in m.compress("you choose")
+    assert "you" in m.compress("I see you")  # obj case kept
+    assert "your" in m.compress("your book")
     assert "you know" in m.compress("you know me")  # discourse filler untouched
     assert "y'all" in m.compress("you all ready")
     assert "y'all" in m.compress("you guys win")
     assert "they" in m.compress("they saw them")
     assert "them" in m.compress("they saw them")
     assert m.compress("私は行く") == "I行く"
-    assert "it" in m.compress("それは本")
+    assert m.compress("私を呼ぶ") == "me呼ぶ"
+    assert m.compress("私の本") == "my本"
+    # Deixis stays (は particle may drop); not rewritten to it
+    deix = m.compress("それは本")
+    assert "それ" in deix
+    assert "it" not in deix.lower() or "それ" in deix
+    # 3sg drop after he/she
+    assert m.compress("he chooses") == "he choose"
+    assert m.compress("she comes") == "she come"
+    assert "∀opt" in m.compress("whichever option")
+    assert "which" not in m.compress("whichever option").lower()
+    assert "4" in m.compress("成功するために学ぶ")
 
 
 def test_morpho_pronoun_bits():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.pronoun_inventory_bits() == 2
-    assert len(m.PRONOUN_CANONICAL) == 4
-    assert m.pronoun_inventory_bits(extended=True) == 3
-    # they / them / y'all same canonical + same flat cost
+    # Case-split inventory → N≈22 → 5 bits (design/report only)
+    assert len(m.PRONOUN_CANONICAL) >= 20
+    assert m.pronoun_inventory_bits() == 5
+    assert m.pronoun_inventory_bits(extended=True) == 5
+    # Case axis: them ≠ they; y'all own surface; she ≠ he
     assert m.canonicalize_pronoun("they") == "they"
-    assert m.canonicalize_pronoun("them") == "they"
-    assert m.canonicalize_pronoun("y'all") == "they"
+    assert m.canonicalize_pronoun("them") == "them"
+    assert m.canonicalize_pronoun("y'all") == "y'all"
+    assert m.canonicalize_pronoun("she") == "she"
+    assert m.canonicalize_pronoun("her") == "her"
+    assert m.canonicalize_pronoun("him") == "him"
+    assert m.canonicalize_pronoun("me") == "me"
+    assert m.canonicalize_pronoun("my") == "my"
+    assert m.canonicalize_pronoun("it") == "it"
+    assert m.canonicalize_pronoun("its") == "its"
     w = m.pronoun_inventory_bits()
-    for form in ("they", "them", "y'all"):
+    for form in ("they", "them", "y'all", "she", "it"):
         c = m.pronoun_bit_cost(form)
-        assert c["bits_per_pronoun"] == w == 2
+        assert c["bits_per_pronoun"] == w == 5
         assert c["count"] == 1
-        assert c["total_bits"] == 2
-    # 她: core path aliases to 彼 (2 bits); utf8 secondary = 24
-    assert m.canonicalize_pronoun("她") == "彼"
+        assert c["total_bits"] == 5
+    # Aliases: 彼女/她/ella/elle → she; 彼/他/él/il → he; 君 → U
+    assert m.canonicalize_pronoun("彼女") == "she"
+    assert m.canonicalize_pronoun("她") == "she"
+    assert m.canonicalize_pronoun("ella") == "she"
+    assert m.canonicalize_pronoun("elle") == "she"
+    assert m.canonicalize_pronoun("彼") == "he"
+    assert m.canonicalize_pronoun("他") == "he"
+    assert m.canonicalize_pronoun("君") == "U"
+    # "you" alias = objective surface; nominative rewrite is _SUBS → U
+    assert m.canonicalize_pronoun("you") == "you"
+    assert "U" in m.compress("you choose")
     assert m.utf8_bits("她") == 24
+    assert m.utf8_bits("U") == 8
     her = m.pronoun_bit_cost("她")
-    assert her["total_bits"] == 2
-    assert her["canonicals"] == ["彼"]
-    # it outside core; in extended
-    assert m.canonicalize_pronoun("it") is None
-    assert m.canonicalize_pronoun("it", extended=True) == "it"
-    assert m.pronoun_bit_cost("it")["count"] == 0
-    assert m.pronoun_bit_cost("it", extended=True)["total_bits"] == 3
-    # density exposes pronoun bit fields
-    d = m.density("he saw her", m.compress("he saw her"))
-    assert d["pronoun_bits_each"] == 2
-    assert d["pronoun_inventory_n"] == 4
-    assert d["pronoun_count"] >= 1
-
-
-# --- lex_policy expansions smoke ---
+    assert her["total_bits"] == 5
+    assert her["canonicals"] == ["she"]
+    # Deixis forms not in person inventory
+    assert m.canonicalize_pronoun("それ") is None
+    assert m.canonicalize_pronoun("this") is None
+    assert m.canonicalize_pronoun("ça") is None
 
 
 def test_lex_policy_expansions_smoke():
@@ -627,13 +658,13 @@ def test_morpho_from_arrow_and_ml_aliases():
     assert "←" in de and "w/" in de and "4" in de and "@" in de
     # subject-side pronouns
     assert m.canonicalize_closed("pronoun", "yo") == "I"
-    assert m.canonicalize_closed("pronoun", "tú") == "君"
-    assert m.canonicalize_closed("pronoun", "él") == "彼"
+    assert m.canonicalize_closed("pronoun", "tú") == "U"
+    assert m.canonicalize_closed("pronoun", "él") == "he"
     assert m.canonicalize_closed("pronoun", "ellos") == "they"
     assert m.canonicalize_closed("pronoun", "je") == "I"
     assert m.canonicalize_closed("pronoun", "ich") == "I"
     subj = m.compress("yo voy y ella queda", unique=False, etymon=False, counters=False)
-    assert "I" in subj and "她" in subj
+    assert "I" in subj and "she" in subj
     # と → & kept
     assert "&" in m.compress("猫と犬", unique=False, etymon=False, counters=False)
     # expand ←

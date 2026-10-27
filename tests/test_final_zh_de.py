@@ -34,6 +34,17 @@ def test_asap_acronym_beats_zh_densifier():
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
+def test_asap_beats_ja_naru_haya_densifier():
+    """ASAP ≺ なる早 (JA densifier spelling; not なるはや)."""
+    t = _tessera()
+    assert "ja" in t.FINAL_PHRASE_LANGS
+    src = "Please reply as soon as possible."
+    out = t.apply_zh_de_phrases(src)
+    assert "ASAP" in out
+    assert "なる早" not in out
+    assert "なるはや" not in out
+
+
 def test_short_de_compound_bahnhof_wins():
     t = _tessera()
     src = "Meet me at the train station tomorrow."

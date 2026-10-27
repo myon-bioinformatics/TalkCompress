@@ -1,7 +1,7 @@
 {
   "version": 1,
   "title": "Final-token phrase bank (ZH/DE compounds, EN acronyms, densifiers)",
-  "notes": "Token candidate bank for the final pass. Each entry may list `candidates` [{form, lang, class}]; runtime picks via select_cheapest (token→utf8→len). EN acronyms (ASAP/FYI/BTW/IMO) beat ZH densifiers when cheaper. Compounds (incl. adj+noun) are a candidate class, not noun-only. CLI alias: --final-zh-de → final-token pass.",
+  "notes": "Token candidate bank for the final pass. Each entry may list `candidates` [{form, lang, class}]; runtime picks via select_cheapest (token→utf8→len). EN acronyms (ASAP/FYI/BTW/IMO) beat ZH/JA densifiers when cheaper (ASAP ≺ 尽快 ≺ なる早). Compounds (incl. adj+noun) are a candidate class, not noun-only. CLI alias: --final-zh-de → final-token pass. FINAL_PHRASE_LANGS includes zh|de|en|ja.",
   "entries": [
     {
       "id": "bahnhof",
@@ -56,6 +56,11 @@
           "form": "尽快",
           "lang": "zh",
           "class": "densifier"
+        },
+        {
+          "form": "なる早",
+          "lang": "ja",
+          "class": "densifier"
         }
       ],
       "metrics": {
@@ -71,9 +76,13 @@
         "vs_尽快": {
           "token": 2,
           "utf8": 48
+        },
+        "vs_なる早": {
+          "token": 2,
+          "utf8": 72
         }
       },
-      "note": "cheapest: ASAP ≺ 尽快; C c-asap owns same sources — B keeps ASAP via candidates"
+      "note": "cheapest: ASAP ≺ 尽快 ≺ なる早; C c-asap owns same sources — B keeps ASAP via candidates; なる早 is JA densifier (not なるはや)"
     },
     {
       "id": "thanks-zh",

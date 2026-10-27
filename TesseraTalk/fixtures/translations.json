@@ -38,7 +38,12 @@
         "Please reply as soon as possible"
       ],
       "candidates": {
-        "en": "Please reply ASAP.",
+        "en": [
+          "Please reply ASAP.",
+          "Reply ASAP.",
+          "Pls reply ASAP.",
+          "Pls reply as soon as possible."
+        ],
         "zh": "请尽快回复。",
         "ja": "至急返信ください。",
         "es": "Por favor responde lo antes posible.",

@@ -4,13 +4,13 @@
 
 ## 方針（言語非依存の最短形）
 
-**ソース言語を問わず、意味が通る最短の表層へ畳む**（記号 OK）。英語専用・日本語専用の特例を増やさない。比較の `≧` `≦` `≒` `=` はその一例であり、代名詞・前置・接続なども同じ原則（君/彼/无/前/bc/∴ …）。
+**ソース言語を問わず、意味が通る最短の表層へ畳む**（記号 OK）。英語専用・日本語専用の特例を増やさない。比較の `≧` `≦` `≒` `=` はその一例であり、代名詞・前置・接続なども同じ原則（U/he/无/前/bc/∴ …）。
 
 ### 具体
 
 
 - 一人称 → `I`（私は/僕は/俺は…を潰す）
-- **代名詞 2-bit 在庫**（下記）
+- **代名詞 case-split 在庫（5-bit 設計）**（下記）
 - 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・助詞・比較）→ 下記。接続 → `&` `/` `bc` `∴`；前置1 → `w/` `4` `←` `@`；前置2 → `de` `无` `内` `前` `後`；助詞 → `∅` `→` `∈` `〜`；比較 → `≧` `≦`。極性 `!`/`¬` は在庫幅とは別の **1bit フラグ**
 - whatever 系 → `∀` / `∀loc` / `∀who` … / hereafter → `∴→`
 - 助数詞: JA 既存は維持。EN 数量句も実験的に短くする（`3 animals` → `3匹`, `2 people` → `2人` など）。桁化済みの数字が前提（スペル数字→桁は C）
@@ -19,37 +19,21 @@
 - 中国語偏重なし。`--stats` で文字密度
 
 
-## 代名詞（2-bit 在庫）
+## 代名詞（case-split 在庫）
 
-**指標の整理（代名詞）:** 主 = **ビット**（在庫 `ceil(log2(N))`、コア 2bit でゲート）。副・軽め = **トークン**（例: `y'all` はトークン観点で **1トークン** 扱い）。代名詞の選択をトークン軸で深く吟味・最適化はしない（トークン見積は B TesseraTalk `estimate_tokens` の参考表示のみ）。
+**軸:** 人称 × **格（主格 / 所有格 / 目的格）** — I–my–me、U–your–you、he–his–him、she–her–her、it–its–it、they–their–them、y'all–y'all's–y'all。格を畳まない。
 
-主指標は **在庫インデックス幅**（UTF-8 長ではない）:
+**中性 it:** 事物・オブジェクトを含む（**物スロットは作らない**）。**指示代名詞（deixis）** this/that/these/those・これ/それ/あれ・ça/eso 等は **別軸** — it に畳まない（登録時は独立 family）。
 
-`bits_per_pronoun = ceil(log2(N))` where `N = len(PRONOUN_CANONICAL)`（出現ごと・表層 UTF 長はコストに入れない）。
+在庫幅（設計/レポート）: `bits_per_pronoun = ceil(log2(N))`；コア N≈22 → **5 bits/出現**。表層書き換えは **utf8+token 優先**（在庫ビットは二次）。
 
-**コア（≤2 bit 目標）:** `PRONOUN_CANONICAL = (I, 君, 彼, they)` → **N=4 → 2 bits/出現**。
+**コア例:** nom `I`/`U`/`he`/`she`/`it`/`we`/`they`/`y'all`；poss `my`/`your`/`his`/`her`/`its`/`our`/`their`/`y'all's`；obj `me`/`you`/`him`/`her`/`it`/`us`/`them`/`y'all`。
 
-| スロット | ビット | 表層の自由変異（同じコスト） |
-| --- | --- | --- |
-| `I` | 2 | I / me / my（JA 私は…→I など） |
-| `君` | 2 | 君 / 君の ← you / your / あなた… |
-| `彼` | 2 | 彼 / 彼の ← he/him/his；**她 / 她の は表層のみ**（ビットは 彼） |
-| `they` | 2 | **they / them / y'all**（および their）— 同一スロット |
+**入力別名（格を保つ）:** 彼女/她/ella/elle→she；彼/他/él/il→he；君→U（主格）；私は→I / 私を→me / 私の→my。目的格 you は sentinel 保護で再食わない。
 
-2pl 入力（`you all` / `you guys` / 皆さん / 你们…）→ 表層 `y'all`（スロット `they`）。
-3pl は `they`/`them` のまま（潰さない）。`he or she` → `彼/她`（they へ畳まない）。
+**開いた she:** she→he に畳まない。y'all = EN コンパクト 2pl（they と別表層）。
 
-**她について（両方の数字）:**
-
-| 経路 | コスト |
-| --- | --- |
-| コア在庫（彼女/she → 表層 她、スロット 彼） | **2 bits**/出現 |
-| 二次指標 `utf8_bits("她")` | **24 bits**（3 UTF-8 bytes × 8） |
-| もし 她を第5コアにすると | N≥5 → 全員 **3 bits**（採用しない） |
-
-**拡張（オプトイン）:** `PRONOUN_EXTENDED = (…, it)` → N=5 → 3 bits。`pronoun_inventory_bits(extended=True)` / `pronoun_bit_cost(..., extended=True)`。`it` は表層として出すが、コア予算ゲートには入れない。
-
-ヘルパー: `canonicalize_pronoun` / `pronoun_inventory_bits` / `pronoun_bit_cost` / `utf8_bits`。`--stats` の density に `pronoun_bits_*` を含む。
+ヘルパー: `canonicalize_pronoun` / `pronoun_inventory_bits` / `pronoun_bit_cost` / `utf8_bits`。`--stats` の density に `pronoun_bits_*`。
 
 
 ## 閉じた品詞在庫（ビット主・トークン従）
@@ -60,7 +44,7 @@
 
 | 品詞 | コア在庫 | N | bits | 主な写像 | 例 |
 | --- | --- | --- | --- | --- | --- |
-| 代名詞 pronoun | I / 君 / 彼 / they | 4 | 2 | they\|them\|y'all 同一；她→彼表層；ES/FR/DE 主語（yo/je/ich, tú/tu/du, él/il/ella/elle, ellos/ils…）同スロット | `yo … ella` → `I … 她` |
+| 代名詞 pronoun | I/my/me … U/your/you … he/his/him … she/her … it/its … they/their/them + y'all | ≈22 | **5** | **格軸**維持；表層 utf8+token 優先；she 開放；**neuter=it（事物）**；**deixis 別軸**（これ/それ≠it）；君/彼/彼女=入力別名；bits 設計/レポート | `you…`→`U…`；`I see you` 目的格維持；`彼女を`→`her`；`それは` は deixis のまま |
 | 冠詞 article | ∅ | 1 | **0** | the/a/an → 削除（引用は保持） | `the cat` → `cat` |
 | 接続詞 conjunction | & / bc / ∴ | 4 | 2 | and→& or→/ **because→bc** therefore→∴（cuz は否定せず、数学記号系を優先；点々表記の余地） | `… because …` → `… bc …` |
 | 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；拡張 □=always / oft=often；**never→¬ not→!**（極性は助動詞と共有・在庫外1bit）。∀ は whatever 用 | `however very` → `tho ˅`；`always never` → `□ ¬` |
@@ -71,17 +55,23 @@
 | 比較 compare | ≧ / ≦ | 2 | **1** | **言語非依存**: JA/ZH 以上/以下；EN more than/at least/…；ES más de/al menos/…；FR plus/moins de；DE mehr/weniger als → 同じ ≧/≦。≒/=（approx-equal/equal）。単独 under/below/above は C | `18歳以上` / `más de 3` → `≧` |
 | 極性 polarity | ! / ¬ | — | **1**/標 | 在庫幅ではないフラグ。助動詞否定・副詞 not/never で共有。肯定 = マーカー無し | `!can` は aux 2bit + 極性1bit |
 
-> **for→4 の注意**: `4` は数字 four と表現の揺らぎが出うる。ビット在庫（2bit）とは別評価とし、最終的に `for`（原形）などに戻る可能性あり（未変更・TODO）。
+> **for→4 の注意**: `4` は数字 four と表現の揺らぎが出うる。ビット在庫（2bit）とは別評価。目的の for 相当は EN `for` に加え ES/FR/DE `para`/`pour`/`für`、JA `ために`/`為に`、ZH `为了`→`4`（裸の `为`/`por` は曖昧のため見送り）。`ために` は助詞 `に→→` より先に適用。
 
 > **from→← / fr の注意**: canonical 短形は **`←`**（`→`＝に/へ と対；LTR 1 字）。`fr` は別名として残すが、colloquial EN **for real** との揺らぎがあるため **出力は ← を優先**（`fr` への自動短縮はしない）。
 
-**拡張:** conjunction +∵/+（N=6→3bit）；adverb +also/□/oft；preposition +to（N=5→3bit）；pronoun +it（N=5→3bit）；particle +/&/←（N=7→3bit）。prep2 はコアで N=5→3bit（pack 分離で pack1 は 2bit 維持）。
+**拡張:** conjunction +∵/+（N=6→3bit）；adverb +also/□/oft；preposition +to（N=5→3bit）；pronoun +mine/theirs/ours/yours（N 微増・仍≈5bit）；particle +/&/←（N=7→3bit）。prep2 はコアで N=5→3bit（pack 分離で pack1 は 2bit 維持）。
 
 **C との境界:** moreover/furthermore/nevertheless・under/above/below・**I'll 族（`family=abbrev` 縮約）**・チャット頭字語・e.g./etc.・**information→ℹ️（`family=emoji`）**・開いた数学記号（`family=symbol` ≠∞±…）・台帳の前後/内外ペアは C。短形は数学/記号優先（両方効くとき絵文字より記号）。 C 台帳 lex の `metrics.bit` は本モジュールの `utf8_bits` /（在庫適用時）`closed_inventory_bits` を参照する（所有は E のまま）。E の bare 前/後（EN before/after）と 以上/以下→≧/≦、助詞コアは別。`in`/`on` は曖昧のため自動書き換え見送り。
 
 **because / cuz:** `because→bc` 採用。`cuz` は可能性として否定しないが、数学記号寄りの `bc` / `∴` 系を優先。将来点々付き表記が載る余地あり（bc のまま）。
 
 **助動詞・副詞 × not（検証パス実装）:** 否定 `can't/won't/shouldn't/mustn't/may not/don't`→`!…` / `!`；肯定は素の can/will/must/may。副詞 `not→!` `never→¬`。極性は `polarity_bit_cost`（1bit/マーカー）。時制の深い畳み込みは未着手。I'll は C 所有のまま。
+
+## その他の Morpho 書換
+
+- **tho**: 口語 EN の `though` クリップ（外国語ではない）。対照の `however`→`though`→`tho`（一般規則2段）。譲歩/程度の `however hard…` は残す。
+- **whichever**→`∀opt`（`∀which` はレガシー展開のみ；`which` 残留なし）。
+- **EN 3sg**: `he/she`（およびレガシー 彼/她）の直後で `-s` を原型へ（`he chooses`→`he choose`）。`U` は 3sg なし。
 
 ## 語彙ポリシー（揺らぎ削減）
 

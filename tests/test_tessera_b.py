@@ -124,6 +124,30 @@ def test_pick_en_natural_abbrev_asap():
     )
 
 
+def test_en_first_paraphrase_before_cross_lang():
+    """Multi EN paraphrases collapse via select_cheapest before cross-lang compete."""
+    t = _tessera()
+    src = "Please send the documents as soon as possible today."
+    # 1) EN-only: cheapest EN wins
+    en_only = [
+        ("en", "Please send docs ASAP today."),
+        ("en", "Pls send the documents ASAP today."),
+    ]
+    chosen, lang, _ = t.pick_shortest_translation(src, candidates=en_only)
+    assert lang == "en"
+    assert chosen == "Please send docs ASAP today."
+    # 2) Cheaper ZH still beats collapsed EN (EN-first ≠ force EN)
+    with_zh = en_only + [("zh", "尽快发文件。")]
+    chosen2, lang2, _ = t.pick_shortest_translation(src, candidates=with_zh)
+    assert lang2 == "zh"
+    assert "尽快" in chosen2
+    # 3) Worse cross-lang → collapsed EN wins
+    with_ja_long = en_only + [("ja", "なる早にて書類をお送りくださいませ。")]
+    chosen3, lang3, _ = t.pick_shortest_translation(src, candidates=with_ja_long)
+    assert lang3 == "en"
+    assert chosen3 == "Please send docs ASAP today."
+
+
 def test_pick_en_natural_abbrev_fyi():
     t = _tessera()
     chosen, lang, _ = t.pick_shortest_translation(
