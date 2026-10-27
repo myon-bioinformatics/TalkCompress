@@ -23,11 +23,13 @@
 
 - **ライブ MT（opt-in）**: `--translate-engine=argos|deep`
 
+  対象言語（Romance / Germanic / el / ja / zh）へ **並列翻訳**し、`estimate_tokens` の短さ＋**揺らぎ（曖昧さ）ペナルティ**で選ぶ。最短でも意味がぶれる語（例: `set` / `table`）は、少し長いが明確な候補や原文に負けることがある。
+
   | engine | 依存 | 備考 |
   | --- | --- | --- |
-  | `fixture`（既定） | なし | バンクのみ。CI / pytest 用 |
-  | `deep` | `uv sync --group translate`（`deep-translator`） | 実行時にネットワーク |
-  | `argos` | 別途 `argostranslate` + 言語パック | オフライン可だが重い。default sync には入れない |
+  | `fixture`（既定） | なし | バンクのみ。CI / pytest 用（決定的・オフライン） |
+  | `deep` | `uv sync --group translate`（`deep-translator`） | 並列・ネットワーク |
+  | `argos` | 別途 `argostranslate` + 言語パック | 並列・オフライン可だが重い。default sync には入れない |
 
   未インストール時は静かにバンク／原文へフォールバック（例外にしない）。
 
@@ -58,4 +60,4 @@ uv run python TesseraTalk/tessera_talk.py compress --translate-min --allow-langs
 
 ## Round notes
 
-翻訳バンクに ES/FR/PT/IT/DE/NL/EL を拡充。`--translate-min` は DispatchHub 経由でも可。`--translate-engine` でライブ MT を opt-in。
+翻訳バンクに ES/FR/PT/IT/DE/NL/EL を拡充。`--translate-min` は DispatchHub 経由でも可。`--translate-engine=deep|argos` は並列多言語→長さ＋揺らぎで採用。

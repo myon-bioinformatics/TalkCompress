@@ -15,13 +15,15 @@ per sentence, pick a shorter bank candidate when ``estimate_tokens`` drops.
 EN+ZH+JA was the *starting* mix, not a hard ceiling — Romance (es/fr/pt/it),
 Germanic (de/nl/en), Greek (el), and ja/zh are in-scope. Default bank filter
 accepts any language present in the fixtures. Live MT is opt-in via
-``--translate-engine`` (fixtures stay the pytest-deterministic default).
-Unlike ShorthandEdge (C), B does **not** apply the agreed ledger.
+``--translate-engine`` (fixtures stay the pytest-deterministic default): deep/argos
+fan out to target langs **in parallel**, then rank by shortness + low 揺らぎ
+(ambiguity). Unlike ShorthandEdge (C), B does **not** apply the agreed ledger.
 """
 
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import re
 import sys
@@ -467,17 +469,103 @@ def translation_index(
     return idx
 
 
+def ambiguity_penalty(text: str) -> int:
+    """Token-equivalent 揺らぎ (ambiguity) penalty. Higher → worse for ranking.
+
+    Intentional natural short forms (ASAP, FYI, Ciao, CJK densifiers) stay at 0.
+    Very short polysemous Latin tokens (set/run/table/bank/…) get a heavy penalty
+    so a wavy short can lose to a slightly longer clearer candidate or to original.
+    """
+    s = unicodedata.normalize("NFC", (text or "").strip())
+    if not s:
+        return 99
+    # Intentional abbrevs / greetings — do not punish
+    intentional = {
+        "asap", "fyi", "imo", "imho", "btw", "tba", "tbd", "eta", "faq",
+        "ciao", "hola", "merci", "gracias", "danke", "obrigado", "obrigada",
+        "ok", "okay", "yes", "oui", "sí", "si", "ja", "nein", "non", "não",
+    }
+    # strip trailing punct for lookup
+    bare = re.sub(r"[.!?。？！…,，、]+$", "", s).strip()
+    low = bare.lower()
+    if low in intentional:
+        return 0
+    # Pure CJK / kana / Hangul / Greek densifiers: low 揺らぎ for B ranking
+    if _CJK_CHAR.fullmatch(bare) or _GREEK.fullmatch(bare):
+        return 0
+    if not _LATIN.search(bare) and (_CJK.search(bare) or _GREEK.search(bare)):
+        return 0
+
+    wavy = {
+        "set", "run", "get", "put", "make", "take", "go", "do", "it", "a", "an",
+        "the", "to", "of", "in", "on", "at", "by", "for", "or", "and", "as",
+        "table", "bank", "light", "right", "left", "just", "cool", "fine",
+        "well", "fair", "mean", "line", "type", "form", "case", "point",
+        "check", "call", "draw", "play", "watch", "match", "order", "charge",
+        "current", "plain", "note", "book", "file", "key", "code", "base",
+        "stock", "share", "interest", "party", "state", "power", "force",
+        "class", "subject", "object", "figure", "number", "scale", "range",
+        "term", "period", "date", "time", "space", "field", "area", "volume",
+        "da", "se", "le", "la", "el", "un", "une", "de", "en", "para",
+    }
+    words = re.findall(r"[A-Za-z\u00C0-\u024F']+", low)
+    if not words:
+        return 0
+    # Single-token wavy Latin short form — heavy enough that it usually loses
+    # to original alone, and always loses near-ties to a clearer candidate.
+    if len(words) == 1 and words[0] in wavy:
+        return 12
+    if len(words) == 1 and len(words[0]) <= 3:
+        # ultra-short Latin singleton without intentional whitelist
+        return 8
+    # Multi-word but dominated by wavy content words
+    content = [w for w in words if w not in {"the", "a", "an", "to", "of", "in", "on", "at", "by", "for", "or", "and", "as"}]
+    if content and all(w in wavy for w in content) and len(content) <= 2:
+        return 6
+    # Collision cue: candidate equals a known wavy lemma exactly
+    if low in wavy:
+        return 12
+    return 0
+
+
+def score_translation_candidate(
+    candidate: str,
+    *,
+    src_tokens: int,
+) -> tuple[int, int, int] | None:
+    """Rank key for a candidate. Lower tuple wins. ``None`` → discard.
+
+    Primary: ``estimate_tokens`` + ``ambiguity_penalty`` (揺らぎ). Empty / error
+    strings discarded. Must beat ``src_tokens`` on the composite score to win.
+    """
+    cand = unicodedata.normalize("NFC", (candidate or "").strip())
+    if not cand:
+        return None
+    n = estimate_tokens(cand)
+    if n <= 0:
+        return None
+    pen = ambiguity_penalty(cand)
+    effective = n + pen
+    # Must improve on original's token count via effective score
+    if effective >= src_tokens:
+        return None
+    return (effective, pen, n)  # near-ties: lower 揺らぎ before raw shortness
+
+
 def pick_shortest_translation(
     sentence: str,
     candidates: list[tuple[str, str]] | dict[str, str] | None = None,
     *,
     bank_path: str | Path | None = None,
     allow_langs: set[str] | None = None,
+    prefer_low_ambiguity: bool = True,
 ) -> tuple[str, str, int]:
     """Pick original or a shorter translation candidate by ``estimate_tokens``.
 
     Returns ``(chosen_text, lang_or_'src', token_count)``.
     Keeps the original when nothing is strictly shorter (ties → original).
+    With ``prefer_low_ambiguity=True`` (default), also applies 揺らぎ penalty so
+    a wavy short can lose to a slightly longer clearer candidate or to original.
     ``allow_langs=None`` (default) accepts **any** bank language — EN+ZH+JA is
     not a hard ceiling. Pass a set to restrict (e.g. Romance-only).
     Does **not** consult the C ShorthandEdge ledger.
@@ -499,6 +587,7 @@ def pick_shortest_translation(
     # None → no filter (all bank langs). Empty set → keep original only.
     allowed = allow_langs
     best_text, best_lang, best_n = src, "src", src_n
+    best_key: tuple[int, int, int] | None = None
     for lang, cand in pairs:
         if allowed is not None and lang not in allowed:
             continue
@@ -506,9 +595,55 @@ def pick_shortest_translation(
         if not cand:
             continue
         n = estimate_tokens(cand)
-        if n < best_n:
-            best_text, best_lang, best_n = cand, lang, n
+        if prefer_low_ambiguity:
+            key = score_translation_candidate(cand, src_tokens=src_n)
+            if key is None:
+                continue
+            if best_key is None or key < best_key:
+                best_key = key
+                best_text, best_lang, best_n = cand, lang, n
+        else:
+            if n < best_n:
+                best_text, best_lang, best_n = cand, lang, n
     return best_text, best_lang, best_n
+
+
+def _google_target_code(lang: str) -> str:
+    if lang == "zh":
+        return "zh-CN"
+    return lang
+
+
+def _translate_one_deep(src: str, lang: str) -> tuple[str, str] | None:
+    try:
+        from deep_translator import GoogleTranslator  # type: ignore
+    except Exception:
+        return None
+    google_code = _google_target_code(lang)
+    try:
+        translated = GoogleTranslator(source="auto", target=google_code).translate(src)
+    except Exception:
+        return None
+    if translated and translated.strip() and translated.strip() != src:
+        return (lang, translated.strip())
+    return None
+
+
+def _translate_one_argos(src: str, lang: str) -> tuple[str, str] | None:
+    try:
+        import argostranslate.translate  # type: ignore
+    except Exception:
+        return None
+    try:
+        translated = argostranslate.translate.translate(src, "en", lang)
+    except Exception:
+        try:
+            translated = argostranslate.translate.translate(src, detect_lang(src), lang)
+        except Exception:
+            return None
+    if translated and translated.strip() and translated.strip() != src:
+        return (lang, translated.strip())
+    return None
 
 
 def live_translation_candidates(
@@ -516,6 +651,8 @@ def live_translation_candidates(
     *,
     engine: str,
     target_langs: set[str] | None = None,
+    translate_fn: Any | None = None,
+    max_workers: int = 8,
 ) -> list[tuple[str, str]]:
     """Opt-in live MT candidates. Default/tests never call this (fixture engine).
 
@@ -524,56 +661,59 @@ def live_translation_candidates(
       - ``argos``: ``argostranslate`` if installed (offline packs; heavy optional)
       - ``deep``: ``deep_translator`` if installed (network at call time)
 
-    Missing optional deps → empty list (caller falls back to bank / original).
-    Never raises for missing packages; network/engine errors are swallowed.
+    Target langs are translated **concurrently** (ThreadPoolExecutor). Pass
+    ``translate_fn(src, lang) -> str | None`` to inject a fake engine for tests
+    (no network). Missing optional deps → empty list. Errors swallowed per-lang.
     """
     eng = (engine or "fixture").lower().strip()
-    if eng in ("", "fixture", "bank", "none"):
+    if eng in ("", "fixture", "bank", "none") and translate_fn is None:
         return []
-    targets = target_langs if target_langs is not None else set(SCOPE_LANGS) - {"en"}
-    # skip translating into same detected latin blob langs blindly; still try all targets
-    out: list[tuple[str, str]] = []
+    targets = target_langs if target_langs is not None else set(SCOPE_LANGS)
+    # Prefer translating out of source lang when detectable; still try others
     src = sentence.strip()
     if not src:
         return []
-    if eng == "deep":
-        try:
-            from deep_translator import GoogleTranslator  # type: ignore
-        except Exception:
-            return []
-        for lang in sorted(targets):
-            if lang in ("zh", "ja"):
-                google_code = "zh-CN" if lang == "zh" else "ja"
-            elif lang == "el":
-                google_code = "el"
-            else:
-                google_code = lang
+    # Drop empty / nonsense targets
+    targets = {t for t in targets if t}
+
+    def _one(lang: str) -> tuple[str, str] | None:
+        if translate_fn is not None:
             try:
-                translated = GoogleTranslator(source="auto", target=google_code).translate(src)
+                got = translate_fn(src, lang)
+            except Exception:
+                return None
+            if got is None:
+                return None
+            text = str(got).strip()
+            if not text or text == src:
+                return None
+            return (lang, text)
+        if eng == "deep":
+            return _translate_one_deep(src, lang)
+        if eng == "argos":
+            return _translate_one_argos(src, lang)
+        return None
+
+    if eng not in ("", "fixture", "bank", "none", "deep", "argos") and translate_fn is None:
+        raise ValueError(f"unknown translate engine: {engine!r}; choose from {TRANSLATE_ENGINES}")
+
+    out: list[tuple[str, str]] = []
+    ordered = sorted(targets)
+    workers = max(1, min(max_workers, len(ordered) or 1))
+    if not ordered:
+        return []
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futs = {pool.submit(_one, lang): lang for lang in ordered}
+        for fut in as_completed(futs):
+            try:
+                pair = fut.result()
             except Exception:
                 continue
-            if translated and translated.strip() and translated.strip() != src:
-                out.append((lang, translated.strip()))
-        return out
-    if eng == "argos":
-        try:
-            import argostranslate.translate  # type: ignore
-        except Exception:
-            return []
-        # Argos uses installed language packs; map ISO codes directly when available.
-        for lang in sorted(targets):
-            try:
-                translated = argostranslate.translate.translate(src, "en", lang)
-            except Exception:
-                try:
-                    # some installs want from_code detection; try auto via installed langs
-                    translated = argostranslate.translate.translate(src, detect_lang(src), lang)
-                except Exception:
-                    continue
-            if translated and translated.strip() and translated.strip() != src:
-                out.append((lang, translated.strip()))
-        return out
-    raise ValueError(f"unknown translate engine: {engine!r}; choose from {TRANSLATE_ENGINES}")
+            if pair:
+                out.append(pair)
+    # Stable order by lang for determinism in tests
+    out.sort(key=lambda p: p[0])
+    return out
 
 
 def minify_by_translation(
@@ -583,12 +723,16 @@ def minify_by_translation(
     allow_langs: set[str] | None = None,
     preserve_newlines: bool = False,
     translate_engine: str = "fixture",
+    translate_fn: Any | None = None,
+    prefer_low_ambiguity: bool = True,
 ) -> str:
     """Per-sentence: replace with a shorter bank (or live) translation when tokens drop.
 
     Segmentation matches ``tag_sentences``. Empty / paragraph markers unchanged.
     ``translate_engine='fixture'`` (default) uses only ``translations.json`` so
-    pytest stays offline-deterministic. ``argos`` / ``deep`` are opt-in extras.
+    pytest stays offline-deterministic. ``argos`` / ``deep`` fan out to target
+    langs in parallel, then pick by shortness + low 揺らぎ. ``translate_fn`` injects
+    a fake engine for offline tests.
     """
     tagged = tag_sentences(text, preserve_newlines=preserve_newlines)
     if not tagged:
@@ -599,12 +743,17 @@ def minify_by_translation(
         if lang == "¶" or sent == "¶":
             out_parts.append("¶")
             continue
+        # Live engines: parallel multi-lang. Fixture: bank only (deterministic).
+        use_live = eng in ("deep", "argos") or translate_fn is not None
         idx_pairs = translation_index(bank_path).get(_norm_lookup_key(sent), [])
-        live = live_translation_candidates(
-            sent,
-            engine=eng,
-            target_langs=allow_langs if allow_langs is not None else set(SCOPE_LANGS),
-        )
+        live: list[tuple[str, str]] = []
+        if use_live:
+            live = live_translation_candidates(
+                sent,
+                engine=eng if eng in ("deep", "argos") else "deep",
+                target_langs=allow_langs if allow_langs is not None else set(SCOPE_LANGS),
+                translate_fn=translate_fn,
+            )
         # Merge bank + live; bank first. Empty merged → pick keeps original.
         merged: list[tuple[str, str]] = []
         seen: set[tuple[str, str]] = set()
@@ -616,6 +765,7 @@ def minify_by_translation(
             sent,
             candidates=merged,
             allow_langs=allow_langs,
+            prefer_low_ambiguity=prefer_low_ambiguity,
         )
         out_parts.append(chosen)
     # Rejoin similar to expand
@@ -690,7 +840,7 @@ def main(argv: list[str] | None = None) -> int:
         "--translate-engine",
         default="fixture",
         choices=TRANSLATE_ENGINES,
-        help="fixture=bank only (default, CI-safe); argos/deep=opt-in live MT if installed",
+        help="fixture=bank only (default, CI-safe); argos/deep=parallel multi-lang MT then length+揺らぎ pick",
     )
     p.add_argument(
         "--allow-langs",

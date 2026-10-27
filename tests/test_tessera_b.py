@@ -380,3 +380,130 @@ def test_bank_has_romance_germanic_greek_keys():
         langs.update((e.get("candidates") or {}).keys())
     for code in ("es", "fr", "pt", "it", "de", "nl", "el", "en", "ja", "zh"):
         assert code in langs, code
+
+# --- live engine: parallel multi-lang + 揺らぎ ranking (fake engine, offline) ---
+
+
+def test_ambiguity_penalty_wavy_short_vs_intentional():
+    t = _tessera()
+    assert t.ambiguity_penalty("ASAP") == 0
+    assert t.ambiguity_penalty("FYI") == 0
+    assert t.ambiguity_penalty("早。") == 0
+    assert t.ambiguity_penalty("Ciao.") == 0
+    assert t.ambiguity_penalty("set") >= 3
+    assert t.ambiguity_penalty("table") >= 3
+    assert t.ambiguity_penalty("bank") >= 3
+
+
+def test_wavy_short_loses_to_clearer_slightly_longer():
+    """Shortest wavy can lose to a slightly longer clearer candidate."""
+    t = _tessera()
+    src = "Please put the data into the correct storage location."
+    # "set" is shorter but wavy; Spanish clearer form is slightly longer
+    cands = [
+        ("en", "set"),
+        ("es", "Guarda los datos."),
+    ]
+    chosen, lang, n = t.pick_shortest_translation(src, candidates=cands)
+    assert lang == "es"
+    assert "Guarda" in chosen
+    assert n < t.estimate_tokens(src)
+    # pure shortness without 揺らぎ would have preferred "set"
+    chosen2, lang2, _ = t.pick_shortest_translation(
+        src, candidates=cands, prefer_low_ambiguity=False
+    )
+    assert lang2 == "en" and chosen2 == "set"
+
+
+def test_wavy_short_loses_to_original_when_nothing_clear():
+    t = _tessera()
+    src = "Please put the data into the correct storage location."
+    chosen, lang, n = t.pick_shortest_translation(src, candidates=[("en", "set")])
+    assert lang == "src"
+    assert chosen == src.strip() or chosen == src
+    assert n == t.estimate_tokens(src)
+
+
+def test_parallel_mock_engine_shortest_clear_wins():
+    """Fake translate_fn returns multi-lang candidates; parallel collect + score."""
+    t = _tessera()
+    src = "I would be grateful if you could assist me with this issue."
+
+    def fake(src_text: str, lang: str):
+        table = {
+            "es": "Ayúdame.",
+            "fr": "Aide-moi.",
+            "de": "Hilf mir.",
+            "it": "Aiutami.",
+            "en": "set",  # wavy short — should lose
+            "ja": "助けて。",
+            "zh": "帮我。",
+            "nl": "Help me.",
+            "pt": "Ajude-me.",
+            "el": "Βοήθησέ με.",
+        }
+        return table.get(lang)
+
+    pairs = t.live_translation_candidates(
+        src,
+        engine="deep",
+        target_langs={"es", "fr", "de", "it", "en", "ja", "zh", "nl", "pt", "el"},
+        translate_fn=fake,
+    )
+    langs = {lang for lang, _ in pairs}
+    assert "es" in langs and "en" in langs and "ja" in langs
+    # all targets that fake knows should appear (parallel fan-out)
+    assert len(pairs) >= 8
+
+    chosen, lang, n = t.pick_shortest_translation(src, candidates=pairs)
+    assert lang != "en"  # wavy "set" must not win
+    assert n < t.estimate_tokens(src)
+    assert chosen != "set"
+
+
+def test_minify_with_fake_engine_uses_parallel_and_yuragi():
+    t = _tessera()
+    src = "I would be grateful if you could assist me with this issue."
+
+    def fake(src_text: str, lang: str):
+        if lang == "en":
+            return "set"
+        if lang == "es":
+            return "Ayúdame."
+        if lang == "fr":
+            return "Aide-moi s'il vous plaît avec ce problème."
+        return None
+
+    out = t.minify_by_translation(
+        src,
+        translate_engine="deep",
+        translate_fn=fake,
+        allow_langs={"en", "es", "fr"},
+        # skip bank for this sentence path: bank may also have entries; that's ok
+    )
+    assert "set" not in out.lower() or out.lower().strip() != "set"
+    assert "Ayúdame" in out or "Ayuda" in out
+
+
+def test_live_translation_discards_empty_and_errors():
+    t = _tessera()
+
+    def flaky(src_text: str, lang: str):
+        if lang == "es":
+            return "  "
+        if lang == "fr":
+            raise RuntimeError("boom")
+        if lang == "de":
+            return src_text  # identical → discard
+        if lang == "it":
+            return "Ciao."
+        return None
+
+    pairs = t.live_translation_candidates(
+        "Hello friends forever and ever.",
+        engine="argos",
+        target_langs={"es", "fr", "de", "it"},
+        translate_fn=flaky,
+    )
+    assert pairs == [("it", "Ciao.")]
+
