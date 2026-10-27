@@ -13,7 +13,9 @@
       "When conjunctions or adverbs show up, inserting English often helps readability.",
       "Prefer shorter alphabet / cognate spellings when they align with meaning.",
       "Concrete lex mappings live under conventions[]; policy-only items have kind=policy.",
-      "ℹ️ (information) stays on E MorphoZip etymon path, not this ledger."
+      "ℹ️ (information) stays on E MorphoZip etymon path, not this ledger.",
+      "Furniture EN table → short JA/ZH desk lexeme (机 / 桌 / 桌子); canonical to=机; SQL/tech contexts keep table.",
+      "Ambiguity gate (C): conjunction shortenings marked ambiguity_sensitive skip when short form already collides in-text, or prefer_precision=True (CLI --prefer-precision)."
     ]
   },
   "conventions": [
@@ -137,7 +139,8 @@
         "in addition"
       ],
       "to": "also",
-      "rationale": "接続・副詞は英語短形を挟む（also）"
+      "rationale": "接続・副詞は英語短形を挟む（also）",
+      "ambiguity_sensitive": true
     },
     {
       "id": "conj-nevertheless",
@@ -148,7 +151,8 @@
         "nonetheless"
       ],
       "to": "but",
-      "rationale": "逆接は英語短形 but"
+      "rationale": "逆接は英語短形 but",
+      "ambiguity_sensitive": true
     },
     {
       "id": "conj-therefore",
@@ -160,7 +164,8 @@
         "as a result"
       ],
       "to": "so",
-      "rationale": "帰結は英語短形 so"
+      "rationale": "帰結は英語短形 so",
+      "ambiguity_sensitive": true
     },
     {
       "id": "conj-for-example",
@@ -184,6 +189,37 @@
       ],
       "to": "i.e.",
       "rationale": "言い換えは i.e.（短い cognate）"
+    },
+    {
+      "id": "furniture-table",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "tables",
+        "table"
+      ],
+      "to": "机",
+      "allowed_to": [
+        "机",
+        "桌",
+        "桌子"
+      ],
+      "rationale": "EN table is polysemous (SQL/schema etc.). Furniture sense → short unambiguous desk/table lexeme in EN+ZH+JA bank: 机 (JA) or 桌/桌子 (ZH). Canonical to=机 (1 char); 桌 is an equally valid short target. Skip SQL/tech contexts.",
+      "skip_sql_tech": true,
+      "skip_near": [
+        "sql",
+        "select",
+        "join",
+        "schema",
+        "database",
+        "db",
+        "varchar",
+        "create",
+        "drop",
+        "alter",
+        "insert",
+        "update"
+      ]
     }
   ]
 }

@@ -99,3 +99,81 @@ def test_morpho_does_not_apply_ledger_under():
     assert "デコボコ" in out3
     assert "凹凸" not in out3
 
+
+
+def test_furniture_table_to_desk_lexeme_not_sql():
+    """Furniture table → 机 (or allowed 桌/桌子); SQL/tech keeps table."""
+    from shared.ledger import apply_ledger_lex, list_conventions
+
+    furniture = list_conventions(kind="lex", apply_layer="C")
+    row = next(c for c in furniture if c["id"] == "furniture-table")
+    assert row["to"] == "机"
+    assert set(row.get("allowed_to") or []) >= {"机", "桌"}
+    assert row.get("skip_sql_tech") is True
+
+    out = apply_ledger_lex("put it on the table")
+    assert "机" in out or "桌" in out
+    assert "table" not in out.lower()
+
+    out2 = apply_ledger_lex("The lamp is under the table")
+    assert "下" in out2
+    assert ("机" in out2 or "桌" in out2)
+    assert "table" not in out2.lower()
+
+    # SQL / tech keep English table
+    for sql in (
+        "CREATE TABLE users",
+        "create table users",
+        "SELECT * FROM users_table JOIN orders",
+        "sql table schema",
+        "drop table accounts",
+        "alter table t add column x",
+        "INSERT INTO my_table VALUES (1)",
+        "the database table users",
+        "query the db table",
+    ):
+        kept = apply_ledger_lex(sql)
+        assert "table" in kept.lower(), f"expected table kept in {sql!r} → {kept!r}"
+        assert "机" not in kept and "桌" not in kept, f"furniture lex leaked into {sql!r} → {kept!r}"
+
+
+def test_shorthand_furniture_table_and_sql():
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    out = s.compress("put it on the table")
+    assert "机" in out or "桌" in out
+    assert "table" not in out.lower()
+
+    sql = s.compress("CREATE TABLE users")
+    assert "table" in sql.lower()
+    assert "机" not in sql and "桌" not in sql
+
+
+def test_ambiguity_gate_moreover_also():
+    """Clear moreover→also; collision / prefer_precision keep moreover."""
+    from shared.ledger import apply_ledger_lex
+
+    clear = apply_ledger_lex("moreover we continue")
+    assert "also" in clear.lower()
+    assert "moreover" not in clear.lower()
+
+    # short form already present → keep moreover
+    collide = apply_ledger_lex("moreover we also need time")
+    assert "moreover" in collide.lower()
+    assert collide.lower().count("also") == 1
+
+    # prefer_precision → keep original even without collision
+    precise = apply_ledger_lex("moreover we continue", prefer_precision=True)
+    assert "moreover" in precise.lower()
+    assert "also" not in precise.lower()
+
+    # therefore→so clear vs precision
+    assert "so" in apply_ledger_lex("therefore we stop").lower()
+    assert "therefore" in apply_ledger_lex("therefore we stop", prefer_precision=True).lower()
+
+
+def test_shorthand_prefer_precision_flag():
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    short = s.compress("moreover we continue")
+    assert "also" in short.lower()
+    long = s.compress("moreover we continue", prefer_precision=True)
+    assert "moreover" in long.lower()

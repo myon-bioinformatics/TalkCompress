@@ -4,7 +4,8 @@
 Also owns filler stripping, UNIQUE_COMPACT (ascertain→ascrt etc.),
 same-language EN contractions (``I will``→``I'll``), spelled EN number
 words → digits (``three``→``3``), and the agreed-convention ledger
-(``ShorthandEdge/ledger/conventions.json`` — under/below→下, デコボコ→凹凸, …).
+(``ShorthandEdge/ledger/conventions.json`` — under/below→下, furniture table→机/桌, デコボコ→凹凸, …;
+ambiguity gate for wavy conjunction shortenings).
 """
 
 from __future__ import annotations
@@ -297,11 +298,15 @@ def compress(
     session: Session | None = None,
     *,
     ledger: bool = True,
+    prefer_precision: bool = False,
 ) -> str:
     """Apply conventions then lexicon; longest-match first. Declaration lines are consumed.
 
     When ``ledger`` is True (default), apply C-owned agreed lex from
-    ``ShorthandEdge/ledger/conventions.json`` (under→下, 凹凸, …).
+    ``ShorthandEdge/ledger/conventions.json`` (under→下, table→机, 凹凸, …).
+
+    ``prefer_precision`` (C ambiguity gate): keep longer conjunctions such as
+    ``moreover`` instead of wavy shorts like ``also``.
     """
     if session is not None:
         sess = session
@@ -326,7 +331,9 @@ def compress(
         line_out = apply_spelled_numbers(line_out)
         # Agreed lex ledger (C): under/below→下, デコボコ→凹凸, …
         if ledger:
-            line_out = apply_ledger_lex(line_out, apply_layer="C")
+            line_out = apply_ledger_lex(
+                line_out, apply_layer="C", prefer_precision=prefer_precision
+            )
         kept.append(line_out)
     if len(lines) == 1 and "\n" not in text:
         return kept[0] if kept else ""
@@ -449,7 +456,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument(
         "--no-ledger",
         action="store_true",
-        help="skip C ledger lex replacements (下/凹凸 …)",
+        help="skip C ledger lex replacements (下/机/凹凸 …)",
+    )
+    p.add_argument(
+        "--prefer-precision",
+        action="store_true",
+        help="C ambiguity gate: keep moreover/therefore/… instead of also/so/…",
     )
     args = p.parse_args(argv)
     text = args.text if args.text is not None else sys.stdin.read()
@@ -479,7 +491,12 @@ def main(argv: list[str] | None = None) -> int:
             sess.declare(str(s["long"]), str(s["short"]))
 
     if args.mode == "compress":
-        out = compress(text, session=sess, ledger=not args.no_ledger)
+        out = compress(
+            text,
+            session=sess,
+            ledger=not args.no_ledger,
+            prefer_precision=args.prefer_precision,
+        )
         if args.state:
             sess.save(args.state)
         print(out)
