@@ -21,7 +21,8 @@
       "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots.",
       "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds).",
       "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline.",
-      "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: emoji first, else ML/math/symbol inventory — prefer emoji over inventing new math. information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras."
+      "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: math/symbol first when meaning is clear, else emoji — prefer existing inventory over inventing new math or emoji peers (check→✓ not ✅; star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / policy-cross-lang-cheapest (token then utf8).",
+      "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -41,7 +42,22 @@
         "c-cant",
         "c-wont",
         "c-shouldnt",
-        "c-wouldnt"
+        "c-wouldnt",
+        "c-isnt",
+        "c-arent",
+        "c-wasnt",
+        "c-werent",
+        "c-hasnt",
+        "c-havent",
+        "c-hadnt",
+        "c-couldnt",
+        "c-mustnt",
+        "c-lets",
+        "c-wouldve",
+        "c-shouldve",
+        "c-couldve",
+        "c-mightve",
+        "c-willve"
       ],
       "skipped_nonshrink_utf8": [],
       "source": "shared.lex_policy.EN_CONTRACTION_SPEC"
@@ -84,9 +100,32 @@
       "skipped_nonshrink_utf8": [],
       "policies": [
         "policy-emoji-pivot",
-        "policy-short-form-priority"
+        "policy-short-form-priority",
+        "policy-cross-lang-cheapest"
       ],
       "source": "shared.lex_policy.EMOJI_SPEC"
+    },
+    "symbol_sync": {
+      "upserted": [
+        "symbol-neq",
+        "symbol-infinity",
+        "symbol-plusminus",
+        "symbol-percent",
+        "symbol-degree",
+        "symbol-implies",
+        "symbol-iff",
+        "symbol-propto",
+        "symbol-sqrt",
+        "symbol-times",
+        "symbol-div"
+      ],
+      "skipped_nonshrink_utf8": [],
+      "policies": [
+        "policy-emoji-pivot",
+        "policy-short-form-priority",
+        "policy-cross-lang-cheapest"
+      ],
+      "source": "shared.lex_policy.SYMBOL_SPEC"
     }
   },
   "conventions": [
@@ -5084,8 +5123,8 @@
         "チェック",
         "check"
       ],
-      "to": "✅",
-      "rationale": "ML→pivot check→✅（sample=check mark）",
+      "to": "✓",
+      "rationale": "ML→pivot check→✓（数学/記号優先；✅ と同義だが ✓ の方が意味が明確）",
       "metrics": {
         "token": {
           "before": 3,
@@ -5127,8 +5166,8 @@
         "バツ",
         "ばつ"
       ],
-      "to": "❌",
-      "rationale": "ML→pivot cross mark→❌",
+      "to": "✕",
+      "rationale": "ML→pivot cross mark→✕（記号優先；❌ と同義。× は乗算と曖昧のため見送り）",
       "metrics": {
         "token": {
           "before": 3,
@@ -5168,7 +5207,7 @@
         "スター"
       ],
       "to": "★",
-      "rationale": "ML→pivot star→★",
+      "rationale": "ML→pivot star→★（記号 ★；絵文字 ⭐ より記号優先）",
       "metrics": {
         "token": {
           "before": 1,
@@ -6230,7 +6269,7 @@
       "apply_layer": "C",
       "family": "emoji",
       "metrics": null,
-      "rationale": "絵文字の多言語経路は共通ルールで寄せる: ML 別名 → pivot（既定 EN；EN が不自然なら JA 可）→ 絵文字。emoji id ごとに pivot を1つ固定。台帳の pivot / pivot_lang を見て一発で判断できること。",
+      "rationale": "絵文字の多言語経路は共通ルールで寄せる: ML 別名 → pivot（既定 EN；EN が不自然なら JA 可）→ 絵文字。emoji id ごとに pivot を1つ固定。台帳の pivot / pivot_lang を見て一発で判断できること。短形優先で数学/記号が意味を覆う場合は絵文字経路に乗らない。",
       "payload": {
         "path": [
           "ml_aliases",
@@ -6249,13 +6288,14 @@
       "kind": "policy",
       "apply_layer": "C",
       "metrics": null,
-      "rationale": "短形の優先順位: (1) 意味が載るなら絵文字を最優先。(2) 絵文字で覆えないときだけ他の多言語・数学・記号短形（≧≦、←→、∴∵、& 等の E/C 在庫）へフォールバック。両方効くなら新数学記号を増やさず絵文字を選ぶ。",
+      "rationale": "短形の優先順位: (1) 意味がはっきり載るなら数学/記号（≧≦、←→、∴∵、&、✓、★、≠、∞ 等の E/C 在庫）を優先。(2) 数学/記号が噛み合わないときだけ絵文字。両方効くなら新数学記号を増やさず既存記号を選ぶ（絵文字より記号）。",
       "payload": {
         "order": [
-          "emoji",
-          "ml_math_symbol_inventory"
+          "ml_math_symbol_inventory",
+          "emoji"
         ],
-        "prefer_emoji_over_new_math": true,
+        "prefer_math_symbol_when_both": true,
+        "prefer_emoji_over_new_math": false,
         "fallback_examples": [
           "≧",
           "≦",
@@ -6263,9 +6303,1056 @@
           "→",
           "∴",
           "∵",
-          "&"
+          "&",
+          "✓",
+          "★",
+          "≠",
+          "∞"
         ],
-        "owns": "C judgment; E inventories remain E-owned for closed packs"
+        "owns": "C judgment; E inventories remain E-owned for closed packs",
+        "overlap_note": "check→✓（not ✅）; star→★（not ⭐）; cross→✕（not ❌）；approx stays E ~/≒ — do not invent ≈"
+      }
+    },
+    {
+      "id": "c-isnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "is not"
+      ],
+      "to": "isn't",
+      "rationale": "is not→isn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "is not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 40,
+          "delta": -8,
+          "ratio": 0.8333,
+          "sample_from": "is not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 40,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-arent",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "are not"
+      ],
+      "to": "aren't",
+      "rationale": "are not→aren't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "are not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 48,
+          "delta": -8,
+          "ratio": 0.8571,
+          "sample_from": "are not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 48,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wasnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "was not"
+      ],
+      "to": "wasn't",
+      "rationale": "was not→wasn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "was not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 48,
+          "delta": -8,
+          "ratio": 0.8571,
+          "sample_from": "was not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 48,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-werent",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "were not"
+      ],
+      "to": "weren't",
+      "rationale": "were not→weren't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "were not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 56,
+          "delta": -8,
+          "ratio": 0.875,
+          "sample_from": "were not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 56,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-hasnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "has not"
+      ],
+      "to": "hasn't",
+      "rationale": "has not→hasn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "has not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 48,
+          "delta": -8,
+          "ratio": 0.8571,
+          "sample_from": "has not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 48,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-havent",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "have not"
+      ],
+      "to": "haven't",
+      "rationale": "have not→haven't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "have not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 56,
+          "delta": -8,
+          "ratio": 0.875,
+          "sample_from": "have not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 56,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-hadnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "had not"
+      ],
+      "to": "hadn't",
+      "rationale": "had not→hadn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "had not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 48,
+          "delta": -8,
+          "ratio": 0.8571,
+          "sample_from": "had not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 48,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-couldnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "could not"
+      ],
+      "to": "couldn't",
+      "rationale": "could not→couldn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "could not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 64,
+          "delta": -8,
+          "ratio": 0.8889,
+          "sample_from": "could not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 64,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-mustnt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "must not"
+      ],
+      "to": "mustn't",
+      "rationale": "must not→mustn't は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "must not",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 56,
+          "delta": -8,
+          "ratio": 0.875,
+          "sample_from": "must not",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 56,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-lets",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "let us"
+      ],
+      "to": "let's",
+      "rationale": "let us→let's は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "let us",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 40,
+          "delta": -8,
+          "ratio": 0.8333,
+          "sample_from": "let us",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 40,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-wouldve",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "would have"
+      ],
+      "to": "would've",
+      "rationale": "would have→would've は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "would have",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 64,
+          "delta": -16,
+          "ratio": 0.8,
+          "sample_from": "would have",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 64,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-shouldve",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "should have"
+      ],
+      "to": "should've",
+      "rationale": "should have→should've は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "should have",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 72,
+          "delta": -16,
+          "ratio": 0.8182,
+          "sample_from": "should have",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 72,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-couldve",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "could have"
+      ],
+      "to": "could've",
+      "rationale": "could have→could've は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "could have",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 64,
+          "delta": -16,
+          "ratio": 0.8,
+          "sample_from": "could have",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 64,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-mightve",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "might have"
+      ],
+      "to": "might've",
+      "rationale": "might have→might've は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "might have",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 64,
+          "delta": -16,
+          "ratio": 0.8,
+          "sample_from": "might have",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 64,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-willve",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "will have"
+      ],
+      "to": "will've",
+      "rationale": "will have→will've は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "will have",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 56,
+          "delta": -16,
+          "ratio": 0.7778,
+          "sample_from": "will have",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 56,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "policy-cross-lang-cheapest",
+      "kind": "policy",
+      "apply_layer": "C",
+      "metrics": null,
+      "rationale": "言語横断で意味が通る候補があるとき、トークン（B estimate_tokens）とビット（E utf8_bits / 在庫適用時は closed_inventory_bits）が最も楽な表層を選ぶ。登録時は dual metrics で比較し、utf8 が縮まない候補は落とす。ヘルパー: shared.ledger.select_cheapest_form。",
+      "payload": {
+        "rank_by": [
+          "token_after",
+          "utf8_bits_after",
+          "surface_len"
+        ],
+        "require_utf8_shrink_vs_sample": true,
+        "helper": "shared.ledger.select_cheapest_form",
+        "token_via": "B TesseraTalk estimate_tokens",
+        "bit_via": "E MorphoZip utf8_bits (default) / closed_inventory_bits",
+        "examples": [
+          "tables→机（JA が EN より token+utf8 楽）",
+          "yo→I（ES→EN 主語）",
+          "check mark→✓（記号が絵文字 ✅ と同コストなら記号）"
+        ]
+      }
+    },
+    {
+      "id": "symbol-neq",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "not equal",
+        "unequal",
+        "not equals",
+        "≠"
+      ],
+      "to": "≠",
+      "rationale": "not equal→≠（E に equal/=・≒ はあるが ≠ は未登録；記号優先）",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "not equal",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 24,
+          "delta": -48,
+          "ratio": 0.3333,
+          "sample_from": "not equal",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 24,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-infinity",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "infinity",
+        "infinite",
+        "無限大",
+        "無限",
+        "∞"
+      ],
+      "to": "∞",
+      "rationale": "infinity→∞（絵文字なし；数学記号）",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "infinity",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 24,
+          "delta": -40,
+          "ratio": 0.375,
+          "sample_from": "infinity",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-plusminus",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "plus or minus",
+        "plus-minus",
+        "プラスマイナス",
+        "±"
+      ],
+      "to": "±",
+      "rationale": "plus or minus→±",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 0,
+          "delta": -4,
+          "ratio": 0.0,
+          "sample_from": "plus or minus",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 16,
+          "delta": -88,
+          "ratio": 0.1538,
+          "sample_from": "plus or minus",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 16,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-percent",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "パーセント",
+        "percent",
+        "per cent",
+        "%"
+      ],
+      "to": "%",
+      "rationale": "パーセント→%（cross-lang cheapest；sample=パーセント）",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 0,
+          "delta": -5,
+          "ratio": 0.0,
+          "sample_from": "パーセント",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 8,
+          "delta": -112,
+          "ratio": 0.0667,
+          "sample_from": "パーセント",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 8,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-degree",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "degrees",
+        "degree symbol",
+        "ディグリー",
+        "°"
+      ],
+      "to": "°",
+      "rationale": "degrees→°（bare 度は曖昧のため見送り）",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "degrees",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 16,
+          "delta": -40,
+          "ratio": 0.2857,
+          "sample_from": "degrees",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 16,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-implies",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "implies that",
+        "implies",
+        "含意",
+        "⇒"
+      ],
+      "to": "⇒",
+      "rationale": "implies→⇒",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "implies that",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "implies that",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-iff",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "if and only if",
+        "iff",
+        "⇔"
+      ],
+      "to": "⇔",
+      "rationale": "if and only if→⇔",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 0,
+          "delta": -4,
+          "ratio": 0.0,
+          "sample_from": "if and only if",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "if and only if",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-propto",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "proportional to",
+        "propto",
+        "∝"
+      ],
+      "to": "∝",
+      "rationale": "proportional to→∝",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 0,
+          "delta": -4,
+          "ratio": 0.0,
+          "sample_from": "proportional to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "proportional to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-sqrt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "square root",
+        "sqrt",
+        "√"
+      ],
+      "to": "√",
+      "rationale": "square root→√",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "square root",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "square root",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-times",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "multiplied by",
+        "×"
+      ],
+      "to": "×",
+      "rationale": "multiplied by→×（bare times は時刻と曖昧のため見送り）",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "multiplied by",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 16,
+          "delta": -88,
+          "ratio": 0.1538,
+          "sample_from": "multiplied by",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 16,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-div",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "divided by",
+        "÷"
+      ],
+      "to": "÷",
+      "rationale": "divided by→÷",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "divided by",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "divided by",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
+            "delta": -64
+          },
+          "inventory": null
+        }
       }
     }
   ]

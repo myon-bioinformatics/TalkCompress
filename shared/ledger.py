@@ -31,8 +31,13 @@ so ``apply_ledger_lex`` rewrites (unlike contractions). Dual metrics required;
 utf8 must shrink on the sample. Each row records ``pivot`` / ``pivot_lang``:
 multilingual aliases → pivot (default EN; JA when EN awkward) → emoji, so the
 ledger alone makes the judgment clear. Apply prefers two-step (alias→pivot then
-pivot→emoji). Short-form priority policy: emoji first, else ML/math/symbol
-inventory (≧≦←→∴∵& …); do not invent a new math symbol when emoji fits.
+pivot→emoji). Short-form priority policy: **math/symbol first** when it clearly
+covers meaning (≧≦←→∴∵& ✓ ★ ≠ ∞ …); else emoji. Do not invent redundant new
+math when an inventory symbol already covers it. Overlaps: check→✓ (not ✅),
+star→★ (not ⭐), cross→✕ (not ❌). Symbol family (``family=symbol``) registers
+open math (≠ ∞ ± % ° …) that are not E closed POS. Cross-lang: among meaning-
+preserving candidates pick the cheapest token+bit form
+(``select_cheapest_form`` / ``policy-cross-lang-cheapest``).
 Includes ``information``→``ℹ️`` (moved from E etymon). FYI phrase stays map-first.
 """
 
@@ -195,6 +200,61 @@ def compute_lex_metrics(
             },
             "inventory": inv_block,
         },
+    }
+
+
+def select_cheapest_form(
+    candidates: list[str] | tuple[str, ...],
+    *,
+    reference: str | None = None,
+    inventory_name: str | None = None,
+    inventory_extended: bool = False,
+) -> dict[str, Any]:
+    """Pick the easiest surface among meaning-preserving candidates (token + bit).
+
+    Ranking (ascending): ``estimate_tokens``, then ``utf8_bits``, then string
+    length, then first-seen order. Used when registering cross-language or
+    emoji-vs-symbol choices (``policy-cross-lang-cheapest``).
+
+    If ``reference`` is set, also attach dual metrics of each candidate vs that
+    sample and flag whether utf8 shrinks. Does not rewrite text — registration
+    helper only.
+    """
+    forms = [str(c) for c in candidates if str(c)]
+    if not forms:
+        raise ValueError("select_cheapest_form: empty candidates")
+    estimate_tokens = _tessera().estimate_tokens
+    morpho = _morpho()
+    scored: list[dict[str, Any]] = []
+    for i, form in enumerate(forms):
+        tok = int(estimate_tokens(form))
+        bits = int(morpho.utf8_bits(form))
+        row: dict[str, Any] = {
+            "form": form,
+            "token": tok,
+            "utf8_bits": bits,
+            "len": len(form),
+            "order": i,
+        }
+        if reference is not None:
+            m = compute_lex_metrics(
+                reference,
+                form,
+                inventory_name=inventory_name,
+                inventory_extended=inventory_extended,
+            )
+            row["vs_reference"] = m
+            row["utf8_shrinks"] = m["bit"]["utf8"]["delta"] < 0
+        scored.append(row)
+    scored.sort(key=lambda r: (r["token"], r["utf8_bits"], r["len"], r["order"]))
+    best = scored[0]
+    return {
+        "chosen": best["form"],
+        "token": best["token"],
+        "utf8_bits": best["utf8_bits"],
+        "ranked": scored,
+        "policy": "policy-cross-lang-cheapest",
+        "rank_by": ["token", "utf8_bits", "len", "order"],
     }
 
 
@@ -442,9 +502,12 @@ def sync_emoji_lex(
         "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via "
         "EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true "
         "(two-step apply). Dual metrics; utf8 must shrink on sample. Short-form "
-        "priority: emoji first, else ML/math/symbol inventory — prefer emoji over "
-        "inventing new math. information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. "
-        "Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras."
+        "priority: math/symbol first when meaning is clear, else emoji — prefer "
+        "existing inventory over inventing new math or emoji peers (check→✓ not ✅; "
+        "star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is "
+        "DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in "
+        "DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / "
+        "policy-cross-lang-cheapest (token then utf8)."
     )
     # Drop older emoji note variants so the pivot/priority wording is sole.
     if isinstance(notes, list):
@@ -476,6 +539,97 @@ def sync_emoji_lex(
         load_ledger.cache_clear() if hasattr(load_ledger, "cache_clear") else None
     return data
 
+
+
+def sync_symbol_lex(
+    path: str | Path | None = None,
+    *,
+    write: bool = True,
+    skip_zero_utf8: bool = True,
+) -> dict[str, Any]:
+    """Upsert C ``family=symbol`` rows from ``SYMBOL_SPEC`` + ensure policies.
+
+    Also refreshes ``policy-short-form-priority`` / ``policy-cross-lang-cheapest``
+    via ``emoji_policy_rows`` (shared C judgment policies).
+    """
+    from shared.lex_policy import emoji_policy_rows, symbol_ledger_rows
+
+    p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
+    data = load_ledger(p)
+    by_id = {
+        str(c.get("id")): i
+        for i, c in enumerate(data["conventions"])
+        if isinstance(c, dict) and c.get("id")
+    }
+    skipped: list[str] = []
+    upserted: list[str] = []
+    for row in symbol_ledger_rows():
+        filled = ensure_lex_metrics(row)
+        utf8 = (filled.get("metrics") or {}).get("bit", {}).get("utf8") or {}
+        delta = utf8.get("delta")
+        if skip_zero_utf8 and isinstance(delta, int) and delta >= 0:
+            skipped.append(str(filled["id"]))
+            continue
+        cid = str(filled["id"])
+        if cid in by_id:
+            idx = by_id[cid]
+            old = data["conventions"][idx]
+            merged = dict(old)
+            for k, v in filled.items():
+                merged[k] = v
+            data["conventions"][idx] = merged
+        else:
+            data["conventions"].append(filled)
+            by_id[cid] = len(data["conventions"]) - 1
+        upserted.append(cid)
+
+    policy_ids: list[str] = []
+    for prow in emoji_policy_rows():
+        cid = str(prow["id"])
+        if cid in by_id:
+            idx = by_id[cid]
+            merged = dict(data["conventions"][idx])
+            for k, v in prow.items():
+                merged[k] = v
+            data["conventions"][idx] = merged
+        else:
+            data["conventions"].append(dict(prow))
+            by_id[cid] = len(data["conventions"]) - 1
+        policy_ids.append(cid)
+
+    meta = data.setdefault("meta", {})
+    notes = meta.setdefault("notes", [])
+    symbol_note = (
+        "family=symbol (C-only): open math/symbol shortenings not in E closed POS "
+        "(≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear "
+        "(policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual "
+        "metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form."
+    )
+    if isinstance(notes, list):
+        notes[:] = [
+            n
+            for n in notes
+            if not (isinstance(n, str) and n.startswith("family=symbol"))
+        ]
+        notes.append(symbol_note)
+    meta["symbol_sync"] = {
+        "upserted": upserted,
+        "skipped_nonshrink_utf8": skipped,
+        "policies": policy_ids,
+        "source": "shared.lex_policy.SYMBOL_SPEC",
+    }
+    ver = data.get("version", 1)
+    try:
+        data["version"] = max(int(ver), 2)
+    except (TypeError, ValueError):
+        data["version"] = 2
+    if write:
+        p.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        load_ledger.cache_clear() if hasattr(load_ledger, "cache_clear") else None
+    return data
 
 
 def backfill_ledger_metrics(
@@ -813,6 +967,11 @@ def main(argv: list[str] | None = None) -> int:
         help="upsert C word→emoji rows from EMOJI_SPEC + tag family=emoji",
     )
     p.add_argument(
+        "--sync-symbol",
+        action="store_true",
+        help="upsert C family=symbol math rows from SYMBOL_SPEC + refresh short-form policies",
+    )
+    p.add_argument(
         "--validate-metrics",
         action="store_true",
         help="check lex rows have metrics.token and metrics.bit (exit 1 on fail)",
@@ -837,6 +996,15 @@ def main(argv: list[str] | None = None) -> int:
         info = (data.get("meta") or {}).get("emoji_sync") or {}
         print(
             f"synced emoji upserted={info.get('upserted')} "
+            f"skipped_utf8={info.get('skipped_nonshrink_utf8')} "
+            f"→ {args.path or DEFAULT_LEDGER_PATH}"
+        )
+        return 0
+    if args.sync_symbol:
+        data = sync_symbol_lex(args.path, write=True)
+        info = (data.get("meta") or {}).get("symbol_sync") or {}
+        print(
+            f"synced symbol upserted={info.get('upserted')} "
             f"skipped_utf8={info.get('skipped_nonshrink_utf8')} "
             f"→ {args.path or DEFAULT_LEDGER_PATH}"
         )

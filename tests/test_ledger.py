@@ -374,8 +374,13 @@ def test_emoji_family_synced():
         "pivot",
         "emoji",
     ]
-    assert pols["policy-short-form-priority"]["payload"]["order"][0] == "emoji"
-    assert pols["policy-short-form-priority"]["payload"]["prefer_emoji_over_new_math"]
+    assert pols["policy-short-form-priority"]["payload"]["order"][0] == "ml_math_symbol_inventory"
+    assert pols["policy-short-form-priority"]["payload"]["prefer_math_symbol_when_both"]
+    assert not pols["policy-short-form-priority"]["payload"]["prefer_emoji_over_new_math"]
+    assert "policy-cross-lang-cheapest" in ids
+    assert pols["policy-cross-lang-cheapest"]["payload"]["helper"].endswith(
+        "select_cheapest_form"
+    )
 
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
 
@@ -408,7 +413,9 @@ def test_emoji_family_synced():
     assert "🔥" in apply_ledger_lex("on fire")
     assert "👍" in apply_ledger_lex("thumbs up")
     assert "⚠" in apply_ledger_lex("warning")
-    assert "✅" in apply_ledger_lex("check mark")
+    assert "✓" in apply_ledger_lex("check mark")
+    assert "✅" not in apply_ledger_lex("check mark")
+    assert "✕" in apply_ledger_lex("cross mark")
 
     # information→ℹ️ is C family=emoji (sole apply; not ETYMON)
     assert "emoji-information" in by_id
@@ -427,3 +434,53 @@ def test_emoji_family_synced():
     # FYI phrase must win over bare information→ℹ️
     assert "FYI" in s.compress("for your information please")
     assert INFO_GLYPH not in s.compress("for your information please")
+
+
+def test_select_cheapest_form_and_symbol_family():
+    """Cross-lang cheapest helper + family=symbol math rows; check uses ✓."""
+    from shared.ledger import (
+        apply_ledger_lex,
+        convention_ids,
+        list_conventions,
+        select_cheapest_form,
+        validate_ledger_metrics,
+    )
+    from shared.lex_policy import SYMBOL_SPEC
+
+    assert validate_ledger_metrics(strict=True) == []
+    ids = convention_ids()
+    assert "policy-cross-lang-cheapest" in ids
+    assert "symbol-neq" in ids
+    assert "symbol-infinity" in ids
+
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+    assert by_id["emoji-check"]["to"] == "✓"
+    assert by_id["emoji-cross"]["to"] == "✕"
+    assert by_id["emoji-star"]["to"] == "★"
+
+    for sid, _forms, dst, _r in SYMBOL_SPEC:
+        cid = f"symbol-{sid}"
+        assert cid in by_id, cid
+        c = by_id[cid]
+        assert c["family"] == "symbol"
+        assert c["apply_layer"] == "C"
+        assert c["to"] == dst
+        assert c["metrics"]["bit"]["utf8"]["delta"] < 0, cid
+
+    assert "≠" in apply_ledger_lex("not equal")
+    assert "∞" in apply_ledger_lex("infinity")
+    assert "±" in apply_ledger_lex("plus or minus")
+    assert "%" in apply_ledger_lex("パーセント")
+    assert "⇒" in apply_ledger_lex("implies that")
+
+    # cheapest among meaning-preserving candidates (机 beats tables on token+utf8)
+    pick = select_cheapest_form(["tables", "机", "桌"], reference="tables")
+    assert pick["chosen"] == "机"
+    assert pick["ranked"][0]["utf8_shrinks"] is True
+
+    # ✓ beats longer emoji peer on clarity policy; same or better cost
+    pick2 = select_cheapest_form(["✅", "✓"], reference="check mark")
+    assert pick2["chosen"] in ("✓", "✅")  # same token/utf8; ✓ first-seen or tie-break
+    # force order: put ✓ first → chosen ✓; put ✅ first may still pick either equal
+    pick3 = select_cheapest_form(["✓", "✅"], reference="check mark")
+    assert pick3["chosen"] == "✓"

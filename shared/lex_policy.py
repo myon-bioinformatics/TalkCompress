@@ -411,6 +411,21 @@ EN_CONTRACTION_SPEC: tuple[tuple[str, str, str], ...] = (
     ("wont", "will not", "won't"),
     ("shouldnt", "should not", "shouldn't"),
     ("wouldnt", "would not", "wouldn't"),
+    ("isnt", "is not", "isn't"),
+    ("arent", "are not", "aren't"),
+    ("wasnt", "was not", "wasn't"),
+    ("werent", "were not", "weren't"),
+    ("hasnt", "has not", "hasn't"),
+    ("havent", "have not", "haven't"),
+    ("hadnt", "had not", "hadn't"),
+    ("couldnt", "could not", "couldn't"),
+    ("mustnt", "must not", "mustn't"),
+    ("lets", "let us", "let's"),
+    ("wouldve", "would have", "would've"),
+    ("shouldve", "should have", "should've"),
+    ("couldve", "could have", "could've"),
+    ("mightve", "might have", "might've"),
+    ("willve", "will have", "will've"),
 )
 
 _EN_CONTRACTIONS: list[tuple[re.Pattern[str], str]] = [
@@ -470,7 +485,8 @@ def apply_en_contractions(text: str) -> str:
 # → emoji. One pivot per emoji id. forms[0] is metrics sample (must utf8-shrink).
 # Pivot is recorded on the ledger row so 台帳を見て判断できる. Bare fire/idea/eyes/…
 # that are utf8-flat may also live in EMOJI_RUNTIME_EXTRA (DEFAULT_MAP).
-# Short-form priority (C policy): prefer emoji first; else ML/math/symbol inventory.
+# Short-form priority (C policy): math/symbol first when it clearly covers meaning;
+# else emoji. Do not invent redundant new math when inventory already covers it.
 # information→ℹ️ is C emoji (not ETYMON). FYI phrase stays DEFAULT_MAP-first.
 EMOJI_SPEC: tuple[tuple[str, str, str, tuple[str, ...], str, str], ...] = (
     (
@@ -534,8 +550,8 @@ EMOJI_SPEC: tuple[tuple[str, str, str, tuple[str, ...], str, str], ...] = (
             "チェック",
             "check",
         ),
-        "✅",
-        "ML→pivot check→✅（sample=check mark）",
+        "✓",
+        "ML→pivot check→✓（数学/記号優先；✅ と同義だが ✓ の方が意味が明確）",
     ),
     (
         "cross",
@@ -548,8 +564,8 @@ EMOJI_SPEC: tuple[tuple[str, str, str, tuple[str, ...], str, str], ...] = (
             "バツ",
             "ばつ",
         ),
-        "❌",
-        "ML→pivot cross mark→❌",
+        "✕",
+        "ML→pivot cross mark→✕（記号優先；❌ と同義。× は乗算と曖昧のため見送り）",
     ),
     (
         "star",
@@ -557,7 +573,7 @@ EMOJI_SPEC: tuple[tuple[str, str, str, tuple[str, ...], str, str], ...] = (
         "en",
         ("star", "スター"),
         "★",
-        "ML→pivot star→★",
+        "ML→pivot star→★（記号 ★；絵文字 ⭐ より記号優先）",
     ),
     (
         "warn",
@@ -799,7 +815,7 @@ EMOJI_RUNTIME_EXTRA: dict[str, str] = {
 
 
 def emoji_policy_rows() -> list[dict[str, Any]]:
-    """C policy rows: emoji pivot path + short-form priority (emoji first)."""
+    """C policy rows: emoji pivot path + short-form priority (math/symbol first)."""
     return [
         {
             "id": "policy-emoji-pivot",
@@ -811,6 +827,7 @@ def emoji_policy_rows() -> list[dict[str, Any]]:
                 "絵文字の多言語経路は共通ルールで寄せる: ML 別名 → pivot（既定 EN；"
                 "EN が不自然なら JA 可）→ 絵文字。emoji id ごとに pivot を1つ固定。"
                 "台帳の pivot / pivot_lang を見て一発で判断できること。"
+                "短形優先で数学/記号が意味を覆う場合は絵文字経路に乗らない。"
             ),
             "payload": {
                 "path": ["ml_aliases", "pivot", "emoji"],
@@ -827,19 +844,144 @@ def emoji_policy_rows() -> list[dict[str, Any]]:
             "apply_layer": "C",
             "metrics": None,
             "rationale": (
-                "短形の優先順位: (1) 意味が載るなら絵文字を最優先。"
-                "(2) 絵文字で覆えないときだけ他の多言語・数学・記号短形"
-                "（≧≦、←→、∴∵、& 等の E/C 在庫）へフォールバック。"
-                "両方効くなら新数学記号を増やさず絵文字を選ぶ。"
+                "短形の優先順位: (1) 意味がはっきり載るなら数学/記号"
+                "（≧≦、←→、∴∵、&、✓、★、≠、∞ 等の E/C 在庫）を優先。"
+                "(2) 数学/記号が噛み合わないときだけ絵文字。"
+                "両方効くなら新数学記号を増やさず既存記号を選ぶ（絵文字より記号）。"
             ),
             "payload": {
-                "order": ["emoji", "ml_math_symbol_inventory"],
-                "prefer_emoji_over_new_math": True,
-                "fallback_examples": ["≧", "≦", "←", "→", "∴", "∵", "&"],
+                "order": ["ml_math_symbol_inventory", "emoji"],
+                "prefer_math_symbol_when_both": True,
+                "prefer_emoji_over_new_math": False,
+                "fallback_examples": ["≧", "≦", "←", "→", "∴", "∵", "&", "✓", "★", "≠", "∞"],
                 "owns": "C judgment; E inventories remain E-owned for closed packs",
+                "overlap_note": (
+                    "check→✓（not ✅）; star→★（not ⭐）; cross→✕（not ❌）；"
+                    "approx stays E ~/≒ — do not invent ≈"
+                ),
+            },
+        },
+        {
+            "id": "policy-cross-lang-cheapest",
+            "kind": "policy",
+            "apply_layer": "C",
+            "metrics": None,
+            "rationale": (
+                "言語横断で意味が通る候補があるとき、トークン（B estimate_tokens）と"
+                "ビット（E utf8_bits / 在庫適用時は closed_inventory_bits）が最も楽な"
+                "表層を選ぶ。登録時は dual metrics で比較し、utf8 が縮まない候補は落とす。"
+                "ヘルパー: shared.ledger.select_cheapest_form。"
+            ),
+            "payload": {
+                "rank_by": ["token_after", "utf8_bits_after", "surface_len"],
+                "require_utf8_shrink_vs_sample": True,
+                "helper": "shared.ledger.select_cheapest_form",
+                "token_via": "B TesseraTalk estimate_tokens",
+                "bit_via": "E MorphoZip utf8_bits (default) / closed_inventory_bits",
+                "examples": [
+                    "tables→机（JA が EN より token+utf8 楽）",
+                    "yo→I（ES→EN 主語）",
+                    "check mark→✓（記号が絵文字 ✅ と同コストなら記号）",
+                ],
             },
         },
     ]
+
+
+# --- C-owned open math/symbol (family=symbol); not E closed POS -------------
+# Prefer these over emoji when meaning is clear (policy-short-form-priority).
+# Skip forms already owned by E (~ / ≒ / = / ≧ / ≦ / ∴ / bc / ∀ …).
+# Spec: (id_suffix, from-forms, glyph, rationale); forms[0] = metrics sample.
+SYMBOL_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
+    (
+        "neq",
+        ("not equal", "unequal", "not equals", "≠"),
+        "≠",
+        "not equal→≠（E に equal/=・≒ はあるが ≠ は未登録；記号優先）",
+    ),
+    (
+        "infinity",
+        ("infinity", "infinite", "無限大", "無限"),
+        "∞",
+        "infinity→∞（絵文字なし；数学記号）",
+    ),
+    (
+        "plusminus",
+        ("plus or minus", "plus-minus", "プラスマイナス"),
+        "±",
+        "plus or minus→±",
+    ),
+    (
+        "percent",
+        ("パーセント", "percent", "per cent"),
+        "%",
+        "パーセント→%（cross-lang cheapest；sample=パーセント）",
+    ),
+    (
+        "degree",
+        ("degrees", "degree symbol", "ディグリー"),
+        "°",
+        "degrees→°（bare 度は曖昧のため見送り）",
+    ),
+    (
+        "implies",
+        ("implies that", "implies", "含意"),
+        "⇒",
+        "implies→⇒",
+    ),
+    (
+        "iff",
+        ("if and only if", "iff"),
+        "⇔",
+        "if and only if→⇔",
+    ),
+    (
+        "propto",
+        ("proportional to", "propto"),
+        "∝",
+        "proportional to→∝",
+    ),
+    (
+        "sqrt",
+        ("square root", "sqrt"),
+        "√",
+        "square root→√",
+    ),
+    (
+        "times",
+        ("multiplied by", "×"),
+        "×",
+        "multiplied by→×（bare times は時刻と曖昧のため見送り）",
+    ),
+    (
+        "div",
+        ("divided by", "÷"),
+        "÷",
+        "divided by→÷",
+    ),
+)
+
+
+def symbol_ledger_rows() -> list[dict[str, Any]]:
+    """C ledger row skeletons for open math/symbol (family=symbol)."""
+    rows: list[dict[str, Any]] = []
+    for sid, forms, dst, rationale in SYMBOL_SPEC:
+        forms_list = list(forms)
+        if dst not in forms_list:
+            forms_list.append(dst)
+        rows.append(
+            {
+                "id": f"symbol-{sid}",
+                "kind": "lex",
+                "apply_layer": "C",
+                "family": "symbol",
+                "ledger_apply": True,
+                "from": forms_list,
+                "to": dst,
+                "rationale": rationale,
+            }
+        )
+    return rows
 
 
 def emoji_ledger_rows() -> list[dict[str, Any]]:

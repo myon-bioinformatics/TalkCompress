@@ -75,22 +75,30 @@ uv run python -m shared.ledger --sync-contractions
 
 **多言語 pivot ルール（policy-emoji-pivot）:** ML 別名 → **pivot**（既定 EN；EN が不自然なら JA）→ 絵文字。emoji id ごとに pivot を1つ。台帳行の `pivot` / `pivot_lang` を見れば判断できる。適用は二段（alias→pivot、pivot→emoji）。
 
-**短形優先（policy-short-form-priority）:** (1) 意味が載るなら **絵文字最優先**。(2) 覆えないときだけ他の多言語・数学・記号（≧≦、←→、∴∵、& 等の E/C 在庫）。両方効くなら新数学記号を増やさず絵文字。
+**短形優先（policy-short-form-priority）:** (1) 意味がはっきり載るなら **数学/記号優先**（≧≦、←→、∴∵、&、✓、★、≠、∞ 等の E/C 在庫）。(2) 噛み合わないときだけ絵文字。両方効くなら既存記号を選び絵文字ピアを増やさない（check→✓ not ✅；star→★ not ⭐；cross→✕ not ❌）。
+
+**言語横断 cheapest（policy-cross-lang-cheapest）:** 意味が通る候補から B `estimate_tokens` → E `utf8_bits` が最も楽な表層を選ぶ（`shared.ledger.select_cheapest_form`）。登録時 dual metrics；utf8 不変は落とす。
+
+**`family=symbol`:** E 閉じた品詞以外の開いた数学記号（≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷）。絵文字より記号が載るならこちら。E の ~/≒/= /≧/≦/∴/bc/∀ は増やさない。
 
 | 例 | pivot | 短形 | 備考 |
 | --- | --- | --- | --- |
 | ファイア / Feuer / fire / on fire | fire (en) | 🔥 | sample=ファイア（utf8 縮）。ML→fire→🔥 |
 | heart / ハート / Herz | heart (en) | ♡ | ❤️ は utf8 増のため不採用 |
 | thumbs up / いいね | thumbs up (en) | 👍 | |
-| check / チェック | check (en) | ✅ | sample=check mark |
+| check / チェック | check (en) | ✓ | 記号優先（✅ と同義） |
+| cross / ばつ | cross mark (en) | ✕ | 記号優先（❌ と同義；× は乗算曖昧） |
+| star / スター | star (en) | ★ | 記号優先（⭐ より ★） |
 | warning / 警告 | warning (en) | ⚠ | |
 | hundred / 百点 | hundred (en) | 💯 | |
 | information / インフォメーション 等 | information (en) | ℹ️ | 旧 ETYMON から移管；FYI 句は DEFAULT_MAP が先 |
+| not equal / infinity / … | — | ≠ ∞ ± … | `family=symbol`（E 未所有） |
 
 `EMOJI_SPEC`（`shared/lex_policy.py`）が単一ソース。utf8 が縮まない bare idea/eyes/… は DEFAULT_MAP の runtime extras のみ。**information→ℹ️ も C**（E etymon から移管）。
 
 ```bash
 uv run python -m shared.ledger --sync-emoji
+uv run python -m shared.ledger --sync-symbol
 uv run python -m shared.ledger --apply 'ハートとファイア'
 ```
 
