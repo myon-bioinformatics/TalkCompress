@@ -374,6 +374,122 @@ def test_ledger_pos_registrations_dual_metrics():
     assert all(c.get("to") != "fr" for c in by_id.values())
 
 
+def test_formal_legal_connectives_dual_metrics():
+    """Finite formal/legal + connective gaps. Meaning gate before cheapest.
+
+    Skips ids already registered (hereinafter/thereof/therewith/whereby/…)
+    and forms that lose the dual-metric or sense gate (hereof, thereby, hereto).
+    """
+    from shared.ledger import (
+        BREAKDOWN_ALLOWED,
+        apply_ledger_lex,
+        list_conventions,
+        select_cheapest_form,
+        validate_ledger_metrics,
+    )
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+    skipped = {
+        "legal-hereinafter",
+        "legal-hereinafter-aka",
+        "legal-hereafter",
+        "legal-herein",
+        "legal-thereof",
+        "legal-therewith",
+        "legal-whereby",
+        "prep-throughout",
+        "prep-toward",
+        "c-regarding",
+        "c-as-follows",
+        "c-inter-alia",
+    }
+    for cid in skipped:
+        assert cid in by_id
+
+    # hereof / thereby are not revived
+    assert all(
+        "hereof" not in [str(x).lower() for x in (c.get("from") or [])]
+        and c.get("to") != "hereof"
+        for c in by_id.values()
+    )
+    assert "legal-thereby" not in by_id
+    assert apply_ledger_lex("agreed thereby") == "agreed thereby"
+
+    expected = {
+        "legal-therein": "∈it",
+        "legal-thereto": "∴to",
+        "legal-henceforth": "∴→",
+        "legal-notwithstanding": "雖",
+        "conj-insofar": "insofar",
+        "conj-provided": "if",
+        "conj-in-lieu": "vs",
+        "c-namely": "viz",
+        "conj-hence": "∴",
+        "conj-albeit": "tho",
+        "c-foregoing": "supra",
+        "c-aforementioned": "said",
+        "symbol-vice-versa": "⇄",
+        "c-tnc": "T&C",
+        "c-et-al": "etal",
+        "conj-given-that": "bc",
+        "legal-null-void": "void",
+    }
+    for cid, dst in expected.items():
+        c = by_id[cid]
+        assert c["to"] == dst, cid
+        assert c["breakdown"] in BREAKDOWN_ALLOWED
+        m = c["metrics"]
+        assert m["token"]["delta"] < 0, cid
+        assert m["bit"]["utf8"]["delta"] < 0, cid
+        assert m["token"]["sample_from"] == c["from"][0]
+
+    # meaning gate: prepositional notwithstanding ≠ tho; despite's terminal is 雖
+    assert select_cheapest_form(
+        ["雖", "despite"], reference="notwithstanding"
+    )["chosen"] == "雖"
+    assert select_cheapest_form(
+        ["supra", "above"], reference="the foregoing"
+    )["chosen"] == "supra"
+    assert select_cheapest_form(
+        ["∈it", "∈there", "in it"], reference="therein"
+    )["chosen"] == "∈it"
+    assert select_cheapest_form(
+        ["∴", "so"], reference="hence"
+    )["chosen"] == "∴"
+    assert select_cheapest_form(
+        ["⇄", "vv"], reference="vice versa"
+    )["chosen"] == "⇄"
+    assert select_cheapest_form(
+        ["viz", "viz.", "i.e."], reference="namely"
+    )["chosen"] == "viz"
+
+    assert apply_ledger_lex("notwithstanding section 5") == "雖 section 5"
+    assert apply_ledger_lex("insofar as possible") == "insofar possible"
+    assert "to the extent of" in apply_ledger_lex("to the extent of 5")
+    assert apply_ledger_lex("provided that we pay") == "if we pay"
+    assert "provided that" in apply_ledger_lex(
+        "provided that we pay", prefer_precision=True
+    )
+    assert apply_ledger_lex("now therefore the parties") == "∴ the parties"
+    assert apply_ledger_lex("hence we stop") == "∴ we stop"
+    assert apply_ledger_lex("null and void") == "void"
+    assert apply_ledger_lex("terms and conditions") == "T&C"
+    assert apply_ledger_lex("smith and others") == "smith etal"
+    assert apply_ledger_lex("the foregoing terms") == "supra terms"
+    assert apply_ledger_lex("the aforementioned company") == "the said company"
+    # verb said blocks the legal determiner
+    blocked = apply_ledger_lex("she said the aforementioned company")
+    assert "aforementioned" in blocked
+    assert apply_ledger_lex("vice versa") == "⇄"
+    assert apply_ledger_lex("even though late") == "tho late"
+    assert apply_ledger_lex("given that we signed") == "bc we signed"
+    assert apply_ledger_lex("instead of cash") == "vs cash"
+    # E-owned legal anaphora is not applied by C
+    assert "therein" in apply_ledger_lex("parties therein")
+    assert "hereof" in apply_ledger_lex("terms hereof")
+
+
 def test_abbrev_family_contractions_synced():
     """c-ill-style EN contractions are C family=abbrev; code is rewrite source."""
     from shared.ledger import apply_ledger_lex, list_conventions, validate_ledger_metrics
