@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 360
+    assert 14 <= len(all_lex) <= 420
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -396,6 +396,43 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-at-price-of"]["to"] == "代価"
     assert by_id["prep-under-auspices"]["to"] == "傘"
     assert by_id["prep-in-parallel-with"]["to"] == "∥"
+    # cycle5
+    assert by_id["prep-in-response-to"]["to"] == "応"
+    assert by_id["prep-in-answer-to"]["to"] == "答"
+    assert by_id["prep-in-line-with"]["to"] == "沿"
+    assert by_id["prep-in-agreement-with"]["to"] == "合"
+    assert by_id["prep-depending-on"]["to"] == "依"
+    assert by_id["conj-as-well-as"]["to"] == "+"
+    assert by_id["conj-let-alone"]["to"] == "況"
+    assert by_id["prep-faced-with"]["to"] == "直面"
+    assert by_id["prep-pertaining-to"]["to"] == "関"
+    assert by_id["prep-independent-of"]["to"] == "独立"
+    assert by_id["prep-akin-to"]["to"] == "≒"
+    assert by_id["prep-equivalent-to"]["to"] == "≡"
+    assert by_id["prep-limited-to"]["to"] == "限"
+    assert by_id["prep-attributable-to"]["to"] == "帰"
+    assert by_id["adv-for-time-being"]["to"] == "暫"
+    assert by_id["adv-at-once"]["to"] == "即"
+    assert by_id["adv-all-of-a-sudden"]["to"] == "突"
+    assert by_id["adv-from-time-to-time"]["to"] == "偶"
+    assert by_id["adv-at-last"]["to"] == "遂"
+    assert by_id["adv-at-first"]["to"] == "初"
+    assert by_id["adv-in-short"]["to"] == "略"
+    assert by_id["adv-in-fact"]["to"] == "実"
+    assert by_id["adv-in-practice"]["to"] == "実際"
+    assert by_id["adv-in-theory"]["to"] == "理"
+    assert by_id["adv-in-general"]["to"] == "一般"
+    assert by_id["adv-on-purpose"]["to"] == "故意"
+    assert by_id["adv-in-vain"]["to"] == "徒"
+    assert by_id["adv-at-present"]["to"] == "今"
+    assert by_id["adv-ahead-of-time"]["to"] == "早"
+    assert by_id["adv-under-way"]["to"] == "進行"
+    assert "in the meantime" in by_id["adv-meanwhile"]["from"]
+    assert "based on" in by_id["prep-on-basis-of"]["from"]
+    assert "from now on" in by_id["legal-henceforth"]["from"]
+    assert "in compliance with" in by_id["prep-in-accordance-with"]["from"]
+    assert by_id["prep-in-response-to"]["breakdown"] == "前"
+    assert by_id["adv-for-time-being"]["breakdown"] == "副"
     assert "by dint of" in by_id["prep-by-virtue-of"]["from"]
     assert "on the brink of" in by_id["prep-on-verge-of"]["from"]
     assert "as per" in by_id["prep-in-accordance-with"]["from"]
