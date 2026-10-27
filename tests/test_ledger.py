@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + EN contraction abbrev family (c-ill…)
-    assert 14 <= len(all_lex) <= 140
+    assert 14 <= len(all_lex) <= 200
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -352,3 +352,45 @@ def test_abbrev_family_contractions_synced():
     assert by_id["aux-neg-can"]["apply_layer"] == "E"
     assert by_id["aux-neg-can"]["to"] == "!can"
 
+
+
+def test_emoji_family_synced():
+    """word→emoji is C family=emoji; ledger applies; utf8 shrinks; ℹ️ stays E."""
+    from shared.ledger import apply_ledger_lex, list_conventions, validate_ledger_metrics
+    from shared.lex_policy import EMOJI_SPEC, emoji_ledger_rows
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+
+    assert len(EMOJI_SPEC) >= 15
+    for row in emoji_ledger_rows():
+        cid = row["id"]
+        assert cid in by_id, cid
+        c = by_id[cid]
+        assert c["apply_layer"] == "C"
+        assert c["family"] == "emoji"
+        assert c.get("ledger_apply") is not False
+        assert c["to"] == row["to"]
+        assert c["metrics"]["bit"]["utf8"]["delta"] < 0, cid
+
+    assert by_id["emoji-fire"]["to"] == "🔥"
+    assert by_id["emoji-fire"]["from"][0] == "ファイア"
+    assert by_id["emoji-heart"]["to"] == "♡"
+    assert "heart" in by_id["emoji-heart"]["from"]
+
+    assert apply_ledger_lex("ファイア") == "🔥"
+    assert "♡" in apply_ledger_lex("heart")
+    assert "♡" in apply_ledger_lex("ハート")
+    assert "🔥" in apply_ledger_lex("on fire")
+    assert "👍" in apply_ledger_lex("thumbs up")
+    assert "⚠" in apply_ledger_lex("warning")
+    assert "✅" in apply_ledger_lex("check mark")
+
+    # information→ℹ️ is E, not C emoji ledger
+    assert "ℹ️" not in apply_ledger_lex("information")
+    assert all(c.get("to") != "ℹ️" for c in by_id.values() if c.get("family") == "emoji")
+
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    assert "♡" in s.compress("heart")
+    assert "🔥" in s.compress("ファイア")
+    assert "🔥" in s.compress("fire")

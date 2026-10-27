@@ -20,7 +20,8 @@
       "E MorphoZip closed-POS mappings are registered here as apply_layer=E (metrics + inventory) for the shared ledger; rewrite engine ownership stays on E. C apply_ledger_lex only applies apply_layer=C.",
       "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots.",
       "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds).",
-      "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline."
+      "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline.",
+      "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, …) via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual metrics; utf8 must shrink. information→ℹ️ stays E. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras only."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -44,6 +45,43 @@
       ],
       "skipped_nonshrink_utf8": [],
       "source": "shared.lex_policy.EN_CONTRACTION_SPEC"
+    },
+    "emoji_sync": {
+      "upserted": [
+        "emoji-fire",
+        "emoji-heart",
+        "emoji-thumbs-up",
+        "emoji-thumbs-down",
+        "emoji-check",
+        "emoji-cross",
+        "emoji-star",
+        "emoji-warn",
+        "emoji-idea",
+        "emoji-mail",
+        "emoji-time",
+        "emoji-alarm",
+        "emoji-money",
+        "emoji-rocket",
+        "emoji-eyes",
+        "emoji-clap",
+        "emoji-pray",
+        "emoji-hundred",
+        "emoji-party",
+        "emoji-skull",
+        "emoji-wrench",
+        "emoji-hourglass",
+        "emoji-thinking",
+        "emoji-ok-hand",
+        "emoji-laugh",
+        "emoji-cry",
+        "emoji-wave",
+        "emoji-bug",
+        "emoji-bell",
+        "emoji-link",
+        "emoji-pin"
+      ],
+      "skipped_nonshrink_utf8": [],
+      "source": "shared.lex_policy.EMOJI_SPEC"
     }
   },
   "conventions": [
@@ -4854,6 +4892,1207 @@
             "before": 72,
             "after": 64,
             "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-fire",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "ファイア",
+        "ファイヤー",
+        "on fire",
+        "fire"
+      ],
+      "to": "🔥",
+      "rationale": "ファイア/fire→🔥。台帳 sample は ファイア（bare fire は utf8 不変だが別名適用）",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 0,
+          "delta": -4,
+          "ratio": 0.0,
+          "sample_from": "ファイア",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 32,
+          "delta": -64,
+          "ratio": 0.3333,
+          "sample_from": "ファイア",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 32,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-heart",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "heart",
+        "ハート",
+        "ハートマーク",
+        "red heart"
+      ],
+      "to": "♡",
+      "rationale": "heart/ハート→♡（❤️ は utf8 増のため不採用）",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "heart",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "heart",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-thumbs-up",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "thumbs up",
+        "thumbs-up",
+        "thumbsup",
+        "いいね"
+      ],
+      "to": "👍",
+      "rationale": "thumbs up/いいね→👍",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "thumbs up",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 32,
+          "delta": -40,
+          "ratio": 0.4444,
+          "sample_from": "thumbs up",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 32,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-thumbs-down",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "thumbs down",
+        "thumbs-down"
+      ],
+      "to": "👎",
+      "rationale": "thumbs down→👎",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "thumbs down",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 32,
+          "delta": -56,
+          "ratio": 0.3636,
+          "sample_from": "thumbs down",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 32,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-check",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "check mark",
+        "チェックマーク",
+        "チェック",
+        "check"
+      ],
+      "to": "✅",
+      "rationale": "check/チェック→✅",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "check mark",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "check mark",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-cross",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "cross mark",
+        "ばつ印",
+        "incorrect",
+        "バツ",
+        "ばつ"
+      ],
+      "to": "❌",
+      "rationale": "バツ/cross mark→❌",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "cross mark",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "cross mark",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-star",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "star",
+        "スター"
+      ],
+      "to": "★",
+      "rationale": "star/スター→★",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 0,
+          "delta": -1,
+          "ratio": 0.0,
+          "sample_from": "star",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "star",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-warn",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "warning",
+        "ワーニング",
+        "警告"
+      ],
+      "to": "⚠",
+      "rationale": "warning/警告→⚠（VS16 なし）",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "warning",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 24,
+          "delta": -32,
+          "ratio": 0.4286,
+          "sample_from": "warning",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 24,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-idea",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "アイデア",
+        "アイディア",
+        "ひらめき",
+        "idea bulb",
+        "電球"
+      ],
+      "to": "💡",
+      "rationale": "アイデア等→💡（bare idea は utf8 不変→RUNTIME）",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 0,
+          "delta": -4,
+          "ratio": 0.0,
+          "sample_from": "アイデア",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 32,
+          "delta": -64,
+          "ratio": 0.3333,
+          "sample_from": "アイデア",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 32,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-mail",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "email",
+        "イーメール",
+        "メール",
+        "mail"
+      ],
+      "to": "✉",
+      "rationale": "mail/email/メール→✉",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "email",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "email",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-time",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "time",
+        "タイム"
+      ],
+      "to": "⏱",
+      "rationale": "time/タイム→⏱",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 0,
+          "delta": -1,
+          "ratio": 0.0,
+          "sample_from": "time",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "time",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-alarm",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "alarm",
+        "アラーム"
+      ],
+      "to": "⏰",
+      "rationale": "alarm/アラーム→⏰",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "alarm",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "alarm",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-money",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "money",
+        "マネー",
+        "お金"
+      ],
+      "to": "💰",
+      "rationale": "money/お金→💰",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "money",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "money",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-rocket",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "rocket",
+        "ロケット"
+      ],
+      "to": "🚀",
+      "rationale": "rocket/ロケット→🚀",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "rocket",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "rocket",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-eyes",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "eye emoji",
+        "めめ"
+      ],
+      "to": "👀",
+      "rationale": "eye emoji→👀（bare eyes は utf8 不変→RUNTIME）",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "eye emoji",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 32,
+          "delta": -40,
+          "ratio": 0.4444,
+          "sample_from": "eye emoji",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 32,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-clap",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "clapping",
+        "拍手"
+      ],
+      "to": "👏",
+      "rationale": "clapping/拍手→👏",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "clapping",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 32,
+          "delta": -32,
+          "ratio": 0.5,
+          "sample_from": "clapping",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 32,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-pray",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "praying",
+        "お願い"
+      ],
+      "to": "🙏",
+      "rationale": "praying/お願い→🙏",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "praying",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 32,
+          "delta": -24,
+          "ratio": 0.5714,
+          "sample_from": "praying",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 32,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-hundred",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "hundred",
+        "百点",
+        "ひゃくてん"
+      ],
+      "to": "💯",
+      "rationale": "hundred/百点→💯",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "hundred",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 32,
+          "delta": -24,
+          "ratio": 0.5714,
+          "sample_from": "hundred",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 32,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-party",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "party",
+        "パーティー",
+        "お祝い"
+      ],
+      "to": "🎉",
+      "rationale": "party/お祝い→🎉",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "party",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "party",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-skull",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "skull",
+        "ドクロ",
+        "がいこつ"
+      ],
+      "to": "💀",
+      "rationale": "skull/ドクロ→💀",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "skull",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "skull",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-wrench",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "wrench",
+        "レンチ",
+        "スパナ"
+      ],
+      "to": "🔧",
+      "rationale": "wrench/レンチ→🔧",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "wrench",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "wrench",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-hourglass",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "hourglass",
+        "砂時計"
+      ],
+      "to": "⏳",
+      "rationale": "hourglass/砂時計→⏳",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "hourglass",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 24,
+          "delta": -48,
+          "ratio": 0.3333,
+          "sample_from": "hourglass",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 24,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-thinking",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "thinking face",
+        "考える顔",
+        "考え中"
+      ],
+      "to": "🤔",
+      "rationale": "thinking face/考え中→🤔",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "thinking face",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 32,
+          "delta": -72,
+          "ratio": 0.3077,
+          "sample_from": "thinking face",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 32,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-ok-hand",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "ok hand",
+        "OKハンド",
+        "オッケーハンド"
+      ],
+      "to": "👌",
+      "rationale": "ok hand→👌",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "ok hand",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 32,
+          "delta": -24,
+          "ratio": 0.5714,
+          "sample_from": "ok hand",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 32,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-laugh",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "laugh",
+        "笑い",
+        "lol face"
+      ],
+      "to": "😂",
+      "rationale": "laugh/笑い→😂",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "laugh",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "laugh",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-cry",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "crying",
+        "悲しい"
+      ],
+      "to": "😢",
+      "rationale": "crying/悲しい→😢",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "crying",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "crying",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-wave",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "バイバイ",
+        "wave hello"
+      ],
+      "to": "👋",
+      "rationale": "バイバイ→👋（bare wave は utf8 不変→RUNTIME）",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 0,
+          "delta": -4,
+          "ratio": 0.0,
+          "sample_from": "バイバイ",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 32,
+          "delta": -64,
+          "ratio": 0.3333,
+          "sample_from": "バイバイ",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 32,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-bug",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "バグ",
+        "bugfix"
+      ],
+      "to": "🐛",
+      "rationale": "バグ→🐛",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "バグ",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "バグ",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-bell",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "ベル",
+        "通知"
+      ],
+      "to": "🔔",
+      "rationale": "ベル/通知→🔔",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "ベル",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "ベル",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-link",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "リンク"
+      ],
+      "to": "🔗",
+      "rationale": "リンク→🔗",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "リンク",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 32,
+          "delta": -40,
+          "ratio": 0.4444,
+          "sample_from": "リンク",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 32,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-pin",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "pin it"
+      ],
+      "to": "📌",
+      "rationale": "pin it→📌",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "pin it",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "pin it",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
           },
           "inventory": null
         }

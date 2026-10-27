@@ -24,6 +24,11 @@ Abbrev family (``family=abbrev``): C-only bucket for contractions (``c-ill`` /
 and latin shorts (``e.g.`` / ``etc.`` / ``vs`` / ``i.e.``). Contraction rows set
 ``ledger_apply=false`` (registration only). Polarity: after C ``don't``/``can't``,
 E may fold to ``!`` / ``!can`` on a ``C,E`` pipeline.
+
+Emoji family (``family=emoji``): C-owned word→emoji shortenings (``ファイア``→``🔥``,
+``heart``/``ハート``→``♡``, …). Synced from ``EMOJI_SPEC``; ``ledger_apply=true``
+so ``apply_ledger_lex`` rewrites (unlike contractions). Dual metrics required;
+utf8 must shrink on the sample. ``information``→``ℹ️`` stays on E etymon path.
 """
 
 from __future__ import annotations
@@ -368,6 +373,78 @@ def sync_abbrev_contraction_lex(
     return data
 
 
+
+def sync_emoji_lex(
+    path: str | Path | None = None,
+    *,
+    write: bool = True,
+    skip_zero_utf8: bool = True,
+) -> dict[str, Any]:
+    """Upsert C emoji rows from ``EMOJI_SPEC`` (family=emoji, ledger_apply=true).
+
+    Derives dual metrics; skips pairs whose utf8 bit delta is ≥ 0 when
+    ``skip_zero_utf8`` (default). Bumps meta notes for the emoji bucket.
+    """
+    from shared.lex_policy import emoji_ledger_rows
+
+    p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
+    data = load_ledger(p)
+    by_id = {
+        str(c.get("id")): i
+        for i, c in enumerate(data["conventions"])
+        if isinstance(c, dict) and c.get("id")
+    }
+    skipped: list[str] = []
+    upserted: list[str] = []
+    for row in emoji_ledger_rows():
+        filled = ensure_lex_metrics(row)
+        utf8 = (filled.get("metrics") or {}).get("bit", {}).get("utf8") or {}
+        delta = utf8.get("delta")
+        if skip_zero_utf8 and isinstance(delta, int) and delta >= 0:
+            skipped.append(str(filled["id"]))
+            continue
+        cid = str(filled["id"])
+        if cid in by_id:
+            idx = by_id[cid]
+            old = data["conventions"][idx]
+            merged = dict(old)
+            for k, v in filled.items():
+                merged[k] = v
+            data["conventions"][idx] = merged
+        else:
+            data["conventions"].append(filled)
+            by_id[cid] = len(data["conventions"]) - 1
+        upserted.append(cid)
+
+    meta = data.setdefault("meta", {})
+    notes = meta.setdefault("notes", [])
+    emoji_note = (
+        "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, …) "
+        "via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual metrics; utf8 must "
+        "shrink. information→ℹ️ stays E. Bare fire/idea/eyes/… utf8-flat forms may live "
+        "in DEFAULT_MAP runtime extras only."
+    )
+    if isinstance(notes, list) and emoji_note not in notes:
+        notes.append(emoji_note)
+    meta["emoji_sync"] = {
+        "upserted": upserted,
+        "skipped_nonshrink_utf8": skipped,
+        "source": "shared.lex_policy.EMOJI_SPEC",
+    }
+    ver = data.get("version", 1)
+    try:
+        data["version"] = max(int(ver), 2)
+    except (TypeError, ValueError):
+        data["version"] = 2
+    if write:
+        p.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        load_ledger.cache_clear() if hasattr(load_ledger, "cache_clear") else None
+    return data
+
+
 def backfill_ledger_metrics(
     path: str | Path | None = None,
     *,
@@ -658,6 +735,11 @@ def main(argv: list[str] | None = None) -> int:
         help="upsert C abbrev contractions from EN_CONTRACTION_SPEC + tag family=abbrev",
     )
     p.add_argument(
+        "--sync-emoji",
+        action="store_true",
+        help="upsert C word→emoji rows from EMOJI_SPEC + tag family=emoji",
+    )
+    p.add_argument(
         "--validate-metrics",
         action="store_true",
         help="check lex rows have metrics.token and metrics.bit (exit 1 on fail)",
@@ -673,6 +755,15 @@ def main(argv: list[str] | None = None) -> int:
         info = (data.get("meta") or {}).get("abbrev_sync") or {}
         print(
             f"synced abbrev contractions upserted={info.get('upserted')} "
+            f"skipped_utf8={info.get('skipped_nonshrink_utf8')} "
+            f"→ {args.path or DEFAULT_LEDGER_PATH}"
+        )
+        return 0
+    if args.sync_emoji:
+        data = sync_emoji_lex(args.path, write=True)
+        info = (data.get("meta") or {}).get("emoji_sync") or {}
+        print(
+            f"synced emoji upserted={info.get('upserted')} "
             f"skipped_utf8={info.get('skipped_nonshrink_utf8')} "
             f"→ {args.path or DEFAULT_LEDGER_PATH}"
         )

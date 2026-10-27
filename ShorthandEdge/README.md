@@ -68,6 +68,27 @@ uv run python -m shared.ledger --sync-contractions
 
 極性メモ: C が `do not`→`don't` / `cannot`→`can't` したあと、E は `don't`→`!` / `can't`→`!can` に畳み得る（パイプライン `C,E`）。
 
+
+## Emoji family（C 一層）
+
+語→絵文字の短縮は **C の `family=emoji`**（`family=abbrev` の隣）。台帳は **適用する**（`ledger_apply=true`）。
+
+| 例 | 短形 | 備考 |
+| --- | --- | --- |
+| ファイア / fire / on fire | 🔥 | sample は ファイア（utf8 縮）。bare fire は別名適用 |
+| heart / ハート | ♡ | ❤️ は utf8 増のため不採用 |
+| thumbs up / いいね | 👍 | |
+| check / チェック | ✅ | |
+| warning / 警告 | ⚠ | |
+| hundred / 百点 | 💯 | |
+
+`EMOJI_SPEC`（`shared/lex_policy.py`）が単一ソース。utf8 が縮まない bare idea/eyes/… は DEFAULT_MAP の runtime extras のみ。**information→ℹ️ は E**（奪わない）。
+
+```bash
+uv run python -m shared.ledger --sync-emoji
+uv run python -m shared.ledger --apply 'ハートとファイア'
+```
+
 ## Domain packs
 
 Built-in packs under `packs/` (`dev`, `mcp`). `--pack NAME` (repeatable) merges into the session map.

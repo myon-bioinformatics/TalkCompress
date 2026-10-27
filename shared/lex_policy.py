@@ -469,6 +469,247 @@ def apply_en_contractions(text: str) -> str:
     return out
 
 
+# --- C-owned word→emoji (family=emoji); ledger applies (unlike contractions) -----
+# (id suffix after "emoji-", from-forms tuple, short glyph, rationale)
+# Primary from[0] must utf8-shrink. Bare fire/idea/eyes/… that are utf8-flat stay
+# in EMOJI_RUNTIME_EXTRA (DEFAULT_MAP only), not ledger. information→ℹ️ stays E.
+EMOJI_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
+    (
+        "fire",
+        ("ファイア", "ファイヤー", "on fire", "fire"),
+        "🔥",
+        "ファイア/fire→🔥。台帳 sample は ファイア（bare fire は utf8 不変だが別名適用）",
+    ),
+    (
+        "heart",
+        ("heart", "ハート", "ハートマーク", "red heart"),
+        "♡",
+        "heart/ハート→♡（❤️ は utf8 増のため不採用）",
+    ),
+    (
+        "thumbs-up",
+        ("thumbs up", "thumbs-up", "thumbsup", "いいね"),
+        "👍",
+        "thumbs up/いいね→👍",
+    ),
+    (
+        "thumbs-down",
+        ("thumbs down", "thumbs-down"),
+        "👎",
+        "thumbs down→👎",
+    ),
+    (
+        "check",
+        ("check mark", "チェックマーク", "チェック", "check"),
+        "✅",
+        "check/チェック→✅",
+    ),
+    (
+        "cross",
+        ("cross mark", "ばつ印", "incorrect", "バツ", "ばつ"),
+        "❌",
+        "バツ/cross mark→❌",
+    ),
+    (
+        "star",
+        ("star", "スター"),
+        "★",
+        "star/スター→★",
+    ),
+    (
+        "warn",
+        ("warning", "ワーニング", "警告"),
+        "⚠",
+        "warning/警告→⚠（VS16 なし）",
+    ),
+    (
+        "idea",
+        ("アイデア", "アイディア", "ひらめき", "idea bulb", "電球"),
+        "💡",
+        "アイデア等→💡（bare idea は utf8 不変→RUNTIME）",
+    ),
+    (
+        "mail",
+        ("email", "イーメール", "メール", "mail"),
+        "✉",
+        "mail/email/メール→✉",
+    ),
+    (
+        "time",
+        ("time", "タイム"),
+        "⏱",
+        "time/タイム→⏱",
+    ),
+    (
+        "alarm",
+        ("alarm", "アラーム"),
+        "⏰",
+        "alarm/アラーム→⏰",
+    ),
+    (
+        "money",
+        ("money", "マネー", "お金"),
+        "💰",
+        "money/お金→💰",
+    ),
+    (
+        "rocket",
+        ("rocket", "ロケット"),
+        "🚀",
+        "rocket/ロケット→🚀",
+    ),
+    (
+        "eyes",
+        ("eye emoji", "めめ"),
+        "👀",
+        "eye emoji→👀（bare eyes は utf8 不変→RUNTIME）",
+    ),
+    (
+        "clap",
+        ("clapping", "拍手"),
+        "👏",
+        "clapping/拍手→👏",
+    ),
+    (
+        "pray",
+        ("praying", "お願い"),
+        "🙏",
+        "praying/お願い→🙏",
+    ),
+    (
+        "hundred",
+        ("hundred", "百点", "ひゃくてん"),
+        "💯",
+        "hundred/百点→💯",
+    ),
+    (
+        "party",
+        ("party", "パーティー", "お祝い"),
+        "🎉",
+        "party/お祝い→🎉",
+    ),
+    (
+        "skull",
+        ("skull", "ドクロ", "がいこつ"),
+        "💀",
+        "skull/ドクロ→💀",
+    ),
+    (
+        "wrench",
+        ("wrench", "レンチ", "スパナ"),
+        "🔧",
+        "wrench/レンチ→🔧",
+    ),
+    (
+        "hourglass",
+        ("hourglass", "砂時計"),
+        "⏳",
+        "hourglass/砂時計→⏳",
+    ),
+    (
+        "thinking",
+        ("thinking face", "考える顔", "考え中"),
+        "🤔",
+        "thinking face/考え中→🤔",
+    ),
+    (
+        "ok-hand",
+        ("ok hand", "OKハンド", "オッケーハンド"),
+        "👌",
+        "ok hand→👌",
+    ),
+    (
+        "laugh",
+        ("laugh", "笑い", "lol face"),
+        "😂",
+        "laugh/笑い→😂",
+    ),
+    (
+        "cry",
+        ("crying", "悲しい"),
+        "😢",
+        "crying/悲しい→😢",
+    ),
+    (
+        "wave",
+        ("バイバイ", "wave hello"),
+        "👋",
+        "バイバイ→👋（bare wave は utf8 不変→RUNTIME）",
+    ),
+    (
+        "bug",
+        ("バグ", "bugfix"),
+        "🐛",
+        "バグ→🐛",
+    ),
+    (
+        "bell",
+        ("ベル", "通知"),
+        "🔔",
+        "ベル/通知→🔔",
+    ),
+    (
+        "link",
+        ("リンク",),
+        "🔗",
+        "リンク→🔗",
+    ),
+    (
+        "pin",
+        ("pin it",),
+        "📌",
+        "pin it→📌",
+    ),
+)
+
+# Token-only extras for DEFAULT_MAP (utf8 flat or ambiguous bare forms). Not ledger.
+EMOJI_RUNTIME_EXTRA: dict[str, str] = {
+    "idea": "💡",
+    "eyes": "👀",
+    "clap": "👏",
+    "pray": "🙏",
+    "wave": "👋",
+    "bug": "🐛",
+    "bell": "🔔",
+    "link": "🔗",
+    "pin": "📌",
+    "sad": "😢",
+    "thumbs up": "👍",  # covered by ledger too; keep for map order
+}
+
+
+def emoji_ledger_rows() -> list[dict[str, Any]]:
+    """C ledger row skeletons for word→emoji (family=emoji, ledger_apply=True)."""
+    rows: list[dict[str, Any]] = []
+    for sid, forms, dst, rationale in EMOJI_SPEC:
+        rows.append(
+            {
+                "id": f"emoji-{sid}",
+                "kind": "lex",
+                "apply_layer": "C",
+                "family": "emoji",
+                "ledger_apply": True,
+                "from": list(forms),
+                "to": dst,
+                "rationale": rationale,
+            }
+        )
+    return rows
+
+
+def emoji_default_map() -> dict[str, str]:
+    """Flat long→glyph map for ShorthandEdge DEFAULT_MAP (spec + runtime extras)."""
+    out: dict[str, str] = {}
+    for _sid, forms, dst, _r in EMOJI_SPEC:
+        for f in forms:
+            key = f.lower() if f.isascii() else f
+            out[key] = dst
+            if f.isascii():
+                out[f.lower()] = dst
+    out.update(EMOJI_RUNTIME_EXTRA)
+    return out
+
+
 def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     """Remove light fillers / interjections. ``aggressive`` enables hedge words like just/like."""
     out = text
