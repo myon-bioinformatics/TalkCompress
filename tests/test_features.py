@@ -806,6 +806,37 @@ def test_morpho_prep_like_finite_set():
     assert "乱" in m.compress("at random pick", **kw)
     assert "突" in m.compress("out of nowhere appear", **kw)
 
+    # cycle9
+    assert "並" in m.compress("abreast of the news", **kw)
+    assert "知" in m.compress("cognizant of risk", **kw)
+    assert "念" in m.compress("mindful of safety", **kw)
+    assert "好" in m.compress("fond of music", **kw)
+    assert "誇" in m.compress("proud of work", **kw)
+    assert "能" in m.compress("capable of flight", **kw)
+    assert "不能" in m.compress("incapable of lying", **kw)
+    assert "値" in m.compress("worthy of praise", **kw)
+    assert "典型" in m.compress("typical of spring", **kw)
+    assert "示" in m.compress("indicative of change", **kw)
+    assert "示唆" in m.compress("suggestive of fraud", **kw)
+    assert "特質" in m.compress("characteristic of youth", **kw)
+    assert "撤" in m.compress("rid of pests", **kw)
+    assert "満" in m.compress("full of hope", **kw)
+    assert "構成" in m.compress("composed of atoms", **kw)
+    assert "期間" in m.compress("for the duration of war", **kw)
+    assert "沖" in m.compress("offshore wind", **kw)
+    assert "同時" in m.compress("simultaneously occur", **kw)
+    assert "各" in m.compress("A and B respectively", **kw)
+    assert "同様" in m.compress("similarly affected", **kw)
+    assert "特" in m.compress("in particular note", **kw)
+    assert "言わば" in m.compress("so to speak free", **kw)
+    assert "斯" in m.compress("as such invalid", **kw)
+    assert "断" in m.compress("once and for all done", **kw)
+    assert "現" in m.compress("currently active", **kw)
+    assert "旧" in m.compress("formerly known", **kw)
+    assert "交互" in m.compress("alternately flash", **kw)
+    assert "以来" in m.compress("ever since then", **kw)
+    assert "欠" in m.compress("bereft of hope", **kw)
+
 
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""

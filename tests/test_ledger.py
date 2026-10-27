@@ -521,6 +521,42 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-upstream-of"]["breakdown"] == "前"
     assert by_id["adv-at-random"]["breakdown"] == "副"
     assert "exclusive of" in by_id["prep-except"]["from"]
+    # cycle9
+    assert by_id["prep-abreast-of"]["to"] == "並"
+    assert by_id["prep-cognizant-of"]["to"] == "知"
+    assert by_id["prep-mindful-of"]["to"] == "念"
+    assert by_id["prep-fond-of"]["to"] == "好"
+    assert by_id["prep-proud-of"]["to"] == "誇"
+    assert by_id["prep-capable-of"]["to"] == "能"
+    assert by_id["prep-incapable-of"]["to"] == "不能"
+    assert by_id["prep-worthy-of"]["to"] == "値"
+    assert by_id["prep-typical-of"]["to"] == "典型"
+    assert by_id["prep-indicative-of"]["to"] == "示"
+    assert by_id["prep-suggestive-of"]["to"] == "示唆"
+    assert by_id["prep-characteristic-of"]["to"] == "特質"
+    assert by_id["prep-rid-of"]["to"] == "撤"
+    assert by_id["prep-full-of"]["to"] == "満"
+    assert by_id["prep-composed-of"]["to"] == "構成"
+    assert "consisting of" in by_id["prep-composed-of"]["from"]
+    assert by_id["prep-for-the-duration-of"]["to"] == "期間"
+    assert by_id["adv-offshore"]["to"] == "沖"
+    assert by_id["adv-simultaneously"]["to"] == "同時"
+    assert by_id["adv-respectively"]["to"] == "各"
+    assert by_id["adv-similarly"]["to"] == "同様"
+    assert by_id["adv-in-particular"]["to"] == "特"
+    assert by_id["adv-so-to-speak"]["to"] == "言わば"
+    assert by_id["adv-as-such"]["to"] == "斯"
+    assert by_id["adv-once-and-for-all"]["to"] == "断"
+    assert by_id["adv-currently"]["to"] == "現"
+    assert by_id["adv-formerly"]["to"] == "旧"
+    assert by_id["adv-alternately"]["to"] == "交互"
+    assert by_id["adv-ever-since"]["to"] == "以来"
+    assert "bereft of" in by_id["prep-for-lack-of"]["from"]
+    assert "afraid of" in by_id["prep-for-fear-of"]["from"]
+    assert "conversely" in by_id["prep-contrary-to"]["from"]
+    assert "thereupon" in by_id["adv-right-then"]["from"]
+    assert by_id["prep-abreast-of"]["breakdown"] == "前"
+    assert by_id["adv-currently"]["breakdown"] == "副"
     assert "every now and then" in by_id["adv-from-time-to-time"]["from"]
     assert by_id["prep-north-of"]["breakdown"] == "前"
     assert by_id["adv-no-longer"]["breakdown"] == "副"
