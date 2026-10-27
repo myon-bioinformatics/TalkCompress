@@ -594,3 +594,23 @@ def test_ever_family_staged_before_final_zh_de_keeps_asap():
     assert "ASAP" in pipe
     assert "尽快" not in pipe
     assert trace[-1]["layer"] == "B-final-zh-de"
+
+
+def test_however_hard_not_tho_after_ce():
+    """Concessive/degree however (from no matter how or bare) must not become tho via E."""
+    c = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    e = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    # C: no matter how → however
+    after_c = c.compress("No matter how hard it is, I will go.")
+    assert "however hard" in after_c.lower()
+    assert "tho hard" not in after_c.lower()
+    after_e = e.compress(after_c)
+    assert "however hard" in after_e.lower()
+    assert "tho hard" not in after_e.lower()
+    # Bare degree
+    bare = e.compress("however hard it looks")
+    assert "however hard" in bare.lower()
+    assert "tho hard" not in bare.lower()
+    # Contrastive however still → tho
+    contrast = e.compress("I tried; however, I failed.")
+    assert "tho" in contrast.lower()

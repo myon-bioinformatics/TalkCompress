@@ -382,7 +382,7 @@ def test_morpho_adverb_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     assert m.ADVERB_CANONICAL == ("tho", "~", "˅", "esp.")
     out = m.compress(
-        "however approximately very particularly ready",
+        "However, approximately very particularly ready",
         unique=False,
         etymon=False,
         counters=False,

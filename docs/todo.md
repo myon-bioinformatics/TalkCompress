@@ -18,6 +18,6 @@
 - [ ] E because 表記: `bc` 採用（cuz 否定せず）。点々／数学記号寄りの型が後から載る可能性。
 - [ ] E prep2: of→de / without→无 / within→内 / before→前 / after→後。pack1 と分離（3bit）。C 前後・内外ペアと役割分担を観察。
 - [x] C 台帳 dual metrics: lex に token（B estimate_tokens）+ bit（E utf8_bits / inventory）を必須記録。候補絞り用。
-- [x] B 最終トークン削減（`B-final-zh-de`）: 複合形（adj+noun 含む）/ ZH densifier / ES/FR 短時制 + zh|de 文 minify。複合名詞は候補ラベルであり名詞限定ではない。`--final-zh-de` / `--auto` 末尾；fixtures `zh_de_phrases.json` + `es_fr_tense.json`。
+- [x] B 最終トークン削減（`B-final-token`=`B-final-zh-de`）: phrase candidate bank（複合形・ZH densifier・EN acronym を cheapest）/ ES/FR 短時制 + zh|de 文 minify。`--final-token`/`--final-zh-de` / `--auto` 末尾；fixtures `zh_de_phrases.json` + `es_fr_tense.json`。監査汎用化: however→tho 譲歩ゲート、fui 曖昧さ、死んだ je vais 削除、family=spatial。
 - [x] C 台帳: **ビット変化ゼロ**（utf8/primary bit delta=0）の lex を削除。token のみ改善は残さない（私たち→we 等の縮む行は維持）。
 - [x] C 台帳: 100件予算で見送った brb/AFAIK/whereas 等を、ゼロビット剪定後に追加（utf8 縮む分のみ・≤100）。

@@ -140,6 +140,24 @@
       "skipped": [
         "whyever"
       ]
+    },
+    "ever_family": {
+      "policy_row": "policy-ever-concessive",
+      "note": "family=ever C lex + meaning_gate. Policy row is a registry pointer only (demoted from bespoke policy)."
+    },
+    "families": {
+      "spatial": {
+        "layer": "C",
+        "description": "Spatial / size pair shorthand (↑↓, under, above, 左右, …)."
+      },
+      "conj": {
+        "layer": "C",
+        "description": "Discourse connectives (moreover→且, nevertheless→tho, …)."
+      },
+      "pair": {
+        "layer": "C",
+        "description": "Paired noun forms (e.g. table/desk→机)."
+      }
     }
   },
   "conventions": [
@@ -178,7 +196,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "spatial-under",
@@ -215,7 +234,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "spatial-above",
@@ -250,7 +270,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "uneven-凹凸",
@@ -289,7 +310,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "policy-base-mix",
@@ -350,7 +372,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "spatial-front-back",
@@ -386,7 +409,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "spatial-in-out",
@@ -423,7 +447,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "spatial-big-small",
@@ -460,7 +485,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "spatial"
     },
     {
       "id": "conj-moreover",
@@ -498,7 +524,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "conj"
     },
     {
       "id": "conj-nevertheless",
@@ -535,7 +562,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "conj"
     },
     {
       "id": "conj-therefore",
@@ -573,7 +601,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "conj"
     },
     {
       "id": "conj-for-example",
@@ -711,7 +740,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "family": "pair"
     },
     {
       "id": "pronoun-I",
@@ -1946,7 +1976,9 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "family": "adverb",
+      "meaning_gate": "MorphoZip: contrastive however→tho only; skip concessive/degree `however hard/much/…` (negative lookahead on Adj/Adv)."
     },
     {
       "id": "adv-approx",
@@ -7606,7 +7638,7 @@
     },
     {
       "id": "policy-ever-concessive",
-      "kind": "policy",
+      "kind": "registry_pointer",
       "apply_layer": "C",
       "payload": {
         "family": "ever",
@@ -7630,7 +7662,9 @@
         "metrics": "dual token+utf8; utf8 must shrink",
         "asap_note": "c-asap ASAP preferred over 尽快 in C; B final-zh-de alone may still use 尽快"
       },
-      "metrics": null
+      "metrics": null,
+      "note": "Thin pointer: ever concessive family lives in meta.ever_family + C lex with family=ever. Prefer registry metadata over bespoke policy.",
+      "demoted_to": "meta.ever_family"
     }
   ]
 }

@@ -13,10 +13,11 @@ Density façade: ``--compare`` / ``--budget`` / ``--stats`` surface token-ish
 metrics (budget, ``content_token_loss``, B ``estimate_tokens`` via wiring) and
 bit-ish metrics (E ``density()`` / ``pronoun_bit_cost`` aggregated here).
 B owns ``estimate_tokens``; E owns pronoun inventory bits; C owns the ledger.
-Final pipeline step ``B-final-zh-de`` (``--final-zh-de`` / ``--auto`` default end):
-B ``final_zh_de_token_pass`` — compounds/ZH densifiers + ES/FR short tense + zh|de
-sentence minify to **reduce** tokens after A–E (複合名詞 etc. are candidate labels,
-not a noun-only policy).
+Final pipeline step ``B-final-zh-de`` / ``B-final-token`` (``--final-zh-de`` /
+``--final-token`` / ``--auto`` default end): B ``final_token_pass`` (alias
+``final_zh_de_token_pass``) — phrase candidate bank (ZH/DE compounds, EN acronyms
+via cheapest) + ES/FR short tense + zh|de sentence minify to **reduce** tokens
+after A–E (複合名詞 etc. are candidate labels, not a noun-only policy).
 
 Agreed human conventions (under/below→下, 凹凸, …) live under
 ``ShorthandEdge/ledger/conventions.json`` and are applied by **C**, not D.
@@ -57,14 +58,19 @@ _LAYER_ALIASES: dict[str, str] = {
     "morpho_zip": "E",
     "identity": "identity",
     "skip": "identity",
-    # Final ZH/DE token pass (B-owned; not a new layer letter)
+    # Final token pass (B-owned; not a new layer letter).
+    # Canonical id stays B-final-zh-de for CLI compat; prefer final-token aliases.
     "b-final-zh-de": "B-final-zh-de",
     "final-zh-de": "B-final-zh-de",
     "zhde": "B-final-zh-de",
     "zh-de": "B-final-zh-de",
+    "b-final-token": "B-final-zh-de",
+    "final-token": "B-final-zh-de",
+    "final_token": "B-final-zh-de",
 }
 
 FINAL_ZH_DE_STEP = "B-final-zh-de"
+FINAL_TOKEN_STEP = FINAL_ZH_DE_STEP  # preferred name
 
 
 def _load(mod_name: str, rel: str):
@@ -86,7 +92,15 @@ def resolve_layer(raw: str) -> str:
     if low in _LAYER_ALIASES:
         return _LAYER_ALIASES[low]
     # Preserve synthetic final-step id
-    if low in ("b-final-zh-de", "final-zh-de", "zhde", "zh-de"):
+    if low in (
+        "b-final-zh-de",
+        "final-zh-de",
+        "zhde",
+        "zh-de",
+        "b-final-token",
+        "final-token",
+        "final_token",
+    ):
         return FINAL_ZH_DE_STEP
     return key.upper()
 
@@ -644,7 +658,7 @@ def transform_line(
 
 
 def with_final_zh_de(layers: list[str], args: argparse.Namespace) -> list[str]:
-    """Append ``B-final-zh-de`` when ``--final-zh-de`` (or auto default) asks for it.
+    """Append ``B-final-zh-de`` when ``--final-zh-de``/``--final-token`` (or auto) asks for it.
 
     ``--no-final-zh-de`` always suppresses. Explicit pipeline already containing
     the step is left unchanged. ``--auto`` enables via ``choose_auto_layers``.
@@ -1126,18 +1140,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument(
         "--final-zh-de",
+        "--final-token",
+        dest="final_zh_de",
         action="store_true",
-        help="append B-final-zh-de (compounds/ZH densifiers + ES/FR tense + zh|de) as last pipeline step; on by default with --auto",
+        help="append B-final-token / B-final-zh-de (phrase candidates + ES/FR tense + zh|de) as last step; on by default with --auto",
     )
     p.add_argument(
         "--no-final-zh-de",
+        "--no-final-token",
+        dest="no_final_zh_de",
         action="store_true",
-        help="suppress the final token pass (overrides --final-zh-de / --auto default)",
+        help="suppress the final token pass (overrides --final-zh-de/--final-token / --auto default)",
     )
     p.add_argument(
         "--zh-de-phrase-bank",
         default="",
-        help="optional ZH/DE phrase densifier JSON for B-final-zh-de (compounds/ZH)",
+        help="optional final-token phrase bank JSON (compounds/ZH/EN acronyms)",
     )
     p.add_argument(
         "--es-fr-tense-bank",
@@ -1203,7 +1221,9 @@ def main(argv: list[str] | None = None) -> int:
         "--translation-bank": "translation_bank",
         "--translate-engine": "translate_engine",
         "--final-zh-de": "final_zh_de",
+        "--final-token": "final_zh_de",
         "--no-final-zh-de": "no_final_zh_de",
+        "--no-final-token": "no_final_zh_de",
         "--zh-de-phrase-bank": "zh_de_phrase_bank",
         "--es-fr-tense-bank": "es_fr_tense_bank",
         "--hex-nums": "hex_nums",

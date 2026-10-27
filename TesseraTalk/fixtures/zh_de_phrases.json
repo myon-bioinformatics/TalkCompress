@@ -1,13 +1,7 @@
 {
   "version": 1,
-  "title": "Final-stage ZH/DE token densifiers (phrase-level)",
-  "notes": [
-    "Applied as TalkCompress final pass after A–E (B final_zh_de_token_pass).",
-    "Goal: reduce estimate_tokens. Compounds (incl. adj+noun), ZH densifiers, and ES/FR tense are candidate classes for cheapest tokens — not a noun-only policy.",
-    "Prefer both token and utf8 shrink; token-only wins allowed only for dictionary-clear forms (document metrics).",
-    "Use compound forms freely when they cut tokens; skip when estimate_tokens does not drop.",
-    "Not a C ShorthandEdge ledger."
-  ],
+  "title": "Final-token phrase bank (ZH/DE compounds, EN acronyms, densifiers)",
+  "notes": "Token candidate bank for the final pass. Each entry may list `candidates` [{form, lang, class}]; runtime picks via select_cheapest (token→utf8→len). EN acronyms (ASAP/FYI/BTW/IMO) beat ZH densifiers when cheaper. Compounds (incl. adj+noun) are a candidate class, not noun-only. CLI alias: --final-zh-de → final-token pass.",
   "entries": [
     {
       "id": "bahnhof",
@@ -23,7 +17,8 @@
         "utf8_bits_before": 104,
         "utf8_bits_after": 56,
         "both_shrink": true
-      }
+      },
+      "class": "compound"
     },
     {
       "id": "datenschutz",
@@ -39,22 +34,46 @@
         "utf8_bits_before": 120,
         "utf8_bits_after": 88,
         "both_shrink": true
-      }
+      },
+      "class": "compound"
     },
     {
-      "id": "asap-zh",
+      "id": "asap",
       "from": [
-        "as soon as possible"
+        "as soon as possible",
+        "as soon as you can"
       ],
-      "to": "尽快",
-      "lang": "zh",
+      "to": "ASAP",
+      "lang": "en",
+      "class": "acronym",
+      "candidates": [
+        {
+          "form": "ASAP",
+          "lang": "en",
+          "class": "acronym"
+        },
+        {
+          "form": "尽快",
+          "lang": "zh",
+          "class": "densifier"
+        }
+      ],
       "metrics": {
         "token_before": 5,
-        "token_after": 2,
-        "utf8_bits_before": 152,
-        "utf8_bits_after": 48,
-        "both_shrink": true
-      }
+        "token_after": 1,
+        "utf8_before": 152,
+        "utf8_after": 32,
+        "both_shrink": true,
+        "vs_asap": {
+          "token": 1,
+          "utf8": 32
+        },
+        "vs_尽快": {
+          "token": 2,
+          "utf8": 48
+        }
+      },
+      "note": "cheapest: ASAP ≺ 尽快; C c-asap owns same sources — B keeps ASAP via candidates"
     },
     {
       "id": "thanks-zh",
@@ -69,7 +88,8 @@
         "utf8_bits_before": 152,
         "utf8_bits_after": 48,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "morning-zh",
@@ -84,7 +104,8 @@
         "utf8_bits_before": 96,
         "utf8_bits_after": 24,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "later-zh",
@@ -99,7 +120,8 @@
         "utf8_bits_before": 104,
         "utf8_bits_after": 48,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "night-zh",
@@ -114,7 +136,8 @@
         "utf8_bits_before": 80,
         "utf8_bits_after": 48,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "wait-zh",
@@ -129,7 +152,8 @@
         "utf8_bits_before": 104,
         "utf8_bits_after": 48,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "understand-zh",
@@ -145,7 +169,8 @@
         "utf8_bits_before": 96,
         "utf8_bits_after": 48,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "time-zh",
@@ -160,7 +185,8 @@
         "utf8_bits_before": 120,
         "utf8_bits_after": 48,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "tomorrow-zh",
@@ -175,22 +201,35 @@
         "utf8_bits_before": 128,
         "utf8_bits_after": 72,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
-      "id": "fyi-zh",
+      "id": "fyi",
       "from": [
         "for your information"
       ],
-      "to": "供参考",
-      "lang": "zh",
+      "to": "FYI",
+      "lang": "en",
+      "class": "acronym",
+      "candidates": [
+        {
+          "form": "FYI",
+          "lang": "en",
+          "class": "acronym"
+        },
+        {
+          "form": "供参考",
+          "lang": "zh",
+          "class": "densifier"
+        }
+      ],
       "metrics": {
-        "token_before": 5,
-        "token_after": 3,
-        "utf8_bits_before": 160,
-        "utf8_bits_after": 72,
+        "token_before": 3,
+        "token_after": 1,
         "both_shrink": true
-      }
+      },
+      "note": "cheapest: FYI ≺ 供参考; overlaps C c-fyi"
     },
     {
       "id": "course-zh",
@@ -205,37 +244,63 @@
         "utf8_bits_before": 72,
         "utf8_bits_after": 48,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
-      "id": "opinion-zh",
+      "id": "imo",
       "from": [
-        "in my opinion"
+        "in my opinion",
+        "in my view"
       ],
-      "to": "我认为",
-      "lang": "zh",
+      "to": "IMO",
+      "lang": "en",
+      "class": "acronym",
+      "candidates": [
+        {
+          "form": "IMO",
+          "lang": "en",
+          "class": "acronym"
+        },
+        {
+          "form": "我认为",
+          "lang": "zh",
+          "class": "densifier"
+        }
+      ],
       "metrics": {
-        "token_before": 4,
-        "token_after": 3,
-        "utf8_bits_before": 104,
-        "utf8_bits_after": 72,
+        "token_before": 3,
+        "token_after": 1,
         "both_shrink": true
-      }
+      },
+      "note": "cheapest: IMO ≺ 我认为; overlaps C c-imo"
     },
     {
-      "id": "btw-zh",
+      "id": "btw",
       "from": [
         "by the way"
       ],
-      "to": "顺便",
-      "lang": "zh",
+      "to": "BTW",
+      "lang": "en",
+      "class": "acronym",
+      "candidates": [
+        {
+          "form": "BTW",
+          "lang": "en",
+          "class": "acronym"
+        },
+        {
+          "form": "顺便",
+          "lang": "zh",
+          "class": "densifier"
+        }
+      ],
       "metrics": {
         "token_before": 3,
-        "token_after": 2,
-        "utf8_bits_before": 80,
-        "utf8_bits_after": 48,
+        "token_after": 1,
         "both_shrink": true
-      }
+      },
+      "note": "cheapest: BTW ≺ 顺便; overlaps C c-btw"
     },
     {
       "id": "high-speed-zh",
@@ -249,7 +314,8 @@
         "token_before": 3,
         "token_after": 2,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "short-term-zh",
@@ -263,7 +329,8 @@
         "token_before": 3,
         "token_after": 2,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "green-tea-zh",
@@ -276,7 +343,8 @@
         "token_before": 3,
         "token_after": 2,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     },
     {
       "id": "black-tea-zh",
@@ -289,7 +357,8 @@
         "token_before": 3,
         "token_after": 2,
         "both_shrink": true
-      }
+      },
+      "class": "densifier"
     }
   ]
 }

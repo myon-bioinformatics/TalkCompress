@@ -25,11 +25,12 @@ def _density():
     return _load("density_zip", "DensityZip/density_zip.py")
 
 
-def test_zh_phrase_wins_on_tokens():
+def test_asap_acronym_beats_zh_densifier():
     t = _tessera()
     src = "Please reply as soon as possible."
     out = t.apply_zh_de_phrases(src)
-    assert "尽快" in out
+    assert "ASAP" in out
+    assert "尽快" not in out
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
@@ -58,7 +59,7 @@ def test_long_de_compound_not_in_bank_when_losing():
     assert ("speed limit", "Geschwindigkeitsbegrenzung") not in pairs
     # bank only keeps winners
     for src, dst, lang in t.zh_de_phrase_pairs():
-        assert lang in t.FINAL_TOKEN_LANGS
+        assert lang in t.FINAL_PHRASE_LANGS
         assert t.estimate_tokens(dst) < t.estimate_tokens(src)
 
 
@@ -98,10 +99,11 @@ def test_final_pass_combined_zh_and_de():
     t = _tessera()
     src = "Meet me at the train station as soon as possible."
     before = t.estimate_tokens(src)
-    out = t.final_zh_de_token_pass(src)
+    out = t.final_token_pass(src)
     after = t.estimate_tokens(out)
     assert "Bahnhof" in out
-    assert "尽快" in out
+    assert "ASAP" in out
+    assert "尽快" not in out
     assert after < before
 
 
@@ -109,12 +111,33 @@ def test_final_pass_includes_tense_and_compounds():
     t = _tessera()
     src = "I will go to the train station as soon as possible."
     before = t.estimate_tokens(src)
-    out = t.final_zh_de_token_pass(src)
+    out = t.final_token_pass(src)
     after = t.estimate_tokens(out)
     assert "iré" in out
     assert "Bahnhof" in out
-    assert "尽快" in out
+    assert "ASAP" in out
+    assert "尽快" not in out
     assert after < before
+
+
+def test_i_was_not_mapped_to_fui():
+    t = _tessera()
+    out = t.apply_es_fr_tense("I was tired.")
+    assert "fui" not in out
+    assert "I was" in out
+
+
+def test_i_went_maps_to_fui():
+    t = _tessera()
+    out = t.apply_es_fr_tense("I went home.")
+    assert "fui" in out
+    assert t.estimate_tokens(out) < t.estimate_tokens("I went home.")
+
+
+def test_pipeline_parse_final_token_alias():
+    d = _density()
+    assert d.parse_pipeline("C,E,final-token") == ["C", "E", "B-final-zh-de"]
+    assert d.FINAL_TOKEN_STEP == d.FINAL_ZH_DE_STEP
 
 
 def test_pipeline_ends_with_final_zh_de_on_auto():

@@ -80,6 +80,10 @@ ROMANCE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "it"})
 GERMANIC_LANGS: frozenset[str] = frozenset({"en", "de", "nl"})
 GREEK_LANGS: frozenset[str] = frozenset({"el"})
 FINAL_TOKEN_LANGS: frozenset[str] = frozenset({"zh", "de"})
+"""Langs for final-pass *sentence* minify (zh|de). Phrase bank may also pick EN acronyms."""
+
+FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en"})
+"""Phrase densifier bank: ZH/DE compounds + EN acronyms competing via cheapest-form."""
 
 _CUES: dict[str, tuple[str, ...]] = {
     "en": (
@@ -809,7 +813,7 @@ def minify_by_translation(
 
 @lru_cache(maxsize=4)
 def load_zh_de_phrase_bank(path: str | None = None) -> dict[str, Any]:
-    """Load curated compounds / ZH densifiers for the final token pass."""
+    """Load final-token phrase bank (ZH/DE compounds, EN acronyms, densifiers)."""
     p = Path(path) if path is not None else DEFAULT_ZH_DE_PHRASE_BANK
     data = json.loads(p.read_text(encoding="utf-8"))
     if not isinstance(data, dict) or "entries" not in data:
@@ -827,20 +831,63 @@ def load_es_fr_tense_bank(path: str | None = None) -> dict[str, Any]:
     return data
 
 
-def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = None) -> list[tuple[str, str, str]]:
-    """(source, replacement, lang) from a bank; longest source first."""
-    pairs: list[tuple[str, str, str]] = []
-    for entry in data.get("entries") or []:
-        to = str(entry.get("to") or "").strip()
-        lang = str(entry.get("lang") or "").strip() or "und"
-        if not to:
+def _entry_candidate_forms(
+    entry: dict[str, Any],
+    *,
+    allow_langs: set[str] | None = None,
+) -> list[tuple[str, str]]:
+    """Collect (form, lang) from ``candidates`` and/or ``to`` for a bank entry.
+
+    Schema (general token candidate bank):
+      candidates: [{form|to, lang, class?}, ...]
+      to / lang: preferred or sole form when candidates omitted.
+    Lang filter applies per candidate; EN acronyms are allowed when
+    ``en`` is in ``allow_langs`` so they can beat ZH densifiers via cheapest.
+    """
+    forms: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for c in entry.get("candidates") or []:
+        if not isinstance(c, dict):
+            continue
+        form = str(c.get("form") or c.get("to") or "").strip()
+        lang = str(c.get("lang") or entry.get("lang") or "und").strip() or "und"
+        if not form:
             continue
         if allow_langs is not None and lang not in allow_langs:
             continue
+        if form not in seen:
+            forms.append((form, lang))
+            seen.add(form)
+    to = str(entry.get("to") or "").strip()
+    lang = str(entry.get("lang") or "").strip() or "und"
+    if to and to not in seen and (allow_langs is None or lang in allow_langs):
+        forms.insert(0, (to, lang))
+    return forms
+
+
+def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = None) -> list[tuple[str, str, str]]:
+    """(source, replacement, lang) from a bank; longest source first.
+
+    Entries may list multiple ``candidates``; ``_apply_phrase_pairs`` then picks
+    via ``_cheapest_repl`` (token → utf8 → len), same metric as C registration.
+    """
+    pairs: list[tuple[str, str, str]] = []
+    for entry in data.get("entries") or []:
+        if not isinstance(entry, dict):
+            continue
+        forms = _entry_candidate_forms(entry, allow_langs=allow_langs)
+        if not forms:
+            continue
         for src in entry.get("from") or []:
             s = str(src).strip()
-            if s:
-                pairs.append((s, to, lang))
+            if not s:
+                continue
+            src_n = estimate_tokens(s)
+            for form, lang in forms:
+                # Only keep candidates that strictly cut tokens for this source
+                # (losing densifiers stay in JSON for documentation / competition).
+                if estimate_tokens(form) < src_n:
+                    pairs.append((s, form, lang))
     pairs.sort(key=lambda t: (-len(t[0]), t[0].lower(), t[1]))
     return pairs
 
@@ -848,9 +895,9 @@ def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = N
 def zh_de_phrase_pairs(
     path: str | Path | None = None,
 ) -> list[tuple[str, str, str]]:
-    """Return (source_phrase, replacement, lang) for ZH/DE densifier bank."""
+    """Return (source_phrase, replacement, lang) for final-token phrase bank."""
     data = load_zh_de_phrase_bank(str(path) if path is not None else None)
-    return _bank_phrase_pairs(data, allow_langs=set(FINAL_TOKEN_LANGS))
+    return _bank_phrase_pairs(data, allow_langs=set(FINAL_PHRASE_LANGS))
 
 
 def es_fr_tense_pairs(
@@ -945,10 +992,10 @@ def apply_zh_de_phrases(
     bank_path: str | Path | None = None,
     require_token_drop: bool = True,
 ) -> str:
-    """Replace curated multiword phrases with ZH densifiers / DE compounds when tokens drop.
+    """Replace curated phrases with cheapest token candidates when tokens drop.
 
-    Compounds (incl. adj+noun) are a candidate class for cheapest tokens — not a
-    noun-only policy. Skips when ``estimate_tokens`` does not fall.
+    Candidate classes: ZH densifiers, DE compounds (incl. adj+noun), EN acronyms
+    (ASAP/FYI/…). Same cheapest metric as C; acronyms beat densifiers when cheaper.
     """
     return _apply_phrase_pairs(
         text,
@@ -989,12 +1036,12 @@ def final_zh_de_token_pass(
     apply_tense: bool = True,
     apply_sentences: bool = True,
 ) -> str:
-    """Final-stage token reduction: compounds/ZH densifiers, ES/FR tense, then zh|de sentences.
+    """Final-stage token reduction (alias name kept for CLI ``--final-zh-de``).
 
-    Order: (1) curated ZH/DE phrase densifiers (compounds when they cut tokens),
-    (2) ES/FR short conjugations for tense,
-    (3) per-sentence ``minify_by_translation`` restricted to ``FINAL_TOKEN_LANGS``
-    (zh|de). B owns the pass; DensityZip runs it last as ``B-final-zh-de``.
+    Prefer calling ``final_token_pass``. Order: (1) phrase candidate bank
+    (ZH/DE compounds, EN acronyms via cheapest), (2) ES/FR short conjugations,
+    (3) per-sentence minify restricted to ``FINAL_TOKEN_LANGS`` (zh|de).
+    DensityZip runs this last as ``B-final-token`` / ``B-final-zh-de``.
     """
     out = unicodedata.normalize("NFC", text or "")
     if not out.strip():
@@ -1015,6 +1062,35 @@ def final_zh_de_token_pass(
         )
     return out
 
+
+def final_token_pass(
+    text: str,
+    *,
+    phrase_bank: str | Path | None = None,
+    tense_bank: str | Path | None = None,
+    translation_bank: str | Path | None = None,
+    preserve_newlines: bool = False,
+    translate_engine: str = "fixture",
+    translate_fn: Any | None = None,
+    prefer_low_ambiguity: bool = True,
+    apply_phrases: bool = True,
+    apply_tense: bool = True,
+    apply_sentences: bool = True,
+) -> str:
+    """Final token pass — preferred name for ``final_zh_de_token_pass``."""
+    return final_zh_de_token_pass(
+        text,
+        phrase_bank=phrase_bank,
+        tense_bank=tense_bank,
+        translation_bank=translation_bank,
+        preserve_newlines=preserve_newlines,
+        translate_engine=translate_engine,
+        translate_fn=translate_fn,
+        prefer_low_ambiguity=prefer_low_ambiguity,
+        apply_phrases=apply_phrases,
+        apply_tense=apply_tense,
+        apply_sentences=apply_sentences,
+    )
 
 
 def main(argv: list[str] | None = None) -> int:

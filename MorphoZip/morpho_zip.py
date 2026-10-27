@@ -197,6 +197,7 @@ ADVERB_CANONICAL: tuple[str, ...] = ("tho", "~", "˅", "esp.")
 ADVERB_EXTENDED: tuple[str, ...] = ("tho", "~", "˅", "esp.", "also", "□", "oft")
 ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "tho": "tho",
+    # inventory alias only; compress rewrite gates concessive degree (see _SUBS)
     "however": "tho",
     "~": "~",
     "approximately": "~",
@@ -764,7 +765,22 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
 
     (re.compile(r"\bbecause\b", re.I), "bc"),
     (re.compile(r"\btherefore\b", re.I), "∴"),
-    (re.compile(r"\bhowever\b", re.I), "tho"),
+    # Contrastive however → tho; skip concessive/degree "however hard/much/…"
+    # (however + Adj/Adv). Safe on "However," / "however I …".
+    (
+        re.compile(
+            r"\bhowever\b(?!\s+(?:"
+            r"hard|difficult|easy|much|many|long|far|often|well|bad|good|"
+            r"late|early|fast|slow|strong|weak|big|small|high|low|"
+            r"important|different|similar|possible|necessary|likely|"
+            r"great|little|few|large|huge|tiny|brief|short|"
+            r"approximately|very|really|extremely|especially|particularly|"
+            r"\w+(?:ly|ier|iest)"
+            r")\b)",
+            re.I,
+        ),
+        "tho",
+    ),
     (re.compile(r"\bapproximately\b", re.I), "~"),
     # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≧/≦).
     # greater than stays > (strict); less than → ≦ via phrase grammar.

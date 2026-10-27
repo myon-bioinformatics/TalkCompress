@@ -6,7 +6,9 @@
     "Prefer short ES/FR conjugations over stacked EN auxiliaries when meaning stays clear.",
     "Only forms that beat the English source on estimate_tokens are listed.",
     "EN contractions (I'll) remain C; this bank is B final-pass only — not a C ledger.",
-    "複合名詞 / compounds here are just another candidate class for cheapest tokens (incl. adj+noun when they win), not a noun-only policy."
+    "複合名詞 / compounds here are just another candidate class for cheapest tokens (incl. adj+noun when they win), not a noun-only policy.",
+    "Dropped go-fut-fr (je vais) — always loses to iré under cheapest.",
+    "I was≠fui (ambiguous with I went); keep EN for I was / map only I went→fui."
   ],
   "entries": [
     {
@@ -52,22 +54,8 @@
         "token_before": 2,
         "token_after": 1,
         "both_shrink": true
-      }
-    },
-    {
-      "id": "go-fut-fr",
-      "from": [
-        "I will go"
-      ],
-      "to": "je vais",
-      "lang": "fr",
-      "tense": "near-future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "both_shrink": true,
-        "note": "alt; ES iré usually cheaper — select_cheapest prefers iré"
-      }
+      },
+      "note": "fui = I went only; I was kept EN (ambiguity gate)"
     },
     {
       "id": "go-fut-3sm",
@@ -241,20 +229,6 @@
       }
     },
     {
-      "id": "be-past-1s",
-      "from": [
-        "I was"
-      ],
-      "to": "fui",
-      "lang": "es",
-      "tense": "past",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "both_shrink": true
-      }
-    },
-    {
       "id": "be-fut-1s",
       "from": [
         "I will be",
@@ -324,6 +298,27 @@
         "token_after": 2,
         "both_shrink": true
       }
+    }
+  ],
+  "examples_not_registered": [
+    {
+      "id": "go-fut-fr",
+      "from": [
+        "I will go",
+        "I'll go"
+      ],
+      "to": "je vais",
+      "lang": "fr",
+      "why_dropped": "always loses to iré under estimate_tokens/cheapest"
+    },
+    {
+      "id": "be-past-1s",
+      "from": [
+        "I was"
+      ],
+      "to": "fui",
+      "lang": "es",
+      "why_dropped": "fui also means I went; keep EN on conflict"
     }
   ]
 }
