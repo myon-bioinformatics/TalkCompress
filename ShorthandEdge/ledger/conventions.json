@@ -21,7 +21,7 @@
       "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots.",
       "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds).",
       "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline.",
-      "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, information→ℹ️, …) via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual metrics; utf8 must shrink. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras only."
+      "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: emoji first, else ML/math/symbol inventory — prefer emoji over inventing new math. information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -82,6 +82,10 @@
         "emoji-information"
       ],
       "skipped_nonshrink_utf8": [],
+      "policies": [
+        "policy-emoji-pivot",
+        "policy-short-form-priority"
+      ],
       "source": "shared.lex_policy.EMOJI_SPEC"
     }
   },
@@ -4908,10 +4912,12 @@
         "ファイア",
         "ファイヤー",
         "on fire",
-        "fire"
+        "fire",
+        "Feuer",
+        "feu"
       ],
       "to": "🔥",
-      "rationale": "ファイア/fire→🔥。台帳 sample は ファイア（bare fire は utf8 不変だが別名適用）",
+      "rationale": "ML→pivot fire→🔥。sample は ファイア（bare fire は utf8 不変だが別名→pivot→絵文字）",
       "metrics": {
         "token": {
           "before": 4,
@@ -4936,7 +4942,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "fire",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-heart",
@@ -4948,10 +4956,12 @@
         "heart",
         "ハート",
         "ハートマーク",
-        "red heart"
+        "red heart",
+        "Herz",
+        "cœur"
       ],
       "to": "♡",
-      "rationale": "heart/ハート→♡（❤️ は utf8 増のため不採用）",
+      "rationale": "ML→pivot heart→♡（❤️ は utf8 増のため不採用）",
       "metrics": {
         "token": {
           "before": 2,
@@ -4976,7 +4986,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "heart",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-thumbs-up",
@@ -4991,7 +5003,7 @@
         "いいね"
       ],
       "to": "👍",
-      "rationale": "thumbs up/いいね→👍",
+      "rationale": "ML→pivot thumbs up→👍",
       "metrics": {
         "token": {
           "before": 3,
@@ -5016,7 +5028,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "thumbs up",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-thumbs-down",
@@ -5029,7 +5043,7 @@
         "thumbs-down"
       ],
       "to": "👎",
-      "rationale": "thumbs down→👎",
+      "rationale": "ML→pivot thumbs down→👎",
       "metrics": {
         "token": {
           "before": 3,
@@ -5054,7 +5068,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "thumbs down",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-check",
@@ -5069,7 +5085,7 @@
         "check"
       ],
       "to": "✅",
-      "rationale": "check/チェック→✅",
+      "rationale": "ML→pivot check→✅（sample=check mark）",
       "metrics": {
         "token": {
           "before": 3,
@@ -5094,7 +5110,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "check",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-cross",
@@ -5110,7 +5128,7 @@
         "ばつ"
       ],
       "to": "❌",
-      "rationale": "バツ/cross mark→❌",
+      "rationale": "ML→pivot cross mark→❌",
       "metrics": {
         "token": {
           "before": 3,
@@ -5135,7 +5153,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "cross mark",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-star",
@@ -5148,7 +5168,7 @@
         "スター"
       ],
       "to": "★",
-      "rationale": "star/スター→★",
+      "rationale": "ML→pivot star→★",
       "metrics": {
         "token": {
           "before": 1,
@@ -5173,7 +5193,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "star",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-warn",
@@ -5187,7 +5209,7 @@
         "警告"
       ],
       "to": "⚠",
-      "rationale": "warning/警告→⚠（VS16 なし）",
+      "rationale": "ML→pivot warning→⚠（VS16 なし）",
       "metrics": {
         "token": {
           "before": 2,
@@ -5212,7 +5234,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "warning",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-idea",
@@ -5225,10 +5249,11 @@
         "アイディア",
         "ひらめき",
         "idea bulb",
-        "電球"
+        "電球",
+        "idea"
       ],
       "to": "💡",
-      "rationale": "アイデア等→💡（bare idea は utf8 不変→RUNTIME）",
+      "rationale": "ML→pivot idea→💡（bare idea は utf8 不変→RUNTIME 併用；sample=アイデア）",
       "metrics": {
         "token": {
           "before": 4,
@@ -5253,7 +5278,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "idea",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-mail",
@@ -5268,7 +5295,7 @@
         "mail"
       ],
       "to": "✉",
-      "rationale": "mail/email/メール→✉",
+      "rationale": "ML→pivot mail→✉",
       "metrics": {
         "token": {
           "before": 2,
@@ -5293,7 +5320,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "mail",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-time",
@@ -5306,7 +5335,7 @@
         "タイム"
       ],
       "to": "⏱",
-      "rationale": "time/タイム→⏱",
+      "rationale": "ML→pivot time→⏱",
       "metrics": {
         "token": {
           "before": 1,
@@ -5331,7 +5360,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "time",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-alarm",
@@ -5344,7 +5375,7 @@
         "アラーム"
       ],
       "to": "⏰",
-      "rationale": "alarm/アラーム→⏰",
+      "rationale": "ML→pivot alarm→⏰",
       "metrics": {
         "token": {
           "before": 2,
@@ -5369,7 +5400,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "alarm",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-money",
@@ -5383,7 +5416,7 @@
         "お金"
       ],
       "to": "💰",
-      "rationale": "money/お金→💰",
+      "rationale": "ML→pivot money→💰",
       "metrics": {
         "token": {
           "before": 2,
@@ -5408,7 +5441,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "money",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-rocket",
@@ -5421,7 +5456,7 @@
         "ロケット"
       ],
       "to": "🚀",
-      "rationale": "rocket/ロケット→🚀",
+      "rationale": "ML→pivot rocket→🚀",
       "metrics": {
         "token": {
           "before": 2,
@@ -5446,7 +5481,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "rocket",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-eyes",
@@ -5456,10 +5493,11 @@
       "ledger_apply": true,
       "from": [
         "eye emoji",
-        "めめ"
+        "めめ",
+        "eyes"
       ],
       "to": "👀",
-      "rationale": "eye emoji→👀（bare eyes は utf8 不変→RUNTIME）",
+      "rationale": "ML→pivot eyes→👀（sample=eye emoji；bare eyes は RUNTIME）",
       "metrics": {
         "token": {
           "before": 3,
@@ -5484,7 +5522,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "eyes",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-clap",
@@ -5494,10 +5534,11 @@
       "ledger_apply": true,
       "from": [
         "clapping",
-        "拍手"
+        "拍手",
+        "clap"
       ],
       "to": "👏",
-      "rationale": "clapping/拍手→👏",
+      "rationale": "ML→pivot clap→👏",
       "metrics": {
         "token": {
           "before": 2,
@@ -5522,7 +5563,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "clap",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-pray",
@@ -5532,10 +5575,11 @@
       "ledger_apply": true,
       "from": [
         "praying",
-        "お願い"
+        "お願い",
+        "pray"
       ],
       "to": "🙏",
-      "rationale": "praying/お願い→🙏",
+      "rationale": "ML→pivot pray→🙏",
       "metrics": {
         "token": {
           "before": 2,
@@ -5560,7 +5604,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "pray",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-hundred",
@@ -5574,7 +5620,7 @@
         "ひゃくてん"
       ],
       "to": "💯",
-      "rationale": "hundred/百点→💯",
+      "rationale": "ML→pivot hundred→💯",
       "metrics": {
         "token": {
           "before": 2,
@@ -5599,7 +5645,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "hundred",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-party",
@@ -5613,7 +5661,7 @@
         "お祝い"
       ],
       "to": "🎉",
-      "rationale": "party/お祝い→🎉",
+      "rationale": "ML→pivot party→🎉",
       "metrics": {
         "token": {
           "before": 2,
@@ -5638,7 +5686,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "party",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-skull",
@@ -5652,7 +5702,7 @@
         "がいこつ"
       ],
       "to": "💀",
-      "rationale": "skull/ドクロ→💀",
+      "rationale": "ML→pivot skull→💀",
       "metrics": {
         "token": {
           "before": 2,
@@ -5677,7 +5727,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "skull",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-wrench",
@@ -5691,7 +5743,7 @@
         "スパナ"
       ],
       "to": "🔧",
-      "rationale": "wrench/レンチ→🔧",
+      "rationale": "ML→pivot wrench→🔧",
       "metrics": {
         "token": {
           "before": 2,
@@ -5716,7 +5768,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "wrench",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-hourglass",
@@ -5729,7 +5783,7 @@
         "砂時計"
       ],
       "to": "⏳",
-      "rationale": "hourglass/砂時計→⏳",
+      "rationale": "ML→pivot hourglass→⏳",
       "metrics": {
         "token": {
           "before": 3,
@@ -5754,7 +5808,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "hourglass",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-thinking",
@@ -5768,7 +5824,7 @@
         "考え中"
       ],
       "to": "🤔",
-      "rationale": "thinking face/考え中→🤔",
+      "rationale": "ML→pivot thinking face→🤔",
       "metrics": {
         "token": {
           "before": 3,
@@ -5793,7 +5849,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "thinking face",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-ok-hand",
@@ -5807,7 +5865,7 @@
         "オッケーハンド"
       ],
       "to": "👌",
-      "rationale": "ok hand→👌",
+      "rationale": "ML→pivot ok hand→👌",
       "metrics": {
         "token": {
           "before": 2,
@@ -5832,7 +5890,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "ok hand",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-laugh",
@@ -5846,7 +5906,7 @@
         "lol face"
       ],
       "to": "😂",
-      "rationale": "laugh/笑い→😂",
+      "rationale": "ML→pivot laugh→😂",
       "metrics": {
         "token": {
           "before": 2,
@@ -5871,7 +5931,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "laugh",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-cry",
@@ -5881,10 +5943,11 @@
       "ledger_apply": true,
       "from": [
         "crying",
-        "悲しい"
+        "悲しい",
+        "cry"
       ],
       "to": "😢",
-      "rationale": "crying/悲しい→😢",
+      "rationale": "ML→pivot cry→😢",
       "metrics": {
         "token": {
           "before": 2,
@@ -5909,7 +5972,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "cry",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-wave",
@@ -5919,10 +5984,11 @@
       "ledger_apply": true,
       "from": [
         "バイバイ",
-        "wave hello"
+        "wave hello",
+        "wave"
       ],
       "to": "👋",
-      "rationale": "バイバイ→👋（bare wave は utf8 不変→RUNTIME）",
+      "rationale": "ML→pivot wave→👋（sample=バイバイ；bare wave は RUNTIME）",
       "metrics": {
         "token": {
           "before": 4,
@@ -5947,7 +6013,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "wave",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-bug",
@@ -5957,10 +6025,11 @@
       "ledger_apply": true,
       "from": [
         "バグ",
-        "bugfix"
+        "bug fix",
+        "bug"
       ],
       "to": "🐛",
-      "rationale": "バグ→🐛",
+      "rationale": "ML→pivot bug→🐛",
       "metrics": {
         "token": {
           "before": 2,
@@ -5985,7 +6054,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "bug",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-bell",
@@ -5995,10 +6066,11 @@
       "ledger_apply": true,
       "from": [
         "ベル",
-        "通知"
+        "通知",
+        "bell"
       ],
       "to": "🔔",
-      "rationale": "ベル/通知→🔔",
+      "rationale": "ML→pivot bell→🔔",
       "metrics": {
         "token": {
           "before": 2,
@@ -6023,7 +6095,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "bell",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-link",
@@ -6032,10 +6106,11 @@
       "family": "emoji",
       "ledger_apply": true,
       "from": [
-        "リンク"
+        "リンク",
+        "link"
       ],
       "to": "🔗",
-      "rationale": "リンク→🔗",
+      "rationale": "ML→pivot link→🔗",
       "metrics": {
         "token": {
           "before": 3,
@@ -6060,7 +6135,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "link",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-pin",
@@ -6069,10 +6146,11 @@
       "family": "emoji",
       "ledger_apply": true,
       "from": [
-        "pin it"
+        "pin it",
+        "pin"
       ],
       "to": "📌",
-      "rationale": "pin it→📌",
+      "rationale": "ML→pivot pin→📌（sample=pin it）",
       "metrics": {
         "token": {
           "before": 2,
@@ -6097,7 +6175,9 @@
           },
           "inventory": null
         }
-      }
+      },
+      "pivot": "pin",
+      "pivot_lang": "en"
     },
     {
       "id": "emoji-information",
@@ -6115,7 +6195,7 @@
         "情報"
       ],
       "to": "ℹ️",
-      "rationale": "information/インフォメーション等→ℹ️（C family=emoji；旧 ETYMON。info/情報は別名）",
+      "rationale": "ML→pivot information→ℹ️（C family=emoji；旧 ETYMON。FYI 句は DEFAULT_MAP が先）",
       "metrics": {
         "token": {
           "before": 3,
@@ -6140,6 +6220,52 @@
           },
           "inventory": null
         }
+      },
+      "pivot": "information",
+      "pivot_lang": "en"
+    },
+    {
+      "id": "policy-emoji-pivot",
+      "kind": "policy",
+      "apply_layer": "C",
+      "family": "emoji",
+      "metrics": null,
+      "rationale": "絵文字の多言語経路は共通ルールで寄せる: ML 別名 → pivot（既定 EN；EN が不自然なら JA 可）→ 絵文字。emoji id ごとに pivot を1つ固定。台帳の pivot / pivot_lang を見て一発で判断できること。",
+      "payload": {
+        "path": [
+          "ml_aliases",
+          "pivot",
+          "emoji"
+        ],
+        "default_pivot_lang": "en",
+        "alt_pivot_lang": "ja",
+        "one_pivot_per_emoji_id": true,
+        "apply": "two_step_preferred",
+        "note": "alias→pivot then pivot→emoji; end state may collapse to one replace"
+      }
+    },
+    {
+      "id": "policy-short-form-priority",
+      "kind": "policy",
+      "apply_layer": "C",
+      "metrics": null,
+      "rationale": "短形の優先順位: (1) 意味が載るなら絵文字を最優先。(2) 絵文字で覆えないときだけ他の多言語・数学・記号短形（≧≦、←→、∴∵、& 等の E/C 在庫）へフォールバック。両方効くなら新数学記号を増やさず絵文字を選ぶ。",
+      "payload": {
+        "order": [
+          "emoji",
+          "ml_math_symbol_inventory"
+        ],
+        "prefer_emoji_over_new_math": true,
+        "fallback_examples": [
+          "≧",
+          "≦",
+          "←",
+          "→",
+          "∴",
+          "∵",
+          "&"
+        ],
+        "owns": "C judgment; E inventories remain E-owned for closed packs"
       }
     }
   ]

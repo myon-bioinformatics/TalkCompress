@@ -5,7 +5,7 @@ Layer ownership (TalkCompress):
   or ``apply_unique_compact``), same-language EN contractions (``I will``→``I'll``),
   spelled EN number words → digits. Also slang / hereafter / packs.
 - **E MorphoZip**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN`` (comm/cfg/doc…;
-  information→ℹ️ is **C** ``family=emoji``), first-person / counters / articles / grammar-min.
+  information→ℹ️ is **C** ``family=emoji`` with ML→pivot→emoji), first-person / counters / articles / grammar-min.
   Does **not** strip fillers, apply UNIQUE_COMPACT, contract ``I'll``, or digitize spelled numbers by default.
 - Helpers live here so both layers can import them; callers choose which passes to run.
 """
@@ -465,198 +465,308 @@ def apply_en_contractions(text: str) -> str:
 
 
 # --- C-owned word→emoji (family=emoji); ledger applies (unlike contractions) -----
-# (id suffix after "emoji-", from-forms tuple, short glyph, rationale)
-# Primary from[0] must utf8-shrink. Bare fire/idea/eyes/… that are utf8-flat stay
-# in EMOJI_RUNTIME_EXTRA (DEFAULT_MAP only), not ledger. information→ℹ️ is C emoji.
-EMOJI_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
+# Spec tuple: (id_suffix, pivot, pivot_lang, from-forms, short glyph, rationale)
+# Multilingual path (C policy): ML aliases → pivot (default EN; JA when EN awkward)
+# → emoji. One pivot per emoji id. forms[0] is metrics sample (must utf8-shrink).
+# Pivot is recorded on the ledger row so 台帳を見て判断できる. Bare fire/idea/eyes/…
+# that are utf8-flat may also live in EMOJI_RUNTIME_EXTRA (DEFAULT_MAP).
+# Short-form priority (C policy): prefer emoji first; else ML/math/symbol inventory.
+# information→ℹ️ is C emoji (not ETYMON). FYI phrase stays DEFAULT_MAP-first.
+EMOJI_SPEC: tuple[tuple[str, str, str, tuple[str, ...], str, str], ...] = (
     (
         "fire",
-        ("ファイア", "ファイヤー", "on fire", "fire"),
+        "fire",
+        "en",
+        (
+            "ファイア",
+            "ファイヤー",
+            "on fire",
+            "fire",
+            "Feuer",
+            "feu",
+        ),
         "🔥",
-        "ファイア/fire→🔥。台帳 sample は ファイア（bare fire は utf8 不変だが別名適用）",
+        "ML→pivot fire→🔥。sample は ファイア（bare fire は utf8 不変だが別名→pivot→絵文字）",
     ),
     (
         "heart",
-        ("heart", "ハート", "ハートマーク", "red heart"),
+        "heart",
+        "en",
+        (
+            "heart",
+            "ハート",
+            "ハートマーク",
+            "red heart",
+            "Herz",
+            "cœur",
+        ),
         "♡",
-        "heart/ハート→♡（❤️ は utf8 増のため不採用）",
+        "ML→pivot heart→♡（❤️ は utf8 増のため不採用）",
     ),
     (
         "thumbs-up",
-        ("thumbs up", "thumbs-up", "thumbsup", "いいね"),
+        "thumbs up",
+        "en",
+        (
+            "thumbs up",
+            "thumbs-up",
+            "thumbsup",
+            "いいね",
+        ),
         "👍",
-        "thumbs up/いいね→👍",
+        "ML→pivot thumbs up→👍",
     ),
     (
         "thumbs-down",
+        "thumbs down",
+        "en",
         ("thumbs down", "thumbs-down"),
         "👎",
-        "thumbs down→👎",
+        "ML→pivot thumbs down→👎",
     ),
     (
         "check",
-        ("check mark", "チェックマーク", "チェック", "check"),
+        "check",
+        "en",
+        (
+            "check mark",
+            "チェックマーク",
+            "チェック",
+            "check",
+        ),
         "✅",
-        "check/チェック→✅",
+        "ML→pivot check→✅（sample=check mark）",
     ),
     (
         "cross",
-        ("cross mark", "ばつ印", "incorrect", "バツ", "ばつ"),
+        "cross mark",
+        "en",
+        (
+            "cross mark",
+            "ばつ印",
+            "incorrect",
+            "バツ",
+            "ばつ",
+        ),
         "❌",
-        "バツ/cross mark→❌",
+        "ML→pivot cross mark→❌",
     ),
     (
         "star",
+        "star",
+        "en",
         ("star", "スター"),
         "★",
-        "star/スター→★",
+        "ML→pivot star→★",
     ),
     (
         "warn",
+        "warning",
+        "en",
         ("warning", "ワーニング", "警告"),
         "⚠",
-        "warning/警告→⚠（VS16 なし）",
+        "ML→pivot warning→⚠（VS16 なし）",
     ),
     (
         "idea",
-        ("アイデア", "アイディア", "ひらめき", "idea bulb", "電球"),
+        "idea",
+        "en",
+        (
+            "アイデア",
+            "アイディア",
+            "ひらめき",
+            "idea bulb",
+            "電球",
+            "idea",
+        ),
         "💡",
-        "アイデア等→💡（bare idea は utf8 不変→RUNTIME）",
+        "ML→pivot idea→💡（bare idea は utf8 不変→RUNTIME 併用；sample=アイデア）",
     ),
     (
         "mail",
-        ("email", "イーメール", "メール", "mail"),
+        "mail",
+        "en",
+        (
+            "email",
+            "イーメール",
+            "メール",
+            "mail",
+        ),
         "✉",
-        "mail/email/メール→✉",
+        "ML→pivot mail→✉",
     ),
     (
         "time",
+        "time",
+        "en",
         ("time", "タイム"),
         "⏱",
-        "time/タイム→⏱",
+        "ML→pivot time→⏱",
     ),
     (
         "alarm",
+        "alarm",
+        "en",
         ("alarm", "アラーム"),
         "⏰",
-        "alarm/アラーム→⏰",
+        "ML→pivot alarm→⏰",
     ),
     (
         "money",
+        "money",
+        "en",
         ("money", "マネー", "お金"),
         "💰",
-        "money/お金→💰",
+        "ML→pivot money→💰",
     ),
     (
         "rocket",
+        "rocket",
+        "en",
         ("rocket", "ロケット"),
         "🚀",
-        "rocket/ロケット→🚀",
+        "ML→pivot rocket→🚀",
     ),
     (
         "eyes",
-        ("eye emoji", "めめ"),
+        "eyes",
+        "en",
+        ("eye emoji", "めめ", "eyes"),
         "👀",
-        "eye emoji→👀（bare eyes は utf8 不変→RUNTIME）",
+        "ML→pivot eyes→👀（sample=eye emoji；bare eyes は RUNTIME）",
     ),
     (
         "clap",
-        ("clapping", "拍手"),
+        "clap",
+        "en",
+        ("clapping", "拍手", "clap"),
         "👏",
-        "clapping/拍手→👏",
+        "ML→pivot clap→👏",
     ),
     (
         "pray",
-        ("praying", "お願い"),
+        "pray",
+        "en",
+        ("praying", "お願い", "pray"),
         "🙏",
-        "praying/お願い→🙏",
+        "ML→pivot pray→🙏",
     ),
     (
         "hundred",
+        "hundred",
+        "en",
         ("hundred", "百点", "ひゃくてん"),
         "💯",
-        "hundred/百点→💯",
+        "ML→pivot hundred→💯",
     ),
     (
         "party",
+        "party",
+        "en",
         ("party", "パーティー", "お祝い"),
         "🎉",
-        "party/お祝い→🎉",
+        "ML→pivot party→🎉",
     ),
     (
         "skull",
+        "skull",
+        "en",
         ("skull", "ドクロ", "がいこつ"),
         "💀",
-        "skull/ドクロ→💀",
+        "ML→pivot skull→💀",
     ),
     (
         "wrench",
+        "wrench",
+        "en",
         ("wrench", "レンチ", "スパナ"),
         "🔧",
-        "wrench/レンチ→🔧",
+        "ML→pivot wrench→🔧",
     ),
     (
         "hourglass",
+        "hourglass",
+        "en",
         ("hourglass", "砂時計"),
         "⏳",
-        "hourglass/砂時計→⏳",
+        "ML→pivot hourglass→⏳",
     ),
     (
         "thinking",
+        "thinking face",
+        "en",
         ("thinking face", "考える顔", "考え中"),
         "🤔",
-        "thinking face/考え中→🤔",
+        "ML→pivot thinking face→🤔",
     ),
     (
         "ok-hand",
+        "ok hand",
+        "en",
         ("ok hand", "OKハンド", "オッケーハンド"),
         "👌",
-        "ok hand→👌",
+        "ML→pivot ok hand→👌",
     ),
     (
         "laugh",
+        "laugh",
+        "en",
         ("laugh", "笑い", "lol face"),
         "😂",
-        "laugh/笑い→😂",
+        "ML→pivot laugh→😂",
     ),
     (
         "cry",
-        ("crying", "悲しい"),
+        "cry",
+        "en",
+        ("crying", "悲しい", "cry"),
         "😢",
-        "crying/悲しい→😢",
+        "ML→pivot cry→😢",
     ),
     (
         "wave",
-        ("バイバイ", "wave hello"),
+        "wave",
+        "en",
+        ("バイバイ", "wave hello", "wave"),
         "👋",
-        "バイバイ→👋（bare wave は utf8 不変→RUNTIME）",
+        "ML→pivot wave→👋（sample=バイバイ；bare wave は RUNTIME）",
     ),
     (
         "bug",
-        ("バグ", "bugfix"),
+        "bug",
+        "en",
+        ("バグ", "bug fix", "bug"),
         "🐛",
-        "バグ→🐛",
+        "ML→pivot bug→🐛",
     ),
     (
         "bell",
-        ("ベル", "通知"),
+        "bell",
+        "en",
+        ("ベル", "通知", "bell"),
         "🔔",
-        "ベル/通知→🔔",
+        "ML→pivot bell→🔔",
     ),
     (
         "link",
-        ("リンク",),
+        "link",
+        "en",
+        ("リンク", "link"),
         "🔗",
-        "リンク→🔗",
+        "ML→pivot link→🔗",
     ),
     (
         "pin",
-        ("pin it",),
+        "pin",
+        "en",
+        ("pin it", "pin"),
         "📌",
-        "pin it→📌",
+        "ML→pivot pin→📌（sample=pin it）",
     ),
     (
         "information",
+        "information",
+        "en",
         (
             "information",
             "インフォメーション",
@@ -667,7 +777,7 @@ EMOJI_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
             "情報",
         ),
         INFO_GLYPH,
-        "information/インフォメーション等→ℹ️（C family=emoji；旧 ETYMON。info/情報は別名）",
+        "ML→pivot information→ℹ️（C family=emoji；旧 ETYMON。FYI 句は DEFAULT_MAP が先）",
     ),
 )
 
@@ -684,13 +794,65 @@ EMOJI_RUNTIME_EXTRA: dict[str, str] = {
     "pin": "📌",
     "sad": "😢",
     "thumbs up": "👍",  # covered by ledger too; keep for map order
+    "fire": "🔥",  # pivot; utf8-flat alone — ledger sample uses ファイア
 }
 
 
+def emoji_policy_rows() -> list[dict[str, Any]]:
+    """C policy rows: emoji pivot path + short-form priority (emoji first)."""
+    return [
+        {
+            "id": "policy-emoji-pivot",
+            "kind": "policy",
+            "apply_layer": "C",
+            "family": "emoji",
+            "metrics": None,
+            "rationale": (
+                "絵文字の多言語経路は共通ルールで寄せる: ML 別名 → pivot（既定 EN；"
+                "EN が不自然なら JA 可）→ 絵文字。emoji id ごとに pivot を1つ固定。"
+                "台帳の pivot / pivot_lang を見て一発で判断できること。"
+            ),
+            "payload": {
+                "path": ["ml_aliases", "pivot", "emoji"],
+                "default_pivot_lang": "en",
+                "alt_pivot_lang": "ja",
+                "one_pivot_per_emoji_id": True,
+                "apply": "two_step_preferred",
+                "note": "alias→pivot then pivot→emoji; end state may collapse to one replace",
+            },
+        },
+        {
+            "id": "policy-short-form-priority",
+            "kind": "policy",
+            "apply_layer": "C",
+            "metrics": None,
+            "rationale": (
+                "短形の優先順位: (1) 意味が載るなら絵文字を最優先。"
+                "(2) 絵文字で覆えないときだけ他の多言語・数学・記号短形"
+                "（≧≦、←→、∴∵、& 等の E/C 在庫）へフォールバック。"
+                "両方効くなら新数学記号を増やさず絵文字を選ぶ。"
+            ),
+            "payload": {
+                "order": ["emoji", "ml_math_symbol_inventory"],
+                "prefer_emoji_over_new_math": True,
+                "fallback_examples": ["≧", "≦", "←", "→", "∴", "∵", "&"],
+                "owns": "C judgment; E inventories remain E-owned for closed packs",
+            },
+        },
+    ]
+
+
 def emoji_ledger_rows() -> list[dict[str, Any]]:
-    """C ledger row skeletons for word→emoji (family=emoji, ledger_apply=True)."""
+    """C ledger row skeletons for word→emoji (family=emoji, ledger_apply=True).
+
+    Each row records ``pivot`` / ``pivot_lang`` so the ledger alone shows the
+    ML→pivot→emoji judgment. ``from`` lists surface forms (metrics sample first).
+    """
     rows: list[dict[str, Any]] = []
-    for sid, forms, dst, rationale in EMOJI_SPEC:
+    for sid, pivot, pivot_lang, forms, dst, rationale in EMOJI_SPEC:
+        forms_list = list(forms)
+        if pivot not in forms_list:
+            forms_list.append(pivot)
         rows.append(
             {
                 "id": f"emoji-{sid}",
@@ -698,7 +860,9 @@ def emoji_ledger_rows() -> list[dict[str, Any]]:
                 "apply_layer": "C",
                 "family": "emoji",
                 "ledger_apply": True,
-                "from": list(forms),
+                "pivot": pivot,
+                "pivot_lang": pivot_lang,
+                "from": forms_list,
                 "to": dst,
                 "rationale": rationale,
             }
@@ -709,7 +873,7 @@ def emoji_ledger_rows() -> list[dict[str, Any]]:
 def emoji_default_map() -> dict[str, str]:
     """Flat long→glyph map for ShorthandEdge DEFAULT_MAP (spec + runtime extras)."""
     out: dict[str, str] = {}
-    for _sid, forms, dst, _r in EMOJI_SPEC:
+    for _sid, _pivot, _lang, forms, dst, _r in EMOJI_SPEC:
         for f in forms:
             key = f.lower() if f.isascii() else f
             out[key] = dst
@@ -717,6 +881,16 @@ def emoji_default_map() -> dict[str, str]:
                 out[f.lower()] = dst
     out.update(EMOJI_RUNTIME_EXTRA)
     return out
+
+
+def emoji_pivot_alias_pairs() -> list[tuple[str, str, str]]:
+    """(alias, pivot, emoji_id) for aliases that are not the pivot itself."""
+    pairs: list[tuple[str, str, str]] = []
+    for sid, pivot, _lang, forms, _dst, _r in EMOJI_SPEC:
+        for f in forms:
+            if f != pivot:
+                pairs.append((f, pivot, f"emoji-{sid}"))
+    return pairs
 
 
 def strip_fillers(text: str, *, aggressive: bool = False) -> str:

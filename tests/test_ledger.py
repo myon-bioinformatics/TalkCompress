@@ -355,11 +355,28 @@ def test_abbrev_family_contractions_synced():
 
 
 def test_emoji_family_synced():
-    """word→emoji is C family=emoji; ledger applies; utf8 shrinks; includes ℹ️."""
-    from shared.ledger import apply_ledger_lex, list_conventions, validate_ledger_metrics
+    """word→emoji is C family=emoji; pivot path; utf8 shrinks; includes ℹ️."""
+    from shared.ledger import (
+        apply_ledger_lex,
+        convention_ids,
+        list_conventions,
+        validate_ledger_metrics,
+    )
     from shared.lex_policy import EMOJI_SPEC, INFO_GLYPH, emoji_ledger_rows
 
     assert validate_ledger_metrics(strict=True) == []
+    ids = convention_ids()
+    assert "policy-emoji-pivot" in ids
+    assert "policy-short-form-priority" in ids
+    pols = {c["id"]: c for c in list_conventions(kind="policy")}
+    assert pols["policy-emoji-pivot"]["payload"]["path"] == [
+        "ml_aliases",
+        "pivot",
+        "emoji",
+    ]
+    assert pols["policy-short-form-priority"]["payload"]["order"][0] == "emoji"
+    assert pols["policy-short-form-priority"]["payload"]["prefer_emoji_over_new_math"]
+
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
 
     assert len(EMOJI_SPEC) >= 15
@@ -371,14 +388,21 @@ def test_emoji_family_synced():
         assert c["family"] == "emoji"
         assert c.get("ledger_apply") is not False
         assert c["to"] == row["to"]
+        assert c.get("pivot") == row["pivot"], cid
+        assert c.get("pivot_lang") in ("en", "ja"), cid
+        assert c["pivot"] in c["from"], cid
         assert c["metrics"]["bit"]["utf8"]["delta"] < 0, cid
 
     assert by_id["emoji-fire"]["to"] == "🔥"
+    assert by_id["emoji-fire"]["pivot"] == "fire"
+    assert by_id["emoji-fire"]["pivot_lang"] == "en"
     assert by_id["emoji-fire"]["from"][0] == "ファイア"
     assert by_id["emoji-heart"]["to"] == "♡"
+    assert by_id["emoji-heart"]["pivot"] == "heart"
     assert "heart" in by_id["emoji-heart"]["from"]
 
     assert apply_ledger_lex("ファイア") == "🔥"
+    assert apply_ledger_lex("Feuer") == "🔥"  # ML → pivot fire → 🔥
     assert "♡" in apply_ledger_lex("heart")
     assert "♡" in apply_ledger_lex("ハート")
     assert "🔥" in apply_ledger_lex("on fire")
@@ -389,6 +413,7 @@ def test_emoji_family_synced():
     # information→ℹ️ is C family=emoji (sole apply; not ETYMON)
     assert "emoji-information" in by_id
     assert by_id["emoji-information"]["to"] == INFO_GLYPH
+    assert by_id["emoji-information"]["pivot"] == "information"
     assert by_id["emoji-information"]["from"][0] == "information"
     assert INFO_GLYPH in apply_ledger_lex("information")
     assert INFO_GLYPH in apply_ledger_lex("インフォメーション")
@@ -399,3 +424,6 @@ def test_emoji_family_synced():
     assert "🔥" in s.compress("ファイア")
     assert "🔥" in s.compress("fire")
     assert INFO_GLYPH in s.compress("send the information please")
+    # FYI phrase must win over bare information→ℹ️
+    assert "FYI" in s.compress("for your information please")
+    assert INFO_GLYPH not in s.compress("for your information please")

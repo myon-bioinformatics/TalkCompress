@@ -28,7 +28,12 @@ E may fold to ``!`` / ``!can`` on a ``C,E`` pipeline.
 Emoji family (``family=emoji``): C-owned word→emoji shortenings (``ファイア``→``🔥``,
 ``heart``/``ハート``→``♡``, …). Synced from ``EMOJI_SPEC``; ``ledger_apply=true``
 so ``apply_ledger_lex`` rewrites (unlike contractions). Dual metrics required;
-utf8 must shrink on the sample. Includes ``information``→``ℹ️`` (moved from E etymon).
+utf8 must shrink on the sample. Each row records ``pivot`` / ``pivot_lang``:
+multilingual aliases → pivot (default EN; JA when EN awkward) → emoji, so the
+ledger alone makes the judgment clear. Apply prefers two-step (alias→pivot then
+pivot→emoji). Short-form priority policy: emoji first, else ML/math/symbol
+inventory (≧≦←→∴∵& …); do not invent a new math symbol when emoji fits.
+Includes ``information``→``ℹ️`` (moved from E etymon). FYI phrase stays map-first.
 """
 
 from __future__ import annotations
@@ -380,12 +385,13 @@ def sync_emoji_lex(
     write: bool = True,
     skip_zero_utf8: bool = True,
 ) -> dict[str, Any]:
-    """Upsert C emoji rows from ``EMOJI_SPEC`` (family=emoji, ledger_apply=true).
+    """Upsert C emoji rows + emoji policies from ``EMOJI_SPEC`` / ``emoji_policy_rows``.
 
-    Derives dual metrics; skips pairs whose utf8 bit delta is ≥ 0 when
-    ``skip_zero_utf8`` (default). Bumps meta notes for the emoji bucket.
+    Lex rows carry ``pivot`` / ``pivot_lang``. Derives dual metrics; skips pairs
+    whose utf8 bit delta is ≥ 0 when ``skip_zero_utf8`` (default). Bumps meta
+    notes for the emoji bucket and short-form priority.
     """
-    from shared.lex_policy import emoji_ledger_rows
+    from shared.lex_policy import emoji_ledger_rows, emoji_policy_rows
 
     p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
     data = load_ledger(p)
@@ -416,19 +422,45 @@ def sync_emoji_lex(
             by_id[cid] = len(data["conventions"]) - 1
         upserted.append(cid)
 
+    policy_ids: list[str] = []
+    for prow in emoji_policy_rows():
+        cid = str(prow["id"])
+        if cid in by_id:
+            idx = by_id[cid]
+            merged = dict(data["conventions"][idx])
+            for k, v in prow.items():
+                merged[k] = v
+            data["conventions"][idx] = merged
+        else:
+            data["conventions"].append(dict(prow))
+            by_id[cid] = len(data["conventions"]) - 1
+        policy_ids.append(cid)
+
     meta = data.setdefault("meta", {})
     notes = meta.setdefault("notes", [])
     emoji_note = (
-        "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, "
-        "information→ℹ️, …) via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual "
-        "metrics; utf8 must shrink. Bare fire/idea/eyes/… utf8-flat forms may live in "
-        "DEFAULT_MAP runtime extras only."
+        "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via "
+        "EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true "
+        "(two-step apply). Dual metrics; utf8 must shrink on sample. Short-form "
+        "priority: emoji first, else ML/math/symbol inventory — prefer emoji over "
+        "inventing new math. information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. "
+        "Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras."
     )
-    if isinstance(notes, list) and emoji_note not in notes:
+    # Drop older emoji note variants so the pivot/priority wording is sole.
+    if isinstance(notes, list):
+        notes[:] = [
+            n
+            for n in notes
+            if not (
+                isinstance(n, str)
+                and n.startswith("family=emoji")
+            )
+        ]
         notes.append(emoji_note)
     meta["emoji_sync"] = {
         "upserted": upserted,
         "skipped_nonshrink_utf8": skipped,
+        "policies": policy_ids,
         "source": "shared.lex_policy.EMOJI_SPEC",
     }
     ver = data.get("version", 1)
@@ -443,6 +475,7 @@ def sync_emoji_lex(
         )
         load_ledger.cache_clear() if hasattr(load_ledger, "cache_clear") else None
     return data
+
 
 
 def backfill_ledger_metrics(
@@ -629,6 +662,13 @@ def _skip_convention(text: str, convention: dict[str, Any]) -> bool:
     return False
 
 
+def _replace_src(text: str, src: str, dst: str) -> str:
+    """ASCII word-boundary replace; non-ASCII plain replace."""
+    if src.isascii() and all(ch.isascii() for ch in src):
+        return re.sub(rf"(?i)\b{re.escape(src)}\b", dst, text)
+    return text.replace(src, dst)
+
+
 def apply_ledger_lex(
     text: str,
     path: str | Path | None = None,
@@ -644,31 +684,64 @@ def apply_ledger_lex(
     - ``skip_sql_tech`` / ``skip_near`` / ``skip_if_re`` on a convention
     - ambiguity: ``ambiguity_sensitive`` or wavy conj shorts; skip on in-text
       collision of ``to``, or when ``prefer_precision=True``
+
+    Emoji family (``family=emoji``): two-step when ``pivot`` is set — first fold
+    ML aliases → pivot, then pivot → emoji (policy-emoji-pivot). Other families
+    keep single-step ``from`` → ``to``.
     """
     out = text
-    # Build (src, dst, convention) sorted by src length desc
+    # Non-emoji: (src, dst, convention) sorted by src length desc
     items: list[tuple[str, str, dict[str, Any]]] = []
+    # Emoji two-step: alias→pivot then pivot→emoji
+    emoji_alias: list[tuple[str, str, dict[str, Any]]] = []
+    emoji_pivot: list[tuple[str, str, dict[str, Any]]] = []
     for c in list_conventions(path, kind="lex", apply_layer=apply_layer):
         if c.get("ledger_apply") is False:
             continue  # registration-only (e.g. EN contractions via apply_en_contractions)
         to = str(c.get("to", ""))
         if not to:
             continue
-        for src in c.get("from") or []:
-            s = str(src)
-            if s:
-                items.append((s, to, c))
-    items.sort(key=lambda t: len(t[0]), reverse=True)
-
-    for src, dst, convention in items:
-        if _skip_convention(out, convention):
-            continue
-        if _ambiguity_skip(out, src, dst, convention, prefer_precision=prefer_precision):
-            continue
-        if src.isascii() and all(ch.isascii() for ch in src):
-            out = re.sub(rf"(?i)\b{re.escape(src)}\b", dst, out)
+        if c.get("family") == "emoji" and c.get("pivot"):
+            pivot = str(c["pivot"])
+            for src in c.get("from") or []:
+                s = str(src)
+                if not s:
+                    continue
+                if s == pivot:
+                    emoji_pivot.append((s, to, c))
+                else:
+                    emoji_alias.append((s, pivot, c))
+            # Ensure pivot→emoji even if pivot missing from from[]
+            if not any(s == pivot for s, _d, _c in emoji_pivot if _c is c):
+                emoji_pivot.append((pivot, to, c))
         else:
-            out = out.replace(src, dst)
+            for src in c.get("from") or []:
+                s = str(src)
+                if s:
+                    items.append((s, to, c))
+    items.sort(key=lambda t: len(t[0]), reverse=True)
+    emoji_alias.sort(key=lambda t: len(t[0]), reverse=True)
+    emoji_pivot.sort(key=lambda t: len(t[0]), reverse=True)
+
+    def _apply_items(
+        buf: str, seq: list[tuple[str, str, dict[str, Any]]]
+    ) -> str:
+        for src, dst, convention in seq:
+            if _skip_convention(buf, convention):
+                continue
+            if _ambiguity_skip(
+                buf, src, dst, convention, prefer_precision=prefer_precision
+            ):
+                continue
+            buf = _replace_src(buf, src, dst)
+        return buf
+
+    # Emoji aliases → pivot first (so ファイア→fire→🔥), then other lex, then
+    # pivot→emoji. Non-emoji lex between the two emoji passes keeps FYI-safe
+    # ordering relative to other C rows; emoji end-state is still pivot→glyph.
+    out = _apply_items(out, emoji_alias)
+    out = _apply_items(out, items)
+    out = _apply_items(out, emoji_pivot)
     return out
 
 

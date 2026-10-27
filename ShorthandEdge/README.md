@@ -73,15 +73,19 @@ uv run python -m shared.ledger --sync-contractions
 
 語→絵文字の短縮は **C の `family=emoji`**（`family=abbrev` の隣）。台帳は **適用する**（`ledger_apply=true`）。
 
-| 例 | 短形 | 備考 |
-| --- | --- | --- |
-| ファイア / fire / on fire | 🔥 | sample は ファイア（utf8 縮）。bare fire は別名適用 |
-| heart / ハート | ♡ | ❤️ は utf8 増のため不採用 |
-| thumbs up / いいね | 👍 | |
-| check / チェック | ✅ | |
-| warning / 警告 | ⚠ | |
-| hundred / 百点 | 💯 | |
-| information / インフォメーション 等 | ℹ️ | 旧 ETYMON から移管；info/情報は別名 |
+**多言語 pivot ルール（policy-emoji-pivot）:** ML 別名 → **pivot**（既定 EN；EN が不自然なら JA）→ 絵文字。emoji id ごとに pivot を1つ。台帳行の `pivot` / `pivot_lang` を見れば判断できる。適用は二段（alias→pivot、pivot→emoji）。
+
+**短形優先（policy-short-form-priority）:** (1) 意味が載るなら **絵文字最優先**。(2) 覆えないときだけ他の多言語・数学・記号（≧≦、←→、∴∵、& 等の E/C 在庫）。両方効くなら新数学記号を増やさず絵文字。
+
+| 例 | pivot | 短形 | 備考 |
+| --- | --- | --- | --- |
+| ファイア / Feuer / fire / on fire | fire (en) | 🔥 | sample=ファイア（utf8 縮）。ML→fire→🔥 |
+| heart / ハート / Herz | heart (en) | ♡ | ❤️ は utf8 増のため不採用 |
+| thumbs up / いいね | thumbs up (en) | 👍 | |
+| check / チェック | check (en) | ✅ | sample=check mark |
+| warning / 警告 | warning (en) | ⚠ | |
+| hundred / 百点 | hundred (en) | 💯 | |
+| information / インフォメーション 等 | information (en) | ℹ️ | 旧 ETYMON から移管；FYI 句は DEFAULT_MAP が先 |
 
 `EMOJI_SPEC`（`shared/lex_policy.py`）が単一ソース。utf8 が縮まない bare idea/eyes/… は DEFAULT_MAP の runtime extras のみ。**information→ℹ️ も C**（E etymon から移管）。
 
