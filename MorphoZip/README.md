@@ -21,11 +21,11 @@
 
 ## 代名詞（case-split 在庫）
 
-**軸:** 人称 × **格（主格 / 所有格 / 目的格）** — I–my–me、U–your–you、he–his–him、she–her–her、it–its–it、they–their–them、y'all–y'all's–y'all。格を畳まない。
+**軸:** 人称 × **格（主格 / 所有格 / 目的格）** + **独立所有格** mine/ours/yours/theirs（コア）。I–my–me–mine、U–your–you–yours、he–his–him、she–her–hers、it–its–it、they–their–them–theirs、y'all–y'all's。格を畳まない。
 
 **中性 it:** 事物・オブジェクトを含む（**物スロットは作らない**）。**指示代名詞（deixis）** this/that/these/those・これ/それ/あれ・ça/eso 等は **別軸** — it に畳まない（登録時は独立 family）。
 
-在庫幅（設計/レポート）: `bits_per_pronoun = ceil(log2(N))`；コア N≈22 → **5 bits/出現**。表層書き換えは **utf8+token 優先**（在庫ビットは二次）。
+在庫幅（設計/レポート）: `bits_per_pronoun = ceil(log2(N))`；コア N=26 → **5 bits/出現**。表層書き換えは **utf8+token 優先**（在庫ビットは二次）。
 
 **コア例:** nom `I`/`U`/`he`/`she`/`it`/`we`/`they`/`y'all`；poss `my`/`your`/`his`/`her`/`its`/`our`/`their`/`y'all's`；obj `me`/`you`/`him`/`her`/`it`/`us`/`them`/`y'all`。
 
@@ -34,6 +34,10 @@
 **開いた she:** she→he に畳まない。y'all = EN コンパクト 2pl（they と別表層）。
 
 ヘルパー: `canonicalize_pronoun` / `pronoun_inventory_bits` / `pronoun_bit_cost` / `utf8_bits`。`--stats` の density に `pronoun_bits_*`。
+
+## 指示代名詞（deixis 在庫）
+
+人称・中性 it とは **別の閉じた在庫**。コア: `ça`（近称単）/ `eso`（遠称単）/ `these` / `those` / `あれ`（JA 遠方）。N=5 → 3bit（設計/レポート）。表層は token→utf8 最安（FR/ES 短形が勝つときそれを採用）。
 
 
 ## 閉じた品詞在庫（ビット主・トークン従）
@@ -44,7 +48,8 @@
 
 | 品詞 | コア在庫 | N | bits | 主な写像 | 例 |
 | --- | --- | --- | --- | --- | --- |
-| 代名詞 pronoun | I/my/me … U/your/you … he/his/him … she/her … it/its … they/their/them + y'all | ≈22 | **5** | **格軸**維持；表層 utf8+token 優先；she 開放；**neuter=it（事物）**；**deixis 別軸**（これ/それ≠it）；君/彼/彼女=入力別名；bits 設計/レポート | `you…`→`U…`；`I see you` 目的格維持；`彼女を`→`her`；`それは` は deixis のまま |
+| 代名詞 pronoun | I/my/me/mine … U/your/you/yours … he/his/him … she/her/hers … it/its … they/their/them/theirs + y'all | 26 | **5** | **格軸**+独立所有格；表層 utf8+token 優先；she 開放；**neuter=it（事物）**；君/彼/彼女=入力別名；bits 設計/レポート | `you…`→`U…`；`mine is yours` 維持；`彼女を`→`her` |
+| 指示代名詞 deixis | ça / eso / these / those / あれ | 5 | **3** | **人称・it と別在庫**；this/これ/这→ça；that/それ/那→eso（関係詞 that は除外）；token→utf8 cheapest | `this book`→`ça book`；`それは本`→`eso本`；`I think that…` は that 維持 |
 | 冠詞 article | ∅ | 1 | **0** | the/a/an → 削除（引用は保持） | `the cat` → `cat` |
 | 接続詞 conjunction | & / bc / ∴ | 4 | 2 | and→& or→/ **because→bc** therefore→∴（cuz は否定せず、数学記号系を優先；点々表記の余地） | `… because …` → `… bc …` |
 | 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；拡張 □=always / oft=often；**never→¬ not→!**（極性は助動詞と共有・在庫外1bit）。∀ は whatever 用 | `however very` → `tho ˅`；`always never` → `□ ¬` |

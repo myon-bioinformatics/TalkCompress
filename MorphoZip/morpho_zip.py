@@ -116,12 +116,12 @@ def _build_surface_re(surfaces: list[str]) -> re.Pattern[str]:
 # Inventory bits = ceil(log2 N) for *design/report* only (same dual-metric spirit
 # as other lex: token + utf8, cheapest, meaning gate) — not a surface override.
 PRONOUN_CANONICAL: tuple[str, ...] = (
-    # 1sg
-    "I", "my", "me",
+    # 1sg (incl. independent possessive mine)
+    "I", "my", "me", "mine",
     # 1pl
-    "we", "our", "us",
+    "we", "our", "us", "ours",
     # 2sg
-    "U", "your", "you",
+    "U", "your", "you", "yours",
     # 2pl (y'all = EN compact plural; nom+obj share surface)
     "y'all", "y'all's",
     # 3sg M/F/N
@@ -129,10 +129,10 @@ PRONOUN_CANONICAL: tuple[str, ...] = (
     "she", "her", "hers",
     "it", "its",
     # 3pl
-    "they", "their", "them",
+    "they", "their", "them", "theirs",
 )
-# Extended: mine/theirs (indep. poss) already partly in hers; keep mine/theirs opt-in
-PRONOUN_EXTENDED: tuple[str, ...] = PRONOUN_CANONICAL + ("mine", "theirs", "ours", "yours")
+# Extended: reflexive extras only (indep. poss now in core)
+PRONOUN_EXTENDED: tuple[str, ...] = PRONOUN_CANONICAL + ("myself", "yourself", "themselves")
 PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
     # --- 1sg ---
     "i": "I",
@@ -496,6 +496,84 @@ _PARTICLE_SURFACE_RE = re.compile(
 POLARITY_BIT = 1
 POLARITY_MARKERS: tuple[str, ...] = ("!", "¬")
 
+
+# --- deixis (指示代名詞) — separate axis from person/neuter pronouns -------------
+# NOT folded into it. Canonical = cheapest surface per slot (token → utf8).
+# Slots: proximal/distal × sg/pl + JA far-distal あれ.
+# FR/ES compact (ça/eso) and ZH 这/那 win when cheaper than EN/JA.
+DEIXIS_CANONICAL: tuple[str, ...] = (
+    "ça",    # proximal sg (this/これ/esto/ceci/这 → ça)
+    "eso",   # distal sg   (that/それ/cela/那 → eso)
+    "these", # proximal pl
+    "those", # distal pl
+    "あれ",   # JA far-distal (no cheaper cross-lang peer)
+)
+DEIXIS_EXTENDED: tuple[str, ...] = DEIXIS_CANONICAL + ("これ", "それ", "this", "that")
+DEIXIS_ALIAS_TO_CANONICAL: dict[str, str] = {
+    # proximal sg → ça
+    "this": "ça",
+    "これ": "ça",
+    "これは": "ça",
+    "これが": "ça",
+    "これを": "ça",
+    "これの": "ça",
+    "ça": "ça",
+    "ca": "ça",
+    "esto": "ça",
+    "ceci": "ça",
+    "这": "ça",
+    "这个": "ça",
+    # distal sg → eso
+    "that": "eso",
+    "それ": "eso",
+    "それは": "eso",
+    "それが": "eso",
+    "それを": "eso",
+    "それの": "eso",
+    "eso": "eso",
+    "esa": "eso",
+    "cela": "eso",
+    "那": "eso",
+    "那个": "eso",
+    # proximal pl → these
+    "these": "these",
+    "これら": "these",
+    "これらの": "these",
+    "estos": "these",
+    "estas": "these",
+    "ceux-ci": "these",
+    "这些": "these",
+    # distal pl → those
+    "those": "those",
+    "それら": "those",
+    "それらの": "those",
+    "esos": "those",
+    "esas": "those",
+    "ceux-là": "those",
+    "ceux-la": "those",
+    "那些": "those",
+    # far distal → あれ
+    "あれ": "あれ",
+    "あれは": "あれ",
+    "あれが": "あれ",
+    "あれを": "あれ",
+    "あれの": "あれ",
+    "aquel": "あれ",
+    "aquella": "あれ",
+}
+_DEIXIS_SURFACE_RE = re.compile(
+    r"これらの|それらの|これの|それの|あれの|"
+    r"これは|これが|これを|それは|それが|それを|あれは|あれが|あれを|"
+    r"これ|それ|あれ|"
+    r"这些|那些|这个|那个|[这那]|"
+    r"ceux-là|ceux-la|ceux-ci|"
+    r"\bthese\b|\bthose\b|\bthis\b|\bthat\b|"
+    r"\bestos\b|\bestas\b|\besos\b|\besas\b|"
+    r"\besto\b|\beso\b|\besa\b|\baquel\b|\baquella\b|"
+    r"\bceci\b|\bcela\b|\b(?:ça|ça|ca)\b",
+    re.I,
+)
+
 CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
     "pronoun": ClosedInventory(
         "pronoun",
@@ -503,7 +581,15 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         PRONOUN_EXTENDED,
         PRONOUN_ALIAS_TO_CANONICAL,
         _PRONOUN_SURFACE_RE,
-        "case-split core (nom/poss/obj): I/my/me … U/your/you … he/his/him … she/her/hers … it/its (neuter=things) … they/their/them + y'all; deixis (this/それ) separate axis — not folded into it; N→ceil(log2 N) bits design/report; surface utf8+token first; same ledger dual-metric rules as other lex",
+        "case-split core + indep. poss (mine/ours/yours/theirs/hers): I/my/me/mine … U/your/you/yours … he/his/him … she/her/hers … it/its (neuter=things) … they/their/them/theirs + y'all; N→ceil(log2 N) bits design/report; surface utf8+token first; deixis = separate inventory",
+    ),
+    "deixis": ClosedInventory(
+        "deixis",
+        DEIXIS_CANONICAL,
+        DEIXIS_EXTENDED,
+        DEIXIS_ALIAS_TO_CANONICAL,
+        _DEIXIS_SURFACE_RE,
+        "指示代名詞 axis (≠ person/neuter it): this/これ/这→ça; that/それ/那→eso; these/これら; those/それら; あれ far-distal; token→utf8 cheapest; N=5→3bit design/report",
     ),
     "article": ClosedInventory(
         "article",
@@ -666,6 +752,19 @@ def pronoun_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | 
 
 
 # Thin aliases for other POS (mirror pronouns).
+
+def deixis_inventory_bits(*, extended: bool = False) -> int:
+    return closed_inventory_bits("deixis", extended=extended)
+
+
+def canonicalize_deixis(form: str, *, extended: bool = False) -> str | None:
+    return canonicalize_closed("deixis", form, extended=extended)
+
+
+def deixis_bit_cost(text: str, *, extended: bool = False) -> dict[str, float | int | list[str]]:
+    return closed_bit_cost("deixis", text, extended=extended)
+
+
 def article_inventory_bits(*, extended: bool = False) -> int:
     return closed_inventory_bits("article", extended=extended)
 
@@ -824,9 +923,36 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
         re.I,
     ), r"\1 <<YOUOBJ>>"),
     (re.compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "U"),
-    # Neuter it/its = things/objects (no 物 slot). Do NOT fold deixis
-    # (this/that/these/those / これ/それ/あれ / ça/eso) into it — separate axis.
-    # EN it/its already short; leave as-is. ZH 它 = neuter thing pronoun → it.
+    # Deixis inventory (≠ neuter it): token→utf8 cheapest per slot.
+    # proximal sg → ça; distal sg → eso; pl → these/those; far → あれ.
+    (re.compile(r"これらの|これら"), "these"),
+    (re.compile(r"それらの|それら"), "those"),
+    (re.compile(r"これの|これは|これが|これを|これ"), "ça"),
+    (re.compile(r"それの|それは|それが|それを|それ"), "eso"),
+    (re.compile(r"あれの|あれは|あれが|あれを|あれ"), "あれ"),
+    (re.compile(r"这些"), "these"),
+    (re.compile(r"那些"), "those"),
+    (re.compile(r"这个|这"), "ça"),
+    (re.compile(r"那个|那"), "eso"),
+    (re.compile(r"\bthese\b", re.I), "these"),
+    (re.compile(r"\bthose\b", re.I), "those"),
+    (re.compile(r"\bthis\b", re.I), "ça"),
+    # EN that: demonstrative only — skip complementizer/relative
+    # ("I think that…", "the book that…"). Keep bare that when ambiguous.
+    (re.compile(r"\bthat('s|s)\b", re.I), r"eso\1"),
+    (re.compile(r"\bthat\s+(one|ones|thing|stuff|guy|girl|man|woman|person|people|day|time|way|book|idea|problem|issue|point|part|side|end)\b", re.I), r"eso \1"),
+    (re.compile(r"\bthat\s+(is|was|were|are|be|being|been)\b", re.I), r"eso \1"),
+    (re.compile(r"(?m)^that\b", re.I), "eso"),
+    (re.compile(r"([.!?…]\s*)that\b", re.I), r"\1eso"),
+    (re.compile(r"\besto\b", re.I), "ça"),
+    (re.compile(r"\b(?:eso|esa)\b", re.I), "eso"),
+    (re.compile(r"\bestos\b|\bestas\b", re.I), "these"),
+    (re.compile(r"\besos\b|\besas\b", re.I), "those"),
+    (re.compile(r"\bceci\b", re.I), "ça"),
+    (re.compile(r"\bcela\b", re.I), "eso"),
+    (re.compile(r"\b(?:ça|ça)\b", re.I), "ça"),
+    (re.compile(r"\baquel(?:la)?\b", re.I), "あれ"),
+    # Neuter it/its = things/objects (no 物 slot). ZH 它 = neuter → it (not deixis).
     (re.compile(r"它的"), "its"),
     (re.compile(r"它"), "it"),
     # EN case forms already short — leave I/my/me/he/him/his/she/her/they/them/…

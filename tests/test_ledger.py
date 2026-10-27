@@ -614,3 +614,31 @@ def test_however_hard_not_tho_after_ce():
     # Contrastive however still → tho
     contrast = e.compress("I tried; however, I failed.")
     assert "tho" in contrast.lower()
+
+
+def test_lex_breakdown_flat_pos_or_tag():
+    """lex rows carry flat breakdown: POS when word-like, else plain tag."""
+    from shared.ledger import (
+        BREAKDOWN_ALLOWED,
+        BREAKDOWN_POS,
+        infer_breakdown,
+        list_conventions,
+        validate_ledger_metrics,
+    )
+
+    assert validate_ledger_metrics(strict=True) == []
+    lex = list_conventions(kind="lex")
+    assert lex
+    for c in lex:
+        bd = c.get("breakdown")
+        assert isinstance(bd, str) and bd in BREAKDOWN_ALLOWED, c.get("id")
+    by_id = {c["id"]: c for c in lex}
+    assert by_id["pronoun-mine"]["breakdown"] == "pronoun"
+    assert by_id["deixis-this"]["breakdown"] == "deixis"
+    assert by_id["c-asap"]["breakdown"] in ("acronym", "collocation", "abbrev")
+    assert by_id["ever-however"]["breakdown"] == "collocation"
+    # infer prefers inventory POS
+    assert infer_breakdown({"kind": "lex", "inventory": "pronoun", "from": ["I"], "to": "I"}) == "pronoun"
+    assert infer_breakdown({"kind": "lex", "family": "ever", "from": ["no matter how"], "to": "however"}) == "collocation"
+    assert "pronoun" in BREAKDOWN_POS
+

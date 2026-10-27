@@ -23,7 +23,8 @@
       "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline.",
       "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: math/symbol first when meaning is clear, else emoji — prefer existing inventory over inventing new math or emoji peers (check→✓ not ✅; star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / policy-cross-lang-cheapest (token then utf8).",
       "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
-      "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap)."
+      "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap).",
+      "breakdown (内訳, flat string): prefer POS when the entry is a word (pronoun/deixis/particle/preposition/adverb/conjunction/auxiliary/article/compare/emoji/symbol/noun/verb/…); else one plain tag — collocation / 熟語 / slang / sentence / acronym / abbrev / token圧縮 / bit圧縮 / 複合名詞 / 時制. Not separate deep columns."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -197,7 +198,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "spatial-under",
@@ -235,7 +237,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "spatial-above",
@@ -271,7 +274,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "uneven-凹凸",
@@ -311,7 +315,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "policy-base-mix",
@@ -373,7 +378,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "spatial-front-back",
@@ -410,7 +416,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "spatial-in-out",
@@ -448,7 +455,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "spatial-big-small",
@@ -486,7 +494,8 @@
           "inventory": null
         }
       },
-      "family": "spatial"
+      "family": "spatial",
+      "breakdown": "collocation"
     },
     {
       "id": "conj-moreover",
@@ -525,7 +534,8 @@
           "inventory": null
         }
       },
-      "family": "conj"
+      "family": "conj",
+      "breakdown": "conjunction"
     },
     {
       "id": "conj-nevertheless",
@@ -563,7 +573,8 @@
           "inventory": null
         }
       },
-      "family": "conj"
+      "family": "conj",
+      "breakdown": "conjunction"
     },
     {
       "id": "conj-therefore",
@@ -602,7 +613,8 @@
           "inventory": null
         }
       },
-      "family": "conj"
+      "family": "conj",
+      "breakdown": "conjunction"
     },
     {
       "id": "conj-for-example",
@@ -640,7 +652,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "latin"
+      "abbrev_kind": "latin",
+      "breakdown": "abbrev"
     },
     {
       "id": "conj-that-is",
@@ -679,7 +692,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "latin"
+      "abbrev_kind": "latin",
+      "breakdown": "abbrev"
     },
     {
       "id": "furniture-table",
@@ -741,23 +755,21 @@
           "inventory": null
         }
       },
-      "family": "pair"
+      "family": "pair",
+      "breakdown": "noun"
     },
     {
       "id": "pronoun-I",
       "kind": "lex",
       "apply_layer": "E",
       "from": [
-        "me",
-        "my",
-        "mine",
         "yo",
         "je",
         "ich",
         "I"
       ],
       "to": "I",
-      "rationale": "1sg → I（2bit core）。ML yo/je/ich 同スロット",
+      "rationale": "1sg 主格 → I。me/my/mine は格軸で別スロット（畳まない）",
       "inventory": "pronoun",
       "aliases_note": "ML aliases fold into I; not separate ids",
       "metrics": {
@@ -766,31 +778,32 @@
           "after": 1,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "me",
+          "sample_from": "I",
           "via": "B TesseraTalk estimate_tokens"
         },
         "bit": {
           "model": "inventory",
-          "before": 2,
-          "after": 2,
+          "before": 5,
+          "after": 5,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "me",
+          "sample_from": "I",
           "via": "E MorphoZip closed_inventory_bits(pronoun)",
           "utf8": {
-            "before": 16,
+            "before": 8,
             "after": 8,
-            "delta": -8
+            "delta": 0
           },
           "inventory": {
             "name": "pronoun",
-            "bits_per": 2,
-            "n": 4,
+            "bits_per": 5,
+            "n": 26,
             "extended": false,
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-君",
@@ -837,7 +850,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-彼",
@@ -886,7 +900,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "particle-made",
@@ -928,7 +943,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "particle"
     },
     {
       "id": "particle-mo",
@@ -971,7 +987,8 @@
           }
         }
       },
-      "extended": true
+      "extended": true,
+      "breakdown": "particle"
     },
     {
       "id": "particle-to",
@@ -1014,7 +1031,8 @@
           }
         }
       },
-      "extended": true
+      "extended": true,
+      "breakdown": "particle"
     },
     {
       "id": "particle-kara",
@@ -1058,7 +1076,8 @@
           }
         }
       },
-      "extended": true
+      "extended": true,
+      "breakdown": "particle"
     },
     {
       "id": "prep-with",
@@ -1104,7 +1123,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "prep-for",
@@ -1152,7 +1172,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "prep-from",
@@ -1200,7 +1221,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "prep-at",
@@ -1244,7 +1266,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "prep2-without",
@@ -1291,7 +1314,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "prep2-within",
@@ -1336,7 +1360,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "prep2-before",
@@ -1382,7 +1407,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "prep2-after",
@@ -1431,7 +1457,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "preposition"
     },
     {
       "id": "aux-can",
@@ -1475,7 +1502,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "auxiliary"
     },
     {
       "id": "aux-will",
@@ -1521,7 +1549,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "auxiliary"
     },
     {
       "id": "aux-must",
@@ -1569,7 +1598,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "auxiliary"
     },
     {
       "id": "aux-may",
@@ -1613,7 +1643,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "auxiliary"
     },
     {
       "id": "aux-neg-can",
@@ -1659,7 +1690,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "auxiliary"
     },
     {
       "id": "aux-neg-must",
@@ -1705,7 +1737,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "auxiliary"
     },
     {
       "id": "aux-neg-may",
@@ -1749,7 +1782,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "auxiliary"
     },
     {
       "id": "e-conj-and",
@@ -1798,7 +1832,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "conjunction"
     },
     {
       "id": "e-conj-or",
@@ -1846,7 +1881,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "conjunction"
     },
     {
       "id": "e-conj-because",
@@ -1889,7 +1925,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "conjunction"
     },
     {
       "id": "e-conj-therefore",
@@ -1933,7 +1970,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "conjunction"
     },
     {
       "id": "adv-however",
@@ -1978,7 +2016,8 @@
         }
       },
       "family": "adverb",
-      "meaning_gate": "MorphoZip: contrastive however→tho only; skip concessive/degree `however hard/much/…` (negative lookahead on Adj/Adv)."
+      "meaning_gate": "MorphoZip: contrastive however→tho only; skip concessive/degree `however hard/much/…` (negative lookahead on Adj/Adv).",
+      "breakdown": "adverb"
     },
     {
       "id": "adv-approx",
@@ -2021,7 +2060,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "adverb"
     },
     {
       "id": "adv-very",
@@ -2066,7 +2106,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "adverb"
     },
     {
       "id": "adv-especially",
@@ -2111,7 +2152,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "adverb"
     },
     {
       "id": "compare-ge",
@@ -2159,7 +2201,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "compare"
     },
     {
       "id": "compare-le",
@@ -2207,7 +2250,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "compare"
     },
     {
       "id": "polarity-not",
@@ -2247,7 +2291,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "collocation"
     },
     {
       "id": "polarity-never",
@@ -2284,7 +2329,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "熟語"
     },
     {
       "id": "adv-always-ext",
@@ -2328,7 +2374,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "adverb"
     },
     {
       "id": "adv-often-ext",
@@ -2372,7 +2419,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "adverb"
     },
     {
       "id": "conj-etc",
@@ -2411,7 +2459,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "latin"
+      "abbrev_kind": "latin",
+      "breakdown": "abbrev"
     },
     {
       "id": "conj-vs",
@@ -2449,7 +2498,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "latin"
+      "abbrev_kind": "latin",
+      "breakdown": "abbrev"
     },
     {
       "id": "pronoun-yourself",
@@ -2491,7 +2541,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-yo",
@@ -2533,7 +2584,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-je",
@@ -2575,7 +2627,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-ich",
@@ -2617,7 +2670,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-usted",
@@ -2659,7 +2713,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-ella",
@@ -2701,7 +2756,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-elle",
@@ -2743,7 +2799,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-ellos",
@@ -2786,7 +2843,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-ustedes",
@@ -2828,7 +2886,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-私",
@@ -2873,7 +2932,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-私の",
@@ -2918,7 +2978,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-あなた",
@@ -2962,7 +3023,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-彼女",
@@ -3006,7 +3068,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-彼ら",
@@ -3051,7 +3114,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-皆さん",
@@ -3099,7 +3163,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-you-all",
@@ -3144,7 +3209,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "pronoun-he-or-she",
@@ -3182,10 +3248,11 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
-      "id": "pronoun-それ",
+      "id": "deixis-それ",
       "kind": "lex",
       "apply_layer": "E",
       "from": [
@@ -3193,12 +3260,11 @@
         "それは",
         "それが",
         "それを",
-        "它"
+        "それの"
       ],
-      "to": "it",
-      "rationale": "JA/ZH それ/它 → it（拡張 N=5→3bit）",
-      "inventory": "pronoun",
-      "extended": true,
+      "to": "eso",
+      "rationale": "指示代名詞 それ → eso（deixis 在庫；it/neuter に畳まない）",
+      "inventory": "deixis",
       "metrics": {
         "token": {
           "before": 2,
@@ -3215,21 +3281,22 @@
           "delta": 0,
           "ratio": 1.0,
           "sample_from": "それ",
-          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "via": "E MorphoZip closed_inventory_bits(deixis)",
           "utf8": {
             "before": 48,
-            "after": 16,
-            "delta": -32
+            "after": 24,
+            "delta": -24
           },
           "inventory": {
-            "name": "pronoun",
+            "name": "deixis",
             "bits_per": 3,
             "n": 5,
-            "extended": true,
+            "extended": false,
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "deixis"
     },
     {
       "id": "pronoun-私たち",
@@ -3268,7 +3335,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "pronoun"
     },
     {
       "id": "c-ill",
@@ -3308,7 +3376,8 @@
       "family": "abbrev",
       "abbrev_kind": "contraction",
       "ledger_apply": false,
-      "rewrite_via": "apply_en_contractions"
+      "rewrite_via": "apply_en_contractions",
+      "breakdown": "abbrev"
     },
     {
       "id": "c-asap",
@@ -3345,7 +3414,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-fyi",
@@ -3382,7 +3452,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-btw",
@@ -3419,7 +3490,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-imo",
@@ -3456,7 +3528,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-tbh",
@@ -3493,7 +3566,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-idk",
@@ -3531,7 +3605,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-ty",
@@ -3568,7 +3643,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-pls",
@@ -3605,7 +3681,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-nvm",
@@ -3642,7 +3719,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-brb",
@@ -3679,7 +3757,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-afaik",
@@ -3717,7 +3796,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "e-conj-whereas",
@@ -3761,7 +3841,8 @@
             "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
           }
         }
-      }
+      },
+      "breakdown": "conjunction"
     },
     {
       "id": "c-imho",
@@ -3798,7 +3879,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-fwiw",
@@ -3836,7 +3918,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-ttyl",
@@ -3873,7 +3956,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-tldr",
@@ -3912,7 +3996,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-afk",
@@ -3949,7 +4034,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-lmk",
@@ -3986,7 +4072,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-otoh",
@@ -4023,7 +4110,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-wrt",
@@ -4061,7 +4149,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-ymmv",
@@ -4098,7 +4187,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-icymi",
@@ -4135,7 +4225,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-wip",
@@ -4172,7 +4263,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-tia",
@@ -4209,7 +4301,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-afaict",
@@ -4247,7 +4340,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-jsyk",
@@ -4284,7 +4378,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-rofl",
@@ -4321,7 +4416,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-irl",
@@ -4358,7 +4454,8 @@
         }
       },
       "family": "abbrev",
-      "abbrev_kind": "acronym"
+      "abbrev_kind": "acronym",
+      "breakdown": "acronym"
     },
     {
       "id": "c-id",
@@ -4398,7 +4495,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-ive",
@@ -4438,7 +4536,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-im",
@@ -4478,7 +4577,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-ur",
@@ -4517,7 +4617,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-were",
@@ -4556,7 +4657,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-theyre",
@@ -4595,7 +4697,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-its",
@@ -4634,7 +4737,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-thats",
@@ -4673,7 +4777,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-theres",
@@ -4712,7 +4817,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-therere",
@@ -4751,7 +4857,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-dont",
@@ -4790,7 +4897,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-doesnt",
@@ -4829,7 +4937,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-cant",
@@ -4868,7 +4977,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-wont",
@@ -4907,7 +5017,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-shouldnt",
@@ -4946,7 +5057,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-wouldnt",
@@ -4985,7 +5097,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "emoji-fire",
@@ -5029,7 +5142,8 @@
         }
       },
       "pivot": "fire",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-heart",
@@ -5073,7 +5187,8 @@
         }
       },
       "pivot": "heart",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-thumbs-up",
@@ -5115,7 +5230,8 @@
         }
       },
       "pivot": "thumbs up",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-thumbs-down",
@@ -5155,7 +5271,8 @@
         }
       },
       "pivot": "thumbs down",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-check",
@@ -5197,7 +5314,8 @@
         }
       },
       "pivot": "check",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-cross",
@@ -5240,7 +5358,8 @@
         }
       },
       "pivot": "cross mark",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-star",
@@ -5280,7 +5399,8 @@
         }
       },
       "pivot": "star",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-warn",
@@ -5321,7 +5441,8 @@
         }
       },
       "pivot": "warning",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-idea",
@@ -5365,7 +5486,8 @@
         }
       },
       "pivot": "idea",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-mail",
@@ -5407,7 +5529,8 @@
         }
       },
       "pivot": "mail",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-time",
@@ -5447,7 +5570,8 @@
         }
       },
       "pivot": "time",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-alarm",
@@ -5487,7 +5611,8 @@
         }
       },
       "pivot": "alarm",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-money",
@@ -5528,7 +5653,8 @@
         }
       },
       "pivot": "money",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-rocket",
@@ -5568,7 +5694,8 @@
         }
       },
       "pivot": "rocket",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-eyes",
@@ -5609,7 +5736,8 @@
         }
       },
       "pivot": "eyes",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-clap",
@@ -5650,7 +5778,8 @@
         }
       },
       "pivot": "clap",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-pray",
@@ -5691,7 +5820,8 @@
         }
       },
       "pivot": "pray",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-hundred",
@@ -5732,7 +5862,8 @@
         }
       },
       "pivot": "hundred",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-party",
@@ -5773,7 +5904,8 @@
         }
       },
       "pivot": "party",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-skull",
@@ -5814,7 +5946,8 @@
         }
       },
       "pivot": "skull",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-wrench",
@@ -5855,7 +5988,8 @@
         }
       },
       "pivot": "wrench",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-hourglass",
@@ -5895,7 +6029,8 @@
         }
       },
       "pivot": "hourglass",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-thinking",
@@ -5936,7 +6071,8 @@
         }
       },
       "pivot": "thinking face",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-ok-hand",
@@ -5977,7 +6113,8 @@
         }
       },
       "pivot": "ok hand",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-laugh",
@@ -6018,7 +6155,8 @@
         }
       },
       "pivot": "laugh",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-cry",
@@ -6059,7 +6197,8 @@
         }
       },
       "pivot": "cry",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-wave",
@@ -6100,7 +6239,8 @@
         }
       },
       "pivot": "wave",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-bug",
@@ -6141,7 +6281,8 @@
         }
       },
       "pivot": "bug",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-bell",
@@ -6182,7 +6323,8 @@
         }
       },
       "pivot": "bell",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-link",
@@ -6222,7 +6364,8 @@
         }
       },
       "pivot": "link",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-pin",
@@ -6262,7 +6405,8 @@
         }
       },
       "pivot": "pin",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "emoji-information",
@@ -6307,7 +6451,8 @@
         }
       },
       "pivot": "information",
-      "pivot_lang": "en"
+      "pivot_lang": "en",
+      "breakdown": "emoji"
     },
     {
       "id": "policy-emoji-pivot",
@@ -6396,7 +6541,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-arent",
@@ -6435,7 +6581,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-wasnt",
@@ -6474,7 +6621,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-werent",
@@ -6513,7 +6661,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-hasnt",
@@ -6552,7 +6701,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-havent",
@@ -6591,7 +6741,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-hadnt",
@@ -6630,7 +6781,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-couldnt",
@@ -6669,7 +6821,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-mustnt",
@@ -6708,7 +6861,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-lets",
@@ -6747,7 +6901,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-wouldve",
@@ -6786,7 +6941,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-shouldve",
@@ -6825,7 +6981,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-couldve",
@@ -6864,7 +7021,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-mightve",
@@ -6903,7 +7061,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "c-willve",
@@ -6942,7 +7101,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "abbrev"
     },
     {
       "id": "policy-cross-lang-cheapest",
@@ -7005,7 +7165,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-infinity",
@@ -7046,7 +7207,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-plusminus",
@@ -7086,7 +7248,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-percent",
@@ -7126,7 +7289,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-degree",
@@ -7166,7 +7330,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-implies",
@@ -7206,7 +7371,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-iff",
@@ -7245,7 +7411,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-propto",
@@ -7284,7 +7451,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-sqrt",
@@ -7323,7 +7491,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-times",
@@ -7361,7 +7530,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "symbol-div",
@@ -7399,7 +7569,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "symbol"
     },
     {
       "id": "ever-however",
@@ -7442,7 +7613,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "collocation"
     },
     {
       "id": "ever-whatever",
@@ -7482,7 +7654,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "collocation"
     },
     {
       "id": "ever-whichever",
@@ -7520,7 +7693,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "collocation"
     },
     {
       "id": "ever-wherever",
@@ -7558,7 +7732,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "collocation"
     },
     {
       "id": "ever-whenever",
@@ -7596,7 +7771,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "collocation"
     },
     {
       "id": "ever-whoever",
@@ -7634,7 +7810,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "breakdown": "collocation"
     },
     {
       "id": "policy-ever-concessive",
@@ -7665,6 +7842,417 @@
       "metrics": null,
       "note": "Thin pointer: ever concessive family lives in meta.ever_family + C lex with family=ever. Prefer registry metadata over bespoke policy.",
       "demoted_to": "meta.ever_family"
+    },
+    {
+      "id": "deixis-this",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "this",
+        "これ",
+        "これは",
+        "これを",
+        "这",
+        "这个",
+        "esto",
+        "ceci"
+      ],
+      "to": "ça",
+      "rationale": "指示代名詞 proximal sg → ça（token→utf8 cheapest；≠ it）",
+      "inventory": "deixis",
+      "breakdown": "deixis",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "this",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "this",
+          "via": "E MorphoZip closed_inventory_bits(deixis)",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": {
+            "name": "deixis",
+            "bits_per": 3,
+            "n": 5,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "deixis-that",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "that",
+        "那",
+        "那个",
+        "esa",
+        "cela"
+      ],
+      "to": "eso",
+      "rationale": "指示代名詞 distal sg → eso（demonstrative; complementizer that は対象外）",
+      "inventory": "deixis",
+      "breakdown": "deixis",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "that",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "that",
+          "via": "E MorphoZip closed_inventory_bits(deixis)",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": {
+            "name": "deixis",
+            "bits_per": 3,
+            "n": 5,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "deixis-these",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "these",
+        "これら",
+        "これらの",
+        "这些",
+        "estos"
+      ],
+      "to": "these",
+      "rationale": "指示代名詞 proximal pl → these",
+      "inventory": "deixis",
+      "breakdown": "deixis",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "these",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "these",
+          "via": "E MorphoZip closed_inventory_bits(deixis)",
+          "utf8": {
+            "before": 40,
+            "after": 40,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "deixis",
+            "bits_per": 3,
+            "n": 5,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "deixis-those",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "those",
+        "それら",
+        "それらの",
+        "那些",
+        "esos"
+      ],
+      "to": "those",
+      "rationale": "指示代名詞 distal pl → those",
+      "inventory": "deixis",
+      "breakdown": "deixis",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "those",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "those",
+          "via": "E MorphoZip closed_inventory_bits(deixis)",
+          "utf8": {
+            "before": 40,
+            "after": 40,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "deixis",
+            "bits_per": 3,
+            "n": 5,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "deixis-あれ",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "あれ",
+        "あれは",
+        "あれが",
+        "あれを",
+        "あれの",
+        "aquel"
+      ],
+      "to": "あれ",
+      "rationale": "指示代名詞 far-distal あれ（独立スロット）",
+      "inventory": "deixis",
+      "breakdown": "deixis",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "あれ",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "あれ",
+          "via": "E MorphoZip closed_inventory_bits(deixis)",
+          "utf8": {
+            "before": 48,
+            "after": 48,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "deixis",
+            "bits_per": 3,
+            "n": 5,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-mine",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "mine"
+      ],
+      "to": "mine",
+      "rationale": "独立所有格 mine（コア在庫）",
+      "inventory": "pronoun",
+      "breakdown": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "mine",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 5,
+          "after": 5,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "mine",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 32,
+            "after": 32,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 5,
+            "n": 26,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-ours",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "ours"
+      ],
+      "to": "ours",
+      "rationale": "独立所有格 ours（コア在庫）",
+      "inventory": "pronoun",
+      "breakdown": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ours",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 5,
+          "after": 5,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ours",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 32,
+            "after": 32,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 5,
+            "n": 26,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-yours",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "yours"
+      ],
+      "to": "yours",
+      "rationale": "独立所有格 yours（コア在庫）",
+      "inventory": "pronoun",
+      "breakdown": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "yours",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 5,
+          "after": 5,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "yours",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 40,
+            "after": 40,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 5,
+            "n": 26,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-theirs",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "theirs"
+      ],
+      "to": "theirs",
+      "rationale": "独立所有格 theirs（コア在庫）",
+      "inventory": "pronoun",
+      "breakdown": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "theirs",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 5,
+          "after": 5,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "theirs",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 48,
+            "after": 48,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 5,
+            "n": 26,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
     }
   ]
 }

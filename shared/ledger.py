@@ -39,6 +39,8 @@ open math (≠ ∞ ± % ° …) that are not E closed POS. Cross-lang: among mea
 preserving candidates pick the cheapest token+bit form
 (``select_cheapest_form`` / ``policy-cross-lang-cheapest``).
 Includes ``information``→``ℹ️`` (moved from E etymon). FYI phrase stays map-first.
+
+Breakdown (``breakdown``, 内訳): one flat string on ``kind=lex`` — prefer a POS label when the entry is a word (``pronoun``, ``deixis``, ``particle``, …); otherwise a plain tag (``collocation``, ``熟語``, ``slang``, ``sentence``, ``acronym``, ``abbrev``, ``token圧縮``, ``bit圧縮``, ``複合名詞``, ``時制``). Not separate deep columns.
 """
 
 from __future__ import annotations
@@ -90,6 +92,100 @@ _SQL_PHRASE_RE = re.compile(
 _TOKEN_VIA = "B TesseraTalk estimate_tokens"
 _BIT_VIA_UTF8 = "E MorphoZip utf8_bits"
 _BIT_VIA_INV = "E MorphoZip closed_inventory_bits"
+
+# Flat 内訳 labels (POS when it fits; else one plain tag). Not deep taxonomy.
+BREAKDOWN_POS = frozenset({
+    "pronoun", "deixis", "particle", "preposition", "adverb", "conjunction",
+    "auxiliary", "article", "compare", "emoji", "symbol", "noun", "verb",
+    "adjective", "determiner",
+})
+BREAKDOWN_TAGS = frozenset({
+    "collocation", "熟語", "slang", "sentence", "acronym", "abbrev",
+    "token圧縮", "bit圧縮", "複合名詞", "時制", "policy", "other",
+})
+BREAKDOWN_ALLOWED = BREAKDOWN_POS | BREAKDOWN_TAGS
+
+_INVENTORY_BREAKDOWN = {
+    "pronoun": "pronoun",
+    "deixis": "deixis",
+    "particle": "particle",
+    "preposition": "preposition",
+    "prep2": "preposition",
+    "adverb": "adverb",
+    "conjunction": "conjunction",
+    "auxiliary": "auxiliary",
+    "article": "article",
+    "compare": "compare",
+}
+
+
+def infer_breakdown(convention: dict[str, Any]) -> str:
+    """Prefer POS; else one plain tag (collocation / 熟語 / slang / …)."""
+    if convention.get("kind") != "lex":
+        return "policy" if convention.get("kind") == "policy" else "other"
+    inv = convention.get("inventory")
+    if isinstance(inv, str) and inv in _INVENTORY_BREAKDOWN:
+        return _INVENTORY_BREAKDOWN[inv]
+    fam = convention.get("family")
+    if fam == "emoji":
+        return "emoji"
+    if fam == "symbol":
+        return "symbol"
+    if fam == "abbrev":
+        ak = convention.get("abbrev_kind")
+        if ak == "acronym":
+            return "acronym"
+        if ak == "contraction":
+            return "abbrev"
+        if ak in ("latin", "clipping"):
+            return "abbrev" if ak == "latin" else "slang"
+        return "acronym"
+    if fam == "ever":
+        return "collocation"
+    if fam == "spatial":
+        return "collocation"
+    if fam == "conj":
+        return "conjunction"
+    if fam == "pair":
+        return "noun"
+    if fam == "adverb":
+        return "adverb"
+    cid = str(convention.get("id") or "")
+    for pref, tag in (
+        ("pronoun-", "pronoun"),
+        ("deixis-", "deixis"),
+        ("particle-", "particle"),
+        ("prep-", "preposition"),
+        ("prep2-", "preposition"),
+        ("aux-", "auxiliary"),
+        ("adverb-", "adverb"),
+        ("conj-", "conjunction"),
+        ("article-", "article"),
+        ("compare-", "compare"),
+        ("emoji-", "emoji"),
+        ("symbol-", "symbol"),
+        ("ever-", "collocation"),
+        ("spatial-", "collocation"),
+        ("c-", "acronym"),
+    ):
+        if cid.startswith(pref):
+            return tag
+    srcs = convention.get("from") or []
+    if any(isinstance(x, str) and (" " in x or "\u3000" in x or "　" in x) for x in srcs):
+        return "collocation"
+    return "collocation"
+
+
+def ensure_lex_breakdown(convention: dict[str, Any]) -> dict[str, Any]:
+    """Copy convention with ``breakdown`` filled when missing (lex only)."""
+    out = dict(convention)
+    if out.get("kind") != "lex":
+        return out
+    raw = out.get("breakdown")
+    if not isinstance(raw, str) or not raw.strip():
+        out["breakdown"] = infer_breakdown(out)
+    return out
+
 
 
 def _load_layer(mod_name: str, rel: str) -> Any:
@@ -312,6 +408,13 @@ def validate_lex_metrics(
     if bit is not None and bit.get("model") not in (None, "utf8", "inventory"):
         msg = f"{cid}: metrics.bit.model must be utf8|inventory"
         issues.append(msg if strict else f"warn: {msg}")
+    bd = convention.get("breakdown")
+    if not isinstance(bd, str) or not bd.strip():
+        msg = f"{cid}: lex entry missing breakdown (POS or plain tag)"
+        issues.append(msg if strict else f"warn: {msg}")
+    elif bd not in BREAKDOWN_ALLOWED:
+        msg = f"{cid}: breakdown {bd!r} not in allowed POS/tags"
+        issues.append(msg if strict else f"warn: {msg}")
     return issues
 
 
@@ -328,8 +431,8 @@ def validate_ledger_metrics(
 
 
 def ensure_lex_metrics(convention: dict[str, Any]) -> dict[str, Any]:
-    """Return a copy of ``convention`` with ``metrics`` filled for lex rows."""
-    out = dict(convention)
+    """Return a copy of ``convention`` with ``metrics`` + ``breakdown`` for lex."""
+    out = ensure_lex_breakdown(dict(convention))
     if out.get("kind") != "lex":
         if "metrics" not in out:
             out["metrics"] = None
