@@ -512,6 +512,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bmight\b", re.I), "may"),
     # --- prepositions (closed inventory); C owns under/above/below/beneath — skip
     (re.compile(r"\bfrom\b", re.I), "fr"),
+    # NOTE(for→4): 表層 4 は数字の four と揺らぎうる。ビット在庫(2bit)とは別に評価し、将来 4R 等へ寄せる可能性あり（現状は 4 のまま）。
     (re.compile(r"\bfor\b", re.I), "4"),
     (re.compile(r"\bat\b", re.I), "@"),
     # whatever-compounds → compact signals

@@ -62,6 +62,8 @@
 | 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can would→will should→must might→may；**I'll は C** | `I could` → `I can` |
 | 前置詞 preposition | w/ / 4 / fr / @ | 4 | 2 | with→w/ for→4 from→fr at→@；**under/above は C** | `for lunch from home at noon` → `4 lunch fr home @ noon` |
 
+> **for→4 の注意**: `4` は数字 four と表現の揺らぎが出うる。ビット在庫（2bit）とは別評価とし、最終的に `4R` などへ帰着する可能性あり（未変更・TODO）。
+
 **拡張:** conjunction +∵/+（N=6→3bit）；adverb +also；preposition +of/to/w/o（N=7→3bit）；pronoun +it（N=5→3bit）。
 
 **C との境界:** moreover/furthermore/nevertheless・under/above/below・I'll は C（台帳／曖昧さゲート／縮約）。E は触らない。`in`/`on` は曖昧のため自動書き換え見送り。
