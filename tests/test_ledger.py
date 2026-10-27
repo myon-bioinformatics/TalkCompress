@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 420
+    assert 14 <= len(all_lex) <= 460
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -427,6 +427,42 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-at-present"]["to"] == "今"
     assert by_id["adv-ahead-of-time"]["to"] == "早"
     assert by_id["adv-under-way"]["to"] == "進行"
+    # cycle6
+    assert by_id["prep-contrary-to"]["to"] == "逆"
+    assert by_id["prep-proportional-to"]["to"] == "比例"
+    assert by_id["prep-in-pursuit-of"]["to"] == "追"
+    assert by_id["adv-after-all"]["to"] == "結局"
+    assert by_id["adv-above-all"]["to"] == "最"
+    assert by_id["adv-all-in-all"]["to"] == "総"
+    assert by_id["adv-all-the-same"]["to"] == "猶"
+    assert by_id["adv-by-and-large"]["to"] == "概"
+    assert by_id["adv-by-far"]["to"] == "遥"
+    assert by_id["adv-for-sure"]["to"] == "確"
+    assert by_id["adv-in-any-case"]["to"] == "何れ"
+    assert by_id["adv-in-the-end"]["to"] == "最終"
+    assert by_id["adv-in-long-run"]["to"] == "長期"
+    assert by_id["adv-on-the-contrary"]["to"] == "反対"
+    assert by_id["adv-on-other-hand"]["to"] == "他方"
+    assert by_id["adv-to-some-extent"]["to"] == "或程"
+    assert by_id["adv-as-usual"]["to"] == "常"
+    assert by_id["adv-more-or-less"]["to"] == "殆"
+    assert by_id["adv-little-by-little"]["to"] == "徐"
+    assert by_id["adv-step-by-step"]["to"] == "逐"
+    assert by_id["adv-one-by-one"]["to"] == "逐一"
+    assert by_id["adv-side-by-side"]["to"] == "並列"
+    assert by_id["adv-again-and-again"]["to"] == "繰"
+    assert by_id["adv-as-a-result"]["to"] == "結果"
+    assert by_id["adv-in-advance"]["to"] == "予"
+    assert by_id["adv-by-all-means"]["to"] == "是非"
+    assert by_id["adv-in-essence"]["to"] == "本質"
+    assert by_id["adv-in-detail"]["to"] == "詳"
+    assert by_id["adv-in-retrospect"]["to"] == "回顧"
+    assert by_id["adv-without-fail"]["to"] == "必ず"
+    assert "with regard to" in by_id["prep-in-regard-to"]["from"]
+    assert "once again" in by_id["adv-anew"]["from"]
+    assert "right now" in by_id["adv-at-present"]["from"]
+    assert by_id["adv-after-all"]["breakdown"] == "副"
+    assert by_id["prep-contrary-to"]["breakdown"] == "前"
     assert "in the meantime" in by_id["adv-meanwhile"]["from"]
     assert "based on" in by_id["prep-on-basis-of"]["from"]
     assert "from now on" in by_id["legal-henceforth"]["from"]
