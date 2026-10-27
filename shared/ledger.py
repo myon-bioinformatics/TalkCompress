@@ -28,7 +28,7 @@ E may fold to ``!`` / ``!can`` on a ``C,E`` pipeline.
 Emoji family (``family=emoji``): C-owned word→emoji shortenings (``ファイア``→``🔥``,
 ``heart``/``ハート``→``♡``, …). Synced from ``EMOJI_SPEC``; ``ledger_apply=true``
 so ``apply_ledger_lex`` rewrites (unlike contractions). Dual metrics required;
-utf8 must shrink on the sample. ``information``→``ℹ️`` stays on E etymon path.
+utf8 must shrink on the sample. Includes ``information``→``ℹ️`` (moved from E etymon).
 """
 
 from __future__ import annotations
@@ -419,10 +419,10 @@ def sync_emoji_lex(
     meta = data.setdefault("meta", {})
     notes = meta.setdefault("notes", [])
     emoji_note = (
-        "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, …) "
-        "via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual metrics; utf8 must "
-        "shrink. information→ℹ️ stays E. Bare fire/idea/eyes/… utf8-flat forms may live "
-        "in DEFAULT_MAP runtime extras only."
+        "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, "
+        "information→ℹ️, …) via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual "
+        "metrics; utf8 must shrink. Bare fire/idea/eyes/… utf8-flat forms may live in "
+        "DEFAULT_MAP runtime extras only."
     )
     if isinstance(notes, list) and emoji_note not in notes:
         notes.append(emoji_note)

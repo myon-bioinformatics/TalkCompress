@@ -20,7 +20,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 - whatever / hereafter 系の「ほぼ1語」化も積極採用
 - 性別名詞の重い体系は避け、中性寄りでコストを下げる
 - 数字は `0-9`、必要なら `0-F`（16進、`--hex-nums`）。数学記法も可
-- 層3（C）が FILLER 除去・UNIQUE_COMPACT・I'll・スペル数字・合意台帳 lex。層4（E）は一意読み（長い形）・語源寄せ（ℹ️）・文法最小（`shared/lex_policy.py`）。D は **DensityZip**（横断オーケストレーション + density 指標ファサード）。 A Zipilogue / D DensityZip / E MorphoZip は別物（単独「Zip」は使わない）。F は当面なし
+- 層3（C）が FILLER 除去・UNIQUE_COMPACT・I'll・スペル数字・合意台帳 lex。層4（E）は一意読み（長い形）・語源寄せ（comm/cfg/doc 等；ℹ️ は C emoji）・文法最小（`shared/lex_policy.py`）。D は **DensityZip**（横断オーケストレーション + density 指標ファサード）。 A Zipilogue / D DensityZip / E MorphoZip は別物（単独「Zip」は使わない）。F は当面なし
 
 ## サブプロジェクト（A–E）
 
@@ -30,7 +30,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 | B | [TesseraTalk](TesseraTalk/) | 層2 — 文単位モザイク + 翻訳トークン最短（Romance/Germanic/Greek + JA/ZH） |
 | C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約・FILLER・UNIQUE_COMPACT・I'll・スペル数字・**合意台帳** |
 | D | [DensityZip](DensityZip/) | 横断 — 入出力・層切替・共通CLI + **density** 指標ファサード（台帳は持たない; Zipilogue/MorphoZip とは別） |
-| E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小・ℹ️・冠詞・助数詞（フィラー除去は既定オフ） |
+| E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小・語源寄せ・冠詞・助数詞（ℹ️ は C；フィラー除去は既定オフ） |
 
 ## 開発・CI
 

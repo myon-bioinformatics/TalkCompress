@@ -28,7 +28,7 @@ def _load(name: str, rel: str):
 
 
 def test_layer_ownership_matrix_classic_example():
-    """Canonical C vs E alone: I'll/spelled on C; ℹ️ on E (pipe → integration)."""
+    """Canonical C vs E alone: I'll/spelled/ℹ️ on C; E keeps long unique + articles."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     classic = "um 私は will find out the information about three animals"
@@ -39,7 +39,7 @@ def test_layer_ownership_matrix_classic_example():
     assert "um" in e_out.lower()
     assert "ascertain" in e_out.lower()
     assert "ascrt" not in e_out.lower()
-    assert INFO_GLYPH in e_out
+    assert INFO_GLYPH not in e_out  # ℹ️ is C family=emoji
     assert "I'll" not in e_out
     assert "I will" in e_out or " will " in f" {e_out} "
     assert "three" in e_out.lower()  # spelled nums are C-owned
@@ -51,7 +51,7 @@ def test_layer_ownership_matrix_classic_example():
     assert "I'll" in c_out
     assert "3" in c_out  # three → 3
     assert "three" not in c_out.lower()
-    assert INFO_GLYPH not in c_out  # ℹ️ is E
+    assert INFO_GLYPH in c_out  # ℹ️ is C
 
 
 # --- lexicon load ---
@@ -257,7 +257,7 @@ def test_zipilogue_file_cli(tmp_path):
     assert back.read_bytes() == b"\x00\x01binary-payload"
 
 
-# --- MorphoZip articles / counters / ℹ️; C owns I'll + spelled nums ---
+# --- MorphoZip articles / counters; C owns I'll + spelled nums + ℹ️ ---
 
 
 def test_morpho_strips_unquoted_articles_keeps_quoted():
@@ -306,11 +306,15 @@ def test_shorthand_ill_and_spelled_numbers():
 
 
 def test_morpho_information_to_info_glyph():
+    """information→ℹ️ is C family=emoji; E etymon no longer rewrites it."""
     from shared.lex_policy import INFO_GLYPH, apply_etymon_align
 
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert apply_etymon_align("information") == INFO_GLYPH
-    assert INFO_GLYPH in m.compress("send the information please")
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    assert apply_etymon_align("information") == "information"
+    assert INFO_GLYPH not in m.compress("send the information please")
+    assert INFO_GLYPH in s.compress("send the information please")
+    assert INFO_GLYPH in s.compress("インフォメーション")
 
 
 

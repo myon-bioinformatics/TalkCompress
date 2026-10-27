@@ -10,7 +10,7 @@ is a separate 1-bit flag (not inventory width). Avoid Chinese-only bias.
 
 Shared lexeme policy (``shared.lex_policy``) usage:
 - UNIQUE_READINGS long form only (``compact=False``) — anti-ambiguity
-- ETYMON_ALIGN (information / info / 情報 → ℹ️)
+- ETYMON_ALIGN (comm / cfg / doc…; information→ℹ️ is C family=emoji)
 - EN quantity phrases → short JA counters (experimental; needs digits already present)
 - strip unquoted articles ``the`` / ``a`` / ``an`` (quoted forms keep the word)
 - optional integer → hex rewrite (``hex_nums``)

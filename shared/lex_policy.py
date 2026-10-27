@@ -4,9 +4,9 @@ Layer ownership (TalkCompress):
 - **C ShorthandEdge**: ``strip_fillers``, ``UNIQUE_COMPACT`` (via ``apply_unique_readings(..., compact=True)``
   or ``apply_unique_compact``), same-language EN contractions (``I will``→``I'll``),
   spelled EN number words → digits. Also slang / hereafter / packs.
-- **E MorphoZip**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN`` (ℹ️),
-  first-person / counters / articles / grammar-min. Does **not** strip fillers, apply UNIQUE_COMPACT,
-  contract ``I'll``, or digitize spelled numbers by default.
+- **E MorphoZip**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN`` (comm/cfg/doc…;
+  information→ℹ️ is **C** ``family=emoji``), first-person / counters / articles / grammar-min.
+  Does **not** strip fillers, apply UNIQUE_COMPACT, contract ``I'll``, or digitize spelled numbers by default.
 - Helpers live here so both layers can import them; callers choose which passes to run.
 """
 
@@ -173,16 +173,11 @@ UNIQUE_COMPACT: dict[str, str] = {
 
 # Shared etymon clippings across EN/Latin/FR/ES/DE/IT.
 # Avoid false friends (e.g. FR nombre ≠ number).
-# Prefer INFORMATION SOURCE emoji (U+2139 U+FE0F) over Latin "info" for density.
+# INFORMATION SOURCE emoji (U+2139 U+FE0F); C family=emoji owns the rewrite (not ETYMON).
 INFO_GLYPH = "ℹ️"  # U+2139 + U+FE0F
 
+# information / info / 情報 / información… → ℹ️ moved to C family=emoji (EMOJI_SPEC).
 ETYMON_ALIGN: dict[str, str] = {
-    "information": INFO_GLYPH,
-    "información": INFO_GLYPH,
-    "informationen": INFO_GLYPH,
-    "informazione": INFO_GLYPH,
-    "info": INFO_GLYPH,
-    "情報": INFO_GLYPH,
     "communication": "comm",
     "comunicación": "comm",
     "kommunikation": "comm",
@@ -472,7 +467,7 @@ def apply_en_contractions(text: str) -> str:
 # --- C-owned word→emoji (family=emoji); ledger applies (unlike contractions) -----
 # (id suffix after "emoji-", from-forms tuple, short glyph, rationale)
 # Primary from[0] must utf8-shrink. Bare fire/idea/eyes/… that are utf8-flat stay
-# in EMOJI_RUNTIME_EXTRA (DEFAULT_MAP only), not ledger. information→ℹ️ stays E.
+# in EMOJI_RUNTIME_EXTRA (DEFAULT_MAP only), not ledger. information→ℹ️ is C emoji.
 EMOJI_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
     (
         "fire",
@@ -659,6 +654,20 @@ EMOJI_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
         ("pin it",),
         "📌",
         "pin it→📌",
+    ),
+    (
+        "information",
+        (
+            "information",
+            "インフォメーション",
+            "información",
+            "informationen",
+            "informazione",
+            "info",
+            "情報",
+        ),
+        INFO_GLYPH,
+        "information/インフォメーション等→ℹ️（C family=emoji；旧 ETYMON。info/情報は別名）",
     ),
 )
 

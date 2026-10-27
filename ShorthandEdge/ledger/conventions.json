@@ -13,7 +13,7 @@
       "When conjunctions or adverbs show up, inserting English often helps readability.",
       "Prefer shorter alphabet / cognate spellings when they align with meaning.",
       "Concrete lex mappings live under conventions[]; policy-only items have kind=policy.",
-      "ℹ️ (information) stays on E MorphoZip etymon path, not this ledger.",
+      "ℹ️ (information) is C family=emoji (EMOJI_SPEC / emoji-information); not E etymon.",
       "Furniture EN table → short desk/table lexeme; canonical to=机; allowed_to includes JA/ZH and Romance/Germanic/Greek desk equivalents (mesa/Tisch/tavolo/tafel/τραπέζι). SQL/tech contexts keep table.",
       "Ambiguity gate (C): conjunction shortenings marked ambiguity_sensitive skip when short form already collides in-text, or prefer_precision=True (CLI --prefer-precision).",
       "lex metrics (required): token = B TesseraTalk estimate_tokens; bit = E MorphoZip utf8_bits (default) or closed_inventory_bits when inventory applies. Both views narrow registration candidates.",
@@ -21,7 +21,7 @@
       "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots.",
       "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds).",
       "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline.",
-      "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, …) via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual metrics; utf8 must shrink. information→ℹ️ stays E. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras only."
+      "family=emoji (C-only): word→emoji shortenings (ファイア→🔥, heart/ハート→♡, information→ℹ️, …) via EMOJI_SPEC; ledger_apply=true (apply_ledger_lex). Dual metrics; utf8 must shrink. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras only."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -78,7 +78,8 @@
         "emoji-bug",
         "emoji-bell",
         "emoji-link",
-        "emoji-pin"
+        "emoji-pin",
+        "emoji-information"
       ],
       "skipped_nonshrink_utf8": [],
       "source": "shared.lex_policy.EMOJI_SPEC"
@@ -6093,6 +6094,49 @@
             "before": 48,
             "after": 32,
             "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-information",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "from": [
+        "information",
+        "インフォメーション",
+        "información",
+        "informationen",
+        "informazione",
+        "info",
+        "情報"
+      ],
+      "to": "ℹ️",
+      "rationale": "information/インフォメーション等→ℹ️（C family=emoji；旧 ETYMON。info/情報は別名）",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "information",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 48,
+          "delta": -40,
+          "ratio": 0.5455,
+          "sample_from": "information",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 48,
+            "delta": -40
           },
           "inventory": null
         }

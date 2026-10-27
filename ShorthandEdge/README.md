@@ -6,7 +6,7 @@
 
 ## 合意台帳（ledger）
 
-ソース・オブ・トゥルースは [`ledger/conventions.json`](ledger/conventions.json)。読込は `shared/ledger.py`。C が compress 時に適用（`--no-ledger` でオフ）。ℹ️ は E の語源パスのまま。
+ソース・オブ・トゥルースは [`ledger/conventions.json`](ledger/conventions.json)。読込は `shared/ledger.py`。C が compress 時に適用（`--no-ledger` でオフ）。information→ℹ️ も C `family=emoji`。
 
 | kind | 役割 |
 | --- | --- |
@@ -81,8 +81,9 @@ uv run python -m shared.ledger --sync-contractions
 | check / チェック | ✅ | |
 | warning / 警告 | ⚠ | |
 | hundred / 百点 | 💯 | |
+| information / インフォメーション 等 | ℹ️ | 旧 ETYMON から移管；info/情報は別名 |
 
-`EMOJI_SPEC`（`shared/lex_policy.py`）が単一ソース。utf8 が縮まない bare idea/eyes/… は DEFAULT_MAP の runtime extras のみ。**information→ℹ️ は E**（奪わない）。
+`EMOJI_SPEC`（`shared/lex_policy.py`）が単一ソース。utf8 が縮まない bare idea/eyes/… は DEFAULT_MAP の runtime extras のみ。**information→ℹ️ も C**（E etymon から移管）。
 
 ```bash
 uv run python -m shared.ledger --sync-emoji

@@ -355,9 +355,9 @@ def test_abbrev_family_contractions_synced():
 
 
 def test_emoji_family_synced():
-    """word→emoji is C family=emoji; ledger applies; utf8 shrinks; ℹ️ stays E."""
+    """word→emoji is C family=emoji; ledger applies; utf8 shrinks; includes ℹ️."""
     from shared.ledger import apply_ledger_lex, list_conventions, validate_ledger_metrics
-    from shared.lex_policy import EMOJI_SPEC, emoji_ledger_rows
+    from shared.lex_policy import EMOJI_SPEC, INFO_GLYPH, emoji_ledger_rows
 
     assert validate_ledger_metrics(strict=True) == []
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
@@ -386,11 +386,16 @@ def test_emoji_family_synced():
     assert "⚠" in apply_ledger_lex("warning")
     assert "✅" in apply_ledger_lex("check mark")
 
-    # information→ℹ️ is E, not C emoji ledger
-    assert "ℹ️" not in apply_ledger_lex("information")
-    assert all(c.get("to") != "ℹ️" for c in by_id.values() if c.get("family") == "emoji")
+    # information→ℹ️ is C family=emoji (sole apply; not ETYMON)
+    assert "emoji-information" in by_id
+    assert by_id["emoji-information"]["to"] == INFO_GLYPH
+    assert by_id["emoji-information"]["from"][0] == "information"
+    assert INFO_GLYPH in apply_ledger_lex("information")
+    assert INFO_GLYPH in apply_ledger_lex("インフォメーション")
+    assert INFO_GLYPH in apply_ledger_lex("información")
 
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     assert "♡" in s.compress("heart")
     assert "🔥" in s.compress("ファイア")
     assert "🔥" in s.compress("fire")
+    assert INFO_GLYPH in s.compress("send the information please")

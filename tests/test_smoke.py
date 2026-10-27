@@ -227,13 +227,11 @@ def test_lex_unique_and_etymon():
     u = apply_unique_readings("please find out the answer", compact=True)
     assert "ascrt" in u.lower()
     assert "find out" not in u.lower()
-    from shared.lex_policy import INFO_GLYPH
-
     e = apply_etymon_align("send the information and the document")
-    assert INFO_GLYPH in e
+    assert "information" in e  # ℹ️ moved to C emoji
     assert "doc" in e
-    assert apply_etymon_align("información") == INFO_GLYPH
-    assert apply_etymon_align("info") == INFO_GLYPH
+    assert apply_etymon_align("información") == "información"
+    assert apply_etymon_align("configuration") == "cfg"
 
 
 def test_morpho_opt_in_strip():
