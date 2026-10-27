@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 500
+    assert 14 <= len(all_lex) <= 520
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -487,6 +487,39 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-day-by-day"]["to"] == "日々"
     assert by_id["adv-year-by-year"]["to"] == "年々"
     assert by_id["adv-face-to-face"]["to"] == "対面"
+    # cycle8
+    assert by_id["prep-upstream-of"]["to"] == "上流"
+    assert by_id["prep-downstream-of"]["to"] == "下流"
+    assert by_id["prep-out-of-place"]["to"] == "不所"
+    assert by_id["prep-out-of-reach"]["to"] == "届外"
+    assert by_id["prep-under-fire"]["to"] == "被弾"
+    assert by_id["prep-under-review"]["to"] == "審査中"
+    assert by_id["prep-immune-to"]["to"] == "免疫"
+    assert by_id["prep-prone-to"]["to"] == "傾向"
+    assert by_id["prep-preparatory-to"]["to"] == "準備"
+    assert by_id["prep-further-to"]["to"] == "追伸"
+    assert by_id["prep-in-praise-of"]["to"] == "賛"
+    assert by_id["prep-such-as"]["to"] == "如"
+    assert by_id["adv-for-real"]["to"] == "真"
+    assert by_id["adv-in-turn"]["to"] == "順"
+    assert by_id["adv-in-full"]["to"] == "全"
+    assert by_id["adv-in-succession"]["to"] == "連続"
+    assert by_id["adv-hand-in-hand"]["to"] == "携"
+    assert by_id["adv-head-to-head"]["to"] == "直接"
+    assert by_id["adv-long-since"]["to"] == "久"
+    assert by_id["adv-right-then"]["to"] == "其時"
+    assert by_id["adv-en-route"]["to"] == "途中"
+    assert by_id["adv-by-no-means"]["to"] == "決して"
+    assert by_id["adv-no-doubt"]["to"] == "疑無"
+    assert by_id["adv-in-some-way"]["to"] == "或様"
+    assert by_id["adv-in-many-ways"]["to"] == "多様"
+    assert by_id["adv-at-times"]["to"] == "時々"
+    assert by_id["adv-at-all-times"]["to"] == "常時"
+    assert by_id["adv-at-random"]["to"] == "乱"
+    assert "out of nowhere" in by_id["adv-all-of-a-sudden"]["from"]
+    assert "excluding" in by_id["prep-except"]["from"]
+    assert by_id["prep-upstream-of"]["breakdown"] == "前"
+    assert by_id["adv-at-random"]["breakdown"] == "副"
     assert "exclusive of" in by_id["prep-except"]["from"]
     assert "every now and then" in by_id["adv-from-time-to-time"]["from"]
     assert by_id["prep-north-of"]["breakdown"] == "前"

@@ -775,6 +775,37 @@ def test_morpho_prep_like_finite_set():
     assert "偶" in m.compress("every now and then visit", **kw)
     assert "実" in m.compress("as a matter of fact yes", **kw)
 
+    # cycle8
+    assert "上流" in m.compress("upstream of the dam", **kw)
+    assert "下流" in m.compress("downstream of the bridge", **kw)
+    assert "不所" in m.compress("out of place remark", **kw)
+    assert "届外" in m.compress("out of reach goal", **kw)
+    assert "被弾" in m.compress("under fire constantly", **kw)
+    assert "審査中" in m.compress("under review now", **kw)
+    assert "免疫" in m.compress("immune to criticism", **kw)
+    assert "傾向" in m.compress("prone to error", **kw)
+    assert "準備" in m.compress("preparatory to launch", **kw)
+    assert "追伸" in m.compress("further to our call", **kw)
+    assert "賛" in m.compress("in praise of art", **kw)
+    assert "如" in m.compress("such as apples", **kw)
+    assert "真" in m.compress("for real this time", **kw)
+    assert "順" in m.compress("in turn each spoke", **kw)
+    assert "全" in m.compress("in full detail", **kw)
+    assert "連続" in m.compress("in succession win", **kw)
+    assert "携" in m.compress("hand in hand walk", **kw)
+    assert "直接" in m.compress("head to head race", **kw)
+    assert "久" in m.compress("long since gone", **kw)
+    assert "其時" in m.compress("right then left", **kw)
+    assert "途中" in m.compress("en route to Paris", **kw)
+    assert "決して" in m.compress("by no means easy", **kw)
+    assert "疑無" in m.compress("no doubt true", **kw)
+    assert "或様" in m.compress("in some way related", **kw)
+    assert "多様" in m.compress("in many ways better", **kw)
+    assert "時々" in m.compress("at times difficult", **kw)
+    assert "常時" in m.compress("at all times alert", **kw)
+    assert "乱" in m.compress("at random pick", **kw)
+    assert "突" in m.compress("out of nowhere appear", **kw)
+
 
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
