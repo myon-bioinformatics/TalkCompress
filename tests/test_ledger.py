@@ -1249,4 +1249,88 @@ def test_eng_dev_qed_abbrev_tranche():
     assert "perconvo" in s.compress("per our conversation")
     assert "PoC" not in s.compress("per our conversation")
 
+def test_path_unix_short_tranche():
+    """Unix/path classic shorts (family=path): dual-metric WIN + meaning gates."""
+    from shared.ledger import (
+        BREAKDOWN_ALLOWED,
+        apply_ledger_lex,
+        list_conventions,
+        validate_ledger_metrics,
+    )
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+
+    expected = {
+        "path-src": "src",
+        "path-doc": "doc",
+        "path-docs": "docs",
+        "path-tmp": "tmp",
+        "path-lib": "lib",
+        "path-bin": "bin",
+        "path-dist": "dist",
+        "path-pkg": "pkg",
+        "path-cfg": "cfg",
+        "path-util": "util",
+        "path-bak": "bak",
+        "path-incl": "incl",
+        "path-impl": "impl",
+        "path-misc": "misc",
+        "path-log": "log",
+        "path-logs": "logs",
+        "path-fmt": "fmt",
+        "path-arg": "arg",
+        "path-args": "args",
+        "path-argv": "argv",
+        "path-diff": "diff",
+        "path-recv": "recv",
+        "path-snd": "snd",
+        "path-cc": "cc",
+        "path-bcc": "bcc",
+    }
+    for cid, dst in expected.items():
+        c = by_id[cid]
+        assert c["to"] == dst, cid
+        assert c["apply_layer"] == "C"
+        assert c["family"] == "path"
+        assert c["breakdown"] in BREAKDOWN_ALLOWED
+        m = c["metrics"]
+        assert m["token"]["delta"] < 0, cid
+        assert m["bit"]["utf8"]["delta"] < 0, cid
+        assert m["token"]["sample_from"] == c["from"][0]
+
+    # etc. already folded
+    assert "conj-etc" in by_id
+    assert by_id["conj-etc"]["to"] == "etc."
+
+    # apply + gates
+    assert apply_ledger_lex("source directory") == "src"
+    assert "source of truth" in apply_ledger_lex("source of truth")
+    assert apply_ledger_lex("library directory") == "lib"
+    assert "library of Congress" in apply_ledger_lex("library of Congress")
+    assert apply_ledger_lex("temporary directory") == "tmp"
+    assert "temporary measure" in apply_ledger_lex("temporary measure")
+    assert apply_ledger_lex("documentation") == "doc"
+    assert apply_ledger_lex("documents") == "docs"
+    assert apply_ledger_lex("configuration") == "cfg"
+    assert apply_ledger_lex("format string") == "fmt"
+    assert "format of" in apply_ledger_lex("format of the essay")
+    assert apply_ledger_lex("argument") == "arg"
+    assert apply_ledger_lex("arguments") == "args"
+    assert apply_ledger_lex("command line arguments") == "argv"
+    assert apply_ledger_lex("argument list") == "argv"
+    assert "argument for peace" in apply_ledger_lex("argument for peace")
+    assert apply_ledger_lex("difference file") == "diff"
+    assert "make a difference" in apply_ledger_lex("make a difference")
+    assert "different from" in apply_ledger_lex("different from X")
+    assert apply_ledger_lex("receive buffer") == "recv"
+    assert "receive an award" in apply_ledger_lex("receive an award")
+    assert apply_ledger_lex("sending") == "snd"
+    assert apply_ledger_lex("carbon copy") == "cc"
+    assert apply_ledger_lex("blind carbon copy") == "bcc"
+
+    # conf/utils/bare send not emitted as canonical to
+    assert all(c.get("to") != "conf" for c in by_id.values() if str(c.get("id","")).startswith("path-"))
+    assert by_id["path-util"]["to"] == "util"
+    assert "send" not in [str(x).lower() for x in by_id["path-snd"]["from"]]
 

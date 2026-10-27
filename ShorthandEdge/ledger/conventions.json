@@ -28,7 +28,8 @@
       "Formal/legal + connective tranche (finite): therein→∈it, thereto→∴to, henceforth→∴→, notwithstanding→雖 (in spite of は prep 側), insofar-as→insofar, provided that→if, instead of→vs (in lieu of / rather than / pursuant to は prep cycle2), namely→viz, hence/thus→∴, albeit→tho, the foregoing→supra, aforementioned→said, vice versa→⇄, T&C, etal, given that→bc. hereof/thereby/hereto/herewith skipped (sense clash with thereof/∴/thereto/therewith). cycle11 filled spaced deferred (as of/latin/loc-time). Prep/adverb thickening is a separate tranche.",
       "family=relative (E 関係代名詞/関代): which→that (EN-internal; tok 2→1; post-nominal/non-restrictive gate; not interrogative which?/pied-pipe prep which); whom→who; Romance/DE long forms (lequel/welcher*/el que…)→que shared pivot. Do NOT emit bare q. deixis that→eso and complementizer/relative-that skip gate unchanged. Skip: whose (no clear short), lo que (what-clause 揺らぎ), relative where/donde/où/wo (ever-wherever/wo 揺らぎ), bare qui rewrite of who.",
       "gap-fill closed thin: det/quant + conj purpose + reciprocal + hedges + colloquial aux (tip after 1f5fbb4)",
-      "C eng/dev abbrev tranche (QED/LGTM/DRY/…): established engineer/programmer acronyms as family=abbrev acronym; iff already →⇔ via symbol-iff (math preferred)."
+      "C eng/dev abbrev tranche (QED/LGTM/DRY/…): established engineer/programmer acronyms as family=abbrev acronym; iff already →⇔ via symbol-iff (math preferred).",
+      "C path/unix-short tranche (family=path, id path-*): src/doc(s)/tmp/lib/bin/dist/pkg/cfg/util/bak/incl/impl/misc/log(s)/fmt/arg(s)/argv/diff/recv/snd/cc/bcc. dual token+utf8; meaning gates via skip_if_re. Folded etc→conj-etc. Skips: temp→tmp token-flat as sole sample (alias ok); conf≺cfg; utils≺util; bare send/sent→snd; bare log; bare argv; Δ/≠ keep symbol sense vs path-diff."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -23990,6 +23991,1030 @@
             "before": 152,
             "after": 48,
             "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-src",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "source directory",
+        "source dir",
+        "source folder",
+        "sources",
+        "source"
+      ],
+      "to": "src",
+      "rationale": "Unix/path: source(s)/source dir → src（小容量時代の短いディレクトリ表記）",
+      "breakdown": "略",
+      "skip_if_re": "\\bsources?\\s+of\\b|\\bprimary\\s+sources?\\b|\\bsource\\s+material\\b|\\bsource\\s+of\\s+truth\\b",
+      "meaning_gate": "path/dir/code-tree sense; skip 'source of' / primary source / source material / source of truth",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "source directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "source directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-doc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "documentation",
+        "document",
+        "document directory",
+        "document dir"
+      ],
+      "to": "doc",
+      "rationale": "Unix/path: document|documentation → doc（cheapest; docs は複数用 path-docs）",
+      "breakdown": "略",
+      "skip_if_re": "\\bdocument\\s+(?:the|a|an|this|that|how|why)\\b|\\bto\\s+document\\b",
+      "meaning_gate": "path/stub sense; skip verb 'document the/a/…'",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "documentation",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "documentation",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-docs",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "documents directory",
+        "documents folder",
+        "documents",
+        "docs directory"
+      ],
+      "to": "docs",
+      "rationale": "Unix/path: documents → docs（複数・docs ディレクトリ）",
+      "breakdown": "略",
+      "skip_if_re": "\\blegal\\s+documents?\\b|\\bhistorical\\s+documents?\\b",
+      "meaning_gate": "path/dir sense; skip legal/historical documents",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "documents directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 32,
+          "delta": -120,
+          "ratio": 0.2105,
+          "sample_from": "documents directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 32,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-tmp",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "temporary directory",
+        "temporary folder",
+        "temp directory",
+        "temp dir",
+        "temporary",
+        "temp"
+      ],
+      "to": "tmp",
+      "rationale": "Unix/path: temporary|temp → tmp（sample=temporary directory; bare temp は token 非縮小だが別名）",
+      "breakdown": "略",
+      "skip_if_re": "\\btemporary\\s+(?:measure|relief|injunction|order|agreement|solution|worker|employee|staff|housing|resident|visa)\\b",
+      "meaning_gate": "path/dir/file sense; skip temporary measure/order/worker/…",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "temporary directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 24,
+          "delta": -128,
+          "ratio": 0.1579,
+          "sample_from": "temporary directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 24,
+            "delta": -128
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-lib",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "library directory",
+        "libraries directory",
+        "library folder",
+        "libraries",
+        "library"
+      ],
+      "to": "lib",
+      "rationale": "Unix/path: library|libraries → lib",
+      "breakdown": "略",
+      "skip_if_re": "\\blibrary\\s+of\\b|\\bpublic\\s+library\\b|\\bresearch\\s+library\\b|\\blending\\s+library\\b",
+      "meaning_gate": "path/code-lib sense; skip library of Congress / public library",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "library directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 24,
+          "delta": -112,
+          "ratio": 0.1765,
+          "sample_from": "library directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 24,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-bin",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "binary directory",
+        "binaries",
+        "binary"
+      ],
+      "to": "bin",
+      "rationale": "Unix/path: binary|binaries → bin",
+      "breakdown": "略",
+      "skip_if_re": "\\bbinary\\s+(?:star|choice|option|opposition|thinking)\\b|\\bbinary\\s+and\\s+non[- ]?binary\\b",
+      "meaning_gate": "path/exec sense; skip binary star/choice/gendered senses",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "binary directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "binary directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-dist",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "distribution directory",
+        "distribution"
+      ],
+      "to": "dist",
+      "rationale": "Unix/path: distribution → dist（build 出力ディレクトリ）",
+      "breakdown": "略",
+      "skip_if_re": "\\bdistribution\\s+of\\s+(?:wealth|income|power|goods)\\b|\\bnormal\\s+distribution\\b|\\bprobability\\s+distribution\\b",
+      "meaning_gate": "path/build sense; skip wealth/probability distribution",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "distribution directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 176,
+          "after": 32,
+          "delta": -144,
+          "ratio": 0.1818,
+          "sample_from": "distribution directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 176,
+            "after": 32,
+            "delta": -144
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-pkg",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "package directory",
+        "packages",
+        "package"
+      ],
+      "to": "pkg",
+      "rationale": "Unix/path: package|packages → pkg",
+      "breakdown": "略",
+      "skip_if_re": "\\bpackage\\s+(?:deal|tour|holiday|vacation)\\b|\\bcare\\s+package\\b",
+      "meaning_gate": "path/packaging sense; skip travel/care package",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "package directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 24,
+          "delta": -112,
+          "ratio": 0.1765,
+          "sample_from": "package directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 24,
+            "delta": -112
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-cfg",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "configuration directory",
+        "config directory",
+        "configuration",
+        "config"
+      ],
+      "to": "cfg",
+      "rationale": "Unix/path: configuration|config → cfg（conf より cheapest）",
+      "breakdown": "略",
+      "meaning_gate": "path/config stub; conf は dual-metric で cfg に負け見送り（出力しない）",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 1,
+          "delta": -6,
+          "ratio": 0.1429,
+          "sample_from": "configuration directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 184,
+          "after": 24,
+          "delta": -160,
+          "ratio": 0.1304,
+          "sample_from": "configuration directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 184,
+            "after": 24,
+            "delta": -160
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-util",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "utility directory",
+        "utilities",
+        "utility"
+      ],
+      "to": "util",
+      "rationale": "Unix/path: utility|utilities → util（utils より cheapest）",
+      "breakdown": "略",
+      "skip_if_re": "\\bpublic\\s+utility\\b|\\butility\\s+(?:bill|company|pole|vehicle)\\b",
+      "meaning_gate": "path/helpers sense; skip public utility / utility bill",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "utility directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 32,
+          "delta": -104,
+          "ratio": 0.2353,
+          "sample_from": "utility directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 32,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-bak",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "backup directory",
+        "backup file",
+        "backup"
+      ],
+      "to": "bak",
+      "rationale": "Unix/path: backup → bak",
+      "breakdown": "略",
+      "skip_if_re": "\\bbackup\\s+(?:plan|singer|quarterback|dancer)\\b",
+      "meaning_gate": "path/file backup sense; skip backup plan/singer",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "backup directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 128,
+          "after": 24,
+          "delta": -104,
+          "ratio": 0.1875,
+          "sample_from": "backup directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 128,
+            "after": 24,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-incl",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "include directory",
+        "includes directory",
+        "includes",
+        "include"
+      ],
+      "to": "incl",
+      "rationale": "Unix/path: include(s) → incl（C）。E prep-including→含 と層分離",
+      "breakdown": "略",
+      "skip_if_re": "\\binclude\\s+me\\b|\\bplease\\s+include\\b",
+      "meaning_gate": "path/header include sense; skip conversational include me",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "include directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 32,
+          "delta": -104,
+          "ratio": 0.2353,
+          "sample_from": "include directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 32,
+            "delta": -104
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-impl",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "implementation directory",
+        "implementation"
+      ],
+      "to": "impl",
+      "rationale": "Unix/path: implementation → impl",
+      "breakdown": "略",
+      "meaning_gate": "code/impl stub sense",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 1,
+          "delta": -6,
+          "ratio": 0.1429,
+          "sample_from": "implementation directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 192,
+          "after": 32,
+          "delta": -160,
+          "ratio": 0.1667,
+          "sample_from": "implementation directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 192,
+            "after": 32,
+            "delta": -160
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-misc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "miscellaneous directory",
+        "miscellaneous"
+      ],
+      "to": "misc",
+      "rationale": "Unix/path: miscellaneous → misc",
+      "breakdown": "略",
+      "meaning_gate": "path/misc dir sense",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 1,
+          "delta": -6,
+          "ratio": 0.1429,
+          "sample_from": "miscellaneous directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 184,
+          "after": 32,
+          "delta": -152,
+          "ratio": 0.1739,
+          "sample_from": "miscellaneous directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 184,
+            "after": 32,
+            "delta": -152
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-log",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "log directory",
+        "log file",
+        "logfile"
+      ],
+      "to": "log",
+      "rationale": "Unix/path: log file|logfile → log（bare log は曖昧で見送り）",
+      "breakdown": "略",
+      "meaning_gate": "path/log-file sense only; bare log / logarithm 見送り",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "log directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "log directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-logs",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "logs directory",
+        "log files"
+      ],
+      "to": "logs",
+      "rationale": "Unix/path: log files → logs",
+      "breakdown": "略",
+      "meaning_gate": "path/logs dir sense",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "logs directory",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 32,
+          "delta": -80,
+          "ratio": 0.2857,
+          "sample_from": "logs directory",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 32,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-fmt",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "format string",
+        "format file",
+        "formats",
+        "format"
+      ],
+      "to": "fmt",
+      "rationale": "Unix/Go classic short: format → fmt（path/code-stub）",
+      "breakdown": "略",
+      "skip_if_re": "\\bformat\\s+of\\b|\\bin\\s+(?:this|that|the)\\s+format\\b|\\bformat\\s+(?:a|the|this|an)\\s+(?:response|letter|essay|paper|speech)\\b",
+      "meaning_gate": "path/code-stub (Go/fmt) sense; skip general-English format of / essay format",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "format string",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "format string",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-arg",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "argument"
+      ],
+      "to": "arg",
+      "rationale": "Unix/CLI: argument → arg",
+      "breakdown": "略",
+      "skip_if_re": "\\bargument\\s+(?:for|against|that|about|over)\\b|\\bmake\\s+an?\\s+argument\\b|\\bargumentative\\b|\\bheated\\s+argument\\b",
+      "meaning_gate": "CLI/code arg sense; skip debate 'argument for/against'",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "argument",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 24,
+          "delta": -40,
+          "ratio": 0.375,
+          "sample_from": "argument",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-args",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "arguments list",
+        "arguments"
+      ],
+      "to": "args",
+      "rationale": "Unix/CLI: arguments → args",
+      "breakdown": "略",
+      "skip_if_re": "\\barguments\\s+(?:for|against|that|about|over)\\b|\\bmake\\s+arguments\\b|\\bheated\\s+arguments\\b",
+      "meaning_gate": "CLI/code args sense; skip debate arguments",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "arguments list",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 32,
+          "delta": -80,
+          "ratio": 0.2857,
+          "sample_from": "arguments list",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 32,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-argv",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "command line arguments",
+        "command-line arguments",
+        "argument vector",
+        "argument list"
+      ],
+      "to": "argv",
+      "rationale": "Unix/CLI: argument vector / command-line arguments → argv",
+      "breakdown": "略",
+      "meaning_gate": "CLI argv sense; bare argv は非縮小で別名にしない",
+      "metrics": {
+        "token": {
+          "before": 6,
+          "after": 1,
+          "delta": -5,
+          "ratio": 0.1667,
+          "sample_from": "command line arguments",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 176,
+          "after": 32,
+          "delta": -144,
+          "ratio": 0.1818,
+          "sample_from": "command line arguments",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 176,
+            "after": 32,
+            "delta": -144
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-diff",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "difference file",
+        "diff file",
+        "difference",
+        "different"
+      ],
+      "to": "diff",
+      "rationale": "Unix/patch: difference|different → diff（diff-file sense）。Δ/≠ は数学別スロット",
+      "breakdown": "略",
+      "skip_if_re": "\\bmake\\s+a\\s+difference\\b|\\bdifference\\s+of\\s+opinion\\b|\\ba\\s+different\\b|\\bdifferent\\s+(?:from|than|to)\\b|\\bdifference\\s+between\\s+(?:people|persons|cultures|opinions)\\b",
+      "meaning_gate": "diff-file/patch sense; skip make a difference / different from; Δ/≠ stay symbol family",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "difference file",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 32,
+          "delta": -88,
+          "ratio": 0.2667,
+          "sample_from": "difference file",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 32,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-recv",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "receive buffer",
+        "received",
+        "receives",
+        "receiving",
+        "receive"
+      ],
+      "to": "recv",
+      "rationale": "Unix/socket classic: receive|received → recv",
+      "breakdown": "略",
+      "skip_if_re": "\\breceive(?:s|d|ing)?\\s+(?:an?\\s+)?(?:award|prize|degree|attention|treatment|care)\\b",
+      "meaning_gate": "socket/IO recv sense; skip receive an award/degree",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "receive buffer",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 32,
+          "delta": -80,
+          "ratio": 0.2857,
+          "sample_from": "receive buffer",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 32,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-snd",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "send buffer",
+        "sending",
+        "sends"
+      ],
+      "to": "snd",
+      "rationale": "Unix/socket classic: sending|sends → snd（bare send/sent は token 非縮小で見送り）",
+      "breakdown": "略",
+      "skip_if_re": "\\bsending\\s+(?:love|regards|my\\s+best|best\\s+wishes)\\b",
+      "meaning_gate": "socket/IO snd sense; bare send→snd dual-metric 負けで見送り",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "send buffer",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "send buffer",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-cc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "carbon copy",
+        "carbon-copy"
+      ],
+      "to": "cc",
+      "rationale": "classic short: carbon copy → cc",
+      "breakdown": "頭",
+      "meaning_gate": "mail/cc sense; phrase-only",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "carbon copy",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 16,
+          "delta": -72,
+          "ratio": 0.1818,
+          "sample_from": "carbon copy",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 16,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "path-bcc",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "path",
+      "from": [
+        "blind carbon copy",
+        "blind-carbon-copy"
+      ],
+      "to": "bcc",
+      "rationale": "classic short: blind carbon copy → bcc",
+      "breakdown": "頭",
+      "meaning_gate": "mail/bcc sense; phrase-only",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "blind carbon copy",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 136,
+          "after": 24,
+          "delta": -112,
+          "ratio": 0.1765,
+          "sample_from": "blind carbon copy",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 136,
+            "after": 24,
+            "delta": -112
           },
           "inventory": null
         }
