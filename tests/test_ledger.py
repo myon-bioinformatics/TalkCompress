@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 520
+    assert 14 <= len(all_lex) <= 560
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -557,6 +557,43 @@ def test_ledger_pos_registrations_dual_metrics():
     assert "thereupon" in by_id["adv-right-then"]["from"]
     assert by_id["prep-abreast-of"]["breakdown"] == "前"
     assert by_id["adv-currently"]["breakdown"] == "副"
+    # cycle10
+    assert by_id["prep-weary-of"]["to"] == "厭"
+    assert by_id["prep-ashamed-of"]["to"] == "恥"
+    assert by_id["prep-jealous-of"]["to"] == "嫉"
+    assert by_id["prep-empty-of"]["to"] == "空"
+    assert by_id["prep-made-of"]["to"] == "製"
+    assert by_id["adv-ashore"]["to"] == "岸"
+    assert by_id["adv-overboard"]["to"] == "船外"
+    assert by_id["adv-underwater"]["to"] == "水中"
+    assert by_id["adv-nationwide"]["to"] == "全国"
+    assert by_id["adv-worldwide"]["to"] == "世界"
+    assert by_id["adv-clockwise"]["to"] == "時計"
+    assert by_id["adv-counterclockwise"]["to"] == "反時計"
+    assert by_id["adv-inside-out"]["to"] == "裏返"
+    assert by_id["adv-upside-down"]["to"] == "逆さ"
+    assert by_id["adv-backwards"]["to"] == "後方"
+    assert by_id["adv-sideways"]["to"] == "横"
+    assert by_id["adv-en-masse"]["to"] == "一斉"
+    assert by_id["adv-all-along"]["to"] == "当初"
+    assert by_id["adv-ever-after"]["to"] == "以後"
+    assert by_id["adv-for-keeps"]["to"] == "永久"
+    assert by_id["adv-off-and-on"]["to"] == "断続"
+    assert by_id["adv-through-and-through"]["to"] == "徹底"
+    assert by_id["adv-more-often-than-not"]["to"] == "大抵"
+    assert by_id["adv-at-a-glance"]["to"] == "一見"
+    assert by_id["adv-at-stake"]["to"] == "賭"
+    assert by_id["adv-in-earnest"]["to"] == "本気"
+    assert by_id["adv-in-effect"]["to"] == "実質"
+    assert by_id["adv-out-of-stock"]["to"] == "品切"
+    assert "vis-a-vis" in by_id["prep-as-opposed-to"]["from"]
+    assert "afterward" in by_id["adv-afterwards"]["from"]
+    assert "as of yet" in by_id["adv-as-yet"]["from"]
+    assert "first and foremost" in by_id["adv-above-all"]["from"]
+    assert "in a nutshell" in by_id["adv-in-short"]["from"]
+    assert "ad infinitum" in by_id["adv-forever"]["from"]
+    assert by_id["prep-weary-of"]["breakdown"] == "前"
+    assert by_id["adv-at-stake"]["breakdown"] == "副"
     assert "every now and then" in by_id["adv-from-time-to-time"]["from"]
     assert by_id["prep-north-of"]["breakdown"] == "前"
     assert by_id["adv-no-longer"]["breakdown"] == "副"
