@@ -18,7 +18,7 @@
       "Ambiguity gate (C): conjunction shortenings marked ambiguity_sensitive skip when short form already collides in-text, or prefer_precision=True (CLI --prefer-precision).",
       "lex metrics (required): token = B TesseraTalk estimate_tokens; bit = E MorphoZip utf8_bits (default) or closed_inventory_bits when inventory applies. Both views narrow registration candidates.",
       "E MorphoZip closed-POS mappings are registered here as apply_layer=E (metrics + inventory) for the shared ledger; rewrite engine ownership stays on E. C apply_ledger_lex only applies apply_layer=C.",
-      "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family)."
+      "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots."
     ]
   },
   "conventions": [
@@ -2644,6 +2644,1642 @@
             "before": 48,
             "after": 16,
             "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "pronoun-you",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "you"
+      ],
+      "to": "君",
+      "rationale": "2sg EN you → 君（know/see 談話は C で除外）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "you",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "you",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 24,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-he",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "he"
+      ],
+      "to": "彼",
+      "rationale": "3sg M he → 彼",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "he",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "he",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 16,
+            "after": 24,
+            "delta": 8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-she",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "she"
+      ],
+      "to": "她",
+      "rationale": "3sg F she → 她（ビットスロットは 彼）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "she",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "she",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 24,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-him",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "him"
+      ],
+      "to": "彼",
+      "rationale": "him → 彼",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "him",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "him",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 24,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-her",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "her"
+      ],
+      "to": "她",
+      "rationale": "her → 她（所有・目的；hers は別）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "her",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "her",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 24,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-his",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "his"
+      ],
+      "to": "彼の",
+      "rationale": "his → 彼の",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 2,
+          "delta": 1,
+          "ratio": 2.0,
+          "sample_from": "his",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "his",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 48,
+            "delta": 24
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-your",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "your",
+        "yours"
+      ],
+      "to": "君の",
+      "rationale": "your/yours → 君の",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 2,
+          "delta": 1,
+          "ratio": 2.0,
+          "sample_from": "your",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "your",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 32,
+            "after": 48,
+            "delta": 16
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-yourself",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "yourself"
+      ],
+      "to": "君",
+      "rationale": "yourself → 君",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "yourself",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "yourself",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 64,
+            "after": 24,
+            "delta": -40
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-yo",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "yo"
+      ],
+      "to": "I",
+      "rationale": "ES yo → I",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "yo",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "yo",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 16,
+            "after": 8,
+            "delta": -8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-je",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "je"
+      ],
+      "to": "I",
+      "rationale": "FR je → I",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "je",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "je",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 16,
+            "after": 8,
+            "delta": -8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-ich",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "ich"
+      ],
+      "to": "I",
+      "rationale": "DE ich → I",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ich",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ich",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 8,
+            "delta": -16
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-tú",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "tú",
+        "tu"
+      ],
+      "to": "君",
+      "rationale": "ES/FR tú/tu → 君（出力 du は FR 冠詞揺らぎで alias のみ）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "tú",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "tú",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 24,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-usted",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "usted"
+      ],
+      "to": "君",
+      "rationale": "ES formal usted → 君",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "usted",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "usted",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-él",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "él"
+      ],
+      "to": "彼",
+      "rationale": "ES él（アクセント付き）→ 彼；bare el は冠詞で見送り",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "él",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "él",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 24,
+            "delta": 0
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-il",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "il"
+      ],
+      "to": "彼",
+      "rationale": "FR il → 彼",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "il",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "il",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 16,
+            "after": 24,
+            "delta": 8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-ella",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "ella"
+      ],
+      "to": "她",
+      "rationale": "ES ella → 她（在庫スロット 彼）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ella",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ella",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-elle",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "elle"
+      ],
+      "to": "她",
+      "rationale": "FR elle → 她",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "elle",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "elle",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-ellos",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "ellos",
+        "ellas"
+      ],
+      "to": "they",
+      "rationale": "ES ellos/ellas → they",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "ellos",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ellos",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-ils",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "ils",
+        "elles"
+      ],
+      "to": "they",
+      "rationale": "FR ils/elles → they",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ils",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ils",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 24,
+            "after": 32,
+            "delta": 8
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-ustedes",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "ustedes"
+      ],
+      "to": "y'all",
+      "rationale": "ES ustedes → y'all（they スロット）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ustedes",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ustedes",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-私",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "私は",
+        "僕は",
+        "俺は",
+        "わたしは"
+      ],
+      "to": "I",
+      "rationale": "JA 1sg 主語 → I",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "私は",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "私は",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 48,
+            "after": 8,
+            "delta": -40
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-私の",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "私の",
+        "僕の",
+        "俺の",
+        "わたしの"
+      ],
+      "to": "my",
+      "rationale": "JA 1sg 所有 → my（在庫スロット I）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "私の",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "私の",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 48,
+            "after": 16,
+            "delta": -32
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-あなた",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "あなた",
+        "お前",
+        "あなたは"
+      ],
+      "to": "君",
+      "rationale": "JA 2sg → 君",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "あなた",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "あなた",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 72,
+            "after": 24,
+            "delta": -48
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-彼女",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "彼女",
+        "彼女は",
+        "彼女が"
+      ],
+      "to": "她",
+      "rationale": "JA 彼女 → 她（スロット 彼）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "彼女",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "彼女",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-彼ら",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "彼ら",
+        "かれら",
+        "他们",
+        "她们"
+      ],
+      "to": "they",
+      "rationale": "JA/ZH 3pl → they",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "彼ら",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "彼ら",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-皆さん",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "皆さん",
+        "みなさん",
+        "みんな",
+        "お前ら",
+        "あなたたち",
+        "君たち",
+        "你们"
+      ],
+      "to": "y'all",
+      "rationale": "2pl → y'all（they スロット）",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "皆さん",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "皆さん",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 72,
+            "after": 40,
+            "delta": -32
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-you-all",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "you all",
+        "you guys",
+        "you folks",
+        "you lot"
+      ],
+      "to": "y'all",
+      "rationale": "EN 2pl phrase → y'all",
+      "inventory": "pronoun",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "you all",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "you all",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 2,
+            "n": 4,
+            "extended": false,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-he-or-she",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "he or she",
+        "she or he",
+        "him or her",
+        "her or him"
+      ],
+      "to": "彼/她",
+      "rationale": "性別対置は they に潰さず 彼/她 を保持",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "he or she",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 56,
+          "delta": -16,
+          "ratio": 0.7778,
+          "sample_from": "he or she",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 56,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "pronoun-それ",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "それ",
+        "それは",
+        "それが",
+        "それを",
+        "它"
+      ],
+      "to": "it",
+      "rationale": "JA/ZH それ/它 → it（拡張 N=5→3bit）",
+      "inventory": "pronoun",
+      "extended": true,
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "それ",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "inventory",
+          "before": 3,
+          "after": 3,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "それ",
+          "via": "E MorphoZip closed_inventory_bits(pronoun)",
+          "utf8": {
+            "before": 48,
+            "after": 16,
+            "delta": -32
+          },
+          "inventory": {
+            "name": "pronoun",
+            "bits_per": 3,
+            "n": 5,
+            "extended": true,
+            "note": "inventory ceil(log2 N) per occurrence; utf8 remains secondary under bit.utf8"
+          }
+        }
+      }
+    },
+    {
+      "id": "pronoun-私たち",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "私たち",
+        "わたしたち",
+        "我々",
+        "僕たち",
+        "我们"
+      ],
+      "to": "we",
+      "rationale": "1pl → we（コア在庫外・rewrite のみ；inventory 非適用）",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "私たち",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 16,
+          "delta": -56,
+          "ratio": 0.2222,
+          "sample_from": "私たち",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 16,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ill",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "I will",
+        "i will"
+      ],
+      "to": "I'll",
+      "rationale": "I'll は C 所有（E は I will のまま）",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "I will",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "I will",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-asap",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "as soon as possible"
+      ],
+      "to": "ASAP",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "as soon as possible",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 152,
+          "after": 32,
+          "delta": -120,
+          "ratio": 0.2105,
+          "sample_from": "as soon as possible",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 152,
+            "after": 32,
+            "delta": -120
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-fyi",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "for your information"
+      ],
+      "to": "FYI",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 1,
+          "delta": -4,
+          "ratio": 0.2,
+          "sample_from": "for your information",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 160,
+          "after": 24,
+          "delta": -136,
+          "ratio": 0.15,
+          "sample_from": "for your information",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 160,
+            "after": 24,
+            "delta": -136
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-btw",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "by the way"
+      ],
+      "to": "BTW",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "by the way",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "by the way",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-imo",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "in my opinion"
+      ],
+      "to": "IMO",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "in my opinion",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 24,
+          "delta": -80,
+          "ratio": 0.2308,
+          "sample_from": "in my opinion",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 24,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-tbh",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "to be honest"
+      ],
+      "to": "TBH",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "to be honest",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "to be honest",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-idk",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "I don't know",
+        "i don't know"
+      ],
+      "to": "idk",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 1,
+          "delta": -3,
+          "ratio": 0.25,
+          "sample_from": "I don't know",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "I don't know",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-ty",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "thank you"
+      ],
+      "to": "ty",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "thank you",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 16,
+          "delta": -56,
+          "ratio": 0.2222,
+          "sample_from": "thank you",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 16,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-pls",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "please"
+      ],
+      "to": "pls",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "please",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 24,
+          "delta": -24,
+          "ratio": 0.5,
+          "sample_from": "please",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-nvm",
+      "kind": "lex",
+      "apply_layer": "C",
+      "from": [
+        "never mind"
+      ],
+      "to": "nvm",
+      "rationale": "定番略語",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "never mind",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "never mind",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
           },
           "inventory": null
         }
