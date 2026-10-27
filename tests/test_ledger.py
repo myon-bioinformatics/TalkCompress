@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 340
+    assert 14 <= len(all_lex) <= 360
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -422,6 +422,7 @@ def test_formal_legal_connectives_dual_metrics():
         "legal-henceforth": "∴→",
         "legal-notwithstanding": "雖",
         "conj-insofar": "insofar",
+        "c-pursuant": "per",
         "conj-provided": "if",
         "conj-in-lieu": "vs",
         "c-namely": "viz",
@@ -467,6 +468,13 @@ def test_formal_legal_connectives_dual_metrics():
     assert apply_ledger_lex("notwithstanding section 5") == "雖 section 5"
     assert apply_ledger_lex("insofar as possible") == "insofar possible"
     assert "to the extent of" in apply_ledger_lex("to the extent of 5")
+    assert apply_ledger_lex("pursuant to section 2") == "per section 2"
+    assert "pursuant to" in apply_ledger_lex(
+        "pursuant to section 2", prefer_precision=True
+    )
+    # per already in text → keep the long form
+    kept = apply_ledger_lex("pursuant to the rule per annex")
+    assert "pursuant to" in kept
     assert apply_ledger_lex("provided that we pay") == "if we pay"
     assert "provided that" in apply_ledger_lex(
         "provided that we pay", prefer_precision=True

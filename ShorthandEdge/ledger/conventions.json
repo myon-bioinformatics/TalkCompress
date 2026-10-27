@@ -12656,6 +12656,45 @@
       }
     },
     {
+      "id": "c-pursuant",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "from": [
+        "pursuant to",
+        "in accordance with"
+      ],
+      "to": "per",
+      "rationale": "pursuant to / in accordance with → per（C）。E prep-in-accordance-with→準 と併存。under は spatial 下へ連鎖するため除外。per は for-each と衝突し得る",
+      "breakdown": "連",
+      "ambiguity_sensitive": true,
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "pursuant to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "pursuant to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
       "id": "conj-provided",
       "kind": "lex",
       "apply_layer": "C",
