@@ -6,7 +6,7 @@
 
 ## 合意台帳（ledger）
 
-lex の **`breakdown`（内訳）**: 品詞が付けば POS（`pronoun` / `deixis` / …）、否则 `collocation` / `熟語` / `slang` / `acronym` / `token圧縮` 等の平たいタグ1つ（列を増やし過ぎない）。
+lex の **`breakdown`（内訳）**: 短形1つ — 品詞 `代`/`示`/`助`/`前`/…、否则 `連`/`熟`/`俗`/`頭`/`略`/`↓T`（長いENは共有短形へ；列を増やし過ぎない）。
 
 ソース・オブ・トゥルースは [`ledger/conventions.json`](ledger/conventions.json)。読込は `shared/ledger.py`。C が compress 時に適用（`--no-ledger` でオフ）。information→ℹ️ も C `family=emoji`。
 

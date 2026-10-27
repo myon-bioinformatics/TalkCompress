@@ -40,7 +40,7 @@ preserving candidates pick the cheapest token+bit form
 (``select_cheapest_form`` / ``policy-cross-lang-cheapest``).
 Includes ``information``→``ℹ️`` (moved from E etymon). FYI phrase stays map-first.
 
-Breakdown (``breakdown``, 内訳): one flat string on ``kind=lex`` — prefer a POS label when the entry is a word (``pronoun``, ``deixis``, ``particle``, …); otherwise a plain tag (``collocation``, ``熟語``, ``slang``, ``sentence``, ``acronym``, ``abbrev``, ``token圧縮``, ``bit圧縮``, ``複合名詞``, ``時制``). Not separate deep columns.
+Breakdown (``breakdown``, 内訳): one flat compact string on ``kind=lex`` — prefer short POS (``代``/``示``/``助``/``前``/…); else short tags (``連``/``熟``/``俗``/``頭``/``略``/``↓T``/``↓B``/``時``/``複``). Same expression-compact spirit as lex (1-char when clear). Not deep columns.
 """
 
 from __future__ import annotations
@@ -93,97 +93,125 @@ _TOKEN_VIA = "B TesseraTalk estimate_tokens"
 _BIT_VIA_UTF8 = "E MorphoZip utf8_bits"
 _BIT_VIA_INV = "E MorphoZip closed_inventory_bits"
 
-# Flat 内訳 labels (POS when it fits; else one plain tag). Not deep taxonomy.
+# Flat 内訳 labels — compact shared forms (1-char when clear). Not deep taxonomy.
+# Long EN/JA prose tags rewrite to these under the same expression rules as lex.
+BREAKDOWN_COMPACT: dict[str, str] = {
+    "pronoun": "代", "deixis": "示", "particle": "助", "preposition": "前",
+    "adverb": "副", "conjunction": "接", "auxiliary": "助動", "article": "冠",
+    "compare": "比", "emoji": "絵", "symbol": "記", "noun": "名", "verb": "動",
+    "adjective": "形", "determiner": "限",
+    "collocation": "連", "熟語": "熟", "slang": "俗", "sentence": "文",
+    "acronym": "頭", "abbrev": "略",
+    "token圧縮": "↓T", "bit圧縮": "↓B", "時制": "時", "複合名詞": "複",
+    "policy": "規", "other": "・",
+}
 BREAKDOWN_POS = frozenset({
-    "pronoun", "deixis", "particle", "preposition", "adverb", "conjunction",
-    "auxiliary", "article", "compare", "emoji", "symbol", "noun", "verb",
-    "adjective", "determiner",
+    "代", "示", "助", "前", "副", "接", "助動", "冠", "比", "絵", "記",
+    "名", "動", "形", "限",
 })
 BREAKDOWN_TAGS = frozenset({
-    "collocation", "熟語", "slang", "sentence", "acronym", "abbrev",
-    "token圧縮", "bit圧縮", "複合名詞", "時制", "policy", "other",
+    "連", "熟", "俗", "文", "頭", "略", "↓T", "↓B", "時", "複", "規", "・",
 })
 BREAKDOWN_ALLOWED = BREAKDOWN_POS | BREAKDOWN_TAGS
 
 _INVENTORY_BREAKDOWN = {
-    "pronoun": "pronoun",
-    "deixis": "deixis",
-    "particle": "particle",
-    "preposition": "preposition",
-    "prep2": "preposition",
-    "adverb": "adverb",
-    "conjunction": "conjunction",
-    "auxiliary": "auxiliary",
-    "article": "article",
-    "compare": "compare",
+    "pronoun": "代",
+    "deixis": "示",
+    "particle": "助",
+    "preposition": "前",
+    "prep2": "前",
+    "adverb": "副",
+    "conjunction": "接",
+    "auxiliary": "助動",
+    "article": "冠",
+    "compare": "比",
 }
 
 
+def compact_breakdown(label: str | None) -> str:
+    """Map long breakdown label → shared short form (identity if already short)."""
+    if not isinstance(label, str) or not label.strip():
+        return "・"
+    s = label.strip()
+    if s in BREAKDOWN_ALLOWED:
+        return s
+    return BREAKDOWN_COMPACT.get(s, BREAKDOWN_COMPACT.get(s.lower(), s if s in BREAKDOWN_ALLOWED else "・"))
+
+
 def infer_breakdown(convention: dict[str, Any]) -> str:
-    """Prefer POS; else one plain tag (collocation / 熟語 / slang / …)."""
+    """Prefer compact POS; else one plain short tag (連/熟/俗/頭/…)."""
     if convention.get("kind") != "lex":
-        return "policy" if convention.get("kind") == "policy" else "other"
+        return "規" if convention.get("kind") == "policy" else "・"
     inv = convention.get("inventory")
     if isinstance(inv, str) and inv in _INVENTORY_BREAKDOWN:
         return _INVENTORY_BREAKDOWN[inv]
     fam = convention.get("family")
     if fam == "emoji":
-        return "emoji"
+        return "絵"
     if fam == "symbol":
-        return "symbol"
+        return "記"
     if fam == "abbrev":
         ak = convention.get("abbrev_kind")
         if ak == "acronym":
-            return "acronym"
+            return "頭"
         if ak == "contraction":
-            return "abbrev"
-        if ak in ("latin", "clipping"):
-            return "abbrev" if ak == "latin" else "slang"
-        return "acronym"
+            return "略"
+        if ak == "latin":
+            return "略"
+        if ak == "clipping":
+            return "俗"
+        return "頭"
     if fam == "ever":
-        return "collocation"
+        return "連"
     if fam == "spatial":
-        return "collocation"
+        return "連"
     if fam == "conj":
-        return "conjunction"
+        return "接"
     if fam == "pair":
-        return "noun"
+        return "名"
     if fam == "adverb":
-        return "adverb"
+        return "副"
     cid = str(convention.get("id") or "")
     for pref, tag in (
-        ("pronoun-", "pronoun"),
-        ("deixis-", "deixis"),
-        ("particle-", "particle"),
-        ("prep-", "preposition"),
-        ("prep2-", "preposition"),
-        ("aux-", "auxiliary"),
-        ("adverb-", "adverb"),
-        ("conj-", "conjunction"),
-        ("article-", "article"),
-        ("compare-", "compare"),
-        ("emoji-", "emoji"),
-        ("symbol-", "symbol"),
-        ("ever-", "collocation"),
-        ("spatial-", "collocation"),
-        ("c-", "acronym"),
+        ("pronoun-", "代"),
+        ("deixis-", "示"),
+        ("particle-", "助"),
+        ("prep-", "前"),
+        ("prep2-", "前"),
+        ("aux-", "助動"),
+        ("adverb-", "副"),
+        ("conj-", "接"),
+        ("article-", "冠"),
+        ("compare-", "比"),
+        ("emoji-", "絵"),
+        ("symbol-", "記"),
+        ("ever-", "連"),
+        ("spatial-", "連"),
+        ("c-", "頭"),
     ):
         if cid.startswith(pref):
             return tag
     srcs = convention.get("from") or []
-    if any(isinstance(x, str) and (" " in x or "\u3000" in x or "　" in x) for x in srcs):
-        return "collocation"
-    return "collocation"
+    if any(isinstance(x, str) and (" " in x or "　" in x) for x in srcs):
+        return "連"
+    # already-compact or long → compact
+    existing = convention.get("breakdown")
+    if isinstance(existing, str) and existing.strip():
+        return compact_breakdown(existing)
+    return "連"
+
 
 
 def ensure_lex_breakdown(convention: dict[str, Any]) -> dict[str, Any]:
-    """Copy convention with ``breakdown`` filled when missing (lex only)."""
+    """Copy convention with compact ``breakdown`` (fill or rewrite long labels)."""
     out = dict(convention)
     if out.get("kind") != "lex":
         return out
     raw = out.get("breakdown")
     if not isinstance(raw, str) or not raw.strip():
         out["breakdown"] = infer_breakdown(out)
+    else:
+        out["breakdown"] = compact_breakdown(raw)
     return out
 
 

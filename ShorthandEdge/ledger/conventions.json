@@ -24,7 +24,7 @@
       "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: math/symbol first when meaning is clear, else emoji — prefer existing inventory over inventing new math or emoji peers (check→✓ not ✅; star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / policy-cross-lang-cheapest (token then utf8).",
       "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
       "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap).",
-      "breakdown (内訳, flat string): prefer POS when the entry is a word (pronoun/deixis/particle/preposition/adverb/conjunction/auxiliary/article/compare/emoji/symbol/noun/verb/…); else one plain tag — collocation / 熟語 / slang / sentence / acronym / abbrev / token圧縮 / bit圧縮 / 複合名詞 / 時制. Not separate deep columns."
+      "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/…) rewrite to these."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -199,7 +199,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "spatial-under",
@@ -238,7 +238,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "spatial-above",
@@ -275,7 +275,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "uneven-凹凸",
@@ -316,7 +316,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "policy-base-mix",
@@ -379,7 +379,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "spatial-front-back",
@@ -417,7 +417,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "spatial-in-out",
@@ -456,7 +456,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "spatial-big-small",
@@ -495,7 +495,7 @@
         }
       },
       "family": "spatial",
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "conj-moreover",
@@ -535,7 +535,7 @@
         }
       },
       "family": "conj",
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "conj-nevertheless",
@@ -574,7 +574,7 @@
         }
       },
       "family": "conj",
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "conj-therefore",
@@ -614,7 +614,7 @@
         }
       },
       "family": "conj",
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "conj-for-example",
@@ -653,7 +653,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "latin",
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "conj-that-is",
@@ -693,7 +693,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "latin",
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "furniture-table",
@@ -756,7 +756,7 @@
         }
       },
       "family": "pair",
-      "breakdown": "noun"
+      "breakdown": "名"
     },
     {
       "id": "pronoun-I",
@@ -803,7 +803,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-君",
@@ -851,7 +851,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-彼",
@@ -901,7 +901,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "particle-made",
@@ -944,7 +944,7 @@
           }
         }
       },
-      "breakdown": "particle"
+      "breakdown": "助"
     },
     {
       "id": "particle-mo",
@@ -988,7 +988,7 @@
         }
       },
       "extended": true,
-      "breakdown": "particle"
+      "breakdown": "助"
     },
     {
       "id": "particle-to",
@@ -1032,7 +1032,7 @@
         }
       },
       "extended": true,
-      "breakdown": "particle"
+      "breakdown": "助"
     },
     {
       "id": "particle-kara",
@@ -1077,7 +1077,7 @@
         }
       },
       "extended": true,
-      "breakdown": "particle"
+      "breakdown": "助"
     },
     {
       "id": "prep-with",
@@ -1124,7 +1124,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "prep-for",
@@ -1173,7 +1173,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "prep-from",
@@ -1222,7 +1222,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "prep-at",
@@ -1267,7 +1267,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "prep2-without",
@@ -1315,7 +1315,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "prep2-within",
@@ -1361,7 +1361,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "prep2-before",
@@ -1408,7 +1408,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "prep2-after",
@@ -1458,7 +1458,7 @@
           }
         }
       },
-      "breakdown": "preposition"
+      "breakdown": "前"
     },
     {
       "id": "aux-can",
@@ -1503,7 +1503,7 @@
           }
         }
       },
-      "breakdown": "auxiliary"
+      "breakdown": "助動"
     },
     {
       "id": "aux-will",
@@ -1550,7 +1550,7 @@
           }
         }
       },
-      "breakdown": "auxiliary"
+      "breakdown": "助動"
     },
     {
       "id": "aux-must",
@@ -1599,7 +1599,7 @@
           }
         }
       },
-      "breakdown": "auxiliary"
+      "breakdown": "助動"
     },
     {
       "id": "aux-may",
@@ -1644,7 +1644,7 @@
           }
         }
       },
-      "breakdown": "auxiliary"
+      "breakdown": "助動"
     },
     {
       "id": "aux-neg-can",
@@ -1691,7 +1691,7 @@
           }
         }
       },
-      "breakdown": "auxiliary"
+      "breakdown": "助動"
     },
     {
       "id": "aux-neg-must",
@@ -1738,7 +1738,7 @@
           }
         }
       },
-      "breakdown": "auxiliary"
+      "breakdown": "助動"
     },
     {
       "id": "aux-neg-may",
@@ -1783,7 +1783,7 @@
           }
         }
       },
-      "breakdown": "auxiliary"
+      "breakdown": "助動"
     },
     {
       "id": "e-conj-and",
@@ -1833,7 +1833,7 @@
           }
         }
       },
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "e-conj-or",
@@ -1882,7 +1882,7 @@
           }
         }
       },
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "e-conj-because",
@@ -1926,7 +1926,7 @@
           }
         }
       },
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "e-conj-therefore",
@@ -1971,7 +1971,7 @@
           }
         }
       },
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "adv-however",
@@ -2017,7 +2017,7 @@
       },
       "family": "adverb",
       "meaning_gate": "MorphoZip: contrastive however→tho only; skip concessive/degree `however hard/much/…` (negative lookahead on Adj/Adv).",
-      "breakdown": "adverb"
+      "breakdown": "副"
     },
     {
       "id": "adv-approx",
@@ -2061,7 +2061,7 @@
           }
         }
       },
-      "breakdown": "adverb"
+      "breakdown": "副"
     },
     {
       "id": "adv-very",
@@ -2107,7 +2107,7 @@
           }
         }
       },
-      "breakdown": "adverb"
+      "breakdown": "副"
     },
     {
       "id": "adv-especially",
@@ -2153,7 +2153,7 @@
           }
         }
       },
-      "breakdown": "adverb"
+      "breakdown": "副"
     },
     {
       "id": "compare-ge",
@@ -2202,7 +2202,7 @@
           }
         }
       },
-      "breakdown": "compare"
+      "breakdown": "比"
     },
     {
       "id": "compare-le",
@@ -2251,7 +2251,7 @@
           }
         }
       },
-      "breakdown": "compare"
+      "breakdown": "比"
     },
     {
       "id": "polarity-not",
@@ -2292,7 +2292,7 @@
           "inventory": null
         }
       },
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "polarity-never",
@@ -2330,7 +2330,7 @@
           "inventory": null
         }
       },
-      "breakdown": "熟語"
+      "breakdown": "熟"
     },
     {
       "id": "adv-always-ext",
@@ -2375,7 +2375,7 @@
           }
         }
       },
-      "breakdown": "adverb"
+      "breakdown": "副"
     },
     {
       "id": "adv-often-ext",
@@ -2420,7 +2420,7 @@
           }
         }
       },
-      "breakdown": "adverb"
+      "breakdown": "副"
     },
     {
       "id": "conj-etc",
@@ -2460,7 +2460,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "latin",
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "conj-vs",
@@ -2499,7 +2499,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "latin",
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "pronoun-yourself",
@@ -2542,7 +2542,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-yo",
@@ -2585,7 +2585,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-je",
@@ -2628,7 +2628,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-ich",
@@ -2671,7 +2671,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-usted",
@@ -2714,7 +2714,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-ella",
@@ -2757,7 +2757,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-elle",
@@ -2800,7 +2800,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-ellos",
@@ -2844,7 +2844,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-ustedes",
@@ -2887,7 +2887,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-私",
@@ -2933,7 +2933,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-私の",
@@ -2979,7 +2979,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-あなた",
@@ -3024,7 +3024,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-彼女",
@@ -3069,7 +3069,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-彼ら",
@@ -3115,7 +3115,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-皆さん",
@@ -3164,7 +3164,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-you-all",
@@ -3210,7 +3210,7 @@
           }
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "pronoun-he-or-she",
@@ -3249,7 +3249,7 @@
           "inventory": null
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "deixis-それ",
@@ -3296,7 +3296,7 @@
           }
         }
       },
-      "breakdown": "deixis"
+      "breakdown": "示"
     },
     {
       "id": "pronoun-私たち",
@@ -3336,7 +3336,7 @@
           "inventory": null
         }
       },
-      "breakdown": "pronoun"
+      "breakdown": "代"
     },
     {
       "id": "c-ill",
@@ -3377,7 +3377,7 @@
       "abbrev_kind": "contraction",
       "ledger_apply": false,
       "rewrite_via": "apply_en_contractions",
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-asap",
@@ -3415,7 +3415,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-fyi",
@@ -3453,7 +3453,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-btw",
@@ -3491,7 +3491,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-imo",
@@ -3529,7 +3529,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-tbh",
@@ -3567,7 +3567,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-idk",
@@ -3606,7 +3606,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-ty",
@@ -3644,7 +3644,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-pls",
@@ -3682,7 +3682,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-nvm",
@@ -3720,7 +3720,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-brb",
@@ -3758,7 +3758,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-afaik",
@@ -3797,7 +3797,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "e-conj-whereas",
@@ -3842,7 +3842,7 @@
           }
         }
       },
-      "breakdown": "conjunction"
+      "breakdown": "接"
     },
     {
       "id": "c-imho",
@@ -3880,7 +3880,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-fwiw",
@@ -3919,7 +3919,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-ttyl",
@@ -3957,7 +3957,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-tldr",
@@ -3997,7 +3997,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-afk",
@@ -4035,7 +4035,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-lmk",
@@ -4073,7 +4073,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-otoh",
@@ -4111,7 +4111,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-wrt",
@@ -4150,7 +4150,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-ymmv",
@@ -4188,7 +4188,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-icymi",
@@ -4226,7 +4226,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-wip",
@@ -4264,7 +4264,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-tia",
@@ -4302,7 +4302,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-afaict",
@@ -4341,7 +4341,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-jsyk",
@@ -4379,7 +4379,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-rofl",
@@ -4417,7 +4417,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-irl",
@@ -4455,7 +4455,7 @@
       },
       "family": "abbrev",
       "abbrev_kind": "acronym",
-      "breakdown": "acronym"
+      "breakdown": "頭"
     },
     {
       "id": "c-id",
@@ -4496,7 +4496,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-ive",
@@ -4537,7 +4537,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-im",
@@ -4578,7 +4578,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-ur",
@@ -4618,7 +4618,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-were",
@@ -4658,7 +4658,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-theyre",
@@ -4698,7 +4698,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-its",
@@ -4738,7 +4738,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-thats",
@@ -4778,7 +4778,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-theres",
@@ -4818,7 +4818,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-therere",
@@ -4858,7 +4858,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-dont",
@@ -4898,7 +4898,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-doesnt",
@@ -4938,7 +4938,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-cant",
@@ -4978,7 +4978,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-wont",
@@ -5018,7 +5018,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-shouldnt",
@@ -5058,7 +5058,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-wouldnt",
@@ -5098,7 +5098,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "emoji-fire",
@@ -5143,7 +5143,7 @@
       },
       "pivot": "fire",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-heart",
@@ -5188,7 +5188,7 @@
       },
       "pivot": "heart",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-thumbs-up",
@@ -5231,7 +5231,7 @@
       },
       "pivot": "thumbs up",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-thumbs-down",
@@ -5272,7 +5272,7 @@
       },
       "pivot": "thumbs down",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-check",
@@ -5315,7 +5315,7 @@
       },
       "pivot": "check",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-cross",
@@ -5359,7 +5359,7 @@
       },
       "pivot": "cross mark",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-star",
@@ -5400,7 +5400,7 @@
       },
       "pivot": "star",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-warn",
@@ -5442,7 +5442,7 @@
       },
       "pivot": "warning",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-idea",
@@ -5487,7 +5487,7 @@
       },
       "pivot": "idea",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-mail",
@@ -5530,7 +5530,7 @@
       },
       "pivot": "mail",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-time",
@@ -5571,7 +5571,7 @@
       },
       "pivot": "time",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-alarm",
@@ -5612,7 +5612,7 @@
       },
       "pivot": "alarm",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-money",
@@ -5654,7 +5654,7 @@
       },
       "pivot": "money",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-rocket",
@@ -5695,7 +5695,7 @@
       },
       "pivot": "rocket",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-eyes",
@@ -5737,7 +5737,7 @@
       },
       "pivot": "eyes",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-clap",
@@ -5779,7 +5779,7 @@
       },
       "pivot": "clap",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-pray",
@@ -5821,7 +5821,7 @@
       },
       "pivot": "pray",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-hundred",
@@ -5863,7 +5863,7 @@
       },
       "pivot": "hundred",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-party",
@@ -5905,7 +5905,7 @@
       },
       "pivot": "party",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-skull",
@@ -5947,7 +5947,7 @@
       },
       "pivot": "skull",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-wrench",
@@ -5989,7 +5989,7 @@
       },
       "pivot": "wrench",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-hourglass",
@@ -6030,7 +6030,7 @@
       },
       "pivot": "hourglass",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-thinking",
@@ -6072,7 +6072,7 @@
       },
       "pivot": "thinking face",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-ok-hand",
@@ -6114,7 +6114,7 @@
       },
       "pivot": "ok hand",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-laugh",
@@ -6156,7 +6156,7 @@
       },
       "pivot": "laugh",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-cry",
@@ -6198,7 +6198,7 @@
       },
       "pivot": "cry",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-wave",
@@ -6240,7 +6240,7 @@
       },
       "pivot": "wave",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-bug",
@@ -6282,7 +6282,7 @@
       },
       "pivot": "bug",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-bell",
@@ -6324,7 +6324,7 @@
       },
       "pivot": "bell",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-link",
@@ -6365,7 +6365,7 @@
       },
       "pivot": "link",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-pin",
@@ -6406,7 +6406,7 @@
       },
       "pivot": "pin",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "emoji-information",
@@ -6452,7 +6452,7 @@
       },
       "pivot": "information",
       "pivot_lang": "en",
-      "breakdown": "emoji"
+      "breakdown": "絵"
     },
     {
       "id": "policy-emoji-pivot",
@@ -6542,7 +6542,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-arent",
@@ -6582,7 +6582,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-wasnt",
@@ -6622,7 +6622,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-werent",
@@ -6662,7 +6662,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-hasnt",
@@ -6702,7 +6702,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-havent",
@@ -6742,7 +6742,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-hadnt",
@@ -6782,7 +6782,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-couldnt",
@@ -6822,7 +6822,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-mustnt",
@@ -6862,7 +6862,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-lets",
@@ -6902,7 +6902,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-wouldve",
@@ -6942,7 +6942,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-shouldve",
@@ -6982,7 +6982,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-couldve",
@@ -7022,7 +7022,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-mightve",
@@ -7062,7 +7062,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "c-willve",
@@ -7102,7 +7102,7 @@
           "inventory": null
         }
       },
-      "breakdown": "abbrev"
+      "breakdown": "略"
     },
     {
       "id": "policy-cross-lang-cheapest",
@@ -7166,7 +7166,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-infinity",
@@ -7208,7 +7208,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-plusminus",
@@ -7249,7 +7249,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-percent",
@@ -7290,7 +7290,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-degree",
@@ -7331,7 +7331,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-implies",
@@ -7372,7 +7372,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-iff",
@@ -7412,7 +7412,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-propto",
@@ -7452,7 +7452,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-sqrt",
@@ -7492,7 +7492,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-times",
@@ -7531,7 +7531,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "symbol-div",
@@ -7570,7 +7570,7 @@
           "inventory": null
         }
       },
-      "breakdown": "symbol"
+      "breakdown": "記"
     },
     {
       "id": "ever-however",
@@ -7614,7 +7614,7 @@
           "inventory": null
         }
       },
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "ever-whatever",
@@ -7655,7 +7655,7 @@
           "inventory": null
         }
       },
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "ever-whichever",
@@ -7694,7 +7694,7 @@
           "inventory": null
         }
       },
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "ever-wherever",
@@ -7733,7 +7733,7 @@
           "inventory": null
         }
       },
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "ever-whenever",
@@ -7772,7 +7772,7 @@
           "inventory": null
         }
       },
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "ever-whoever",
@@ -7811,7 +7811,7 @@
           "inventory": null
         }
       },
-      "breakdown": "collocation"
+      "breakdown": "連"
     },
     {
       "id": "policy-ever-concessive",
@@ -7860,7 +7860,7 @@
       "to": "ça",
       "rationale": "指示代名詞 proximal sg → ça（token→utf8 cheapest；≠ it）",
       "inventory": "deixis",
-      "breakdown": "deixis",
+      "breakdown": "示",
       "metrics": {
         "token": {
           "before": 1,
@@ -7907,7 +7907,7 @@
       "to": "eso",
       "rationale": "指示代名詞 distal sg → eso（demonstrative; complementizer that は対象外）",
       "inventory": "deixis",
-      "breakdown": "deixis",
+      "breakdown": "示",
       "metrics": {
         "token": {
           "before": 1,
@@ -7954,7 +7954,7 @@
       "to": "these",
       "rationale": "指示代名詞 proximal pl → these",
       "inventory": "deixis",
-      "breakdown": "deixis",
+      "breakdown": "示",
       "metrics": {
         "token": {
           "before": 2,
@@ -8001,7 +8001,7 @@
       "to": "those",
       "rationale": "指示代名詞 distal pl → those",
       "inventory": "deixis",
-      "breakdown": "deixis",
+      "breakdown": "示",
       "metrics": {
         "token": {
           "before": 2,
@@ -8049,7 +8049,7 @@
       "to": "あれ",
       "rationale": "指示代名詞 far-distal あれ（独立スロット）",
       "inventory": "deixis",
-      "breakdown": "deixis",
+      "breakdown": "示",
       "metrics": {
         "token": {
           "before": 2,
@@ -8092,7 +8092,7 @@
       "to": "mine",
       "rationale": "独立所有格 mine（コア在庫）",
       "inventory": "pronoun",
-      "breakdown": "pronoun",
+      "breakdown": "代",
       "metrics": {
         "token": {
           "before": 1,
@@ -8135,7 +8135,7 @@
       "to": "ours",
       "rationale": "独立所有格 ours（コア在庫）",
       "inventory": "pronoun",
-      "breakdown": "pronoun",
+      "breakdown": "代",
       "metrics": {
         "token": {
           "before": 1,
@@ -8178,7 +8178,7 @@
       "to": "yours",
       "rationale": "独立所有格 yours（コア在庫）",
       "inventory": "pronoun",
-      "breakdown": "pronoun",
+      "breakdown": "代",
       "metrics": {
         "token": {
           "before": 2,
@@ -8221,7 +8221,7 @@
       "to": "theirs",
       "rationale": "独立所有格 theirs（コア在庫）",
       "inventory": "pronoun",
-      "breakdown": "pronoun",
+      "breakdown": "代",
       "metrics": {
         "token": {
           "before": 2,

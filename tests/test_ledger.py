@@ -617,7 +617,7 @@ def test_however_hard_not_tho_after_ce():
 
 
 def test_lex_breakdown_flat_pos_or_tag():
-    """lex rows carry flat breakdown: POS when word-like, else plain tag."""
+    """lex rows carry compact breakdown: short POS (代/示/…) or short tag (連/頭/…)."""
     from shared.ledger import (
         BREAKDOWN_ALLOWED,
         BREAKDOWN_POS,
@@ -633,12 +633,16 @@ def test_lex_breakdown_flat_pos_or_tag():
         bd = c.get("breakdown")
         assert isinstance(bd, str) and bd in BREAKDOWN_ALLOWED, c.get("id")
     by_id = {c["id"]: c for c in lex}
-    assert by_id["pronoun-mine"]["breakdown"] == "pronoun"
-    assert by_id["deixis-this"]["breakdown"] == "deixis"
-    assert by_id["c-asap"]["breakdown"] in ("acronym", "collocation", "abbrev")
-    assert by_id["ever-however"]["breakdown"] == "collocation"
+    assert by_id["pronoun-mine"]["breakdown"] == "代"
+    assert by_id["deixis-this"]["breakdown"] == "示"
+    assert by_id["c-asap"]["breakdown"] in ("頭", "連", "略")
+    assert by_id["ever-however"]["breakdown"] == "連"
     # infer prefers inventory POS
-    assert infer_breakdown({"kind": "lex", "inventory": "pronoun", "from": ["I"], "to": "I"}) == "pronoun"
-    assert infer_breakdown({"kind": "lex", "family": "ever", "from": ["no matter how"], "to": "however"}) == "collocation"
-    assert "pronoun" in BREAKDOWN_POS
+    assert infer_breakdown({"kind": "lex", "inventory": "pronoun", "from": ["I"], "to": "I"}) == "代"
+    assert infer_breakdown({"kind": "lex", "family": "ever", "from": ["no matter how"], "to": "however"}) == "連"
+    assert "代" in BREAKDOWN_POS
+    from shared.ledger import compact_breakdown
+    assert compact_breakdown("collocation") == "連"
+    assert compact_breakdown("acronym") == "頭"
+    assert compact_breakdown("pronoun") == "代"
 
