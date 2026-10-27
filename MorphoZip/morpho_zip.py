@@ -964,6 +964,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bwithin\b", re.I), "内"),
     (re.compile(r"\bwithout\b", re.I), "无"),
     (re.compile(r"\bw/o\b", re.I), "无"),
+    # throughout / therewith before with→w/ (prefix / compound)
+    (re.compile(r"\bthroughout\b", re.I), "通"),
+    (re.compile(r"\bpartout\b", re.I), "通"),  # FR
+    (re.compile(r"\btherewith\b", re.I), "∴w/"),
     (re.compile(r"\bwith\b", re.I), "w/"),
     (re.compile(r"\band\b", re.I), "&"),
     (re.compile(r"\bund\b", re.I), "&"),  # DE
@@ -1068,6 +1072,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bdepuis\b", re.I), "←"),  # FR
     (re.compile(r"\baus\b", re.I), "←"),  # DE
     (re.compile(r"\bfrom\b", re.I), "←"),
+    # toward(s) → → (pairs with ← from; same surface as particle に/へ)
+    (re.compile(r"\btowards?\b", re.I), "→"),
+    (re.compile(r"\bhacia\b", re.I), "→"),  # ES
+    (re.compile(r"\bvers\b", re.I), "→"),  # FR
     # NOTE(for→4): 表層 4 は数字の four と揺らぎうる。ビット在庫(2bit)とは別に評価し、将来 for（原形）等へ戻る可能性あり（現状は 4 のまま）。
     (re.compile(r"\bpara\b", re.I), "4"),  # ES purpose-for
     (re.compile(r"\bpour\b", re.I), "4"),  # FR
@@ -1111,6 +1119,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bherein\b", re.I), "∈"),
     (re.compile(r"\bthereof\b", re.I), "∴of"),
     (re.compile(r"\btherein\b", re.I), "∈there"),
+    (re.compile(r"\bwhereby\b", re.I), "∴by"),
     (re.compile(r"\bwhereas\b", re.I), "∵"),
     # JA polite endings → low-ambiguity
     (re.compile(r"です。|ます。|でした。|ました。"), "。"),
@@ -1460,6 +1469,9 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"∴→"), "hereafter"),
     (re.compile(r"∴="), "hereinafter referred to as"),
     (re.compile(r"∴of"), "thereof"),
+    (re.compile(r"∴w/"), "therewith"),
+    (re.compile(r"∴by"), "whereby"),
+    (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])通(?![\w\u3040-\u30ff\u3400-\u9fff])"), "throughout"),
     (re.compile(r"∈there"), "therein"),
     (re.compile(r"\b∀who\b"), "whoever"),
     (re.compile(r"\b∀opt\b"), "whichever"),

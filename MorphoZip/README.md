@@ -66,7 +66,7 @@
 
 **拡張:** conjunction +∵/+（N=6→3bit）；adverb +also/□/oft；preposition +to（N=5→3bit）；pronoun +mine/theirs/ours/yours（N 微増・仍≈5bit）；particle +/&/←（N=7→3bit）。prep2 はコアで N=5→3bit（pack 分離で pack1 は 2bit 維持）。
 
-**C との境界:** moreover/furthermore/nevertheless・under/above/below・**I'll 族（`family=abbrev` 縮約）**・チャット頭字語・e.g./etc.・**information→ℹ️（`family=emoji`）**・開いた数学記号（`family=symbol` ≠∞±…）・台帳の前後/内外ペアは C。短形は数学/記号優先（両方効くとき絵文字より記号）。 C 台帳 lex の `metrics.bit` は本モジュールの `utf8_bits` /（在庫適用時）`closed_inventory_bits` を参照する（所有は E のまま）。E の bare 前/後（EN before/after）と 以上/以下→≧/≦、助詞コアは別。`in`/`on` は曖昧のため自動書き換え見送り。
+**C との境界:** moreover/furthermore/nevertheless・regarding→re:・as follows→↓・inter alia→i.a.・under/above/below・**I'll 族（`family=abbrev` 縮約）**・チャット頭字語・e.g./etc.・**information→ℹ️（`family=emoji`）**・開いた数学記号（`family=symbol` ≠∞±…）・台帳の前後/内外ペアは C。短形は数学/記号優先（両方効くとき絵文字より記号）。 C 台帳 lex の `metrics.bit` は本モジュールの `utf8_bits` /（在庫適用時）`closed_inventory_bits` を参照する（所有は E のまま）。E の bare 前/後（EN before/after）と 以上/以下→≧/≦、助詞コアは別。`in`/`on` は曖昧のため自動書き換え見送り。
 
 **because / cuz:** `because→bc` 採用。`cuz` は可能性として否定しないが、数学記号寄りの `bc` / `∴` 系を優先。将来点々付き表記が載る余地あり（bc のまま）。
 
@@ -75,6 +75,7 @@
 ## その他の Morpho 書換
 
 - **tho**: 口語 EN の `though` クリップ（外国語ではない）。対照の `however`→`though`→`tho`（一般規則2段）。譲歩/程度の `however hard…` は残す。
+- **prep compounds / legal（有限）**: `throughout`→`通`、`toward(s)`→`→`（← と対；助詞に/へ同面）。`hereinafter`→`∴↓` / `hereafter`→`∴→` / `herein`→`∈` / `thereof`→`∴of` / `therewith`→`∴w/` / `whereby`→`∴by`。prep2 N は膨らませず `_SUBS`+台帳。`hereof` は dual metrics 非勝利のため見送り。
 - **whichever**→`∀opt`（`∀which` はレガシー展開のみ；`which` 残留なし）。
 - **EN 3sg**: `he/she`（およびレガシー 彼/她）の直後で `-s` を原型へ（`he chooses`→`he choose`）。`U` は 3sg なし。
 

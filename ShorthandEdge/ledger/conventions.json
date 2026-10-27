@@ -8253,6 +8253,461 @@
           }
         }
       }
+    },
+    {
+      "id": "prep-throughout",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "throughout",
+        "partout",
+        "通",
+        "全程"
+      ],
+      "to": "通",
+      "rationale": "throughout → 通（select_cheapest; ML partout/全程）。prep2非膨張の有限登録",
+      "breakdown": "前",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "throughout",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "throughout",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "prep-toward",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "toward",
+        "towards",
+        "hacia",
+        "vers",
+        "向",
+        "→"
+      ],
+      "to": "→",
+      "rationale": "toward(s) → →（助詞に/へと同スロット；select_cheapest で → ≻ 向/vers）",
+      "breakdown": "前",
+      "cross_layer_note": "→ は助詞 に/へ の canonical。方向 toward を同記号へ寄せる",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "toward",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 24,
+          "delta": -24,
+          "ratio": 0.5,
+          "sample_from": "toward",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-hereinafter",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "hereinafter",
+        "∴↓"
+      ],
+      "to": "∴↓",
+      "rationale": "hereinafter → ∴↓（dual metrics win；referred to as は ∴=）",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "hereinafter",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 48,
+          "delta": -40,
+          "ratio": 0.5455,
+          "sample_from": "hereinafter",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 48,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-hereinafter-aka",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "hereinafter referred to as",
+        "∴="
+      ],
+      "to": "∴=",
+      "rationale": "hereinafter referred to as → ∴=",
+      "breakdown": "連",
+      "metrics": {
+        "token": {
+          "before": 7,
+          "after": 0,
+          "delta": -7,
+          "ratio": 0.0,
+          "sample_from": "hereinafter referred to as",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 208,
+          "after": 32,
+          "delta": -176,
+          "ratio": 0.1538,
+          "sample_from": "hereinafter referred to as",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 208,
+            "after": 32,
+            "delta": -176
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-hereafter",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "hereafter",
+        "∴→"
+      ],
+      "to": "∴→",
+      "rationale": "hereafter → ∴→",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "hereafter",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 48,
+          "delta": -24,
+          "ratio": 0.6667,
+          "sample_from": "hereafter",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 48,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-herein",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "herein",
+        "∈"
+      ],
+      "to": "∈",
+      "rationale": "herein → ∈（助詞でスロットと記号共有・文書内）",
+      "breakdown": "略",
+      "cross_layer_note": "∈ は助詞で も canonical。herein は文書内の法務短形",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 0,
+          "delta": -2,
+          "ratio": 0.0,
+          "sample_from": "herein",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 24,
+          "delta": -24,
+          "ratio": 0.5,
+          "sample_from": "herein",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-thereof",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "thereof",
+        "∴of"
+      ],
+      "to": "∴of",
+      "rationale": "thereof → ∴of",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "thereof",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 40,
+          "delta": -16,
+          "ratio": 0.7143,
+          "sample_from": "thereof",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-therewith",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "therewith",
+        "∴w/",
+        "damit"
+      ],
+      "to": "∴w/",
+      "rationale": "therewith → ∴w/（w/ 単体は with；damit 別名；select_cheapest）",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "therewith",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 40,
+          "delta": -32,
+          "ratio": 0.5556,
+          "sample_from": "therewith",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 40,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "legal-whereby",
+      "kind": "lex",
+      "apply_layer": "E",
+      "from": [
+        "whereby",
+        "∴by"
+      ],
+      "to": "∴by",
+      "rationale": "whereby → ∴by（意味保持の短形が dual metrics 勝利）",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "whereby",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 40,
+          "delta": -16,
+          "ratio": 0.7143,
+          "sample_from": "whereby",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 40,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-regarding",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "from": [
+        "regarding",
+        "concerning"
+      ],
+      "to": "re:",
+      "rationale": "regarding/concerning → re:（について→re: と整合）",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "regarding",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 24,
+          "delta": -48,
+          "ratio": 0.3333,
+          "sample_from": "regarding",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 24,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-as-follows",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "from": [
+        "as follows"
+      ],
+      "to": "↓",
+      "rationale": "as follows → ↓（列挙導入）。the following は翌日等と曖昧のため見送り",
+      "breakdown": "連",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 0,
+          "delta": -3,
+          "ratio": 0.0,
+          "sample_from": "as follows",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "as follows",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "c-inter-alia",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "from": [
+        "inter alia",
+        "i.a."
+      ],
+      "to": "i.a.",
+      "rationale": "inter alia → i.a.（ラテン短形；utf8+token 縮）",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "inter alia",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 32,
+          "delta": -48,
+          "ratio": 0.4,
+          "sample_from": "inter alia",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 32,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
     }
   ]
 }

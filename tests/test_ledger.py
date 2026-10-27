@@ -50,8 +50,8 @@ def test_ledger_file_exists_and_loads():
     assert any(c["id"] == "particle-kara" for c in e_lex)
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
-    # zero-bit-delta rows pruned; ~100 base + EN contraction abbrev family (c-ill…)
-    assert 14 <= len(all_lex) <= 200
+    # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
+    assert 14 <= len(all_lex) <= 220
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -306,6 +306,15 @@ def test_ledger_pos_registrations_dual_metrics():
     assert "c-brb" in by_id and by_id["c-brb"]["to"] == "brb"
     assert "c-afaik" in by_id and by_id["c-afaik"]["to"] == "AFAIK"
     assert by_id["e-conj-whereas"]["to"] == "∵"
+    # finite prep compounds + legal shorts (this tranche)
+    assert by_id["prep-throughout"]["to"] == "通"
+    assert by_id["prep-toward"]["to"] == "→"
+    assert by_id["legal-hereinafter"]["to"] == "∴↓"
+    assert by_id["legal-therewith"]["to"] == "∴w/"
+    assert by_id["legal-whereby"]["to"] == "∴by"
+    assert by_id["c-regarding"]["to"] == "re:"
+    assert by_id["c-as-follows"]["to"] == "↓"
+    assert by_id["c-inter-alia"]["to"] == "i.a."
     assert by_id["e-conj-whereas"].get("extended") is True
     # no lex emits fr
     assert all(c.get("to") != "fr" for c in by_id.values())

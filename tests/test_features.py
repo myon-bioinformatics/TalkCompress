@@ -518,6 +518,28 @@ def test_morpho_prep2_inventory():
     assert "无" in m.compress("go w/o fear", unique=False, etymon=False, counters=False)
 
 
+
+def test_morpho_prep_compounds_and_legal_shorts():
+    """Finite prep compounds + legal shorts (not prep2 N-inflation)."""
+    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    kw = dict(unique=False, etymon=False, counters=False)
+    assert "通" in m.compress("throughout the year", **kw)
+    assert "throughout" not in m.compress("throughout the year", **kw).lower()
+    assert m.compress("toward the goal", **kw).startswith("→")
+    assert m.compress("towards home", **kw).startswith("→")
+    assert "∴w/" in m.compress("agreed therewith", **kw)
+    assert "∴by" in m.compress("means whereby", **kw)
+    # already-owned legal
+    assert "∴↓" in m.compress("hereinafter", **kw)
+    assert "∴of" in m.compress("portion thereof", **kw)
+    # hereof: no dual-metric win — leave
+    assert "hereof" in m.compress("terms hereof", **kw).lower()
+    # expand subset
+    assert "throughout" in m.expand("通 year").lower()
+    assert "therewith" in m.expand("∴w/").lower()
+    assert "whereby" in m.expand("∴by").lower()
+
+
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
