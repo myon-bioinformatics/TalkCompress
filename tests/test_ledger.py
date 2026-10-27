@@ -42,8 +42,15 @@ def test_ledger_file_exists_and_loads():
     assert "policy-base-mix" in ids
     lex = list_conventions(kind="lex", apply_layer="C")
     assert any(c["id"] == "spatial-under" for c in lex)
-    # E-tagged lex rows should be empty (all current lex is C)
-    assert list_conventions(kind="lex", apply_layer="E") == []
+    # E MorphoZip closed-POS registrations live as apply_layer=E (metrics/inventory;
+    # rewrite ownership stays on E; C apply_ledger_lex does not consume them).
+    e_lex = list_conventions(kind="lex", apply_layer="E")
+    assert any(c["id"] == "pronoun-I" for c in e_lex)
+    assert any(c["id"] == "prep-from" for c in e_lex)
+    assert any(c["id"] == "particle-kara" for c in e_lex)
+    assert all(c.get("to") != "fr" for c in e_lex)
+    all_lex = list_conventions(kind="lex")
+    assert 14 <= len(all_lex) <= 100
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -254,3 +261,45 @@ def test_compute_lex_metrics_inventory_model():
     assert m["bit"]["inventory"]["bits_per"] == m["bit"]["before"] == m["bit"]["after"]
     assert "utf8" in m["bit"]
     assert m["token"]["via"].startswith("B ")
+
+
+def test_ledger_pos_registrations_dual_metrics():
+    """Pronoun/particle/prep/aux E rows + C etc. carry dual metrics; fr not canonical."""
+    from shared.ledger import list_conventions, validate_ledger_metrics
+
+    assert validate_ledger_metrics(strict=True) == []
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+    for cid in (
+        "pronoun-I",
+        "pronoun-they",
+        "particle-ni",
+        "particle-kara",
+        "prep-with",
+        "prep-from",
+        "prep2-without",
+        "aux-can",
+        "aux-neg-will",
+        "article-drop",
+        "e-conj-because",
+        "compare-ge",
+        "conj-etc",
+    ):
+        assert cid in by_id, cid
+        m = by_id[cid]["metrics"]
+        assert isinstance(m["token"]["before"], int)
+        assert isinstance(m["bit"]["before"], int)
+        assert m["bit"]["model"] in ("utf8", "inventory")
+        assert "utf8" in m["bit"]
+
+    assert by_id["prep-from"]["to"] == "←"
+    assert by_id["prep-from"]["apply_layer"] == "E"
+    assert by_id["prep-from"]["inventory"] == "preposition"
+    assert "fr" in by_id["prep-from"]["from"]
+    assert by_id["particle-kara"]["to"] == "←"
+    assert by_id["particle-kara"].get("extended") is True
+    assert by_id["particle-kara"]["metrics"]["bit"]["inventory"]["extended"] is True
+    # C still owns spatial / furniture apply
+    assert by_id["spatial-under"]["apply_layer"] == "C"
+    assert by_id["conj-etc"]["apply_layer"] == "C"
+    # no lex emits fr
+    assert all(c.get("to") != "fr" for c in by_id.values())

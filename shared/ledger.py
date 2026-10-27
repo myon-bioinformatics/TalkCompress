@@ -107,6 +107,7 @@ def compute_lex_metrics(
     dst: str,
     *,
     inventory_name: str | None = None,
+    inventory_extended: bool = False,
 ) -> dict[str, Any]:
     """Compute dual metrics for one ``from``→``to`` registration pair.
 
@@ -114,6 +115,7 @@ def compute_lex_metrics(
     - ``bit``: E MorphoZip — ``utf8_bits`` always as secondary; when
       ``inventory_name`` is a known closed inventory, primary ``model`` is
       ``inventory`` (ceil(log2 N) per occurrence); otherwise ``utf8``.
+      ``inventory_extended`` selects the extended closed pack (wider N).
     """
     estimate_tokens = _tessera().estimate_tokens
     morpho = _morpho()
@@ -128,12 +130,19 @@ def compute_lex_metrics(
     before_b, after_b = before_u, after_u
     if inventory_name:
         try:
-            bits_per = int(morpho.closed_inventory_bits(inventory_name))
-            raw = morpho.closed_bit_cost(inventory_name, "")
+            bits_per = int(
+                morpho.closed_inventory_bits(
+                    inventory_name, extended=inventory_extended
+                )
+            )
+            raw = morpho.closed_bit_cost(
+                inventory_name, "", extended=inventory_extended
+            )
             inv_block = {
                 "name": inventory_name,
                 "bits_per": bits_per,
                 "n": int(raw["inventory_n"]),
+                "extended": bool(inventory_extended),
                 "note": (
                     "inventory ceil(log2 N) per occurrence; "
                     "utf8 remains secondary under bit.utf8"
@@ -187,7 +196,10 @@ def metrics_for_convention(convention: dict[str, Any]) -> dict[str, Any] | None:
         return None
     inv = convention.get("inventory")
     inv_name = str(inv) if isinstance(inv, str) and inv else None
-    return compute_lex_metrics(srcs[0], to, inventory_name=inv_name)
+    extended = bool(convention.get("extended"))
+    return compute_lex_metrics(
+        srcs[0], to, inventory_name=inv_name, inventory_extended=extended
+    )
 
 
 def validate_lex_metrics(
