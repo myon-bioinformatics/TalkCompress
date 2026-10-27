@@ -33,7 +33,7 @@ def test_ledger_file_exists_and_loads():
     assert not (ROOT / "DensityZip" / "ledger").exists()
     assert not (ROOT / "ConvoHub").exists()
     data = load_ledger()
-    assert data["version"] == 1
+    assert data["version"] >= 2
     assert "meta" in data
     assert data["meta"]["base_mix"] == ["en", "zh", "ja"]
     ids = convention_ids()
@@ -177,3 +177,80 @@ def test_shorthand_prefer_precision_flag():
     assert "also" in short.lower()
     long = s.compress("moreover we continue", prefer_precision=True)
     assert "moreover" in long.lower()
+
+
+def test_lex_dual_metrics_schema_and_samples():
+    """kind=lex must carry token + bit; sample under/moreover/table."""
+    from shared.ledger import (
+        compute_lex_metrics,
+        list_conventions,
+        load_ledger,
+        validate_ledger_metrics,
+        validate_lex_metrics,
+    )
+
+    assert validate_ledger_metrics(strict=True) == []
+
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+    for cid in ("spatial-under", "conj-moreover", "furniture-table"):
+        c = by_id[cid]
+        assert "metrics" in c
+        m = c["metrics"]
+        assert isinstance(m["token"]["before"], int)
+        assert isinstance(m["token"]["after"], int)
+        assert isinstance(m["bit"]["before"], int)
+        assert isinstance(m["bit"]["after"], int)
+        assert m["bit"]["model"] in ("utf8", "inventory")
+        assert "utf8" in m["bit"]
+        assert "TesseraTalk" in m["token"]["via"]
+        assert "MorphoZip" in m["bit"]["via"]
+        # Short form should not increase both views for these samples
+        assert m["token"]["after"] <= m["token"]["before"]
+        assert m["bit"]["utf8"]["after"] <= m["bit"]["utf8"]["before"]
+
+    under = by_id["spatial-under"]["metrics"]
+    assert under["token"]["sample_from"] == "under"
+    assert under["token"]["before"] == 2 and under["token"]["after"] == 1
+    assert under["bit"]["model"] == "utf8"
+    assert under["bit"]["before"] == 40 and under["bit"]["after"] == 24
+
+    moreover = by_id["conj-moreover"]["metrics"]
+    assert moreover["token"]["sample_from"] == "moreover"
+    assert moreover["token"]["before"] == 2 and moreover["token"]["after"] == 1
+
+    table = by_id["furniture-table"]["metrics"]
+    assert table["token"]["after"] == 1
+    assert table["bit"]["utf8"]["after"] == 24
+
+    # policy may omit / null metrics
+    policy = list_conventions(kind="policy")[0]
+    assert policy.get("metrics") in (None, {}) or "token" not in (policy.get("metrics") or {})
+
+    # compute helper matches ledger for under→下
+    computed = compute_lex_metrics("under", "下")
+    assert computed["token"] == under["token"]
+    assert computed["bit"]["before"] == under["bit"]["before"]
+    assert computed["bit"]["after"] == under["bit"]["after"]
+
+    # reject incomplete lex metrics
+    bad = {"id": "x", "kind": "lex", "from": ["foo"], "to": "bar"}
+    issues = validate_lex_metrics(bad, strict=True)
+    assert any("missing metrics" in i for i in issues)
+
+    data = load_ledger()
+    assert data["version"] >= 2
+    note_blob = " ".join(data["meta"].get("notes") or [])
+    assert "estimate_tokens" in note_blob
+    assert "utf8_bits" in note_blob or "closed_inventory" in note_blob
+
+
+def test_compute_lex_metrics_inventory_model():
+    """Optional inventory_name switches bit.model to inventory (E closed bits)."""
+    from shared.ledger import compute_lex_metrics
+
+    m = compute_lex_metrics("and", "&", inventory_name="conjunction")
+    assert m["bit"]["model"] == "inventory"
+    assert m["bit"]["inventory"]["name"] == "conjunction"
+    assert m["bit"]["inventory"]["bits_per"] == m["bit"]["before"] == m["bit"]["after"]
+    assert "utf8" in m["bit"]
+    assert m["token"]["via"].startswith("B ")

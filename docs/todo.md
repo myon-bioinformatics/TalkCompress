@@ -17,3 +17,4 @@
 - [ ] E 助動詞・時制: 過去/完了と極性の深い相互作用は未着手。
 - [ ] E because 表記: `bc` 採用（cuz 否定せず）。点々／数学記号寄りの型が後から載る可能性。
 - [ ] E prep2: of→de / without→无 / within→内 / before→前 / after→後。pack1 と分離（3bit）。C 前後・内外ペアと役割分担を観察。
+- [x] C 台帳 dual metrics: lex に token（B estimate_tokens）+ bit（E utf8_bits / inventory）を必須記録。候補絞り用。

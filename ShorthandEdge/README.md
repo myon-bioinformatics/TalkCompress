@@ -10,8 +10,15 @@
 
 | kind | 役割 |
 | --- | --- |
-| `lex` | 置換（`from`→`to`）。`apply_layer=C` |
-| `policy` | 方針メモ（EN+ZH+JA は開始セット；天井ではない） |
+| `lex` | 置換（`from`→`to`）。`apply_layer=C`。**`metrics.token` + `metrics.bit` 必須**（B `estimate_tokens` / E `utf8_bits` or inventory） |
+| `policy` | 方針メモ（EN+ZH+JA は開始セット；天井ではない）。`metrics` 省略可 |
+
+登録時はトークン観点とビット観点の両方を台帳に入れる。両方足すと短形候補が絞れる。C が B/E ヘルパーを呼ぶ（所有は移さない）。
+
+```bash
+uv run python -m shared.ledger --validate-metrics
+uv run python -m shared.ledger --backfill-metrics   # lex に dual metrics を再計算して書く
+```
 
 ```bash
 uv run python -m shared.ledger --list

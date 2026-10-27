@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "title": "TalkCompress agreed conventions (ShorthandEdge / C ledger)",
   "meta": {
     "base_mix": [
@@ -15,7 +15,8 @@
       "Concrete lex mappings live under conventions[]; policy-only items have kind=policy.",
       "ℹ️ (information) stays on E MorphoZip etymon path, not this ledger.",
       "Furniture EN table → short desk/table lexeme; canonical to=机; allowed_to includes JA/ZH and Romance/Germanic/Greek desk equivalents (mesa/Tisch/tavolo/tafel/τραπέζι). SQL/tech contexts keep table.",
-      "Ambiguity gate (C): conjunction shortenings marked ambiguity_sensitive skip when short form already collides in-text, or prefer_precision=True (CLI --prefer-precision)."
+      "Ambiguity gate (C): conjunction shortenings marked ambiguity_sensitive skip when short form already collides in-text, or prefer_precision=True (CLI --prefer-precision).",
+      "lex metrics (required): token = B TesseraTalk estimate_tokens; bit = E MorphoZip utf8_bits (default) or closed_inventory_bits when inventory applies. Both views narrow registration candidates."
     ]
   },
   "conventions": [
@@ -29,7 +30,32 @@
         "上下"
       ],
       "to": "上下",
-      "rationale": "上下セットは短く視覚的に明確（1組で上下）"
+      "rationale": "上下セットは短く視覚的に明確（1組で上下）",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "up and down",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 48,
+          "delta": -40,
+          "ratio": 0.5455,
+          "sample_from": "up and down",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 48,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "spatial-under",
@@ -41,7 +67,32 @@
         "beneath"
       ],
       "to": "下",
-      "rationale": "under/below は「下」1字で即座に分かる"
+      "rationale": "under/below は「下」1字で即座に分かる",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "under",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "under",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "spatial-above",
@@ -51,7 +102,32 @@
         "above"
       ],
       "to": "上",
-      "rationale": "under/below と対になる「上」"
+      "rationale": "under/below と対になる「上」",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "above",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 24,
+          "delta": -16,
+          "ratio": 0.6,
+          "sample_from": "above",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 24,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "uneven-凹凸",
@@ -65,7 +141,32 @@
         "bumpy"
       ],
       "to": "凹凸",
-      "rationale": "凹凸は視覚的に分かりやすい"
+      "rationale": "凹凸は視覚的に分かりやすい",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "デコボコ",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 48,
+          "delta": -48,
+          "ratio": 0.5,
+          "sample_from": "デコボコ",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 48,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "policy-base-mix",
@@ -88,7 +189,8 @@
           "ja",
           "zh"
         ]
-      }
+      },
+      "metrics": null
     },
     {
       "id": "spatial-left-right",
@@ -100,7 +202,32 @@
         "左右"
       ],
       "to": "左右",
-      "rationale": "左右は短く視覚的（左右セット）"
+      "rationale": "左右は短く視覚的（左右セット）",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "left and right",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 48,
+          "delta": -64,
+          "ratio": 0.4286,
+          "sample_from": "left and right",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 48,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "spatial-front-back",
@@ -111,7 +238,32 @@
         "前後"
       ],
       "to": "前後",
-      "rationale": "前後は視覚的に明確"
+      "rationale": "前後は視覚的に明確",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "front and back",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 48,
+          "delta": -64,
+          "ratio": 0.4286,
+          "sample_from": "front and back",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 48,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "spatial-in-out",
@@ -123,7 +275,32 @@
         "内外"
       ],
       "to": "内外",
-      "rationale": "内外は1組で明確"
+      "rationale": "内外は1組で明確",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "inside and outside",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 144,
+          "after": 48,
+          "delta": -96,
+          "ratio": 0.3333,
+          "sample_from": "inside and outside",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 144,
+            "after": 48,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "spatial-big-small",
@@ -135,7 +312,32 @@
         "大小"
       ],
       "to": "大小",
-      "rationale": "大小は短く対比が明確"
+      "rationale": "大小は短く対比が明確",
+      "metrics": {
+        "token": {
+          "before": 5,
+          "after": 2,
+          "delta": -3,
+          "ratio": 0.4,
+          "sample_from": "large and small",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 48,
+          "delta": -72,
+          "ratio": 0.4,
+          "sample_from": "large and small",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 48,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "conj-moreover",
@@ -148,7 +350,32 @@
       ],
       "to": "also",
       "rationale": "接続・副詞は英語短形を挟む（also）",
-      "ambiguity_sensitive": true
+      "ambiguity_sensitive": true,
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "moreover",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 32,
+          "delta": -32,
+          "ratio": 0.5,
+          "sample_from": "moreover",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 32,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "conj-nevertheless",
@@ -160,7 +387,32 @@
       ],
       "to": "but",
       "rationale": "逆接は英語短形 but",
-      "ambiguity_sensitive": true
+      "ambiguity_sensitive": true,
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "nevertheless",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 96,
+          "after": 24,
+          "delta": -72,
+          "ratio": 0.25,
+          "sample_from": "nevertheless",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 96,
+            "after": 24,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "conj-therefore",
@@ -173,7 +425,32 @@
       ],
       "to": "so",
       "rationale": "帰結は英語短形 so",
-      "ambiguity_sensitive": true
+      "ambiguity_sensitive": true,
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 1,
+          "delta": -2,
+          "ratio": 0.3333,
+          "sample_from": "therefore",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 16,
+          "delta": -56,
+          "ratio": 0.2222,
+          "sample_from": "therefore",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 16,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "conj-for-example",
@@ -184,7 +461,32 @@
         "for instance"
       ],
       "to": "e.g.",
-      "rationale": "例示は e.g. の短いアルファベット形"
+      "rationale": "例示は e.g. の短いアルファベット形",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "for example",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 32,
+          "delta": -56,
+          "ratio": 0.3636,
+          "sample_from": "for example",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 32,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "conj-that-is",
@@ -196,7 +498,32 @@
         "in other words"
       ],
       "to": "i.e.",
-      "rationale": "言い換えは i.e.（短い cognate）"
+      "rationale": "言い換えは i.e.（短い cognate）",
+      "metrics": {
+        "token": {
+          "before": 4,
+          "after": 2,
+          "delta": -2,
+          "ratio": 0.5,
+          "sample_from": "that is to say",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 32,
+          "delta": -80,
+          "ratio": 0.2857,
+          "sample_from": "that is to say",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 32,
+            "delta": -80
+          },
+          "inventory": null
+        }
+      }
     },
     {
       "id": "furniture-table",
@@ -232,7 +559,32 @@
         "alter",
         "insert",
         "update"
-      ]
+      ],
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "tables",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 24,
+          "delta": -24,
+          "ratio": 0.5,
+          "sample_from": "tables",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 24,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
     }
   ]
 }

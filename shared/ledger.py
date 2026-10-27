@@ -12,6 +12,12 @@ D (DensityZip) is orchestration + density façade and does not own this ledger.
 Ambiguity gate (C-owned): high-churn conjunction shortenings (moreover→also,
 therefore→so, …) are skipped when the short form already collides in-text, or
 when ``prefer_precision=True``. Furniture ``table``→机/桌 skips SQL/tech context.
+
+Dual metrics (required on ``kind=lex``): registration is usable only when both
+views are recorded — **token** via B TesseraTalk ``estimate_tokens``, and **bit**
+via E MorphoZip ``utf8_bits`` (default) or ``closed_inventory_bits`` when an
+inventory applies. Together they narrow candidate short forms. Policy rows may
+omit ``metrics`` / set null. C calls B/E helpers; ownership stays with B/E.
 """
 
 from __future__ import annotations
@@ -57,6 +63,234 @@ _SQL_PHRASE_RE = re.compile(
     r"|\bfrom\s+[a-z_][\w]*\b(?=.*\b(?:where|join|group|order|select|limit)\b)"
     r"|\b(?:where|join|group\s+by|order\s+by|select)\b.*\bfrom\b"
 )
+
+# --- Dual metrics (token = B, bit = E); C records both on lex registration -----
+
+_TOKEN_VIA = "B TesseraTalk estimate_tokens"
+_BIT_VIA_UTF8 = "E MorphoZip utf8_bits"
+_BIT_VIA_INV = "E MorphoZip closed_inventory_bits"
+
+
+def _load_layer(mod_name: str, rel: str) -> Any:
+    """Load a sibling layer module by path (B/E are not package imports)."""
+    import importlib.util
+    import sys
+
+    if mod_name in sys.modules:
+        return sys.modules[mod_name]
+    path = _ROOT / rel
+    spec = importlib.util.spec_from_file_location(mod_name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[mod_name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _tessera() -> Any:
+    return _load_layer("tessera_talk", "TesseraTalk/tessera_talk.py")
+
+
+def _morpho() -> Any:
+    return _load_layer("morpho_zip", "MorphoZip/morpho_zip.py")
+
+
+def _ratio(before: int, after: int) -> float | None:
+    if before == 0:
+        return None if after == 0 else float("inf")
+    return round(after / before, 4)
+
+
+def compute_lex_metrics(
+    src: str,
+    dst: str,
+    *,
+    inventory_name: str | None = None,
+) -> dict[str, Any]:
+    """Compute dual metrics for one ``from``→``to`` registration pair.
+
+    - ``token``: B TesseraTalk ``estimate_tokens`` before/after (+ delta/ratio)
+    - ``bit``: E MorphoZip — ``utf8_bits`` always as secondary; when
+      ``inventory_name`` is a known closed inventory, primary ``model`` is
+      ``inventory`` (ceil(log2 N) per occurrence); otherwise ``utf8``.
+    """
+    estimate_tokens = _tessera().estimate_tokens
+    morpho = _morpho()
+    before_t = int(estimate_tokens(src))
+    after_t = int(estimate_tokens(dst))
+    before_u = int(morpho.utf8_bits(src))
+    after_u = int(morpho.utf8_bits(dst))
+
+    inv_block: dict[str, Any] | None = None
+    model = "utf8"
+    via_bit = _BIT_VIA_UTF8
+    before_b, after_b = before_u, after_u
+    if inventory_name:
+        try:
+            bits_per = int(morpho.closed_inventory_bits(inventory_name))
+            raw = morpho.closed_bit_cost(inventory_name, "")
+            inv_block = {
+                "name": inventory_name,
+                "bits_per": bits_per,
+                "n": int(raw["inventory_n"]),
+                "note": (
+                    "inventory ceil(log2 N) per occurrence; "
+                    "utf8 remains secondary under bit.utf8"
+                ),
+            }
+            model = "inventory"
+            via_bit = f"{_BIT_VIA_INV}({inventory_name})"
+            # One occurrence each side of the mapping → same width (slot cost).
+            before_b, after_b = bits_per, bits_per
+        except KeyError:
+            inv_block = None
+
+    return {
+        "token": {
+            "before": before_t,
+            "after": after_t,
+            "delta": after_t - before_t,
+            "ratio": _ratio(before_t, after_t),
+            "sample_from": src,
+            "via": _TOKEN_VIA,
+        },
+        "bit": {
+            "model": model,
+            "before": before_b,
+            "after": after_b,
+            "delta": after_b - before_b,
+            "ratio": _ratio(before_b, after_b),
+            "sample_from": src,
+            "via": via_bit,
+            "utf8": {
+                "before": before_u,
+                "after": after_u,
+                "delta": after_u - before_u,
+            },
+            "inventory": inv_block,
+        },
+    }
+
+
+def metrics_for_convention(convention: dict[str, Any]) -> dict[str, Any] | None:
+    """Build dual metrics for a lex convention (first ``from`` → ``to``).
+
+    Returns None for non-lex / missing to. Optional ``inventory`` field on the
+    convention selects E closed-inventory bit model.
+    """
+    if convention.get("kind") != "lex":
+        return None
+    to = str(convention.get("to", ""))
+    srcs = [str(x) for x in (convention.get("from") or []) if str(x)]
+    if not to or not srcs:
+        return None
+    inv = convention.get("inventory")
+    inv_name = str(inv) if isinstance(inv, str) and inv else None
+    return compute_lex_metrics(srcs[0], to, inventory_name=inv_name)
+
+
+def validate_lex_metrics(
+    convention: dict[str, Any],
+    *,
+    strict: bool = True,
+) -> list[str]:
+    """Return issue strings when a lex entry lacks usable dual metrics.
+
+    Policy / non-lex: always OK (metrics may be null/absent).
+    Lex: requires ``metrics.token`` and ``metrics.bit`` with before/after ints.
+    When ``strict``, missing either is an error; otherwise a warning-style note.
+    """
+    if convention.get("kind") != "lex":
+        return []
+    cid = str(convention.get("id", "?"))
+    issues: list[str] = []
+    metrics = convention.get("metrics")
+    if not isinstance(metrics, dict):
+        msg = f"{cid}: lex entry missing metrics object (need token + bit)"
+        issues.append(msg if strict else f"warn: {msg}")
+        return issues
+    for key in ("token", "bit"):
+        block = metrics.get(key)
+        if not isinstance(block, dict):
+            msg = f"{cid}: metrics.{key} required"
+            issues.append(msg if strict else f"warn: {msg}")
+            continue
+        for side in ("before", "after"):
+            if not isinstance(block.get(side), int):
+                msg = f"{cid}: metrics.{key}.{side} must be int"
+                issues.append(msg if strict else f"warn: {msg}")
+    bit = metrics.get("bit") if isinstance(metrics.get("bit"), dict) else None
+    if bit is not None and bit.get("model") not in (None, "utf8", "inventory"):
+        msg = f"{cid}: metrics.bit.model must be utf8|inventory"
+        issues.append(msg if strict else f"warn: {msg}")
+    return issues
+
+
+def validate_ledger_metrics(
+    path: str | Path | None = None,
+    *,
+    strict: bool = True,
+) -> list[str]:
+    """Validate dual metrics on all lex conventions in the ledger."""
+    issues: list[str] = []
+    for c in list_conventions(path):
+        issues.extend(validate_lex_metrics(c, strict=strict))
+    return issues
+
+
+def ensure_lex_metrics(convention: dict[str, Any]) -> dict[str, Any]:
+    """Return a copy of ``convention`` with ``metrics`` filled for lex rows."""
+    out = dict(convention)
+    if out.get("kind") != "lex":
+        if "metrics" not in out:
+            out["metrics"] = None
+        return out
+    computed = metrics_for_convention(out)
+    if computed is not None:
+        out["metrics"] = computed
+    return out
+
+
+def backfill_ledger_metrics(
+    path: str | Path | None = None,
+    *,
+    write: bool = True,
+) -> dict[str, Any]:
+    """Fill dual metrics on every lex convention; optionally write JSON.
+
+    Policy rows get ``metrics: null`` when absent. Bumps ``version`` to ≥2 and
+    ensures a meta note about dual metrics.
+    """
+    p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
+    data = load_ledger(p)
+    note = (
+        "lex metrics (required): token = B TesseraTalk estimate_tokens; "
+        "bit = E MorphoZip utf8_bits (default) or closed_inventory_bits when "
+        "inventory applies. Both views narrow registration candidates."
+    )
+    meta = data.setdefault("meta", {})
+    notes = meta.setdefault("notes", [])
+    if isinstance(notes, list) and note not in notes:
+        notes.append(note)
+    new_conventions: list[Any] = []
+    for c in data["conventions"]:
+        if not isinstance(c, dict):
+            new_conventions.append(c)
+            continue
+        new_conventions.append(ensure_lex_metrics(c))
+    data["conventions"] = new_conventions
+    ver = data.get("version", 1)
+    try:
+        data["version"] = max(int(ver), 2)
+    except (TypeError, ValueError):
+        data["version"] = 2
+    if write:
+        p.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    return data
 
 
 def default_ledger_path() -> Path:
@@ -293,7 +527,36 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="skip ambiguity-sensitive shortenings (moreover stays moreover, …)",
     )
+    p.add_argument(
+        "--backfill-metrics",
+        action="store_true",
+        help="compute token+bit dual metrics for all lex rows and write ledger",
+    )
+    p.add_argument(
+        "--validate-metrics",
+        action="store_true",
+        help="check lex rows have metrics.token and metrics.bit (exit 1 on fail)",
+    )
+    p.add_argument(
+        "--warn-metrics",
+        action="store_true",
+        help="with --validate-metrics: warn only (exit 0) instead of strict fail",
+    )
     args = p.parse_args(argv)
+    if args.backfill_metrics:
+        data = backfill_ledger_metrics(args.path, write=True)
+        n_lex = sum(1 for c in data["conventions"] if isinstance(c, dict) and c.get("kind") == "lex")
+        print(f"backfilled dual metrics for {n_lex} lex conventions → {args.path or DEFAULT_LEDGER_PATH}")
+        return 0
+    if args.validate_metrics:
+        issues = validate_ledger_metrics(args.path, strict=not args.warn_metrics)
+        for line in issues:
+            print(line)
+        if issues and not args.warn_metrics:
+            return 1
+        if not issues:
+            print("ok: all lex conventions have token + bit metrics")
+        return 0
     if args.list:
         for c in list_conventions(args.path):
             print(
@@ -308,6 +571,7 @@ def main(argv: list[str] | None = None) -> int:
                         "rationale": c.get("rationale"),
                         "ambiguity_sensitive": c.get("ambiguity_sensitive"),
                         "skip_sql_tech": c.get("skip_sql_tech"),
+                        "metrics": c.get("metrics"),
                     },
                     ensure_ascii=False,
                 )
