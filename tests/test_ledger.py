@@ -51,7 +51,7 @@ def test_ledger_file_exists_and_loads():
     assert all(c.get("to") != "fr" for c in e_lex)
     all_lex = list_conventions(kind="lex")
     # zero-bit-delta rows pruned; ~100 base + abbrev/emoji/symbol + finite prep/legal
-    assert 14 <= len(all_lex) <= 560
+    assert 14 <= len(all_lex) <= 600
     policy = list_conventions(kind="policy")
     assert len(policy) >= 1
     assert policy[0]["payload"]["prefer_short_alphabet_cognates"] is True
@@ -586,6 +586,35 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-in-earnest"]["to"] == "本気"
     assert by_id["adv-in-effect"]["to"] == "実質"
     assert by_id["adv-out-of-stock"]["to"] == "品切"
+    # cycle11 spaced deferred
+    assert by_id["prep-as-of"]["to"] == "起"
+    assert by_id["adv-for-once"]["to"] == "一度"
+    assert by_id["adv-of-late"]["to"] == "近頃"
+    assert by_id["adv-hitherto"]["to"] == "従来"
+    assert by_id["adv-thus-far"]["to"] == "今迄"
+    assert "to date" in by_id["adv-thus-far"]["from"]
+    assert by_id["adv-under-age"]["to"] == "年少"
+    assert by_id["adv-one-on-one"]["to"] == "1:1"
+    assert by_id["adv-by-and-by"]["to"] == "稍後"
+    assert by_id["adv-anywhere"]["to"] == "∃loc"
+    assert by_id["adv-nowhere"]["to"] == "∅loc"
+    assert by_id["adv-anytime"]["to"] == "∀時"
+    assert by_id["adv-somewhat"]["to"] == "稍"
+    assert by_id["adv-mutatis-mutandis"]["to"] == "準変"
+    assert by_id["adv-ceteris-paribus"]["to"] == "他同"
+    assert by_id["adv-sui-generis"]["to"] == "独自"
+    assert by_id["adv-pari-passu"]["to"] == "同率"
+    assert by_id["adv-ex-officio"]["to"] == "職権"
+    assert by_id["adv-prima-facie"]["to"] == "一応"
+    assert by_id["adv-ipso-facto"]["to"] == "当然"
+    assert by_id["adv-a-priori"]["to"] == "先験"
+    assert by_id["adv-de-facto"]["to"] == "d.f."
+    assert by_id["adv-in-situ"]["to"] == "現場"
+    assert by_id["adv-ad-hoc"]["to"] == "adhoc"
+    assert "for good" in by_id["adv-forever"]["from"]
+    assert "somehow" in by_id["adv-in-some-way"]["from"]
+    assert by_id["prep-as-of"]["breakdown"] == "前"
+    assert by_id["adv-mutatis-mutandis"]["breakdown"] == "連"
     assert "vis-a-vis" in by_id["prep-as-opposed-to"]["from"]
     assert "afterward" in by_id["adv-afterwards"]["from"]
     assert "as of yet" in by_id["adv-as-yet"]["from"]

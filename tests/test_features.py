@@ -867,6 +867,35 @@ def test_morpho_prep_like_finite_set():
     assert "実質" in m.compress("in effect banned", **kw)
     assert "品切" in m.compress("out of stock item", **kw)
 
+    # cycle11 spaced deferred
+    assert "起" in m.compress("as of 2020", **kw)
+    assert "未" in m.compress("as of yet unpaid", **kw)
+    assert "一度" in m.compress("for once honest", **kw)
+    assert "近頃" in m.compress("of late quiet", **kw)
+    assert "従来" in m.compress("hitherto unknown", **kw)
+    assert "今迄" in m.compress("thus far ok", **kw)
+    assert "今迄" in m.compress("to date none", **kw)
+    assert "年少" in m.compress("under age drinking", **kw)
+    assert "1:1" in m.compress("one-on-one meeting", **kw)
+    assert "稍後" in m.compress("by and by arrive", **kw)
+    assert "∃loc" in m.compress("anywhere else", **kw)
+    assert "∅loc" in m.compress("nowhere found", **kw)
+    assert "∀時" in m.compress("anytime soon", **kw)
+    assert "稍" in m.compress("somewhat odd", **kw)
+    assert "∞" in m.compress("for good gone", **kw)
+    assert "或様" in m.compress("somehow works", **kw)
+    assert "準変" in m.compress("mutatis mutandis apply", **kw)
+    assert "他同" in m.compress("ceteris paribus hold", **kw)
+    assert "独自" in m.compress("sui generis rule", **kw)
+    assert "同率" in m.compress("pari passu claim", **kw)
+    assert "職権" in m.compress("ex officio member", **kw)
+    assert "一応" in m.compress("prima facie case", **kw)
+    assert "当然" in m.compress("ipso facto void", **kw)
+    assert "先験" in m.compress("a priori knowledge", **kw)
+    assert "d.f." in m.compress("de facto standard", **kw)
+    assert "現場" in m.compress("in situ hybrid", **kw)
+    assert "adhoc" in m.compress("ad hoc committee", **kw)
+
 
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
