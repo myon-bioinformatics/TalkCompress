@@ -75,7 +75,7 @@
 ## その他の Morpho 書換
 
 - **tho**: 口語 EN の `though` クリップ（外国語ではない）。対照の `however`→`though`→`tho`（一般規則2段）。譲歩/程度の `however hard…` は残す。
-- **prep / prep-like adv（有限高頻）**: across→↔ along→沿 among/amid→中 beside→傍 between→間 beyond→≫ against→対 around→○ during→中 except→除 including→含 inside→内 outside→外 through→通 until/till→〜 despite→雖；overhead→頭上 overseas→海外 underground→地下 upstairs/downstairs→上階/下階 indoors/outdoors→屋内/屋外 ahead→→ together→共 meanwhile→∥ nearby→近 等。閉じ在庫Nは膨らませず `_SUBS`+台帳。via/per/since/onto/upon/anyway 等は見送り。
+- **prep / prep-like adv（有限高頻）**: across→↔ along→沿 among/amid→中 beside→傍 between→間 beyond→≫ against→対 around→○ during→中 except→除 including→含 inside→内 outside→外 through→通 until/till→〜 despite→雖；overhead→頭上 overseas→海外 underground→地下 upstairs/downstairs→上階/下階 indoors/outdoors→屋内/屋外 ahead→→ together→共 meanwhile→∥ nearby→近 等。追加（同一優先）: according to→依 / owing|due to→因 / prior to→前 / subsequent to→後 / in spite of→雖 / in front of→前 / in back of→後 / next to→傍 / close to→近 / far from→遠 / away from→離 / out of→外 / opposite→対側 / into→入 / circa→c. / beneath→下；beforehand→先 / forever→∞ / overnight→泊 / thereafter→後 / everywhere→∀loc / somewhere→某处 / elsewhere→别处 / anew→再。閉じ在庫Nは膨らませず `_SUBS`+台帳。via/per/since/onto/upon/anyway 等は見送り。
 - **prep compounds / legal（有限）**: `throughout`→`通`、`toward(s)`→`→`（← と対；助詞に/へ同面）。`hereinafter`→`∴↓` / `hereafter`→`∴→` / `herein`→`∈` / `thereof`→`∴of` / `therewith`→`∴w/` / `whereby`→`∴by`。prep2 N は膨らませず `_SUBS`+台帳。`hereof` は dual metrics 非勝利のため見送り。
 - **whichever**→`∀opt`（`∀which` はレガシー展開のみ；`which` 残留なし）。
 - **EN 3sg**: `he/she`（およびレガシー 彼/她）の直後で `-s` を原型へ（`he chooses`→`he choose`）。`U` は 3sg なし。

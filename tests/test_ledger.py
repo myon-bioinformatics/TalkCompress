@@ -324,6 +324,24 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-meanwhile"]["to"] == "∥"
     assert by_id["adv-together"]["to"] == "共"
     assert by_id["adv-nearby"]["to"] == "近"
+    # prep / prep-like adv follow-up tranche
+    assert by_id["prep-according-to"]["to"] == "依"
+    assert by_id["prep-owing-due"]["to"] == "因"
+    assert "due to" in by_id["prep-owing-due"]["from"]
+    assert by_id["prep-in-spite-of"]["to"] == "雖"
+    assert by_id["prep-far-from"]["to"] == "遠"
+    assert by_id["prep-out-of"]["to"] == "外"
+    assert by_id["prep-opposite"]["to"] == "対側"
+    assert by_id["prep-circa"]["to"] == "c."
+    assert by_id["prep-into"]["to"] == "入"
+    assert by_id["adv-beforehand"]["to"] == "先"
+    assert by_id["adv-forever"]["to"] == "∞"
+    assert by_id["adv-overnight"]["to"] == "泊"
+    assert by_id["adv-somewhere"]["to"] == "某处"
+    assert by_id["adv-elsewhere"]["to"] == "别处"
+    assert by_id["adv-anew"]["to"] == "再"
+    assert by_id["prep-according-to"]["breakdown"] == "前"
+    assert by_id["adv-forever"]["breakdown"] == "副"
     assert "underneath" in by_id["spatial-under"]["from"]
     assert by_id["e-conj-whereas"].get("extended") is True
     # no lex emits fr
