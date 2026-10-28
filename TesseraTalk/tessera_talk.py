@@ -20,12 +20,13 @@ fan out to target langs **in parallel**, then rank by shortness + low 揺らぎ
 (ambiguity). Unlike ShorthandEdge (C), B does **not** apply the agreed ledger.
 
 Final token pass (``final_zh_de_token_pass`` / ``--final-zh-de``): last-stage
-cheapest-token candidates — compounds (incl. adj+noun), ZH densifiers, ES/FR short
-tense conjugations, then sentence minify restricted to ``zh|de``. Aims to **reduce**
-``estimate_tokens``. Wired by DensityZip as the pipeline end after A–E
-(``B-final-zh-de``). Prefer both token+utf8 shrink; token-only wins must be
+cheapest-token candidates — compounds (incl. adj+noun), ZH densifiers, short tense
+conjugations (live Romance es/fr/pt + nl/el via ``FINAL_TENSE_LANGS``; going-to
+guard on progressive *going), then sentence minify restricted to ``zh|de``. Aims
+to **reduce** ``estimate_tokens``. Wired by DensityZip as the pipeline end after
+A–E (``B-final-zh-de``). Prefer both token+utf8 shrink; token-only wins must be
 dictionary-clear and documented. 複合名詞 etc. are labels for candidate forms, not
-a noun-only policy.
+a noun-only policy. Surviving Latin-derived abbrevs (e.g./i.e./etc./vs) stay C.
 """
 
 from __future__ import annotations
@@ -84,6 +85,9 @@ FINAL_TOKEN_LANGS: frozenset[str] = frozenset({"zh", "de"})
 
 FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja"})
 """Phrase densifier bank: ZH/DE compounds + EN acronyms competing via cheapest-form."""
+
+FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "el"})
+"""Tense densifier bank langs: live Romance + Dutch + Greek (classical Latin conjugations skipped)."""
 
 _CUES: dict[str, tuple[str, ...]] = {
     "en": (
@@ -882,7 +886,7 @@ def load_zh_de_phrase_bank(path: str | None = None) -> dict[str, Any]:
 
 @lru_cache(maxsize=4)
 def load_es_fr_tense_bank(path: str | None = None) -> dict[str, Any]:
-    """Load curated ES/FR short conjugations for tense token control."""
+    """Load curated short conjugations for tense token control (es/fr/pt/nl/el)."""
     p = Path(path) if path is not None else DEFAULT_ES_FR_TENSE_BANK
     data = json.loads(p.read_text(encoding="utf-8"))
     if not isinstance(data, dict) or "entries" not in data:
@@ -962,9 +966,14 @@ def zh_de_phrase_pairs(
 def es_fr_tense_pairs(
     path: str | Path | None = None,
 ) -> list[tuple[str, str, str]]:
-    """Return (source_phrase, replacement, lang) for ES/FR tense bank."""
+    """Return (source_phrase, replacement, lang) for short-tense densifier bank.
+
+    Bank file keeps the historical ``es_fr_tense.json`` name; allowed langs are
+    ``FINAL_TENSE_LANGS`` (es/fr/pt/nl/el). Classical Latin conjugations are not
+    registered — prefer live modern Romance / surviving Latin-derived abbrevs (C).
+    """
     data = load_es_fr_tense_bank(str(path) if path is not None else None)
-    return _bank_phrase_pairs(data, allow_langs={"es", "fr"})
+    return _bank_phrase_pairs(data, allow_langs=set(FINAL_TENSE_LANGS))
 
 
 def _phrase_token_wins(src: str, dst: str) -> bool:
@@ -1017,10 +1026,14 @@ def _apply_phrase_pairs(
     for phrase in order:
         key = phrase.lower()
         cands = by_src[key]
-        # Latin / ASCII phrase → word-boundary, case-insensitive
+        # Latin / ASCII phrase → word-boundary, case-insensitive.
+        # Generic going-to guard: phrases ending in "going" must not fire when
+        # followed by " to …" (EN future/intention); use longer bank entries
+        # like "I'm going to go" → iré/vou for those futures instead.
         if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9' -]*", phrase):
+            going_guard = r"(?!\s+to\b)" if phrase.lower().endswith("going") else ""
             pat = re.compile(
-                rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9])",
+                rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9]){going_guard}",
                 re.IGNORECASE,
             )
 
@@ -1069,10 +1082,14 @@ def apply_es_fr_tense(
     bank_path: str | Path | None = None,
     require_token_drop: bool = True,
 ) -> str:
-    """Replace stacked EN auxiliaries with short ES/FR conjugations when tokens drop.
+    """Replace stacked EN auxiliaries with short live conjugations when tokens drop.
 
-    High-frequency go/come/do/be/have/must/want present/past/future (+ aspect-ish
-    progressive → present). Meaning-clear dictionary forms only.
+    High-frequency go/come/do/be/have/must/want/see/say/… across present/past/
+    future/conditional (+ progressive → present). Candidates may be es/fr/pt/nl/el
+    (``FINAL_TENSE_LANGS``); runtime picks cheapest (token→utf8→len). Progressive
+    ``*going`` skips when followed by ``to`` (going-to future guard). Explicit
+    ``going to <V>`` futures use longer bank sources. Meaning-clear modern forms
+    only — classical Latin conjugations are not registered.
     """
     return _apply_phrase_pairs(
         text,
