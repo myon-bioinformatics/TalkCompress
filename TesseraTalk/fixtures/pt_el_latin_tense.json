@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "title": "B-final sibling tense bank — pt / el gaps beyond es_fr_tense.json",
+  "notes": [
+    "Additive sibling to es_fr_tense.json (does not rewrite existing ES/FR/pt/el rows).",
+    "Only NEW English sources not already mapped in es_fr_tense.json.",
+    "Living PT/EL forms that beat EN on estimate_tokens; cheapest at runtime.",
+    "Sense-lossy drops (posso for I can go without motion) documented below.",
+    "Classical Latin conjugations skipped."
+  ],
+  "entries": [
+    {
+      "id": "do-it-fut-1s",
+      "from": ["I will do it", "I'll do it"],
+      "to": "farei",
+      "lang": "pt",
+      "tense": "future",
+      "candidates": [
+        {"form": "farei", "lang": "pt"}
+      ],
+      "metrics": {"token_before": 4, "token_after": 2, "both_shrink": true},
+      "note": "object pronoun dropped as in spoken PT; es_fr has I will do→haré without it"
+    },
+    {
+      "id": "do-it-past-1s",
+      "from": ["I did it"],
+      "to": "fiz",
+      "lang": "pt",
+      "tense": "past",
+      "candidates": [
+        {"form": "fiz", "lang": "pt"}
+      ],
+      "metrics": {"token_before": 3, "token_after": 1, "both_shrink": true}
+    },
+    {
+      "id": "want-go-pres-1s",
+      "from": ["I want to go"],
+      "to": "quero ir",
+      "lang": "pt",
+      "tense": "present",
+      "candidates": [
+        {"form": "quero ir", "lang": "pt"}
+      ],
+      "metrics": {"token_before": 4, "token_after": 3, "both_shrink": true},
+      "note": "bare quero dropped — loses motion"
+    },
+    {
+      "id": "need-go-pres-1s",
+      "from": ["I need to go"],
+      "to": "preciso ir",
+      "lang": "pt",
+      "tense": "present",
+      "candidates": [
+        {"form": "preciso ir", "lang": "pt"}
+      ],
+      "metrics": {"token_before": 4, "token_after": 3, "both_shrink": true},
+      "note": "bare preciso dropped — loses motion"
+    }
+  ],
+  "examples_not_registered": [
+    {
+      "id": "can-go-posso",
+      "from": ["I can go"],
+      "to": "posso",
+      "lang": "pt",
+      "why_dropped": "drops motion verb; high 揺らぎ vs I can (modal only)"
+    },
+    {
+      "id": "must-go-devo",
+      "from": ["I must go"],
+      "to": "devo",
+      "lang": "pt",
+      "why_dropped": "drops motion verb; ambiguous with I must"
+    },
+    {
+      "id": "we-went-fomos",
+      "from": ["we went"],
+      "to": "fomos",
+      "lang": "pt",
+      "why_dropped": "estimate_tokens ties EN (2=2)"
+    },
+    {
+      "id": "they-came-vieram",
+      "from": ["they came"],
+      "to": "vieram",
+      "lang": "pt",
+      "why_dropped": "estimate_tokens ties EN (2=2)"
+    },
+    {
+      "id": "will-see-bare-el",
+      "from": ["I will see"],
+      "to": "δω",
+      "lang": "el",
+      "why_dropped": "bare perfective without θα; unstable; es_fr already maps via veré"
+    },
+    {
+      "id": "classical-ibo",
+      "from": ["I will go"],
+      "to": "ibo",
+      "lang": "la",
+      "why_dropped": "classical Latin conjugation; not living use"
+    }
+  ]
+}
