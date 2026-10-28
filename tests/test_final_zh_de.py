@@ -511,7 +511,7 @@ def test_tense_tranche2_try_and_read_prog():
 def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
     t = _tessera()
     expected = {"take": "πάρω", "try": "tentarei", "find": "βρω",
-                "call": "καλώ", "put": "porei", "bring": "φέρω"}
+                "call": "llamaré", "put": "porei", "bring": "trarei"}
     for verb, winner in expected.items():
         for prefix in ("I am going to ", "I'm going to "):
             assert t.apply_es_fr_tense(prefix + verb + " now.") == winner + " now."
@@ -547,3 +547,60 @@ def test_tense_candidate_priority_is_independent_of_bank_order():
         a = t._apply_phrase_pairs(src, t._merge_phrase_pair_banks(*banks))
         b = t._apply_phrase_pairs(src, t._merge_phrase_pair_banks(*reversed(banks)))
         assert a == b == t.apply_es_fr_tense(src)
+
+
+def test_tranche2_and_sibling_combined_final_pass():
+    """Tense additions and sibling phrases compete in the same final pass."""
+    t = _tessera()
+    raw = "I'm going to take my mobile phone once again."
+    out = t.final_token_pass(raw)
+    assert any(form in out for form in ("tomaré", "tomarei", "πάρω"))
+    assert any(form in out for form in ("cel", "κιν"))
+    assert "πάλι" in out
+    assert "voy to" not in out and "vou to" not in out
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_tranche2_cheapest_for_every_source():
+    """Check the selected surface, not only membership among candidates."""
+    t = _tessera()
+    entries = t.load_es_fr_tense_bank()["entries"]
+    tranche2 = entries[next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s"):]
+    assert len(tranche2) == 35
+    pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
+    for entry in tranche2:
+        for src in entry["from"]:
+            forms = [dst for source, dst, _ in pairs if source.lower() == src.lower()]
+            expected = min(forms, key=lambda s: (t.estimate_tokens(s), len(s.encode("utf-8")), len(s), s)) if forms else src
+            assert t.apply_es_fr_tense(src) == expected, (entry["id"], src)
+
+
+def test_tranche2_partial_verbs_and_going_to_guard():
+    """An incomplete verb cannot trigger a full tense entry."""
+    t = _tessera()
+    for verb in ("take", "try", "find", "call", "put", "bring"):
+        for stem in ("I am going to ", "I'm going to ", "I will "):
+            for end in range(1, len(verb)):
+                raw = stem + verb[:end]
+                out = t.apply_es_fr_tense(raw)
+                # Existing be entries may shorten I am; the partial verb stays.
+                assert out.endswith(stem[stem.index("going"):] + verb[:end] if "going" in stem else "will " + verb[:end])
+                assert t.estimate_tokens(out) <= t.estimate_tokens(raw)
+    for raw in ("I'm going to", "I put", "I read"):
+        assert t.apply_es_fr_tense(raw) == raw
+
+
+def test_tranche2_future_does_not_choose_present_forms():
+    t = _tessera()
+    for stem, forms in (
+        ("call", {"llamaré", "chamarei"}),
+        ("bring", {"traeré", "trarei"}),
+        ("write", {"écrirai"}),
+        ("wait", {"esperaré"}),
+    ):
+        for prefix in ("I will ", "I am going to ", "I'm going to ") if stem in {"call", "bring"} else ("I will ",):
+            raw = prefix + stem
+            out = t.apply_es_fr_tense(raw)
+            assert out in forms, (raw, out)
+            assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+    assert t.apply_es_fr_tense("I'll call") == "I'll call"
