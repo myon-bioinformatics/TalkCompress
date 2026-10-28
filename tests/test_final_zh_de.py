@@ -374,8 +374,6 @@ def test_mid_compound_split_soft_no_false_fire():
         # soft: no crash, no blow-up
         assert isinstance(out, str)
         assert len(out) <= len(src) + 8
-
-
 def test_pt_el_latin_phrase_langs_include_living():
     t = _tessera()
     assert t.FINAL_PT_EL_LATIN_PHRASE_LANGS >= {"pt", "el", "it", "la"}
@@ -468,6 +466,7 @@ def test_classical_ibo_not_in_tense_pairs():
     }
     assert "ibo" not in forms
 
+
 def test_tense_tranche2_take_future_wins():
     """before: I will take … → after: tomaré/tomarei/πάρω (cheapest)."""
     t = _tessera()
@@ -507,3 +506,44 @@ def test_tense_tranche2_try_and_read_prog():
     read_out = t.apply_es_fr_tense("I'm reading now.")
     assert any(s in read_out for s in ("leo", "leio", "lis", "lees"))
     assert t.estimate_tokens(read_out) < t.estimate_tokens("I'm reading now.")
+
+
+def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
+    t = _tessera()
+    expected = {"take": "πάρω", "try": "tentarei", "find": "βρω",
+                "call": "καλώ", "put": "porei", "bring": "φέρω"}
+    for verb, winner in expected.items():
+        for prefix in ("I am going to ", "I'm going to "):
+            assert t.apply_es_fr_tense(prefix + verb + " now.") == winner + " now."
+    # Existing I am -> sou remains valid; the motion verb must not become voy/vou.
+    assert t.apply_es_fr_tense("I am going to inspect now.") == "sou going to inspect now."
+    for raw in ("I'm going to inspect now.",
+                "I put", "I read", "I will tell", "I will make", "I will ask", "I will get"):
+        assert t.apply_es_fr_tense(raw) == raw
+
+
+def test_tense_tranche2_and_sibling_longest_sources_coexist():
+    t = _tessera()
+    raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
+    assert t.apply_es_fr_tense(raw) == "farei; fiz; quero ir; preciso ir; πάρω it."
+    raw = "I will take my mobile phone to the train station as soon as possible."
+    assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "πάρω my cel to the Bahnhof ASAP."
+
+
+def test_tense_candidate_priority_is_independent_of_bank_order():
+    t = _tessera()
+    # Exercise each cost tie-breaker rather than accepting any candidate.
+    cases = [
+        ([("tomaré", "es"), ("πάρω", "el")], "πάρω"),
+        ([("pondré", "es"), ("porei", "pt")], "porei"),
+        ([("é", "pt"), ("ab", "en")], "é"),
+        ([("b", "en"), ("a", "en")], "a"),
+    ]
+    for candidates, winner in cases:
+        assert t._cheapest_repl("I am going to take", candidates) == winner
+        assert t._cheapest_repl("I am going to take", list(reversed(candidates))) == winner
+    banks = (t.es_fr_tense_pairs(), t.pt_el_latin_tense_pairs())
+    for src in ("I will take", "I will do it", "I want to go", "I'm going to bring"):
+        a = t._apply_phrase_pairs(src, t._merge_phrase_pair_banks(*banks))
+        b = t._apply_phrase_pairs(src, t._merge_phrase_pair_banks(*reversed(banks)))
+        assert a == b == t.apply_es_fr_tense(src)
