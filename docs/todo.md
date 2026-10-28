@@ -15,6 +15,7 @@
 - [x] E 助詞 particle: コア ∅|→|∈|〜（2bit）。拡張 +|&|←（から=from スロット；fr は別名・for-real 揺らぎ）。と=& OK。
 - [x] E from canonical: `←`（`fr` 別名のみ）。ML prep/pronoun エイリアス（ES/FR/DE、bits+tokenize 同スロット）。
 - [ ] E 助動詞・時制: 過去/完了と極性の深い相互作用は未着手。
+- [x] B 短時制 densifier 拡張（going-to ガード + live Romance/pt/el 候補 + FINAL_TENSE_LANGS）。 古典ラテン活用は見送り；存続ラテン略語は C。複合フレーズバンク成長は別スライス可。
 - [ ] E because 表記: `bc` 採用（cuz 否定せず）。点々／数学記号寄りの型が後から載る可能性。
 - [ ] E prep2: of→de / without→无 / within→内 / before→前 / after→後。pack1 と分離（3bit）。C 前後・内外ペアと役割分担を観察。
 - [x] C 台帳 dual metrics: lex に token（B estimate_tokens）+ bit（E utf8_bits / inventory）を必須記録。候補絞り用。

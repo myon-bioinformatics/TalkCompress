@@ -1,14 +1,17 @@
 {
-  "version": 1,
-  "title": "Final-pass ES/FR short tense conjugations (token densifiers)",
+  "version": 2,
+  "title": "Final-pass short tense conjugations (token densifiers)",
   "notes": [
     "Part of B final token-reduction pass (with ZH densifiers / DE compounds).",
-    "Prefer short ES/FR conjugations over stacked EN auxiliaries when meaning stays clear.",
-    "Only forms that beat the English source on estimate_tokens are listed.",
+    "Prefer short live Romance (es/fr/pt) / nl / el conjugations over stacked EN auxiliaries when meaning stays clear.",
+    "Only forms that beat the English source on estimate_tokens are listed; runtime picks cheapest (token→utf8→len).",
     "EN contractions (I'll) remain C; this bank is B final-pass only — not a C ledger.",
     "複合名詞 / compounds here are just another candidate class for cheapest tokens (incl. adj+noun when they win), not a noun-only policy.",
     "Dropped go-fut-fr (je vais) — always loses to iré under cheapest.",
-    "I was≠fui (ambiguous with I went); keep EN for I was / map only I went→fui."
+    "I was≠fui (ambiguous with I went); keep EN for I was / map only I went→fui.",
+    "Classical Latin conjugations (ibo/ivi/sum…) skipped — prefer surviving modern Romance / live Latin-derived abbrevs (e.g./i.e./etc. stay C).",
+    "Progressive *going is not applied when followed by 'to' (going-to future guard in apply_es_fr_tense / _apply_phrase_pairs).",
+    "Explicit going-to phrases (I am going to go → iré/vou/…) registered as longer sources."
   ],
   "entries": [
     {
@@ -23,8 +26,29 @@
       "metrics": {
         "token_before": 3,
         "token_after": 1,
+        "utf8_before": 9,
+        "utf8_after": 4,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "iré",
+          "lang": "es"
+        },
+        {
+          "form": "vou",
+          "lang": "pt"
+        },
+        {
+          "form": "irei",
+          "lang": "pt"
+        },
+        {
+          "form": "πάω",
+          "lang": "el"
+        }
+      ],
+      "note": "cheapest among live Romance/EL; classical Latin ibo skipped"
     },
     {
       "id": "go-pres-1s",
@@ -39,8 +63,25 @@
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 4,
+        "utf8_after": 3,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "voy",
+          "lang": "es"
+        },
+        {
+          "form": "vou",
+          "lang": "pt"
+        },
+        {
+          "form": "πάω",
+          "lang": "el"
+        }
+      ],
+      "note": "progressive only when not followed by 'to' (going-to guard in apply)"
     },
     {
       "id": "go-past-1s",
@@ -53,8 +94,20 @@
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 3,
         "both_shrink": true
       },
+      "candidates": [
+        {
+          "form": "fui",
+          "lang": "es"
+        },
+        {
+          "form": "vim",
+          "lang": "pt"
+        }
+      ],
       "note": "fui = I went only; I was kept EN (ambiguity gate)"
     },
     {
@@ -68,8 +121,20 @@
       "metrics": {
         "token_before": 3,
         "token_after": 1,
+        "utf8_before": 10,
+        "utf8_after": 4,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "irá",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ]
     },
     {
       "id": "go-fut-3sf",
@@ -82,8 +147,20 @@
       "metrics": {
         "token_before": 3,
         "token_after": 1,
+        "utf8_before": 11,
+        "utf8_after": 4,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "irá",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ]
     },
     {
       "id": "go-fut-2s",
@@ -96,6 +173,8 @@
       "metrics": {
         "token_before": 3,
         "token_after": 1,
+        "utf8_before": 11,
+        "utf8_after": 5,
         "both_shrink": true
       }
     },
@@ -110,8 +189,50 @@
       "metrics": {
         "token_before": 3,
         "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 6,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "iremos",
+          "lang": "es"
+        },
+        {
+          "form": "vamos",
+          "lang": "es"
+        },
+        {
+          "form": "vamos",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "go-fut-3p",
+      "from": [
+        "they will go"
+      ],
+      "to": "vão",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 12,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "vão",
+          "lang": "pt"
+        },
+        {
+          "form": "irán",
+          "lang": "es"
+        }
+      ]
     },
     {
       "id": "go-past-3s",
@@ -125,8 +246,143 @@
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 8,
+        "utf8_after": 3,
         "both_shrink": true
       }
+    },
+    {
+      "id": "go-prog-3sm",
+      "from": [
+        "he is going",
+        "he's going"
+      ],
+      "to": "va",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "utf8_before": 11,
+        "utf8_after": 2,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "va",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "go-prog-3sf",
+      "from": [
+        "she is going",
+        "she's going"
+      ],
+      "to": "va",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "utf8_before": 12,
+        "utf8_after": 2,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "va",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "go-prog-1p",
+      "from": [
+        "we are going",
+        "we're going"
+      ],
+      "to": "vamos",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 5,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-cond-1s",
+      "from": [
+        "I would go"
+      ],
+      "to": "iria",
+      "lang": "pt",
+      "tense": "conditional",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "utf8_before": 10,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "iria",
+          "lang": "pt"
+        },
+        {
+          "form": "iría",
+          "lang": "es"
+        }
+      ]
+    },
+    {
+      "id": "go-fut-goingto-1s",
+      "from": [
+        "I am going to go",
+        "I'm going to go"
+      ],
+      "to": "iré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 1,
+        "utf8_before": 16,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "iré",
+          "lang": "es"
+        },
+        {
+          "form": "vou",
+          "lang": "pt"
+        },
+        {
+          "form": "irei",
+          "lang": "pt"
+        },
+        {
+          "form": "πάω",
+          "lang": "el"
+        }
+      ],
+      "note": "explicit going-to future; longest-first before progressive"
     },
     {
       "id": "come-fut-1s",
@@ -139,6 +395,8 @@
       "metrics": {
         "token_before": 3,
         "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
         "both_shrink": true
       }
     },
@@ -147,14 +405,26 @@
       "from": [
         "I came"
       ],
-      "to": "vine",
-      "lang": "es",
+      "to": "vim",
+      "lang": "pt",
       "tense": "past",
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 3,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "vim",
+          "lang": "pt"
+        },
+        {
+          "form": "vine",
+          "lang": "es"
+        }
+      ]
     },
     {
       "id": "come-prog-1s",
@@ -168,6 +438,25 @@
       "metrics": {
         "token_before": 4,
         "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 5,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "come-fut-3s",
+      "from": [
+        "he will come",
+        "she will come"
+      ],
+      "to": "vendrá",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 7,
         "both_shrink": true
       }
     },
@@ -182,7 +471,9 @@
       "metrics": {
         "token_before": 2,
         "token_after": 1,
-        "both_shrink": true
+        "utf8_before": 4,
+        "utf8_after": 4,
+        "both_shrink": false
       }
     },
     {
@@ -197,6 +488,8 @@
       "metrics": {
         "token_before": 3,
         "token_after": 1,
+        "utf8_before": 9,
+        "utf8_after": 5,
         "both_shrink": true
       }
     },
@@ -205,12 +498,56 @@
       "from": [
         "I did"
       ],
-      "to": "hice",
-      "lang": "es",
+      "to": "fiz",
+      "lang": "pt",
       "tense": "past",
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 5,
+        "utf8_after": 3,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "fiz",
+          "lang": "pt"
+        },
+        {
+          "form": "hice",
+          "lang": "es"
+        }
+      ]
+    },
+    {
+      "id": "do-fut-1p",
+      "from": [
+        "we will do"
+      ],
+      "to": "haremos",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 7,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "do-fut-3p",
+      "from": [
+        "they will do"
+      ],
+      "to": "harán",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 6,
         "both_shrink": true
       }
     },
@@ -225,8 +562,20 @@
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 4,
+        "utf8_after": 3,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "soy",
+          "lang": "es"
+        },
+        {
+          "form": "sou",
+          "lang": "pt"
+        }
+      ]
     },
     {
       "id": "be-fut-1s",
@@ -240,8 +589,20 @@
       "metrics": {
         "token_before": 3,
         "token_after": 1,
+        "utf8_before": 9,
+        "utf8_after": 5,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "seré",
+          "lang": "es"
+        },
+        {
+          "form": "serei",
+          "lang": "pt"
+        }
+      ]
     },
     {
       "id": "have-fut-1s",
@@ -254,22 +615,46 @@
       "metrics": {
         "token_before": 3,
         "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "tendré",
+          "lang": "es"
+        },
+        {
+          "form": "terei",
+          "lang": "pt"
+        }
+      ]
     },
     {
       "id": "have-past-1s",
       "from": [
         "I had"
       ],
-      "to": "tuve",
-      "lang": "es",
+      "to": "tive",
+      "lang": "pt",
       "tense": "past",
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 5,
+        "utf8_after": 4,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "tive",
+          "lang": "pt"
+        },
+        {
+          "form": "tuve",
+          "lang": "es"
+        }
+      ]
     },
     {
       "id": "must-pres-1s",
@@ -282,8 +667,20 @@
       "metrics": {
         "token_before": 2,
         "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 4,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "debo",
+          "lang": "es"
+        },
+        {
+          "form": "devo",
+          "lang": "pt"
+        }
+      ]
     },
     {
       "id": "want-fut-1s",
@@ -296,8 +693,313 @@
       "metrics": {
         "token_before": 3,
         "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
         "both_shrink": true
       }
+    },
+    {
+      "id": "like-cond-1s",
+      "from": [
+        "I would like"
+      ],
+      "to": "gostaria",
+      "lang": "pt",
+      "tense": "conditional",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "gostaria",
+          "lang": "pt"
+        },
+        {
+          "form": "quisiera",
+          "lang": "es"
+        }
+      ]
+    },
+    {
+      "id": "could-past-1s",
+      "from": [
+        "I could"
+      ],
+      "to": "pude",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 7,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "note": "past ability; live Romance (not classical potui)"
+    },
+    {
+      "id": "see-fut-1s",
+      "from": [
+        "I will see",
+        "I'll see"
+      ],
+      "to": "veré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 10,
+        "utf8_after": 5,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "veré",
+          "lang": "es"
+        },
+        {
+          "form": "verei",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "see-past-1s",
+      "from": [
+        "I saw"
+      ],
+      "to": "vi",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 5,
+        "utf8_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "see-pres-1s",
+      "from": [
+        "I see"
+      ],
+      "to": "veo",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 5,
+        "utf8_after": 3,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "say-fut-1s",
+      "from": [
+        "I will say",
+        "I'll say"
+      ],
+      "to": "diré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 10,
+        "utf8_after": 5,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "diré",
+          "lang": "es"
+        },
+        {
+          "form": "direi",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "say-past-1s",
+      "from": [
+        "I said"
+      ],
+      "to": "dije",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 4,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "say-pres-1s",
+      "from": [
+        "I say"
+      ],
+      "to": "digo",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 5,
+        "utf8_after": 4,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "give-fut-1s",
+      "from": [
+        "I will give",
+        "I'll give"
+      ],
+      "to": "daré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 11,
+        "utf8_after": 5,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "give-past-1s",
+      "from": [
+        "I gave"
+      ],
+      "to": "di",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "know-pres-1s",
+      "from": [
+        "I know"
+      ],
+      "to": "sé",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 3,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "know-past-1s",
+      "from": [
+        "I knew"
+      ],
+      "to": "supe",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 4,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "know-fut-1s",
+      "from": [
+        "I will know"
+      ],
+      "to": "sabré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 6,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "leave-fut-1s",
+      "from": [
+        "I will leave",
+        "I'll leave"
+      ],
+      "to": "saldré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 7,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "leave-past-1s",
+      "from": [
+        "I left"
+      ],
+      "to": "salí",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 5,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "leave-fut-goingto-1s",
+      "from": [
+        "I am going to leave",
+        "I'm going to leave"
+      ],
+      "to": "saldré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 7,
+        "token_after": 2,
+        "utf8_before": 19,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "saldré",
+          "lang": "es"
+        },
+        {
+          "form": "vou sair",
+          "lang": "pt"
+        }
+      ],
+      "note": "explicit going-to; not progressive voy"
     }
   ],
   "examples_not_registered": [
@@ -319,6 +1021,24 @@
       "to": "fui",
       "lang": "es",
       "why_dropped": "fui also means I went; keep EN on conflict"
+    },
+    {
+      "id": "go-fut-la",
+      "from": [
+        "I will go"
+      ],
+      "to": "ibo",
+      "lang": "la",
+      "why_dropped": "classical Latin not modern surviving use; Romance iré/vou win"
+    },
+    {
+      "id": "go-pres-nl-bare",
+      "from": [
+        "I am going"
+      ],
+      "to": "ga",
+      "lang": "nl",
+      "why_dropped": "bare ga/ben/kan too ambiguous in EN text despite token win"
     }
   ]
 }

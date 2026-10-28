@@ -63,26 +63,29 @@ def test_long_de_compound_not_in_bank_when_losing():
 
 
 def test_es_fr_tense_future_go_wins():
+    """before: I will go tomorrow. → after: cheapest live form (vou ≺ iré)."""
     t = _tessera()
     src = "I will go tomorrow."
     out = t.apply_es_fr_tense(src)
-    assert "iré" in out
+    assert any(s in out for s in ("vou", "iré", "irei", "πάω"))
     assert "will go" not in out.lower()
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
 def test_es_fr_tense_progressive_to_present():
+    """before: I'm going now. → after: voy/vou (not 'voy to')."""
     t = _tessera()
     src = "I'm going now."
     out = t.apply_es_fr_tense(src)
-    assert "voy" in out
+    assert any(s in out for s in ("voy", "vou", "πάω"))
+    assert "going" not in out.lower()
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
 def test_es_fr_tense_bank_all_drop_tokens():
     t = _tessera()
     for src, dst, lang in t.es_fr_tense_pairs():
-        assert lang in {"es", "fr"}
+        assert lang in t.FINAL_TENSE_LANGS
         assert t.estimate_tokens(dst) < t.estimate_tokens(src)
 
 
@@ -107,12 +110,13 @@ def test_final_pass_combined_zh_and_de():
 
 
 def test_final_pass_includes_tense_and_compounds():
+    """before: I will go … train station … ASAP → after: vou/iré + Bahnhof + ASAP."""
     t = _tessera()
     src = "I will go to the train station as soon as possible."
     before = t.estimate_tokens(src)
     out = t.final_token_pass(src)
     after = t.estimate_tokens(out)
-    assert "iré" in out
+    assert any(s in out for s in ("vou", "iré", "irei", "πάω"))
     assert "Bahnhof" in out
     assert "ASAP" in out
     assert "尽快" not in out
@@ -182,3 +186,94 @@ def test_run_pipeline_order_ends_with_final(capsys):
     # token drop vs raw
     t = _tessera()
     assert t.estimate_tokens(out) < t.estimate_tokens(text)
+
+def test_going_to_future_not_eaten_by_progressive_voy():
+    """before→after:
+    I'm going now. → voy/vou
+    I'm going to leave now. → saldré (not 'voy to leave')
+    """
+    t = _tessera()
+    prog = t.apply_es_fr_tense("I'm going now.")
+    assert any(s in prog for s in ("voy", "vou", "πάω"))
+    assert t.estimate_tokens(prog) < t.estimate_tokens("I'm going now.")
+    raw = "I'm going to leave now."
+    out = t.apply_es_fr_tense(raw)
+    assert "voy to" not in out.lower()
+    assert "vou to" not in out.lower()
+    assert "saldré" in out or "vou sair" in out
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_going_to_go_maps_to_short_future():
+    t = _tessera()
+    raw = "I am going to go tomorrow."
+    out = t.apply_es_fr_tense(raw)
+    assert "voy to" not in out.lower()
+    # cheapest among iré/vou/irei/πάω
+    assert any(s in out for s in ("iré", "vou", "irei", "πάω"))
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_they_will_go_prefers_cheapest_pt_or_es():
+    t = _tessera()
+    raw = "they will go"
+    out = t.apply_es_fr_tense(raw)
+    # vão beats irán on utf8 under same token count
+    assert out == "vão"
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_i_would_go_cheapest_pt_iria():
+    t = _tessera()
+    raw = "I would go"
+    out = t.apply_es_fr_tense(raw)
+    assert out == "iria"  # pt iria ≺ es iría on utf8
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_i_will_see_maps_to_vere():
+    t = _tessera()
+    raw = "I will see you."
+    out = t.apply_es_fr_tense(raw)
+    assert "veré" in out
+    assert "will see" not in out.lower()
+
+
+def test_final_tense_langs_include_pt_nl_el():
+    t = _tessera()
+    assert t.FINAL_TENSE_LANGS >= {"es", "fr", "pt", "nl", "el"}
+
+
+def test_tense_before_after_examples():
+    """Single-filter before→after expectations (tense densifier only)."""
+    t = _tessera()
+    cases = [
+        ("I will go", ("vou", "iré", "irei", "πάω")),
+        ("I went", ("fui", "vim")),
+        ("they will go", ("vão",)),
+        ("I would go", ("iria",)),
+        ("I will see", ("veré",)),
+        ("I saw", ("vi",)),
+        ("I will say", ("diré",)),
+        ("I said", ("dije",)),
+        ("I could", ("pude",)),
+        ("I would like", ("gostaria", "quisiera")),
+        ("he is going", ("va", "vai")),
+        ("I am going to go", ("vou", "iré", "irei", "πάω")),
+        ("I'm going to leave", ("saldré", "vou sair")),
+        ("I came", ("vim", "vine")),
+        ("I did", ("fiz", "hice")),
+        ("I had", ("tive", "tuve")),
+        ("I know", ("sé",)),
+        ("I left", ("salí",)),
+        ("we are going", ("vamos",)),
+        ("I will leave", ("saldré",)),
+    ]
+    for src, allowed in cases:
+        out = t.apply_es_fr_tense(src)
+        assert any(a in out for a in allowed), (src, out, allowed)
+        assert t.estimate_tokens(out) < t.estimate_tokens(src), (src, out)
+        # going-to must not leave a dangling "voy to"/"vou to"
+        if "going to" in src.lower():
+            assert "voy to" not in out.lower()
+            assert "vou to" not in out.lower()
