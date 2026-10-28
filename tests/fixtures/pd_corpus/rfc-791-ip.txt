@@ -1,0 +1,4 @@
+The Internet Protocol is designed for use in interconnected systems of packet-switched computer communication networks.
+The internet protocol provides for transmitting blocks of data called datagrams from sources to destinations, where sources and destinations are hosts identified by fixed length addresses.
+The internet protocol also provides for fragmentation and reassembly of long datagrams, if necessary, for transmission through "small packet" networks.
+Internet protocol modules reside in hosts and gateways and are used to move datagrams through the interconnected set of networks.
