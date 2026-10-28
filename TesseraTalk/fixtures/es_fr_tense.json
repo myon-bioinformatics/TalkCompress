@@ -11,7 +11,8 @@
     "I was≠fui (ambiguous with I went); keep EN for I was / map only I went→fui.",
     "Classical Latin conjugations (ibo/ivi/sum…) skipped — prefer surviving modern Romance / live Latin-derived abbrevs (e.g./i.e./etc. stay C).",
     "Progressive *going is not applied when followed by 'to' (going-to future guard in apply_es_fr_tense / _apply_phrase_pairs).",
-    "Explicit going-to phrases (I am going to go → iré/vou/…) registered as longer sources."
+    "Explicit going-to phrases (I am going to go → iré/vou/…) registered as longer sources.",
+    "Tranche2 1s (~35): take/think/try/find/call/put/bring/write/read/buy/wait/use/open/pay/live/send/stay; skip tell≃say, make≃do, get, ask (pedir/preguntar shaky)."
   ],
   "entries": [
     {
@@ -1000,6 +1001,1029 @@
         }
       ],
       "note": "explicit going-to; not progressive voy"
+    },
+    {
+      "id": "take-fut-1s",
+      "from": [
+        "I will take",
+        "I'll take"
+      ],
+      "to": "tomaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tomaré",
+          "lang": "es"
+        },
+        {
+          "form": "tomarei",
+          "lang": "pt"
+        },
+        {
+          "form": "πάρω",
+          "lang": "el"
+        }
+      ],
+      "note": "cheapest may prefer el πάρω (1 tok); classical Latin skipped"
+    },
+    {
+      "id": "take-past-1s",
+      "from": [
+        "I took"
+      ],
+      "to": "tomé",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 6,
+        "utf8_after": 5,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tomé",
+          "lang": "es"
+        },
+        {
+          "form": "pris",
+          "lang": "fr"
+        }
+      ]
+    },
+    {
+      "id": "take-prog-1s",
+      "from": [
+        "I am taking",
+        "I'm taking",
+        "I take"
+      ],
+      "to": "tomo",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "utf8_before": 11,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tomo",
+          "lang": "es"
+        },
+        {
+          "form": "pego",
+          "lang": "pt"
+        },
+        {
+          "form": "neem",
+          "lang": "nl"
+        }
+      ]
+    },
+    {
+      "id": "take-fut-goingto-1s",
+      "from": [
+        "I am going to take",
+        "I'm going to take"
+      ],
+      "to": "tomaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 2,
+        "utf8_before": 18,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tomaré",
+          "lang": "es"
+        },
+        {
+          "form": "tomarei",
+          "lang": "pt"
+        },
+        {
+          "form": "πάρω",
+          "lang": "el"
+        }
+      ],
+      "note": "explicit going-to; not progressive voy"
+    },
+    {
+      "id": "think-fut-1s",
+      "from": [
+        "I will think",
+        "I'll think"
+      ],
+      "to": "pensaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "pensaré",
+          "lang": "es"
+        },
+        {
+          "form": "pensarei",
+          "lang": "pt"
+        },
+        {
+          "form": "penserai",
+          "lang": "fr"
+        }
+      ],
+      "note": "pienso often 2 tok; future forms listed only"
+    },
+    {
+      "id": "think-pres-1s",
+      "from": [
+        "I think",
+        "I'm thinking",
+        "I am thinking"
+      ],
+      "to": "penso",
+      "lang": "pt",
+      "tense": "present",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 7,
+        "utf8_after": 5,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "penso",
+          "lang": "pt"
+        },
+        {
+          "form": "pienso",
+          "lang": "es"
+        },
+        {
+          "form": "pense",
+          "lang": "fr"
+        },
+        {
+          "form": "denk",
+          "lang": "nl"
+        }
+      ]
+    },
+    {
+      "id": "think-past-1s",
+      "from": [
+        "I thought"
+      ],
+      "to": "pensé",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 9,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "pensé",
+          "lang": "es"
+        },
+        {
+          "form": "pensei",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "try-fut-1s",
+      "from": [
+        "I will try"
+      ],
+      "to": "tentarei",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "note": "intentaré is 3 tok (= I will try); pt tentarei wins"
+    },
+    {
+      "id": "try-prog-1s",
+      "from": [
+        "I am trying",
+        "I'm trying"
+      ],
+      "to": "tento",
+      "lang": "pt",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 5,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tento",
+          "lang": "pt"
+        },
+        {
+          "form": "intento",
+          "lang": "es"
+        },
+        {
+          "form": "essaie",
+          "lang": "fr"
+        }
+      ]
+    },
+    {
+      "id": "try-past-1s",
+      "from": [
+        "I tried"
+      ],
+      "to": "tentei",
+      "lang": "pt",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 7,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tentei",
+          "lang": "pt"
+        },
+        {
+          "form": "intenté",
+          "lang": "es"
+        },
+        {
+          "form": "essayé",
+          "lang": "fr"
+        }
+      ]
+    },
+    {
+      "id": "try-fut-goingto-1s",
+      "from": [
+        "I am going to try",
+        "I'm going to try"
+      ],
+      "to": "tentarei",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 2,
+        "utf8_before": 17,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "note": "explicit going-to; future densifier only"
+    },
+    {
+      "id": "find-fut-1s",
+      "from": [
+        "I will find"
+      ],
+      "to": "acharei",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "acharei",
+          "lang": "pt"
+        },
+        {
+          "form": "βρω",
+          "lang": "el"
+        }
+      ],
+      "note": "encontraré is 3 tok (= I will find); pt acharei / el βρω win"
+    },
+    {
+      "id": "find-past-1s",
+      "from": [
+        "I found"
+      ],
+      "to": "encontré",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 7,
+        "utf8_after": 9,
+        "both_shrink": false
+      },
+      "candidates": [
+        {
+          "form": "encontré",
+          "lang": "es"
+        },
+        {
+          "form": "achei",
+          "lang": "pt"
+        },
+        {
+          "form": "vond",
+          "lang": "nl"
+        }
+      ]
+    },
+    {
+      "id": "find-fut-goingto-1s",
+      "from": [
+        "I am going to find",
+        "I'm going to find"
+      ],
+      "to": "acharei",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 2,
+        "utf8_before": 18,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "acharei",
+          "lang": "pt"
+        },
+        {
+          "form": "βρω",
+          "lang": "el"
+        }
+      ],
+      "note": "explicit going-to"
+    },
+    {
+      "id": "call-fut-1s",
+      "from": [
+        "I will call",
+        "I'll call"
+      ],
+      "to": "llamaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "llamaré",
+          "lang": "es"
+        },
+        {
+          "form": "chamarei",
+          "lang": "pt"
+        },
+        {
+          "form": "καλώ",
+          "lang": "el"
+        }
+      ],
+      "note": "bare nl bel skipped (EN collision); el καλώ covers I'll"
+    },
+    {
+      "id": "call-past-1s",
+      "from": [
+        "I called"
+      ],
+      "to": "llamé",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 8,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "llamé",
+          "lang": "es"
+        },
+        {
+          "form": "chamei",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "call-fut-goingto-1s",
+      "from": [
+        "I am going to call",
+        "I'm going to call"
+      ],
+      "to": "llamaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 2,
+        "utf8_before": 18,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "llamaré",
+          "lang": "es"
+        },
+        {
+          "form": "chamarei",
+          "lang": "pt"
+        },
+        {
+          "form": "καλώ",
+          "lang": "el"
+        }
+      ],
+      "note": "explicit going-to"
+    },
+    {
+      "id": "put-fut-1s",
+      "from": [
+        "I will put"
+      ],
+      "to": "pondré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "pondré",
+          "lang": "es"
+        },
+        {
+          "form": "porei",
+          "lang": "pt"
+        },
+        {
+          "form": "mettrai",
+          "lang": "fr"
+        }
+      ],
+      "note": "I put tense-ambiguous — omitted; I'll put 2=2 vs pondré"
+    },
+    {
+      "id": "put-fut-goingto-1s",
+      "from": [
+        "I am going to put",
+        "I'm going to put"
+      ],
+      "to": "pondré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 2,
+        "utf8_before": 17,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "pondré",
+          "lang": "es"
+        },
+        {
+          "form": "porei",
+          "lang": "pt"
+        },
+        {
+          "form": "mettrai",
+          "lang": "fr"
+        }
+      ],
+      "note": "explicit going-to"
+    },
+    {
+      "id": "bring-fut-1s",
+      "from": [
+        "I will bring",
+        "I'll bring"
+      ],
+      "to": "traeré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "traeré",
+          "lang": "es"
+        },
+        {
+          "form": "trarei",
+          "lang": "pt"
+        },
+        {
+          "form": "φέρω",
+          "lang": "el"
+        }
+      ]
+    },
+    {
+      "id": "bring-past-1s",
+      "from": [
+        "I brought"
+      ],
+      "to": "traje",
+      "lang": "es",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 9,
+        "utf8_after": 5,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "traje",
+          "lang": "es"
+        },
+        {
+          "form": "trouxe",
+          "lang": "pt"
+        }
+      ]
+    },
+    {
+      "id": "bring-fut-goingto-1s",
+      "from": [
+        "I am going to bring",
+        "I'm going to bring"
+      ],
+      "to": "traeré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 7,
+        "token_after": 2,
+        "utf8_before": 19,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "traeré",
+          "lang": "es"
+        },
+        {
+          "form": "trarei",
+          "lang": "pt"
+        },
+        {
+          "form": "φέρω",
+          "lang": "el"
+        }
+      ],
+      "note": "explicit going-to"
+    },
+    {
+      "id": "write-fut-1s",
+      "from": [
+        "I will write",
+        "I'll write"
+      ],
+      "to": "écrirai",
+      "lang": "fr",
+      "tense": "future",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "écrirai",
+          "lang": "fr"
+        },
+        {
+          "form": "γράφω",
+          "lang": "el"
+        }
+      ],
+      "note": "escribiré is 3 tok; fr écrirai wins I'll write"
+    },
+    {
+      "id": "read-fut-1s",
+      "from": [
+        "I will read"
+      ],
+      "to": "leeré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "leeré",
+          "lang": "es"
+        },
+        {
+          "form": "lerei",
+          "lang": "pt"
+        },
+        {
+          "form": "lirai",
+          "lang": "fr"
+        }
+      ],
+      "note": "I read tense-ambiguous — omitted; I'll read 2=2 vs leeré"
+    },
+    {
+      "id": "read-prog-1s",
+      "from": [
+        "I am reading",
+        "I'm reading"
+      ],
+      "to": "leo",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "utf8_before": 12,
+        "utf8_after": 3,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "leo",
+          "lang": "es"
+        },
+        {
+          "form": "leio",
+          "lang": "pt"
+        },
+        {
+          "form": "lis",
+          "lang": "fr"
+        },
+        {
+          "form": "lees",
+          "lang": "nl"
+        }
+      ]
+    },
+    {
+      "id": "buy-fut-1s",
+      "from": [
+        "I will buy"
+      ],
+      "to": "compraré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 9,
+        "both_shrink": true
+      },
+      "note": "I'll buy 2=2 vs compraré; bare nl koop not used as future"
+    },
+    {
+      "id": "wait-fut-1s",
+      "from": [
+        "I will wait"
+      ],
+      "to": "esperaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 9,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "esperaré",
+          "lang": "es"
+        },
+        {
+          "form": "wacht",
+          "lang": "nl"
+        }
+      ],
+      "note": "I'll wait 2=2 — omitted"
+    },
+    {
+      "id": "wait-prog-1s",
+      "from": [
+        "I am waiting",
+        "I'm waiting"
+      ],
+      "to": "espero",
+      "lang": "es",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 12,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "espero",
+          "lang": "es"
+        },
+        {
+          "form": "attends",
+          "lang": "fr"
+        },
+        {
+          "form": "wacht",
+          "lang": "nl"
+        }
+      ]
+    },
+    {
+      "id": "use-fut-1s",
+      "from": [
+        "I will use"
+      ],
+      "to": "usaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "usaré",
+          "lang": "es"
+        },
+        {
+          "form": "usarei",
+          "lang": "pt"
+        }
+      ],
+      "note": "I'll use needs 1-tok future; uso is present — omitted I'll"
+    },
+    {
+      "id": "open-fut-1s",
+      "from": [
+        "I will open"
+      ],
+      "to": "abriré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "abriré",
+          "lang": "es"
+        },
+        {
+          "form": "abrirei",
+          "lang": "pt"
+        },
+        {
+          "form": "ouvrirai",
+          "lang": "fr"
+        }
+      ],
+      "note": "EN open not used as densifier"
+    },
+    {
+      "id": "pay-fut-1s",
+      "from": [
+        "I will pay"
+      ],
+      "to": "pagaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "pagaré",
+          "lang": "es"
+        },
+        {
+          "form": "pagarei",
+          "lang": "pt"
+        },
+        {
+          "form": "paierai",
+          "lang": "fr"
+        }
+      ],
+      "note": "I'll pay 2=2 vs pagaré; pago is present"
+    },
+    {
+      "id": "live-fut-1s",
+      "from": [
+        "I will live"
+      ],
+      "to": "viviré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "viviré",
+          "lang": "es"
+        },
+        {
+          "form": "viverei",
+          "lang": "pt"
+        },
+        {
+          "form": "vivrai",
+          "lang": "fr"
+        }
+      ]
+    },
+    {
+      "id": "send-fut-1s",
+      "from": [
+        "I will send"
+      ],
+      "to": "enviaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "enviaré",
+          "lang": "es"
+        },
+        {
+          "form": "enviarei",
+          "lang": "pt"
+        },
+        {
+          "form": "enverrai",
+          "lang": "fr"
+        }
+      ],
+      "note": "I'll/I send/I sent often 2=2 — only will class"
+    },
+    {
+      "id": "stay-fut-1s",
+      "from": [
+        "I will stay"
+      ],
+      "to": "quedaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "quedaré",
+          "lang": "es"
+        },
+        {
+          "form": "ficarei",
+          "lang": "pt"
+        },
+        {
+          "form": "resterai",
+          "lang": "fr"
+        }
+      ]
+    },
+    {
+      "id": "stay-prog-1s",
+      "from": [
+        "I am staying",
+        "I'm staying"
+      ],
+      "to": "fico",
+      "lang": "pt",
+      "tense": "present",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "utf8_before": 12,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "fico",
+          "lang": "pt"
+        },
+        {
+          "form": "quedo",
+          "lang": "es"
+        },
+        {
+          "form": "reste",
+          "lang": "fr"
+        },
+        {
+          "form": "μένω",
+          "lang": "el"
+        }
+      ]
     }
   ],
   "examples_not_registered": [
@@ -1039,6 +2063,60 @@
       "to": "ga",
       "lang": "nl",
       "why_dropped": "bare ga/ben/kan too ambiguous in EN text despite token win"
+    },
+    {
+      "id": "tell-fut-1s",
+      "from": [
+        "I will tell"
+      ],
+      "to": "diré",
+      "lang": "es",
+      "why_dropped": "overlaps say→diré/digo/dije; skip to avoid shadowing"
+    },
+    {
+      "id": "make-fut-1s",
+      "from": [
+        "I will make"
+      ],
+      "to": "haré",
+      "lang": "es",
+      "why_dropped": "overlaps do→haré/hago/hice; skip"
+    },
+    {
+      "id": "ask-fut-1s",
+      "from": [
+        "I will ask"
+      ],
+      "to": "pregunto",
+      "lang": "es",
+      "why_dropped": "ask≠pedir/preguntar always; shaky sense — deferred"
+    },
+    {
+      "id": "get-fut-1s",
+      "from": [
+        "I will get"
+      ],
+      "to": "conseguiré",
+      "lang": "es",
+      "why_dropped": "no clear 1-tok live Romance winner without bare EN get"
+    },
+    {
+      "id": "put-past-1s",
+      "from": [
+        "I put"
+      ],
+      "to": "puse",
+      "lang": "es",
+      "why_dropped": "I put tense-ambiguous (pres/past)"
+    },
+    {
+      "id": "read-pres-1s",
+      "from": [
+        "I read"
+      ],
+      "to": "leo",
+      "lang": "es",
+      "why_dropped": "I read tense-ambiguous (pres/past)"
     }
   ]
 }

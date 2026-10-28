@@ -374,6 +374,8 @@ def test_mid_compound_split_soft_no_false_fire():
         # soft: no crash, no blow-up
         assert isinstance(out, str)
         assert len(out) <= len(src) + 8
+
+
 def test_pt_el_latin_phrase_langs_include_living():
     t = _tessera()
     assert t.FINAL_PT_EL_LATIN_PHRASE_LANGS >= {"pt", "el", "it", "la"}
@@ -465,3 +467,43 @@ def test_classical_ibo_not_in_tense_pairs():
         dst for _, dst, _ in t.pt_el_latin_tense_pairs()
     }
     assert "ibo" not in forms
+
+def test_tense_tranche2_take_future_wins():
+    """before: I will take … → after: tomaré/tomarei/πάρω (cheapest)."""
+    t = _tessera()
+    src = "I will take it tomorrow."
+    out = t.apply_es_fr_tense(src)
+    assert any(s in out for s in ("tomaré", "tomarei", "πάρω"))
+    assert "will take" not in out.lower()
+    assert t.estimate_tokens(out) < t.estimate_tokens(src)
+
+
+def test_tense_tranche2_think_past_wins():
+    t = _tessera()
+    src = "I thought so."
+    out = t.apply_es_fr_tense(src)
+    assert any(s in out for s in ("pensé", "pensei"))
+    assert t.estimate_tokens(out) < t.estimate_tokens(src)
+
+
+def test_tense_tranche2_going_to_take_not_eaten_by_voy():
+    """I'm going now → voy/vou; I'm going to take … → take future, not voy to."""
+    t = _tessera()
+    prog = t.apply_es_fr_tense("I'm going now.")
+    assert any(s in prog for s in ("voy", "vou", "πάω"))
+    raw = "I'm going to take it now."
+    out = t.apply_es_fr_tense(raw)
+    assert "voy to" not in out.lower()
+    assert "vou to" not in out.lower()
+    assert any(s in out for s in ("tomaré", "tomarei", "πάρω"))
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_tense_tranche2_try_and_read_prog():
+    t = _tessera()
+    try_out = t.apply_es_fr_tense("I will try again.")
+    assert "tentarei" in try_out
+    assert t.estimate_tokens(try_out) < t.estimate_tokens("I will try again.")
+    read_out = t.apply_es_fr_tense("I'm reading now.")
+    assert any(s in read_out for s in ("leo", "leio", "lis", "lees"))
+    assert t.estimate_tokens(read_out) < t.estimate_tokens("I'm reading now.")
