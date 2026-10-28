@@ -1423,13 +1423,9 @@
         {
           "form": "chamarei",
           "lang": "pt"
-        },
-        {
-          "form": "καλώ",
-          "lang": "el"
         }
       ],
-      "note": "bare nl bel skipped (EN collision); el καλώ covers I'll"
+      "note": "Present καλώ and bare nl bel excluded from future candidates; equal-token I'll aliases stay unchanged."
     },
     {
       "id": "call-past-1s",
@@ -1481,10 +1477,6 @@
         {
           "form": "chamarei",
           "lang": "pt"
-        },
-        {
-          "form": "καλώ",
-          "lang": "el"
         }
       ],
       "note": "explicit going-to"
@@ -1576,10 +1568,6 @@
         {
           "form": "trarei",
           "lang": "pt"
-        },
-        {
-          "form": "φέρω",
-          "lang": "el"
         }
       ]
     },
@@ -1633,10 +1621,6 @@
         {
           "form": "trarei",
           "lang": "pt"
-        },
-        {
-          "form": "φέρω",
-          "lang": "el"
         }
       ],
       "note": "explicit going-to"
@@ -1661,13 +1645,9 @@
         {
           "form": "écrirai",
           "lang": "fr"
-        },
-        {
-          "form": "γράφω",
-          "lang": "el"
         }
       ],
-      "note": "escribiré is 3 tok; fr écrirai wins I'll write"
+      "note": "Present γράφω excluded from future candidates."
     },
     {
       "id": "read-fut-1s",
@@ -1771,10 +1751,6 @@
         {
           "form": "esperaré",
           "lang": "es"
-        },
-        {
-          "form": "wacht",
-          "lang": "nl"
         }
       ],
       "note": "I'll wait 2=2 — omitted"
