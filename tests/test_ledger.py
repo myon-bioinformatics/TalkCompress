@@ -1522,3 +1522,55 @@ def test_cmd_unix_shell_abbrev_tranche():
     assert "cmd-whoami" not in by_id
     assert "cat" not in [str(x).lower() for x in by_id["cmd-cat"]["from"]]
     assert "soft link" in [str(x).lower() for x in by_id["cmd-symlink"]["from"]]  # alias ok
+
+
+def test_light_review_kiss_nan_e2e_aka():
+    """Light review: tighten over-broad acronyms; aka add; DEFAULT_MAP synced."""
+    from shared.ledger import apply_ledger_lex, list_conventions
+
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+
+    kiss = by_id["c-kiss"]
+    assert kiss["to"] == "KISS"
+    assert "keep it simple, stupid" in kiss["from"]
+    assert all(str(x).lower() != "keep it simple" for x in kiss["from"])
+    assert apply_ledger_lex("keep it simple, stupid") == "KISS"
+    assert apply_ledger_lex("keep it simple when teaching") == "keep it simple when teaching"
+
+    nan = by_id["c-nan"]
+    assert nan["to"] == "NaN"
+    assert nan.get("skip_if_re")
+    assert apply_ledger_lex("not a number") == "NaN"
+    assert "NaN" not in apply_ledger_lex("not a number of people came")
+
+    e2e = by_id["c-e2e"]
+    assert e2e["to"] == "E2E"
+    assert e2e.get("skip_if_re")
+    assert apply_ledger_lex("end to end tests") == "E2E tests"
+    assert "E2E" not in apply_ledger_lex("the end to end of the story")
+
+    aka = by_id["c-aka"]
+    assert aka["to"] == "aka"
+    assert aka["family"] == "abbrev"
+    assert aka["metrics"]["token"]["delta"] < 0
+    assert apply_ledger_lex("also known as Bob") == "aka Bob"
+
+    import importlib.util
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "shorthand_edge", root / "ShorthandEdge" / "shorthand_edge.py"
+    )
+    s = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(s)
+    assert "keep it simple" not in s.DEFAULT_MAP
+    assert "not a number" not in s.DEFAULT_MAP
+    assert "end to end" not in s.DEFAULT_MAP
+    assert s.DEFAULT_MAP.get("also known as") == "aka"
+    assert "KISS" in s.compress("keep it simple, stupid")
+    assert "KISS" not in s.compress("keep it simple when teaching")
+    assert "E2E" in s.compress("end to end tests")
+    assert "E2E" not in s.compress("the end to end of the story")
+    assert "aka" in s.compress("also known as Bob")

@@ -7,8 +7,6 @@
     "work in progress": "WIP",
     "unit test": "UT",
     "integration test": "IT",
-    "end to end": "E2E",
-    "end-to-end": "E2E",
     "source control": "SCM",
     "version control": "VCS",
     "code review": "CR",
@@ -39,12 +37,10 @@
     "don't repeat yourself": "DRY",
     "you aren't gonna need it": "YAGNI",
     "you are not going to need it": "YAGNI",
-    "keep it simple": "KISS",
     "keep it simple, stupid": "KISS",
     "proof of concept": "PoC",
     "end of file": "EOF",
     "end of line": "EOL",
-    "not a number": "NaN",
     "out of memory": "OOM",
     "null pointer exception": "NPE",
     "segmentation fault": "segfault",
@@ -155,6 +151,8 @@
     "secure shell login": "ssh",
     "superuser do": "sudo",
     "run as superuser": "sudo",
-    "run as root": "sudo"
+    "run as root": "sudo",
+    "also known as": "aka",
+    "a.k.a.": "aka"
   }
 }
