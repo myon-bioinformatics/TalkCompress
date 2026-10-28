@@ -1,16 +1,14 @@
 """Random smoke over copyright-free (PD / US-gov / free RF) corpus snippets.
 
 Samples which passages **and** how much text / how many lines to feed,
-using a seeded RNG so CI stays reproducible. Override via env:
+using a seeded RNG so CI stays reproducible. Override via pytest options:
 
-  TALKCOMPRESS_PD_SEED   (default 42)
-  TALKCOMPRESS_PD_N      (default 5 samples per test)
+  pytest --pd-seed=42 --pd-n=5
 """
 
 from __future__ import annotations
 
 import json
-import os
 import random
 from pathlib import Path
 
@@ -22,18 +20,15 @@ ROOT = Path(__file__).resolve().parents[1]
 CORPUS = ROOT / "tests" / "fixtures" / "pd_corpus"
 MANIFEST = CORPUS / "manifest.json"
 
-DEFAULT_SEED = 42
-DEFAULT_N = 5
+
+@pytest.fixture
+def pd_seed(pytestconfig) -> int:
+    return int(pytestconfig.getoption("--pd-seed"))
 
 
-def _seed() -> int:
-    raw = os.environ.get("TALKCOMPRESS_PD_SEED", str(DEFAULT_SEED))
-    return int(raw)
-
-
-def _n_samples() -> int:
-    raw = os.environ.get("TALKCOMPRESS_PD_N", str(DEFAULT_N))
-    return max(1, int(raw))
+@pytest.fixture
+def pd_n(pytestconfig) -> int:
+    return max(1, int(pytestconfig.getoption("--pd-n")))
 
 
 def _load_passages() -> list[dict]:
@@ -108,10 +103,10 @@ def test_pd_corpus_manifest_sane(passages):
         assert (CORPUS / p["file"]).is_file()
 
 
-def test_pd_corpus_random_compress_ce(passages):
+def test_pd_corpus_random_compress_ce(passages, pd_seed, pd_n):
     """Seeded random: pick N passages × random line/char spans; C→E must not crash."""
-    seed = _seed()
-    n = min(_n_samples(), len(passages))
+    seed = pd_seed
+    n = min(pd_n, len(passages))
     rng = random.Random(seed)
     chosen = rng.sample(passages, n)
 
@@ -144,10 +139,10 @@ def test_pd_corpus_random_compress_ce(passages):
     assert [r["line_count"] for r in results] == [m["line_count"] for m in metas2]
 
 
-def test_pd_corpus_random_compress_c_e_final(passages):
+def test_pd_corpus_random_compress_c_e_final(passages, pd_seed, pd_n):
     """Second draw (offset seed): include B-final token pass; still no crash."""
-    seed = _seed() + 17
-    n = min(_n_samples(), len(passages))
+    seed = pd_seed + 17
+    n = min(pd_n, len(passages))
     rng = random.Random(seed)
     chosen = rng.sample(passages, n)
 
