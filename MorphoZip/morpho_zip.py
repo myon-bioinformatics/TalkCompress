@@ -1957,6 +1957,31 @@ _IRREG_3SG_BASE: dict[str, str] = {
     "does": "do",
     "goes": "go",
 }
+# Bases ending in a single s that form 3sg with -es (not -e verbs that only add -s).
+# Whitelist avoids false stems: rises↛ris, closes↛clos, refuses↛refus.
+_S_FINAL_TAKING_ES: frozenset[str] = frozenset(
+    {
+        "bus",
+        "gas",
+        "focus",
+        "bias",
+        "alias",
+        "canvas",
+        "chorus",
+        "circus",
+        "atlas",
+        "virus",
+        "bonus",
+        "census",
+        "campus",
+        "cactus",
+        "fungus",
+        "nucleus",
+        "radius",
+        "stimulus",
+        "syllabus",
+    }
+)
 # Surfaces ending in -s that are NOT EN 3sg verbs (keep unchanged).
 # Policy: skip 単複同形 and non +s/+es plurals; also past was, possessives, adverbs.
 _NON_3SG_S: frozenset[str] = frozenset(
@@ -2073,6 +2098,12 @@ def _en_verb_base_from_3sg(verb: str) -> str:
         return verb[:-2]
     if low.endswith("oes") and len(low) > 3:  # does already irregular; heroes-like rare
         return verb[:-2]
+    # Single-s bases that take -es (focuses→focus, buses→bus); whitelist only.
+    # -e verbs that only add -s (rises/uses/closes/refuses) keep the bare -s strip below.
+    if len(low) > 4 and low.endswith("ses") and not low.endswith("sses"):
+        stem = low[:-2]
+        if stem in _S_FINAL_TAKING_ES:
+            return verb[:-2]
     if low.endswith("s") and not low.endswith("ss") and len(low) > 2:
         return verb[:-1]
     return verb

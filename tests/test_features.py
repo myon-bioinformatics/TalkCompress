@@ -170,6 +170,14 @@ def test_morpho_pronoun_inventory():
     assert m.compress("he always tries") == "he □ try"  # always→□ then tries→try
     assert m.compress("everyone always wants") == "everyone □ want"
     assert m.compress("he means") == "he means"  # 単複同形 means: no strip
+    # single-s + -es bases (not -e verbs that only add -s)
+    assert m.compress("he focuses") == "he focus"
+    assert m.compress("she buses") == "she bus"
+    assert m.compress("he biases") == "he bias"
+    assert m.compress("it gases") == "it gas"
+    assert m.compress("it rises") == "it rise"  # -e verb: strip -s only
+    assert m.compress("he uses") == "he use"
+    assert m.compress("she closes") == "she close"
     assert "∀opt" in m.compress("whichever option")
     assert "which" not in m.compress("whichever option").lower()
     assert "4" in m.compress("成功するために学ぶ")

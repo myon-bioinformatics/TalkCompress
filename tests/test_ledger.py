@@ -854,6 +854,34 @@ def test_abbrev_family_contractions_synced():
     assert by_id["aux-neg-can"]["to"] == "!can"
 
 
+def test_that_is_latin_owns_not_contraction():
+    """Bare ``that is`` → ``i.e.`` (conj-that-is); no dual c-thats claim.
+
+    Chosen behavior: latin gloss wins. ``that's`` contraction dropped from
+    EN_CONTRACTION_SPEC / ledger so C contractions no longer shadow or race
+    ``i.e.`` on the same surface. Soft lex fix/skip (no bulk add).
+    """
+    from shared.ledger import apply_ledger_lex, list_conventions
+    from shared.lex_policy import EN_CONTRACTION_SPEC, apply_en_contractions
+    from ShorthandEdge.shorthand_edge import compress as c_compress
+    from MorphoZip import morpho_zip as m
+
+    by_id = {c["id"]: c for c in list_conventions(kind="lex")}
+    assert "c-thats" not in by_id
+    assert "conj-that-is" in by_id
+    assert "that is" in [f.lower() for f in by_id["conj-that-is"]["from"]]
+    assert by_id["conj-that-is"]["to"] == "i.e."
+    assert not any(sid == "thats" for sid, _src, _dst in EN_CONTRACTION_SPEC)
+
+    # contractions must not rewrite bare that is
+    assert apply_en_contractions("that is the plan") == "that is the plan"
+    assert "i.e." in apply_ledger_lex("that is the plan")
+    assert "i.e." in c_compress("that is the plan")
+    assert "i.e." in m.compress("that is fine", unique=False, etymon=False, counters=False)
+    # longer discursive form still maps
+    assert "i.e." in apply_ledger_lex("that is to say yes")
+
+
 
 def test_emoji_family_synced():
     """word→emoji is C family=emoji; pivot path; utf8 shrinks; includes ℹ️."""

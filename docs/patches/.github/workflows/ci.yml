@@ -54,7 +54,7 @@ jobs:
             Zipilogue/zipilogue.py \
             TesseraTalk/tessera_talk.py \
             ShorthandEdge/shorthand_edge.py \
-            DispatchHub/dispatch_hub.py \
+            DensityZip/density_zip.py \
             MorphoZip/morpho_zip.py
       - name: Test with JUnit
         run: |

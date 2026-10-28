@@ -398,7 +398,7 @@ EN_CONTRACTION_SPEC: tuple[tuple[str, str, str], ...] = (
     ("were", "we are", "we're"),
     ("theyre", "they are", "they're"),
     ("its", "it is", "it's"),
-    ("thats", "that is", "that's"),
+    # that is → i.e. owned by conj-that-is / MorphoZip; do not dual-claim via that's
     ("theres", "there is", "there's"),
     ("therere", "there are", "there're"),
     ("dont", "do not", "don't"),
@@ -434,9 +434,10 @@ def en_contraction_ledger_rows() -> list[dict[str, Any]]:
     """C ledger row skeletons for EN contractions (family=abbrev).
 
     Rewrite engine is ``apply_en_contractions`` (``ledger_apply=False``) so the
-    ledger stays a registration record and does not fight latin abbrevs such as
-    ``that is``→``i.e.`` or double-apply. Pipeline note: after C ``do not``→
-    ``don't`` / ``cannot``→``can't``, E may fold ``don't``→``!`` / ``can't``→``!can``.
+    ledger stays a registration record and does not double-apply. Bare ``that is``
+    is owned by latin ``conj-that-is``→``i.e.`` (not contracted to ``that's``).
+    Pipeline note: after C ``do not``→``don't`` / ``cannot``→``can't``, E may fold
+    ``don't``→``!`` / ``can't``→``!can``.
     """
     rows: list[dict[str, Any]] = []
     for sid, src, dst in EN_CONTRACTION_SPEC:
