@@ -2,23 +2,10 @@
 
 from __future__ import annotations
 
-import importlib.util
 import json
-from pathlib import Path
+import sys
 
-ROOT = Path(__file__).resolve().parents[1]
-
-
-def _load(name: str, rel: str):
-    import sys
-
-    path = ROOT / rel
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    sys.modules[name] = mod
-    spec.loader.exec_module(mod)
-    return mod
+from tests._helpers import load as _load
 
 
 def test_rulebook_grows_after_repeated_phrases(tmp_path):
@@ -103,9 +90,15 @@ def test_rule_encode_with_optional_key(tmp_path, capsys):
     )
     assert rc == 0
     env = capsys.readouterr().out.strip()
-    # envelope is base64url, not plaintext
-    assert "ping" not in env
-    assert "r1" not in env
+    # Envelope is base64url. The nonce is random, so a short token such as
+    # "r1" (or even "ping") can appear in the ciphertext by chance. base64url
+    # has no spaces, so the long phrase is a stable plaintext-absence check.
+    # Magic, length, and the inner rule text are checked by decode.
+    assert env
+    assert " " not in env
+    assert "ping pong" not in env
+    inner = z.decode(env, key="secret")
+    assert inner == b"do r1 now"
     # decode path
     class _C:
         def __init__(self):
@@ -117,8 +110,6 @@ def test_rule_encode_with_optional_key(tmp_path, capsys):
 
         def flush(self):
             pass
-
-    import sys
 
     old = sys.stdout
     buf = _C()

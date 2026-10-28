@@ -2,23 +2,14 @@
 
 from __future__ import annotations
 
-import importlib.util
 import sys
 from pathlib import Path
+
+from tests._helpers import load as _load
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-
-
-def _load(name: str, rel: str):
-    path = ROOT / rel
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    sys.modules[name] = mod
-    spec.loader.exec_module(mod)
-    return mod
 
 
 def test_ledger_file_exists_and_loads():
@@ -1229,16 +1220,7 @@ def test_eng_dev_qed_abbrev_tranche():
     assert apply_ledger_lex("iff") == "⇔"
 
     # DEFAULT_MAP / Session compress
-    import importlib.util
-    from pathlib import Path
-
-    root = Path(__file__).resolve().parents[1]
-    spec = importlib.util.spec_from_file_location(
-        "shorthand_edge", root / "ShorthandEdge" / "shorthand_edge.py"
-    )
-    s = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(s)
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     assert "LGTM" in s.compress("looks good to me")
     assert "PoC" in s.compress("proof of concept")
     assert "QED" in s.compress("quod erat demonstrandum")
@@ -1555,16 +1537,7 @@ def test_light_review_kiss_nan_e2e_aka():
     assert aka["metrics"]["token"]["delta"] < 0
     assert apply_ledger_lex("also known as Bob") == "aka Bob"
 
-    import importlib.util
-    from pathlib import Path
-
-    root = Path(__file__).resolve().parents[1]
-    spec = importlib.util.spec_from_file_location(
-        "shorthand_edge", root / "ShorthandEdge" / "shorthand_edge.py"
-    )
-    s = importlib.util.module_from_spec(spec)
-    assert spec.loader is not None
-    spec.loader.exec_module(s)
+    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     assert "keep it simple" not in s.DEFAULT_MAP
     assert "not a number" not in s.DEFAULT_MAP
     assert "end to end" not in s.DEFAULT_MAP

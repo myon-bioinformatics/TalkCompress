@@ -5,18 +5,62 @@ from __future__ import annotations
 import importlib.util
 import sys
 from pathlib import Path
+from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# One exec per (module name, path) for the pytest process. MorphoZip compiles
+# a large regex inventory at import (~0.3s); local _load helpers used to redo
+# that on every test. lex_policy overrides stay live: layers call into
+# shared.lex_policy, which reads those globals at call time, so a cached
+# layer still sees load_policy() / reload without a fresh exec.
+_CACHE: dict[tuple[str, str], ModuleType] = {}
+_DENSITY_BOUND = "_talkcompress_cached_load"
 
-def load(name: str, rel: str):
-    path = ROOT / rel
+
+def load(name: str, rel: str) -> ModuleType:
+    """Load a repo module by path, once per process.
+
+    ``name`` is the ``sys.modules`` key. A later call with the same name and
+    path returns the same module object and re-pins ``sys.modules``.
+    """
+    path = (ROOT / rel).resolve()
+    key = (name, str(path))
+    cached = _CACHE.get(key)
+    if cached is not None:
+        sys.modules[name] = cached
+        if name == "density_zip":
+            _bind_density_loader(cached)
+        return cached
+
     spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
     mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
     sys.modules[name] = mod
     spec.loader.exec_module(mod)
+    _CACHE[key] = mod
+    if name == "density_zip":
+        _bind_density_loader(mod)
     return mod
+
+
+def _bind_density_loader(mod: ModuleType) -> None:
+    """Point the test-loaded DensityZip layer loader at this cache.
+
+    Production ``DensityZip._load`` re-executes each layer on every hop
+    (MorphoZip's import cost). Tests reach D through ``load``; routing that
+    private loader here keeps the suite on one copy. The CLI module on disk
+    is unchanged.
+    """
+    if getattr(mod, _DENSITY_BOUND, False):
+        return
+
+    def _cached(mod_name: str, rel: str) -> ModuleType:
+        return load(mod_name, rel)
+
+    mod._load = _cached  # type: ignore[attr-defined]
+    setattr(mod, _DENSITY_BOUND, True)
 
 
 def ns(**kwargs):

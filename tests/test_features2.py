@@ -5,35 +5,13 @@ Budget/role/trace/auto via DensityZip → tests/integration/.
 
 from __future__ import annotations
 
-import importlib.util
-import io
 import json
-import os
 import sys
 from pathlib import Path
 
+from tests._helpers import load as _load
+
 ROOT = Path(__file__).resolve().parents[1]
-
-
-def _load(name: str, rel: str):
-    path = ROOT / rel
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    # fresh module each time for lex_policy overrides
-    sys.modules[name] = mod
-    spec.loader.exec_module(mod)
-    return mod
-
-
-
-
-
-
-
-
-
-
 
 
 def test_morpho_expand_smoke():
