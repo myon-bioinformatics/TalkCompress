@@ -26,7 +26,10 @@ guard on progressive *going), then sentence minify restricted to ``zh|de``. Aims
 to **reduce** ``estimate_tokens``. Wired by DensityZip as the pipeline end after
 A–E (``B-final-zh-de``). Prefer both token+utf8 shrink; token-only wins must be
 dictionary-clear and documented. 複合名詞 etc. are labels for candidate forms, not
-a noun-only policy. Surviving Latin-derived abbrevs (e.g./i.e./etc./vs) stay C.
+a noun-only policy. Sibling banks ``pt_el_latin_phrases.json`` /
+``pt_el_latin_tense.json`` add living PT/EL/IT and scholarly Latin shorts without
+rewriting ``zh_de_phrases`` / ``es_fr_tense``. Surviving Latin-derived abbrevs
+(e.g./i.e./etc./vs) stay C.
 """
 
 from __future__ import annotations
@@ -83,8 +86,11 @@ GREEK_LANGS: frozenset[str] = frozenset({"el"})
 FINAL_TOKEN_LANGS: frozenset[str] = frozenset({"zh", "de"})
 """Langs for final-pass *sentence* minify (zh|de). Phrase bank may pick EN acronyms + JA densifiers."""
 
-FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja", "nl"})
-"""Phrase densifier bank: ZH/DE/nl compounds + EN acronyms competing via cheapest-form."""
+FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja", "nl", "pt", "el", "it", "la"})
+"""Phrase densifier bank: ZH/DE/nl compounds + EN acronyms + pt/el/it/living-la shorts via cheapest."""
+
+FINAL_PT_EL_LATIN_PHRASE_LANGS: frozenset[str] = frozenset({"pt", "el", "it", "la"})
+"""Sibling phrase bank langs (pt_el_latin_phrases.json): living PT/EL/IT + scholarly Latin."""
 
 FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "el"})
 """Tense densifier bank langs: live Romance + Dutch + Greek (classical Latin conjugations skipped)."""
@@ -412,6 +418,8 @@ _FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures"
 DEFAULT_TRANSLATION_BANK = _FIXTURES_DIR / "translations.json"
 DEFAULT_ZH_DE_PHRASE_BANK = _FIXTURES_DIR / "zh_de_phrases.json"
 DEFAULT_ES_FR_TENSE_BANK = _FIXTURES_DIR / "es_fr_tense.json"
+DEFAULT_PT_EL_LATIN_PHRASE_BANK = _FIXTURES_DIR / "pt_el_latin_phrases.json"
+DEFAULT_PT_EL_LATIN_TENSE_BANK = _FIXTURES_DIR / "pt_el_latin_tense.json"
 TRANSLATE_ENGINES = ("fixture", "argos", "deep")
 
 _CJK_CHAR = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]")
@@ -894,6 +902,26 @@ def load_es_fr_tense_bank(path: str | None = None) -> dict[str, Any]:
     return data
 
 
+@lru_cache(maxsize=4)
+def load_pt_el_latin_phrase_bank(path: str | None = None) -> dict[str, Any]:
+    """Load sibling phrase bank: pt/el/it/living-la shorts (additive to zh_de_phrases)."""
+    p = Path(path) if path is not None else DEFAULT_PT_EL_LATIN_PHRASE_BANK
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or "entries" not in data:
+        raise ValueError(f"pt/el/latin phrase bank missing entries: {p}")
+    return data
+
+
+@lru_cache(maxsize=4)
+def load_pt_el_latin_tense_bank(path: str | None = None) -> dict[str, Any]:
+    """Load sibling tense bank: pt/el gaps not already in es_fr_tense.json."""
+    p = Path(path) if path is not None else DEFAULT_PT_EL_LATIN_TENSE_BANK
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or "entries" not in data:
+        raise ValueError(f"pt/el/latin tense bank missing entries: {p}")
+    return data
+
+
 def _entry_candidate_forms(
     entry: dict[str, Any],
     *,
@@ -974,6 +1002,33 @@ def es_fr_tense_pairs(
     """
     data = load_es_fr_tense_bank(str(path) if path is not None else None)
     return _bank_phrase_pairs(data, allow_langs=set(FINAL_TENSE_LANGS))
+
+
+def pt_el_latin_phrase_pairs(
+    path: str | Path | None = None,
+) -> list[tuple[str, str, str]]:
+    """Return pairs from sibling pt/el/it/living-la phrase bank."""
+    data = load_pt_el_latin_phrase_bank(str(path) if path is not None else None)
+    return _bank_phrase_pairs(data, allow_langs=set(FINAL_PT_EL_LATIN_PHRASE_LANGS))
+
+
+def pt_el_latin_tense_pairs(
+    path: str | Path | None = None,
+) -> list[tuple[str, str, str]]:
+    """Return pairs from sibling pt/el tense bank (new sources only)."""
+    data = load_pt_el_latin_tense_bank(str(path) if path is not None else None)
+    return _bank_phrase_pairs(data, allow_langs=set(FINAL_TENSE_LANGS) | set(FINAL_PT_EL_LATIN_PHRASE_LANGS))
+
+
+def _merge_phrase_pair_banks(
+    *banks: list[tuple[str, str, str]],
+) -> list[tuple[str, str, str]]:
+    """Concatenate bank pair lists and re-sort longest-source-first."""
+    pairs: list[tuple[str, str, str]] = []
+    for bank in banks:
+        pairs.extend(bank)
+    pairs.sort(key=lambda t: (-len(t[0]), t[0].lower(), t[1]))
+    return pairs
 
 
 def _phrase_token_wins(src: str, dst: str) -> bool:
@@ -1062,16 +1117,22 @@ def apply_zh_de_phrases(
     text: str,
     *,
     bank_path: str | Path | None = None,
+    sibling_bank_path: str | Path | None = None,
     require_token_drop: bool = True,
 ) -> str:
     """Replace curated phrases with cheapest token candidates when tokens drop.
 
     Candidate classes: ZH densifiers, DE compounds (incl. adj+noun), EN acronyms
-    (ASAP/FYI/…). Same cheapest metric as C; acronyms beat densifiers when cheaper.
+    (ASAP/FYI/…), plus additive sibling pt/el/it/living-la shorts
+    (``pt_el_latin_phrases.json``). Same cheapest metric as C.
     """
+    pairs = _merge_phrase_pair_banks(
+        zh_de_phrase_pairs(bank_path),
+        pt_el_latin_phrase_pairs(sibling_bank_path),
+    )
     return _apply_phrase_pairs(
         text,
-        zh_de_phrase_pairs(bank_path),
+        pairs,
         require_token_drop=require_token_drop,
     )
 
@@ -1080,6 +1141,7 @@ def apply_es_fr_tense(
     text: str,
     *,
     bank_path: str | Path | None = None,
+    sibling_bank_path: str | Path | None = None,
     require_token_drop: bool = True,
 ) -> str:
     """Replace stacked EN auxiliaries with short live conjugations when tokens drop.
@@ -1088,12 +1150,17 @@ def apply_es_fr_tense(
     future/conditional (+ progressive → present). Candidates may be es/fr/pt/nl/el
     (``FINAL_TENSE_LANGS``); runtime picks cheapest (token→utf8→len). Progressive
     ``*going`` skips when followed by ``to`` (going-to future guard). Explicit
-    ``going to <V>`` futures use longer bank sources. Meaning-clear modern forms
+    ``going to <V>`` futures use longer bank sources. Additive sibling
+    ``pt_el_latin_tense.json`` covers NEW sources only. Meaning-clear modern forms
     only — classical Latin conjugations are not registered.
     """
+    pairs = _merge_phrase_pair_banks(
+        es_fr_tense_pairs(bank_path),
+        pt_el_latin_tense_pairs(sibling_bank_path),
+    )
     return _apply_phrase_pairs(
         text,
-        es_fr_tense_pairs(bank_path),
+        pairs,
         require_token_drop=require_token_drop,
     )
 
@@ -1115,7 +1182,8 @@ def final_zh_de_token_pass(
     """Final-stage token reduction (alias name kept for CLI ``--final-zh-de``).
 
     Prefer calling ``final_token_pass``. Order: (1) phrase candidate bank
-    (ZH/DE compounds, EN acronyms via cheapest), (2) ES/FR short conjugations,
+    (ZH/DE compounds, EN acronyms, plus sibling pt/el/it/living-la via cheapest),
+    (2) short conjugations (es_fr_tense + sibling pt/el gaps),
     (3) per-sentence minify restricted to ``FINAL_TOKEN_LANGS`` (zh|de).
     DensityZip runs this last as ``B-final-token`` / ``B-final-zh-de``.
     """

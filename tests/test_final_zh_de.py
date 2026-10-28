@@ -285,7 +285,7 @@ def test_de_nl_compound_one_word_wins():
     """DE/nl multiword → one-word compound when dual metrics win."""
     t = _tessera()
     cases = [
-        ("Please bring your mobile phone.", "Handy"),
+        # mobile phone → cel|κιν via sibling (beats Handy); covered in test_cell_phone / handy test
         ("Watch the traffic light carefully.", "Ampel"),
         ("Avoid the traffic jam ahead.", "Stau"),
         ("The swimming pool opens at nine.", "zwembad"),
@@ -323,10 +323,19 @@ def test_hsr_longest_beats_bare_high_speed():
 
 
 def test_handy_beats_zh_phone_densifier():
+    """Among ZH/DE bank alone Handy beats 手机; with sibling, pt/el cel|κιν is cheapest."""
     t = _tessera()
+    # zh/de bank isolation: Handy still beats 手机
+    pairs = [(s, r, lang) for s, r, lang in t.zh_de_phrase_pairs() if s.lower() in {"mobile phone", "cell phone"}]
+    forms = {r for _, r, _ in pairs}
+    assert "Handy" in forms and "手机" in forms
+    chosen = t._cheapest_repl("mobile phone", [(r, lang) for _, r, lang in pairs])
+    assert chosen == "Handy"
+    # full apply (zh/de + sibling): living pt/el short wins on token+bit
     out = t.apply_zh_de_phrases("Please bring your mobile phone.")
-    assert "Handy" in out
+    assert any(s in out for s in ("cel", "κιν"))
     assert "手机" not in out
+    assert "mobile phone" not in out.lower()
 
 
 def test_nl_in_final_phrase_langs():
@@ -365,3 +374,94 @@ def test_mid_compound_split_soft_no_false_fire():
         # soft: no crash, no blow-up
         assert isinstance(out, str)
         assert len(out) <= len(src) + 8
+def test_pt_el_latin_phrase_langs_include_living():
+    t = _tessera()
+    assert t.FINAL_PT_EL_LATIN_PHRASE_LANGS >= {"pt", "el", "it", "la"}
+    assert t.FINAL_PHRASE_LANGS >= {"pt", "el", "it", "la"}
+
+
+def test_pt_el_latin_phrase_bank_all_drop_tokens():
+    t = _tessera()
+    pairs = t.pt_el_latin_phrase_pairs()
+    assert pairs, "sibling phrase bank should yield winning pairs"
+    for src, dst, lang in pairs:
+        assert lang in t.FINAL_PT_EL_LATIN_PHRASE_LANGS
+        assert t.estimate_tokens(dst) < t.estimate_tokens(src)
+
+
+def test_pt_el_latin_tense_bank_new_sources_only():
+    t = _tessera()
+    main_srcs = {s.lower() for s, _, _ in t.es_fr_tense_pairs()}
+    for src, dst, lang in t.pt_el_latin_tense_pairs():
+        assert src.lower() not in main_srcs, (src, "collides with es_fr_tense")
+        assert lang in (t.FINAL_TENSE_LANGS | t.FINAL_PT_EL_LATIN_PHRASE_LANGS)
+        assert t.estimate_tokens(dst) < t.estimate_tokens(src)
+
+
+def test_cell_phone_maps_to_cel_or_kin():
+    t = _tessera()
+    raw = "Call me on my cell phone later."
+    out = t.apply_zh_de_phrases(raw)
+    assert "cell phone" not in out.lower()
+    assert any(s in out for s in ("cel", "κιν"))
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_as_a_result_cheapest_ergo_or_logo():
+    t = _tessera()
+    raw = "as a result"
+    out = t.apply_zh_de_phrases(raw)
+    assert out in {"ergo", "logo", "άρα"}
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_once_again_prefers_pali():
+    t = _tessera()
+    out = t.apply_zh_de_phrases("once again")
+    assert out == "πάλι"
+    assert t.estimate_tokens(out) < t.estimate_tokens("once again")
+
+
+def test_sibling_does_not_steal_bahnhof_or_asap():
+    """Additive sibling must not rewrite help3 ZH/DE / EN acronym winners."""
+    t = _tessera()
+    src = "Meet me at the train station as soon as possible."
+    out = t.apply_zh_de_phrases(src)
+    assert "Bahnhof" in out
+    assert "ASAP" in out
+    assert "gare" not in out.lower()
+
+
+def test_i_will_do_it_maps_to_farei():
+    t = _tessera()
+    raw = "I will do it tomorrow."
+    out = t.apply_es_fr_tense(raw)
+    assert "farei" in out
+    assert "will do it" not in out.lower()
+    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+
+
+def test_i_did_it_maps_to_fiz():
+    t = _tessera()
+    out = t.apply_es_fr_tense("I did it.")
+    assert "fiz" in out
+    assert t.estimate_tokens(out) < t.estimate_tokens("I did it.")
+
+
+def test_final_pass_includes_sibling_phrase():
+    t = _tessera()
+    raw = "Pay per month for the cell phone."
+    before = t.estimate_tokens(raw)
+    out = t.final_token_pass(raw)
+    after = t.estimate_tokens(out)
+    assert "/mês" in out or "/μήνα" in out
+    assert "cel" in out or "κιν" in out
+    assert after < before
+
+
+def test_classical_ibo_not_in_tense_pairs():
+    t = _tessera()
+    forms = {dst for _, dst, _ in t.es_fr_tense_pairs()} | {
+        dst for _, dst, _ in t.pt_el_latin_tense_pairs()
+    }
+    assert "ibo" not in forms

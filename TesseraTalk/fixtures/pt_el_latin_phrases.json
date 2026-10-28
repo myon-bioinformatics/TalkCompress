@@ -1,0 +1,550 @@
+{
+  "version": 1,
+  "title": "B-final sibling phrase bank — pt / el / living Latin-derived shorts",
+  "notes": [
+    "Additive sibling to zh_de_phrases.json (does not rewrite ZH/DE/EN/JA entries).",
+    "Living Portuguese, modern Greek, Italian, and surviving scholarly Latin only.",
+    "Classical Latin conjugations are out of scope; surviving Latin abbrevs like e.g./i.e./etc. stay C.",
+    "Only forms that beat the English source on estimate_tokens; runtime cheapest (token→utf8→len).",
+    "No hyphen morphology. Compound-style multiword EN → short densifier is a candidate class, not noun-only.",
+    "Country-only jargon (CTT, BI) and sense-lossy truncations are in examples_not_registered."
+  ],
+  "entries": [
+    {
+      "id": "cell-phone-pt-el",
+      "from": [
+        "cell phone",
+        "mobile phone"
+      ],
+      "to": "cel",
+      "lang": "pt",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "cel",
+          "lang": "pt",
+          "class": "compound"
+        },
+        {
+          "form": "κιν",
+          "lang": "el",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "BR cel / EL κιν (κινητό); beats EN multiword"
+    },
+    {
+      "id": "blood-pressure-el-pt",
+      "from": [
+        "blood pressure"
+      ],
+      "to": "tensão",
+      "lang": "pt",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "tensão",
+          "lang": "pt",
+          "class": "compound"
+        },
+        {
+          "form": "πίεση",
+          "lang": "el",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "note": "PA (pt medical acronym) dropped — jargon / unstable outside clinical PT"
+    },
+    {
+      "id": "per-month-pt-el",
+      "from": [
+        "per month"
+      ],
+      "to": "/mês",
+      "lang": "pt",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "/mês",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "/μήνα",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "once-again-el-pt-la",
+      "from": [
+        "once again"
+      ],
+      "to": "πάλι",
+      "lang": "el",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "πάλι",
+          "lang": "el",
+          "class": "densifier"
+        },
+        {
+          "form": "de novo",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "iterum",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "cheapest πάλι; iterum = living scholarly Latin"
+    },
+    {
+      "id": "in-other-words-pt-el",
+      "from": [
+        "in other words"
+      ],
+      "to": "aliás",
+      "lang": "pt",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "aliás",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "δηλαδή",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 5,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "as-a-result-la-pt-el",
+      "from": [
+        "as a result"
+      ],
+      "to": "ergo",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "ergo",
+          "lang": "la",
+          "class": "densifier"
+        },
+        {
+          "form": "logo",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "άρα",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "ergo = surviving scholarly Latin (not classical conjugation)"
+    },
+    {
+      "id": "see-you-soon-it-pt-el",
+      "from": [
+        "see you soon"
+      ],
+      "to": "ciao",
+      "lang": "it",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "ciao",
+          "lang": "it",
+          "class": "densifier"
+        },
+        {
+          "form": "até",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "γεια",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "ciao living IT; até bare is common BR farewell short"
+    },
+    {
+      "id": "more-or-less-la-el",
+      "from": [
+        "more or less"
+      ],
+      "to": "circa",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "circa",
+          "lang": "la",
+          "class": "densifier"
+        },
+        {
+          "form": "πάνω κάτω",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "step-by-step-la-el",
+      "from": [
+        "step by step"
+      ],
+      "to": "gradatim",
+      "lang": "la",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "gradatim",
+          "lang": "la",
+          "class": "compound"
+        },
+        {
+          "form": "βήμα βήμα",
+          "lang": "el",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "note": "passo a passo loses under estimate_tokens (5≥3) — not registered"
+    },
+    {
+      "id": "face-to-face-la",
+      "from": [
+        "face to face"
+      ],
+      "to": "coram",
+      "lang": "la",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "coram",
+          "lang": "la",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "note": "cara a cara ties EN (3=3) — not registered; coram living scholarly"
+    },
+    {
+      "id": "day-by-day-la",
+      "from": [
+        "day by day"
+      ],
+      "to": "cotidie",
+      "lang": "la",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "cotidie",
+          "lang": "la",
+          "class": "compound"
+        },
+        {
+          "form": "quotidie",
+          "lang": "la",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "note": "dia a dia ties EN — not registered"
+    },
+    {
+      "id": "one-by-one-el",
+      "from": [
+        "one by one"
+      ],
+      "to": "ένα ένα",
+      "lang": "el",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "ένα ένα",
+          "lang": "el",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "among-others-la",
+      "from": [
+        "among others"
+      ],
+      "to": "inter alia",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "inter alia",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "for-this-reason-la-pt",
+      "from": [
+        "for this reason"
+      ],
+      "to": "ideo",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "ideo",
+          "lang": "la",
+          "class": "densifier"
+        },
+        {
+          "form": "por isso",
+          "lang": "pt",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "by-means-of-pt-el",
+      "from": [
+        "by means of"
+      ],
+      "to": "via",
+      "lang": "pt",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "via",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "μέσω",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "bare Latin per dropped — collides with EN per"
+    },
+    {
+      "id": "in-favor-of-la-el",
+      "from": [
+        "in favor of"
+      ],
+      "to": "pro",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "pro",
+          "lang": "la",
+          "class": "densifier"
+        },
+        {
+          "form": "υπέρ",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "with-respect-to-la-el",
+      "from": [
+        "with respect to"
+      ],
+      "to": "re",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "re",
+          "lang": "la",
+          "class": "densifier"
+        },
+        {
+          "form": "ως προς",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "re = living scholarly / epistolary Latin"
+    }
+  ],
+  "examples_not_registered": [
+    {
+      "id": "post-office-ctt",
+      "from": [
+        "post office"
+      ],
+      "to": "CTT",
+      "lang": "pt",
+      "why_dropped": "Portugal-only postal acronym; unstable outside PT"
+    },
+    {
+      "id": "identity-card-bi",
+      "from": [
+        "identity card"
+      ],
+      "to": "BI",
+      "lang": "pt",
+      "why_dropped": "Portugal-only ID acronym; unstable outside PT"
+    },
+    {
+      "id": "blood-pressure-pa",
+      "from": [
+        "blood pressure"
+      ],
+      "to": "PA",
+      "lang": "pt",
+      "why_dropped": "clinical PT acronym; jargon / high 揺らぎ in general EN text"
+    },
+    {
+      "id": "step-by-step-passo",
+      "from": [
+        "step by step"
+      ],
+      "to": "passo a passo",
+      "lang": "pt",
+      "why_dropped": "estimate_tokens 5 ≥ EN 3 — loses"
+    },
+    {
+      "id": "face-to-face-cara",
+      "from": [
+        "face to face"
+      ],
+      "to": "cara a cara",
+      "lang": "pt",
+      "why_dropped": "ties EN on estimate_tokens (3=3)"
+    },
+    {
+      "id": "by-means-of-per",
+      "from": [
+        "by means of"
+      ],
+      "to": "per",
+      "lang": "la",
+      "why_dropped": "collides with EN preposition per"
+    },
+    {
+      "id": "on-the-other-hand-ja",
+      "from": [
+        "on the other hand"
+      ],
+      "to": "já",
+      "lang": "pt",
+      "why_dropped": "sense mismatch (já ≈ already)"
+    },
+    {
+      "id": "train-station-gare",
+      "from": [
+        "train station"
+      ],
+      "to": "gare",
+      "lang": "fr",
+      "why_dropped": "existing zh_de Bahnhof owns this source; sibling avoids rewriting help3 compounds"
+    },
+    {
+      "id": "police-station-pt",
+      "from": [
+        "police station"
+      ],
+      "would_be": "delegacia",
+      "lang": "pt",
+      "reason": "loses to ZH 警局 (help3 #7) on estimate_tokens (3 vs 2); kept out of sibling so B-final stays with 警局"
+    }
+  ]
+}
