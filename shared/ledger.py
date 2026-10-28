@@ -344,9 +344,11 @@ def select_cheapest_form(
 ) -> dict[str, Any]:
     """Pick the easiest surface among meaning-preserving candidates (token + bit).
 
-    Ranking (ascending): ``estimate_tokens``, then ``utf8_bits``, then string
-    length, then first-seen order. Used when registering cross-language or
-    emoji-vs-symbol choices (``policy-cross-lang-cheapest``).
+    Ranking (ascending, consistent): ``estimate_tokens`` (primary), then
+    ``utf8_bits`` on token tie, then string length, then first-seen order.
+    Prefer forms that ease both GPT-style generative and BERT-style
+    bidirectional/mask modeling when choosing among compression candidates
+    (``policy-cross-lang-cheapest``). Expression 揺らぎ → unique canonical emit.
 
     If ``reference`` is set, also attach dual metrics of each candidate vs that
     sample and flag whether utf8 shrinks. Does not rewrite text — registration

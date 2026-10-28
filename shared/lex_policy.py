@@ -863,17 +863,25 @@ def emoji_policy_rows() -> list[dict[str, Any]]:
             "apply_layer": "C",
             "metrics": None,
             "rationale": (
-                "言語横断で意味が通る候補があるとき、トークン（B estimate_tokens）と"
-                "ビット（E utf8_bits / 在庫適用時は closed_inventory_bits）が最も楽な"
-                "表層を選ぶ。登録時は dual metrics で比較し、utf8 が縮まない候補は落とす。"
-                "ヘルパー: shared.ledger.select_cheapest_form。"
+                "言語横断で意味が通る候補があるとき、GPT 系生成と BERT 系双方向/マスクの"
+                "両方で楽になる表層を選ぶ（圧縮候補の中での楽さ）。"
+                "dual metric: トークン（B estimate_tokens）を第一とし、同点なら短い"
+                "ビット（E utf8_bits / 在庫時 closed_inventory_bits）→ 文字長 → 先出順。"
+                "表現の揺らぎは一意の canonical emit へ寄せる。"
+                "言語ルールは記述網羅ではなく token/bit 圧縮都合で取り入れる。"
+                "登録時 utf8 が縮まない候補は落とす。ヘルパー: shared.ledger.select_cheapest_form。"
             ),
             "payload": {
-                "rank_by": ["token_after", "utf8_bits_after", "surface_len"],
+                # Align names with select_cheapest_form rank_by return.
+                "rank_by": ["token", "utf8_bits", "len", "order"],
                 "require_utf8_shrink_vs_sample": True,
                 "helper": "shared.ledger.select_cheapest_form",
                 "token_via": "B TesseraTalk estimate_tokens",
                 "bit_via": "E MorphoZip utf8_bits (default) / closed_inventory_bits",
+                "easing": "gpt_and_bert_friendly",
+                "on_token_tie": "shorter_utf8_bits",
+                "yuragi": "unique_canonical_emit",
+                "language_rules": "compression_convenience",
                 "examples": [
                     "tables→机（JA が EN より token+utf8 楽）",
                     "yo→I（ES→EN 主語）",

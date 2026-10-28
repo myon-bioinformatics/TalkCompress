@@ -32,7 +32,8 @@
       "C path/unix-short tranche (family=path, id path-*): src/doc(s)/tmp/lib/bin/dist/pkg/cfg/util/bak/incl/impl/misc/log(s)/fmt/arg(s)/argv/diff/recv/snd/cc/bcc. dual token+utf8; meaning gates via skip_if_re. Folded etc→conj-etc. Skips: temp→tmp token-flat as sole sample (alias ok); conf≺cfg; utils≺util; bare send/sent→snd; bare log; bare argv; Δ/≠ keep symbol sense vs path-diff.",
       "C music-term abbrev tranche (family=music, id music-*): aug/dim/dim7/sus/sus4/sus2/add9/maj/maj7/min/min7 + dynamics ff/pp/mf/mp/sfz/cresc + rit/pizz/arp. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: diminuendo→dim（chord dim と衝突）; bare add/added; bare major/minor/m/M; accel/gliss/vib/trem/DC/DS/flat-sharp（天井・次枠）; JP 増三和音等は任意で未投入。",
       "C cmd/unix-shell abbrev tranche (family=cmd, id cmd-*): mkdir/rmdir/rm/ls/cp/mv/cd/pwd/cat/touch/ln/symlink/chmod/chown/grep/ps/kill/df/du/man/ssh/sudo. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: which（関代衝突）; find/echo/clear/env/export/less/more/source（曖昧）; whoami（who am i 会話衝突）; bare make; soft-link sole sample tok-flat（alias only）; head/tail/scp/curl/wget/tar/gzip/zip/rsync/tee（天井・次枠）; diff→path-diff 既存。",
-      "C light review (2026-10-28): tighten c-kiss (drop bare keep it simple), c-nan skip_if_re (not a number of / identity), c-e2e skip (end to end of); DEFAULT_MAP/packs synced; +c-aka (also known as). Prefer fix/skip over bulk add."
+      "C light review (2026-10-28): tighten c-kiss (drop bare keep it simple), c-nan skip_if_re (not a number of / identity), c-e2e skip (end to end of); DEFAULT_MAP/packs synced; +c-aka (also known as). Prefer fix/skip over bulk add.",
+      "Easing / ranking (2026-10-28): Among compression candidates prefer forms that ease both GPT-style generative and BERT-style bidirectional/mask modeling. Dual metric consistent with select_cheapest_form: token (B estimate_tokens) primary; on token tie prefer shorter utf8 bits, then len, then first-seen order (policy-cross-lang-cheapest). Expression 揺らぎ → unique canonical emit. Language rules chosen for token/bit compression convenience, not descriptive completeness. Pace: casually add useful mappings; prefer fix/skip over bulk volume."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -7165,17 +7166,22 @@
       "kind": "policy",
       "apply_layer": "C",
       "metrics": null,
-      "rationale": "言語横断で意味が通る候補があるとき、トークン（B estimate_tokens）とビット（E utf8_bits / 在庫適用時は closed_inventory_bits）が最も楽な表層を選ぶ。登録時は dual metrics で比較し、utf8 が縮まない候補は落とす。ヘルパー: shared.ledger.select_cheapest_form。",
+      "rationale": "言語横断で意味が通る候補があるとき、GPT 系生成と BERT 系双方向/マスクの両方で楽になる表層を選ぶ（圧縮候補の中での楽さ）。dual metric: トークン（B estimate_tokens）を第一とし、同点なら短いビット（E utf8_bits / 在庫時 closed_inventory_bits）→ 文字長 → 先出順。表現の揺らぎは一意の canonical emit へ寄せる。言語ルールは記述網羅ではなく token/bit 圧縮都合で取り入れる。登録時 utf8 が縮まない候補は落とす。ヘルパー: shared.ledger.select_cheapest_form。",
       "payload": {
         "rank_by": [
-          "token_after",
-          "utf8_bits_after",
-          "surface_len"
+          "token",
+          "utf8_bits",
+          "len",
+          "order"
         ],
         "require_utf8_shrink_vs_sample": true,
         "helper": "shared.ledger.select_cheapest_form",
         "token_via": "B TesseraTalk estimate_tokens",
         "bit_via": "E MorphoZip utf8_bits (default) / closed_inventory_bits",
+        "easing": "gpt_and_bert_friendly",
+        "on_token_tie": "shorter_utf8_bits",
+        "yuragi": "unique_canonical_emit",
+        "language_rules": "compression_convenience",
         "examples": [
           "tables→机（JA が EN より token+utf8 楽）",
           "yo→I（ES→EN 主語）",
