@@ -5,22 +5,9 @@ Cross-layer pipeline/compare → tests/integration/.
 
 from __future__ import annotations
 
-import importlib.util
-import io
 import json
-import sys
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-
-
-def _load(name: str, rel: str):
-    path = ROOT / rel
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    spec.loader.exec_module(mod)
-    return mod
+from tests._helpers import load as _load
 
 
 

@@ -5,24 +5,15 @@ DensityZip wiring for --translate-min → tests/integration/.
 
 from __future__ import annotations
 
-import importlib.util
 import json
 import sys
 from pathlib import Path
 
+from tests._helpers import load as _load
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-
-
-def _load(name: str, rel: str):
-    path = ROOT / rel
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    sys.modules[name] = mod
-    spec.loader.exec_module(mod)
-    return mod
 
 
 # --- A: RuleBook export / import / threshold / negotiate ---
