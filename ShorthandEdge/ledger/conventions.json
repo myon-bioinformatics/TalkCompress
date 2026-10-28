@@ -33,7 +33,8 @@
       "C music-term abbrev tranche (family=music, id music-*): aug/dim/dim7/sus/sus4/sus2/add9/maj/maj7/min/min7 + dynamics ff/pp/mf/mp/sfz/cresc + rit/pizz/arp. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: diminuendo→dim（chord dim と衝突）; bare add/added; bare major/minor/m/M; accel/gliss/vib/trem/DC/DS/flat-sharp（天井・次枠）; JP 増三和音等は任意で未投入。",
       "C cmd/unix-shell abbrev tranche (family=cmd, id cmd-*): mkdir/rmdir/rm/ls/cp/mv/cd/pwd/cat/touch/ln/symlink/chmod/chown/grep/ps/kill/df/du/man/ssh/sudo. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: which（関代衝突）; find/echo/clear/env/export/less/more/source（曖昧）; whoami（who am i 会話衝突）; bare make; soft-link sole sample tok-flat（alias only）; head/tail/scp/curl/wget/tar/gzip/zip/rsync/tee（天井・次枠）; diff→path-diff 既存。",
       "C light review (2026-10-28): tighten c-kiss (drop bare keep it simple), c-nan skip_if_re (not a number of / identity), c-e2e skip (end to end of); DEFAULT_MAP/packs synced; +c-aka (also known as). Prefer fix/skip over bulk add.",
-      "Easing / ranking (2026-10-28): Among compression candidates prefer forms that ease both GPT-style generative and BERT-style bidirectional/mask modeling. Dual metric consistent with select_cheapest_form: token (B estimate_tokens) primary; on token tie prefer shorter utf8 bits, then len, then first-seen order (policy-cross-lang-cheapest). Expression 揺らぎ → unique canonical emit. Language rules chosen for token/bit compression convenience, not descriptive completeness. Pace: casually add useful mappings; prefer fix/skip over bulk volume."
+      "Easing / ranking (2026-10-28): Among compression candidates prefer forms that ease both GPT-style generative and BERT-style bidirectional/mask modeling. Dual metric consistent with select_cheapest_form: token (B estimate_tokens) primary; on token tie prefer shorter utf8 bits, then len, then first-seen order (policy-cross-lang-cheapest). Expression 揺らぎ → unique canonical emit. Language rules chosen for token/bit compression convenience, not descriptive completeness. Pace: casually add useful mappings; prefer fix/skip over bulk volume.",
+      "that-is dual-claim resolved (2026-10-28): bare `that is`→`i.e.` via conj-that-is (latin) + MorphoZip phrase grammar; dropped shadowed c-thats (`that is`→`that's`) from EN_CONTRACTION_SPEC and ledger so C/E agree. Prefer fix/skip over bulk lex."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -45,7 +46,6 @@
         "c-were",
         "c-theyre",
         "c-its",
-        "c-thats",
         "c-theres",
         "c-therere",
         "c-dont",
@@ -4790,46 +4790,6 @@
           "utf8": {
             "before": 40,
             "after": 32,
-            "delta": -8
-          },
-          "inventory": null
-        }
-      },
-      "breakdown": "略"
-    },
-    {
-      "id": "c-thats",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "abbrev",
-      "abbrev_kind": "contraction",
-      "ledger_apply": false,
-      "rewrite_via": "apply_en_contractions",
-      "from": [
-        "that is"
-      ],
-      "to": "that's",
-      "rationale": "that is→that's は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "that is",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 56,
-          "after": 48,
-          "delta": -8,
-          "ratio": 0.8571,
-          "sample_from": "that is",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 56,
-            "after": 48,
             "delta": -8
           },
           "inventory": null
