@@ -46,7 +46,9 @@ def test_adj_noun_zh_compound_wins():
     t = _tessera()
     src = "high speed rail and green tea"
     out = t.apply_zh_de_phrases(src)
-    assert "高速" in out
+    # longest-first: high speed rail → 高铁 (not bare high-speed → 高速)
+    assert "高铁" in out
+    assert "高速" not in out
     assert "绿茶" in out
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
@@ -277,3 +279,89 @@ def test_tense_before_after_examples():
         if "going to" in src.lower():
             assert "voy to" not in out.lower()
             assert "vou to" not in out.lower()
+
+
+def test_de_nl_compound_one_word_wins():
+    """DE/nl multiword → one-word compound when dual metrics win."""
+    t = _tessera()
+    cases = [
+        ("Please bring your mobile phone.", "Handy"),
+        ("Watch the traffic light carefully.", "Ampel"),
+        ("Avoid the traffic jam ahead.", "Stau"),
+        ("The swimming pool opens at nine.", "zwembad"),
+        ("I need a washing machine today.", "wasmachine"),
+        ("Need a vacuum cleaner soon.", "stofzuiger"),
+    ]
+    for src, want in cases:
+        out = t.apply_zh_de_phrases(src)
+        assert want in out, (src, out)
+        assert t.estimate_tokens(out) < t.estimate_tokens(src)
+
+
+def test_zh_compound_densifier_wins():
+    t = _tessera()
+    cases = [
+        ("Ride the high speed rail tomorrow.", "高铁"),
+        ("We prefer open source tooling.", "开源"),
+        ("Meet at the police station.", "警局"),
+        ("Check your blood pressure daily.", "血压"),
+        ("Join the large language model talk.", "大模型"),
+    ]
+    for src, want in cases:
+        out = t.apply_zh_de_phrases(src)
+        assert want in out, (src, out)
+        assert t.estimate_tokens(out) < t.estimate_tokens(src)
+
+
+def test_hsr_longest_beats_bare_high_speed():
+    """Longest-first: 'high speed rail' → 高铁, not '高速 rail'."""
+    t = _tessera()
+    out = t.apply_zh_de_phrases("Ride the high speed rail.")
+    assert "高铁" in out
+    assert "高速" not in out
+    assert "rail" not in out.lower()
+
+
+def test_handy_beats_zh_phone_densifier():
+    t = _tessera()
+    out = t.apply_zh_de_phrases("Please bring your mobile phone.")
+    assert "Handy" in out
+    assert "手机" not in out
+
+
+def test_nl_in_final_phrase_langs():
+    t = _tessera()
+    assert "nl" in t.FINAL_PHRASE_LANGS
+
+
+def test_phrase_bank_pairs_dual_metric_wins():
+    """Every active pair must shrink token AND utf8_bits."""
+    t = _tessera()
+    morpho = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    for src, dst, lang in t.zh_de_phrase_pairs():
+        assert lang in t.FINAL_PHRASE_LANGS
+        assert t.estimate_tokens(dst) < t.estimate_tokens(src)
+        assert morpho.utf8_bits(dst) < morpho.utf8_bits(src)
+
+
+def test_mid_compound_split_soft_no_false_fire():
+    """Truncated compound phrases must not rewrite (word-boundary soft)."""
+    t = _tessera()
+    truncated = [
+        "Meet me at the train stati",
+        "Please bring your mobile pho",
+        "Watch the traffic ligh",
+        "Avoid the traffic ja",
+        "The swimming poo is closed",
+        "Need a vacuum clean",
+        "Meet at the police stati",
+        "We prefer open sourc tools",
+    ]
+    for src in truncated:
+        out = t.apply_zh_de_phrases(src)
+        # must not inject known compound surfaces from a partial phrase
+        for needle in ("Bahnhof", "Handy", "Ampel", "Stau", "zwembad", "stofzuiger", "警局", "开源"):
+            assert needle not in out, (src, out, needle)
+        # soft: no crash, no blow-up
+        assert isinstance(out, str)
+        assert len(out) <= len(src) + 8
