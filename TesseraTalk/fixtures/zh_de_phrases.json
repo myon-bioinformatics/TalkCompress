@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "title": "Final-token phrase bank (ZH/DE compounds, EN acronyms, densifiers)",
-  "notes": "Token candidate bank for the final pass. Each entry may list `candidates` [{form, lang, class}]; runtime picks via select_cheapest (token→utf8→len). EN acronyms (ASAP/FYI/BTW/IMO) beat ZH/JA densifiers when cheaper (ASAP ≺ 尽快 ≺ なる早). Compounds (incl. adj+noun) are a candidate class, not noun-only. CLI alias: --final-zh-de → final-token pass. FINAL_PHRASE_LANGS includes zh|de|en|ja.",
+  "title": "Final-token phrase bank (ZH/DE/nl compounds, EN acronyms, densifiers)",
+  "notes": "Token candidate bank for the final pass. Each entry may list `candidates` [{form, lang, class}]; runtime picks via select_cheapest (token→utf8→len). EN acronyms (ASAP/FYI/BTW/IMO) beat ZH/JA densifiers when cheaper (ASAP ≺ 尽快 ≺ なる早). Compounds (incl. adj+noun; DE/nl one-wordization) are a candidate class, not noun-only. Only dual-metric winners (token AND utf8_bits) are preferred surfaces. CLI alias: --final-zh-de → final-token pass. FINAL_PHRASE_LANGS includes zh|de|en|ja|nl.",
   "entries": [
     {
       "id": "bahnhof",
@@ -365,6 +365,1379 @@
       "metrics": {
         "token_before": 3,
         "token_after": 2,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "handy",
+      "from": [
+        "mobile phone",
+        "cell phone"
+      ],
+      "to": "Handy",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 40,
+        "both_shrink": true,
+        "vs_Handy": {
+          "token": 2,
+          "utf8": 40
+        },
+        "vs_手机": {
+          "token": 2,
+          "utf8": 48
+        }
+      },
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "Handy",
+          "lang": "de",
+          "class": "compound"
+        },
+        {
+          "form": "手机",
+          "lang": "zh",
+          "class": "densifier"
+        }
+      ],
+      "note": "cheapest: Handy ≺ 手机; DE one-word + ZH densifier"
+    },
+    {
+      "id": "ampel",
+      "from": [
+        "traffic light"
+      ],
+      "to": "Ampel",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 40,
+        "both_shrink": true,
+        "vs_Ampel": {
+          "token": 2,
+          "utf8": 40
+        },
+        "vs_stoplicht": {
+          "token": 3,
+          "utf8": 72
+        },
+        "vs_红绿灯": {
+          "token": 3,
+          "utf8": 72
+        }
+      },
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "Ampel",
+          "lang": "de",
+          "class": "compound"
+        },
+        {
+          "form": "stoplicht",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "红绿灯",
+          "lang": "zh",
+          "class": "densifier"
+        }
+      ],
+      "note": "cheapest: Ampel ≺ stoplicht ≺ 红绿灯"
+    },
+    {
+      "id": "stau",
+      "from": [
+        "traffic jam"
+      ],
+      "to": "Stau",
+      "lang": "de",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 32,
+        "both_shrink": true,
+        "vs_Stau": {
+          "token": 1,
+          "utf8": 32
+        },
+        "vs_file": {
+          "token": 1,
+          "utf8": 32
+        },
+        "vs_堵车": {
+          "token": 2,
+          "utf8": 48
+        }
+      },
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "Stau",
+          "lang": "de",
+          "class": "compound"
+        },
+        {
+          "form": "file",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "堵车",
+          "lang": "zh",
+          "class": "densifier"
+        }
+      ],
+      "note": "cheapest: Stau ≺ file ≺ 堵车 (Stau/file tied token; Stau shorter utf8)"
+    },
+    {
+      "id": "lenkrad",
+      "from": [
+        "steering wheel"
+      ],
+      "to": "Lenkrad",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 56,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "tankstelle",
+      "from": [
+        "filling station",
+        "petrol station"
+      ],
+      "to": "Tankstelle",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 80,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "mikrowelle",
+      "from": [
+        "microwave oven"
+      ],
+      "to": "Mikrowelle",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 80,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "parkplatz",
+      "from": [
+        "parking place"
+      ],
+      "to": "Parkplatz",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "klimawandel",
+      "from": [
+        "climate change"
+      ],
+      "to": "Klimawandel",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 88,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "haustuer",
+      "from": [
+        "front door"
+      ],
+      "to": "Haustür",
+      "lang": "de",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 64,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "kraftwerk",
+      "from": [
+        "power plant"
+      ],
+      "to": "Kraftwerk",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "kernenergie",
+      "from": [
+        "nuclear power"
+      ],
+      "to": "Kernenergie",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 88,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "geburtsurkunde",
+      "from": [
+        "birth certificate"
+      ],
+      "to": "Geburtsurkunde",
+      "lang": "de",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 4,
+        "utf8_bits_before": 136,
+        "utf8_bits_after": 112,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "fuehrerschein",
+      "from": [
+        "driving licence",
+        "driving license",
+        "driver license"
+      ],
+      "to": "驾照",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 48,
+        "both_shrink": true,
+        "vs_驾照": {
+          "token": 2,
+          "utf8": 48
+        },
+        "vs_Führerschein": {
+          "token": 3,
+          "utf8": 104
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "驾照",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "Führerschein",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 驾照 ≺ Führerschein"
+    },
+    {
+      "id": "telefonnummer",
+      "from": [
+        "telephone number"
+      ],
+      "to": "Telefonnummer",
+      "lang": "de",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 4,
+        "utf8_bits_before": 128,
+        "utf8_bits_after": 104,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "erderwaermung",
+      "from": [
+        "global warming"
+      ],
+      "to": "Erderwärmung",
+      "lang": "de",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 104,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "polizeiwache",
+      "from": [
+        "police station"
+      ],
+      "to": "警局",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 48,
+        "both_shrink": true,
+        "vs_警局": {
+          "token": 2,
+          "utf8": 48
+        },
+        "vs_Polizeiwache": {
+          "token": 3,
+          "utf8": 96
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "警局",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "Polizeiwache",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 警局 ≺ Polizeiwache"
+    },
+    {
+      "id": "postamt",
+      "from": [
+        "post office"
+      ],
+      "to": "邮局",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true,
+        "vs_邮局": {
+          "token": 2,
+          "utf8": 48
+        },
+        "vs_Postamt": {
+          "token": 2,
+          "utf8": 56
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "邮局",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "Postamt",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 邮局 ≺ Postamt"
+    },
+    {
+      "id": "staubsauger",
+      "from": [
+        "vacuum cleaner"
+      ],
+      "to": "stofzuiger",
+      "lang": "nl",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 80,
+        "both_shrink": true,
+        "vs_stofzuiger": {
+          "token": 3,
+          "utf8": 80
+        },
+        "vs_Staubsauger": {
+          "token": 3,
+          "utf8": 88
+        }
+      },
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "stofzuiger",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "Staubsauger",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: stofzuiger ≺ Staubsauger"
+    },
+    {
+      "id": "blutdruck",
+      "from": [
+        "blood pressure"
+      ],
+      "to": "血压",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 48,
+        "both_shrink": true,
+        "vs_血压": {
+          "token": 2,
+          "utf8": 48
+        },
+        "vs_Blutdruck": {
+          "token": 3,
+          "utf8": 72
+        },
+        "vs_bloeddruk": {
+          "token": 3,
+          "utf8": 72
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "血压",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "Blutdruck",
+          "lang": "de",
+          "class": "compound"
+        },
+        {
+          "form": "bloeddruk",
+          "lang": "nl",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 血压 ≺ Blutdruck ≺ bloeddruk"
+    },
+    {
+      "id": "herzinfarkt",
+      "from": [
+        "heart attack"
+      ],
+      "to": "心脏病",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 72,
+        "both_shrink": true,
+        "vs_心脏病": {
+          "token": 3,
+          "utf8": 72
+        },
+        "vs_hartaanval": {
+          "token": 3,
+          "utf8": 80
+        },
+        "vs_Herzinfarkt": {
+          "token": 3,
+          "utf8": 88
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "心脏病",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "hartaanval",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "Herzinfarkt",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 心脏病 ≺ hartaanval ≺ Herzinfarkt"
+    },
+    {
+      "id": "suchmaschine",
+      "from": [
+        "search engine"
+      ],
+      "to": "zoekmachine",
+      "lang": "nl",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 88,
+        "both_shrink": true,
+        "vs_zoekmachine": {
+          "token": 3,
+          "utf8": 88
+        },
+        "vs_Suchmaschine": {
+          "token": 3,
+          "utf8": 96
+        }
+      },
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "zoekmachine",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "Suchmaschine",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: zoekmachine ≺ Suchmaschine"
+    },
+    {
+      "id": "betriebssystem",
+      "from": [
+        "operating system"
+      ],
+      "to": "操作系统",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 4,
+        "utf8_bits_before": 128,
+        "utf8_bits_after": 96,
+        "both_shrink": true,
+        "vs_操作系统": {
+          "token": 4,
+          "utf8": 96
+        },
+        "vs_Betriebssystem": {
+          "token": 4,
+          "utf8": 112
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "操作系统",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "Betriebssystem",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 操作系统 ≺ Betriebssystem"
+    },
+    {
+      "id": "zwembad",
+      "from": [
+        "swimming pool"
+      ],
+      "to": "zwembad",
+      "lang": "nl",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 56,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "wasmachine",
+      "from": [
+        "washing machine"
+      ],
+      "to": "wasmachine",
+      "lang": "nl",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 80,
+        "both_shrink": true
+      },
+      "class": "compound"
+    },
+    {
+      "id": "eetkamer",
+      "from": [
+        "dining room"
+      ],
+      "to": "餐厅",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true,
+        "vs_餐厅": {
+          "token": 2,
+          "utf8": 48
+        },
+        "vs_eetkamer": {
+          "token": 2,
+          "utf8": 64
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "餐厅",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "eetkamer",
+          "lang": "nl",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 餐厅 ≺ eetkamer"
+    },
+    {
+      "id": "high-school-zh",
+      "from": [
+        "high school"
+      ],
+      "to": "高中",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "middle-school-zh",
+      "from": [
+        "middle school"
+      ],
+      "to": "初中",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "primary-school-zh",
+      "from": [
+        "primary school",
+        "elementary school"
+      ],
+      "to": "小学",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "subway-zh",
+      "from": [
+        "subway station",
+        "metro station"
+      ],
+      "to": "地铁站",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "living-room-zh",
+      "from": [
+        "living room"
+      ],
+      "to": "客厅",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "speed-limit-zh",
+      "from": [
+        "speed limit"
+      ],
+      "to": "限速",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "human-rights-zh",
+      "from": [
+        "human rights"
+      ],
+      "to": "人权",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "social-media-zh",
+      "from": [
+        "social media"
+      ],
+      "to": "社媒",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "open-source-zh",
+      "from": [
+        "open source",
+        "open-source"
+      ],
+      "to": "开源",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "soy-sauce-zh",
+      "from": [
+        "soy sauce"
+      ],
+      "to": "酱油",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 72,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "fried-rice-zh",
+      "from": [
+        "fried rice"
+      ],
+      "to": "炒饭",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "hsr-zh",
+      "from": [
+        "high speed rail",
+        "high-speed rail",
+        "bullet train"
+      ],
+      "to": "高铁",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier",
+      "note": "longest-first beats bare high-speed→高速"
+    },
+    {
+      "id": "convenience-zh",
+      "from": [
+        "convenience store"
+      ],
+      "to": "便利店",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 3,
+        "utf8_bits_before": 136,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "mall-zh",
+      "from": [
+        "shopping mall"
+      ],
+      "to": "商场",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "dept-store-zh",
+      "from": [
+        "department store"
+      ],
+      "to": "百货",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 2,
+        "utf8_bits_before": 128,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "bookstore-zh",
+      "from": [
+        "book store"
+      ],
+      "to": "书店",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "drugstore-zh",
+      "from": [
+        "drug store"
+      ],
+      "to": "药店",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "supermarket-zh",
+      "from": [
+        "super market"
+      ],
+      "to": "超市",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "biz-card-zh",
+      "from": [
+        "business card"
+      ],
+      "to": "名片",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "biz-trip-zh",
+      "from": [
+        "business trip"
+      ],
+      "to": "出差",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "email-zh",
+      "from": [
+        "email address"
+      ],
+      "to": "邮箱",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "phone-zh",
+      "from": [
+        "phone number"
+      ],
+      "to": "电话",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "flash-drive-zh",
+      "from": [
+        "flash drive"
+      ],
+      "to": "U盘",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 32,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "source-code-zh",
+      "from": [
+        "source code"
+      ],
+      "to": "源码",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "ui-zh",
+      "from": [
+        "user interface"
+      ],
+      "to": "界面",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "frontend-zh",
+      "from": [
+        "front end"
+      ],
+      "to": "前端",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 72,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "fullstack-zh",
+      "from": [
+        "full stack",
+        "full-stack"
+      ],
+      "to": "全栈",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "kb-zh",
+      "from": [
+        "knowledge base"
+      ],
+      "to": "知识库",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "vecdb-zh",
+      "from": [
+        "vector database"
+      ],
+      "to": "向量库",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "llm-zh",
+      "from": [
+        "large language model"
+      ],
+      "to": "大模型",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 3,
+        "utf8_bits_before": 160,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "cot-zh",
+      "from": [
+        "chain of thought",
+        "chain-of-thought"
+      ],
+      "to": "思维链",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 3,
+        "utf8_bits_before": 128,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "finetune-zh",
+      "from": [
+        "fine tuning",
+        "fine-tuning"
+      ],
+      "to": "微调",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "ratelimit-zh",
+      "from": [
+        "rate limit"
+      ],
+      "to": "限流",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "ha-zh",
+      "from": [
+        "high availability"
+      ],
+      "to": "高可用",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 136,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "dr-zh",
+      "from": [
+        "disaster recovery"
+      ],
+      "to": "灾备",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 136,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "techdebt-zh",
+      "from": [
+        "technical debt"
+      ],
+      "to": "技术债",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "ci-zh",
+      "from": [
+        "continuous integration"
+      ],
+      "to": "持续集成",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 6,
+        "token_after": 4,
+        "utf8_bits_before": 176,
+        "utf8_bits_after": 96,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "roundtrip-zh",
+      "from": [
+        "round trip"
+      ],
+      "to": "往返",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "postal-zh",
+      "from": [
+        "postal code"
+      ],
+      "to": "邮编",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "screenshot-zh",
+      "from": [
+        "screen shot"
+      ],
+      "to": "截图",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "blackbox-zh",
+      "from": [
+        "black box"
+      ],
+      "to": "黑箱",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 72,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "whitepaper-zh",
+      "from": [
+        "white paper"
+      ],
+      "to": "白皮书",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 72,
         "both_shrink": true
       },
       "class": "densifier"

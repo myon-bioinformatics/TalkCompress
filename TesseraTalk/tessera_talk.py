@@ -83,8 +83,8 @@ GREEK_LANGS: frozenset[str] = frozenset({"el"})
 FINAL_TOKEN_LANGS: frozenset[str] = frozenset({"zh", "de"})
 """Langs for final-pass *sentence* minify (zh|de). Phrase bank may pick EN acronyms + JA densifiers."""
 
-FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja"})
-"""Phrase densifier bank: ZH/DE compounds + EN acronyms competing via cheapest-form."""
+FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja", "nl"})
+"""Phrase densifier bank: ZH/DE/nl compounds + EN acronyms competing via cheapest-form."""
 
 FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "el"})
 """Tense densifier bank langs: live Romance + Dutch + Greek (classical Latin conjugations skipped)."""
