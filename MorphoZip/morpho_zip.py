@@ -24,7 +24,7 @@ digitization are **C (ShorthandEdge)** by default. Optional ``strip=True`` /
 ``tho`` is informal **English** clipping of ``though`` (and contrastive
 ``however`` via ``however``→``though``→``tho``); not a foreign-language form.
 Concessive/degree ``however hard…`` stays. Pronoun surfaces: you→``U``, he/she stay (open ``she`` slot; utf8+token first;
-君/彼/她 input aliases). After he/she, EN 3sg ``-s``→base (``he chooses``→``he choose``).
+君/彼/她 input aliases). After marked singular subjects (he/she/it/one/someone|everybody; ça/eso; legacy 彼/她), EN 3sg ``-s``→base (``he chooses``→``he choose``; skip non-verb -s / 単複同形).
 ``whichever``→``∀opt`` (no bare ``which`` residue). Purpose-for ML:
 para/pour/für/ために/为了→``4``.
 """
@@ -1946,24 +1946,118 @@ def extract_protected(
 
 
 
-# --- EN 3sg → base after 3sg pronouns (he/she; legacy 彼/她) -------------------
-# Once subject is a marked 3sg pronoun, English 3sg -s is redundant → prototype.
+# --- EN 3sg → base after marked singular subjects -----------------------------
+# Once subject is a marked 3sg / singular pronoun (inventory + generic one /
+# everyone…; deixis ça/eso; legacy 彼/她), English 3sg -s is redundant → base.
 # you→U does not take 3sg. Irregulars: has/does/goes.
+# Skip one closed adverb/polarity between subject and verb (grammar avoidance).
+# Exclude: 単複同形 / irregular-plural -s nouns / non-verb -s (was, news…).
 _IRREG_3SG_BASE: dict[str, str] = {
     "has": "have",
     "does": "do",
     "goes": "go",
 }
-# Fixed-width lookbehinds only: match pronoun+space+verb, keep pronoun.
-_AFTER_INV_PRON_VERB = re.compile(
-    r"\b([Hh]e|[Ss]he|彼|她)\s([A-Za-z]+)\b"
+# Surfaces ending in -s that are NOT EN 3sg verbs (keep unchanged).
+# Policy: skip 単複同形 and non +s/+es plurals; also past was, possessives, adverbs.
+_NON_3SG_S: frozenset[str] = frozenset(
+    {
+        # past be (not present 3sg -s)
+        "was",
+        # 単複同形 / mass / pluralia tantum in -s
+        "news",
+        "series",
+        "species",
+        "means",  # noun invariant; verb "he means" traded off per 単複同形
+        "physics",
+        "mathematics",
+        "economics",
+        "politics",
+        "ethics",
+        "athletics",
+        "linguistics",
+        "acoustics",
+        "logistics",
+        "statistics",
+        "tactics",
+        "measles",
+        "mumps",
+        "diabetes",
+        "billiards",
+        "scissors",
+        "trousers",
+        "pants",
+        "clothes",
+        "goods",
+        "glasses",
+        "binoculars",
+        "headphones",
+        "belongings",
+        "surroundings",
+        "earnings",
+        "savings",
+        "riches",
+        "archives",
+        "remains",
+        "odds",
+        "premises",
+        "headquarters",
+        "crossroads",
+        "barracks",
+        "gallows",
+        "bellows",
+        "congratulations",
+        "thanks",
+        "regards",
+        # adverbs / discourse ending in -s (not verbs)
+        "sometimes",
+        "onwards",
+        "outwards",
+        "inwards",
+        "downwards",
+        "upwards",
+        "yes",
+        "plus",
+        "minus",
+        # possessives / pronouns ending in -s (never 3sg verbs here)
+        "his",
+        "its",
+        "hers",
+        "ours",
+        "yours",
+        "theirs",
+        # short -s nouns that are not 3sg verbs after these subjects
+        "bus",
+        "gas",
+        "chaos",
+        "atlas",
+        "canvas",
+        "virus",
+        "census",
+    }
 )
-
+# Optional single adverb / polarity between subject and verb (singular-limited path).
+_3SG_SKIP_ADV = (
+    r"(?:always|never|often|sometimes|also|still|just|really|actually|even|"
+    r"already|usually|probably|perhaps|maybe|soon|now|then|here|there|"
+    r"□|˅|oft|¬|esp\.)\s+"
+)
+# Marked singular subjects: inventory he/she/it, generic one/someone/…,
+# deixis ça/eso (after this/that fold), legacy 彼/她.
+_3SG_SUBJECT = (
+    r"[Hh]e|[Ss]he|[Ii]t|[Oo]ne|"
+    r"[Ss]omeone|[Ss]omebody|[Ee]veryone|[Ee]verybody|"
+    r"彼|她|ça|Ça|eso|Eso"
+)
+_AFTER_INV_PRON_VERB = re.compile(
+    rf"\b({_3SG_SUBJECT})\s+(?:{_3SG_SKIP_ADV})?([A-Za-z]+)\b"
+)
 
 
 def _en_verb_base_from_3sg(verb: str) -> str:
     """Map EN 3sg surface to base/prototype; leave non-3sg unchanged."""
     low = verb.lower()
+    if low in _NON_3SG_S:
+        return verb
     if low in _IRREG_3SG_BASE:
         base = _IRREG_3SG_BASE[low]
         if verb.isupper():
@@ -1980,19 +2074,26 @@ def _en_verb_base_from_3sg(verb: str) -> str:
     if low.endswith("oes") and len(low) > 3:  # does already irregular; heroes-like rare
         return verb[:-2]
     if low.endswith("s") and not low.endswith("ss") and len(low) > 2:
-        # avoid stripping plural-looking nouns blindly: only clear verbal -s
         return verb[:-1]
     return verb
 
 
 def drop_3sg_after_inventory_pronoun(text: str) -> str:
-    """After he/she (or legacy 彼/她), fold EN 3sg -s to base verb (原型).
+    """After marked singular subjects, fold EN 3sg -s to base verb (原型).
 
-    ``he chooses`` → ``he choose``. Possessives do not trigger.
+    ``he chooses`` → ``he choose``; ``it works`` → ``it work``;
+    ``everyone always wants`` → ``everyone always want``.
+    Possessives / 単複同形 -s nouns / ``was`` are not stripped.
     """
 
     def _sub(m: re.Match[str]) -> str:
-        return f"{m.group(1)} {_en_verb_base_from_3sg(m.group(2))}"
+        subj, verb = m.group(1), m.group(2)
+        # Re-attach any skipped adverb that the match consumed via full span.
+        full = m.group(0)
+        # full is "SUBJ [adv ]VERB"; rebuild with base verb, keep mid as-is.
+        mid_end = full.rfind(verb)
+        mid = full[len(subj) : mid_end]  # includes spaces + optional adv
+        return f"{subj}{mid}{_en_verb_base_from_3sg(verb)}"
 
     return _AFTER_INV_PRON_VERB.sub(_sub, text or "")
 

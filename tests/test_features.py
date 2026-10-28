@@ -169,6 +169,20 @@ def test_morpho_pronoun_inventory():
     assert "that" in m.compress("I think that he left")  # complementizer kept
     assert m.compress("he chooses") == "he choose"
     assert m.compress("she comes") == "she come"
+    assert m.compress("it works") == "it work"
+    assert m.compress("it has value") == "it have value"
+    assert m.compress("one prefers") == "one prefer"
+    assert m.compress("everyone wants") == "everyone want"
+    assert m.compress("somebody needs") == "somebody need"
+    assert m.compress("this works") == "ça work"  # deixis subject + 3sg strip
+    assert m.compress("he was ready") == "he was ready"  # past, not 3sg -s
+    assert m.compress("he news") == "he news"  # 単複同形 mass noun
+    assert m.compress("he series") == "he series"
+    assert m.compress("he his") == "he his"  # possessive not stripped
+    assert m.compress("he sometimes fails") == "he sometimes fail"
+    assert m.compress("he always tries") == "he □ try"  # always→□ then tries→try
+    assert m.compress("everyone always wants") == "everyone □ want"
+    assert m.compress("he means") == "he means"  # 単複同形 means: no strip
     assert "∀opt" in m.compress("whichever option")
     assert "which" not in m.compress("whichever option").lower()
     assert "4" in m.compress("成功するために学ぶ")
