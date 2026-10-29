@@ -31,7 +31,7 @@ uv run python ShorthandEdge/shorthand_edge.py compress --text 'below average and
 ## できること
 
 - EN 略語 + JA 略語 + 絵文字マップ（最長一致）。チャット / MCP 向けを拡充
-- フィラー除去（um / えーと / I mean …）— E ではなくここが既定の担当
+- フィラー除去（um / えーと / I mean …）— E ではなくここが既定の担当。単語間投詞 oh / ah / well は**節頭＋読点の位置でのみ**読点ごと削除（`Well, if…` → `If…`）；`I feel well` / `as well` / `Oh no!` は保持
 - UNIQUE_READINGS + UNIQUE_COMPACT（find out → ascertain → `ascrt`）
 - 同一言語の短縮: `I will`→`I'll`（`私は will` も先に `I` 化）、`three`→`3` など
 - 合意台帳 lex: `under`/`below`→`下`、家具 `table`→`机`（同等に `桌`/`桌子` や mesa/Tisch/tavolo/tafel/τραπέζι 可・SQL/tech は残す）、`デコボコ`/`bumpy`→`凹凸` など

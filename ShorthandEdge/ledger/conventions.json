@@ -1271,22 +1271,21 @@
       "kind": "lex",
       "apply_layer": "E",
       "from": [
-        "would",
         "だろう",
         "でしょう",
         "will"
       ],
       "to": "will",
-      "rationale": "would/だろう/でしょう → will。I'll は C",
+      "rationale": "だろう/でしょう → will。would は意味（時制・法）が変わるため写像しない。I'll は C",
       "inventory": "auxiliary",
       "note": "I'll stays C ShorthandEdge",
       "metrics": {
         "token": {
-          "before": 1,
+          "before": 2,
           "after": 1,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "would",
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "でしょう",
           "via": "B TesseraTalk estimate_tokens"
         },
         "bit": {
@@ -1295,12 +1294,12 @@
           "after": 2,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "would",
+          "sample_from": "でしょう",
           "via": "E MorphoZip closed_inventory_bits(auxiliary)",
           "utf8": {
-            "before": 40,
+            "before": 96,
             "after": 32,
-            "delta": -8
+            "delta": -64
           },
           "inventory": {
             "name": "auxiliary",

@@ -301,7 +301,7 @@ AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
     "could": "can",
     "できる": "can",
     "will": "will",
-    "would": "will",
+    # would is NOT folded into will (tense/mood change: "it would rain" ≠ "it will rain").
     "だろう": "will",
     "でしょう": "will",
     "must": "must",
@@ -319,7 +319,7 @@ AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
 _AUX_SURFACE_RE = re.compile(
     r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない|かもしれない|"
     r"できる|でしょう|だろう|"
-    r"\bcould\b|\bwould\b|\bshould\b|\bmight\b|\bcan\b|\bwill\b|\bmust\b|\bmay\b",
+    r"\bcould\b|\bshould\b|\bmight\b|\bcan\b|\bwill\b|\bmust\b|\bmay\b",
     re.I,
 )
 
@@ -624,7 +624,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         AUX_EXTENDED,
         AUX_ALIAS_TO_CANONICAL,
         _AUX_SURFACE_RE,
-        "could→can would→will should→must might→may; I'll is C; "
+        "could→can should→must (would kept: ≠will) might→may; I'll is C; "
         "neg → !can/!will/!must/!may; don't/not → !; polarity flag = 1bit separate",
     ),
     "preposition": ClosedInventory(
@@ -1158,7 +1158,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bcan'?t\b", re.I), "!can"),
     (re.compile(r"\bcouldn'?t\b", re.I), "!can"),
     (re.compile(r"\bwon'?t\b", re.I), "!will"),
-    (re.compile(r"\bwouldn'?t\b", re.I), "!will"),
     (re.compile(r"\bshould not\b", re.I), "!must"),
     (re.compile(r"\bshouldn'?t\b", re.I), "!must"),
     (re.compile(r"\bmust not\b", re.I), "!must"),
@@ -1178,7 +1177,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"することができ(?:る|ます)"), "can"),
     (re.compile(r"でしょう|だろう"), "will"),
     (re.compile(r"\bcould\b", re.I), "can"),
-    (re.compile(r"\bwould\b", re.I), "will"),
     (re.compile(r"\bshould\b", re.I), "must"),
     (re.compile(r"\bmight\b", re.I), "may"),
     # Bare not (after may not / do not phrases above)
