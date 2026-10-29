@@ -9980,18 +9980,18 @@
    "from": [
     "we found"
    ],
-   "to": "ach)",
-   "lang": "pt",
+   "to": "vonden",
+   "lang": "nl",
    "tense": "past",
    "subject": "1p",
    "candidates": [
     {
-     "form": "ach)",
-     "lang": "pt"
-    },
-    {
      "form": "vonden",
      "lang": "nl"
+    },
+    {
+     "form": "achamos",
+     "lang": "pt"
     }
    ]
   },
@@ -10150,6 +10150,10 @@
      "lang": "es"
     },
     {
+     "form": "tomamos",
+     "lang": "pt"
+    },
+    {
      "form": "avons pris",
      "lang": "fr"
     }
@@ -10160,13 +10164,13 @@
    "from": [
     "we have found"
    ],
-   "to": "ach)",
+   "to": "achamos",
    "lang": "pt",
    "tense": "perf",
    "subject": "1p",
    "candidates": [
     {
-     "form": "ach)",
+     "form": "achamos",
      "lang": "pt"
     },
     {

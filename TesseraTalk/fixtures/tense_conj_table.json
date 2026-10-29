@@ -606,7 +606,7 @@
      "1s": "tomei",
      "2s": "tomaste",
      "3s": "tomou",
-     "1p": "tom)",
+     "1p": "tomamos",
      "2p": "tomastes",
      "3p": "tomaram"
     },
@@ -648,7 +648,7 @@
      "1s": "achei",
      "2s": "achaste",
      "3s": "achou",
-     "1p": "ach)",
+     "1p": "achamos",
      "2p": "achastes",
      "3p": "acharam"
     },
