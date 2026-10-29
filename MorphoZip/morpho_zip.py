@@ -925,6 +925,30 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
         re.I,
     ), r"\1 <<YOUOBJ>>"),
     (re.compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "U"),
+    # Complementizer that-deletion (o200k: " that" = 1 tok → 0; a comma at the
+    # deletion point would re-add 1 tok, so none is inserted). Relative that → que
+    # (#23 classifier) and demonstratives are untouched.
+    # (a) non-NP-object verbs: drop when a clause subject follows.
+    (re.compile(
+        r"\b(think|thinks|thought|hope|hopes|hoped|say|says|said|believe|believes|"
+        r"believed|feel|feels|felt|guess|guesses|guessed|suppose|supposes|supposed)"
+        r"\s+that\s+(?=(?:I|U|you|he|she|it|we|they|there|the|a|an|my|your|his|"
+        r"her|our|their|everyone|everybody|someone|somebody|nobody|no\s+one)\b)",
+        re.I,
+    ), r"\1 "),
+    # (b) NP-object verbs: drop only before pronoun subject + verb
+    # ("I know that people…" keeps that: dropping it reads as NP object).
+    (re.compile(
+        r"\b(know|knows|knew|known|see|sees|saw|seen|tell|tells|told|show|shows|"
+        r"showed|shown|find|finds|found|hear|hears|heard|realize|realizes|realized|"
+        r"realise|realises|realised)\s+that\s+"
+        r"(?=(?:I|U|you|he|she|it|we|they)\s+(?:is|are|was|were|am|be|been|do|does|"
+        r"did|have|has|had|will|would|can|could|shall|should|may|might|must|"
+        r"[a-z]+ed|[a-z]+s|go|come|like|want|need|know|think|see|get|make|take|"
+        r"love|hate|work|live|feel|look|say|tell|left|went|came|got|made|took|saw|"
+        r"knew|said|told|felt|ran|won|lost)\b)",
+        re.I,
+    ), r"\1 "),
     # Deixis inventory (≠ neuter it): token→utf8 cheapest per slot.
     # proximal sg → ça; distal sg → eso; pl → these/those; far → あれ.
     (re.compile(r"これらの|これら"), "these"),

@@ -153,7 +153,7 @@ def test_morpho_pronoun_inventory():
     assert "ça" in m.compress("this book")
     assert "あれ" in m.compress("あれは何")
     assert "it" in m.compress("它很好")  # neuter, not deixis
-    assert "that" in m.compress("I think that he left")  # complementizer kept
+    assert m.compress("I think that he left") == "I think he left"  # complementizer dropped
     assert m.compress("he chooses") == "he choose"
     assert m.compress("she comes") == "she come"
     assert m.compress("it works") == "it work"
@@ -924,7 +924,7 @@ def test_morpho_relative_pronouns():
     assert "who I" in m.compress("the person whom I met", **kw)
     assert m.compress("Whom did you see?", **kw).startswith("Who ")
     # complementizer + deixis unchanged
-    assert "that" in m.compress("I think that it works", **kw)
+    assert "that" not in m.compress("I think that it works", **kw)
     assert "eso" in m.compress("that book is mine", **kw)
     assert "eso" in m.compress("That was wrong.", **kw)
     # Romance/DE → que; lo que / interrogative Welche skipped
@@ -1156,3 +1156,20 @@ def test_morpho_from_arrow_and_ml_aliases():
     assert "&" in m.compress("猫と犬", unique=False, etymon=False, counters=False)
     # expand ←
     assert "from" in m.expand("← home").lower()
+
+
+def test_complementizer_that_deletion():
+    import sys
+    from tests._helpers import load
+    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    assert m.compress("I think that he is going") == "I think he is going"
+    assert m.compress("She said that we will go") == "She said we will go"
+    assert m.compress("I know that she left") == "I know she left"
+    assert m.compress("We saw that they were here") == "We saw they were here"
+    # NP-object verb + non-pronoun: keep (no that-drop; avoid "I know people…")
+    assert "people" in m.compress("I know that people are here")
+    assert m.compress("I know that people are here") != "I know people are here"
+    # demonstrative / relative untouched
+    assert m.compress("I said that.") == "I said that."
+    assert m.compress("I think that is right") != "I think is right"
+    assert "," not in m.compress("I think that he is going")
