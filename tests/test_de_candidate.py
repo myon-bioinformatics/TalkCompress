@@ -66,7 +66,8 @@ def test_de_will_rejected_by_homograph_guard():
 def test_compounds_nl_kept_when_cheaper():
     t = _t()
     assert t.apply_zh_de_phrases("swimming pool") == "zwembad"
-    assert t.apply_zh_de_phrases("washing machine") == "wasmachine"
+    # o200k tie: " washing machine" = 2 = " wasmachine" -> source kept
+    assert t.apply_zh_de_phrases("washing machine") == "washing machine"
 
 
 def test_prefer_on_tie_only_de_over_nl():

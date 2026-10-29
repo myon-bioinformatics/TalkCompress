@@ -51,8 +51,10 @@ def test_agreement_metric_reported():
     r = tc.agreement()
     assert r["sample_n"] > 30 and r["matrix_n"] > 1000
     assert 0 <= r["sample_exact"] <= r["sample_n"] and 0 <= r["winner_flips"] <= r["cells_judged"]
-    # regression floor (current: sample 15/37, matrix 798/3097); raise as estimate_tokens is calibrated
-    assert r["sample_exact"] >= 15 and r["matrix_exact"] >= 798
+    # regression floor (main before calibration: sample 15/37, matrix 798/3097, flips 100/1211;
+    # calibrated: 25/37, 3091/3097, 0/1211); raise as estimate_tokens improves
+    assert r["sample_exact"] >= 25 and r["matrix_exact"] >= 3091
+    assert r["winner_flips"] == 0
 
 
 def test_compat_report_matches_bank():

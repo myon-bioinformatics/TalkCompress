@@ -17,5 +17,6 @@ def test_el_contribution_smoke():
     assert r["with_el"]["tokens"] <= r["src"]["tokens"]
     assert r["with_el"]["tokens"] <= r["no_el"]["tokens"]
     ids = {f["id"] for f in r["bank_flips"]}
-    assert {"take-fut-1s", "find-fut-1s"} <= ids
+    # o200k: "I will take" -> tomaré (2 = 2 with πάρω, fewer bytes) so only find flips to el
+    assert "find-fut-1s" in ids
     assert mod.measure() == r

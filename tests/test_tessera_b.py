@@ -96,10 +96,11 @@ def test_estimate_tokens_empty():
 
 def test_pick_en_to_zh_when_shorter():
     t = _tessera()
+    # o200k: " Good morning." = 3 = " 早。"; the shorter EN paraphrase wins (2)
     chosen, lang, n = t.pick_shortest_translation("Good morning.")
-    assert lang == "zh"
-    assert chosen == "早。"
+    assert (chosen, lang, n) == ("Morning.", "en", 2)
     assert n < t.estimate_tokens("Good morning.")
+    assert t.estimate_tokens("早。") == 3
 
 
 def test_pick_en_natural_abbrev_asap():
@@ -263,7 +264,8 @@ def test_b_under_sentence_uses_translation_not_ledger_patch():
     # Must not be the C ledger one-char swap "…下…" via under→下 alone on English
     # Accept full translation; reject English with only under replaced by 下
     assert chosen != "The cat is 下 the table."
-    assert "under" not in chosen.lower() or chosen == src
+    # o200k: the EN paraphrase "Cat under table." (4) beats 猫在桌子下。 (7)
+    assert chosen == "Cat under table."
 
 
 def test_b_bumpy_not_c_凹凸_ledger():
@@ -381,7 +383,7 @@ def test_translate_engine_fixture_is_default_and_offline():
     src = "Good morning."
     a = t.minify_by_translation(src, translate_engine="fixture")
     b = t.minify_by_translation(src)  # default fixture
-    assert a == b == "早。"
+    assert a == b == "Morning."  # o200k: 2 < 3 for both src and 早。
 
 
 def test_bank_has_romance_germanic_greek_keys():
@@ -494,7 +496,9 @@ def test_minify_with_fake_engine_uses_parallel_and_yuragi():
         # skip bank for this sentence path: bank may also have entries; that's ok
     )
     assert "set" not in out.lower() or out.lower().strip() != "set"
-    assert "Ayúdame" in out or "Ayuda" in out
+    # o200k: a fixture EN paraphrase ("Please help." = 3) beats "Ayúdame." (4)
+    assert t.estimate_tokens(out) <= t.estimate_tokens("Ayúdame.")
+    assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
 def test_live_translation_discards_empty_and_errors():

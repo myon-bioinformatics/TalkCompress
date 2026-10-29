@@ -49,7 +49,8 @@ def test_adj_noun_zh_compound_wins():
     # longest-first: high speed rail → 高铁 (not bare high-speed → 高速)
     assert "高铁" in out
     assert "高速" not in out
-    assert "绿茶" in out
+    # o200k: " green tea" = 2 < " 绿茶" = 3 (bare space + 2 chars), so EN stays
+    assert "green tea" in out
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
@@ -99,8 +100,9 @@ def test_final_pass_zh_sentence_from_bank():
     t = _tessera()
     src = "Good morning."
     out = t.final_zh_de_token_pass(src)
-    assert out == "早。" or "早" in out
-    assert t.estimate_tokens(out) < t.estimate_tokens(src)
+    # o200k: " Good morning." = 3 = " 早。" (no saving), so the source is kept
+    assert out == src
+    assert t.estimate_tokens(out) <= t.estimate_tokens(src)
 
 
 def test_final_pass_combined_zh_and_de():
@@ -269,8 +271,6 @@ def test_tense_before_after_examples():
         ("I did", ("fiz", "hice")),
         ("I had", ("tive", "tuve")),
         ("I know", ("sé",)),
-        ("I left", ("salí",)),
-        ("I will leave", ("saldré",)),
     ]
     for src, allowed in cases:
         out = t.apply_es_fr_tense(src)
@@ -287,11 +287,7 @@ def test_de_nl_compound_one_word_wins():
     t = _tessera()
     cases = [
         # mobile phone → cel|κιν via sibling (beats Handy); covered in test_cell_phone / handy test
-        ("Watch the traffic light carefully.", "Ampel"),
-        ("Avoid the traffic jam ahead.", "Stau"),
         ("The swimming pool opens at nine.", "zwembad"),
-        ("I need a washing machine today.", "wasmachine"),
-        ("Need a vacuum cleaner soon.", "stofzuiger"),
     ]
     for src, want in cases:
         out = t.apply_zh_de_phrases(src)
@@ -303,9 +299,7 @@ def test_zh_compound_densifier_wins():
     t = _tessera()
     cases = [
         ("Ride the high speed rail tomorrow.", "高铁"),
-        ("We prefer open source tooling.", "开源"),
-        ("Meet at the police station.", "警局"),
-        ("Check your blood pressure daily.", "血压"),
+        ("Check your blood pressure daily.", "tensão"),
         ("Join the large language model talk.", "大模型"),
     ]
     for src, want in cases:
@@ -418,9 +412,9 @@ def test_as_a_result_cheapest_ergo_or_logo():
 
 def test_once_again_prefers_pali():
     t = _tessera()
+    # o200k: " once again" = 2 = " πάλι"; a tie never replaces the source
     out = t.apply_zh_de_phrases("once again")
-    assert out == "πάλι"
-    assert t.estimate_tokens(out) < t.estimate_tokens("once again")
+    assert out == "once again"
 
 
 def test_sibling_does_not_steal_bahnhof_or_asap():
@@ -455,7 +449,8 @@ def test_final_pass_includes_sibling_phrase():
     before = t.estimate_tokens(raw)
     out = t.final_token_pass(raw)
     after = t.estimate_tokens(out)
-    assert "/mês" in out or "/μήνα" in out
+    # o200k: " per month" = 2 < " /mês" = 3, so "per month" stays
+    assert "per month" in out
     assert "cel" in out or "κιν" in out
     assert after < before
 
@@ -512,7 +507,7 @@ def test_tense_tranche2_try_and_read_prog():
 
 def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
     t = _tessera()
-    expected = {"take": "πάρω", "try": "tentarei", "find": "βρω",
+    expected = {"take": "tomaré", "try": "tentarei", "find": "βρω",
                 "call": "llamaré", "put": "porei", "bring": "trarei"}
     for verb, winner in expected.items():
         for prefix in ("I am going to ", "I'm going to "):
@@ -528,16 +523,16 @@ def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
 def test_tense_tranche2_and_sibling_longest_sources_coexist():
     t = _tessera()
     raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
-    assert t.apply_es_fr_tense(raw) == "farei; fiz; quero ir; preciso ir; πάρω it."
+    assert t.apply_es_fr_tense(raw) == "farei; fiz; quero ir; preciso ir; tomaré it."
     raw = "I will take my mobile phone to the train station as soon as possible."
-    assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "πάρω my cel to the Bahnhof ASAP."
+    assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "tomaré my cel to the Bahnhof ASAP."
 
 
 def test_tense_candidate_priority_is_independent_of_bank_order():
     t = _tessera()
     # Exercise each cost tie-breaker rather than accepting any candidate.
     cases = [
-        ([("tomaré", "es"), ("πάρω", "el")], "πάρω"),
+        ([("tomaré", "es"), ("πάρω", "el")], "tomaré"),  # 2 = 2 tokens; 7 < 8 bytes
         ([("pondré", "es"), ("porei", "pt")], "porei"),
         ([("é", "pt"), ("ab", "en")], "é"),
         ([("b", "en"), ("a", "en")], "a"),
@@ -559,7 +554,7 @@ def test_tranche2_and_sibling_combined_final_pass():
     out = t.final_token_pass(raw)
     assert any(form in out for form in ("tomaré", "tomarei", "πάρω"))
     assert any(form in out for form in ("cel", "κιν"))
-    assert "πάλι" in out
+    assert "once again" in out  # o200k tie (2 = 2): source kept
     assert "voy to" not in out and "vou to" not in out
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
@@ -611,3 +606,12 @@ def test_tranche2_future_does_not_choose_present_forms():
             assert out in forms, (raw, out)
             assert t.estimate_tokens(out) < t.estimate_tokens(raw)
     assert t.apply_es_fr_tense("I'll call") == "I'll call"
+
+
+def test_o200k_ties_keep_english_source():
+    """Bank forms that only tie the source under o200k_base are not applied."""
+    t = _tessera()
+    for src in ("I left", "I will leave", "I will want", "I knew", "I called"):
+        assert t.apply_es_fr_tense(src) == src
+    for src in ("washing machine", "traffic light", "traffic jam", "open source", "police station"):
+        assert t.apply_zh_de_phrases(src) == src
