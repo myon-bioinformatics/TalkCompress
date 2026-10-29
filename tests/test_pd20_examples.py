@@ -52,7 +52,10 @@ _ASPIRATIONAL = [e for e in ENTRIES if e.get("want_contains")]
 
 @pytest.mark.parametrize(
     "e",
-    [pytest.param(e, marks=pytest.mark.xfail(strict=True, reason=e["xfail_reason"])) for e in _ASPIRATIONAL],
+    [
+        pytest.param(e, marks=pytest.mark.xfail(strict=True, reason=e["xfail_reason"])) if e.get("xfail_reason") else e
+        for e in _ASPIRATIONAL
+    ],
     ids=[e["id"] for e in _ASPIRATIONAL],
 )
 def test_pd20_desired_short_form(e):
@@ -100,12 +103,12 @@ def test_b_final_accepts_full_and_contracted(full, short, winner):
 @pytest.mark.parametrize(
     "full,short",
     [
-        pytest.param("I will find it", "I'll find it", marks=pytest.mark.xfail(strict=True, reason="find-fut-1s の from に I'll find が無い")),
-        pytest.param("I would go", "I'd go", marks=pytest.mark.xfail(strict=True, reason="go-cond-1s の from に I'd go が無い（C 後に iria を逃す）")),
-        pytest.param("we will go", "we'll go", marks=pytest.mark.xfail(strict=True, reason="go-fut-1p の from に we'll go が無い")),
+        ("I will find it", "I'll find it"),
+        ("I would go", "I'd go"),
+        ("we will go", "we'll go"),
     ],
 )
-def test_b_final_contracted_gap(full, short):
+def test_b_final_contracted_matches_full(full, short):
     t = _t()
     assert t.apply_es_fr_tense(short) == t.apply_es_fr_tense(full)
 
@@ -130,6 +133,7 @@ def test_going_to_guard_contracted():
         ("I'll take", "πάρω"),
         ("I am going to take", "πάρω"),
         ("I will find", "βρω"),
+        ("I'll find", "βρω"),
     ],
 )
 def test_el_wins_cheapest(src, el):

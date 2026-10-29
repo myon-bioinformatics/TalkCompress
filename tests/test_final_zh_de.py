@@ -565,7 +565,9 @@ def test_tranche2_cheapest_for_every_source():
     """Check the selected surface, not only membership among candidates."""
     t = _tessera()
     entries = t.load_es_fr_tense_bank()["entries"]
-    tranche2 = entries[next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s"):]
+    start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
+    stop = next((i for i, e in enumerate(entries) if e["id"] == "arrive-past-1s"), len(entries))
+    tranche2 = entries[start:stop]
     assert len(tranche2) == 35
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
