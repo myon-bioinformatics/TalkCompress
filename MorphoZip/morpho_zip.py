@@ -272,7 +272,6 @@ ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "~": "~",
     "approximately": "~",
     "˅": "˅",
-    "very": "˅",
     "extremely": "˅",
     "esp.": "esp.",
     "esp": "esp.",
@@ -522,7 +521,6 @@ DEIXIS_ALIAS_TO_CANONICAL: dict[str, str] = {
     "这": "ça",
     "这个": "ça",
     # distal sg → eso
-    "that": "eso",
     "それ": "eso",
     "それは": "eso",
     "それが": "eso",
@@ -960,15 +958,12 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bthis\b", re.I), "ça"),
     # EN that: demonstrative only — skip complementizer/relative
     # ("I think that…", "the book that…"). Keep bare that when ambiguous.
-    (re.compile(r"\bthat('s|s)\b", re.I), r"eso\1"),
     # Demonstrative determiner that/those + NOUN → the (o200k tie 1=1, utf8 fewer).
     # Pronoun-use that/those (that is…, I said that., those who…) untouched.
-    (re.compile(r"\b(?:that|those)\s+(one|ones|thing|things|stuff|guy|guys|girl|girls|man|men|woman|women|person|people|day|days|time|times|way|ways|book|books|idea|ideas|problem|problems|issue|issues|point|points|part|parts|side|sides|end|ends|car|cars|house|houses|place|places|year|years|room|rooms|file|files|case|cases|kind|kinds|sort|sorts)\b", re.I), lambda m: ("The " if m.group(0)[0].isupper() else "the ") + m.group(1)),
+    # that/those + NOUN → the REMOVED: "look at me that way"→"the way" changes meaning.
     # bare that+(is|was|…) → eso REMOVED: eats relative `N that BE` after which→that.
     # Demonstrative "that is" → i.e. in _PHRASE_GRAMMAR; ^that / post-punct that /
     # that's / that one|thing|… still cover deixis.
-    (re.compile(r"(?m)^that\b", re.I), "eso"),
-    (re.compile(r"([.!?…]\s*)that\b", re.I), r"\1eso"),
     (re.compile(r"\besto\b", re.I), "ça"),
     (re.compile(r"\b(?:eso|esa)\b", re.I), "eso"),
     (re.compile(r"\bestos\b|\bestas\b", re.I), "these"),
@@ -1140,10 +1135,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- adverbs (closed inventory): degree + polarity-adjacent frequency
     # always→□ (∀ kept for whatever); never→¬; often→oft; bare not→! (after may not etc.)
     (re.compile(r"\bextremely\b", re.I), "˅"),
-    (re.compile(r"\bvery\b", re.I), "˅"),
     (re.compile(r"\bparticularly\b", re.I), "esp."),
     (re.compile(r"\balways\b", re.I), "□"),
-    (re.compile(r"\bnever\b", re.I), "¬"),
+    # never→¬ REMOVED: o200k ' never' 1 tok vs ' ¬' 2 tok (token loser).
     (re.compile(r"\boften\b", re.I), "oft"),
     # --- auxiliaries (closed inventory); I'll stays C — do not contract I will
     # Negation / affirmation: polarity ``!`` is +1 bit flag (see polarity_bit_cost).
@@ -1167,7 +1161,8 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"することができ(?:る|ます)"), "can"),
     (re.compile(r"でしょう|だろう"), "will"),
     # Bare not (after may not / do not phrases above)
-    (re.compile(r"\bnot\b", re.I), "!"),
+    # bare not→! only mid-clause before a word; "Not, as I said" / "not." stay.
+    (re.compile(r"(?<=\w\s)not\b(?=\s+\w)", re.I), "!"),
     # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
     # Compounds before singles. Avoid で in できる/です/である/でも…
     (re.compile(r"からは"), "←"),

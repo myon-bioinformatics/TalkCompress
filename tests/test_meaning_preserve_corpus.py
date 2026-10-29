@@ -65,3 +65,24 @@ def test_no_dangling_commas(s):
     out = _ce(s)
     assert ",," not in out and ", ," not in out and '",' not in out and ', "' not in out.replace(', "', '') or True
     assert ",," not in out and not out.startswith(",")
+
+
+@pytest.mark.parametrize(
+    "src,must,forbid",
+    [
+        ("Yes, I do.", "I do", "exec"),
+        ("Do you? I do.", "I do", "exec"),
+        ("That is nonsense.", "That is nonsense", "eso"),
+        ("That's her own business.", "That's", "eso"),
+        ("look at me that way.", "that way", "the way"),
+        ("It is very good.", "very", "˅"),
+        ("I was never there.", "never", "¬"),
+        ("Not, as I explained, upon my own account.", "Not,", "!,"),
+    ],
+)
+def test_meaning_preserve_round2(src, must, forbid):
+    from tests._helpers import load, ns
+
+    dz = load("density_zip", "DensityZip/density_zip.py")
+    out = dz.run_pipeline(["C", "E"], src, ns())
+    assert must in out and forbid not in out, out
