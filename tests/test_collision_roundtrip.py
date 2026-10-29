@@ -213,3 +213,13 @@ def test_impact_lt100m_lists_sub100m_only():
     assert rows
     langs = {old[1] for _k, _s, old, _n in rows if old}
     assert langs & {"nl", "cs", "pl"}
+
+
+def test_guard_falls_to_next_best_not_english():
+    """A collided winner hands over to the next-cheapest candidate (not straight to EN)."""
+    cells = {c["src"]: c for c in json.loads(tm.REPORT_PATH.read_text(encoding="utf-8"))["cells"]}
+    c = cells["we have seen"]
+    assert c["crossling_dropped"] == ["vimos"]
+    assert c["best"] == "avons vu"  # next-best measured …
+    assert c["tok"] == [3, 3] and c["status"] == "reject"  # … but only ties EN on tokens → EN kept
+    assert _t().apply_es_fr_tense("you give") == "dai"  # das dropped → it dai adopted
