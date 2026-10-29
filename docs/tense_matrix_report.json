@@ -18311,17 +18311,17 @@
    "tense": "past",
    "verb": "find",
    "src": "we found",
-   "best": "ach)",
-   "lang": "pt",
+   "best": "vonden",
+   "lang": "nl",
    "shape": "simple",
    "number": "",
    "tok": [
     3,
-    1
+    2
    ],
    "utf8": [
     8,
-    4
+    6
    ],
    "status": "adopt"
   },
@@ -18539,17 +18539,17 @@
    "tense": "perf",
    "verb": "find",
    "src": "we have found",
-   "best": "ach)",
+   "best": "achamos",
    "lang": "pt",
    "shape": "simple-preterite",
    "number": "",
    "tok": [
     4,
-    1
+    2
    ],
    "utf8": [
     13,
-    4
+    7
    ],
    "status": "adopt"
   },

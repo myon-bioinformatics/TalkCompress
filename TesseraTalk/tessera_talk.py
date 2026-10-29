@@ -1151,11 +1151,11 @@ _EN_IRREGULAR_PP = frozenset(
 # Phrase-final have-auxiliaries: when followed by a past participle the row is
 # an auxiliary use (pluperfect/perfect), not possession — never fire then.
 _HAVE_AUX_TAIL_RE = re.compile(r"(?:\bhad|\bhave|\bhas|'d|'ve|'s)$", re.IGNORECASE)
-_PP_LOOKAHEAD = (
-    r"(?!\s+(?:(?:"
-    + "|".join(sorted(_EN_IRREGULAR_PP))
-    + r")|[A-Za-z]+ed)(?![A-Za-z0-9']))"
+_PP_ALT = (
+    r"(?:(?:" + "|".join(sorted(_EN_IRREGULAR_PP)) + r")|[A-Za-z]+ed)(?![A-Za-z0-9'])"
 )
+_PP_LOOKAHEAD = rf"(?!\s+{_PP_ALT})"
+_HAVE_PP_LOOKAHEAD = rf"(?!\s+have\s+{_PP_ALT})"
 
 
 def _apply_phrase_pairs(
@@ -1208,6 +1208,9 @@ def _apply_phrase_pairs(
             # Generic aux guard: "I had" (possession) must not fire on
             # "I had gone" — longer matrix rows or EN handle the full phrase.
             aux_guard = _PP_LOOKAHEAD if _HAVE_AUX_TAIL_RE.search(phrase) else ""
+            # Modal/any row before "have <pp>" (I could have gone → not "pude have
+            # gone"): the perfect auxiliary belongs to the following participle.
+            aux_guard += _HAVE_PP_LOOKAHEAD
             pat = re.compile(
                 rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9]){going_guard}{aux_guard}",
                 re.IGNORECASE,
