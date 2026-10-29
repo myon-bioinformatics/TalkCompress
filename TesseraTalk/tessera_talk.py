@@ -1024,14 +1024,64 @@ _SUBJ_AUX_CONTRACTIONS: tuple[tuple[str, str], ...] = (
 )
 
 
+# Typed ambiguous contractions: ``'s`` = is|has, ``'d`` = would|had. The full
+# form is only twinned to the short form when the right context proves the type
+# (``'s``/``'d`` + irregular past participle → has/had; ``'s`` + -ing → is;
+# ``'d`` + bare verb / like / rather → would). Regular ``-ed`` after ``'s`` is
+# ambiguous (it's finished = is|has) and stays EN, as do transitive irregular
+# PPs (it's done / it's said = passive is); possessive ``noun's`` is never
+# a subject here (only pronoun/relative heads below).
+_S_SUBJECTS = ("he", "she", "it", "who")
+_S_HAS_ONLY_PP = frozenset({"been", "gone", "had", "become"})
+_D_SUBJECTS = ("I", "you", "he", "she", "it", "we", "they", "who")
+
+
+def _contraction_type(aux: str, rest: str) -> bool:
+    """True when ``rest`` (words after the aux) proves ``aux`` for its 's/'d."""
+    first = rest.split(" ", 1)[0].lower().strip(".,!?;:")
+    if not first:
+        return False
+    if aux in ("has", "had"):
+        # Irregular PPs only for 's (regular -ed is is/has-ambiguous); 'd + -ed
+        # is unambiguous (would + -ed is ungrammatical) so allow it for had.
+        if aux == "has":
+            # Transitive PPs after 's read as passive/adjectival is just as
+            # often (it's done / it's seen / it's said) → only non-passivizable.
+            return first in _S_HAS_ONLY_PP
+        if first in _EN_IRREGULAR_PP and first not in _EN_BARE_VERBS:
+            return True
+        return aux == "had" and first.endswith("ed")
+    if aux == "is":
+        return first.endswith("ing")
+    if aux == "would":
+        return first in _EN_BARE_VERBS or first in ("like", "rather")
+    return False
+
+
 def _subject_aux_variants(src: str) -> list[str]:
-    """``src`` plus its leading subject+aux full↔contracted twin (I will X ↔ I'll X)."""
+    """``src`` plus its leading subject+aux full↔contracted twin (I will X ↔ I'll X).
+
+    Ambiguous ``'s``/``'d`` twins are type-checked by right context
+    (``_contraction_type``); unprovable cases keep only the full form.
+    """
     out = [src]
     low = src.lower()
     for full, short in _SUBJ_AUX_CONTRACTIONS:
+        if short.endswith(("'s", "'d")):
+            continue
         for a, b in ((full, short), (short, full)):
             if low.startswith(a.lower() + " "):
                 out.append(b + src[len(a):])
+    parts = src.split(" ", 2)
+    if len(parts) == 3:
+        subj, aux, rest = parts
+        sl, al = subj.lower(), aux.lower()
+        typed = (
+            (al in ("is", "has") and sl in _S_SUBJECTS and "'s")
+            or (al in ("would", "had") and sl in {x.lower() for x in _D_SUBJECTS} and "'d")
+        )
+        if typed and _contraction_type(al, rest):
+            out.append(f"{subj}{typed} {rest}")
     return out
 
 
