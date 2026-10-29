@@ -956,6 +956,26 @@ def _entry_candidate_forms(
     return forms
 
 
+_SUBJ_AUX_CONTRACTIONS: tuple[tuple[str, str], ...] = (
+    ("I will", "I'll"), ("I would", "I'd"), ("I have", "I've"), ("I am", "I'm"),
+    ("we will", "we'll"), ("we would", "we'd"), ("we have", "we've"), ("we are", "we're"),
+    ("you will", "you'll"), ("you would", "you'd"), ("you have", "you've"), ("you are", "you're"),
+    ("he will", "he'll"), ("she will", "she'll"), ("he is", "he's"), ("she is", "she's"),
+    ("they will", "they'll"), ("they would", "they'd"), ("they have", "they've"), ("they are", "they're"),
+)
+
+
+def _subject_aux_variants(src: str) -> list[str]:
+    """``src`` plus its leading subject+aux full↔contracted twin (I will X ↔ I'll X)."""
+    out = [src]
+    low = src.lower()
+    for full, short in _SUBJ_AUX_CONTRACTIONS:
+        for a, b in ((full, short), (short, full)):
+            if low.startswith(a.lower() + " "):
+                out.append(b + src[len(a):])
+    return out
+
+
 def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = None) -> list[tuple[str, str, str]]:
     """(source, replacement, lang) from a bank; longest source first.
 
@@ -969,10 +989,12 @@ def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = N
         forms = _entry_candidate_forms(entry, allow_langs=allow_langs)
         if not forms:
             continue
+        srcs: list[str] = []
         for src in entry.get("from") or []:
-            s = str(src).strip()
-            if not s:
-                continue
+            for v in _subject_aux_variants(str(src).strip()):
+                if v and v not in srcs:
+                    srcs.append(v)
+        for s in srcs:
             src_n = estimate_tokens(s)
             for form, lang in forms:
                 # Only keep candidates that strictly cut tokens for this source

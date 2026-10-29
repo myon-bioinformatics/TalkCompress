@@ -3,7 +3,8 @@
   "title": "PD corpus 20(+1) B-final examples",
   "notes": [
     "expect = 現行 final_token_pass 実出力（願望形ではない）。",
-    "kind=keep は意図的非変換または未変換で出力不変。want_contains は未達の短形 → xfail。"
+    "kind=keep は意図的非変換または未変換で出力不変。want_contains は未達の短形 → xfail。",
+    "want_contains が xfail_reason を持たない行は達成済み（runtime cheapest の勝者形）。"
   ],
   "entries": [
     {
@@ -31,10 +32,9 @@
       "id": "frank-arrived",
       "source": "shelley-frank-01.txt",
       "text": "I arrived here yesterday",
-      "expect": "I arrived here yesterday",
-      "kind": "keep",
-      "want_contains": "llegué",
-      "xfail_reason": "arrive-past-1s 未登録（es 単純過去 llegué は今後の tranche）"
+      "expect": "arrivé here yesterday",
+      "kind": "convert",
+      "want_contains": "arrivé"
     },
     {
       "id": "dickens-it-was",
@@ -70,10 +70,9 @@
       "id": "aesop-challenge",
       "source": "aesop-tortoise-hare.txt",
       "text": "I challenge any one",
-      "expect": "I challenge any one",
-      "kind": "keep",
-      "want_contains": "reto",
-      "xfail_reason": "challenge-pres-1s 未登録（reto は今後候補）"
+      "expect": "reto any one",
+      "kind": "convert",
+      "want_contains": "reto"
     },
     {
       "id": "wells-recondite",
@@ -100,10 +99,9 @@
       "id": "walden-lived",
       "source": "thoreau-walden-01.txt",
       "text": "I lived alone, in the woods",
-      "expect": "I lived alone, in the woods",
-      "kind": "keep",
-      "want_contains": "vivi",
-      "xfail_reason": "live-past-1s は 'I lived' 単独を持たない／cheapest 未勝"
+      "expect": "vivi alone, in the woods",
+      "kind": "convert",
+      "want_contains": "vivi"
     },
     {
       "id": "emerson-arrives",

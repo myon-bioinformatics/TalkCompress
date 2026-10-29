@@ -13,7 +13,8 @@
     "Progressive *going is not applied when followed by 'to' (going-to future guard in apply_es_fr_tense / _apply_phrase_pairs).",
     "Explicit going-to phrases (I am going to go → iré/vou/…) registered as longer sources.",
     "Tranche2 1s (~35): take/think/try/find/call/put/bring/write/read/buy/wait/use/open/pay/live/send/stay; skip tell≃say, make≃do, get, ask (pedir/preguntar shaky).",
-    "`to`/`lang` は runtime cheapest（token→utf8→len）の実勝者に合わせた名目ラベル。勝者は常に runtime が決める（el πάρω/βρω/πάω/μένω 等が勝つ行あり）。"
+    "`to`/`lang` は runtime cheapest（token→utf8→len）の実勝者に合わせた名目ラベル。勝者は常に runtime が決める（el πάρω/βρω/πάω/μένω 等が勝つ行あり）。",
+    "from の主語+助動詞（I will/I'll, I would/I'd, we will/we'll, I am/I'm …）は loader が双方向に自動派生（_subject_aux_variants）。JSON に両形を書く必要はない。"
   ],
   "entries": [
     {
@@ -2001,6 +2002,102 @@
           "lang": "el"
         }
       ]
+    },
+    {
+      "id": "arrive-past-1s",
+      "from": [
+        "I arrived"
+      ],
+      "to": "arrivé",
+      "lang": "fr",
+      "tense": "past",
+      "candidates": [
+        {
+          "form": "arrivé",
+          "lang": "fr"
+        },
+        {
+          "form": "llegué",
+          "lang": "es"
+        },
+        {
+          "form": "cheguei",
+          "lang": "pt"
+        },
+        {
+          "form": "kwam aan",
+          "lang": "nl"
+        },
+        {
+          "form": "έφτασα",
+          "lang": "el"
+        }
+      ],
+      "note": "tranche3: es/fr/pt 同点 (2tok/7B) → cheapest tie-break"
+    },
+    {
+      "id": "live-past-1s",
+      "from": [
+        "I lived"
+      ],
+      "to": "vivi",
+      "lang": "pt",
+      "tense": "past",
+      "candidates": [
+        {
+          "form": "vivi",
+          "lang": "pt"
+        },
+        {
+          "form": "viví",
+          "lang": "es"
+        },
+        {
+          "form": "vécu",
+          "lang": "fr"
+        },
+        {
+          "form": "woonde",
+          "lang": "nl"
+        },
+        {
+          "form": "έζησα",
+          "lang": "el"
+        }
+      ],
+      "note": "tranche3: pt vivi 1tok/4B"
+    },
+    {
+      "id": "challenge-pres-1s",
+      "from": [
+        "I challenge"
+      ],
+      "to": "reto",
+      "lang": "es",
+      "tense": "present",
+      "candidates": [
+        {
+          "form": "reto",
+          "lang": "es"
+        },
+        {
+          "form": "desafio",
+          "lang": "pt"
+        },
+        {
+          "form": "défie",
+          "lang": "fr"
+        },
+        {
+          "form": "daag uit",
+          "lang": "nl"
+        },
+        {
+          "form": "προκαλώ",
+          "lang": "el"
+        }
+      ],
+      "note": "tranche3: es reto 1tok"
     }
   ],
   "examples_not_registered": [
