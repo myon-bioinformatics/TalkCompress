@@ -26,7 +26,10 @@ import re
 import sys
 from pathlib import Path
 
-from keep_check import check, extract_exact
+try:  # package import (pytest, DensityZip)
+    from shared.keep_check import check, extract_exact
+except ImportError:  # run as a script from shared/
+    from keep_check import check, extract_exact
 
 DECIDED_RE = re.compile(
     r"\b(?:decided|agreed|go with|will use|chose|adopt(?:ed)?)\b|決定|採用|合意|にする|で行く",
