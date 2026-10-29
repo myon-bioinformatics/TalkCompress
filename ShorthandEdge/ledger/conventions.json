@@ -21,8 +21,6 @@
       "Skipped ambiguous (not registered as emit): in/on; fr as canonical (alias only); bare ES o; bare el/er/sie as outputs; cuz (prefer bc/∴ family); DE du as emit (FR du false friend — alias-only); we/us/our not core inventory slots.",
       "Deferred-at-100 batch restored after zero-bit prune: brb/AFAIK/whereas plus clear C slang with utf8 bit shrink (no zero-bit re-adds).",
       "family=abbrev (C-only): contractions (c-ill / I'll-family via apply_en_contractions; ledger_apply=false), chat acronyms (c-asap…), latin shorts (e.g./etc./vs/i.e.). Polarity: after C don't/can't, E may fold don't→! / can't→!can on C,E pipeline.",
-      "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Dual metrics; utf8 must shrink on sample. Short-form priority: math/symbol first when meaning is clear, else emoji — prefer existing inventory over inventing new math or emoji peers (check→✓ not ✅; star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / policy-cross-lang-cheapest (token then utf8).",
-      "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
       "family=ever (C): 5W1H concessive multiword → -ever (no matter how→however, what→whatever, which→whichever, where→wherever, when→whenever, who→whoever). Meaning gate on however: contrastive「しかし」 is out of scope — only listed multiword concessive from[]. ambiguity_sensitive on ever-however (collision / prefer_precision). whyever skipped (awkward). Cognate aliases (egal wie / no importa… / n'importe…) only when select_cheapest_form prefers the -ever and utf8 shrinks. ASAP remains preferred over 尽快 (c-asap).",
       "breakdown (内訳): compact shared labels — POS 代/示/助/前/副/接/助動/冠/比/絵/記/名/動/関代/…; else 連/熟/俗/文/頭/略/↓T/↓B/時/複. Long EN tags (collocation/acronym/relative/…) rewrite to these.",
       "Formal/legal + connective tranche (finite): therein→∈it, thereto→∴to, henceforth→∴→, notwithstanding→雖 (in spite of は prep 側), insofar-as→insofar, provided that→if, instead of→vs (in lieu of / rather than / pursuant to は prep cycle2), namely→viz, hence/thus→∴, albeit→tho, the foregoing→supra, aforementioned→said, vice versa→⇄, T&C, etal, given that→bc. hereof/thereby/hereto/herewith skipped (sense clash with thereof/∴/thereto/therewith). cycle11 filled spaced deferred (as of/latin/loc-time). Prep/adverb thickening is a separate tranche.",
@@ -34,7 +32,9 @@
       "C cmd/unix-shell abbrev tranche (family=cmd, id cmd-*): mkdir/rmdir/rm/ls/cp/mv/cd/pwd/cat/touch/ln/symlink/chmod/chown/grep/ps/kill/df/du/man/ssh/sudo. dual token+utf8; meaning gates via skip_if_re / phrase-focused from[]. Skips: which（関代衝突）; find/echo/clear/env/export/less/more/source（曖昧）; whoami（who am i 会話衝突）; bare make; soft-link sole sample tok-flat（alias only）; head/tail/scp/curl/wget/tar/gzip/zip/rsync/tee（天井・次枠）; diff→path-diff 既存。",
       "C light review (2026-10-28): tighten c-kiss (drop bare keep it simple), c-nan skip_if_re (not a number of / identity), c-e2e skip (end to end of); DEFAULT_MAP/packs synced; +c-aka (also known as). Prefer fix/skip over bulk add.",
       "Easing / ranking (2026-10-28): Among compression candidates prefer forms that ease both GPT-style generative and BERT-style bidirectional/mask modeling. Dual metric consistent with select_cheapest_form: token (B estimate_tokens) primary; on token tie prefer shorter utf8 bits, then len, then first-seen order (policy-cross-lang-cheapest). Expression 揺らぎ → unique canonical emit. Language rules chosen for token/bit compression convenience, not descriptive completeness. Pace: casually add useful mappings; prefer fix/skip over bulk volume.",
-      "that-is dual-claim resolved (2026-10-28): bare `that is`→`i.e.` via conj-that-is (latin) + MorphoZip phrase grammar; dropped shadowed c-thats (`that is`→`that's`) from EN_CONTRACTION_SPEC and ledger so C/E agree. Prefer fix/skip over bulk lex."
+      "that-is dual-claim resolved (2026-10-28): bare `that is`→`i.e.` via conj-that-is (latin) + MorphoZip phrase grammar; dropped shadowed c-thats (`that is`→`that's`) from EN_CONTRACTION_SPEC and ledger so C/E agree. Prefer fix/skip over bulk lex.",
+      "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≥/≤/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
+      "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Adoption rule (o200k, mid-sentence leading-space): the emoji must cost strictly fewer tokens than the EN pivot; only thumbs up→👍 qualifies. Rejected emoji/symbols are memo-only in docs/emoji_symbols_notes.md, not ledger rows."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -76,38 +76,7 @@
     },
     "emoji_sync": {
       "upserted": [
-        "emoji-fire",
-        "emoji-heart",
-        "emoji-thumbs-up",
-        "emoji-thumbs-down",
-        "emoji-check",
-        "emoji-cross",
-        "emoji-star",
-        "emoji-warn",
-        "emoji-idea",
-        "emoji-mail",
-        "emoji-time",
-        "emoji-alarm",
-        "emoji-money",
-        "emoji-rocket",
-        "emoji-eyes",
-        "emoji-clap",
-        "emoji-pray",
-        "emoji-hundred",
-        "emoji-party",
-        "emoji-skull",
-        "emoji-wrench",
-        "emoji-hourglass",
-        "emoji-thinking",
-        "emoji-ok-hand",
-        "emoji-laugh",
-        "emoji-cry",
-        "emoji-wave",
-        "emoji-bug",
-        "emoji-bell",
-        "emoji-link",
-        "emoji-pin",
-        "emoji-information"
+        "emoji-thumbs-up"
       ],
       "skipped_nonshrink_utf8": [],
       "policies": [
@@ -119,17 +88,14 @@
     },
     "symbol_sync": {
       "upserted": [
-        "symbol-neq",
-        "symbol-infinity",
+        "symbol-much-less-than",
+        "symbol-not-exists",
         "symbol-plusminus",
         "symbol-percent",
-        "symbol-degree",
         "symbol-implies",
         "symbol-iff",
-        "symbol-propto",
         "symbol-sqrt",
-        "symbol-times",
-        "symbol-div"
+        "symbol-times"
       ],
       "skipped_nonshrink_utf8": [],
       "policies": [
@@ -1800,10 +1766,10 @@
         "and above",
         "more than",
         ">=",
-        "≧"
+        "≥"
       ],
-      "to": "≧",
-      "rationale": "以上 / at least / more than → ≧（言語非依存）",
+      "to": "≥",
+      "rationale": "以上 / at least / more than → ≥（言語非依存）",
       "inventory": "compare",
       "metrics": {
         "token": {
@@ -4303,51 +4269,6 @@
       "breakdown": "略"
     },
     {
-      "id": "emoji-fire",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "ファイア",
-        "ファイヤー",
-        "on fire",
-        "fire",
-        "Feuer",
-        "feu"
-      ],
-      "to": "🔥",
-      "rationale": "ML→pivot fire→🔥。sample は ファイア（bare fire は utf8 不変だが別名→pivot→絵文字）",
-      "metrics": {
-        "token": {
-          "before": 3,
-          "after": 2,
-          "delta": -1,
-          "ratio": 0.6667,
-          "sample_from": "ファイア",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 96,
-          "after": 32,
-          "delta": -64,
-          "ratio": 0.3333,
-          "sample_from": "ファイア",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 96,
-            "after": 32,
-            "delta": -64
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "fire",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
       "id": "emoji-thumbs-up",
       "kind": "lex",
       "apply_layer": "C",
@@ -4391,679 +4312,6 @@
       "breakdown": "絵"
     },
     {
-      "id": "emoji-thumbs-down",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "thumbs down",
-        "thumbs-down"
-      ],
-      "to": "👎",
-      "rationale": "ML→pivot thumbs down→👎",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "thumbs down",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 88,
-          "after": 32,
-          "delta": -56,
-          "ratio": 0.3636,
-          "sample_from": "thumbs down",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 88,
-            "after": 32,
-            "delta": -56
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "thumbs down",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-check",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "check mark",
-        "チェックマーク",
-        "チェック",
-        "check"
-      ],
-      "to": "✓",
-      "rationale": "ML→pivot check→✓（数学/記号優先；✅ と同義だが ✓ の方が意味が明確）",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 1,
-          "delta": -1,
-          "ratio": 0.5,
-          "sample_from": "check mark",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 80,
-          "after": 24,
-          "delta": -56,
-          "ratio": 0.3,
-          "sample_from": "check mark",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 80,
-            "after": 24,
-            "delta": -56
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "check",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-cross",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "cross mark",
-        "ばつ印",
-        "incorrect",
-        "バツ",
-        "ばつ"
-      ],
-      "to": "✕",
-      "rationale": "ML→pivot cross mark→✕（記号優先；❌ と同義。× は乗算と曖昧のため見送り）",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "cross mark",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 80,
-          "after": 24,
-          "delta": -56,
-          "ratio": 0.3,
-          "sample_from": "cross mark",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 80,
-            "after": 24,
-            "delta": -56
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "cross mark",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-star",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "star",
-        "スター"
-      ],
-      "to": "★",
-      "rationale": "ML→pivot star→★（記号 ★；絵文字 ⭐ より記号優先）",
-      "metrics": {
-        "token": {
-          "before": 1,
-          "after": 1,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "star",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 32,
-          "after": 24,
-          "delta": -8,
-          "ratio": 0.75,
-          "sample_from": "star",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 32,
-            "after": 24,
-            "delta": -8
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "star",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-idea",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "アイデア",
-        "アイディア",
-        "ひらめき",
-        "idea bulb",
-        "電球",
-        "idea"
-      ],
-      "to": "💡",
-      "rationale": "ML→pivot idea→💡（bare idea は utf8 不変→RUNTIME 併用；sample=アイデア）",
-      "metrics": {
-        "token": {
-          "before": 3,
-          "after": 2,
-          "delta": -1,
-          "ratio": 0.6667,
-          "sample_from": "アイデア",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 96,
-          "after": 32,
-          "delta": -64,
-          "ratio": 0.3333,
-          "sample_from": "アイデア",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 96,
-            "after": 32,
-            "delta": -64
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "idea",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-eyes",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "eye emoji",
-        "めめ",
-        "eyes"
-      ],
-      "to": "👀",
-      "rationale": "ML→pivot eyes→👀（sample=eye emoji；bare eyes は RUNTIME）",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "eye emoji",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 72,
-          "after": 32,
-          "delta": -40,
-          "ratio": 0.4444,
-          "sample_from": "eye emoji",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 72,
-            "after": 32,
-            "delta": -40
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "eyes",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-clap",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "clapping",
-        "拍手",
-        "clap"
-      ],
-      "to": "👏",
-      "rationale": "ML→pivot clap→👏",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "clapping",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 64,
-          "after": 32,
-          "delta": -32,
-          "ratio": 0.5,
-          "sample_from": "clapping",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 64,
-            "after": 32,
-            "delta": -32
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "clap",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-hourglass",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "hourglass",
-        "砂時計"
-      ],
-      "to": "⏳",
-      "rationale": "ML→pivot hourglass→⏳",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "hourglass",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 72,
-          "after": 24,
-          "delta": -48,
-          "ratio": 0.3333,
-          "sample_from": "hourglass",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 72,
-            "after": 24,
-            "delta": -48
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "hourglass",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-thinking",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "thinking face",
-        "考える顔",
-        "考え中"
-      ],
-      "to": "🤔",
-      "rationale": "ML→pivot thinking face→🤔",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "thinking face",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 104,
-          "after": 32,
-          "delta": -72,
-          "ratio": 0.3077,
-          "sample_from": "thinking face",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 104,
-            "after": 32,
-            "delta": -72
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "thinking face",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-ok-hand",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "ok hand",
-        "OKハンド",
-        "オッケーハンド"
-      ],
-      "to": "👌",
-      "rationale": "ML→pivot ok hand→👌",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "ok hand",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 56,
-          "after": 32,
-          "delta": -24,
-          "ratio": 0.5714,
-          "sample_from": "ok hand",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 56,
-            "after": 32,
-            "delta": -24
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "ok hand",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-laugh",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "laugh",
-        "笑い",
-        "lol face"
-      ],
-      "to": "😂",
-      "rationale": "ML→pivot laugh→😂",
-      "metrics": {
-        "token": {
-          "before": 1,
-          "after": 1,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "laugh",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 40,
-          "after": 32,
-          "delta": -8,
-          "ratio": 0.8,
-          "sample_from": "laugh",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 40,
-            "after": 32,
-            "delta": -8
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "laugh",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-wave",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "バイバイ",
-        "wave hello",
-        "wave"
-      ],
-      "to": "👋",
-      "rationale": "ML→pivot wave→👋（sample=バイバイ；bare wave は RUNTIME）",
-      "metrics": {
-        "token": {
-          "before": 4,
-          "after": 2,
-          "delta": -2,
-          "ratio": 0.5,
-          "sample_from": "バイバイ",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 96,
-          "after": 32,
-          "delta": -64,
-          "ratio": 0.3333,
-          "sample_from": "バイバイ",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 96,
-            "after": 32,
-            "delta": -64
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "wave",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-bug",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "バグ",
-        "bug fix",
-        "bug"
-      ],
-      "to": "🐛",
-      "rationale": "ML→pivot bug→🐛",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "バグ",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 48,
-          "after": 32,
-          "delta": -16,
-          "ratio": 0.6667,
-          "sample_from": "バグ",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 48,
-            "after": 32,
-            "delta": -16
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "bug",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-bell",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "ベル",
-        "通知",
-        "bell"
-      ],
-      "to": "🔔",
-      "rationale": "ML→pivot bell→🔔",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "ベル",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 48,
-          "after": 32,
-          "delta": -16,
-          "ratio": 0.6667,
-          "sample_from": "ベル",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 48,
-            "after": 32,
-            "delta": -16
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "bell",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-link",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "リンク",
-        "link"
-      ],
-      "to": "🔗",
-      "rationale": "ML→pivot link→🔗",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "リンク",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 72,
-          "after": 32,
-          "delta": -40,
-          "ratio": 0.4444,
-          "sample_from": "リンク",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 72,
-            "after": 32,
-            "delta": -40
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "link",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
-      "id": "emoji-pin",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "emoji",
-      "ledger_apply": true,
-      "from": [
-        "pin it",
-        "pin"
-      ],
-      "to": "📌",
-      "rationale": "ML→pivot pin→📌（sample=pin it）",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "pin it",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 48,
-          "after": 32,
-          "delta": -16,
-          "ratio": 0.6667,
-          "sample_from": "pin it",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 48,
-            "after": 32,
-            "delta": -16
-          },
-          "inventory": null
-        }
-      },
-      "pivot": "pin",
-      "pivot_lang": "en",
-      "breakdown": "絵"
-    },
-    {
       "id": "policy-emoji-pivot",
       "kind": "policy",
       "apply_layer": "C",
@@ -5088,7 +4336,7 @@
       "kind": "policy",
       "apply_layer": "C",
       "metrics": null,
-      "rationale": "短形の優先順位: (1) 意味がはっきり載るなら数学/記号（≧≦、←→、∴∵、&、✓、★、≠、∞ 等の E/C 在庫）を優先。(2) 数学/記号が噛み合わないときだけ絵文字。両方効くなら新数学記号を増やさず既存記号を選ぶ（絵文字より記号）。",
+      "rationale": "短形の優先順位: (1) 意味がはっきり載るなら数学/記号（≥≤、←→、∴∵、&、✓、★、≠、∞ 等の E/C 在庫）を優先。(2) 数学/記号が噛み合わないときだけ絵文字。両方効くなら新数学記号を増やさず既存記号を選ぶ（絵文字より記号）。",
       "payload": {
         "order": [
           "ml_math_symbol_inventory",
@@ -5097,8 +4345,8 @@
         "prefer_math_symbol_when_both": true,
         "prefer_emoji_over_new_math": false,
         "fallback_examples": [
-          "≧",
-          "≦",
+          "≥",
+          "≤",
           "←",
           "→",
           "∴",
@@ -5742,48 +4990,6 @@
       }
     },
     {
-      "id": "symbol-neq",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "symbol",
-      "ledger_apply": true,
-      "from": [
-        "not equal",
-        "unequal",
-        "not equals",
-        "≠",
-        "unlike"
-      ],
-      "to": "≠",
-      "rationale": "not equal→≠（E に equal/=・≒ はあるが ≠ は未登録；記号優先）",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "not equal",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 72,
-          "after": 24,
-          "delta": -48,
-          "ratio": 0.3333,
-          "sample_from": "not equal",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 72,
-            "after": 24,
-            "delta": -48
-          },
-          "inventory": null
-        }
-      },
-      "breakdown": "記"
-    },
-    {
       "id": "symbol-plusminus",
       "kind": "lex",
       "apply_layer": "C",
@@ -5832,7 +5038,6 @@
       "ledger_apply": true,
       "from": [
         "パーセント",
-        "percent",
         "per cent",
         "%"
       ],
@@ -5866,47 +5071,6 @@
       "breakdown": "記"
     },
     {
-      "id": "symbol-degree",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "symbol",
-      "ledger_apply": true,
-      "from": [
-        "degrees",
-        "degree symbol",
-        "ディグリー",
-        "°"
-      ],
-      "to": "°",
-      "rationale": "degrees→°（bare 度は曖昧のため見送り）",
-      "metrics": {
-        "token": {
-          "before": 1,
-          "after": 1,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "degrees",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 56,
-          "after": 16,
-          "delta": -40,
-          "ratio": 0.2857,
-          "sample_from": "degrees",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 56,
-            "after": 16,
-            "delta": -40
-          },
-          "inventory": null
-        }
-      },
-      "breakdown": "記"
-    },
-    {
       "id": "symbol-implies",
       "kind": "lex",
       "apply_layer": "C",
@@ -5914,7 +5078,6 @@
       "ledger_apply": true,
       "from": [
         "implies that",
-        "implies",
         "含意",
         "⇒"
       ],
@@ -5955,7 +5118,6 @@
       "ledger_apply": true,
       "from": [
         "if and only if",
-        "iff",
         "⇔"
       ],
       "to": "⇔",
@@ -5988,46 +5150,6 @@
       "breakdown": "記"
     },
     {
-      "id": "symbol-propto",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "symbol",
-      "ledger_apply": true,
-      "from": [
-        "proportional to",
-        "propto",
-        "∝"
-      ],
-      "to": "∝",
-      "rationale": "proportional to→∝",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "proportional to",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 120,
-          "after": 24,
-          "delta": -96,
-          "ratio": 0.2,
-          "sample_from": "proportional to",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 120,
-            "after": 24,
-            "delta": -96
-          },
-          "inventory": null
-        }
-      },
-      "breakdown": "記"
-    },
-    {
       "id": "symbol-sqrt",
       "kind": "lex",
       "apply_layer": "C",
@@ -6035,7 +5157,6 @@
       "ledger_apply": true,
       "from": [
         "square root",
-        "sqrt",
         "√"
       ],
       "to": "√",
@@ -6100,45 +5221,6 @@
             "before": 104,
             "after": 16,
             "delta": -88
-          },
-          "inventory": null
-        }
-      },
-      "breakdown": "記"
-    },
-    {
-      "id": "symbol-div",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "symbol",
-      "ledger_apply": true,
-      "from": [
-        "divided by",
-        "÷"
-      ],
-      "to": "÷",
-      "rationale": "divided by→÷",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 1,
-          "delta": -1,
-          "ratio": 0.5,
-          "sample_from": "divided by",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 80,
-          "after": 16,
-          "delta": -64,
-          "ratio": 0.2,
-          "sample_from": "divided by",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 80,
-            "after": 16,
-            "delta": -64
           },
           "inventory": null
         }
@@ -7811,10 +6893,10 @@
       "apply_layer": "E",
       "from": [
         "up to",
-        "≦"
+        "≤"
       ],
-      "to": "≦",
-      "rationale": "up to → ≦（量の上限；compare-leと共有可）",
+      "to": "≤",
+      "rationale": "up to → ≤（量の上限；compare-leと共有可）",
       "breakdown": "前",
       "metrics": {
         "token": {
@@ -8891,7 +7973,7 @@
         "above and beyond"
       ],
       "to": "超",
-      "rationale": "in excess of → 超（≧=up to/at leastと分離）",
+      "rationale": "in excess of → 超（≥=up to/at leastと分離）",
       "breakdown": "前",
       "metrics": {
         "token": {
@@ -9496,45 +8578,6 @@
         }
       },
       "abbrev_kind": "acronym"
-    },
-    {
-      "id": "symbol-vice-versa",
-      "kind": "lex",
-      "apply_layer": "C",
-      "family": "symbol",
-      "ledger_apply": true,
-      "from": [
-        "vice versa",
-        "⇄"
-      ],
-      "to": "⇄",
-      "rationale": "vice versa → ⇄（vv より token 安；select_cheapest）",
-      "breakdown": "記",
-      "metrics": {
-        "token": {
-          "before": 2,
-          "after": 2,
-          "delta": 0,
-          "ratio": 1.0,
-          "sample_from": "vice versa",
-          "via": "B TesseraTalk estimate_tokens"
-        },
-        "bit": {
-          "model": "utf8",
-          "before": 80,
-          "after": 24,
-          "delta": -56,
-          "ratio": 0.3,
-          "sample_from": "vice versa",
-          "via": "E MorphoZip utf8_bits",
-          "utf8": {
-            "before": 80,
-            "after": 24,
-            "delta": -56
-          },
-          "inventory": null
-        }
-      }
     },
     {
       "id": "c-tnc",
@@ -21212,6 +20255,84 @@
             "before": 40,
             "after": 32,
             "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-much-less-than",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "much less than",
+        "≪"
+      ],
+      "to": "≪",
+      "rationale": "much less than→≪（o200k 3→2 token・utf8 減。much less 単独は E 況 のまま）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "much less than",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 112,
+          "after": 24,
+          "delta": -88,
+          "ratio": 0.2143,
+          "sample_from": "much less than",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 112,
+            "after": 24,
+            "delta": -88
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-not-exists",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "there is no",
+        "∄"
+      ],
+      "to": "∄",
+      "rationale": "there is no→∄（o200k 3→2 token・utf8 減。there is→there's より先に適用）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 3,
+          "after": 2,
+          "delta": -1,
+          "ratio": 0.6667,
+          "sample_from": "there is no",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 24,
+          "delta": -64,
+          "ratio": 0.2727,
+          "sample_from": "there is no",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 24,
+            "delta": -64
           },
           "inventory": null
         }

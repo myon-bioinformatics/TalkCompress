@@ -406,40 +406,42 @@ _PREP2_SURFACE_RE = re.compile(
     re.I,
 )
 
-# --- compare (比較境界): 以上/以下 → ≧/≦ (JA priority; EN clear aliases) -----
+# --- compare (比較境界): 以上/以下 → ≥/≤ (JA priority; EN clear aliases) -----
 # N=2 → 1bit. Do NOT rewrite under/below/above alone (C ledger → 下/上).
-COMPARE_CANONICAL: tuple[str, ...] = ("≧", "≦")
-COMPARE_EXTENDED: tuple[str, ...] = ("≧", "≦")
+COMPARE_CANONICAL: tuple[str, ...] = ("≥", "≤")
+COMPARE_EXTENDED: tuple[str, ...] = ("≥", "≤")
 COMPARE_ALIAS_TO_CANONICAL: dict[str, str] = {
-    "≧": "≧",
-    ">=": "≧",
-    "以上": "≧",
-    "at least": "≧",
-    "or more": "≧",
-    "and above": "≧",
-    "more than": "≧",
-    "más de": "≧",
-    "mas de": "≧",
-    "más que": "≧",
-    "mas que": "≧",
-    "al menos": "≧",
-    "plus de": "≧",
-    "plus que": "≧",
-    "mehr als": "≧",
-    "≦": "≦",
-    "<=": "≦",
-    "以下": "≦",
-    "at most": "≦",
-    "or less": "≦",
-    "and below": "≦",
-    "less than": "≦",
-    "menos de": "≦",
-    "menos que": "≦",
-    "como máximo": "≦",
-    "como maximo": "≦",
-    "moins de": "≦",
-    "moins que": "≦",
-    "weniger als": "≦",
+    "≥": "≥",
+    "≧": "≥",  # legacy glyph (o200k 2 tokens) → ≥ (1 token)
+    ">=": "≥",
+    "以上": "≥",
+    "at least": "≥",
+    "or more": "≥",
+    "and above": "≥",
+    "more than": "≥",
+    "más de": "≥",
+    "mas de": "≥",
+    "más que": "≥",
+    "mas que": "≥",
+    "al menos": "≥",
+    "plus de": "≥",
+    "plus que": "≥",
+    "mehr als": "≥",
+    "≤": "≤",
+    "≦": "≤",  # legacy glyph → ≤
+    "<=": "≤",
+    "以下": "≤",
+    "at most": "≤",
+    "or less": "≤",
+    "and below": "≤",
+    "less than": "≤",
+    "menos de": "≤",
+    "menos que": "≤",
+    "como máximo": "≤",
+    "como maximo": "≤",
+    "moins de": "≤",
+    "moins que": "≤",
+    "weniger als": "≤",
 }
 _COMPARE_SURFACE_RE = re.compile(
     r"以上|以下|"
@@ -449,7 +451,7 @@ _COMPARE_SURFACE_RE = re.compile(
     r"\bal menos\b|\bcomo m[aá]ximo\b|"
     r"\bplus de\b|\bplus que\b|\bmoins de\b|\bmoins que\b|"
     r"\bmehr als\b|\bweniger als\b|"
-    r">=|<=|≧|≦",
+    r">=|<=|≥|≤|≧|≦",
     re.I,
 )
 
@@ -647,7 +649,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         COMPARE_EXTENDED,
         COMPARE_ALIAS_TO_CANONICAL,
         _COMPARE_SURFACE_RE,
-        "以上→≧ 以下→≦ (1bit); EN at least/or more/and above→≧; at most/or less/and below→≦; "
+        "以上→≥ 以下→≤ (1bit); EN at least/or more/and above→≥; at most/or less/and below→≤; "
         "bare under/below/above stay for C",
     ),
     "particle": ClosedInventory(
@@ -981,7 +983,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bpursuant to\b", re.I), "準"),
     (re.compile(r"\bas for\b", re.I), "re:"),
     (re.compile(r"\bas to\b", re.I), "re:"),
-    (re.compile(r"\bup to\b", re.I), "≦"),
+    (re.compile(r"\bup to\b", re.I), "≤"),
     (re.compile(r"\bdown to\b", re.I), "至"),
     (re.compile(r"\bin between\b", re.I), "間"),
     (re.compile(r"\boff of\b", re.I), "外"),
@@ -1111,8 +1113,8 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\balbeit\b", re.I), "tho"),
     (re.compile(r"\bapproximately\b", re.I), "~"),
     (re.compile(r"\broughly\b(?!\s+equal\b)", re.I), "~"),
-    # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≧/≦).
-    # greater than stays > (strict); less than → ≦ via phrase grammar.
+    # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≥/≤).
+    # greater than stays > (strict); less than → ≤ via phrase grammar.
     (re.compile(r"\bgreater than\b", re.I), ">"),
     # --- adverbs (closed inventory): degree + polarity-adjacent frequency
     # always→□ (∀ kept for whatever); never→¬; often→oft; bare not→! (after may not etc.)
@@ -1212,12 +1214,12 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bnach\b", re.I), "後"),
     (re.compile(r"\bafter\b", re.I), "後"),
     (re.compile(r"\bof\b", re.I), "de"),
-    # --- compare: 以上/以下 → ≧/≦ (JA priority). EN multi-word in _PHRASE_GRAMMAR.
+    # --- compare: 以上/以下 → ≥/≤ (JA priority). EN multi-word in _PHRASE_GRAMMAR.
     # Do not rewrite bare under/below/above (C ledger).
-    (re.compile(r"以上"), "≧"),
-    (re.compile(r"以下"), "≦"),
-    (re.compile(r">="), "≧"),
-    (re.compile(r"<="), "≦"),
+    (re.compile(r"以上"), "≥"),
+    (re.compile(r"以下"), "≤"),
+    (re.compile(r">="), "≥"),
+    (re.compile(r"<="), "≤"),
     # whatever-compounds → compact signals
     (re.compile(r"\bwhatever\b", re.I), "∀"),
     (re.compile(r"\bwhoever\b", re.I), "∀who"),
@@ -1742,35 +1744,35 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bet al\.?(?!\w)", re.I), "etal"),
     (re.compile(r"\bthe foregoing\b", re.I), "supra"),
     (re.compile(r"\bvice versa\b", re.I), "⇄"),
-    # compare / equality — language-agnostic → ≧/≦/= /≒ (BEFORE and/or/at/_SUBS)
+    # compare / equality — language-agnostic → ≥/≤/= /≒ (BEFORE and/or/at/_SUBS)
     (re.compile(r"\bapproximately equal(?: to)?\b", re.I), "≒"),
     (re.compile(r"\babout equal(?: to)?\b", re.I), "≒"),
     (re.compile(r"\broughly equal(?: to)?\b", re.I), "≒"),
     (re.compile(r"\bequal to\b", re.I), "="),
-    (re.compile(r"\bat least\b", re.I), "≧"),
-    (re.compile(r"\bat most\b", re.I), "≦"),
-    (re.compile(r"\bor more\b", re.I), "≧"),
+    (re.compile(r"\bat least\b", re.I), "≥"),
+    (re.compile(r"\bat most\b", re.I), "≤"),
+    (re.compile(r"\bor more\b", re.I), "≥"),
     (re.compile(r"\bmore or less\b", re.I), "殆"),
-    (re.compile(r"\bor less\b", re.I), "≦"),
-    (re.compile(r"\band above\b", re.I), "≧"),
-    (re.compile(r"\band below\b", re.I), "≦"),
-    (re.compile(r"\bmore than\b", re.I), "≧"),
-    (re.compile(r"\bless than\b", re.I), "≦"),
+    (re.compile(r"\bor less\b", re.I), "≤"),
+    (re.compile(r"\band above\b", re.I), "≥"),
+    (re.compile(r"\band below\b", re.I), "≤"),
+    (re.compile(r"\bmore than\b", re.I), "≥"),
+    (re.compile(r"\bless than\b", re.I), "≤"),
     # ES
-    (re.compile(r"\bm[aá]s de\b", re.I), "≧"),
-    (re.compile(r"\bm[aá]s que\b", re.I), "≧"),
-    (re.compile(r"\bmenos de\b", re.I), "≦"),
-    (re.compile(r"\bmenos que\b", re.I), "≦"),
-    (re.compile(r"\bal menos\b", re.I), "≧"),
-    (re.compile(r"\bcomo m[aá]ximo\b", re.I), "≦"),
+    (re.compile(r"\bm[aá]s de\b", re.I), "≥"),
+    (re.compile(r"\bm[aá]s que\b", re.I), "≥"),
+    (re.compile(r"\bmenos de\b", re.I), "≤"),
+    (re.compile(r"\bmenos que\b", re.I), "≤"),
+    (re.compile(r"\bal menos\b", re.I), "≥"),
+    (re.compile(r"\bcomo m[aá]ximo\b", re.I), "≤"),
     # FR
-    (re.compile(r"\bplus de\b", re.I), "≧"),
-    (re.compile(r"\bplus que\b", re.I), "≧"),
-    (re.compile(r"\bmoins de\b", re.I), "≦"),
-    (re.compile(r"\bmoins que\b", re.I), "≦"),
+    (re.compile(r"\bplus de\b", re.I), "≥"),
+    (re.compile(r"\bplus que\b", re.I), "≥"),
+    (re.compile(r"\bmoins de\b", re.I), "≤"),
+    (re.compile(r"\bmoins que\b", re.I), "≤"),
     # DE
-    (re.compile(r"\bmehr als\b", re.I), "≧"),
-    (re.compile(r"\bweniger als\b", re.I), "≦"),
+    (re.compile(r"\bmehr als\b", re.I), "≥"),
+    (re.compile(r"\bweniger als\b", re.I), "≤"),
     # --- objective gap-fill: thin closed-class (det/quant/conj/reciprocal/hedge/aux) ---
     # Protect noun "a while" before while→∥; multiword before article strip / bare dets.
     (re.compile(r"\ba while\b", re.I), "awhile"),
@@ -2229,8 +2231,8 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"□"), "always"),
     (re.compile(r"¬"), "never"),
     (re.compile(r"\boft\b", re.I), "often"),
-    (re.compile(r"≧"), "以上"),
-    (re.compile(r"≦"), "以下"),
+    (re.compile(r"[≥≧]"), "以上"),
+    (re.compile(r"[≤≦]"), "以下"),
     (re.compile(r"≒"), "approximately equal"),
     (re.compile(r"←"), "from"),
     (re.compile(r"\bfr\b", re.I), "from"),  # legacy alias short
