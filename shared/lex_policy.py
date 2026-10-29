@@ -886,6 +886,42 @@ def emoji_pivot_alias_pairs() -> list[tuple[str, str, str]]:
     return pairs
 
 
+# Pure fillers (um/uh/erm/er) are still stripped anywhere. Single-word
+# interjections that are also content words (well = adverb/adj,
+# oh/ah in "Oh no!"). Drop them ONLY in clause-initial interjection position
+# with their trailing comma ("Well, if you…" → "If you…"); never elsewhere
+# ("I feel well", "as well", "did it well, I think" stay intact).
+_INTERJECTION_ONLY = frozenset({"ah", "oh", "well"})
+_INTERJ_RE = re.compile(
+    r"(?i)(^|(?<=[.!?;:,\n\"“‘(\])])\s*)\s*\b(?:um|uh|erm|er|ah|oh|well)\b\s*,\s*"
+)
+
+
+def _strip_interjections(text: str) -> str:
+    def _sub(m: re.Match[str]) -> str:
+        return m.group(1)
+
+    prev = None
+    out = text
+    while prev != out:
+        prev = out
+        new = []
+        pos = 0
+        for m in _INTERJ_RE.finditer(out):
+            new.append(out[pos:m.start()])
+            new.append(_sub(m))
+            rest = out[m.end():]
+            # re-capitalize the following word if the dropped interjection was
+            if rest and m.group(0).strip()[:1].isupper() and rest[0].islower():
+                new.append(rest[0].upper())
+                pos = m.end() + 1
+            else:
+                pos = m.end()
+        new.append(out[pos:])
+        out = "".join(new)
+    return out
+
+
 def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     """Remove light fillers / interjections. ``aggressive`` enables hedge words like just/like."""
     out = text
@@ -896,11 +932,16 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     if not aggressive:
         en = [f for f in en if f not in _AGGRESSIVE_ONLY]
     en.sort(key=len, reverse=True)
+    out = _strip_interjections(out)
     for f in en:
+        if f in _INTERJECTION_ONLY:
+            continue
         out = re.sub(rf"(?i)\b{re.escape(f)}\b", "", out)
 
     out = re.sub(r"[ \t]{2,}", " ", out)
     out = re.sub(r"\s+([,.;:!?])", r"\1", out)
+    out = re.sub(r",(?:\s*,)+", ",", out)  # "So, uh, ok" → "So, ok" (no ",,")
+    out = re.sub(r"^\s*,\s*", "", out)  # never leave a dangling leading comma
     return out.strip()
 
 

@@ -15,6 +15,7 @@
 - whatever 系 → `∀` / `∀loc` / `∀who` … / hereafter → `∴→`
 - 助数詞: JA 既存は維持。EN 数量句も実験的に短くする（`3 animals` → `3匹`, `2 people` → `2人` など）。桁化済みの数字が前提（スペル数字→桁は C）
 - 冠詞: 引用なしの `the`/`a`/`an` は落とす。`"the"` / `'the'` は内側の語だけ残す（引用符は外す）。`--keep-articles` で無効化
+  - 口語の不定冠詞落ち（`Shall we have a coffee?` → `have coffee?`、`catch a cold` → `catch cold`）は意味が保たれる既定挙動として許容（回帰テスト `tests/test_meaning_preserve_dialogue.py`）。数・特定性が要る文脈は `--keep-articles` を使う
 - 数字は既定で `0-9`。`--hex-nums` で小文字16進（`255` → `0xff`）。`--hex-bare` で `0x` なし（`0-F` スタイル）
 - 中国語偏重なし。`--stats` で文字密度
 
@@ -53,7 +54,7 @@
 | 冠詞 article | ∅ | 1 | **0** | the/a/an → 削除（引用は保持） | `the cat` → `cat` |
 | 接続詞 conjunction | & / bc / ∴ | 4 | 2 | and→& or→/ **because→bc** therefore→∴（cuz は否定せず、数学記号系を優先；点々表記の余地） | `… because …` → `… bc …` |
 | 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；拡張 □=always / oft=often；**never→¬ not→!**（極性は助動詞と共有・在庫外1bit）。∀ は whatever 用 | `however very` → `tho ˅`；`always never` → `□ ¬` |
-| 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can would→will should→must might→may；**I'll は C**；否定 `can't/won't/shouldn't/mustn't/may not`→`!can/!will/!must/!may`；`don't/not`→`!`；肯定は素の can/will/must/may。**極性 `!` = 在庫幅とは別1bit** | `I could` → `I can`；`I won't` → `I !will` |
+| 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can should→must might→may（**would は will に写像しない**：時制・法が変わるため）；**I'll は C**；否定 `can't/won't/shouldn't/mustn't/may not`→`!can/!will/!must/!may`；`don't/not`→`!`；肯定は素の can/will/must/may。**極性 `!` = 在庫幅とは別1bit** | `I could` → `I can`；`I won't` → `I !will` |
 | 前置詞 preposition | w/ / 4 / ← / @ | 4 | 2 | with→w/ for→4 **from→←** at→@；`fr` は別名のみ（colloquial **for real** 揺らぎ）。ML: con/avec/mit・para/pour/für・desde/depuis/aus・bei。**under/above は C** | `for lunch from home at noon` → `4 lunch ← home @ noon` |
 | 前置詞2 prep2 | de / 无 / 内 / 前 / 後 | 5 | **3** | of→de；without→**无**（`w/o`/`sin`/`sans`/`ohne` 別名）；within→内（dentro/innerhalb）；before→前（antes/avant/vor）；after→後（después/après/nach）。pack1 分離で 2bit 維持。C 前後/内外は触らない | `of … without … before …` → `de … 无 … 前 …` |
 | 助詞 particle | ∅ / → / ∈ / 〜 | 4 | 2 | は/が/を/ねよさ→∅；に/へ→→；で→∈；まで→〜。拡張 も→+ と→& **から→←**。**と=& はトークン観点 OK**；から=← は前置 from と共有（`fr` 別名のみ） | `学校に行く` → `学校→行く`；`東京から` → `東京←` |

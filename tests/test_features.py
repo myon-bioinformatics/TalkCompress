@@ -458,9 +458,10 @@ def test_morpho_auxiliary_inventory():
         etymon=False,
         counters=False,
     )
-    assert "can" in out and "will" in out and "must" in out and "may" in out
+    assert "can" in out and "must" in out and "may" in out
     assert "could" not in out.lower()
-    assert "would" not in out.lower()
+    # would is kept (would→will changes tense/mood)
+    assert "would" in out.lower()
     # I'll stays C — E keeps I will
     assert "I'll" not in m.compress("I will go", unique=False, etymon=False, counters=False)
     assert "I will" in m.compress("I will go", unique=False, etymon=False, counters=False)
