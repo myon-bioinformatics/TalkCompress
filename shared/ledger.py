@@ -961,6 +961,9 @@ def _replace_src(text: str, src: str, dst: str) -> str:
     return text.replace(src, dst)
 
 
+_THAT_IS_APPOSITIVE = re.compile(r"(?:(?<=[,(;—] )|(?<=[(—]))that is(?=[,:])", re.I)
+
+
 def apply_ledger_lex(
     text: str,
     path: str | Path | None = None,
@@ -1024,6 +1027,10 @@ def apply_ledger_lex(
             if _ambiguity_skip(
                 buf, src, dst, convention, prefer_precision=prefer_precision
             ):
+                continue
+            if src.lower() == "that is":
+                # appositive gloss only; "that is the plan" is a clause
+                buf = _THAT_IS_APPOSITIVE.sub(dst, buf)
                 continue
             buf = _replace_src(buf, src, dst)
         return buf

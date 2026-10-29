@@ -366,9 +366,26 @@ def _apply_map(text: str, m: dict[str, str]) -> str:
         if re.search(r"[^\x00-\x7f]", long) or not long.isascii():
             out = out.replace(long, short)
             continue
-        pat = re.compile(re.escape(long), re.IGNORECASE)
+        pat = re.compile(_ascii_phrase_pattern(long), re.IGNORECASE)
         out = pat.sub(short, out)
     return out
+
+
+# Farewell-style phrases: only as a standalone utterance, not mid-clause
+# ("to see you" / "see your" must not become "cu" / "cur").
+_UTTERANCE_ONLY: frozenset[str] = frozenset({"see you"})
+
+
+def _ascii_phrase_pattern(long: str) -> str:
+    """Word-bounded pattern so 'see you' does not match inside 'see your'."""
+    pat = re.escape(long)
+    if re.match(r"\w", long):
+        pat = r"(?<![\w'’])" + pat
+    if re.search(r"\w$", long):
+        pat = pat + r"(?![\w'’])"
+    if long.lower() in _UTTERANCE_ONLY:
+        pat = r"(?<![\w'’] )" + pat
+    return pat
 
 
 def expand(text: str, mapping: dict[str, str] | None = None, session: Session | None = None) -> str:
