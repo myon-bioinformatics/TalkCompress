@@ -18283,14 +18283,6 @@
    "tense": "past",
    "verb": "take",
    "src": "we took",
-   "homograph_dropped": [
-    {
-     "form": "tom)",
-     "en": [
-      "tom"
-     ]
-    }
-   ],
    "best": "namen",
    "lang": "nl",
    "shape": "simple",
@@ -18304,7 +18296,7 @@
     5
    ],
    "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "1p",
@@ -18512,14 +18504,6 @@
    "tense": "perf",
    "verb": "take",
    "src": "we have taken",
-   "homograph_dropped": [
-    {
-     "form": "tom)",
-     "en": [
-      "tom"
-     ]
-    }
-   ],
    "best": "tomamos",
    "lang": "es",
    "shape": "simple-preterite",

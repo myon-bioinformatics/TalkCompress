@@ -42,18 +42,18 @@ prog-gerund/es: 8, prog-gerund/it: 82, prog-gerund/pt: 47
 
 ## EN-homograph guard
 
-Cells with ≥1 dropped candidate: 687; most frequent EN-spelled tokens: `a` 666, `en` 564, `train` 564, `ha` 186, `was` 96, `is` 84, `dado` 69, `aura` 50, `dire` 47, `saber` 47, `as` 18, `ho` 12, `he` 12, `dice` 12, `has` 12
+Cells with ≥1 dropped candidate: 685; most frequent EN-spelled tokens: `a` 666, `en` 564, `train` 564, `ha` 186, `was` 96, `is` 84, `dado` 69, `aura` 50, `dire` 47, `saber` 47, `as` 18, `ho` 12, `he` 12, `dice` 12, `has` 12
 
 ## Reject reasons
 
 - 319 × no progressive-preserving candidate shrinks both token and utf8 (EN kept)
 - 240 × number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)
-- 142 × no candidate shrinks both token and utf8
+- 143 × no candidate shrinks both token and utf8
 - 108 × multi-POS EN 'that' (dem / rel / complementizer): left unconverted (揺らぎ回避)
 - 72 × demonstrative + bare verb: noun/idiom homographs (this saw, that said, these finds)
 - 36 × aux-capable verb: would eat do-support / perfect aux (he does not…, he had eaten)
 - 10 × aux-capable verb: 'will have' prefixes future perfect (will have eaten)
-- 8 × EN homograph collision: every shrinking candidate spells an English word
+- 7 × EN homograph collision: every shrinking candidate spells an English word
 
 ## 2nd person (you) — number of winning form
 
