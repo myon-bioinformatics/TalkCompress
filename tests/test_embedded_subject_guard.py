@@ -48,7 +48,11 @@ def test_embedded_subject_never_lost(main, conn):
         out = t.apply_es_fr_tense(lead + src)
         tail = out.split(" ", 2)[-1] if conn else out
         head = src.split(" ", 1)[0]
-        assert re.search(rf"(?<![A-Za-z']){re.escape(head)}(?![A-Za-z'])", out, re.I), (lead + src, out)
+        # you is kept as its 1-char surface U (apply_you_u), never dropped.
+        heads = (head, "U") if head.lower() == "you" else (head,)
+        assert any(
+            re.search(rf"(?<![A-Za-z']){re.escape(h)}(?![A-Za-z'])", out, re.I) for h in heads
+        ), (lead + src, out)
         assert tail
 
 

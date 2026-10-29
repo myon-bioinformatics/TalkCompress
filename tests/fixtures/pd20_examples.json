@@ -25,8 +25,8 @@
       "id": "frank-will-rejoice",
       "source": "shelley-frank-01.txt",
       "text": "You will rejoice to hear that no disaster has accompanied",
-      "expect": "You will rejoice to hear that no disaster has accompanied",
-      "kind": "keep"
+      "expect": "U will rejoice to hear that no disaster has accompanied",
+      "kind": "convert"
     },
     {
       "id": "frank-arrived",

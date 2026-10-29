@@ -608,6 +608,7 @@ def build() -> tuple[dict, dict, str]:
             "cs/pl: simple future (perfective or budu/będę + inf) and present perfect only (l-participle, generic masculine, pronouns I/you/we only — never he/she/it, they, demonstratives, relatives); no aspect stand-ins for futperf/pluperf/progressive.",
             "Exact (token, utf8) tie: es/fr/pt preferred over it/cs/pl (wider readership).",
             "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete.",
+            "you → U at runtime (tessera_talk.apply_you_u, after these rows): same tokens, utf8 3→1. A matrix row strictly drops tokens so it always beats U + EN chain; guarded / rejected cells become U + EN chain (your/yours/yourself, you'X excluded).",
         ],
         "entries": entries,
     }

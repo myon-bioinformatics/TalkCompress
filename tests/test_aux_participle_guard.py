@@ -52,7 +52,10 @@ def test_no_converted_aux_with_unconverted_english_participle():
                 for tail in ("", " home"):
                     src = f"{head} {p}{tail}"
                     out = t.apply_es_fr_tense(src)
-                    if out == src or out.lower().startswith(head.lower() + " "):
+                    # you→U alone (apply_you_u) is not an aux conversion.
+                    kept = (src, t.apply_you_u(src))
+                    heads = {head.lower(), t.apply_you_u(head).lower()}
+                    if out in kept or any(out.lower().startswith(h + " ") for h in heads):
                         continue
                     words = out.split()
                     pp_at = words[-2] if tail else words[-1]
