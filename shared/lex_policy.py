@@ -961,6 +961,13 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     return out.strip()
 
 
+_DO_MAIN_VERB = re.compile(
+    r"(?i)\bdo\b(?=\s+(?:the|a|an|it|this|my|your|his|her|our|their|some|any|"
+    r"everything|something|anything|nothing|work|homework|research|business|"
+    r"job|task|tasks|chores|dishes|laundry)\b)"
+)
+
+
 def apply_unique_readings(text: str, *, compact: bool = False) -> str:
     """Replace polysemous basics with tighter verbs; optionally UNIQUE_COMPACT.
 
@@ -969,6 +976,10 @@ def apply_unique_readings(text: str, *, compact: bool = False) -> str:
     """
     out = text
     for long, tight in sorted(UNIQUE_READINGS.items(), key=lambda kv: len(kv[0]), reverse=True):
+        if long == "do":
+            # Only main-verb do + object. Aux/pro-verb do ("I do.", "Do you?") untouched.
+            out = re.sub(_DO_MAIN_VERB, tight, out)
+            continue
         out = re.sub(rf"(?i)\b{re.escape(long)}\b", tight, out)
     if compact:
         out = apply_unique_compact(out)

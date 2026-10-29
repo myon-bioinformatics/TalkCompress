@@ -435,8 +435,9 @@ def test_morpho_adverb_inventory():
         etymon=False,
         counters=False,
     )
-    assert "tho" in out and "~" in out and "˅" in out and "esp." in out
-    assert m.canonicalize_closed("adverb", "very") == "˅"
+    # very→˅ removed (o200k 1 tok vs 2 tok)
+    assert "tho" in out and "~" in out and "very" in out and "esp." in out
+    assert m.canonicalize_closed("adverb", "very") is None
     assert m.adverb_bit_cost("tho ~ ˅ esp.")["total_bits"] == 8  # 4×2
     freq = m.compress(
         "always often never ready",
@@ -444,7 +445,7 @@ def test_morpho_adverb_inventory():
         etymon=False,
         counters=False,
     )
-    assert "□" in freq and "oft" in freq and "¬" in freq
+    assert "□" in freq and "oft" in freq and "never" in freq  # never→¬ removed
     assert m.canonicalize_closed("adverb", "always", extended=True) == "□"
     assert m.canonicalize_closed("adverb", "often", extended=True) == "oft"
 
@@ -925,8 +926,8 @@ def test_morpho_relative_pronouns():
     assert m.compress("Whom did you see?", **kw).startswith("Who ")
     # complementizer + deixis unchanged
     assert "that" not in m.compress("I think that it works", **kw)
-    assert m.compress("that book is mine", **kw) == "the book is mine"
-    assert "eso" in m.compress("That was wrong.", **kw)
+    assert m.compress("that book is mine", **kw) == "that book is mine"
+    assert m.compress("That was wrong.", **kw).startswith("That ")  # pronoun that untouched
     # Romance/DE → que; lo que / interrogative Welche skipped
     assert m.compress("lequel est venu", **kw).startswith("que ")
     assert "que" in m.compress("el que vino ayer", **kw)
@@ -1036,8 +1037,9 @@ def test_morpho_adverb_polarity():
     """not/never share polarity markers with aux; always→□ (∀=whatever)."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     out = m.compress("not ready and never late", unique=False, etymon=False, counters=False)
-    assert "!" in out and "¬" in out
-    assert "never" not in out.lower()
+    # never→¬ removed (token loser); sentence-initial not kept
+    assert "never" in out and "¬" not in out
+    assert "!" in m.compress("it is not ready", unique=False, etymon=False, counters=False)
     # whatever still ∀; always is □
     w = m.compress("whatever always", unique=False, etymon=False, counters=False)
     assert "∀" in w and "□" in w
@@ -1176,13 +1178,14 @@ def test_complementizer_that_deletion():
     assert "," not in m.compress("I think that he is going")
 
 
-def test_demonstrative_that_those_to_the():
+def test_demonstrative_that_those_untouched():
     from tests._helpers import load
     m = load("morpho_zip", "MorphoZip/morpho_zip.py")
     # determiner + noun → the
-    assert m.compress("I like that book") == "I like the book"
-    assert m.compress("I read those books") == "I read the books"
-    assert m.compress("Those books are old") == "the books are old"
+    # that/those + noun → the REMOVED (meaning change): untouched now
+    assert m.compress("I like that book") == "I like that book"
+    assert m.compress("I read those books") == "I read those books"
+    assert m.compress("Those books are old") .lower() == "those books are old"
     # pronoun-use that/those untouched
     assert m.compress("I said that.") == "I said that."
     assert m.compress("I like that.") == "I like that."
