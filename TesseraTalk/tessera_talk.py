@@ -1282,8 +1282,31 @@ def _is_pro_drop(span: str, chosen: str) -> bool:
     return chosen.split(" ", 1)[0].lower() != head.lower()
 
 
+# Parenthetical / discourse adverbs set off by commas (However, …, therefore, …)
+# pass through unchanged; a sentence-initial "However, " still leaves the next
+# word at the main-clause start. Commas are never removed or rewritten.
+DISCOURSE_ADVERBS = frozenset(
+    """however therefore moreover furthermore nevertheless nonetheless meanwhile
+    consequently thus hence besides indeed instead otherwise still also anyway
+    finally firstly secondly lastly actually basically honestly frankly
+    unfortunately fortunately surprisingly naturally obviously clearly
+    apparently admittedly incidentally additionally similarly likewise
+    accordingly subsequently""".split()
+)
+_DISCOURSE_PREFIX_RE = re.compile(
+    r"(?:(?:" + "|".join(sorted(DISCOURSE_ADVERBS)) + r"|of course|in fact|after all"
+    r"|by the way|for example|for instance|in addition|on the other hand"
+    r"|as a result|in other words)\s*,\s*)+$",
+    re.IGNORECASE,
+)
+
+
 def _at_clause_start(text: str, start: int) -> bool:
-    return bool(_CLAUSE_START_RE.search(text[:start]))
+    head = text[:start]
+    if _CLAUSE_START_RE.search(head):
+        return True
+    m = _DISCOURSE_PREFIX_RE.search(head)
+    return bool(m and _CLAUSE_START_RE.search(head[: m.start()]))
 
 
 def _apply_phrase_pairs(
@@ -1432,6 +1455,105 @@ _REL_SUBJ_DET = _REL_DET | frozenset(
 REL_QUE_FORMS: tuple[tuple[str, str], ...] = (("que", "es"),)
 
 
+# --- Explicit role classifier for ``that`` --------------------------------
+# Deterministic, left/right-context only. Roles:
+#   relative       NOUN + that + (subject-less) VERB       the book that is…
+#                  DET NOUN + that + SUBJ + VERB            the book that I read
+#   complementizer VERB/ADJ/fact-NOUN + that + SUBJ|DET …  I think that he…,
+#                                                           the fact that…, proposition that all…
+#   determiner     that + NOUN                              that book
+#   demonstrative  that + VERB / that at clause end          that is…, I like that.
+#   unknown        anything else → EN
+# Per-role rules: relative → neutral ``que``; every other role → EN.
+THAT_ROLES = ("relative", "complementizer", "determiner", "demonstrative", "unknown")
+_COMP_VERBS = frozenset(
+    """think thinks thought know knows knew known say says said believe believes believed
+    hope hopes hoped feel feels felt mean means meant guess guessed realize realizes realized
+    realise realised tell tells told show shows showed shown ask asked claim claims claimed
+    suggest suggests suggested agree agrees agreed doubt doubted notice noticed hear heard
+    see sees saw seen find finds found learn learned learnt understand understood fear feared
+    ensure ensured assume assumed suppose supposed expect expected promise promised
+    report reported state stated argue argued insist insisted admit admitted deny denied
+    wish wished decide decided prove proved proven note noted dedicated conceived
+    remember remembered forget forgot discover discovered recognize recognized confirm confirmed
+    explain explained imagine imagined pretend pretended predict predicted""".split()
+)
+_COMP_ADJ = frozenset(
+    """sure certain glad happy sad afraid aware clear true obvious possible likely
+    unlikely sorry surprised confident convinced evident important necessary
+    proud worried amazed lucky strange odd fine good bad""".split()
+)
+_FACT_NOUNS = frozenset(
+    """fact idea belief hope notion claim proposition news truth possibility chance
+    assumption feeling sense evidence proof thought view opinion statement rumor rumour
+    reason sign suggestion conclusion promise argument point realization knowledge
+    impression theory principle condition understanding certainty doubt fear""".split()
+)
+_EN_AUX_VERBS = frozenset(
+    "is are was were be been being am do does did have has had will would can could "
+    "shall should may might must 's 're 've 'll 'd".split()
+)
+_TOKEN_RE = re.compile(r"[A-Za-z]+(?:['’][A-Za-z]+)?|[^\sA-Za-z]")
+
+
+def _is_word(t: str) -> bool:
+    return bool(re.fullmatch(r"[A-Za-z]+(?:['’][A-Za-z]+)?", t))
+
+
+def _looks_verb(w: str) -> bool:
+    lw = w.lower()
+    return (
+        lw in _EN_AUX_VERBS
+        or lw in _EN_BARE_VERBS
+        or lw in _COMP_VERBS
+        or bool(re.fullmatch(r"[a-z]+ed", lw))
+        or lw.split("'", 1)[0] in _EN_AUX_VERBS
+    )
+
+
+def classify_that_role(text: str, start: int, word: str = "that") -> str:
+    """Return the grammatical role of ``that`` at ``text[start:]`` (see ``THAT_ROLES``)."""
+    prev = _TOKEN_RE.findall(text[:start])
+    nxt_m = re.match(r"\s*(\S+)", text[start + len(word):])
+    nxt_raw = nxt_m.group(1) if nxt_m else ""
+    nxt = re.match(r"[A-Za-z]+(?:['’][A-Za-z]+)?", nxt_raw)
+    n1 = nxt.group(0).lower() if nxt else ""
+    # "that." / "that," — the word itself is followed by punctuation.
+    after_punct = not nxt or not nxt_raw[:1].isalpha()
+    p1 = prev[-1].lower() if prev and _is_word(prev[-1]) else ""
+    p2 = prev[-2].lower() if len(prev) >= 2 and _is_word(prev[-2]) else ""
+    # that + end / punctuation → pronoun (I like that. / that, …)
+    if not n1:
+        return "demonstrative"
+    # Left anchor decides complementizer first (verb / adj / fact-noun + that).
+    if p1 and (p1 in _COMP_VERBS or p1 in _COMP_ADJ or p1 in _FACT_NOUNS or p1 == "so"):
+        if p1 in _FACT_NOUNS and n1 not in _REL_SUBJ_DET and _looks_verb(n1):
+            return "relative" if p2 in _REL_DET else "unknown"  # the idea that is…
+        return "complementizer"
+    subj_next = n1 in _REL_SUBJ_DET or "'" in n1 or "’" in n1
+    # NOUN + that (left word is open-class, preceded by a determiner)
+    noun_left = bool(p1) and p1 not in _REL_CLOSED and "'" not in p1
+    if noun_left and p2 in _REL_DET:
+        if not subj_next and _looks_verb(n1):
+            return "relative"
+        if n1 in _SUBJ_PRONOUNS or n1 in {"we", "they"}:
+            return "relative"  # the book that I read (object relative)
+        return "unknown"
+    # Clause start / after a closed-class word: pronoun or determiner.
+    if not p1 or p1 in _REL_CLOSED:
+        if after_punct:
+            return "demonstrative"
+        if _looks_verb(n1) or n1 in {"was", "is"}:
+            return "demonstrative"
+        if n1 in _REL_CLOSED:
+            return "unknown"
+        return "determiner"
+    # VERB + that + NOUN (I want that car): object determiner.
+    if not after_punct and n1 not in _REL_CLOSED and not _looks_verb(n1):
+        return "determiner"
+    return "unknown"
+
+
 def _rel_slot(text: str, start: int, word: str) -> bool:
     prev = re.findall(r"[A-Za-z']+|[^\sA-Za-z']", text[:start])
     if not prev or not re.fullmatch(r"[A-Za-z']+", prev[-1]):
@@ -1440,12 +1562,12 @@ def _rel_slot(text: str, start: int, word: str) -> bool:
     if w1 in _REL_CLOSED or "'" in w1:
         return False
     if word.lower() == "that":
-        # NOUN + that + VERB only: a following subject/determiner (that he…, that all
-        # men…) marks a complementizer clause → EN.
-        nxt = re.match(r"\s+([A-Za-z']+)", text[start + len(word):])
-        if not nxt or nxt.group(1).lower() in _REL_SUBJ_DET or "'" in nxt.group(1):
+        role = classify_that_role(text, start, word)
+        if role != "relative":
             return False
-        return len(prev) >= 2 and prev[-2].lower() in _REL_DET
+        # Subject-relative only for que-rewrite parity with #20 (object relatives stay EN).
+        nxt = re.match(r"\s+([A-Za-z']+)", text[start + len(word):])
+        return bool(nxt) and nxt.group(1).lower() not in _REL_SUBJ_DET and "'" not in nxt.group(1)
     return True
 
 
