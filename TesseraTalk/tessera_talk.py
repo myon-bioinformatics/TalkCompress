@@ -1156,6 +1156,16 @@ _PP_ALT = (
 )
 _PP_LOOKAHEAD = rf"(?!\s+{_PP_ALT})"
 _HAVE_PP_LOOKAHEAD = rf"(?!\s+have\s+{_PP_ALT})"
+# Phrase-final modals (I must / I could / I'll …): the modal governs the next
+# verb, so a modal-only row must not fire before a following word (I must go →
+# not "debo go"; I could not go → not "pude not go"). Longer full-phrase rows
+# (I'll go → vou, I would like → gostaria) match first; otherwise EN stays.
+_MODAL_TAIL_RE = re.compile(
+    r"(?:\b(?:must|can|could|should|would|will|may|might|shall|cannot|can't|won't|"
+    r"wouldn't|couldn't|shouldn't|mustn't|mightn't|shan't)|'ll|'d)$",
+    re.IGNORECASE,
+)
+_NEXT_WORD_LOOKAHEAD = r"(?!\s+[A-Za-z])"
 
 
 def _apply_phrase_pairs(
@@ -1211,6 +1221,8 @@ def _apply_phrase_pairs(
             # Modal/any row before "have <pp>" (I could have gone → not "pude have
             # gone"): the perfect auxiliary belongs to the following participle.
             aux_guard += _HAVE_PP_LOOKAHEAD
+            if _MODAL_TAIL_RE.search(phrase):
+                aux_guard += _NEXT_WORD_LOOKAHEAD
             pat = re.compile(
                 rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9]){going_guard}{aux_guard}",
                 re.IGNORECASE,
