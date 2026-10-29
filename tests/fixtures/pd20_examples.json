@@ -57,7 +57,7 @@
       "expect": "arriving at Vienna early next morning",
       "kind": "keep",
       "want_contains": "llegando",
-      "xfail_reason": "主語なし現在分詞は B-final 対象外（主語付き進行のみ）"
+      "xfail_reason": "主語なし現在分詞は不採用: llegando も 2tok/8B で arriving と同点（token 減なし）、汎用 -ing 規則は morning/evening/thing 等の誤食リスク"
     },
     {
       "id": "aesop-never-beaten",
