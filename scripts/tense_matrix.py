@@ -380,26 +380,29 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
                 if L == "fr":
                     de = "d'" if inf[0] in "aeiouéh" else "de "
                     add(f"{aux} en train {de}{inf}", L, "prog-en-train-de", tag)
+        # de / nl: EN `you` uses only the singular du / jij slot; plural ihr /
+        # jullie forms (denkt, deden, hadden, wisten) break singular-you parity.
+        dn = not (person == "2" and slot != "2s")
         # nl
         nl_pres = NL_PRES[verb].split()
         nl_past = NL_PAST[verb].split()
         nl_i = {"1s": 0, "2s": 1, "3s": 1}.get(slot, 2)
-        if tense == "pres":
+        if dn and tense == "pres":
             add(nl_pres[nl_i], "nl", "simple", tag)
-        if tense == "past":
+        if dn and tense == "past":
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple", tag)
-        if tense == "perf":
+        if dn and tense == "perf":
             # nl preterite for EN present perfect (same policy as es/pt preterite)
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple-preterite", tag)
-        if tense in PROG:
+        if dn and tense in PROG:
             zijn = NL_ZIJN[tense].split()[{"1s": 0, "2s": 1, "3s": 2}.get(slot, 3)]
             tail = " zijn" if tense == "futprog" else ""
             add(f"{zijn} aan het {nl_pres[2]}{tail}", "nl", "prog-aan-het", tag)
         # de (Präsens / Präteritum; slot 2s = du, 2p = ihr, usted-slot 3s/3p = er/sie)
-        if tense in ("pres", "past"):
+        if dn and tense in ("pres", "past"):
             de = (DE_PRES if tense == "pres" else DE_PAST)[verb].split()[P6.index(slot)]
             add(de, "de", "simple", tag)
-        if tense == "perf":
+        if dn and tense == "perf":
             # de Präteritum for EN present perfect (same policy as es/pt preterite)
             add(DE_PAST[verb].split()[P6.index(slot)], "de", "simple-preterite", tag)
         # cs / pl (fut, perf only)

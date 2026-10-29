@@ -2915,14 +2915,6 @@
    "verb": "want",
    "src": "you want",
    "en_best": "you want",
-   "homograph_dropped": [
-    {
-     "form": "will",
-     "en": [
-      "will"
-     ]
-    }
-   ],
    "usted_style_best": {
     "form": "wil",
     "number": "2sg-tú",
@@ -2967,9 +2959,9 @@
     "tok": 1
    },
    "best": "denkt",
-   "lang": "de",
+   "lang": "nl",
    "shape": "simple",
-   "number": "2pl-vosotros/vous",
+   "number": "2sg-tú",
    "tok": [
     2,
     1
@@ -3427,8 +3419,8 @@
     }
    ],
    "usted_style_best": {
-    "form": "kam",
-    "number": "2sg-usted",
+    "form": "kwam",
+    "number": "2sg-tú",
     "tok": 1
    },
    "best": "kwam",
@@ -3472,7 +3464,7 @@
     }
    ],
    "usted_style_best": {
-    "form": "sah",
+    "form": "vio",
     "number": "2sg-usted",
     "tok": 1
    },
@@ -3546,8 +3538,8 @@
     }
    ],
    "usted_style_best": {
-    "form": "fand",
-    "number": "2sg-usted",
+    "form": "vond",
+    "number": "2sg-tú",
     "tok": 1
    },
    "best": "vond",
@@ -3752,12 +3744,6 @@
      "en": [
       "ha"
      ]
-    },
-    {
-     "form": "gab",
-     "en": [
-      "gab"
-     ]
     }
    ],
    "usted_style_best": {
@@ -3853,8 +3839,8 @@
     }
    ],
    "usted_style_best": {
-    "form": "kam",
-    "number": "2sg-usted",
+    "form": "kwam",
+    "number": "2sg-tú",
     "tok": 1
    },
    "best": "kwam",
@@ -3911,12 +3897,6 @@
      "en": [
       "ha"
      ]
-    },
-    {
-     "form": "tat",
-     "en": [
-      "tat"
-     ]
     }
    ],
    "usted_style_best": {
@@ -3924,17 +3904,17 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "deden",
-   "lang": "nl",
+   "best": "tatest",
+   "lang": "de",
    "shape": "simple-preterite",
-   "number": "2pl-vosotros/vous",
+   "number": "2sg-tú",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     11,
-    5
+    6
    ],
    "status": "adopt"
   },
@@ -3969,7 +3949,7 @@
     }
    ],
    "usted_style_best": {
-    "form": "sah",
+    "form": "vio",
     "number": "2sg-usted",
     "tok": 1
    },
@@ -4067,8 +4047,8 @@
     }
    ],
    "usted_style_best": {
-    "form": "fand",
-    "number": "2sg-usted",
+    "form": "vond",
+    "number": "2sg-tú",
     "tok": 1
    },
    "best": "vond",
@@ -4175,17 +4155,17 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "hadden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "avez eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "2pl-vosotros/vous",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     10,
-    6
+    7
    ],
    "status": "adopt"
   },
@@ -4326,13 +4306,13 @@
     }
    ],
    "usted_style_best": {
-    "form": "wusste",
+    "form": "supo",
     "number": "2sg-usted",
-    "tok": 1
+    "tok": 2
    },
-   "best": "wisten",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "avez su",
+   "lang": "fr",
+   "shape": "compound",
    "number": "2pl-vosotros/vous",
    "tok": [
     2,
@@ -4340,7 +4320,7 @@
    ],
    "utf8": [
     12,
-    6
+    7
    ],
    "status": "adopt"
   },
@@ -4373,12 +4353,6 @@
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "gab",
-     "en": [
-      "gab"
      ]
     },
     {
@@ -5307,12 +5281,6 @@
      ]
     },
     {
-     "form": "is aan het gaan",
-     "en": [
-      "is"
-     ]
-    },
-    {
      "form": "estais a ir",
      "en": [
       "a"
@@ -5400,12 +5368,6 @@
      ]
     },
     {
-     "form": "is aan het komen",
-     "en": [
-      "is"
-     ]
-    },
-    {
      "form": "estais a vir",
      "en": [
       "a"
@@ -5490,12 +5452,6 @@
      "en": [
       "en",
       "train"
-     ]
-    },
-    {
-     "form": "is aan het doen",
-     "en": [
-      "is"
      ]
     },
     {
@@ -5587,12 +5543,6 @@
      ]
     },
     {
-     "form": "is aan het zien",
-     "en": [
-      "is"
-     ]
-    },
-    {
      "form": "estais a ver",
      "en": [
       "a"
@@ -5677,12 +5627,6 @@
      "en": [
       "en",
       "train"
-     ]
-    },
-    {
-     "form": "is aan het nemen",
-     "en": [
-      "is"
      ]
     },
     {
@@ -5774,12 +5718,6 @@
      ]
     },
     {
-     "form": "is aan het vinden",
-     "en": [
-      "is"
-     ]
-    },
-    {
      "form": "estais a achar",
      "en": [
       "a"
@@ -5865,12 +5803,6 @@
      "en": [
       "en",
       "train"
-     ]
-    },
-    {
-     "form": "is aan het willen",
-     "en": [
-      "is"
      ]
     },
     {
@@ -5962,12 +5894,6 @@
      ]
     },
     {
-     "form": "is aan het hebben",
-     "en": [
-      "is"
-     ]
-    },
-    {
      "form": "estais a ter",
      "en": [
       "a"
@@ -6052,12 +5978,6 @@
      "en": [
       "en",
       "train"
-     ]
-    },
-    {
-     "form": "is aan het denken",
-     "en": [
-      "is"
      ]
     },
     {
@@ -6147,12 +6067,6 @@
       "en",
       "train",
       "dire"
-     ]
-    },
-    {
-     "form": "is aan het zeggen",
-     "en": [
-      "is"
      ]
     },
     {
@@ -6248,12 +6162,6 @@
      ]
     },
     {
-     "form": "is aan het weten",
-     "en": [
-      "is"
-     ]
-    },
-    {
      "form": "estais a saber",
      "en": [
       "a",
@@ -6341,12 +6249,6 @@
      "en": [
       "en",
       "train"
-     ]
-    },
-    {
-     "form": "is aan het geven",
-     "en": [
-      "is"
      ]
     },
     {
