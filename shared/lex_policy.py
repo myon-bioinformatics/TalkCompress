@@ -433,6 +433,8 @@ _EN_CONTRACTIONS: list[tuple[re.Pattern[str], str]] = [
 
 # Ledger rows pruned after the o200k-calibrated estimate_tokens: the short form
 # costs more tokens than English, or ties on tokens without saving utf8 bytes.
+# Adoption (cheapest-form rule): fewer o200k tokens, or a token tie with strictly
+# fewer utf8 bytes.
 LEDGER_PRUNED_O200K: frozenset[str] = frozenset(
     {
     "adv-a-priori",
@@ -647,6 +649,20 @@ EMOJI_SPEC: tuple[tuple[str, str, str, tuple[str, ...], str, str], ...] = (
         "👍",
         "ML→pivot thumbs up→👍",
     ),
+    ("star", "star", "en", ('star',), "★", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("heart", "red heart", "en", ('red heart',), "♡", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("check", "check", "en", ('check mark', 'check'), "✓", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("cross", "cross mark", "en", ('cross mark',), "✕", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("eyes", "eye emoji", "en", ('eye emoji',), "👀", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("wave", "wave hello", "en", ('wave hello',), "👋", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("ok-hand", "ok hand", "en", ('ok hand',), "👌", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("thumbs-down", "thumbs down", "en", ('thumbs down', 'thumbs-down'), "👎", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("clap", "clapping", "en", ('clapping',), "👏", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("idea", "idea bulb", "en", ('idea bulb',), "💡", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("pin", "pin it", "en", ('pin it',), "📌", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("fire", "on fire", "en", ('on fire',), "🔥", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("laugh", "laugh", "en", ('laugh',), "😂", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("thinking", "thinking face", "en", ('thinking face',), "🤔", "o200k 同数・utf8 減（tie+bytes 採用）"),
 )
 
 # Token-only extras for DEFAULT_MAP (utf8 flat or ambiguous bare forms). Not ledger.
@@ -742,6 +758,10 @@ def emoji_policy_rows() -> list[dict[str, Any]]:
 # Skip forms already owned by E (~ / ≒ / = / ≥ / ≤ / ∴ / bc / ∀ …).
 # Spec: (id_suffix, from-forms, glyph, rationale); forms[0] = metrics sample.
 SYMBOL_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
+    ("neq", ('not equal', 'not equals'), "≠", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("degree", ('degrees',), "°", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("propto", ('proportional to', 'propto'), "∝", "o200k 同数・utf8 減（tie+bytes 採用）"),
+    ("div", ('divided by',), "÷", "o200k 同数・utf8 減（tie+bytes 採用）"),
     (
         "much-less-than",
         ("much less than", "≪"),
@@ -762,13 +782,13 @@ SYMBOL_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
     ),
     (
         "percent",
-        ("パーセント", "per cent"),
+        ("パーセント", "per cent", "percent"),
         "%",
         "パーセント→%（cross-lang cheapest；sample=パーセント）",
     ),
     (
         "implies",
-        ("implies that", "含意"),
+        ("implies that", "含意", "implies"),
         "⇒",
         "implies→⇒",
     ),
@@ -780,7 +800,7 @@ SYMBOL_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
     ),
     (
         "sqrt",
-        ("square root",),
+        ("square root", "sqrt"),
         "√",
         "square root→√",
     ),

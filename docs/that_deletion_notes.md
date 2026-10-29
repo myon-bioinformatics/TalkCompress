@@ -12,12 +12,12 @@
   - コンマなしは厳密減で、コンマありは英語と同数。
 - **関係詞 that → que**（#23 の判定器）は変更しない。
 
-## 指示詞 that / those → the は見送り
-`the` は英語より厳密に少なくならないため、採用条件を満たさない。
-- `' that'` = 1 tok / 5 B、`' those'` = 1 / 6、`' the'` = 1 / 4。
-- `that book` と `the book` はどちらも 2 tok。`those books` と `the books` もどちらも 2 tok。
-- いずれもトークン同数で、バイトだけ減る。既存の `that→eso`（1 tok / 4 B）も同数のまま残っている。
-- the 化すると指示の意味（遠称・特定）も失われる。
+## 指示詞 that / those → the（採用。限定詞位置のみ）
+同数でバイトが減る規則に基づき採用（` that` 1 tok / 5 B、` those` 1 / 6、` the` 1 / 4）。
+- `that` / `those` の直後が名詞（閉じた名詞リスト）のときだけ the にする（例: that book → the book、those books → the books）。
+- 代名詞用法（that is right、I said that.、those who…）には適用しない。
+- 旧 `that + 名詞 → eso` は、この規則に置き換えた。
+- 遠称・特定といった指示の意味は失われる（既知のトレードオフ）。
 
 ## 意図的な破壊テスト
 (a) は `that` だけを削除、(b) は `that` と直後の 1 語を削除したもの。

@@ -670,7 +670,7 @@ def test_formal_legal_connectives_dual_metrics():
     # verb said blocks the legal determiner
     blocked = apply_ledger_lex("she said the aforementioned company")
     assert "aforementioned" in blocked
-    assert apply_ledger_lex("vice versa") == "vice versa"  # o200k tie (2→2): not in ledger
+    assert apply_ledger_lex("vice versa") == "⇄"  # o200k tie 2=2, utf8 fewer
     assert apply_ledger_lex("even though late") == "tho late"
     assert apply_ledger_lex("given that we signed") == "bc we signed"
     assert apply_ledger_lex("instead of cash") == "vs cash"
@@ -778,7 +778,7 @@ def test_emoji_family_synced():
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
 
     # o200k adoption: only emoji strictly cheaper than the EN pivot (thumbs up→👍)
-    assert [x[0] for x in EMOJI_SPEC] == ["thumbs-up"]
+    assert len(EMOJI_SPEC) == 15  # thumbs up (strict) + 14 token-tie/fewer-bytes
     for row in emoji_ledger_rows():
         cid = row["id"]
         assert cid in by_id, cid
@@ -794,16 +794,19 @@ def test_emoji_family_synced():
 
     assert by_id["emoji-thumbs-up"]["to"] == "👍"
     assert by_id["emoji-thumbs-up"]["metrics"]["token"]["delta"] < 0
-    for gone in ("emoji-fire", "emoji-heart", "emoji-check", "emoji-cross", "emoji-star", "emoji-laugh"):
-        assert gone not in by_id, gone
+    for tie in ("emoji-fire", "emoji-heart", "emoji-check", "emoji-cross", "emoji-star", "emoji-laugh"):
+        assert by_id[tie]["metrics"]["token"]["delta"] <= 0, tie  # tie or better
+        assert by_id[tie]["metrics"]["bit"]["utf8"]["delta"] < 0, tie  # fewer bytes
+    assert apply_ledger_lex("on fire") == "🔥"
+    assert apply_ledger_lex("red heart") == "♡"
 
     assert apply_ledger_lex("thumbs up") == "👍"
     assert apply_ledger_lex("いいね") == "👍"
     assert "🔥" not in apply_ledger_lex("ファイア")
     assert "♡" not in apply_ledger_lex("heart")
     assert "❤" not in apply_ledger_lex("heart")
-    assert "✓" not in apply_ledger_lex("check mark")
-    assert "✕" not in apply_ledger_lex("cross mark")
+    assert apply_ledger_lex("check mark") == "✓"
+    assert apply_ledger_lex("cross mark") == "✕"
 
     # information→ℹ️ is C family=emoji (sole apply; not ETYMON)
     assert "emoji-information" not in by_id  # pruned (o200k)
@@ -836,7 +839,7 @@ def test_select_cheapest_form_and_symbol_family():
     assert validate_ledger_metrics(strict=True) == []
     ids = convention_ids()
     assert "policy-cross-lang-cheapest" in ids
-    assert "symbol-neq" not in ids  # o200k tie (2→2): memo only
+    assert "symbol-neq" in ids  # o200k tie 2=2, utf8 fewer
     assert "symbol-much-less-than" in ids
     assert "symbol-not-exists" in ids
     assert "symbol-infinity" not in ids  # pruned (o200k)
@@ -854,9 +857,9 @@ def test_select_cheapest_form_and_symbol_family():
         assert c["apply_layer"] == "C"
         assert c["to"] == dst
         assert c["metrics"]["bit"]["utf8"]["delta"] < 0, cid
-        assert c["metrics"]["token"]["delta"] < 0, cid  # strict o200k reduction
+        assert c["metrics"]["token"]["delta"] <= 0, cid  # tokens first, then bytes
 
-    assert "≠" not in apply_ledger_lex("not equal")
+    assert "≠" in apply_ledger_lex("not equal")
     assert apply_ledger_lex("x is much less than y") == "x is ≪ y"
     assert apply_ledger_lex("there is no time") == "∄ time"
     assert "∞" not in apply_ledger_lex("infinity")  # pruned (o200k)

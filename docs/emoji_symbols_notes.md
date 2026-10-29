@@ -1,6 +1,10 @@
 # 絵文字・記号の o200k 評価メモ
 
-台帳（`ShorthandEdge/ledger/conventions.json`）に採用するのは、o200k で英語より**トークンが厳密に減る**記号・絵文字だけです。減らないもの（同数・増加）は台帳に入れず、このメモに記録します。
+台帳（`ShorthandEdge/ledger/conventions.json`）への採用規則（cheapest-form rule: トークン優先、次にバイト）:
+- o200k で英語より**トークンが少ない**、または
+- **トークン同数で utf8 バイトが厳密に少ない**
+
+トークンが増えるもの、同数でバイトも減らないものは台帳に入れず、このメモに記録します（オーナー決定により、同数でバイトが減るものは採用に変更）。
 
 ## 計測方法
 - `tiktoken` の `o200k_base` で、文中を想定して**先頭に半角スペースを付けた**文字列（例: `" heart"` と `" ❤"`）を数える
@@ -56,3 +60,32 @@
 - `more than → >`、`less than → <` は追加していない
 - この 2 句は、既存の比較クラス（MorphoZip `COMPARE_ALIAS_TO_CANONICAL` と `_PHRASE_GRAMMAR`）で ≥ / ≤ の source として登録済みで、衝突する
 - `>` は E 層で `greater than → >` に使用済み
+
+## 同数・バイト減の再採用（オーナー決定）
+次の対応を runtime マップと台帳に戻した。トークンは英語と同数で、utf8 バイトが減る（括弧内は英語 B → 短形 B）。
+- 記号:
+  - percent → %（8→2）
+  - degrees → °（8→3）
+  - divided by → ÷（11→3）
+  - vice versa → ⇄（11→4。E 層 MorphoZip 規則と台帳行の両方）
+  - implies → ⇒（8→4）
+  - sqrt → √（5→4）
+  - proportional to / propto → ∝（16 / 7→4）
+  - not equal / not equals → ≠（10 / 11→4）
+- 絵文字:
+  - star ★（5→4）
+  - red heart ♡（10→4）
+  - check ✓（6→4。check mark は 2→1 token で厳密減）
+  - cross mark ✕（11→4）
+  - eye emoji 👀（10→5）
+  - wave hello 👋（11→5）
+  - ok hand 👌（8→5）
+  - thumbs down / thumbs-down 👎（12→5）
+  - clapping 👏（9→5）
+  - idea bulb 💡（10→5）
+  - pin it 📌（7→5）
+  - on fire 🔥（8→5）
+  - laugh 😂（6→5）
+  - thinking face 🤔（14→5）
+- ≧ / ≦ は戻さない（≥ / ≤ が厳密減で置き換え済み）。
+- 上の「不採用」節のうち、ここに挙げた項目は採用に変わった。infinity → ∞ などトークンが増えるものは引き続き不採用。

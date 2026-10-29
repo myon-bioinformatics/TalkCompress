@@ -643,8 +643,8 @@ def sync_emoji_lex(
         "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via "
         "EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true "
         "(two-step apply). Adoption rule (o200k, mid-sentence leading-space): the "
-        "emoji must cost strictly fewer tokens than the EN pivot; only thumbs up→👍 "
-        "qualifies. Rejected emoji/symbols are memo-only in "
+        "emoji must cost fewer tokens than the EN pivot, or tie on tokens with "
+        "strictly fewer utf8 bytes (tokens first, then bytes). Rejected emoji/symbols are memo-only in "
         "docs/emoji_symbols_notes.md, not ledger rows."
     )
     # Drop older emoji note variants so the pivot/priority wording is sole.

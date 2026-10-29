@@ -34,7 +34,7 @@
       "Easing / ranking (2026-10-28): Among compression candidates prefer forms that ease both GPT-style generative and BERT-style bidirectional/mask modeling. Dual metric consistent with select_cheapest_form: token (B estimate_tokens) primary; on token tie prefer shorter utf8 bits, then len, then first-seen order (policy-cross-lang-cheapest). Expression 揺らぎ → unique canonical emit. Language rules chosen for token/bit compression convenience, not descriptive completeness. Pace: casually add useful mappings; prefer fix/skip over bulk volume.",
       "that-is dual-claim resolved (2026-10-28): bare `that is`→`i.e.` via conj-that-is (latin) + MorphoZip phrase grammar; dropped shadowed c-thats (`that is`→`that's`) from EN_CONTRACTION_SPEC and ledger so C/E agree. Prefer fix/skip over bulk lex.",
       "family=symbol (C-only): open math/symbol shortenings not in E closed POS (≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear (policy-short-form-priority). Skip E-owned ~/≒/= /≥/≤/∴/bc/∀. Dual metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form.",
-      "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Adoption rule (o200k, mid-sentence leading-space): the emoji must cost strictly fewer tokens than the EN pivot; only thumbs up→👍 qualifies. Rejected emoji/symbols are memo-only in docs/emoji_symbols_notes.md, not ledger rows."
+      "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true (two-step apply). Adoption rule (o200k, mid-sentence leading-space): the emoji must cost fewer tokens than the EN pivot, or tie on tokens with strictly fewer utf8 bytes (tokens first, then bytes). Rejected emoji/symbols are memo-only in docs/emoji_symbols_notes.md, not ledger rows."
     ],
     "abbrev_sync": {
       "upserted": [
@@ -76,7 +76,21 @@
     },
     "emoji_sync": {
       "upserted": [
-        "emoji-thumbs-up"
+        "emoji-thumbs-up",
+        "emoji-star",
+        "emoji-heart",
+        "emoji-check",
+        "emoji-cross",
+        "emoji-eyes",
+        "emoji-wave",
+        "emoji-ok-hand",
+        "emoji-thumbs-down",
+        "emoji-clap",
+        "emoji-idea",
+        "emoji-pin",
+        "emoji-fire",
+        "emoji-laugh",
+        "emoji-thinking"
       ],
       "skipped_nonshrink_utf8": [],
       "policies": [
@@ -88,6 +102,10 @@
     },
     "symbol_sync": {
       "upserted": [
+        "symbol-neq",
+        "symbol-degree",
+        "symbol-propto",
+        "symbol-div",
         "symbol-much-less-than",
         "symbol-not-exists",
         "symbol-plusminus",
@@ -5039,6 +5057,7 @@
       "from": [
         "パーセント",
         "per cent",
+        "percent",
         "%"
       ],
       "to": "%",
@@ -5079,6 +5098,7 @@
       "from": [
         "implies that",
         "含意",
+        "implies",
         "⇒"
       ],
       "to": "⇒",
@@ -5157,6 +5177,7 @@
       "ledger_apply": true,
       "from": [
         "square root",
+        "sqrt",
         "√"
       ],
       "to": "√",
@@ -20332,6 +20353,765 @@
           "utf8": {
             "before": 88,
             "after": 24,
+            "delta": -64
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-vice-versa",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "vice versa",
+        "⇄"
+      ],
+      "to": "⇄",
+      "rationale": "vice versa → ⇄（vv より token 安；select_cheapest）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "vice versa",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "vice versa",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-star",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "star",
+      "pivot_lang": "en",
+      "from": [
+        "star"
+      ],
+      "to": "★",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "star",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 32,
+          "after": 24,
+          "delta": -8,
+          "ratio": 0.75,
+          "sample_from": "star",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 32,
+            "after": 24,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-heart",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "red heart",
+      "pivot_lang": "en",
+      "from": [
+        "red heart"
+      ],
+      "to": "♡",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "red heart",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 24,
+          "delta": -48,
+          "ratio": 0.3333,
+          "sample_from": "red heart",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 24,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-check",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "check",
+      "pivot_lang": "en",
+      "from": [
+        "check mark",
+        "check"
+      ],
+      "to": "✓",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "check mark",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "check mark",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-cross",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "cross mark",
+      "pivot_lang": "en",
+      "from": [
+        "cross mark"
+      ],
+      "to": "✕",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "cross mark",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 24,
+          "delta": -56,
+          "ratio": 0.3,
+          "sample_from": "cross mark",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 24,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-eyes",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "eye emoji",
+      "pivot_lang": "en",
+      "from": [
+        "eye emoji"
+      ],
+      "to": "👀",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "eye emoji",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 32,
+          "delta": -40,
+          "ratio": 0.4444,
+          "sample_from": "eye emoji",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 32,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-wave",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "wave hello",
+      "pivot_lang": "en",
+      "from": [
+        "wave hello"
+      ],
+      "to": "👋",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "wave hello",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 32,
+          "delta": -48,
+          "ratio": 0.4,
+          "sample_from": "wave hello",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 32,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-ok-hand",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "ok hand",
+      "pivot_lang": "en",
+      "from": [
+        "ok hand"
+      ],
+      "to": "👌",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "ok hand",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 32,
+          "delta": -24,
+          "ratio": 0.5714,
+          "sample_from": "ok hand",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 32,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-thumbs-down",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "thumbs down",
+      "pivot_lang": "en",
+      "from": [
+        "thumbs down",
+        "thumbs-down"
+      ],
+      "to": "👎",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "thumbs down",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 88,
+          "after": 32,
+          "delta": -56,
+          "ratio": 0.3636,
+          "sample_from": "thumbs down",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 88,
+            "after": 32,
+            "delta": -56
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-clap",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "clapping",
+      "pivot_lang": "en",
+      "from": [
+        "clapping"
+      ],
+      "to": "👏",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "clapping",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 64,
+          "after": 32,
+          "delta": -32,
+          "ratio": 0.5,
+          "sample_from": "clapping",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 64,
+            "after": 32,
+            "delta": -32
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-idea",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "idea bulb",
+      "pivot_lang": "en",
+      "from": [
+        "idea bulb"
+      ],
+      "to": "💡",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "idea bulb",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 32,
+          "delta": -40,
+          "ratio": 0.4444,
+          "sample_from": "idea bulb",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 32,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-pin",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "pin it",
+      "pivot_lang": "en",
+      "from": [
+        "pin it"
+      ],
+      "to": "📌",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "pin it",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 48,
+          "after": 32,
+          "delta": -16,
+          "ratio": 0.6667,
+          "sample_from": "pin it",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 48,
+            "after": 32,
+            "delta": -16
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-fire",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "on fire",
+      "pivot_lang": "en",
+      "from": [
+        "on fire"
+      ],
+      "to": "🔥",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "on fire",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 32,
+          "delta": -24,
+          "ratio": 0.5714,
+          "sample_from": "on fire",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 32,
+            "delta": -24
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-laugh",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "laugh",
+      "pivot_lang": "en",
+      "from": [
+        "laugh"
+      ],
+      "to": "😂",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "laugh",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "laugh",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "emoji-thinking",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "emoji",
+      "ledger_apply": true,
+      "pivot": "thinking face",
+      "pivot_lang": "en",
+      "from": [
+        "thinking face"
+      ],
+      "to": "🤔",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "絵",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "thinking face",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 104,
+          "after": 32,
+          "delta": -72,
+          "ratio": 0.3077,
+          "sample_from": "thinking face",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 104,
+            "after": 32,
+            "delta": -72
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-neq",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "not equal",
+        "not equals",
+        "≠"
+      ],
+      "to": "≠",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "not equal",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 72,
+          "after": 24,
+          "delta": -48,
+          "ratio": 0.3333,
+          "sample_from": "not equal",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 72,
+            "after": 24,
+            "delta": -48
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-degree",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "degrees",
+        "°"
+      ],
+      "to": "°",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 1,
+          "after": 1,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "degrees",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 56,
+          "after": 16,
+          "delta": -40,
+          "ratio": 0.2857,
+          "sample_from": "degrees",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 56,
+            "after": 16,
+            "delta": -40
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-propto",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "proportional to",
+        "propto",
+        "∝"
+      ],
+      "to": "∝",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 2,
+          "delta": 0,
+          "ratio": 1.0,
+          "sample_from": "proportional to",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 120,
+          "after": 24,
+          "delta": -96,
+          "ratio": 0.2,
+          "sample_from": "proportional to",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 120,
+            "after": 24,
+            "delta": -96
+          },
+          "inventory": null
+        }
+      }
+    },
+    {
+      "id": "symbol-div",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "symbol",
+      "ledger_apply": true,
+      "from": [
+        "divided by",
+        "÷"
+      ],
+      "to": "÷",
+      "rationale": "o200k 同数・utf8 減（tie+bytes 採用）",
+      "breakdown": "記",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "divided by",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 80,
+          "after": 16,
+          "delta": -64,
+          "ratio": 0.2,
+          "sample_from": "divided by",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 80,
+            "after": 16,
             "delta": -64
           },
           "inventory": null
