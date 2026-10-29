@@ -24418,7 +24418,8 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "ira"
   },
   {
    "subject": "dem-this",
@@ -24437,7 +24438,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "virá"
   },
   {
    "subject": "dem-this",
@@ -24456,7 +24458,8 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "fera"
   },
   {
    "subject": "dem-this",
@@ -24475,7 +24478,8 @@
     13,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "verá"
   },
   {
    "subject": "dem-this",
@@ -24495,7 +24499,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tomará",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24515,7 +24520,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "achará",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24535,7 +24541,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vorrà",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24562,7 +24569,8 @@
     15,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensera"
   },
   {
    "subject": "dem-this",
@@ -24581,7 +24589,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "dira"
   },
   {
    "subject": "dem-this",
@@ -24601,7 +24610,8 @@
     10
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "saura",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24620,7 +24630,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "darà"
   },
   {
    "subject": "dem-this",
@@ -24743,7 +24754,8 @@
     13,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "foi"
   },
   {
    "subject": "dem-this",
@@ -24776,7 +24788,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "veio"
   },
   {
    "subject": "dem-this",
@@ -24821,7 +24834,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "hizo"
   },
   {
    "subject": "dem-this",
@@ -24860,7 +24874,8 @@
     13,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "vio"
   },
   {
    "subject": "dem-this",
@@ -24899,7 +24914,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomó"
   },
   {
    "subject": "dem-this",
@@ -24938,7 +24954,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "achou"
   },
   {
    "subject": "dem-this",
@@ -24977,7 +24994,8 @@
     15,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quis"
   },
   {
    "subject": "dem-this",
@@ -25016,7 +25034,8 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "teve"
   },
   {
    "subject": "dem-this",
@@ -25055,7 +25074,8 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensó"
   },
   {
    "subject": "dem-this",
@@ -25094,7 +25114,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "dijo"
   },
   {
    "subject": "dem-this",
@@ -25133,7 +25154,8 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "supo"
   },
   {
    "subject": "dem-this",
@@ -25173,7 +25195,8 @@
     14,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "deu"
   },
   {
    "subject": "dem-this",
@@ -25192,7 +25215,8 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá ido"
   },
   {
    "subject": "dem-this",
@@ -25211,7 +25235,8 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "sera venu"
   },
   {
    "subject": "dem-this",
@@ -25239,7 +25264,8 @@
     16
    ],
    "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "parity_verb": "avrà fatto",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25267,7 +25293,8 @@
     16
    ],
    "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "parity_verb": "avrà visto",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25294,7 +25321,8 @@
     20,
     16
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà preso"
   },
   {
    "subject": "dem-this",
@@ -25321,7 +25349,8 @@
     20,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá achado"
   },
   {
    "subject": "dem-this",
@@ -25348,7 +25377,8 @@
     21,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà voluto"
   },
   {
    "subject": "dem-this",
@@ -25375,7 +25405,8 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá tido"
   },
   {
    "subject": "dem-this",
@@ -25402,7 +25433,8 @@
     22,
     18
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà pensato"
   },
   {
    "subject": "dem-this",
@@ -25429,7 +25461,8 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá dito"
   },
   {
    "subject": "dem-this",
@@ -25456,7 +25489,8 @@
     20,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà saputo"
   },
   {
    "subject": "dem-this",
@@ -25495,7 +25529,8 @@
     20,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà dato"
   },
   {
    "subject": "dem-this",
@@ -25529,7 +25564,7 @@
     14
    ],
    "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25557,7 +25592,8 @@
     10
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25577,7 +25613,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25596,7 +25633,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "vira"
   },
   {
    "subject": "dem-this",
@@ -25615,7 +25653,8 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomara"
   },
   {
    "subject": "dem-this",
@@ -25634,7 +25673,8 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "achara"
   },
   {
    "subject": "dem-this",
@@ -25653,7 +25693,8 @@
     15,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quisera"
   },
   {
    "subject": "dem-this",
@@ -25673,7 +25714,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tivera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25692,7 +25734,8 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensara"
   },
   {
    "subject": "dem-this",
@@ -25712,7 +25755,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dissera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25731,7 +25775,8 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "soubera"
   },
   {
    "subject": "dem-this",
@@ -25764,7 +25809,8 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "dera"
   },
   {
    "subject": "dem-this",
@@ -25805,7 +25851,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "está indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25846,7 +25893,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "está vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25887,7 +25935,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta facendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25928,7 +25977,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "está vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25969,7 +26019,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26010,7 +26060,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta trovando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26051,7 +26102,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26092,7 +26144,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta avendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26133,7 +26186,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26175,7 +26229,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta dicendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26217,7 +26272,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta sapendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26258,7 +26314,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26299,7 +26356,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estava indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26340,7 +26398,7 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26381,7 +26439,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26422,7 +26480,7 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26463,7 +26521,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26504,7 +26562,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26545,7 +26603,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26586,7 +26644,7 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26627,7 +26685,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26669,7 +26727,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26711,7 +26769,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26752,7 +26810,7 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26786,7 +26844,8 @@
     18,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "estará indo"
   },
   {
    "subject": "dem-this",
@@ -26821,7 +26880,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26856,7 +26916,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà facendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26891,7 +26952,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26926,7 +26988,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará tomando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26961,7 +27024,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará achando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -26996,7 +27060,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -27031,7 +27096,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará tendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -27066,7 +27132,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -27102,7 +27169,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà dicendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -27138,7 +27206,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà sapendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -27173,7 +27242,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-that",
@@ -28152,11 +28222,7 @@
     13,
     11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "dem-these",
@@ -28176,7 +28242,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "virão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28216,7 +28283,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "verán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28236,7 +28304,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tomarán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28256,7 +28325,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "acharão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28276,7 +28346,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "querrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28304,10 +28375,7 @@
     15
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "pensarán"
   },
   {
    "subject": "dem-these",
@@ -28327,7 +28395,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dirán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28347,7 +28416,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "sabrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28367,7 +28437,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "darán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28483,7 +28554,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28503,7 +28575,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28523,7 +28596,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28543,7 +28617,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28563,10 +28638,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-these",
@@ -28586,10 +28658,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-these",
@@ -28609,10 +28678,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-these",
@@ -28632,7 +28698,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "ont eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28652,10 +28719,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-these",
@@ -28675,7 +28739,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dijeron",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28695,10 +28760,7 @@
     12
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "ont su"
   },
   {
    "subject": "dem-these",
@@ -28726,10 +28788,7 @@
     11
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-these",
@@ -28749,7 +28808,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão ido",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28769,7 +28829,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28789,7 +28849,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront fait",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28809,7 +28870,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront vu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28829,10 +28891,7 @@
     17
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "auront pris"
   },
   {
    "subject": "dem-these",
@@ -28852,7 +28911,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão achado",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28872,7 +28932,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront voulu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28892,7 +28953,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28912,7 +28974,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront pensé",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28932,7 +28995,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront dit",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28952,10 +29016,7 @@
     15
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "auront su"
   },
   {
    "subject": "dem-these",
@@ -28989,10 +29050,7 @@
     18
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "avranno dato"
   },
   {
    "subject": "dem-these",
@@ -29012,7 +29070,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29032,7 +29091,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29052,7 +29112,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29072,7 +29133,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29092,10 +29154,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-these",
@@ -29115,10 +29174,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-these",
@@ -29138,10 +29194,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-these",
@@ -29161,7 +29214,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tiveram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29181,10 +29235,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-these",
@@ -29204,7 +29255,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "disseram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29224,10 +29276,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "souberam"
   },
   {
    "subject": "dem-these",
@@ -29261,10 +29310,7 @@
     11
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-these",
@@ -29299,7 +29345,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29334,7 +29381,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29369,7 +29416,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29404,7 +29451,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29439,7 +29486,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29474,7 +29521,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29509,7 +29556,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29544,7 +29591,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29579,7 +29626,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29615,7 +29662,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29651,7 +29698,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29686,7 +29733,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29721,7 +29768,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estavam indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29756,7 +29804,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29791,7 +29839,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29826,7 +29874,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29861,7 +29909,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29896,7 +29944,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29931,7 +29979,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29966,7 +30014,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30001,7 +30049,7 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30037,7 +30085,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30073,7 +30121,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30108,7 +30156,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30143,7 +30191,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30178,7 +30227,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30213,7 +30263,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão fazendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30248,7 +30299,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30283,7 +30335,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán tomando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30318,7 +30371,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão achando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30353,7 +30407,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "staranno volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30388,7 +30443,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão tendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30423,7 +30479,8 @@
     23
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30459,7 +30516,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão dizendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30495,7 +30553,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão sabendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -30530,7 +30589,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30645,11 +30705,7 @@
     13,
     11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "dem-those",
@@ -30669,7 +30725,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "virão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30709,7 +30766,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "verán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30729,7 +30787,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tomarán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30749,7 +30808,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "acharão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30769,7 +30829,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "querrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30797,10 +30858,7 @@
     15
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "pensarán"
   },
   {
    "subject": "dem-those",
@@ -30820,7 +30878,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dirán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30840,7 +30899,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "sabrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30860,7 +30920,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "darán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30976,7 +31037,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30996,7 +31058,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31016,7 +31079,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31036,7 +31100,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31056,10 +31121,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-those",
@@ -31079,10 +31141,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-those",
@@ -31102,10 +31161,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-those",
@@ -31125,7 +31181,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "ont eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31145,10 +31202,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-those",
@@ -31168,7 +31222,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dijeron",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31188,10 +31243,7 @@
     12
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "ont su"
   },
   {
    "subject": "dem-those",
@@ -31219,10 +31271,7 @@
     11
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-those",
@@ -31242,7 +31291,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão ido",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31262,7 +31312,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31282,7 +31332,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront fait",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31302,7 +31353,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront vu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31322,10 +31374,7 @@
     17
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "auront pris"
   },
   {
    "subject": "dem-those",
@@ -31345,7 +31394,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão achado",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31365,7 +31415,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront voulu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31385,7 +31436,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31405,7 +31457,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront pensé",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31425,7 +31478,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront dit",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31445,10 +31499,7 @@
     15
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "auront su"
   },
   {
    "subject": "dem-those",
@@ -31482,10 +31533,7 @@
     18
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "avranno dato"
   },
   {
    "subject": "dem-those",
@@ -31505,7 +31553,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31525,7 +31574,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31545,7 +31595,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31565,7 +31616,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31585,10 +31637,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-those",
@@ -31608,10 +31657,7 @@
     13
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-those",
@@ -31631,10 +31677,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-those",
@@ -31654,7 +31697,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tiveram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31674,10 +31718,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-those",
@@ -31697,7 +31738,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "disseram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31717,10 +31759,7 @@
     14
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "souberam"
   },
   {
    "subject": "dem-those",
@@ -31754,10 +31793,7 @@
     11
    ],
    "status": "adopt",
-   "parity_class": [
-    "dem-these",
-    "dem-those"
-   ]
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-those",
@@ -31792,7 +31828,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31827,7 +31864,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31862,7 +31899,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31897,7 +31934,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31932,7 +31969,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31967,7 +32004,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32002,7 +32039,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32037,7 +32074,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32072,7 +32109,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32108,7 +32145,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32144,7 +32181,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32179,7 +32216,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32214,7 +32251,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estavam indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32249,7 +32287,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32284,7 +32322,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32319,7 +32357,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32354,7 +32392,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32389,7 +32427,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32424,7 +32462,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32459,7 +32497,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32494,7 +32532,7 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32530,7 +32568,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32566,7 +32604,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32601,7 +32639,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32636,7 +32674,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32671,7 +32710,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32706,7 +32746,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão fazendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32741,7 +32782,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32776,7 +32818,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán tomando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32811,7 +32854,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão achando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32846,7 +32890,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "staranno volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32881,7 +32926,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão tendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32916,7 +32962,8 @@
     23
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32952,7 +32999,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão dizendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -32988,7 +33036,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão sabendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -33023,7 +33072,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "rel-who-sg",
@@ -33062,11 +33112,7 @@
     9,
     7
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33113,11 +33159,7 @@
     9,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33136,11 +33178,7 @@
     9,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33159,11 +33197,7 @@
     9,
     7
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33244,11 +33278,7 @@
     9,
     6
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33267,11 +33297,7 @@
     9,
     6
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33490,11 +33516,7 @@
     12,
     7
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33527,11 +33549,7 @@
     12,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33576,11 +33594,7 @@
     12,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33619,11 +33633,7 @@
     12,
     7
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33662,11 +33672,7 @@
     13,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33705,11 +33711,7 @@
     13,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33748,11 +33750,7 @@
     14,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33791,11 +33789,7 @@
     11,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33834,11 +33828,7 @@
     15,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33877,11 +33867,7 @@
     12,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33920,11 +33906,7 @@
     13,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -33964,11 +33946,7 @@
     13,
     7
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-sg",
@@ -35759,11 +35737,7 @@
     14,
     11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-pl",
@@ -35782,11 +35756,7 @@
     14,
     11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-pl",
@@ -35805,11 +35775,7 @@
     15,
     12
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-pl",
@@ -35848,11 +35814,7 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-pl",
@@ -35891,11 +35853,7 @@
     14,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-pl",
@@ -35922,11 +35880,7 @@
     14,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-who-pl",
@@ -37097,11 +37051,7 @@
     11,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37148,11 +37098,7 @@
     11,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37171,11 +37117,7 @@
     11,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37194,11 +37136,7 @@
     11,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37279,11 +37217,7 @@
     11,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37302,11 +37236,7 @@
     11,
     8
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37525,11 +37455,7 @@
     14,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37562,11 +37488,7 @@
     14,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37611,11 +37533,7 @@
     14,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37654,11 +37572,7 @@
     14,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37697,11 +37611,7 @@
     15,
     11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37740,11 +37650,7 @@
     15,
     11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37783,11 +37689,7 @@
     16,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37826,11 +37728,7 @@
     13,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37869,11 +37767,7 @@
     17,
     12
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37912,11 +37806,7 @@
     14,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37955,11 +37845,7 @@
     15,
     10
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -37999,11 +37885,7 @@
     15,
     9
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-sg",
-    "rel-which-sg"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-sg",
@@ -39794,11 +39676,7 @@
     16,
     13
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-pl",
@@ -39817,11 +39695,7 @@
     16,
     13
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-pl",
@@ -39840,11 +39714,7 @@
     17,
     14
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-pl",
@@ -39883,11 +39753,7 @@
     18,
     14
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-pl",
@@ -39926,11 +39792,7 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-pl",
@@ -39957,11 +39819,7 @@
     16,
     11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "rel-who-pl",
-    "rel-which-pl"
-   ]
+   "status": "adopt"
   },
   {
    "subject": "rel-which-pl",

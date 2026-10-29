@@ -4,7 +4,7 @@
  "notes": [
   "Generated — edit scripts/tense_matrix.py, not this file.",
   "Adopted only when token AND utf8 strictly shrink; `to` = runtime cheapest winner.",
-  "Parity classes (he/she/it, these/those, who/which per number): decided once per class — every member token-shrinks, utf8 never grows, ≥1 member utf8-shrinks; same verb winner for all.",
+  "Parity by number (3sg: he/she/it/this, 3pl: they/these/those): he/she/it decided as one class; this/these/those reuse the number-matched pronoun verb winner with subject kept, or stay EN; relatives/that unchanged: decided once per class — every member token-shrinks, utf8 never grows, ≥1 member utf8-shrinks; same verb winner for all.",
   "Personal pronouns dropped (person-marked verb); demonstratives/relatives keep the subject.",
   "Relatives only with number-marking aux (is/are, has/have, was/were); bare 'that' (multi-POS) always stays EN.",
   "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",
@@ -12557,14 +12557,6 @@
     {
      "form": "this ira",
      "lang": "fr"
-    },
-    {
-     "form": "this irá",
-     "lang": "es"
-    },
-    {
-     "form": "this irá",
-     "lang": "pt"
     }
    ]
   },
@@ -12597,18 +12589,6 @@
     {
      "form": "this fera",
      "lang": "fr"
-    },
-    {
-     "form": "this farà",
-     "lang": "it"
-    },
-    {
-     "form": "this fará",
-     "lang": "pt"
-    },
-    {
-     "form": "this hará",
-     "lang": "es"
     }
    ]
   },
@@ -12625,10 +12605,6 @@
     {
      "form": "this verá",
      "lang": "es"
-    },
-    {
-     "form": "this verá",
-     "lang": "pt"
     }
    ]
   },
@@ -12645,18 +12621,6 @@
     {
      "form": "this pensera",
      "lang": "fr"
-    },
-    {
-     "form": "this pensará",
-     "lang": "es"
-    },
-    {
-     "form": "this pensará",
-     "lang": "pt"
-    },
-    {
-     "form": "this penserà",
-     "lang": "it"
     }
    ]
   },
@@ -12673,18 +12637,6 @@
     {
      "form": "this dira",
      "lang": "fr"
-    },
-    {
-     "form": "this dirà",
-     "lang": "it"
-    },
-    {
-     "form": "this dirá",
-     "lang": "es"
-    },
-    {
-     "form": "this dirá",
-     "lang": "pt"
     }
    ]
   },
@@ -12701,14 +12653,6 @@
     {
      "form": "this darà",
      "lang": "it"
-    },
-    {
-     "form": "this dará",
-     "lang": "es"
-    },
-    {
-     "form": "this dará",
-     "lang": "pt"
     }
    ]
   },
@@ -12725,10 +12669,6 @@
     {
      "form": "this foi",
      "lang": "pt"
-    },
-    {
-     "form": "this fue",
-     "lang": "es"
     }
    ]
   },
@@ -12777,10 +12717,6 @@
     {
      "form": "this vio",
      "lang": "es"
-    },
-    {
-     "form": "this viu",
-     "lang": "pt"
     }
    ]
   },
@@ -12797,10 +12733,6 @@
     {
      "form": "this tomó",
      "lang": "es"
-    },
-    {
-     "form": "this tomou",
-     "lang": "pt"
     }
    ]
   },
@@ -12817,10 +12749,6 @@
     {
      "form": "this achou",
      "lang": "pt"
-    },
-    {
-     "form": "this encontró",
-     "lang": "es"
     }
    ]
   },
@@ -12837,10 +12765,6 @@
     {
      "form": "this quis",
      "lang": "pt"
-    },
-    {
-     "form": "this quiso",
-     "lang": "es"
     }
    ]
   },
@@ -12857,10 +12781,6 @@
     {
      "form": "this teve",
      "lang": "pt"
-    },
-    {
-     "form": "this tuvo",
-     "lang": "es"
     }
    ]
   },
@@ -12877,10 +12797,6 @@
     {
      "form": "this pensó",
      "lang": "es"
-    },
-    {
-     "form": "this pensou",
-     "lang": "pt"
     }
    ]
   },
@@ -12913,10 +12829,6 @@
     {
      "form": "this supo",
      "lang": "es"
-    },
-    {
-     "form": "this soube",
-     "lang": "pt"
     }
    ]
   },
@@ -12933,10 +12845,6 @@
     {
      "form": "this deu",
      "lang": "pt"
-    },
-    {
-     "form": "this dio",
-     "lang": "es"
     }
    ]
   },
@@ -12953,10 +12861,6 @@
     {
      "form": "this terá ido",
      "lang": "pt"
-    },
-    {
-     "form": "this sera allé",
-     "lang": "fr"
     }
    ]
   },
@@ -12989,10 +12893,6 @@
     {
      "form": "this avrà preso",
      "lang": "it"
-    },
-    {
-     "form": "this terá tomado",
-     "lang": "pt"
     }
    ]
   },
@@ -13009,10 +12909,6 @@
     {
      "form": "this terá achado",
      "lang": "pt"
-    },
-    {
-     "form": "this avrà trovato",
-     "lang": "it"
     }
    ]
   },
@@ -13029,10 +12925,6 @@
     {
      "form": "this avrà voluto",
      "lang": "it"
-    },
-    {
-     "form": "this terá querido",
-     "lang": "pt"
     }
    ]
   },
@@ -13065,10 +12957,6 @@
     {
      "form": "this avrà pensato",
      "lang": "it"
-    },
-    {
-     "form": "this terá pensado",
-     "lang": "pt"
     }
    ]
   },
@@ -13101,10 +12989,6 @@
     {
      "form": "this avrà saputo",
      "lang": "it"
-    },
-    {
-     "form": "this terá sabido",
-     "lang": "pt"
     }
    ]
   },
@@ -13285,10 +13169,6 @@
     {
      "form": "these pensarán",
      "lang": "es"
-    },
-    {
-     "form": "these pensarão",
-     "lang": "pt"
     }
    ]
   },
@@ -13305,14 +13185,6 @@
     {
      "form": "these tomaram",
      "lang": "pt"
-    },
-    {
-     "form": "these tomaron",
-     "lang": "es"
-    },
-    {
-     "form": "these ont pris",
-     "lang": "fr"
     }
    ]
   },
@@ -13361,10 +13233,6 @@
     {
      "form": "these pensaram",
      "lang": "pt"
-    },
-    {
-     "form": "these pensaron",
-     "lang": "es"
     }
    ]
   },
@@ -13381,14 +13249,6 @@
     {
      "form": "these ont su",
      "lang": "fr"
-    },
-    {
-     "form": "these souberam",
-     "lang": "pt"
-    },
-    {
-     "form": "these supieron",
-     "lang": "es"
     }
    ]
   },
@@ -13405,10 +13265,6 @@
     {
      "form": "these deram",
      "lang": "pt"
-    },
-    {
-     "form": "these dieron",
-     "lang": "es"
     }
    ]
   },
@@ -13589,10 +13445,6 @@
     {
      "form": "those pensarán",
      "lang": "es"
-    },
-    {
-     "form": "those pensarão",
-     "lang": "pt"
     }
    ]
   },
@@ -13609,14 +13461,6 @@
     {
      "form": "those tomaram",
      "lang": "pt"
-    },
-    {
-     "form": "those tomaron",
-     "lang": "es"
-    },
-    {
-     "form": "those ont pris",
-     "lang": "fr"
     }
    ]
   },
@@ -13665,10 +13509,6 @@
     {
      "form": "those pensaram",
      "lang": "pt"
-    },
-    {
-     "form": "those pensaron",
-     "lang": "es"
     }
    ]
   },
@@ -13685,14 +13525,6 @@
     {
      "form": "those ont su",
      "lang": "fr"
-    },
-    {
-     "form": "those souberam",
-     "lang": "pt"
-    },
-    {
-     "form": "those supieron",
-     "lang": "es"
     }
    ]
   },
@@ -13709,10 +13541,6 @@
     {
      "form": "those deram",
      "lang": "pt"
-    },
-    {
-     "form": "those dieron",
-     "lang": "es"
     }
    ]
   },

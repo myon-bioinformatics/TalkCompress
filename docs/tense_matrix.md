@@ -46,14 +46,16 @@ Cells with ≥1 dropped candidate: 685; most frequent EN-spelled tokens: `a` 666
 
 ## Reject reasons
 
-- 314 × no progressive-preserving candidate shrinks both token and utf8 (EN kept)
 - 240 × number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)
-- 143 × no candidate shrinks both token and utf8
+- 207 × no progressive-preserving candidate shrinks both token and utf8 (EN kept)
+- 117 × parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)
 - 108 × multi-POS EN 'that' (dem / rel / complementizer): left unconverted (揺らぎ回避)
+- 77 × no candidate shrinks both token and utf8
 - 72 × demonstrative + bare verb: noun/idiom homographs (this saw, that said, these finds)
+- 59 × parity: number-matched pronouns stay EN (EN kept)
 - 36 × aux-capable verb: would eat do-support / perfect aux (he does not…, he had eaten)
 - 10 × aux-capable verb: 'will have' prefixes future perfect (will have eaten)
-- 7 × EN homograph collision: every shrinking candidate spells an English word
+- 4 × EN homograph collision: every shrinking candidate spells an English word
 - 3 × parity class: not every subject in the class shrinks (EN kept for all)
 
 ## 2nd person (you) — number of winning form

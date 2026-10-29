@@ -17,6 +17,7 @@ BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(en
 REPORT = json.loads((ROOT / "docs/tense_matrix_report.json").read_text(encoding="utf-8"))
 ENTRIES = BANK["entries"]
 CELLS = REPORT["cells"]
+_CELL_BY_ID = {f"mx-{c['verb']}-{c['tense']}-{c['subject']}": c for c in CELLS}
 
 
 def _t():
@@ -49,7 +50,11 @@ def test_matrix_to_is_runtime_winner_and_shrinks(e):
         out = t.apply_es_fr_tense(src)
         assert out == e["to"], (src, out)
         assert t.estimate_tokens(out) < t.estimate_tokens(src)
-        assert len(out.encode()) < len(src.encode())
+        # parity classes: utf8 never grows; strict shrink is required class-wide
+        # (>=1 member), e.g. he/it is doing (11→11) ride on she is doing (12→11).
+        assert len(out.encode()) <= len(src.encode())
+        if "parity_class" not in _CELL_BY_ID.get(e["id"], {}):
+            assert len(out.encode()) < len(src.encode())
         assert t.apply_es_fr_tense(src) == out  # deterministic
         if e["subject"].startswith(("dem-", "rel-")):
             assert out.split(" ", 1)[0].lower() == src.split(" ", 1)[0].lower()
@@ -223,11 +228,9 @@ def test_no_progressive_no_shrink_reason():
     assert any("progressive-preserving" in c["reason"] for c in rej)
 
 
-_PARITY = {
-    "3s": ("3s-he", "3s-she", "3s-it"),
-    "dem-pl": ("dem-these", "dem-those"),
-    "rel-sg": ("rel-who-sg", "rel-which-sg"),
-    "rel-pl": ("rel-who-pl", "rel-which-pl"),
+_PARITY = {  # number-following classes: (pronouns, demonstratives)
+    "3sg": (("3s-he", "3s-she", "3s-it"), ("dem-this",)),
+    "3pl": (("3p",), ("dem-these", "dem-those")),
 }
 
 
@@ -240,16 +243,25 @@ def _verb_part(c):
 
 @pytest.mark.parametrize("cls", sorted(_PARITY))
 def test_parity_class_same_verb_winner(cls):
-    """Subjects sharing one conjugation slot get the same verb winner, or all stay EN."""
+    """Same-number subjects share one verb winner: pronouns all-or-EN, demonstratives
+    (subject kept) either reuse that verb form or stay EN — never a different form."""
     by = {(c["subject"], c["tense"], c["verb"]): c for c in CELLS}
-    tenses = {c["tense"] for c in CELLS}
-    verbs = {c["verb"] for c in CELLS}
+    prons, dems = _PARITY[cls]
     bad = []
-    for tense in sorted(tenses):
-        for verb in sorted(verbs):
-            got = {s: _verb_part(by[(s, tense, verb)]) for s in _PARITY[cls]}
-            if len(set(got.values())) > 1:
-                bad.append((tense, verb, got))
+    for tense in sorted({c["tense"] for c in CELLS}):
+        for verb in sorted({c["verb"] for c in CELLS}):
+            pc = [by[(s, tense, verb)] for s in prons]
+            if any(c["status"] == "existing" for c in pc):
+                continue
+            pv = {_verb_part(c) for c in pc}
+            if len(pv) > 1:
+                bad.append((tense, verb, "pron", pv))
+                continue
+            (w,) = pv
+            for s in dems:
+                dv = _verb_part(by[(s, tense, verb)])
+                if dv is not None and dv != w:
+                    bad.append((tense, verb, s, dv, w))
     assert not bad, bad
 
 
