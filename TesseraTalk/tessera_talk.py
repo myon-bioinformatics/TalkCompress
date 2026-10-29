@@ -1138,6 +1138,26 @@ def _cheapest_repl(src: str, cands: list[tuple[str, str]]) -> str | None:
     return best[3] if best else None
 
 
+# Common irregular English past participles (regular ones match ``-ed``).
+_EN_IRREGULAR_PP = frozenset(
+    """been gone done seen taken found had thought said known given come become
+    made got gotten left felt kept brought bought caught taught told sold held
+    stood understood heard meant met paid put read run set sent spent built lost
+    won sat slept spoken written driven ridden eaten fallen forgotten chosen
+    broken woken frozen stolen shown grown thrown drawn flown worn torn begun
+    drunk sung swum rung known hidden bitten beaten let cut hit hurt shut
+    struck led fed fought sought""".split()
+)
+# Phrase-final have-auxiliaries: when followed by a past participle the row is
+# an auxiliary use (pluperfect/perfect), not possession — never fire then.
+_HAVE_AUX_TAIL_RE = re.compile(r"(?:\bhad|\bhave|\bhas|'d|'ve|'s)$", re.IGNORECASE)
+_PP_LOOKAHEAD = (
+    r"(?!\s+(?:(?:"
+    + "|".join(sorted(_EN_IRREGULAR_PP))
+    + r")|[A-Za-z]+ed)(?![A-Za-z0-9']))"
+)
+
+
 def _apply_phrase_pairs(
     text: str,
     pairs: list[tuple[str, str, str]],
@@ -1185,8 +1205,11 @@ def _apply_phrase_pairs(
         # like "I'm going to go" → iré/vou for those futures instead.
         if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9' -]*", phrase):
             going_guard = r"(?!\s+to\b)" if phrase.lower().endswith("going") else ""
+            # Generic aux guard: "I had" (possession) must not fire on
+            # "I had gone" — longer matrix rows or EN handle the full phrase.
+            aux_guard = _PP_LOOKAHEAD if _HAVE_AUX_TAIL_RE.search(phrase) else ""
             pat = re.compile(
-                rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9]){going_guard}",
+                rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9]){going_guard}{aux_guard}",
                 re.IGNORECASE,
             )
 
