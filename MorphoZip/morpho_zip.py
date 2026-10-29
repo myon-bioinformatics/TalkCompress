@@ -262,7 +262,7 @@ _CONJ_SURFACE_RE = re.compile(
 )
 
 # --- adverb (副詞): discourse / degree ----------------------------------------
-ADVERB_CANONICAL: tuple[str, ...] = ("tho", "~", "˅", "esp.")
+ADVERB_CANONICAL: tuple[str, ...] = ("tho", "~", "esp.")
 ADVERB_EXTENDED: tuple[str, ...] = ("tho", "~", "˅", "esp.", "also", "□", "oft")
 ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "tho": "tho",
@@ -846,6 +846,50 @@ def polarity_bit_cost(text: str) -> dict[str, float | int | list[str]]:
 
 
 # (pattern, replacement) — applied in order; more specific first.
+# --- protect_join: last-resort guard for meaning-breaking phrases ----------
+# Extension of the German compound-noun approach: join a fixed phrase into one
+# unconvertible word so later word-level rules cannot touch it. Forms: CamelCase
+# (``ThatWay``), hyphen (``that-way``), snake (``that_way``); per phrase pick the
+# cheapest (o200k tokens, then utf8 bytes). Measured: CamelCase wins on every
+# entry below (e.g. ' ThatWays' 2 tok/9 B vs hyphen/snake 3/10);
+# test_protect_join_cheapest re-measures. Generic last resort for any
+# meaning-breaking phrase; keep the list small.
+PROTECTED_PHRASES: tuple[tuple[str, tuple[str, ...], str], ...] = (
+    # (left-context regex or "", words, style) — style = cheapest measured form.
+    ("", ("that", "way"), "camel"),
+    ("", ("that", "ways"), "camel"),
+    ("", ("those", "ways"), "camel"),
+    (r"by\s+", ("that", "time"), "camel"),
+    (r"in\s+", ("those", "days"), "camel"),
+    (r"of\s+", ("those", "days"), "camel"),
+    (r"of\s+", ("those", "things"), "camel"),
+    (r"in\s+", ("that", "case"), "camel"),
+)
+PROTECT_STYLES: tuple[str, ...] = ("camel", "hyphen", "snake")
+
+
+def protect_join(words: tuple[str, ...] | list[str], style: str = "camel") -> str:
+    """Join *words* into one protected token (German-compound style).
+
+    camel ``ThatWay`` / hyphen ``that-way`` / snake ``that_way``.
+    """
+    if style == "hyphen":
+        return "-".join(w.lower() for w in words)
+    if style == "snake":
+        return "_".join(w.lower() for w in words)
+    return "".join(w[:1].upper() + w[1:].lower() for w in words)
+
+
+def _protect_rule(ctx: str, words: tuple[str, ...], style: str) -> tuple[re.Pattern[str], Any]:
+    body = r"\s+".join(re.escape(w) for w in words)
+    pat = re.compile(rf"\b({ctx}){body}\b" if ctx else rf"\b(){body}\b", re.I)
+    joined = protect_join(words, style)
+    return pat, (lambda m, j=joined: m.group(1) + j)
+
+
+_PROTECT_SUBS = [_protect_rule(c, w, st) for c, w, st in PROTECTED_PHRASES]
+
+
 _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- pronouns (multi-word / longer first). Contractions (I'll) belong to C.
     # 2pl → y'all (same bit slot as they/them)
@@ -958,9 +1002,11 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bthis\b", re.I), "ça"),
     # EN that: demonstrative only — skip complementizer/relative
     # ("I think that…", "the book that…"). Keep bare that when ambiguous.
-    # Demonstrative determiner that/those + NOUN → the (o200k tie 1=1, utf8 fewer).
+    # Fixed phrases where that/those must stay → protect_join (see PROTECTED_PHRASES).
+    *_PROTECT_SUBS,
+    # Demonstrative determiner that/those + NOUN → the (#37; o200k tie 1=1, utf8 fewer).
     # Pronoun-use that/those (that is…, I said that., those who…) untouched.
-    # that/those + NOUN → the REMOVED: "look at me that way"→"the way" changes meaning.
+    (re.compile(r"\b(?:that|those)\s+(one|ones|thing|things|stuff|guy|guys|girl|girls|man|men|woman|women|person|people|day|days|time|times|book|books|idea|ideas|problem|problems|issue|issues|point|points|part|parts|side|sides|end|ends|car|cars|house|houses|place|places|year|years|room|rooms|file|files|case|cases|kind|kinds|sort|sorts)\b", re.I), lambda m: ("The " if m.group(0)[0].isupper() else "the ") + m.group(1)),
     # bare that+(is|was|…) → eso REMOVED: eats relative `N that BE` after which→that.
     # Demonstrative "that is" → i.e. in _PHRASE_GRAMMAR; ^that / post-punct that /
     # that's / that one|thing|… still cover deixis.
@@ -1288,6 +1334,9 @@ _COUNTER_SUBS: list[tuple[re.Pattern[str], str]] = [
 # is not eaten by example→ex.
 _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bthat is to say\b", re.I), "i.e."),
+    # of course → sure (o200k 2→1 tok, 10→5 B); must precede word-level of→de.
+    (re.compile(r"\bOf course\b"), "Sure"),
+    (re.compile(r"\bof course\b", re.I), "sure"),
     (re.compile(r"\bfor example\b", re.I), "e.g."),
     (re.compile(r"\bfor instance\b", re.I), "e.g."),
     (re.compile(r"\bin particular\b", re.I), "特"),

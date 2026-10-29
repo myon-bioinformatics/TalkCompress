@@ -74,7 +74,7 @@ def test_no_dangling_commas(s):
         ("Do you? I do.", "I do", "exec"),
         ("That is nonsense.", "That is nonsense", "eso"),
         ("That's her own business.", "That's", "eso"),
-        ("look at me that way.", "that way", "the way"),
+        ("look at me that way.", "ThatWay", "the way"),
         ("It is very good.", "very", "˅"),
         ("I was never there.", "never", "¬"),
         ("Not, as I explained, upon my own account.", "Not,", "!,"),
@@ -86,3 +86,70 @@ def test_meaning_preserve_round2(src, must, forbid):
     dz = load("density_zip", "DensityZip/density_zip.py")
     out = dz.run_pipeline(["C", "E"], src, ns())
     assert must in out and forbid not in out, out
+
+
+@pytest.mark.parametrize(
+    "src,must",
+    [
+        ("look at me that way.", "ThatWay"),
+        ("By that time he left.", "ThatTime"),
+        ("In those days we walked.", "ThoseDays"),
+        ("It was one of those days.", "ThoseDays"),
+        ("one of those things", "ThoseThings"),
+        ("in that case, go", "ThatCase"),
+        ("Of course, I agree.", "Sure, I agree"),
+        ("I like that book.", "the book"),
+        ("the end of that day", "the day"),
+    ],
+)
+def test_that_the_idiom_exclusions(src, must):
+    from tests._helpers import load, ns
+
+    dz = load("density_zip", "DensityZip/density_zip.py")
+    assert must in dz.run_pipeline(["C", "E"], src, ns())
+
+
+def test_of_course_phrase_before_word_level():
+    dz = load("density_zip", "DensityZip/density_zip.py")
+    for src in ("Of course, I agree.", "He was, of course, late."):
+        out = dz.run_pipeline(["C", "E"], src, ns())
+        assert "de course" not in out and "sure" in out.lower(), out
+
+
+def test_multiword_subs_not_shadowed_by_earlier_word_rules():
+    """General ordering guard: a literal multiword rule in _SUBS must not be
+    broken by an earlier single-word rule; phrase grammar runs before _SUBS."""
+    import re
+
+    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    lit = re.compile(r"^(?:\(\?[a-z]+\))?\\b([A-Za-z' ]+)\\b$")
+    bad = []
+    for i, (p, _) in enumerate(m._SUBS):
+        mm = lit.match(p.pattern)
+        if not mm or " " not in mm.group(1):
+            continue
+        ph = mm.group(1)
+        for q, _ in m._SUBS[:i]:
+            if q.search(ph) and not q.fullmatch(ph):
+                bad.append((ph, q.pattern))
+                break
+    assert not bad, bad
+    # every phrase-grammar literal must survive to its own rewrite (not pre-eaten by _SUBS)
+    import inspect
+
+    src = inspect.getsource(m.compress)
+    assert src.index("apply_phrase_grammar") < src.index("for pat, repl in _SUBS")
+
+
+def test_protect_join_cheapest():
+    """Chosen protect_join form is never costlier than the alternative (tokens, then bytes)."""
+    tiktoken = pytest.importorskip("tiktoken")
+    enc = tiktoken.get_encoding("o200k_base")
+    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+
+    def cost(s):
+        return (len(enc.encode(" " + s)), len((" " + s).encode()))
+
+    for _, words, style in m.PROTECTED_PHRASES:
+        best = min(cost(m.protect_join(words, st)) for st in m.PROTECT_STYLES)
+        assert cost(m.protect_join(words, style)) == best, (words, style)
