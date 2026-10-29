@@ -248,9 +248,7 @@ CONJ_ALIAS_TO_CANONICAL: dict[str, str] = {
     "bc": "bc",
     "because": "bc",
     "∴": "∴",
-    "therefore": "∴",
     "∵": "∵",
-    "whereas": "∵",
     "+": "+",
     "in addition": "+",
 }
@@ -272,11 +270,8 @@ ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "~": "~",
     "approximately": "~",
     "˅": "˅",
-    "extremely": "˅",
     "esp.": "esp.",
     "esp": "esp.",
-    "especially": "esp.",
-    "particularly": "esp.",
     "also": "also",
     "additionally": "also",
     "□": "□",
@@ -326,16 +321,14 @@ PREP_CANONICAL: tuple[str, ...] = ("w/", "4", "←", "@")
 PREP_EXTENDED: tuple[str, ...] = ("w/", "4", "←", "@", "to")
 PREP_ALIAS_TO_CANONICAL: dict[str, str] = {
     "w/": "w/",
-    "with": "w/",
-    "con": "w/",  # ES
-    "avec": "w/",  # FR
-    "mit": "w/",  # DE
+    "con": "with",  # ES
+    "avec": "with",  # FR
+    "mit": "with",  # DE
     "4": "4",
-    "for": "4",
-    "para": "4",  # ES purpose-for
-    "pour": "4",  # FR
-    "für": "4",  # DE
-    "fur": "4",
+    "para": "for",  # ES purpose-for
+    "pour": "for",  # FR
+    "für": "for",  # DE
+    "fur": "for",
     "ために": "4",  # JA purpose-for
     "為に": "4",
     "为了": "4",  # ZH purpose-for
@@ -385,7 +378,6 @@ PREP2_ALIAS_TO_CANONICAL: dict[str, str] = {
     "vor": "前",  # DE
     "後": "後",
     "后": "後",
-    "after": "後",
     "después": "後",  # ES
     "despues": "後",
     "après": "後",  # FR
@@ -1033,7 +1025,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # throughout / therewith before with→w/ (prefix / compound)
     (re.compile(r"\bthroughout\b", re.I), "通"),
     (re.compile(r"\bpartout\b", re.I), "通"),  # FR
-    (re.compile(r"\btherewith\b", re.I), "∴w/"),
     # --- finite high-freq prep / prep-like adv (not closed-inventory N growth) ---
     # multiword BEFORE of→de / from→← (else "out of"→"out de", "far from"→"far ←")
     # cycle2 multiword prep (before of→de / from→← / with→w/)
@@ -1064,7 +1055,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\btogether with\b", re.I), "共"),
     (re.compile(r"\bas opposed to\b", re.I), "vs"),
     (re.compile(r"\brather than\b", re.I), "vs"),
-    (re.compile(r"\bunlike\b", re.I), "≠"),
     (re.compile(r"\bin spite of\b", re.I), "雖"),
     (re.compile(r"\bin front of\b", re.I), "前"),
     (re.compile(r"\bin back of\b", re.I), "後"),
@@ -1079,63 +1069,24 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\baway from\b", re.I), "離"),
     (re.compile(r"\bout of\b", re.I), "外"),
     (re.compile(r"\bopposite to\b", re.I), "対側"),
-    (re.compile(r"\bopposite\b", re.I), "対側"),
-    (re.compile(r"\bacross\b", re.I), "↔"),
-    (re.compile(r"\balong\b", re.I), "沿"),
-    (re.compile(r"\balongside\b", re.I), "傍"),
     (re.compile(r"\bamong(?:st)?\b", re.I), "中"),
     (re.compile(r"\bamid(?:st)?\b", re.I), "中"),
-    (re.compile(r"\bbeside\b", re.I), "傍"),
     (re.compile(r"\bbesides\b", re.I), "他"),
-    (re.compile(r"\bbeyond\b", re.I), "≫"),
-    (re.compile(r"\bbetween\b", re.I), "間"),
-    (re.compile(r"\bagainst\b", re.I), "対"),
     (re.compile(r"\baround\b", re.I), "○"),
     (re.compile(r"\bduring\b", re.I), "中"),
-    (re.compile(r"\bexcept\b", re.I), "除"),
-    (re.compile(r"\bincluding\b", re.I), "含"),
     (re.compile(r"\binside\b", re.I), "内"),
     (re.compile(r"\boutside\b", re.I), "外"),
     (re.compile(r"\bthrough\b", re.I), "通"),
     (re.compile(r"\bthru\b", re.I), "通"),
-    (re.compile(r"\buntil\b", re.I), "〜"),
-    (re.compile(r"\btill\b", re.I), "〜"),
-    (re.compile(r"\bdespite\b", re.I), "雖"),
-    (re.compile(r"\baboard\b", re.I), "乗"),
-    (re.compile(r"\boverhead\b", re.I), "頭上"),
-    (re.compile(r"\boverseas\b", re.I), "海外"),
-    (re.compile(r"\bunderground\b", re.I), "地下"),
     (re.compile(r"\bunderneath\b", re.I), "下"),  # pairs C spatial-under
-    (re.compile(r"\bupstairs\b", re.I), "上階"),
-    (re.compile(r"\bdownstairs\b", re.I), "下階"),
-    (re.compile(r"\bindoors\b", re.I), "屋内"),
-    (re.compile(r"\boutdoors\b", re.I), "屋外"),
     (re.compile(r"\bahead\b", re.I), "→"),
-    (re.compile(r"\baside\b", re.I), "脇"),
-    (re.compile(r"\bapart\b", re.I), "離"),
     (re.compile(r"\btogether\b", re.I), "共"),
     (re.compile(r"\binstead\b(?!\s+of\b)", re.I), "代"),  # bare; "instead of" → vs in phrases
-    (re.compile(r"\bmeanwhile\b", re.I), "∥"),
-    (re.compile(r"\bafterwards\b", re.I), "後"),
-    (re.compile(r"\bnearby\b", re.I), "近"),
     (re.compile(r"\bbeneath\b", re.I), "下"),  # pairs C spatial-under
-    (re.compile(r"\bcirca\b", re.I), "c."),
     (re.compile(r"\binto\b", re.I), "入"),
-    (re.compile(r"\bbeforehand\b", re.I), "先"),
-    (re.compile(r"\bforever\b", re.I), "∞"),
-    (re.compile(r"\bovernight\b", re.I), "泊"),
-    (re.compile(r"\bthereafter\b", re.I), "後"),
-    (re.compile(r"\beverywhere\b", re.I), "∀loc"),
-    (re.compile(r"\bsomewhere\b", re.I), "某处"),
-    (re.compile(r"\belsewhere\b", re.I), "别处"),
-    (re.compile(r"\banew\b", re.I), "再"),
     # cycle2 spatial / time prep-like
-    (re.compile(r"\bpast\b", re.I), "過"),
     (re.compile(r"\bround\b", re.I), "○"),
     (re.compile(r"\bfollowing\b", re.I), "次"),
-    (re.compile(r"\bpreceding\b", re.I), "先"),
-    (re.compile(r"\bpending\b", re.I), "未決"),
-    (re.compile(r"\bwith\b", re.I), "w/"),
     (re.compile(r"\band\b", re.I), "&"),
     (re.compile(r"\bund\b", re.I), "&"),  # DE
     # FR et / ES y: alias-only (et al.; EN "x and y")
@@ -1144,12 +1095,8 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bou\b", re.I), "/"),  # FR
 
     (re.compile(r"\bbecause\b", re.I), "bc"),
-    (re.compile(r"\btherefore\b", re.I), "∴"),
     # Resultatives share ∴ (cheaper than so). thereby stays: by-that-means ≠ therefore,
     # and ∴by is whereby.
-    (re.compile(r"\bhence\b", re.I), "∴"),
-    (re.compile(r"\bthus\b", re.I), "∴"),
-    (re.compile(r"\baccordingly\b", re.I), "∴"),
     # Contrastive however → though (general EN synonym). Skip concessive/degree
     # "however hard/much/…" (however + Adj/Adv). Safe on "However," / "however I …".
     # Separate rule below: though → tho (informal EN clip). Two general rules,
@@ -1180,15 +1127,12 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bgreater than\b", re.I), ">"),
     # --- adverbs (closed inventory): degree + polarity-adjacent frequency
     # always→□ (∀ kept for whatever); never→¬; often→oft; bare not→! (after may not etc.)
-    (re.compile(r"\bextremely\b", re.I), "˅"),
-    (re.compile(r"\bparticularly\b", re.I), "esp."),
     (re.compile(r"\balways\b", re.I), "□"),
     # never→¬ REMOVED: o200k ' never' 1 tok vs ' ¬' 2 tok (token loser).
     (re.compile(r"\boften\b", re.I), "oft"),
     # --- auxiliaries (closed inventory); I'll stays C — do not contract I will
     # Negation / affirmation: polarity ``!`` is +1 bit flag (see polarity_bit_cost).
     # Longer neg forms before positives. should→must slot ⇒ shouldn't→!must.
-    (re.compile(r"\bcannot\b", re.I), "!can"),
     (re.compile(r"\bcan'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!can"),
     (re.compile(r"\bwon'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!will"),
     (re.compile(r"\bmust not\b", re.I), "!must"),
@@ -1243,13 +1187,12 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bhacia\b", re.I), "→"),  # ES
     (re.compile(r"\bvers\b", re.I), "→"),  # FR
     # NOTE(for→4): 表層 4 は数字の four と揺らぎうる。ビット在庫(2bit)とは別に評価し、将来 for（原形）等へ戻る可能性あり（現状は 4 のまま）。
-    (re.compile(r"\bpara\b", re.I), "4"),  # ES purpose-for
-    (re.compile(r"\bpour\b", re.I), "4"),  # FR
-    (re.compile(r"\bf[uü]r\b", re.I), "4"),  # DE
-    (re.compile(r"\bfor\b", re.I), "4"),
-    (re.compile(r"\bcon\b", re.I), "w/"),  # ES
-    (re.compile(r"\bavec\b", re.I), "w/"),  # FR
-    (re.compile(r"\bmit\b", re.I), "w/"),  # DE
+    (re.compile(r"\bpara\b", re.I), "for"),  # ES purpose-for
+    (re.compile(r"\bpour\b", re.I), "for"),  # FR
+    (re.compile(r"\bf[uü]r\b", re.I), "for"),  # DE (4 removed: token loser)
+    (re.compile(r"\bcon\b", re.I), "with"),  # ES
+    (re.compile(r"\bavec\b", re.I), "with"),  # FR
+    (re.compile(r"\bmit\b", re.I), "with"),  # DE
     (re.compile(r"\bbei\b", re.I), "@"),  # DE at/by
     (re.compile(r"\bat\b", re.I), "@"),
     # --- prep2: of→de / before→前 / after→後 (within/without already above)
@@ -1263,8 +1206,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bbefore\b", re.I), "前"),
     (re.compile(r"\bdespu[eé]s\b", re.I), "後"),
     (re.compile(r"\bapr[eè]s\b", re.I), "後"),
-    (re.compile(r"\bnach\b", re.I), "後"),
-    (re.compile(r"\bafter\b", re.I), "後"),
+    (re.compile(r"\bnach\b", re.I), "after"),
     (re.compile(r"\bof\b", re.I), "de"),
     # --- compare: 以上/以下 → ≥/≤ (JA priority). EN multi-word in _PHRASE_GRAMMAR.
     # Do not rewrite bare under/below/above (C ledger).
@@ -1273,26 +1215,11 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r">="), "≥"),
     (re.compile(r"<="), "≤"),
     # whatever-compounds → compact signals
-    (re.compile(r"\bwhatever\b", re.I), "∀"),
-    (re.compile(r"\bwhoever\b", re.I), "∀who"),
-    (re.compile(r"\bwhichever\b", re.I), "∀opt"),  # no bare "which" residue
-    (re.compile(r"\bwherever\b", re.I), "∀loc"),
-    (re.compile(r"\bwhenever\b", re.I), "∀when"),
-    (re.compile(r"\bnonetheless\b", re.I), "tho∴"),
     (re.compile(r"\bhereinafter referred to as\b", re.I), "∴="),
     (re.compile(r"\bhereinafter\b", re.I), "∴↓"),
-    (re.compile(r"\bhereafter\b", re.I), "∴→"),
-    (re.compile(r"\bhenceforth\b", re.I), "∴→"),  # same sense as hereafter
-    (re.compile(r"\bherein\b", re.I), "∈"),
-    (re.compile(r"\bthereof\b", re.I), "∴of"),
     # ∈there loses utf8; ∈it is the dual-metric win (in that). Not herein's bare ∈.
-    (re.compile(r"\btherein\b", re.I), "∈it"),
-    (re.compile(r"\bthereto\b", re.I), "∴to"),  # to that; not → (toward)
-    (re.compile(r"\bwhereby\b", re.I), "∴by"),
-    (re.compile(r"\bwhereas\b", re.I), "∵"),
     # Prepositional concessive. tho/but lose "notwithstanding §5".
     # despite itself is already →雖 (prep tranche); emit that terminal directly.
-    (re.compile(r"\bnotwithstanding\b", re.I), "雖"),
     (re.compile(r"\bnamely\b", re.I), "viz"),
     (re.compile(r"\bviz\."), "viz"),
     (re.compile(r"\baforementioned\b", re.I), "said"),
@@ -1460,11 +1387,7 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bfor good\b", re.I), "∞"),
     (re.compile(r"\bhitherto\b", re.I), "従来"),
     (re.compile(r"\bunderage\b", re.I), "年少"),
-    (re.compile(r"\banywhere\b", re.I), "∃loc"),
     (re.compile(r"(?<!out of )\bnowhere\b", re.I), "∅loc"),
-    (re.compile(r"\banytime\b", re.I), "∀時"),
-    (re.compile(r"\bsomewhat\b", re.I), "稍"),
-    (re.compile(r"\bsomehow\b", re.I), "或様"),
     (re.compile(r"\bclear of\b", re.I), "離"),
     (re.compile(r"\bfree of\b", re.I), "无"),
     (re.compile(r"\bfree from\b", re.I), "无"),
@@ -1532,7 +1455,6 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bat the moment\b", re.I), "今"),
     (re.compile(r"\bat present\b", re.I), "今"),
     (re.compile(r"\bunder way\b", re.I), "進行"),
-    (re.compile(r"\bunderway\b", re.I), "進行"),
     # cycle5 folds
     (re.compile(r"\bin the meantime\b", re.I), "∥"),
     (re.compile(r"\bin the interim\b", re.I), "∥"),
@@ -1677,7 +1599,6 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bat all times\b", re.I), "常時"),
     (re.compile(r"\bat times\b", re.I), "時々"),
     (re.compile(r"\bat random\b", re.I), "乱"),
-    (re.compile(r"\bexcluding\b", re.I), "除"),
     # cycle9 prep + prep-like adv
     (re.compile(r"\bfor the duration of\b", re.I), "期間"),
     (re.compile(r"\bonce and for all\b", re.I), "断"),
@@ -1706,21 +1627,7 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bafraid of\b", re.I), "恐"),
     (re.compile(r"\bscared of\b", re.I), "恐"),
     (re.compile(r"\babreast of\b", re.I), "並"),
-    (re.compile(r"\bsimultaneously\b", re.I), "同時"),
-    (re.compile(r"\bconcurrently\b", re.I), "同時"),
-    (re.compile(r"\brespectively\b", re.I), "各"),
-    (re.compile(r"\bsimilarly\b", re.I), "同様"),
-    (re.compile(r"\blikewise\b", re.I), "同様"),
-    (re.compile(r"\balternately\b", re.I), "交互"),
-    (re.compile(r"\balternatively\b", re.I), "交互"),
-    (re.compile(r"\bcurrently\b", re.I), "現"),
-    (re.compile(r"\bpresently\b", re.I), "現"),
-    (re.compile(r"\bformerly\b", re.I), "旧"),
-    (re.compile(r"\bpreviously\b", re.I), "旧"),
     (re.compile(r"\bconversely\b", re.I), "逆"),
-    (re.compile(r"\bthereupon\b", re.I), "其時"),
-    (re.compile(r"\bwhereupon\b", re.I), "其時"),
-    (re.compile(r"\boffshore\b", re.I), "沖"),
     # cycle10 prep + prep-like adv (final of ~10)
     (re.compile(r"\bmore often than not\b", re.I), "大抵"),
     (re.compile(r"\bthrough and through\b", re.I), "徹底"),
@@ -1763,18 +1670,11 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bnationwide\b", re.I), "全国"),
     (re.compile(r"\bworldwide\b", re.I), "世界"),
     (re.compile(r"\bglobally\b", re.I), "世界"),
-    (re.compile(r"\bunderwater\b", re.I), "水中"),
-    (re.compile(r"\boverboard\b", re.I), "船外"),
     (re.compile(r"\bashore\b", re.I), "岸"),
-    (re.compile(r"\bbackwards\b", re.I), "後方"),
-    (re.compile(r"\bbackward\b", re.I), "後方"),
     (re.compile(r"\bsideways\b", re.I), "横"),
-    (re.compile(r"\bafterward\b", re.I), "後"),
-    (re.compile(r"\bconsidering\b", re.I), "鑑"),
     (re.compile(r"\bvis-a-vis\b", re.I), "vs"),
     (re.compile(r"\badditionally\b", re.I), "+"),
     (re.compile(r"\balso\b", re.I), "+"),
-    (re.compile(r"\bespecially\b", re.I), "esp."),
     # appositive only (", that is," / "(that is"); "Oh, that is nonsense" is a clause
     (re.compile(r"(?<=[,(;—] )that is(?=[,:])|(?<=[(—])that is(?=[,:])", re.I), "i.e."),
     (re.compile(r"\bversus\b", re.I), "vs"),
@@ -1843,25 +1743,18 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bwant to\b", re.I), "wanna"),
     (re.compile(r"\bkind of\b", re.I), "kinda"),
     (re.compile(r"\bsort of\b", re.I), "sorta"),
-    (re.compile(r"\bunless\b", re.I), "!if"),
     (re.compile(r"\bwhether\b", re.I), "if"),
     (re.compile(r"(?<!\bonce in a )(?<!\ba )\bwhilst\b", re.I), "∥"),
     (re.compile(r"(?<!\bonce in a )(?<!\ba )\bwhile\b", re.I), "∥"),
     (re.compile(r"\bmaybe\b", re.I), "或"),
     (re.compile(r"\bperhaps\b", re.I), "或"),
-    (re.compile(r"\bprobably\b", re.I), "恐"),
     (re.compile(r"\busually\b", re.I), "常"),
-    (re.compile(r"\balready\b", re.I), "既"),
-    (re.compile(r"\bonly\b", re.I), "僅"),
     (re.compile(r"\bstill\b", re.I), "尚"),
     # gap-fill bare dets/quants (AFTER multiword some/every/each phrases)
     (re.compile(r"\bevery\b(?!where\b|one\b|body\b|day\b|time\b|thing\b)", re.I), "∀"),
     (re.compile(r"\beach\b(?!\s+other\b)", re.I), "各"),
     (re.compile(r"\bsome\b(?!where\b|how\b|what\b|one\b|body\b|times?\b|thing\b|day\b|extent\b|ways?\b)", re.I), "∃"),
-    (re.compile(r"\bnone\b", re.I), "∅"),
-    (re.compile(r"\bboth\b", re.I), "両"),
     (re.compile(r"\bseveral\b", re.I), "数"),
-    (re.compile(r"\bvarious\b", re.I), "諸"),
     (re.compile(r"\bnumerous\b", re.I), "多"),
     # --- relative pronouns / 関係代名詞 (after that is→i.e.; not deixis/interrogative) ---
     # EN: which→that (post-nominal / non-restrictive); whom→who. Prefer EN-internal that over que.
