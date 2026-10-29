@@ -14,7 +14,9 @@
     "Explicit going-to phrases (I am going to go → iré/vou/…) registered as longer sources.",
     "Tranche2 1s (~35): take/think/try/find/call/put/bring/write/read/buy/wait/use/open/pay/live/send/stay; skip tell≃say, make≃do, get, ask (pedir/preguntar shaky).",
     "`to`/`lang` は runtime cheapest（token→utf8→len）の実勝者に合わせた名目ラベル。勝者は常に runtime が決める（el πάρω/βρω/πάω/μένω 等が勝つ行あり）。",
-    "from の主語+助動詞（I will/I'll, I would/I'd, we will/we'll, I am/I'm …）は loader が双方向に自動派生（_subject_aux_variants）。JSON に両形を書く必要はない。"
+    "from の主語+助動詞（I will/I'll, I would/I'd, we will/we'll, I am/I'm …）は loader が双方向に自動派生（_subject_aux_variants）。JSON に両形を書く必要はない。",
+    "Progressive (be + -ing) は単純時制に落とさない: 進行相を保つ迂言形（es estar+gerundio / pt estar+gerúndio・estar a+inf / it stare+gerundio / fr être en train de / nl aan het）のみ候補とし、token と utf8 が共に縮まなければ EN のまま（tense_matrix が担当）。",
+    "英語同綴ガード: 候補のどれかのトークンが英単語と同綴（fixtures/en_wordlist.txt; he/ha/van/fora/a …）なら runtime で除外し、次に安い一意な候補、なければ EN を残す（揺らぎ回避）。`to` はガード後の runtime 勝者。"
   ],
   "entries": [
     {
@@ -56,9 +58,7 @@
     {
       "id": "go-pres-1s",
       "from": [
-        "I go",
-        "I am going",
-        "I'm going"
+        "I go"
       ],
       "to": "vou",
       "lang": "pt",
@@ -187,7 +187,7 @@
         "we will go"
       ],
       "to": "vamos",
-      "lang": "pt",
+      "lang": "es",
       "tense": "future",
       "metrics": {
         "token_before": 3,
@@ -251,77 +251,6 @@
         "token_after": 1,
         "utf8_before": 8,
         "utf8_after": 3,
-        "both_shrink": true
-      }
-    },
-    {
-      "id": "go-prog-3sm",
-      "from": [
-        "he is going",
-        "he's going"
-      ],
-      "to": "va",
-      "lang": "es",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 1,
-        "utf8_before": 11,
-        "utf8_after": 2,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "va",
-          "lang": "es"
-        },
-        {
-          "form": "vai",
-          "lang": "pt"
-        }
-      ]
-    },
-    {
-      "id": "go-prog-3sf",
-      "from": [
-        "she is going",
-        "she's going"
-      ],
-      "to": "va",
-      "lang": "es",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 1,
-        "utf8_before": 12,
-        "utf8_after": 2,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "va",
-          "lang": "es"
-        },
-        {
-          "form": "vai",
-          "lang": "pt"
-        }
-      ]
-    },
-    {
-      "id": "go-prog-1p",
-      "from": [
-        "we are going",
-        "we're going"
-      ],
-      "to": "vamos",
-      "lang": "es",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
-        "utf8_before": 12,
-        "utf8_after": 5,
         "both_shrink": true
       }
     },
@@ -400,49 +329,6 @@
         "token_after": 2,
         "utf8_before": 11,
         "utf8_after": 7,
-        "both_shrink": true
-      }
-    },
-    {
-      "id": "come-past-1s",
-      "from": [
-        "I came"
-      ],
-      "to": "vim",
-      "lang": "pt",
-      "tense": "past",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "utf8_before": 6,
-        "utf8_after": 3,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "vim",
-          "lang": "pt"
-        },
-        {
-          "form": "vine",
-          "lang": "es"
-        }
-      ]
-    },
-    {
-      "id": "come-prog-1s",
-      "from": [
-        "I am coming",
-        "I'm coming"
-      ],
-      "to": "vengo",
-      "lang": "es",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
-        "utf8_before": 11,
-        "utf8_after": 5,
         "both_shrink": true
       }
     },
@@ -553,32 +439,6 @@
         "utf8_after": 6,
         "both_shrink": true
       }
-    },
-    {
-      "id": "be-pres-1s",
-      "from": [
-        "I am"
-      ],
-      "to": "sou",
-      "lang": "pt",
-      "tense": "present",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "utf8_before": 4,
-        "utf8_after": 3,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "soy",
-          "lang": "es"
-        },
-        {
-          "form": "sou",
-          "lang": "pt"
-        }
-      ]
     },
     {
       "id": "be-fut-1s",
@@ -770,22 +630,6 @@
           "lang": "pt"
         }
       ]
-    },
-    {
-      "id": "see-past-1s",
-      "from": [
-        "I saw"
-      ],
-      "to": "vi",
-      "lang": "es",
-      "tense": "past",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "utf8_before": 5,
-        "utf8_after": 2,
-        "both_shrink": true
-      }
     },
     {
       "id": "see-pres-1s",
@@ -1063,10 +907,8 @@
       ]
     },
     {
-      "id": "take-prog-1s",
+      "id": "take-pres-1s",
       "from": [
-        "I am taking",
-        "I'm taking",
         "I take"
       ],
       "to": "neem",
@@ -1161,9 +1003,7 @@
     {
       "id": "think-pres-1s",
       "from": [
-        "I think",
-        "I'm thinking",
-        "I am thinking"
+        "I think"
       ],
       "to": "denk",
       "lang": "nl",
@@ -1236,37 +1076,6 @@
         "both_shrink": true
       },
       "note": "intentaré is 3 tok (= I will try); pt tentarei wins"
-    },
-    {
-      "id": "try-prog-1s",
-      "from": [
-        "I am trying",
-        "I'm trying"
-      ],
-      "to": "tento",
-      "lang": "pt",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
-        "utf8_before": 11,
-        "utf8_after": 5,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tento",
-          "lang": "pt"
-        },
-        {
-          "form": "intento",
-          "lang": "es"
-        },
-        {
-          "form": "essaie",
-          "lang": "fr"
-        }
-      ]
     },
     {
       "id": "try-past-1s",
@@ -1356,7 +1165,7 @@
         "token_after": 1,
         "utf8_before": 7,
         "utf8_after": 4,
-        "both_shrink": false
+        "both_shrink": true
       },
       "candidates": [
         {
@@ -1683,41 +1492,6 @@
       "note": "I read tense-ambiguous — omitted; I'll read 2=2 vs leeré"
     },
     {
-      "id": "read-prog-1s",
-      "from": [
-        "I am reading",
-        "I'm reading"
-      ],
-      "to": "leo",
-      "lang": "es",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 1,
-        "utf8_before": 12,
-        "utf8_after": 3,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "leo",
-          "lang": "es"
-        },
-        {
-          "form": "leio",
-          "lang": "pt"
-        },
-        {
-          "form": "lis",
-          "lang": "fr"
-        },
-        {
-          "form": "lees",
-          "lang": "nl"
-        }
-      ]
-    },
-    {
       "id": "buy-fut-1s",
       "from": [
         "I will buy"
@@ -1756,37 +1530,6 @@
         }
       ],
       "note": "I'll wait 2=2 — omitted"
-    },
-    {
-      "id": "wait-prog-1s",
-      "from": [
-        "I am waiting",
-        "I'm waiting"
-      ],
-      "to": "wacht",
-      "lang": "nl",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
-        "utf8_before": 12,
-        "utf8_after": 5,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "espero",
-          "lang": "es"
-        },
-        {
-          "form": "attends",
-          "lang": "fr"
-        },
-        {
-          "form": "wacht",
-          "lang": "nl"
-        }
-      ]
     },
     {
       "id": "use-fut-1s",
@@ -1965,41 +1708,6 @@
         {
           "form": "resterai",
           "lang": "fr"
-        }
-      ]
-    },
-    {
-      "id": "stay-prog-1s",
-      "from": [
-        "I am staying",
-        "I'm staying"
-      ],
-      "to": "fico",
-      "lang": "pt",
-      "tense": "present",
-      "metrics": {
-        "token_before": 4,
-        "token_after": 1,
-        "utf8_before": 12,
-        "utf8_after": 4,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "fico",
-          "lang": "pt"
-        },
-        {
-          "form": "quedo",
-          "lang": "es"
-        },
-        {
-          "form": "reste",
-          "lang": "fr"
-        },
-        {
-          "form": "μένω",
-          "lang": "el"
         }
       ]
     },
@@ -2220,6 +1928,135 @@
       "to": "leo",
       "lang": "es",
       "why_dropped": "I read tense-ambiguous (pres/past)"
+    },
+    {
+      "id": "go-prog-3sm",
+      "from": [
+        "he is going",
+        "he's going"
+      ],
+      "to": "va",
+      "lang": "es",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "go-prog-3sf",
+      "from": [
+        "she is going",
+        "she's going"
+      ],
+      "to": "va",
+      "lang": "es",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "go-prog-1p",
+      "from": [
+        "we are going",
+        "we're going"
+      ],
+      "to": "vamos",
+      "lang": "es",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "come-prog-1s",
+      "from": [
+        "I am coming",
+        "I'm coming"
+      ],
+      "to": "vengo",
+      "lang": "es",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "try-prog-1s",
+      "from": [
+        "I am trying",
+        "I'm trying"
+      ],
+      "to": "tento",
+      "lang": "pt",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "read-prog-1s",
+      "from": [
+        "I am reading",
+        "I'm reading"
+      ],
+      "to": "leo",
+      "lang": "es",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "wait-prog-1s",
+      "from": [
+        "I am waiting",
+        "I'm waiting"
+      ],
+      "to": "wacht",
+      "lang": "nl",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "stay-prog-1s",
+      "from": [
+        "I am staying",
+        "I'm staying"
+      ],
+      "to": "fico",
+      "lang": "pt",
+      "why_dropped": "progressive → simple present loses aspect; go/come prog now come from tense_matrix periphrases (estar/stare + gerund), try/read/wait/stay periphrases do not shrink token+utf8 → EN kept"
+    },
+    {
+      "id": "go-pres-1s-prog",
+      "from": [
+        "I am going",
+        "I'm going"
+      ],
+      "to": "vou",
+      "lang": "pt",
+      "why_dropped": "progressive → simple present loses aspect; tense_matrix go-presprog-1s uses a progressive periphrasis or keeps EN"
+    },
+    {
+      "id": "take-think-prog-1s",
+      "from": [
+        "I am taking",
+        "I'm taking",
+        "I am thinking",
+        "I'm thinking"
+      ],
+      "to": "neem / denk",
+      "lang": "nl",
+      "why_dropped": "progressive → simple present loses aspect; tense_matrix presprog cells decide (periphrasis or EN)"
+    },
+    {
+      "id": "come-past-1s",
+      "from": [
+        "I came"
+      ],
+      "to": "vim",
+      "lang": "pt",
+      "why_dropped": "EN homograph guard: every candidate spells an English word (vim, vine) → hand row dropped; tense_matrix supplies the next-cheapest unique form (I came → kwam, I saw → vis)"
+    },
+    {
+      "id": "be-pres-1s",
+      "from": [
+        "I am"
+      ],
+      "to": "sou",
+      "lang": "pt",
+      "why_dropped": "EN homograph guard: every candidate spells an English word (sou, soy) → EN kept"
+    },
+    {
+      "id": "see-past-1s",
+      "from": [
+        "I saw"
+      ],
+      "to": "vi",
+      "lang": "es",
+      "why_dropped": "EN homograph guard: every candidate spells an English word (vi) → hand row dropped; tense_matrix supplies the next-cheapest unique form (I came → kwam, I saw → vis)"
     }
   ]
 }

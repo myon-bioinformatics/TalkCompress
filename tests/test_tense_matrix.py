@@ -72,7 +72,8 @@ def test_negative_no_misfire(s):
     ("s", "want"),
     [
         ("This has gone well", "This foi well"),
-        ("People who are going home", "People who van home"),
+        # "van" is an EN word → guard drops it; no other progressive form shrinks.
+        ("People who are going home", "People who are going home"),
         ("I'm going to buy it", "compraré it"),
     ],
 )
@@ -93,3 +94,130 @@ def test_no_token_increase_on_sentences():
     for c in CELLS:
         s = f"{c['src']} today."
         assert t.estimate_tokens(t.apply_es_fr_tense(s)) <= t.estimate_tokens(s)
+
+
+# --- EN-homograph guard ----------------------------------------------------
+
+
+def test_en_wordlist_loaded_and_deterministic():
+    t = _t()
+    wl = t.load_en_wordlist()
+    assert isinstance(wl, frozenset) and len(wl) > 50000
+    for w in ("he", "fora", "van", "a", "was", "en", "train", "vi", "soy", "sou", "vim", "that"):
+        assert w in wl, w
+    for w in ("es", "sera", "vas", "di", "sto", "estou", "indo", "dou", "kwam", "vis"):
+        assert w not in wl, w
+    assert t.load_en_wordlist() is wl
+
+
+@pytest.mark.parametrize(
+    ("form", "want"),
+    [("he visto", ["he"]), ("fora", ["fora"]), ("van", ["van"]), ("estava a ir", ["a"]),
+     ("estou indo", []), ("He", ["he"])],
+)
+def test_en_homograph_tokens(form, want):
+    assert _t().en_homograph_tokens(form) == want
+
+
+def test_en_homograph_tokens_keeps_subject_head():
+    # Subject-kept rows (This foi …) must not be rejected for their EN head.
+    assert _t().en_homograph_tokens("This foi", keep_head="this") == []
+
+
+@pytest.mark.parametrize(
+    ("s", "want"),
+    [
+        ("I give", "dou"),  # "do" (EN) dropped → next-cheapest unique
+        ("I came", "kwam"),  # vim / vine dropped → matrix nl
+        ("I saw", "vis"),  # vi dropped → matrix fr
+        ("I have seen it", "ai vu it"),  # he visto dropped
+        ("I am", "I am"),  # sou / soy both EN → EN kept
+    ],
+)
+def test_guard_falls_back_or_keeps_en(s, want):
+    assert _t().apply_es_fr_tense(s) == want
+
+
+def test_no_winner_spells_an_english_word():
+    t = _t()
+    for e in ENTRIES:
+        head = e["from"][0].split(" ", 1)[0].lower()
+        assert not t.en_homograph_tokens(e["to"], keep_head=head), e["id"]
+    for src, dst, _lang in t.es_fr_tense_pairs():
+        head = src.split(" ", 1)[0].lower()
+        if t.apply_es_fr_tense(src) == dst:
+            assert not t.en_homograph_tokens(dst, keep_head=head), (src, dst)
+
+
+def test_runtime_never_emits_new_en_homograph():
+    t = _t()
+    for c in CELLS:
+        out = t.apply_es_fr_tense(c["src"])
+        if out == c["src"]:
+            continue
+        # Any EN word left in the output must come from the source (kept
+        # subject / unconverted tail), never from a replacement.
+        src_words = set(c["src"].lower().split())
+        new = [w for w in t.en_homograph_tokens(out) if w not in src_words]
+        assert not new, (c["src"], out, new)
+
+
+def test_homograph_dropped_recorded_in_report():
+    dropped = [c for c in CELLS if c.get("homograph_dropped")]
+    assert dropped
+    assert all(h["en"] for c in dropped for h in c["homograph_dropped"])
+
+
+# --- that: multi-POS, never converted --------------------------------------
+
+
+def test_that_cells_all_rejected():
+    that = [c for c in CELLS if c["subject"] == "dem-that"]
+    assert that and all(c["status"] == "reject" and "that" in c["reason"] for c in that)
+
+
+@pytest.mark.parametrize("s", ["that has gone", "that is going well", "that went home", "that will be going"])
+def test_that_left_unconverted(s):
+    assert _t().apply_es_fr_tense(s) == s
+
+
+# --- progressive keeps aspect ---------------------------------------------
+
+_PROG_AUX = ("est", "sto", "sta", "ser", "suis", "es ", "ét", "sommes", "sont")  # estar/stare/être (+ zijn aan het)
+
+
+def test_progressive_winners_are_periphrastic():
+    prog = [c for c in CELLS if c["tense"].endswith("prog") and c["status"] == "adopt"]
+    assert prog
+    for c in prog:
+        assert c["shape"].startswith("prog-"), c
+        assert c["lang"] != "nl" or c["shape"] == "prog-aan-het", c
+        assert " " in c["best"], c  # aux + gerund/inf, never a bare simple form
+        body = c["best"].lower()
+        if c["subject"].startswith(("dem-", "rel-")):  # subject kept: "this estará indo"
+            body = body.split(" ", 1)[1]
+            if c["subject"].startswith("rel-"):
+                body = body.split(" ", 1)[1] if body.split(" ", 1)[0] in ("who", "which") else body
+        assert body.startswith(_PROG_AUX), c
+
+
+def test_progressive_hand_rows_not_simple_present():
+    t = _t()
+    for src in ("I'm going now.", "I'm reading now.", "I am coming", "we are going", "he was going"):
+        out = t.apply_es_fr_tense(src)
+        for simple in ("voy", "vou", "vengo", "leo", "leio", "vamos", "fui", "iba"):
+            assert simple not in out.split(), (src, out)
+
+
+@pytest.mark.parametrize(
+    ("s", "want"),
+    [("he is going", "está indo"), ("he was going", "estava indo"), ("I will be going", "estarei indo"),
+     ("we will be doing", "staremo facendo")],
+)
+def test_progressive_examples(s, want):
+    assert _t().apply_es_fr_tense(s) == want
+
+
+def test_no_progressive_no_shrink_reason():
+    rej = [c for c in CELLS if c["tense"].endswith("prog") and c["status"] == "reject"]
+    assert any("progressive-preserving" in c["reason"] for c in rej)
