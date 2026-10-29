@@ -672,6 +672,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "I have had",
+   "crossling_dropped": [
+    "ai eu"
+   ],
    "homograph_dropped": [
     {
      "form": "he tenido",
@@ -705,6 +708,10 @@
    "tense": "perf",
    "verb": "think",
    "src": "I have thought",
+   "crossling_dropped": [
+    "ai pensé",
+    "pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "he pensado",
@@ -719,8 +726,8 @@
      ]
     }
    ],
-   "best": "pensé",
-   "lang": "es",
+   "best": "pensei",
+   "lang": "pt",
    "shape": "simple-preterite",
    "number": "",
    "tok": [
@@ -804,6 +811,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "I have given",
+   "crossling_dropped": [
+    "di"
+   ],
    "homograph_dropped": [
     {
      "form": "he dado",
@@ -819,8 +829,8 @@
      ]
     }
    ],
-   "best": "di",
-   "lang": "es",
+   "best": "dei",
+   "lang": "pt",
    "shape": "simple-preterite",
    "number": "",
    "tok": [
@@ -829,7 +839,7 @@
    ],
    "utf8": [
     12,
-    2
+    3
    ],
    "status": "adopt"
   },
@@ -971,8 +981,11 @@
    "tense": "futperf",
    "verb": "have",
    "src": "I will have had",
-   "best": "aurai eu",
-   "lang": "fr",
+   "crossling_dropped": [
+    "aurai eu"
+   ],
+   "best": "terei tido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -981,7 +994,7 @@
    ],
    "utf8": [
     15,
-    8
+    10
    ],
    "status": "adopt"
   },
@@ -990,6 +1003,9 @@
    "tense": "futperf",
    "verb": "think",
    "src": "I will have thought",
+   "crossling_dropped": [
+    "aurai pensé"
+   ],
    "best": "avrò pensato",
    "lang": "it",
    "shape": "compound",
@@ -1222,6 +1238,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "I had had",
+   "crossling_dropped": [
+    "avais eu"
+   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -1241,6 +1260,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "I had thought",
+   "crossling_dropped": [
+    "avais pensé"
+   ],
    "best": "pensara",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -2830,6 +2852,11 @@
    "tense": "pres",
    "verb": "think",
    "src": "you think",
+   "crossling_dropped": [
+    "pensa",
+    "pensais",
+    "pensas"
+   ],
    "usted_style_best": {
     "form": "denkt",
     "number": "2sg-tú",
@@ -2928,6 +2955,11 @@
    "tense": "pres",
    "verb": "give",
    "src": "you give",
+   "crossling_dropped": [
+    "da",
+    "das",
+    "dá"
+   ],
    "homograph_dropped": [
     {
      "form": "dais",
@@ -2949,12 +2981,12 @@
     }
    ],
    "usted_style_best": {
-    "form": "da",
+    "form": "dà",
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "das",
-   "lang": "es",
+   "best": "dai",
+   "lang": "it",
    "shape": "simple",
    "number": "2sg-tú",
    "tok": [
@@ -2980,6 +3012,9 @@
    "tense": "fut",
    "verb": "come",
    "src": "you will come",
+   "crossling_dropped": [
+    "verrai"
+   ],
    "usted_style_best": {
     "form": "virá",
     "number": "2sg-usted",
@@ -3205,8 +3240,8 @@
    "verb": "give",
    "src": "you will give",
    "crossling_dropped": [
-    "dá",
-    "da"
+    "da",
+    "dá"
    ],
    "usted_style_best": {
     "form": "dasz",
@@ -3480,23 +3515,19 @@
    "tense": "past",
    "verb": "think",
    "src": "you thought",
+   "crossling_dropped": [
+    "a pensé",
+    "as pensé",
+    "avez pensé",
+    "ont pensé",
+    "pensa",
+    "pensas"
+   ],
    "homograph_dropped": [
-    {
-     "form": "as pensé",
-     "en": [
-      "as"
-     ]
-    },
     {
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4042,17 +4073,17 @@
    "tense": "perf",
    "verb": "have",
    "src": "you have had",
+   "crossling_dropped": [
+    "a eu",
+    "as eu",
+    "avez eu",
+    "ont eu"
+   ],
    "homograph_dropped": [
     {
      "form": "has tenido",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as eu",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4066,12 +4097,6 @@
      "en": [
       "ha"
      ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
-     ]
     }
    ],
    "usted_style_best": {
@@ -4079,10 +4104,10 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "avez eu",
-   "lang": "fr",
-   "shape": "compound",
-   "number": "2pl-vosotros/vous",
+   "best": "tiveste",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "2sg-tú",
    "tok": [
     3,
     2
@@ -4098,17 +4123,17 @@
    "tense": "perf",
    "verb": "think",
    "src": "you have thought",
+   "crossling_dropped": [
+    "a pensé",
+    "as pensé",
+    "avez pensé",
+    "ont pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "has pensado",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as pensé",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4121,12 +4146,6 @@
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4574,36 +4593,28 @@
    "tense": "futperf",
    "verb": "have",
    "src": "you will have had",
-   "homograph_dropped": [
-    {
-     "form": "auras eu",
-     "en": [
-      "auras"
-     ]
-    },
-    {
-     "form": "aura eu",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura eu",
+    "auras eu",
+    "aurez eu",
+    "auront eu"
    ],
    "usted_style_best": {
     "form": "terá tido",
     "number": "2sg-usted",
     "tok": 2
    },
-   "best": "aurez eu",
-   "lang": "fr",
+   "best": "terás tido",
+   "lang": "pt",
    "shape": "compound",
-   "number": "2pl-vosotros/vous",
+   "number": "2sg-tú",
    "tok": [
     4,
     3
    ],
    "utf8": [
     17,
-    8
+    11
    ],
    "status": "adopt"
   },
@@ -4612,36 +4623,28 @@
    "tense": "futperf",
    "verb": "think",
    "src": "you will have thought",
-   "homograph_dropped": [
-    {
-     "form": "auras pensé",
-     "en": [
-      "auras"
-     ]
-    },
-    {
-     "form": "aura pensé",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura pensé",
+    "auras pensé",
+    "aurez pensé",
+    "auront pensé"
    ],
    "usted_style_best": {
     "form": "avrà pensato",
     "number": "2sg-usted",
     "tok": 3
    },
-   "best": "aurez pensé",
-   "lang": "fr",
+   "best": "avrai pensato",
+   "lang": "it",
    "shape": "compound",
-   "number": "2pl-vosotros/vous",
+   "number": "2sg-tú",
    "tok": [
     5,
     4
    ],
    "utf8": [
     21,
-    12
+    13
    ],
    "status": "adopt"
   },
@@ -5002,6 +5005,12 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "you had had",
+   "crossling_dropped": [
+    "avaient eu",
+    "avais eu",
+    "avait eu",
+    "aviez eu"
+   ],
    "usted_style_best": {
     "form": "tivera",
     "number": "2sg-usted",
@@ -5026,6 +5035,12 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "you had thought",
+   "crossling_dropped": [
+    "avaient pensé",
+    "avais pensé",
+    "avait pensé",
+    "aviez pensé"
+   ],
    "usted_style_best": {
     "form": "pensara",
     "number": "2sg-usted",
@@ -8472,6 +8487,9 @@
    "tense": "pres",
    "verb": "think",
    "src": "he thinks",
+   "crossling_dropped": [
+    "pensa"
+   ],
    "best": "denkt",
    "lang": "de",
    "shape": "simple",
@@ -8558,8 +8576,12 @@
    "tense": "pres",
    "verb": "give",
    "src": "he gives",
-   "best": "da",
-   "lang": "es",
+   "crossling_dropped": [
+    "da",
+    "dá"
+   ],
+   "best": "dà",
+   "lang": "it",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -8568,7 +8590,7 @@
    ],
    "utf8": [
     8,
-    2
+    3
    ],
    "status": "adopt",
    "parity_class": [
@@ -8799,8 +8821,8 @@
    "verb": "give",
    "src": "he will give",
    "crossling_dropped": [
-    "dá",
-    "da"
+    "da",
+    "dá"
    ],
    "best": "dará",
    "lang": "es",
@@ -9034,17 +9056,15 @@
    "tense": "past",
    "verb": "think",
    "src": "he thought",
+   "crossling_dropped": [
+    "a pensé",
+    "pensa"
+   ],
    "homograph_dropped": [
     {
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9494,6 +9514,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "he has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "homograph_dropped": [
     {
      "form": "ha tenido",
@@ -9505,12 +9528,6 @@
      "form": "ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9538,6 +9555,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "he has thought",
+   "crossling_dropped": [
+    "a pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "ha pensado",
@@ -9549,12 +9569,6 @@
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9923,13 +9937,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "he will have had",
-   "homograph_dropped": [
-    {
-     "form": "aura eu",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura eu"
    ],
    "best": "terá tido",
    "lang": "pt",
@@ -9955,13 +9964,8 @@
    "tense": "futperf",
    "verb": "think",
    "src": "he will have thought",
-   "homograph_dropped": [
-    {
-     "form": "aura pensé",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura pensé"
    ],
    "best": "terá pensado",
    "lang": "pt",
@@ -10281,6 +10285,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "he had had",
+   "crossling_dropped": [
+    "avait eu"
+   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -10305,6 +10312,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "he had thought",
+   "crossling_dropped": [
+    "avait pensé"
+   ],
    "best": "pensara",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -12089,6 +12099,9 @@
    "tense": "pres",
    "verb": "think",
    "src": "she thinks",
+   "crossling_dropped": [
+    "pensa"
+   ],
    "best": "denkt",
    "lang": "de",
    "shape": "simple",
@@ -12175,8 +12188,12 @@
    "tense": "pres",
    "verb": "give",
    "src": "she gives",
-   "best": "da",
-   "lang": "es",
+   "crossling_dropped": [
+    "da",
+    "dá"
+   ],
+   "best": "dà",
+   "lang": "it",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -12185,7 +12202,7 @@
    ],
    "utf8": [
     9,
-    2
+    3
    ],
    "status": "adopt",
    "parity_class": [
@@ -12416,8 +12433,8 @@
    "verb": "give",
    "src": "she will give",
    "crossling_dropped": [
-    "dá",
-    "da"
+    "da",
+    "dá"
    ],
    "best": "dará",
    "lang": "es",
@@ -12651,17 +12668,15 @@
    "tense": "past",
    "verb": "think",
    "src": "she thought",
+   "crossling_dropped": [
+    "a pensé",
+    "pensa"
+   ],
    "homograph_dropped": [
     {
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13111,6 +13126,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "she has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "homograph_dropped": [
     {
      "form": "ha tenido",
@@ -13122,12 +13140,6 @@
      "form": "ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13155,6 +13167,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "she has thought",
+   "crossling_dropped": [
+    "a pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "ha pensado",
@@ -13166,12 +13181,6 @@
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13540,13 +13549,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "she will have had",
-   "homograph_dropped": [
-    {
-     "form": "aura eu",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura eu"
    ],
    "best": "terá tido",
    "lang": "pt",
@@ -13572,13 +13576,8 @@
    "tense": "futperf",
    "verb": "think",
    "src": "she will have thought",
-   "homograph_dropped": [
-    {
-     "form": "aura pensé",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura pensé"
    ],
    "best": "terá pensado",
    "lang": "pt",
@@ -13898,6 +13897,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "she had had",
+   "crossling_dropped": [
+    "avait eu"
+   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -13922,6 +13924,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "she had thought",
+   "crossling_dropped": [
+    "avait pensé"
+   ],
    "best": "pensara",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -15706,6 +15711,9 @@
    "tense": "pres",
    "verb": "think",
    "src": "it thinks",
+   "crossling_dropped": [
+    "pensa"
+   ],
    "best": "denkt",
    "lang": "de",
    "shape": "simple",
@@ -15792,8 +15800,12 @@
    "tense": "pres",
    "verb": "give",
    "src": "it gives",
-   "best": "da",
-   "lang": "es",
+   "crossling_dropped": [
+    "da",
+    "dá"
+   ],
+   "best": "dà",
+   "lang": "it",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -15802,7 +15814,7 @@
    ],
    "utf8": [
     8,
-    2
+    3
    ],
    "status": "adopt",
    "parity_class": [
@@ -16055,8 +16067,8 @@
    "verb": "give",
    "src": "it will give",
    "crossling_dropped": [
-    "dá",
-    "da"
+    "da",
+    "dá"
    ],
    "best": "dará",
    "lang": "es",
@@ -16301,17 +16313,15 @@
    "tense": "past",
    "verb": "think",
    "src": "it thought",
+   "crossling_dropped": [
+    "a pensé",
+    "pensa"
+   ],
    "homograph_dropped": [
     {
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -16761,6 +16771,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "it has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "homograph_dropped": [
     {
      "form": "ha tenido",
@@ -16772,12 +16785,6 @@
      "form": "ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -16805,6 +16812,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "it has thought",
+   "crossling_dropped": [
+    "a pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "ha pensado",
@@ -16816,12 +16826,6 @@
      "form": "ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -17190,13 +17194,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "it will have had",
-   "homograph_dropped": [
-    {
-     "form": "aura eu",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura eu"
    ],
    "best": "terá tido",
    "lang": "pt",
@@ -17222,13 +17221,8 @@
    "tense": "futperf",
    "verb": "think",
    "src": "it will have thought",
-   "homograph_dropped": [
-    {
-     "form": "aura pensé",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura pensé"
    ],
    "best": "terá pensado",
    "lang": "pt",
@@ -17548,6 +17542,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "it had had",
+   "crossling_dropped": [
+    "avait eu"
+   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -17572,6 +17569,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "it had thought",
+   "crossling_dropped": [
+    "avait pensé"
+   ],
    "best": "pensara",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -19207,6 +19207,9 @@
    "tense": "pres",
    "verb": "come",
    "src": "we come",
+   "crossling_dropped": [
+    "vimos"
+   ],
    "best": "komen",
    "lang": "nl",
    "shape": "simple",
@@ -19644,6 +19647,9 @@
    "tense": "past",
    "verb": "see",
    "src": "we saw",
+   "crossling_dropped": [
+    "vimos"
+   ],
    "best": "sahen",
    "lang": "de",
    "shape": "simple",
@@ -19730,6 +19736,9 @@
    "tense": "past",
    "verb": "think",
    "src": "we thought",
+   "crossling_dropped": [
+    "avons pensé"
+   ],
    "best": "dachten",
    "lang": "de",
    "shape": "simple",
@@ -19866,19 +19875,23 @@
    "tense": "perf",
    "verb": "see",
    "src": "we have seen",
-   "best": "vimos",
-   "lang": "es",
-   "shape": "simple-preterite",
+   "crossling_dropped": [
+    "vimos"
+   ],
+   "best": "avons vu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     12,
-    5
+    8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "1p",
@@ -19942,6 +19955,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "we have had",
+   "crossling_dropped": [
+    "avons eu"
+   ],
    "best": "tivemos",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -19961,6 +19977,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "we have thought",
+   "crossling_dropped": [
+    "avons pensé"
+   ],
    "best": "pensamos",
    "lang": "es",
    "shape": "simple-preterite",
@@ -20179,8 +20198,11 @@
    "tense": "futperf",
    "verb": "have",
    "src": "we will have had",
-   "best": "aurons eu",
-   "lang": "fr",
+   "crossling_dropped": [
+    "aurons eu"
+   ],
+   "best": "teremos tido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -20189,7 +20211,7 @@
    ],
    "utf8": [
     16,
-    9
+    12
    ],
    "status": "adopt"
   },
@@ -20198,8 +20220,11 @@
    "tense": "futperf",
    "verb": "think",
    "src": "we will have thought",
-   "best": "aurons pensé",
-   "lang": "fr",
+   "crossling_dropped": [
+    "aurons pensé"
+   ],
+   "best": "avremo pensato",
+   "lang": "it",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -20208,7 +20233,7 @@
    ],
    "utf8": [
     20,
-    13
+    14
    ],
    "status": "adopt"
   },
@@ -20422,9 +20447,12 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "we had had",
-   "best": "avions eu",
-   "lang": "fr",
-   "shape": "compound",
+   "crossling_dropped": [
+    "avions eu"
+   ],
+   "best": "tivéramos",
+   "lang": "pt",
+   "shape": "simple-pluperfect",
    "number": "",
    "tok": [
     3,
@@ -20432,7 +20460,7 @@
    ],
    "utf8": [
     10,
-    9
+    10
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -20442,6 +20470,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "we had thought",
+   "crossling_dropped": [
+    "avions pensé"
+   ],
    "best": "pensáramos",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -22336,6 +22367,9 @@
    "tense": "past",
    "verb": "think",
    "src": "they thought",
+   "crossling_dropped": [
+    "ont pensé"
+   ],
    "best": "dachten",
    "lang": "de",
    "shape": "simple",
@@ -22548,9 +22582,12 @@
    "tense": "perf",
    "verb": "have",
    "src": "they have had",
-   "best": "ont eu",
-   "lang": "fr",
-   "shape": "compound",
+   "crossling_dropped": [
+    "ont eu"
+   ],
+   "best": "tiveram",
+   "lang": "pt",
+   "shape": "simple-preterite",
    "number": "",
    "tok": [
     3,
@@ -22558,7 +22595,7 @@
    ],
    "utf8": [
     13,
-    6
+    7
    ],
    "status": "adopt"
   },
@@ -22567,6 +22604,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "they have thought",
+   "crossling_dropped": [
+    "ont pensé"
+   ],
    "best": "pensaram",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -22785,8 +22825,11 @@
    "tense": "futperf",
    "verb": "have",
    "src": "they will have had",
-   "best": "auront eu",
-   "lang": "fr",
+   "crossling_dropped": [
+    "auront eu"
+   ],
+   "best": "terão tido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -22795,7 +22838,7 @@
    ],
    "utf8": [
     18,
-    9
+    11
    ],
    "status": "adopt"
   },
@@ -22804,8 +22847,11 @@
    "tense": "futperf",
    "verb": "think",
    "src": "they will have thought",
-   "best": "auront pensé",
-   "lang": "fr",
+   "crossling_dropped": [
+    "auront pensé"
+   ],
+   "best": "terão pensado",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -22814,7 +22860,7 @@
    ],
    "utf8": [
     22,
-    13
+    14
    ],
    "status": "adopt"
   },
@@ -23027,6 +23073,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "they had had",
+   "crossling_dropped": [
+    "avaient eu"
+   ],
    "best": "tiveram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -23046,6 +23095,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "they had thought",
+   "crossling_dropped": [
+    "avaient pensé"
+   ],
    "best": "pensaram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -24697,8 +24749,8 @@
    "verb": "give",
    "src": "this will give",
    "crossling_dropped": [
-    "dá",
-    "da"
+    "da",
+    "dá"
    ],
    "best": "this dará",
    "lang": "es",
@@ -25084,6 +25136,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "this has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "homograph_dropped": [
     {
      "form": "this ha tenido",
@@ -25095,12 +25150,6 @@
      "form": "this ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -25124,6 +25173,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "this has thought",
+   "crossling_dropped": [
+    "a pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "this ha pensado",
@@ -25135,12 +25187,6 @@
      "form": "this ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -25467,13 +25513,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "this will have had",
-   "homograph_dropped": [
-    {
-     "form": "this aura eu",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura eu"
    ],
    "best": "this terá tido",
    "lang": "pt",
@@ -25495,13 +25536,8 @@
    "tense": "futperf",
    "verb": "think",
    "src": "this will have thought",
-   "homograph_dropped": [
-    {
-     "form": "this aura pensé",
-     "en": [
-      "aura"
-     ]
-    }
+   "crossling_dropped": [
+    "aura pensé"
    ],
    "best": "this terá pensado",
    "lang": "pt",
@@ -25783,6 +25819,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "this had had",
+   "crossling_dropped": [
+    "avait eu"
+   ],
    "best": "this tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -25804,6 +25843,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "this had thought",
+   "crossling_dropped": [
+    "avait pensé"
+   ],
    "best": "this pensara",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -28766,9 +28808,12 @@
    "tense": "perf",
    "verb": "have",
    "src": "these have had",
-   "best": "these ont eu",
-   "lang": "fr",
-   "shape": "compound",
+   "crossling_dropped": [
+    "ont eu"
+   ],
+   "best": "these tiveram",
+   "lang": "pt",
+   "shape": "simple-preterite",
    "number": "",
    "tok": [
     4,
@@ -28776,10 +28821,10 @@
    ],
    "utf8": [
     14,
-    12
+    13
    ],
    "status": "reject",
-   "parity_verb": "ont eu",
+   "parity_verb": "tiveram",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -28787,6 +28832,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "these have thought",
+   "crossling_dropped": [
+    "ont pensé"
+   ],
    "best": "these pensaram",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -29021,8 +29069,11 @@
    "tense": "futperf",
    "verb": "have",
    "src": "these will have had",
-   "best": "these auront eu",
-   "lang": "fr",
+   "crossling_dropped": [
+    "auront eu"
+   ],
+   "best": "these terão tido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -29031,10 +29082,10 @@
    ],
    "utf8": [
     19,
-    15
+    17
    ],
    "status": "reject",
-   "parity_verb": "auront eu",
+   "parity_verb": "terão tido",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -29042,8 +29093,11 @@
    "tense": "futperf",
    "verb": "think",
    "src": "these will have thought",
-   "best": "these auront pensé",
-   "lang": "fr",
+   "crossling_dropped": [
+    "auront pensé"
+   ],
+   "best": "these terão pensado",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -29052,10 +29106,10 @@
    ],
    "utf8": [
     23,
-    19
+    20
    ],
    "status": "reject",
-   "parity_verb": "auront pensé",
+   "parity_verb": "terão pensado",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -29282,6 +29336,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "these had had",
+   "crossling_dropped": [
+    "avaient eu"
+   ],
    "best": "these tiveram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -29303,6 +29360,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "these had thought",
+   "crossling_dropped": [
+    "avaient pensé"
+   ],
    "best": "these pensaram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -31248,9 +31308,12 @@
    "tense": "perf",
    "verb": "have",
    "src": "those have had",
-   "best": "those ont eu",
-   "lang": "fr",
-   "shape": "compound",
+   "crossling_dropped": [
+    "ont eu"
+   ],
+   "best": "those tiveram",
+   "lang": "pt",
+   "shape": "simple-preterite",
    "number": "",
    "tok": [
     4,
@@ -31258,10 +31321,10 @@
    ],
    "utf8": [
     14,
-    12
+    13
    ],
    "status": "reject",
-   "parity_verb": "ont eu",
+   "parity_verb": "tiveram",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -31269,6 +31332,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "those have thought",
+   "crossling_dropped": [
+    "ont pensé"
+   ],
    "best": "those pensaram",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -31503,8 +31569,11 @@
    "tense": "futperf",
    "verb": "have",
    "src": "those will have had",
-   "best": "those auront eu",
-   "lang": "fr",
+   "crossling_dropped": [
+    "auront eu"
+   ],
+   "best": "those terão tido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -31513,10 +31582,10 @@
    ],
    "utf8": [
     19,
-    15
+    17
    ],
    "status": "reject",
-   "parity_verb": "auront eu",
+   "parity_verb": "terão tido",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -31524,8 +31593,11 @@
    "tense": "futperf",
    "verb": "think",
    "src": "those will have thought",
-   "best": "those auront pensé",
-   "lang": "fr",
+   "crossling_dropped": [
+    "auront pensé"
+   ],
+   "best": "those terão pensado",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -31534,10 +31606,10 @@
    ],
    "utf8": [
     23,
-    19
+    20
    ],
    "status": "reject",
-   "parity_verb": "auront pensé",
+   "parity_verb": "terão pensado",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -31764,6 +31836,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "those had had",
+   "crossling_dropped": [
+    "avaient eu"
+   ],
    "best": "those tiveram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -31785,6 +31860,9 @@
    "tense": "pluperf",
    "verb": "think",
    "src": "those had thought",
+   "crossling_dropped": [
+    "avaient pensé"
+   ],
    "best": "those pensaram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -33300,6 +33378,9 @@
    "tense": "pres",
    "verb": "think",
    "src": "who thinks",
+   "crossling_dropped": [
+    "pensa"
+   ],
    "best": "who denkt",
    "lang": "de",
    "shape": "simple",
@@ -33373,8 +33454,12 @@
    "tense": "pres",
    "verb": "give",
    "src": "who gives",
-   "best": "who da",
-   "lang": "es",
+   "crossling_dropped": [
+    "da",
+    "dá"
+   ],
+   "best": "who dà",
+   "lang": "it",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -33383,7 +33468,7 @@
    ],
    "utf8": [
     9,
-    6
+    7
    ],
    "status": "adopt"
   },
@@ -33845,6 +33930,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "who has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "homograph_dropped": [
     {
      "form": "who ha tenido",
@@ -33856,12 +33944,6 @@
      "form": "who ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -33884,6 +33966,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "who has thought",
+   "crossling_dropped": [
+    "a pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "who ha pensado",
@@ -33895,12 +33980,6 @@
      "form": "who ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -35870,9 +35949,12 @@
    "tense": "perf",
    "verb": "have",
    "src": "who have had",
-   "best": "who ont eu",
-   "lang": "fr",
-   "shape": "compound",
+   "crossling_dropped": [
+    "ont eu"
+   ],
+   "best": "who tiveram",
+   "lang": "pt",
+   "shape": "simple-preterite",
    "number": "",
    "tok": [
     3,
@@ -35880,7 +35962,7 @@
    ],
    "utf8": [
     12,
-    10
+    11
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -35890,6 +35972,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "who have thought",
+   "crossling_dropped": [
+    "ont pensé"
+   ],
    "best": "who pensaram",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -37247,6 +37332,9 @@
    "tense": "pres",
    "verb": "think",
    "src": "which thinks",
+   "crossling_dropped": [
+    "pensa"
+   ],
    "best": "which denkt",
    "lang": "de",
    "shape": "simple",
@@ -37320,8 +37408,12 @@
    "tense": "pres",
    "verb": "give",
    "src": "which gives",
-   "best": "which da",
-   "lang": "es",
+   "crossling_dropped": [
+    "da",
+    "dá"
+   ],
+   "best": "which dà",
+   "lang": "it",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -37330,7 +37422,7 @@
    ],
    "utf8": [
     11,
-    8
+    9
    ],
    "status": "adopt"
   },
@@ -37792,6 +37884,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "which has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "homograph_dropped": [
     {
      "form": "which ha tenido",
@@ -37803,12 +37898,6 @@
      "form": "which ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -37831,6 +37920,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "which has thought",
+   "crossling_dropped": [
+    "a pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "which ha pensado",
@@ -37842,12 +37934,6 @@
      "form": "which ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -39817,9 +39903,12 @@
    "tense": "perf",
    "verb": "have",
    "src": "which have had",
-   "best": "which ont eu",
-   "lang": "fr",
-   "shape": "compound",
+   "crossling_dropped": [
+    "ont eu"
+   ],
+   "best": "which tiveram",
+   "lang": "pt",
+   "shape": "simple-preterite",
    "number": "",
    "tok": [
     4,
@@ -39827,7 +39916,7 @@
    ],
    "utf8": [
     14,
-    12
+    13
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -39837,6 +39926,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "which have thought",
+   "crossling_dropped": [
+    "ont pensé"
+   ],
    "best": "which pensaram",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -41194,6 +41286,9 @@
    "tense": "pres",
    "verb": "think",
    "src": "que thinks",
+   "crossling_dropped": [
+    "pensa"
+   ],
    "best": "que denkt",
    "lang": "de",
    "shape": "simple",
@@ -41267,8 +41362,12 @@
    "tense": "pres",
    "verb": "give",
    "src": "que gives",
-   "best": "que da",
-   "lang": "es",
+   "crossling_dropped": [
+    "da",
+    "dá"
+   ],
+   "best": "que dà",
+   "lang": "it",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -41277,7 +41376,7 @@
    ],
    "utf8": [
     9,
-    6
+    7
    ],
    "status": "adopt"
   },
@@ -41739,6 +41838,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "que has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "homograph_dropped": [
     {
      "form": "que ha tenido",
@@ -41750,12 +41852,6 @@
      "form": "que ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -41778,6 +41874,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "que has thought",
+   "crossling_dropped": [
+    "a pensé"
+   ],
    "homograph_dropped": [
     {
      "form": "que ha pensado",
@@ -41789,12 +41888,6 @@
      "form": "que ha pensato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a pensé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -43764,9 +43857,12 @@
    "tense": "perf",
    "verb": "have",
    "src": "que have had",
-   "best": "que ont eu",
-   "lang": "fr",
-   "shape": "compound",
+   "crossling_dropped": [
+    "ont eu"
+   ],
+   "best": "que tiveram",
+   "lang": "pt",
+   "shape": "simple-preterite",
    "number": "",
    "tok": [
     3,
@@ -43774,7 +43870,7 @@
    ],
    "utf8": [
     12,
-    10
+    11
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -43784,6 +43880,9 @@
    "tense": "perf",
    "verb": "think",
    "src": "que have thought",
+   "crossling_dropped": [
+    "ont pensé"
+   ],
    "best": "que pensaram",
    "lang": "pt",
    "shape": "simple-preterite",

@@ -391,10 +391,6 @@
      "lang": "es"
     },
     {
-     "form": "ai eu",
-     "lang": "fr"
-    },
-    {
      "form": "miałem",
      "lang": "pl"
     },
@@ -409,22 +405,14 @@
    "from": [
     "I have thought"
    ],
-   "to": "pensé",
-   "lang": "es",
+   "to": "pensei",
+   "lang": "pt",
    "tense": "perf",
    "subject": "1s",
    "candidates": [
     {
-     "form": "pensé",
-     "lang": "es"
-    },
-    {
      "form": "pensei",
      "lang": "pt"
-    },
-    {
-     "form": "ai pensé",
-     "lang": "fr"
     },
     {
      "form": "myslel jsem",
@@ -501,15 +489,11 @@
    "from": [
     "I have given"
    ],
-   "to": "di",
-   "lang": "es",
+   "to": "dei",
+   "lang": "pt",
    "tense": "perf",
    "subject": "1s",
    "candidates": [
-    {
-     "form": "di",
-     "lang": "es"
-    },
     {
      "form": "dei",
      "lang": "pt"
@@ -701,15 +685,11 @@
    "from": [
     "I will have had"
    ],
-   "to": "aurai eu",
-   "lang": "fr",
+   "to": "terei tido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "1s",
    "candidates": [
-    {
-     "form": "aurai eu",
-     "lang": "fr"
-    },
     {
      "form": "terei tido",
      "lang": "pt"
@@ -733,10 +713,6 @@
     {
      "form": "avrò pensato",
      "lang": "it"
-    },
-    {
-     "form": "aurai pensé",
-     "lang": "fr"
     },
     {
      "form": "terei pensado",
@@ -1523,20 +1499,12 @@
      "lang": "de"
     },
     {
-     "form": "pensas",
-     "lang": "pt"
-    },
-    {
      "form": "penses",
      "lang": "fr"
     },
     {
      "form": "pensez",
      "lang": "fr"
-    },
-    {
-     "form": "pensais",
-     "lang": "pt"
     },
     {
      "form": "pensate",
@@ -1609,15 +1577,11 @@
    "from": [
     "you give"
    ],
-   "to": "das",
-   "lang": "es",
+   "to": "dai",
+   "lang": "it",
    "tense": "pres",
    "subject": "2",
    "candidates": [
-    {
-     "form": "das",
-     "lang": "es"
-    },
     {
      "form": "dai",
      "lang": "it"
@@ -1645,10 +1609,6 @@
     {
      "form": "virás",
      "lang": "pt"
-    },
-    {
-     "form": "verrai",
-     "lang": "it"
     },
     {
      "form": "vireis",
@@ -2331,10 +2291,6 @@
      "lang": "nl"
     },
     {
-     "form": "pensas",
-     "lang": "fr"
-    },
-    {
      "form": "dachten",
      "lang": "nl"
     },
@@ -2709,15 +2665,11 @@
    "from": [
     "you have had"
    ],
-   "to": "avez eu",
-   "lang": "fr",
+   "to": "tiveste",
+   "lang": "pt",
    "tense": "perf",
    "subject": "2",
    "candidates": [
-    {
-     "form": "avez eu",
-     "lang": "fr"
-    },
     {
      "form": "tiveste",
      "lang": "pt"
@@ -2773,10 +2725,6 @@
     {
      "form": "pensasteis",
      "lang": "es"
-    },
-    {
-     "form": "avez pensé",
-     "lang": "fr"
     },
     {
      "form": "hai pensato",
@@ -3121,15 +3069,11 @@
    "from": [
     "you will have had"
    ],
-   "to": "aurez eu",
-   "lang": "fr",
+   "to": "terás tido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "2",
    "candidates": [
-    {
-     "form": "aurez eu",
-     "lang": "fr"
-    },
     {
      "form": "terás tido",
      "lang": "pt"
@@ -3145,15 +3089,11 @@
    "from": [
     "you will have thought"
    ],
-   "to": "aurez pensé",
-   "lang": "fr",
+   "to": "avrai pensato",
+   "lang": "it",
    "tense": "futperf",
    "subject": "2",
    "candidates": [
-    {
-     "form": "aurez pensé",
-     "lang": "fr"
-    },
     {
      "form": "avrai pensato",
      "lang": "it"
@@ -4359,14 +4299,6 @@
      "lang": "nl"
     },
     {
-     "form": "pensa",
-     "lang": "pt"
-    },
-    {
-     "form": "pensa",
-     "lang": "it"
-    },
-    {
      "form": "pense",
      "lang": "fr"
     },
@@ -4445,22 +4377,14 @@
    "from": [
     "he gives"
    ],
-   "to": "da",
-   "lang": "es",
+   "to": "dà",
+   "lang": "it",
    "tense": "pres",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "da",
-     "lang": "es"
-    },
-    {
      "form": "dà",
      "lang": "it"
-    },
-    {
-     "form": "dá",
-     "lang": "pt"
     },
     {
      "form": "gibt",
@@ -4945,10 +4869,6 @@
     {
      "form": "dacht",
      "lang": "nl"
-    },
-    {
-     "form": "pensa",
-     "lang": "fr"
     },
     {
      "form": "pensò",
@@ -6467,14 +6387,6 @@
      "lang": "nl"
     },
     {
-     "form": "pensa",
-     "lang": "pt"
-    },
-    {
-     "form": "pensa",
-     "lang": "it"
-    },
-    {
      "form": "pense",
      "lang": "fr"
     },
@@ -6553,22 +6465,14 @@
    "from": [
     "she gives"
    ],
-   "to": "da",
-   "lang": "es",
+   "to": "dà",
+   "lang": "it",
    "tense": "pres",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "da",
-     "lang": "es"
-    },
-    {
      "form": "dà",
      "lang": "it"
-    },
-    {
-     "form": "dá",
-     "lang": "pt"
     },
     {
      "form": "gibt",
@@ -7065,10 +6969,6 @@
     {
      "form": "dacht",
      "lang": "nl"
-    },
-    {
-     "form": "pensa",
-     "lang": "fr"
     },
     {
      "form": "pensò",
@@ -8603,14 +8503,6 @@
      "lang": "nl"
     },
     {
-     "form": "pensa",
-     "lang": "pt"
-    },
-    {
-     "form": "pensa",
-     "lang": "it"
-    },
-    {
      "form": "pense",
      "lang": "fr"
     },
@@ -8689,22 +8581,14 @@
    "from": [
     "it gives"
    ],
-   "to": "da",
-   "lang": "es",
+   "to": "dà",
+   "lang": "it",
    "tense": "pres",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "da",
-     "lang": "es"
-    },
-    {
      "form": "dà",
      "lang": "it"
-    },
-    {
-     "form": "dá",
-     "lang": "pt"
     },
     {
      "form": "gibt",
@@ -9293,10 +9177,6 @@
     {
      "form": "dacht",
      "lang": "nl"
-    },
-    {
-     "form": "pensa",
-     "lang": "fr"
     },
     {
      "form": "pensò",
@@ -11065,26 +10945,6 @@
    ]
   },
   {
-   "id": "mx-see-perf-1p",
-   "from": [
-    "we have seen"
-   ],
-   "to": "vimos",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "1p",
-   "candidates": [
-    {
-     "form": "vimos",
-     "lang": "es"
-    },
-    {
-     "form": "vimos",
-     "lang": "pt"
-    }
-   ]
-  },
-  {
    "id": "mx-take-perf-1p",
    "from": [
     "we have taken"
@@ -11449,15 +11309,11 @@
    "from": [
     "we will have had"
    ],
-   "to": "aurons eu",
-   "lang": "fr",
+   "to": "teremos tido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "1p",
    "candidates": [
-    {
-     "form": "aurons eu",
-     "lang": "fr"
-    },
     {
      "form": "teremos tido",
      "lang": "pt"
@@ -11469,15 +11325,11 @@
    "from": [
     "we will have thought"
    ],
-   "to": "aurons pensé",
-   "lang": "fr",
+   "to": "avremo pensato",
+   "lang": "it",
    "tense": "futperf",
    "subject": "1p",
    "candidates": [
-    {
-     "form": "aurons pensé",
-     "lang": "fr"
-    },
     {
      "form": "avremo pensato",
      "lang": "it"
@@ -12549,15 +12401,11 @@
    "from": [
     "they have had"
    ],
-   "to": "ont eu",
-   "lang": "fr",
+   "to": "tiveram",
+   "lang": "pt",
    "tense": "perf",
    "subject": "3p",
    "candidates": [
-    {
-     "form": "ont eu",
-     "lang": "fr"
-    },
     {
      "form": "tiveram",
      "lang": "pt"
@@ -12585,10 +12433,6 @@
     {
      "form": "pensaron",
      "lang": "es"
-    },
-    {
-     "form": "ont pensé",
-     "lang": "fr"
     },
     {
      "form": "han pensado",
@@ -12813,15 +12657,11 @@
    "from": [
     "they will have had"
    ],
-   "to": "auront eu",
-   "lang": "fr",
+   "to": "terão tido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3p",
    "candidates": [
-    {
-     "form": "auront eu",
-     "lang": "fr"
-    },
     {
      "form": "terão tido",
      "lang": "pt"
@@ -12833,15 +12673,11 @@
    "from": [
     "they will have thought"
    ],
-   "to": "auront pensé",
-   "lang": "fr",
+   "to": "terão pensado",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3p",
    "candidates": [
-    {
-     "form": "auront pensé",
-     "lang": "fr"
-    },
     {
      "form": "terão pensado",
      "lang": "pt"
@@ -14733,22 +14569,14 @@
    "from": [
     "who gives"
    ],
-   "to": "who da",
-   "lang": "es",
+   "to": "who dà",
+   "lang": "it",
    "tense": "pres",
    "subject": "rel-who-sg",
    "candidates": [
     {
-     "form": "who da",
-     "lang": "es"
-    },
-    {
      "form": "who dà",
      "lang": "it"
-    },
-    {
-     "form": "who dá",
-     "lang": "pt"
     },
     {
      "form": "who gibt",
@@ -15225,22 +15053,14 @@
    "from": [
     "which gives"
    ],
-   "to": "which da",
-   "lang": "es",
+   "to": "which dà",
+   "lang": "it",
    "tense": "pres",
    "subject": "rel-which-sg",
    "candidates": [
     {
-     "form": "which da",
-     "lang": "es"
-    },
-    {
      "form": "which dà",
      "lang": "it"
-    },
-    {
-     "form": "which dá",
-     "lang": "pt"
     },
     {
      "form": "which gibt",
@@ -15717,22 +15537,14 @@
    "from": [
     "que gives"
    ],
-   "to": "que da",
-   "lang": "es",
+   "to": "que dà",
+   "lang": "it",
    "tense": "pres",
    "subject": "rel-que-sg",
    "candidates": [
     {
-     "form": "que da",
-     "lang": "es"
-    },
-    {
      "form": "que dà",
      "lang": "it"
-    },
-    {
-     "form": "que dá",
-     "lang": "pt"
     },
     {
      "form": "que gibt",

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "notes": [
+    "AI round-trip (convert → restore to original English) records for adopted bank forms.",
+    "restore_rate = restored / trials over every (sentence × seed) trial; seeds run in parallel.",
+    "Thresholds: languages under ~100M speakers need lt100m, others ge100m; a form with trials > 0 and rate 0 is rejected for every language.",
+    "Enforcement is report-only (scripts/roundtrip.py --impact); the committed bank is not gated yet.",
+    "Records are written by scripts/roundtrip.py --run --cmd ...; do not hand-edit counts."
+  ],
+  "thresholds": {"lt100m": 0.9, "ge100m": 0.6},
+  "min_trials": 9,
+  "seeds": [1, 2, 3],
+  "ge100m_langs": ["en", "zh", "es", "fr", "pt", "de", "it", "ru", "ja", "id", "ar", "hi", "bn", "ur", "tr", "vi"],
+  "templates": [
+    "{s}.",
+    "Maybe {s} today.",
+    "She told me that {s}."
+  ],
+  "records": {}
+}

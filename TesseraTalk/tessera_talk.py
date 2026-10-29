@@ -454,7 +454,12 @@ DEFAULT_TENSE_MATRIX_BANK = Path(__file__).resolve().parent / "fixtures" / "tens
 TRANSLATE_ENGINES = ("fixture", "argos", "deep")
 
 _CJK_CHAR = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]")
-_LATIN_WORD = re.compile(r"[A-Za-z0-9\u00C0-\u024F']+")
+_LATIN_WORD = re.compile(r"[A-Za-z0-9\u00C0-\u024F\u1E00-\u1EFF']+")
+# Latin Extended Additional (Vietnamese stacked diacritics: ạ ế ộ …): BPE vocabularies
+# rarely merge these, so each such char costs ≈ 1 extra token on top of the subword rule.
+_LATIN_EXT_ADD = re.compile(r"[\u1E00-\u1EFF]")
+# Thai (U+0E00–U+0E7F): unspaced script, ≈ 1 token per character in GPT-style BPE.
+_THAI_CHAR = re.compile(r"[\u0E00-\u0E7F]")
 # Cyrillic / Arabic / Devanagari / Greek letter-runs
 _OTHER_WORD = re.compile(
     r"[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+"
@@ -468,6 +473,9 @@ def estimate_tokens(text: str) -> int:
     - each CJK / kana / Hangul character ≈ 1 token
     - each Latin / digit word ≈ max(1, ceil(chars/4)) (GPT-ish subword)
     - other script letter-runs (Cyrillic, Arabic, Devanagari, Greek) ≈ same subword rule
+    - Latin Extended Additional chars (U+1E00–U+1EFF, Vietnamese) stay inside the
+      Latin word and add +1 token each (poorly merged by BPE)
+    - each Thai character (U+0E00–U+0E7F) ≈ 1 token
     Punctuation and whitespace do not add tokens. Absolute counts are approximate;
     relative ranking across in-scope langs (Romance / Germanic / Greek / ja / zh) matters for B.
     """
@@ -475,11 +483,29 @@ def estimate_tokens(text: str) -> int:
         return 0
     s = unicodedata.normalize("NFC", text)
     n = len(_CJK_CHAR.findall(s))
+    n += len(_THAI_CHAR.findall(s))
     for w in _LATIN_WORD.findall(s):
-        n += max(1, (len(w) + 3) // 4)
+        n += max(1, (len(w) + 3) // 4) + len(_LATIN_EXT_ADD.findall(w))
     for w in _OTHER_WORD.findall(s):
         n += max(1, (len(w) + 3) // 4)
     return n
+
+
+# zh stative verbs: 在 + V is the progressive marker, but statives (have / know /
+# want / be / like / need …) cannot take it (``我在有`` is ill-formed).
+ZH_STATIVE_VERBS = frozenset("有知要是像爱喜需认懂会能想属值")
+# lookbehind skips lexical 在-words (现在 now, 存在 exist, 实在, 所在, 自在, 好在).
+_ZH_PROG_STATIVE = re.compile(r"(?<![现存实所自好])在(" + "|".join(sorted(ZH_STATIVE_VERBS)) + r")")
+
+
+def zh_stative_progressive(form: str) -> list[str]:
+    """Return stative verbs that wrongly carry progressive 在 in a zh form.
+
+    Only flags 在 directly followed by a stative verb character; locative 在
+    (``猫在桌下``) is untouched because 桌 is not stative. Known stative
+    compounds that start with 在 are not special-cased (none in the banks).
+    """
+    return [m.group(1) for m in _ZH_PROG_STATIVE.finditer(unicodedata.normalize("NFC", form))]
 
 
 def _norm_lookup_key(s: str) -> str:
