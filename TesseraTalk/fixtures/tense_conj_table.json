@@ -1,0 +1,1746 @@
+{
+ "version": 1,
+ "title": "Simple-tense conjugations for tense_matrix (generated offline by mlconjug3; committed so CI needs no dep)",
+ "notes": [
+  "Refresh: scripts/tense_matrix.py --refresh-conj (requires mlconjug3 in a scratch venv).",
+  "Compound parts (aux/participle/gerund) and nl/el live in scripts/tense_matrix.py as hand tables."
+ ],
+ "conj": {
+  "es": {
+   "ir": {
+    "pres": {
+     "1s": "voy",
+     "2s": "vas",
+     "3s": "va",
+     "1p": "vamos",
+     "2p": "vais",
+     "3p": "van"
+    },
+    "imperf": {
+     "1s": "iba",
+     "2s": "ibas",
+     "3s": "iba",
+     "1p": "íbamos",
+     "2p": "ibais",
+     "3p": "iban"
+    },
+    "pret": {
+     "1s": "fui",
+     "2s": "fuiste",
+     "3s": "fue",
+     "1p": "fuimos",
+     "2p": "fuisteis",
+     "3p": "fueron"
+    },
+    "fut": {
+     "1s": "iré",
+     "2s": "irás",
+     "3s": "irá",
+     "1p": "iremos",
+     "2p": "iréis",
+     "3p": "irán"
+    }
+   },
+   "venir": {
+    "pres": {
+     "1s": "vengo",
+     "2s": "vienes",
+     "3s": "viene",
+     "1p": "venimos",
+     "2p": "venís",
+     "3p": "vienen"
+    },
+    "imperf": {
+     "1s": "venía",
+     "2s": "venías",
+     "3s": "venía",
+     "1p": "veníamos",
+     "2p": "veníais",
+     "3p": "venían"
+    },
+    "pret": {
+     "1s": "vine",
+     "2s": "viniste",
+     "3s": "vino",
+     "1p": "vinimos",
+     "2p": "vinisteis",
+     "3p": "vinieron"
+    },
+    "fut": {
+     "1s": "vendré",
+     "2s": "vendrás",
+     "3s": "vendrá",
+     "1p": "vendremos",
+     "2p": "vendréis",
+     "3p": "vendrán"
+    }
+   },
+   "hacer": {
+    "pres": {
+     "1s": "hago",
+     "2s": "haces",
+     "3s": "hace",
+     "1p": "hacemos",
+     "2p": "hacéis",
+     "3p": "hacen"
+    },
+    "imperf": {
+     "1s": "hacía",
+     "2s": "hacías",
+     "3s": "hacía",
+     "1p": "hacíamos",
+     "2p": "hacíais",
+     "3p": "hacían"
+    },
+    "pret": {
+     "1s": "hice",
+     "2s": "hiciste",
+     "3s": "hizo",
+     "1p": "hicimos",
+     "2p": "hicisteis",
+     "3p": "hicieron"
+    },
+    "fut": {
+     "1s": "haré",
+     "2s": "harás",
+     "3s": "hará",
+     "1p": "haremos",
+     "2p": "haréis",
+     "3p": "harán"
+    }
+   },
+   "ver": {
+    "pres": {
+     "1s": "veo",
+     "2s": "ves",
+     "3s": "ve",
+     "1p": "vemos",
+     "2p": "veis",
+     "3p": "ven"
+    },
+    "imperf": {
+     "1s": "veía",
+     "2s": "veías",
+     "3s": "veía",
+     "1p": "veíamos",
+     "2p": "veíais",
+     "3p": "veían"
+    },
+    "pret": {
+     "1s": "vi",
+     "2s": "viste",
+     "3s": "vio",
+     "1p": "vimos",
+     "2p": "visteis",
+     "3p": "vieron"
+    },
+    "fut": {
+     "1s": "veré",
+     "2s": "verás",
+     "3s": "verá",
+     "1p": "veremos",
+     "2p": "veréis",
+     "3p": "verán"
+    }
+   },
+   "tomar": {
+    "pres": {
+     "1s": "tomo",
+     "2s": "tomas",
+     "3s": "toma",
+     "1p": "tomamos",
+     "2p": "tomáis",
+     "3p": "toman"
+    },
+    "imperf": {
+     "1s": "tomaba",
+     "2s": "tomabas",
+     "3s": "tomaba",
+     "1p": "tomábamos",
+     "2p": "tomabais",
+     "3p": "tomaban"
+    },
+    "pret": {
+     "1s": "tomé",
+     "2s": "tomaste",
+     "3s": "tomó",
+     "1p": "tomamos",
+     "2p": "tomasteis",
+     "3p": "tomaron"
+    },
+    "fut": {
+     "1s": "tomaré",
+     "2s": "tomarás",
+     "3s": "tomará",
+     "1p": "tomaremos",
+     "2p": "tomaréis",
+     "3p": "tomarán"
+    }
+   },
+   "encontrar": {
+    "pres": {
+     "1s": "encuentro",
+     "2s": "encuentras",
+     "3s": "encuentra",
+     "1p": "encontramos",
+     "2p": "encontráis",
+     "3p": "encuentran"
+    },
+    "imperf": {
+     "1s": "encontraba",
+     "2s": "encontrabas",
+     "3s": "encontraba",
+     "1p": "encontrábamos",
+     "2p": "encontrabais",
+     "3p": "encontraban"
+    },
+    "pret": {
+     "1s": "encontré",
+     "2s": "encontraste",
+     "3s": "encontró",
+     "1p": "encontramos",
+     "2p": "encontrasteis",
+     "3p": "encontraron"
+    },
+    "fut": {
+     "1s": "encontraré",
+     "2s": "encontrarás",
+     "3s": "encontrará",
+     "1p": "encontraremos",
+     "2p": "encontraréis",
+     "3p": "encontrarán"
+    }
+   },
+   "querer": {
+    "pres": {
+     "1s": "quiero",
+     "2s": "quieres",
+     "3s": "quiere",
+     "1p": "queremos",
+     "2p": "queréis",
+     "3p": "quieren"
+    },
+    "imperf": {
+     "1s": "quería",
+     "2s": "querías",
+     "3s": "quería",
+     "1p": "queríamos",
+     "2p": "queríais",
+     "3p": "querían"
+    },
+    "pret": {
+     "1s": "quise",
+     "2s": "quisiste",
+     "3s": "quiso",
+     "1p": "quisimos",
+     "2p": "quisisteis",
+     "3p": "quisieron"
+    },
+    "fut": {
+     "1s": "querré",
+     "2s": "querrás",
+     "3s": "querrá",
+     "1p": "querremos",
+     "2p": "querréis",
+     "3p": "querrán"
+    }
+   },
+   "tener": {
+    "pres": {
+     "1s": "tengo",
+     "2s": "tienes",
+     "3s": "tiene",
+     "1p": "tenemos",
+     "2p": "tenéis",
+     "3p": "tienen"
+    },
+    "imperf": {
+     "1s": "tenía",
+     "2s": "tenías",
+     "3s": "tenía",
+     "1p": "teníamos",
+     "2p": "teníais",
+     "3p": "tenían"
+    },
+    "pret": {
+     "1s": "tuve",
+     "2s": "tuviste",
+     "3s": "tuvo",
+     "1p": "tuvimos",
+     "2p": "tuvisteis",
+     "3p": "tuvieron"
+    },
+    "fut": {
+     "1s": "tendré",
+     "2s": "tendrás",
+     "3s": "tendrá",
+     "1p": "tendremos",
+     "2p": "tendréis",
+     "3p": "tendrán"
+    }
+   },
+   "pensar": {
+    "pres": {
+     "1s": "pienso",
+     "2s": "piensas",
+     "3s": "piensa",
+     "1p": "pensamos",
+     "2p": "pensáis",
+     "3p": "piensan"
+    },
+    "imperf": {
+     "1s": "pensaba",
+     "2s": "pensabas",
+     "3s": "pensaba",
+     "1p": "pensábamos",
+     "2p": "pensabais",
+     "3p": "pensaban"
+    },
+    "pret": {
+     "1s": "pensé",
+     "2s": "pensaste",
+     "3s": "pensó",
+     "1p": "pensamos",
+     "2p": "pensasteis",
+     "3p": "pensaron"
+    },
+    "fut": {
+     "1s": "pensaré",
+     "2s": "pensarás",
+     "3s": "pensará",
+     "1p": "pensaremos",
+     "2p": "pensaréis",
+     "3p": "pensarán"
+    }
+   },
+   "decir": {
+    "pres": {
+     "1s": "digo",
+     "2s": "dices",
+     "3s": "dice",
+     "1p": "decimos",
+     "2p": "decís",
+     "3p": "dicen"
+    },
+    "imperf": {
+     "1s": "decía",
+     "2s": "decías",
+     "3s": "decía",
+     "1p": "decíamos",
+     "2p": "decíais",
+     "3p": "decían"
+    },
+    "pret": {
+     "1s": "dije",
+     "2s": "dijiste",
+     "3s": "dijo",
+     "1p": "dijimos",
+     "2p": "dijisteis",
+     "3p": "dijeron"
+    },
+    "fut": {
+     "1s": "diré",
+     "2s": "dirás",
+     "3s": "dirá",
+     "1p": "diremos",
+     "2p": "diréis",
+     "3p": "dirán"
+    }
+   },
+   "saber": {
+    "pres": {
+     "1s": "sé",
+     "2s": "sabes",
+     "3s": "sabe",
+     "1p": "sabemos",
+     "2p": "sabéis",
+     "3p": "saben"
+    },
+    "imperf": {
+     "1s": "sabía",
+     "2s": "sabías",
+     "3s": "sabía",
+     "1p": "sabíamos",
+     "2p": "sabíais",
+     "3p": "sabían"
+    },
+    "pret": {
+     "1s": "supe",
+     "2s": "supiste",
+     "3s": "supo",
+     "1p": "supimos",
+     "2p": "supisteis",
+     "3p": "supieron"
+    },
+    "fut": {
+     "1s": "sabré",
+     "2s": "sabrás",
+     "3s": "sabrá",
+     "1p": "sabremos",
+     "2p": "sabréis",
+     "3p": "sabrán"
+    }
+   },
+   "dar": {
+    "pres": {
+     "1s": "doy",
+     "2s": "das",
+     "3s": "da",
+     "1p": "damos",
+     "2p": "dais",
+     "3p": "dan"
+    },
+    "imperf": {
+     "1s": "daba",
+     "2s": "dabas",
+     "3s": "daba",
+     "1p": "dábamos",
+     "2p": "dabais",
+     "3p": "daban"
+    },
+    "pret": {
+     "1s": "di",
+     "2s": "diste",
+     "3s": "dio",
+     "1p": "dimos",
+     "2p": "disteis",
+     "3p": "dieron"
+    },
+    "fut": {
+     "1s": "daré",
+     "2s": "darás",
+     "3s": "dará",
+     "1p": "daremos",
+     "2p": "daréis",
+     "3p": "darán"
+    }
+   }
+  },
+  "pt": {
+   "ir": {
+    "pres": {
+     "1s": "vou",
+     "2s": "vais",
+     "3s": "vai",
+     "1p": "imos",
+     "2p": "vades",
+     "3p": "vão"
+    },
+    "imperf": {
+     "1s": "ia",
+     "2s": "ias",
+     "3s": "ia",
+     "1p": "íamos",
+     "2p": "íeis",
+     "3p": "iam"
+    },
+    "pret": {
+     "1s": "fui",
+     "2s": "foste",
+     "3s": "foi",
+     "1p": "fomos",
+     "2p": "fostes",
+     "3p": "foram"
+    },
+    "plpf": {
+     "1s": "fora",
+     "2s": "foras",
+     "3s": "fora",
+     "1p": "fôramos",
+     "2p": "fôreis",
+     "3p": "foram"
+    },
+    "fut": {
+     "1s": "irei",
+     "2s": "irás",
+     "3s": "irá",
+     "1p": "iremos",
+     "2p": "ireis",
+     "3p": "irão"
+    }
+   },
+   "vir": {
+    "pres": {
+     "1s": "venho",
+     "2s": "vens",
+     "3s": "vem",
+     "1p": "vimos",
+     "2p": "vindes",
+     "3p": "vêm"
+    },
+    "imperf": {
+     "1s": "vinha",
+     "2s": "vinhas",
+     "3s": "vinha",
+     "1p": "vínhamos",
+     "2p": "vínheis",
+     "3p": "vinham"
+    },
+    "pret": {
+     "1s": "vim",
+     "2s": "vieste",
+     "3s": "veio",
+     "1p": "viemos",
+     "2p": "viestes",
+     "3p": "vieram"
+    },
+    "plpf": {
+     "1s": "viera",
+     "2s": "vieras",
+     "3s": "viera",
+     "1p": "viéramos",
+     "2p": "viéreis",
+     "3p": "vieram"
+    },
+    "fut": {
+     "1s": "virei",
+     "2s": "virás",
+     "3s": "virá",
+     "1p": "viremos",
+     "2p": "vireis",
+     "3p": "virão"
+    }
+   },
+   "fazer": {
+    "pres": {
+     "1s": "faço",
+     "2s": "fazes",
+     "3s": "faz",
+     "1p": "fazemos",
+     "2p": "fazeis",
+     "3p": "fazem"
+    },
+    "imperf": {
+     "1s": "fazia",
+     "2s": "fazias",
+     "3s": "fazia",
+     "1p": "fazíamos",
+     "2p": "fazíeis",
+     "3p": "faziam"
+    },
+    "pret": {
+     "1s": "fiz",
+     "2s": "fizeste",
+     "3s": "fez",
+     "1p": "fizemos",
+     "2p": "fizestes",
+     "3p": "fizeram"
+    },
+    "plpf": {
+     "1s": "fizera",
+     "2s": "fizeras",
+     "3s": "fizera",
+     "1p": "fizéramos",
+     "2p": "fizéreis",
+     "3p": "fizeram"
+    },
+    "fut": {
+     "1s": "farei",
+     "2s": "farás",
+     "3s": "fará",
+     "1p": "faremos",
+     "2p": "fareis",
+     "3p": "farão"
+    }
+   },
+   "ver": {
+    "pres": {
+     "1s": "vejo",
+     "2s": "vês",
+     "3s": "vê",
+     "1p": "vemos",
+     "2p": "vedes",
+     "3p": "vêem"
+    },
+    "imperf": {
+     "1s": "via",
+     "2s": "vias",
+     "3s": "via",
+     "1p": "víamos",
+     "2p": "víeis",
+     "3p": "viam"
+    },
+    "pret": {
+     "1s": "vi",
+     "2s": "viste",
+     "3s": "viu",
+     "1p": "vimos",
+     "2p": "vistes",
+     "3p": "viram"
+    },
+    "plpf": {
+     "1s": "vira",
+     "2s": "viras",
+     "3s": "vira",
+     "1p": "víramos",
+     "2p": "víreis",
+     "3p": "viram"
+    },
+    "fut": {
+     "1s": "verei",
+     "2s": "verás",
+     "3s": "verá",
+     "1p": "veremos",
+     "2p": "vereis",
+     "3p": "verão"
+    }
+   },
+   "tomar": {
+    "pres": {
+     "1s": "tomo",
+     "2s": "tomas",
+     "3s": "toma",
+     "1p": "tomamos",
+     "2p": "tomais",
+     "3p": "tomam"
+    },
+    "imperf": {
+     "1s": "tomava",
+     "2s": "tomavas",
+     "3s": "tomava",
+     "1p": "tomávamos",
+     "2p": "tomáveis",
+     "3p": "tomavam"
+    },
+    "pret": {
+     "1s": "tomei",
+     "2s": "tomaste",
+     "3s": "tomou",
+     "1p": "tom)",
+     "2p": "tomastes",
+     "3p": "tomaram"
+    },
+    "plpf": {
+     "1s": "tomara",
+     "2s": "tomaras",
+     "3s": "tomara",
+     "1p": "tomáramos",
+     "2p": "tomáreis",
+     "3p": "tomaram"
+    },
+    "fut": {
+     "1s": "tomarei",
+     "2s": "tomarás",
+     "3s": "tomará",
+     "1p": "tomaremos",
+     "2p": "tomareis",
+     "3p": "tomarão"
+    }
+   },
+   "achar": {
+    "pres": {
+     "1s": "acho",
+     "2s": "achas",
+     "3s": "acha",
+     "1p": "achamos",
+     "2p": "achais",
+     "3p": "acham"
+    },
+    "imperf": {
+     "1s": "achava",
+     "2s": "achavas",
+     "3s": "achava",
+     "1p": "achávamos",
+     "2p": "acháveis",
+     "3p": "achavam"
+    },
+    "pret": {
+     "1s": "achei",
+     "2s": "achaste",
+     "3s": "achou",
+     "1p": "ach)",
+     "2p": "achastes",
+     "3p": "acharam"
+    },
+    "plpf": {
+     "1s": "achara",
+     "2s": "acharas",
+     "3s": "achara",
+     "1p": "acháramos",
+     "2p": "acháreis",
+     "3p": "acharam"
+    },
+    "fut": {
+     "1s": "acharei",
+     "2s": "acharás",
+     "3s": "achará",
+     "1p": "acharemos",
+     "2p": "achareis",
+     "3p": "acharão"
+    }
+   },
+   "querer": {
+    "pres": {
+     "1s": "quero",
+     "2s": "queres",
+     "3s": "quer",
+     "1p": "queremos",
+     "2p": "quereis",
+     "3p": "querem"
+    },
+    "imperf": {
+     "1s": "queria",
+     "2s": "querias",
+     "3s": "queria",
+     "1p": "queríamos",
+     "2p": "queríeis",
+     "3p": "queriam"
+    },
+    "pret": {
+     "1s": "quis",
+     "2s": "quiseste",
+     "3s": "quis",
+     "1p": "quisemos",
+     "2p": "quisestes",
+     "3p": "quiseram"
+    },
+    "plpf": {
+     "1s": "quisera",
+     "2s": "quiseras",
+     "3s": "quisera",
+     "1p": "quiséramos",
+     "2p": "quiséreis",
+     "3p": "quiseram"
+    },
+    "fut": {
+     "1s": "quererei",
+     "2s": "quererás",
+     "3s": "quererá",
+     "1p": "quereremos",
+     "2p": "querereis",
+     "3p": "quererão"
+    }
+   },
+   "ter": {
+    "pres": {
+     "1s": "tenho",
+     "2s": "tens",
+     "3s": "tem",
+     "1p": "temos",
+     "2p": "tendes",
+     "3p": "têm"
+    },
+    "imperf": {
+     "1s": "tinha",
+     "2s": "tinhas",
+     "3s": "tinha",
+     "1p": "tínhamos",
+     "2p": "tínheis",
+     "3p": "tinham"
+    },
+    "pret": {
+     "1s": "tive",
+     "2s": "tiveste",
+     "3s": "teve",
+     "1p": "tivemos",
+     "2p": "tivestes",
+     "3p": "tiveram"
+    },
+    "plpf": {
+     "1s": "tivera",
+     "2s": "tiveras",
+     "3s": "tivera",
+     "1p": "tivéramos",
+     "2p": "tivéreis",
+     "3p": "tiveram"
+    },
+    "fut": {
+     "1s": "terei",
+     "2s": "terás",
+     "3s": "terá",
+     "1p": "teremos",
+     "2p": "tereis",
+     "3p": "terão"
+    }
+   },
+   "pensar": {
+    "pres": {
+     "1s": "penso",
+     "2s": "pensas",
+     "3s": "pensa",
+     "1p": "pensamos",
+     "2p": "pensais",
+     "3p": "pensam"
+    },
+    "imperf": {
+     "1s": "pensava",
+     "2s": "pensavas",
+     "3s": "pensava",
+     "1p": "pensávamos",
+     "2p": "pensáveis",
+     "3p": "pensavam"
+    },
+    "pret": {
+     "1s": "pensei",
+     "2s": "pensaste",
+     "3s": "pensou",
+     "1p": "pensamos",
+     "2p": "pensastes",
+     "3p": "pensaram"
+    },
+    "plpf": {
+     "1s": "pensara",
+     "2s": "pensaras",
+     "3s": "pensara",
+     "1p": "pensáramos",
+     "2p": "pensáreis",
+     "3p": "pensaram"
+    },
+    "fut": {
+     "1s": "pensarei",
+     "2s": "pensarás",
+     "3s": "pensará",
+     "1p": "pensaremos",
+     "2p": "pensareis",
+     "3p": "pensarão"
+    }
+   },
+   "dizer": {
+    "pres": {
+     "1s": "digo",
+     "2s": "dizes",
+     "3s": "diz",
+     "1p": "dizemos",
+     "2p": "dizeis",
+     "3p": "dizem"
+    },
+    "imperf": {
+     "1s": "dizia",
+     "2s": "dizias",
+     "3s": "dizia",
+     "1p": "dizíamos",
+     "2p": "dizíeis",
+     "3p": "diziam"
+    },
+    "pret": {
+     "1s": "disse",
+     "2s": "disseste",
+     "3s": "disse",
+     "1p": "dissemos",
+     "2p": "dissestes",
+     "3p": "disseram"
+    },
+    "plpf": {
+     "1s": "dissera",
+     "2s": "disseras",
+     "3s": "dissera",
+     "1p": "disséramos",
+     "2p": "disséreis",
+     "3p": "disseram"
+    },
+    "fut": {
+     "1s": "direi",
+     "2s": "dirás",
+     "3s": "dirá",
+     "1p": "diremos",
+     "2p": "direis",
+     "3p": "dirão"
+    }
+   },
+   "saber": {
+    "pres": {
+     "1s": "sei",
+     "2s": "sabes",
+     "3s": "sabe",
+     "1p": "sabemos",
+     "2p": "sabeis",
+     "3p": "sabem"
+    },
+    "imperf": {
+     "1s": "sabia",
+     "2s": "sabias",
+     "3s": "sabia",
+     "1p": "sabíamos",
+     "2p": "sabíeis",
+     "3p": "sabiam"
+    },
+    "pret": {
+     "1s": "soube",
+     "2s": "soubeste",
+     "3s": "soube",
+     "1p": "soubemos",
+     "2p": "soubestes",
+     "3p": "souberam"
+    },
+    "plpf": {
+     "1s": "soubera",
+     "2s": "souberas",
+     "3s": "soubera",
+     "1p": "soubéramos",
+     "2p": "soubéreis",
+     "3p": "souberam"
+    },
+    "fut": {
+     "1s": "saberei",
+     "2s": "saberás",
+     "3s": "saberá",
+     "1p": "saberemos",
+     "2p": "sabereis",
+     "3p": "saberão"
+    }
+   },
+   "dar": {
+    "pres": {
+     "1s": "dou",
+     "2s": "dás",
+     "3s": "dá",
+     "1p": "damos",
+     "2p": "dais",
+     "3p": "dão"
+    },
+    "imperf": {
+     "1s": "dava",
+     "2s": "davas",
+     "3s": "dava",
+     "1p": "dávamos",
+     "2p": "dáveis",
+     "3p": "davam"
+    },
+    "pret": {
+     "1s": "dei",
+     "2s": "deste",
+     "3s": "deu",
+     "1p": "demos",
+     "2p": "destes",
+     "3p": "deram"
+    },
+    "plpf": {
+     "1s": "dera",
+     "2s": "deras",
+     "3s": "dera",
+     "1p": "déramos",
+     "2p": "déreis",
+     "3p": "deram"
+    },
+    "fut": {
+     "1s": "darei",
+     "2s": "darás",
+     "3s": "dará",
+     "1p": "daremos",
+     "2p": "dareis",
+     "3p": "darão"
+    }
+   }
+  },
+  "it": {
+   "andare": {
+    "pres": {
+     "1s": "vado",
+     "2s": "vai",
+     "3s": "va",
+     "1p": "andiamo",
+     "2p": "andate",
+     "3p": "vanno"
+    },
+    "imperf": {
+     "1s": "andavo",
+     "2s": "andavi",
+     "3s": "andava",
+     "1p": "andavamo",
+     "2p": "andavate",
+     "3p": "andavano"
+    },
+    "pret": {
+     "1s": "andai",
+     "2s": "andasti",
+     "3s": "andò",
+     "1p": "andammo",
+     "2p": "andaste",
+     "3p": "andarono"
+    },
+    "fut": {
+     "1s": "andrò",
+     "2s": "andrai",
+     "3s": "andrà",
+     "1p": "andremo",
+     "2p": "andrete",
+     "3p": "andranno"
+    }
+   },
+   "venire": {
+    "pres": {
+     "1s": "vengo",
+     "2s": "vieni",
+     "3s": "viene",
+     "1p": "veniamo",
+     "2p": "venite",
+     "3p": "vengono"
+    },
+    "imperf": {
+     "1s": "venivo",
+     "2s": "venivi",
+     "3s": "veniva",
+     "1p": "venivamo",
+     "2p": "venivate",
+     "3p": "venivano"
+    },
+    "pret": {
+     "1s": "venni",
+     "2s": "venisti",
+     "3s": "venne",
+     "1p": "venimmo",
+     "2p": "veniste",
+     "3p": "vennero"
+    },
+    "fut": {
+     "1s": "verrò",
+     "2s": "verrai",
+     "3s": "verrà",
+     "1p": "verremo",
+     "2p": "verrete",
+     "3p": "verranno"
+    }
+   },
+   "fare": {
+    "pres": {
+     "1s": "faccio",
+     "2s": "fai",
+     "3s": "fa",
+     "1p": "facciamo",
+     "2p": "fate",
+     "3p": "fanno"
+    },
+    "imperf": {
+     "1s": "facevo",
+     "2s": "facevi",
+     "3s": "faceva",
+     "1p": "facevamo",
+     "2p": "facevate",
+     "3p": "facevano"
+    },
+    "pret": {
+     "1s": "feci",
+     "2s": "facesti",
+     "3s": "fece",
+     "1p": "facemmo",
+     "2p": "faceste",
+     "3p": "fecero"
+    },
+    "fut": {
+     "1s": "farò",
+     "2s": "farai",
+     "3s": "farà",
+     "1p": "faremo",
+     "2p": "farete",
+     "3p": "faranno"
+    }
+   },
+   "vedere": {
+    "pres": {
+     "1s": "vedo",
+     "2s": "vedi",
+     "3s": "vede",
+     "1p": "vediamo",
+     "2p": "vedete",
+     "3p": "vedono"
+    },
+    "imperf": {
+     "1s": "vedevo",
+     "2s": "vedevi",
+     "3s": "vedeva",
+     "1p": "vedevamo",
+     "2p": "vedevate",
+     "3p": "vedevano"
+    },
+    "pret": {
+     "1s": "vidi",
+     "2s": "vedesti",
+     "3s": "vide",
+     "1p": "vedemmo",
+     "2p": "vedeste",
+     "3p": "videro"
+    },
+    "fut": {
+     "1s": "vedrò",
+     "2s": "vedrai",
+     "3s": "vedrà",
+     "1p": "vedremo",
+     "2p": "vedrete",
+     "3p": "vedranno"
+    }
+   },
+   "prendere": {
+    "pres": {
+     "1s": "prendo",
+     "2s": "prendi",
+     "3s": "prende",
+     "1p": "prendiamo",
+     "2p": "prendete",
+     "3p": "prendono"
+    },
+    "imperf": {
+     "1s": "prendevo",
+     "2s": "prendevi",
+     "3s": "prendeva",
+     "1p": "prendevamo",
+     "2p": "prendevate",
+     "3p": "prendevano"
+    },
+    "pret": {
+     "1s": "presi",
+     "2s": "prendesti",
+     "3s": "prese",
+     "1p": "prendemmo",
+     "2p": "prendeste",
+     "3p": "presero"
+    },
+    "fut": {
+     "1s": "prenderò",
+     "2s": "prenderai",
+     "3s": "prenderà",
+     "1p": "prenderemo",
+     "2p": "prenderete",
+     "3p": "prenderanno"
+    }
+   },
+   "trovare": {
+    "pres": {
+     "1s": "trovo",
+     "2s": "trovi",
+     "3s": "trova",
+     "1p": "troviamo",
+     "2p": "trovate",
+     "3p": "trovano"
+    },
+    "imperf": {
+     "1s": "trovavo",
+     "2s": "trovavi",
+     "3s": "trovava",
+     "1p": "trovavamo",
+     "2p": "trovavate",
+     "3p": "trovavano"
+    },
+    "pret": {
+     "1s": "trovai",
+     "2s": "trovasti",
+     "3s": "trovò",
+     "1p": "trovammo",
+     "2p": "trovaste",
+     "3p": "trovarono"
+    },
+    "fut": {
+     "1s": "troverò",
+     "2s": "troverai",
+     "3s": "troverà",
+     "1p": "troveremo",
+     "2p": "troverete",
+     "3p": "troveranno"
+    }
+   },
+   "volere": {
+    "pres": {
+     "1s": "voglio",
+     "2s": "vuoi",
+     "3s": "vuole",
+     "1p": "vogliamo",
+     "2p": "volete",
+     "3p": "vogliono"
+    },
+    "imperf": {
+     "1s": "volevo",
+     "2s": "volevi",
+     "3s": "voleva",
+     "1p": "volevamo",
+     "2p": "volevate",
+     "3p": "volevano"
+    },
+    "pret": {
+     "1s": "volli",
+     "2s": "volesti",
+     "3s": "volle",
+     "1p": "volemmo",
+     "2p": "voleste",
+     "3p": "vollero"
+    },
+    "fut": {
+     "1s": "vorrò",
+     "2s": "vorrai",
+     "3s": "vorrà",
+     "1p": "vorremo",
+     "2p": "vorrete",
+     "3p": "vorranno"
+    }
+   },
+   "avere": {
+    "pres": {
+     "1s": "ho",
+     "2s": "hai",
+     "3s": "ha",
+     "1p": "abbiamo",
+     "2p": "avete",
+     "3p": "hanno"
+    },
+    "imperf": {
+     "1s": "avevo",
+     "2s": "avevi",
+     "3s": "aveva",
+     "1p": "avevamo",
+     "2p": "avevate",
+     "3p": "avevano"
+    },
+    "pret": {
+     "1s": "ebbi",
+     "2s": "avesti",
+     "3s": "ebbe",
+     "1p": "avemmo",
+     "2p": "aveste",
+     "3p": "ebbero"
+    },
+    "fut": {
+     "1s": "avrò",
+     "2s": "avrai",
+     "3s": "avrà",
+     "1p": "avremo",
+     "2p": "avrete",
+     "3p": "avranno"
+    }
+   },
+   "pensare": {
+    "pres": {
+     "1s": "penso",
+     "2s": "pensi",
+     "3s": "pensa",
+     "1p": "pensiamo",
+     "2p": "pensate",
+     "3p": "pensano"
+    },
+    "imperf": {
+     "1s": "pensavo",
+     "2s": "pensavi",
+     "3s": "pensava",
+     "1p": "pensavamo",
+     "2p": "pensavate",
+     "3p": "pensavano"
+    },
+    "pret": {
+     "1s": "pensai",
+     "2s": "pensasti",
+     "3s": "pensò",
+     "1p": "pensammo",
+     "2p": "pensaste",
+     "3p": "pensarono"
+    },
+    "fut": {
+     "1s": "penserò",
+     "2s": "penserai",
+     "3s": "penserà",
+     "1p": "penseremo",
+     "2p": "penserete",
+     "3p": "penseranno"
+    }
+   },
+   "dire": {
+    "pres": {
+     "1s": "dico",
+     "2s": "dici",
+     "3s": "dice",
+     "1p": "diciamo",
+     "2p": "dite",
+     "3p": "dicono"
+    },
+    "imperf": {
+     "1s": "dicevo",
+     "2s": "dicevi",
+     "3s": "diceva",
+     "1p": "dicevamo",
+     "2p": "dicevate",
+     "3p": "dicevano"
+    },
+    "pret": {
+     "1s": "dissi",
+     "2s": "dicesti",
+     "3s": "disse",
+     "1p": "dicemmo",
+     "2p": "diceste",
+     "3p": "dissero"
+    },
+    "fut": {
+     "1s": "dirò",
+     "2s": "dirai",
+     "3s": "dirà",
+     "1p": "diremo",
+     "2p": "direte",
+     "3p": "diranno"
+    }
+   },
+   "sapere": {
+    "pres": {
+     "1s": "so",
+     "2s": "sai",
+     "3s": "sa",
+     "1p": "sappiamo",
+     "2p": "sapete",
+     "3p": "sanno"
+    },
+    "imperf": {
+     "1s": "sapevo",
+     "2s": "sapevi",
+     "3s": "sapeva",
+     "1p": "sapevamo",
+     "2p": "sapevate",
+     "3p": "sapevano"
+    },
+    "pret": {
+     "1s": "seppi",
+     "2s": "sapesti",
+     "3s": "seppe",
+     "1p": "sapemmo",
+     "2p": "sapeste",
+     "3p": "seppero"
+    },
+    "fut": {
+     "1s": "saprò",
+     "2s": "saprai",
+     "3s": "saprà",
+     "1p": "sapremo",
+     "2p": "saprete",
+     "3p": "sapranno"
+    }
+   },
+   "dare": {
+    "pres": {
+     "1s": "do",
+     "2s": "dai",
+     "3s": "dà",
+     "1p": "diamo",
+     "2p": "date",
+     "3p": "danno"
+    },
+    "imperf": {
+     "1s": "davo",
+     "2s": "davi",
+     "3s": "dava",
+     "1p": "davamo",
+     "2p": "davate",
+     "3p": "davano"
+    },
+    "pret": {
+     "1s": "diedi",
+     "2s": "desti",
+     "3s": "diede",
+     "1p": "demmo",
+     "2p": "deste",
+     "3p": "diedero"
+    },
+    "fut": {
+     "1s": "darò",
+     "2s": "darai",
+     "3s": "darà",
+     "1p": "daremo",
+     "2p": "darete",
+     "3p": "daranno"
+    }
+   }
+  },
+  "fr": {
+   "aller": {
+    "pres": {
+     "1s": "vais",
+     "2s": "vas",
+     "3s": "va",
+     "1p": "allons",
+     "2p": "allez",
+     "3p": "vont"
+    },
+    "imperf": {
+     "1s": "allais",
+     "2s": "allais",
+     "3s": "allait",
+     "1p": "allions",
+     "2p": "alliez",
+     "3p": "allaient"
+    },
+    "pret": {
+     "1s": "allai",
+     "2s": "allas",
+     "3s": "alla",
+     "1p": "allâmes",
+     "2p": "allâtes",
+     "3p": "allèrent"
+    },
+    "fut": {
+     "1s": "irai",
+     "2s": "iras",
+     "3s": "ira",
+     "1p": "irons",
+     "2p": "irez",
+     "3p": "iront"
+    }
+   },
+   "venir": {
+    "pres": {
+     "1s": "viens",
+     "2s": "viens",
+     "3s": "vient",
+     "1p": "venons",
+     "2p": "venez",
+     "3p": "viennent"
+    },
+    "imperf": {
+     "1s": "venais",
+     "2s": "venais",
+     "3s": "venait",
+     "1p": "venions",
+     "2p": "veniez",
+     "3p": "venaient"
+    },
+    "pret": {
+     "1s": "vins",
+     "2s": "vins",
+     "3s": "vint",
+     "1p": "vînmes",
+     "2p": "vîntes",
+     "3p": "vinrent"
+    },
+    "fut": {
+     "1s": "viendrai",
+     "2s": "viendras",
+     "3s": "viendra",
+     "1p": "viendrons",
+     "2p": "viendrez",
+     "3p": "viendront"
+    }
+   },
+   "faire": {
+    "pres": {
+     "1s": "fais",
+     "2s": "fais",
+     "3s": "fait",
+     "1p": "faisons",
+     "2p": "faites",
+     "3p": "font"
+    },
+    "imperf": {
+     "1s": "faisais",
+     "2s": "faisais",
+     "3s": "faisait",
+     "1p": "faisions",
+     "2p": "faisiez",
+     "3p": "faisaient"
+    },
+    "pret": {
+     "1s": "fis",
+     "2s": "fis",
+     "3s": "fit",
+     "1p": "fîmes",
+     "2p": "fîtes",
+     "3p": "firent"
+    },
+    "fut": {
+     "1s": "ferai",
+     "2s": "feras",
+     "3s": "fera",
+     "1p": "ferons",
+     "2p": "ferez",
+     "3p": "feront"
+    }
+   },
+   "voir": {
+    "pres": {
+     "1s": "vois",
+     "2s": "vois",
+     "3s": "voit",
+     "1p": "voyons",
+     "2p": "voyez",
+     "3p": "voient"
+    },
+    "imperf": {
+     "1s": "voyais",
+     "2s": "voyais",
+     "3s": "voyait",
+     "1p": "voyions",
+     "2p": "voyiez",
+     "3p": "voyaient"
+    },
+    "pret": {
+     "1s": "vis",
+     "2s": "vis",
+     "3s": "vit",
+     "1p": "vîmes",
+     "2p": "vîtes",
+     "3p": "virent"
+    },
+    "fut": {
+     "1s": "verrai",
+     "2s": "verras",
+     "3s": "verra",
+     "1p": "verrons",
+     "2p": "verrez",
+     "3p": "verront"
+    }
+   },
+   "prendre": {
+    "pres": {
+     "1s": "prends",
+     "2s": "prends",
+     "3s": "prend",
+     "1p": "prenons",
+     "2p": "prenez",
+     "3p": "prennent"
+    },
+    "imperf": {
+     "1s": "prenais",
+     "2s": "prenais",
+     "3s": "prenait",
+     "1p": "prenions",
+     "2p": "preniez",
+     "3p": "prenaient"
+    },
+    "pret": {
+     "1s": "pris",
+     "2s": "pris",
+     "3s": "prit",
+     "1p": "prîmes",
+     "2p": "prîtes",
+     "3p": "prirent"
+    },
+    "fut": {
+     "1s": "prendrai",
+     "2s": "prendras",
+     "3s": "prendra",
+     "1p": "prendrons",
+     "2p": "prendrez",
+     "3p": "prendront"
+    }
+   },
+   "trouver": {
+    "pres": {
+     "1s": "trouve",
+     "2s": "trouves",
+     "3s": "trouve",
+     "1p": "trouvons",
+     "2p": "trouvez",
+     "3p": "trouvent"
+    },
+    "imperf": {
+     "1s": "trouvais",
+     "2s": "trouvais",
+     "3s": "trouvait",
+     "1p": "trouvions",
+     "2p": "trouviez",
+     "3p": "trouvaient"
+    },
+    "pret": {
+     "1s": "trouvai",
+     "2s": "trouvas",
+     "3s": "trouva",
+     "1p": "trouvâmes",
+     "2p": "trouvâtes",
+     "3p": "trouvèrent"
+    },
+    "fut": {
+     "1s": "trouverai",
+     "2s": "trouveras",
+     "3s": "trouvera",
+     "1p": "trouverons",
+     "2p": "trouverez",
+     "3p": "trouveront"
+    }
+   },
+   "vouloir": {
+    "pres": {
+     "1s": "veux",
+     "2s": "veux",
+     "3s": "veut",
+     "1p": "voulons",
+     "2p": "voulez",
+     "3p": "veulent"
+    },
+    "imperf": {
+     "1s": "voulais",
+     "2s": "voulais",
+     "3s": "voulait",
+     "1p": "voulions",
+     "2p": "vouliez",
+     "3p": "voulaient"
+    },
+    "pret": {
+     "1s": "voulus",
+     "2s": "voulus",
+     "3s": "voulut",
+     "1p": "voulûmes",
+     "2p": "voulûtes",
+     "3p": "voulurent"
+    },
+    "fut": {
+     "1s": "voudrai",
+     "2s": "voudras",
+     "3s": "voudra",
+     "1p": "voudrons",
+     "2p": "voudrez",
+     "3p": "voudront"
+    }
+   },
+   "avoir": {
+    "pres": {
+     "1s": "ai",
+     "2s": "as",
+     "3s": "a",
+     "1p": "avons",
+     "2p": "avez",
+     "3p": "ont"
+    },
+    "imperf": {
+     "1s": "avais",
+     "2s": "avais",
+     "3s": "avait",
+     "1p": "avions",
+     "2p": "aviez",
+     "3p": "avaient"
+    },
+    "pret": {
+     "1s": "eus",
+     "2s": "eus",
+     "3s": "eut",
+     "1p": "eûmes",
+     "2p": "eûtes",
+     "3p": "eurent"
+    },
+    "fut": {
+     "1s": "aurai",
+     "2s": "auras",
+     "3s": "aura",
+     "1p": "aurons",
+     "2p": "aurez",
+     "3p": "auront"
+    }
+   },
+   "penser": {
+    "pres": {
+     "1s": "pense",
+     "2s": "penses",
+     "3s": "pense",
+     "1p": "pensons",
+     "2p": "pensez",
+     "3p": "pensent"
+    },
+    "imperf": {
+     "1s": "pensais",
+     "2s": "pensais",
+     "3s": "pensait",
+     "1p": "pensions",
+     "2p": "pensiez",
+     "3p": "pensaient"
+    },
+    "pret": {
+     "1s": "pensai",
+     "2s": "pensas",
+     "3s": "pensa",
+     "1p": "pensâmes",
+     "2p": "pensâtes",
+     "3p": "pensèrent"
+    },
+    "fut": {
+     "1s": "penserai",
+     "2s": "penseras",
+     "3s": "pensera",
+     "1p": "penserons",
+     "2p": "penserez",
+     "3p": "penseront"
+    }
+   },
+   "dire": {
+    "pres": {
+     "1s": "dis",
+     "2s": "dis",
+     "3s": "dit",
+     "1p": "disons",
+     "2p": "dites",
+     "3p": "disent"
+    },
+    "imperf": {
+     "1s": "disais",
+     "2s": "disais",
+     "3s": "disait",
+     "1p": "disions",
+     "2p": "disiez",
+     "3p": "disaient"
+    },
+    "pret": {
+     "1s": "dis",
+     "2s": "dis",
+     "3s": "dit",
+     "1p": "dîmes",
+     "2p": "dîtes",
+     "3p": "dirent"
+    },
+    "fut": {
+     "1s": "dirai",
+     "2s": "diras",
+     "3s": "dira",
+     "1p": "dirons",
+     "2p": "direz",
+     "3p": "diront"
+    }
+   },
+   "savoir": {
+    "pres": {
+     "1s": "sais",
+     "2s": "sais",
+     "3s": "sait",
+     "1p": "savons",
+     "2p": "savez",
+     "3p": "savent"
+    },
+    "imperf": {
+     "1s": "savais",
+     "2s": "savais",
+     "3s": "savait",
+     "1p": "savions",
+     "2p": "saviez",
+     "3p": "savaient"
+    },
+    "pret": {
+     "1s": "sus",
+     "2s": "sus",
+     "3s": "sut",
+     "1p": "sûmes",
+     "2p": "sûtes",
+     "3p": "surent"
+    },
+    "fut": {
+     "1s": "saurai",
+     "2s": "sauras",
+     "3s": "saura",
+     "1p": "saurons",
+     "2p": "saurez",
+     "3p": "sauront"
+    }
+   },
+   "donner": {
+    "pres": {
+     "1s": "donne",
+     "2s": "donnes",
+     "3s": "donne",
+     "1p": "donnons",
+     "2p": "donnez",
+     "3p": "donnent"
+    },
+    "imperf": {
+     "1s": "donnais",
+     "2s": "donnais",
+     "3s": "donnait",
+     "1p": "donnions",
+     "2p": "donniez",
+     "3p": "donnaient"
+    },
+    "pret": {
+     "1s": "donnai",
+     "2s": "donnas",
+     "3s": "donna",
+     "1p": "donnâmes",
+     "2p": "donnâtes",
+     "3p": "donnèrent"
+    },
+    "fut": {
+     "1s": "donnerai",
+     "2s": "donneras",
+     "3s": "donnera",
+     "1p": "donnerons",
+     "2p": "donnerez",
+     "3p": "donneront"
+    }
+   }
+  }
+ }
+}

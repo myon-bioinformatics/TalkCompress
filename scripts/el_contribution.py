@@ -16,7 +16,12 @@ sys.path.insert(0, str(ROOT))
 
 from tests._helpers import load  # noqa: E402
 
-_NAMES = ("FINAL_TENSE_LANGS", "FINAL_PHRASE_LANGS", "FINAL_PT_EL_LATIN_PHRASE_LANGS")
+_NAMES = (
+    "FINAL_TENSE_LANGS",
+    "FINAL_PHRASE_LANGS",
+    "FINAL_PT_EL_LATIN_PHRASE_LANGS",
+    "FINAL_TENSE_MATRIX_LANGS",
+)
 
 
 def _texts() -> list[tuple[str, str]]:
