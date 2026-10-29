@@ -221,3 +221,42 @@ def test_progressive_examples(s, want):
 def test_no_progressive_no_shrink_reason():
     rej = [c for c in CELLS if c["tense"].endswith("prog") and c["status"] == "reject"]
     assert any("progressive-preserving" in c["reason"] for c in rej)
+
+
+_PARITY = {
+    "3s": ("3s-he", "3s-she", "3s-it"),
+    "dem-pl": ("dem-these", "dem-those"),
+    "rel-sg": ("rel-who-sg", "rel-which-sg"),
+    "rel-pl": ("rel-who-pl", "rel-which-pl"),
+}
+
+
+def _verb_part(c):
+    if c["status"] != "adopt":
+        return None
+    f = c["best"]
+    return f.split(" ", 1)[1] if c["subject"].startswith(("dem-", "rel-")) else f
+
+
+@pytest.mark.parametrize("cls", sorted(_PARITY))
+def test_parity_class_same_verb_winner(cls):
+    """Subjects sharing one conjugation slot get the same verb winner, or all stay EN."""
+    by = {(c["subject"], c["tense"], c["verb"]): c for c in CELLS}
+    tenses = {c["tense"] for c in CELLS}
+    verbs = {c["verb"] for c in CELLS}
+    bad = []
+    for tense in sorted(tenses):
+        for verb in sorted(verbs):
+            got = {s: _verb_part(by[(s, tense, verb)]) for s in _PARITY[cls]}
+            if len(set(got.values())) > 1:
+                bad.append((tense, verb, got))
+    assert not bad, bad
+
+
+@pytest.mark.parametrize("subj", ["he", "she", "it"])
+def test_3sg_is_doing_parity_runtime(subj):
+    assert _t().apply_es_fr_tense(f"{subj} is doing") == "sta facendo"
+
+
+def test_that_stays_unconverted():
+    assert all(c["status"] != "adopt" for c in CELLS if c["subject"] == "dem-that")

@@ -4,6 +4,7 @@
  "notes": [
   "Generated — edit scripts/tense_matrix.py, not this file.",
   "Adopted only when token AND utf8 strictly shrink; `to` = runtime cheapest winner.",
+  "Parity classes (he/she/it, these/those, who/which per number): decided once per class — every member token-shrinks, utf8 never grows, ≥1 member utf8-shrinks; same verb winner for all.",
   "Personal pronouns dropped (person-marked verb); demonstratives/relatives keep the subject.",
   "Relatives only with number-marking aux (is/are, has/have, was/were); bare 'that' (multi-POS) always stays EN.",
   "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",
@@ -1040,6 +1041,10 @@
     {
      "form": "starò venendo",
      "lang": "it"
+    },
+    {
+     "form": "estaré viniendo",
+     "lang": "es"
     }
    ]
   },
@@ -1056,6 +1061,10 @@
     {
      "form": "starò facendo",
      "lang": "it"
+    },
+    {
+     "form": "estarei fazendo",
+     "lang": "pt"
     }
    ]
   },
@@ -1160,6 +1169,10 @@
     {
      "form": "estarei tendo",
      "lang": "pt"
+    },
+    {
+     "form": "estaré teniendo",
+     "lang": "es"
     }
    ]
   },
@@ -1204,6 +1217,10 @@
     {
      "form": "estarei dizendo",
      "lang": "pt"
+    },
+    {
+     "form": "estaré diciendo",
+     "lang": "es"
     }
    ]
   },
@@ -3352,6 +3369,10 @@
     {
      "form": "estavas indo",
      "lang": "pt"
+    },
+    {
+     "form": "estáveis indo",
+     "lang": "pt"
     }
    ]
   },
@@ -3420,6 +3441,10 @@
     {
      "form": "estarás viniendo",
      "lang": "es"
+    },
+    {
+     "form": "estaréis viniendo",
+     "lang": "es"
     }
    ]
   },
@@ -3448,6 +3473,10 @@
     {
      "form": "estareis fazendo",
      "lang": "pt"
+    },
+    {
+     "form": "estarás haciendo",
+     "lang": "es"
     }
    ]
   },
@@ -3600,6 +3629,10 @@
     {
      "form": "estarás teniendo",
      "lang": "es"
+    },
+    {
+     "form": "estaréis teniendo",
+     "lang": "es"
     }
    ]
   },
@@ -3667,6 +3700,10 @@
     },
     {
      "form": "estarás diciendo",
+     "lang": "es"
+    },
+    {
+     "form": "estaréis diciendo",
      "lang": "es"
     }
    ]
@@ -5244,6 +5281,14 @@
     {
      "form": "está indo",
      "lang": "pt"
+    },
+    {
+     "form": "está yendo",
+     "lang": "es"
+    },
+    {
+     "form": "sta andando",
+     "lang": "it"
     }
    ]
   },
@@ -5268,6 +5313,22 @@
    ]
   },
   {
+   "id": "mx-do-presprog-3s-he",
+   "from": [
+    "he is doing"
+   ],
+   "to": "sta facendo",
+   "lang": "it",
+   "tense": "presprog",
+   "subject": "3s-he",
+   "candidates": [
+    {
+     "form": "sta facendo",
+     "lang": "it"
+    }
+   ]
+  },
+  {
    "id": "mx-see-presprog-3s-he",
    "from": [
     "he is seeing"
@@ -5284,6 +5345,10 @@
     {
      "form": "sta vedendo",
      "lang": "it"
+    },
+    {
+     "form": "está viendo",
+     "lang": "es"
     }
    ]
   },
@@ -5300,6 +5365,10 @@
     {
      "form": "sta trovando",
      "lang": "it"
+    },
+    {
+     "form": "está achando",
+     "lang": "pt"
     }
    ]
   },
@@ -5352,6 +5421,14 @@
     {
      "form": "sta pensando",
      "lang": "it"
+    },
+    {
+     "form": "está pensando",
+     "lang": "es"
+    },
+    {
+     "form": "está pensando",
+     "lang": "pt"
     }
    ]
   },
@@ -5384,6 +5461,10 @@
     {
      "form": "sta sapendo",
      "lang": "it"
+    },
+    {
+     "form": "está sabendo",
+     "lang": "pt"
     }
    ]
   },
@@ -5492,6 +5573,10 @@
     {
      "form": "estará fazendo",
      "lang": "pt"
+    },
+    {
+     "form": "estará haciendo",
+     "lang": "es"
     }
    ]
   },
@@ -6276,6 +6361,10 @@
     {
      "form": "vint",
      "lang": "fr"
+    },
+    {
+     "form": "ήρθε",
+     "lang": "el"
     }
    ]
   },
@@ -6332,6 +6421,10 @@
     {
      "form": "tomó",
      "lang": "es"
+    },
+    {
+     "form": "πήρε",
+     "lang": "el"
     }
    ]
   },
@@ -6360,6 +6453,10 @@
     {
      "form": "trouva",
      "lang": "fr"
+    },
+    {
+     "form": "encontró",
+     "lang": "es"
     }
    ]
   },
@@ -6448,6 +6545,10 @@
     {
      "form": "dijo",
      "lang": "es"
+    },
+    {
+     "form": "είπε",
+     "lang": "el"
     }
    ]
   },
@@ -7304,6 +7405,10 @@
     {
      "form": "sta volendo",
      "lang": "it"
+    },
+    {
+     "form": "está querendo",
+     "lang": "pt"
     }
    ]
   },
@@ -7364,6 +7469,10 @@
     {
      "form": "sta dicendo",
      "lang": "it"
+    },
+    {
+     "form": "está dizendo",
+     "lang": "pt"
     }
    ]
   },
@@ -7384,6 +7493,10 @@
     {
      "form": "está sabendo",
      "lang": "pt"
+    },
+    {
+     "form": "está sabiendo",
+     "lang": "es"
     }
    ]
   },
@@ -9292,6 +9405,14 @@
     {
      "form": "está indo",
      "lang": "pt"
+    },
+    {
+     "form": "está yendo",
+     "lang": "es"
+    },
+    {
+     "form": "sta andando",
+     "lang": "it"
     }
    ]
   },
@@ -9316,6 +9437,22 @@
    ]
   },
   {
+   "id": "mx-do-presprog-3s-it",
+   "from": [
+    "it is doing"
+   ],
+   "to": "sta facendo",
+   "lang": "it",
+   "tense": "presprog",
+   "subject": "3s-it",
+   "candidates": [
+    {
+     "form": "sta facendo",
+     "lang": "it"
+    }
+   ]
+  },
+  {
    "id": "mx-see-presprog-3s-it",
    "from": [
     "it is seeing"
@@ -9332,6 +9469,10 @@
     {
      "form": "sta vedendo",
      "lang": "it"
+    },
+    {
+     "form": "está viendo",
+     "lang": "es"
     }
    ]
   },
@@ -9348,6 +9489,10 @@
     {
      "form": "sta trovando",
      "lang": "it"
+    },
+    {
+     "form": "está achando",
+     "lang": "pt"
     }
    ]
   },
@@ -9400,6 +9545,14 @@
     {
      "form": "sta pensando",
      "lang": "it"
+    },
+    {
+     "form": "está pensando",
+     "lang": "es"
+    },
+    {
+     "form": "está pensando",
+     "lang": "pt"
     }
    ]
   },
@@ -9432,6 +9585,10 @@
     {
      "form": "sta sapendo",
      "lang": "it"
+    },
+    {
+     "form": "está sabendo",
+     "lang": "pt"
     }
    ]
   },
@@ -9540,6 +9697,10 @@
     {
      "form": "estará fazendo",
      "lang": "pt"
+    },
+    {
+     "form": "estará haciendo",
+     "lang": "es"
     }
    ]
   },
@@ -9800,6 +9961,18 @@
     {
      "form": "pensons",
      "lang": "fr"
+    },
+    {
+     "form": "pensamos",
+     "lang": "es"
+    },
+    {
+     "form": "pensamos",
+     "lang": "pt"
+    },
+    {
+     "form": "pensiamo",
+     "lang": "it"
     }
    ]
   },
@@ -9992,6 +10165,10 @@
     {
      "form": "achamos",
      "lang": "pt"
+    },
+    {
+     "form": "trovammo",
+     "lang": "it"
     }
    ]
   },
@@ -10020,6 +10197,10 @@
     {
      "form": "quisimos",
      "lang": "es"
+    },
+    {
+     "form": "voulûmes",
+     "lang": "fr"
     }
    ]
   },
@@ -10704,6 +10885,10 @@
     {
      "form": "déramos",
      "lang": "pt"
+    },
+    {
+     "form": "avevamo dato",
+     "lang": "it"
     }
    ]
   },
@@ -12632,6 +12817,10 @@
     {
      "form": "this achou",
      "lang": "pt"
+    },
+    {
+     "form": "this encontró",
+     "lang": "es"
     }
    ]
   },
@@ -13912,6 +14101,10 @@
     {
      "form": "who achou",
      "lang": "pt"
+    },
+    {
+     "form": "who encontró",
+     "lang": "es"
     }
    ]
   },
@@ -14392,6 +14585,10 @@
     {
      "form": "which achou",
      "lang": "pt"
+    },
+    {
+     "form": "which encontró",
+     "lang": "es"
     }
    ]
   },

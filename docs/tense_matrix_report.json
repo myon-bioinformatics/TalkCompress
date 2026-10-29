@@ -8290,7 +8290,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8309,7 +8314,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8336,7 +8346,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8355,7 +8370,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8374,7 +8394,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8393,7 +8418,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8420,7 +8450,12 @@
     9,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8453,7 +8488,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8472,7 +8512,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8491,7 +8536,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8526,7 +8576,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8545,7 +8600,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8564,7 +8624,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8583,7 +8648,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8602,7 +8672,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8629,7 +8704,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8648,7 +8728,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8667,7 +8752,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8686,7 +8776,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8721,7 +8816,12 @@
     7,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8762,7 +8862,12 @@
     6,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8795,7 +8900,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8828,7 +8938,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8861,7 +8976,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8902,7 +9022,12 @@
     10,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8935,7 +9060,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8974,7 +9104,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9007,7 +9142,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9034,7 +9174,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9067,7 +9212,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9112,7 +9262,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9151,7 +9306,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9190,7 +9350,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9229,7 +9394,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9268,7 +9438,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9307,7 +9482,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9346,7 +9526,12 @@
     14,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9385,7 +9570,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9424,7 +9614,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9464,7 +9659,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9483,7 +9683,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9502,7 +9707,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9529,7 +9739,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9556,7 +9771,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9583,7 +9803,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9610,7 +9835,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9637,7 +9867,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9664,7 +9899,12 @@
     16,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9691,7 +9931,12 @@
     20,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9718,7 +9963,12 @@
     17,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9745,7 +9995,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9784,7 +10039,12 @@
     18,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9845,7 +10105,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9864,7 +10129,12 @@
     11,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9883,7 +10153,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9902,7 +10177,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9921,7 +10201,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9940,7 +10225,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9959,7 +10249,12 @@
     10,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9978,7 +10273,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9997,7 +10297,12 @@
     11,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10016,7 +10321,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10049,7 +10359,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10089,7 +10404,12 @@
     11,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10129,7 +10449,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10169,8 +10494,12 @@
     11,
     11
    ],
-   "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10210,7 +10539,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10251,7 +10585,7 @@
     13
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity class: not every subject in the class shrinks (EN kept for all)"
   },
   {
    "subject": "3s-he",
@@ -10291,7 +10625,12 @@
     13,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10331,7 +10670,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10371,7 +10715,12 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10411,7 +10760,12 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10452,7 +10806,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10493,7 +10852,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10533,7 +10897,12 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10573,7 +10942,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11060,7 +11434,12 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11094,7 +11473,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11128,7 +11512,12 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11162,7 +11551,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11196,7 +11590,12 @@
     17,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11230,7 +11629,12 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11264,7 +11668,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11298,7 +11707,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11332,7 +11746,12 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11367,7 +11786,12 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11402,7 +11826,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11436,7 +11865,12 @@
     17,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11455,7 +11889,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11474,7 +11913,12 @@
     9,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11501,7 +11945,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11520,7 +11969,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11539,7 +11993,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11558,7 +12017,12 @@
     9,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11585,7 +12049,12 @@
     10,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11618,7 +12087,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11637,7 +12111,12 @@
     9,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11656,7 +12135,12 @@
     9,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11691,7 +12175,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11710,7 +12199,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11729,7 +12223,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11748,7 +12247,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11767,7 +12271,12 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11794,7 +12303,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11813,7 +12327,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11832,7 +12351,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11851,7 +12375,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11886,7 +12415,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11927,7 +12461,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11960,7 +12499,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11993,7 +12537,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12026,7 +12575,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12067,7 +12621,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12100,7 +12659,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12139,7 +12703,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12172,7 +12741,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12199,7 +12773,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12232,7 +12811,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12277,7 +12861,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12316,7 +12905,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12355,7 +12949,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12394,7 +12993,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12433,7 +13037,12 @@
     14,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12472,7 +13081,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12511,7 +13125,12 @@
     15,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12550,7 +13169,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12589,7 +13213,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12629,7 +13258,12 @@
     13,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12648,7 +13282,12 @@
     18,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12667,7 +13306,12 @@
     18,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12694,7 +13338,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12721,7 +13370,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12748,7 +13402,12 @@
     19,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12775,7 +13434,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12802,7 +13466,12 @@
     20,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12829,7 +13498,12 @@
     17,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12856,7 +13530,12 @@
     21,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12883,7 +13562,12 @@
     18,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12910,7 +13594,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12949,7 +13638,12 @@
     19,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13010,7 +13704,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13029,7 +13728,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13048,7 +13752,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13067,7 +13776,12 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13086,7 +13800,12 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13105,7 +13824,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13124,7 +13848,12 @@
     11,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13143,7 +13872,12 @@
     15,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13162,7 +13896,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13181,7 +13920,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13214,7 +13958,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13254,7 +14003,12 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13294,7 +14048,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13334,7 +14093,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13374,7 +14138,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13415,7 +14184,7 @@
     13
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity class: not every subject in the class shrinks (EN kept for all)"
   },
   {
    "subject": "3s-she",
@@ -13455,7 +14224,12 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13495,7 +14269,12 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13535,7 +14314,12 @@
     13,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13575,7 +14359,12 @@
     15,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13616,7 +14405,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13657,7 +14451,12 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13697,7 +14496,12 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13737,7 +14541,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14224,7 +15033,12 @@
     17,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14258,7 +15072,12 @@
     18,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14292,7 +15111,12 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14326,7 +15150,12 @@
     18,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14360,7 +15189,12 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14394,7 +15228,12 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14428,7 +15267,12 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14462,7 +15306,12 @@
     18,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14496,7 +15345,12 @@
     20,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14531,7 +15385,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14566,7 +15425,12 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14600,7 +15464,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14619,7 +15488,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14638,7 +15512,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14665,7 +15544,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14684,7 +15568,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14703,7 +15592,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14722,7 +15616,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14749,7 +15648,12 @@
     9,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14782,7 +15686,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14801,7 +15710,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14820,7 +15734,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14877,7 +15796,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14896,7 +15820,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14915,7 +15844,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14934,7 +15868,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14953,7 +15892,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14980,7 +15924,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14999,7 +15948,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15018,7 +15972,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15037,7 +15996,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15083,7 +16047,12 @@
     7,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15124,7 +16093,12 @@
     6,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15157,7 +16131,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15190,7 +16169,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15223,7 +16207,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15264,7 +16253,12 @@
     10,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15297,7 +16291,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15336,7 +16335,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15369,7 +16373,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15396,7 +16405,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15429,7 +16443,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15474,7 +16493,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15513,7 +16537,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15552,7 +16581,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15591,7 +16625,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15630,7 +16669,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15669,7 +16713,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15708,7 +16757,12 @@
     14,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15747,7 +16801,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15786,7 +16845,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15826,7 +16890,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15845,7 +16914,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15864,7 +16938,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15891,7 +16970,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15918,7 +17002,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15945,7 +17034,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15972,7 +17066,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15999,7 +17098,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16026,7 +17130,12 @@
     16,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16053,7 +17162,12 @@
     20,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16080,7 +17194,12 @@
     17,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16107,7 +17226,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16146,7 +17270,12 @@
     18,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16207,7 +17336,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16226,7 +17360,12 @@
     11,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16245,7 +17384,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16264,7 +17408,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16283,7 +17432,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16302,7 +17456,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16321,7 +17480,12 @@
     10,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16340,7 +17504,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16359,7 +17528,12 @@
     11,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16378,7 +17552,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16411,7 +17590,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16451,7 +17635,12 @@
     11,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16491,7 +17680,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16531,8 +17725,12 @@
     11,
     11
    ],
-   "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16572,7 +17770,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16613,7 +17816,7 @@
     13
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity class: not every subject in the class shrinks (EN kept for all)"
   },
   {
    "subject": "3s-it",
@@ -16653,7 +17856,12 @@
     13,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16693,7 +17901,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16733,7 +17946,12 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16773,7 +17991,12 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16814,7 +18037,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16855,7 +18083,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16895,7 +18128,12 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16935,7 +18173,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17422,7 +18665,12 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17456,7 +18704,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17490,7 +18743,12 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17524,7 +18782,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17558,7 +18821,12 @@
     17,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17592,7 +18860,12 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17626,7 +18899,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17660,7 +18938,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17694,7 +18977,12 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17729,7 +19017,12 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17764,7 +19057,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17798,7 +19096,12 @@
     17,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "1p",
@@ -26849,7 +28152,11 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -26996,7 +28303,11 @@
     16,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27251,7 +28562,11 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27270,7 +28585,11 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27289,7 +28608,11 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27328,7 +28651,11 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27367,7 +28694,11 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27394,7 +28725,11 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27493,7 +28828,11 @@
     21,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27612,7 +28951,11 @@
     21,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27645,7 +28988,11 @@
     21,
     18
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27744,7 +29091,11 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27763,7 +29114,11 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27782,7 +29137,11 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27821,7 +29180,11 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27860,7 +29223,11 @@
     15,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -27893,7 +29260,11 @@
     15,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-these",
@@ -29274,7 +30645,11 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29421,7 +30796,11 @@
     16,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29676,7 +31055,11 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29695,7 +31078,11 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29714,7 +31101,11 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29753,7 +31144,11 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29792,7 +31187,11 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29819,7 +31218,11 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -29918,7 +31321,11 @@
     21,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30037,7 +31444,11 @@
     21,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30070,7 +31481,11 @@
     21,
     18
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30169,7 +31584,11 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30188,7 +31607,11 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30207,7 +31630,11 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30246,7 +31673,11 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30285,7 +31716,11 @@
     15,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -30318,7 +31753,11 @@
     15,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "dem-these",
+    "dem-those"
+   ]
   },
   {
    "subject": "dem-those",
@@ -31623,7 +33062,11 @@
     9,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -31670,7 +33113,11 @@
     9,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -31689,7 +33136,11 @@
     9,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -31708,7 +33159,11 @@
     9,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -31789,7 +33244,11 @@
     9,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -31808,7 +33267,11 @@
     9,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32027,7 +33490,11 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32060,7 +33527,11 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32105,7 +33576,11 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32144,7 +33619,11 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32183,7 +33662,11 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32222,7 +33705,11 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32261,7 +33748,11 @@
     14,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32300,7 +33791,11 @@
     11,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32339,7 +33834,11 @@
     15,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32378,7 +33877,11 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32417,7 +33920,11 @@
     13,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -32457,7 +33964,11 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-who-sg",
@@ -34248,7 +35759,11 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-who-pl",
@@ -34267,7 +35782,11 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-who-pl",
@@ -34286,7 +35805,11 @@
     15,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-who-pl",
@@ -34325,7 +35848,11 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-who-pl",
@@ -34364,7 +35891,11 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-who-pl",
@@ -34391,7 +35922,11 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-who-pl",
@@ -35562,7 +37097,11 @@
     11,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -35609,7 +37148,11 @@
     11,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -35628,7 +37171,11 @@
     11,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -35647,7 +37194,11 @@
     11,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -35728,7 +37279,11 @@
     11,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -35747,7 +37302,11 @@
     11,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -35966,7 +37525,11 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -35999,7 +37562,11 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36044,7 +37611,11 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36083,7 +37654,11 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36122,7 +37697,11 @@
     15,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36161,7 +37740,11 @@
     15,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36200,7 +37783,11 @@
     16,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36239,7 +37826,11 @@
     13,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36278,7 +37869,11 @@
     17,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36317,7 +37912,11 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36356,7 +37955,11 @@
     15,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -36396,7 +37999,11 @@
     15,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-sg",
+    "rel-which-sg"
+   ]
   },
   {
    "subject": "rel-which-sg",
@@ -38187,7 +39794,11 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-which-pl",
@@ -38206,7 +39817,11 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-which-pl",
@@ -38225,7 +39840,11 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-which-pl",
@@ -38264,7 +39883,11 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-which-pl",
@@ -38303,7 +39926,11 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-which-pl",
@@ -38330,7 +39957,11 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "rel-who-pl",
+    "rel-which-pl"
+   ]
   },
   {
    "subject": "rel-which-pl",
