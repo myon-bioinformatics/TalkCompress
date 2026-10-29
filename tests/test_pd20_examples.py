@@ -88,7 +88,6 @@ def test_c_contractions_shrink(src, want):
     "full,short,winner",
     [
         ("I will go", "I'll go", "vou"),
-        ("I am going", "I'm going", "vou"),
         ("I will take it", "I'll take it", "πάρω it"),
     ],
 )

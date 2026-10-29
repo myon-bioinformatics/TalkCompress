@@ -423,6 +423,7 @@ DEFAULT_ZH_DE_PHRASE_BANK = _FIXTURES_DIR / "zh_de_phrases.json"
 DEFAULT_ES_FR_TENSE_BANK = _FIXTURES_DIR / "es_fr_tense.json"
 DEFAULT_PT_EL_LATIN_PHRASE_BANK = _FIXTURES_DIR / "pt_el_latin_phrases.json"
 DEFAULT_PT_EL_LATIN_TENSE_BANK = _FIXTURES_DIR / "pt_el_latin_tense.json"
+DEFAULT_EN_WORDLIST = _FIXTURES_DIR / "en_wordlist.txt"
 DEFAULT_TENSE_MATRIX_BANK = Path(__file__).resolve().parent / "fixtures" / "tense_matrix.json"
 TRANSLATE_ENGINES = ("fixture", "argos", "deep")
 
@@ -949,6 +950,37 @@ def _tense_matrix_pairs_cached(path: str, langs: frozenset[str]) -> tuple[tuple[
     return tuple(_bank_phrase_pairs(data, allow_langs=set(langs)))
 
 
+@lru_cache(maxsize=4)
+def load_en_wordlist(path: str | None = None) -> frozenset[str]:
+    """Lowercase English words for the homograph guard (``#`` lines = header)."""
+    p = Path(path) if path is not None else DEFAULT_EN_WORDLIST
+    if not p.exists():
+        return frozenset()
+    return frozenset(
+        w.strip()
+        for w in p.read_text(encoding="utf-8").splitlines()
+        if w.strip() and not w.startswith("#")
+    )
+
+
+_WORD_SPLIT_RE = re.compile(r"[^\w]+")
+
+
+def en_homograph_tokens(form: str, *, keep_head: str = "") -> list[str]:
+    """Tokens of a non-EN candidate spelled exactly like an English word.
+
+    ``he visto`` → ``["he"]``, ``fora`` → ``["fora"]``, ``vou`` → ``[]``.
+    ``keep_head`` (the matched EN subject, e.g. ``this`` / ``who``) is skipped
+    when the candidate keeps it as its first word. Case-insensitive; accented
+    tokens never match the ASCII list.
+    """
+    words = load_en_wordlist()
+    toks = [w for w in _WORD_SPLIT_RE.split(form.lower()) if w]
+    if keep_head and toks and toks[0] == keep_head.lower():
+        toks = toks[1:]
+    return [w for w in toks if w in words]
+
+
 def _entry_candidate_forms(
     entry: dict[str, Any],
     *,
@@ -1111,8 +1143,14 @@ def _apply_phrase_pairs(
     pairs: list[tuple[str, str, str]],
     *,
     require_token_drop: bool = True,
+    homograph_guard: bool = False,
 ) -> str:
-    """Apply phrase pairs with longest-first match; cheapest wins on collisions."""
+    """Apply phrase pairs with longest-first match; cheapest wins on collisions.
+
+    ``homograph_guard``: drop non-EN candidates with any token spelled like an
+    English word (``he visto``, ``fora``, ``van``) before cheapest selection, so
+    the next-cheapest unique form wins — or the EN span stays when none is left.
+    """
     src = unicodedata.normalize("NFC", text or "")
     if not src.strip() or not pairs:
         return src
@@ -1134,6 +1172,13 @@ def _apply_phrase_pairs(
         if key not in out_low:
             continue
         cands = by_src[key]
+        if homograph_guard:
+            head = phrase.split(" ", 1)[0]
+            cands = [
+                (r, lg) for r, lg in cands if lg == "en" or not en_homograph_tokens(r, keep_head=head)
+            ]
+            if not cands:
+                continue
         # Latin / ASCII phrase → word-boundary, case-insensitive.
         # Generic going-to guard: phrases ending in "going" must not fire when
         # followed by " to …" (EN future/intention); use longer bank entries
@@ -1208,12 +1253,18 @@ def apply_es_fr_tense(
     """Replace stacked EN auxiliaries with short live conjugations when tokens drop.
 
     High-frequency go/come/do/be/have/must/want/see/say/… across present/past/
-    future/conditional (+ progressive → present). Candidates may be es/fr/pt/nl/el
+    future/conditional. Candidates may be es/fr/pt/nl/el
     (``FINAL_TENSE_LANGS``); runtime picks cheapest (token→utf8→len). Progressive
     ``*going`` skips when followed by ``to`` (going-to future guard). Explicit
     ``going to <V>`` futures use longer bank sources. Additive sibling
     ``pt_el_latin_tense.json`` covers NEW sources only. Meaning-clear modern forms
     only — classical Latin conjugations are not registered.
+
+    English-homograph guard: a candidate with any token spelled like an English
+    word (``fixtures/en_wordlist.txt``; e.g. es ``he visto``, pt ``fora``, es
+    ``van``) is skipped; the next-cheapest unique candidate wins, else EN stays.
+    Progressive (be + -ing) maps only to progressive-preserving periphrases
+    (estar/stare + gerund …) or stays EN — never to a simple tense.
     """
     pairs = _merge_phrase_pair_banks(
         es_fr_tense_pairs(bank_path),
@@ -1224,6 +1275,7 @@ def apply_es_fr_tense(
         text,
         pairs,
         require_token_drop=require_token_drop,
+        homograph_guard=True,
     )
 
 

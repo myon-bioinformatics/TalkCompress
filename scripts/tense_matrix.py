@@ -20,7 +20,19 @@ Personal pronouns are dropped (person-marked verb); demonstratives
 only compress the verb chain. Relatives / ``that`` need an EN aux that marks
 number (is/are, has/have, was/were, -s); will/past/had cells are rejected as
 number-ambiguous. Aux-capable verbs (do/have) skip forms that would eat
-do-support or a perfect auxiliary.
+do-support or a perfect auxiliary. Bare ``that`` is multi-POS in EN
+(demonstrative / relative / complementizer), so every ``that`` cell stays EN.
+
+English-homograph guard (same function as runtime,
+``tessera_talk.en_homograph_tokens``): a candidate with any token spelled like
+an English word (es ``he visto``, pt ``fora``, es ``van``, pt ``a`` …) is
+dropped before ranking; the next-cheapest unique form wins, else EN stays.
+
+Progressive (be + -ing) only competes progressive-preserving periphrases —
+es estar + gerundio, pt estar + gerúndio / estar a + inf, it stare +
+gerundio, fr être en train de + inf, nl zijn aan het + inf. Simple present /
+imperfect / future and nl simple past are not candidates (aspect loss; the
+Romance imperfect is also habitual).
 """
 
 from __future__ import annotations
@@ -106,7 +118,14 @@ AUX = {
     ("fr", "pluperf+e"): _p6("étais étais était étions étiez étaient"),
     ("fr", "futperf"): _p6("aurai auras aura aurons aurez auront"),
     ("fr", "futperf+e"): _p6("serai seras sera serons serez seront"),
+    # être + en train de (progressive periphrasis)
+    ("fr", "presprog"): _p6("suis es est sommes êtes sont"),
+    ("fr", "pastprog"): _p6("étais étais était étions étiez étaient"),
+    ("fr", "futprog"): _p6("serai seras sera serons serez seront"),
 }
+PROG = ("presprog", "pastprog", "futprog")
+# nl zijn + aan het + inf: (1s, 2s, 3s, pl) per tense; futprog = zal … zijn
+NL_ZIJN = {"presprog": "ben bent is zijn", "pastprog": "was was was waren", "futprog": "zal zult zal zullen"}
 
 # nl: (1s, 3s/jij, pl) present ; (sg, pl) past.  nl present is NOT future.
 NL_PRES = {
@@ -170,12 +189,12 @@ def _en(subj: str, person: str, tense: str, verb: str) -> str:
 
 def _reject_reason(sub: tuple, tense: str, verb: str) -> str | None:
     _label, surf, person, _num, _keep, kind = sub
-    if kind in ("rel", "dem-that") and tense not in NUMBER_MARKED:
-        return "number-ambiguous: relative/that with will/past/had (EN aux does not mark sg/pl)"
+    if kind == "dem-that":
+        return "multi-POS EN 'that' (dem / rel / complementizer): left unconverted (揺らぎ回避)"
+    if kind == "rel" and tense not in NUMBER_MARKED:
+        return "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
     if kind in ("dem", "dem-that") and tense in ("pres", "past"):
         return "demonstrative + bare verb: noun/idiom homographs (this saw, that said, these finds)"
-    if kind == "dem-that" and tense == "presprog":
-        return "C conj-that-is owns 'that is' (→ i.e.) before B-final"
     if verb in ("do", "have") and tense in ("pres", "past"):
         return "aux-capable verb: would eat do-support / perfect aux (he does not…, he had eaten)"
     if verb == "have" and tense == "fut":
@@ -206,7 +225,7 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
                 pp = pp + ("i" if L == "it" else "s") if L == "fr" else pp[:-1] + "i"
             if tense == "pres":
                 add(c["pres"][slot], L, "simple", tag)
-            elif tense in ("fut", "futprog"):
+            elif tense == "fut":
                 add(c["fut"][slot], L, "simple", tag)
             elif tense == "past":
                 add(c["pret"][slot], L, "simple", tag)
@@ -227,20 +246,29 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
             elif tense == "futperf":
                 key = (L, "futperf+e") if e and L in ("it", "fr") else (L, "futperf")
                 add(f"{AUX[key][slot]} {pp}", L, "compound", tag)
-            if tense in ("presprog", "pastprog", "futprog") and L in GER:
-                add(f"{AUX[(L, tense)][slot]} {GER[L][verb]}", L, "compound", tag)
-            if tense == "presprog":
-                add(c["pres"][slot], L, "simple-present", tag)
-            if tense == "pastprog":
-                add(c["imperf"][slot], L, "simple-imperfect", tag)
+            if tense in PROG:
+                # progressive-preserving periphrases only (no simple tense)
+                aux = AUX[(L, tense)][slot]
+                inf = VERBS[verb][L]
+                if L in GER:
+                    add(f"{aux} {GER[L][verb]}", L, "prog-gerund", tag)
+                if L == "pt":
+                    add(f"{aux} a {inf}", L, "prog-a-inf", tag)
+                if L == "fr":
+                    de = "d'" if inf[0] in "aeiouéh" else "de "
+                    add(f"{aux} en train {de}{inf}", L, "prog-en-train-de", tag)
         # nl
         nl_pres = NL_PRES[verb].split()
         nl_past = NL_PAST[verb].split()
         nl_i = {"1s": 0, "2s": 1, "3s": 1}.get(slot, 2)
-        if tense in ("pres", "presprog"):
+        if tense == "pres":
             add(nl_pres[nl_i], "nl", "simple", tag)
-        if tense in ("past", "pastprog"):
+        if tense == "past":
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple", tag)
+        if tense in PROG:
+            zijn = NL_ZIJN[tense].split()[{"1s": 0, "2s": 1, "3s": 2}.get(slot, 3)]
+            tail = " zijn" if tense == "futprog" else ""
+            add(f"{zijn} aan het {nl_pres[2]}{tail}", "nl", "prog-aan-het", tag)
         # el aorist
         if tense == "past" and verb in EL_AOR and slot in ("3s", "1p", "3p"):
             add(EL_AOR[verb].split()[("3s", "1p", "3p").index(slot)], "el", "simple", tag)
@@ -293,6 +321,17 @@ def build() -> tuple[dict, dict, str]:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
                 st, su = tok(src), u8(src)
+                # English-homograph guard (runtime twin): drop candidates with an
+                # EN-spelled token; keep the measured losers for the report.
+                head = surf if keep else ""
+                homo = [
+                    {"form": c["form"], "en": t.en_homograph_tokens(c["form"], keep_head=head)}
+                    for c in cands
+                    if t.en_homograph_tokens(c["form"], keep_head=head)
+                ]
+                cands = [c for c in cands if not t.en_homograph_tokens(c["form"], keep_head=head)]
+                if homo:
+                    cell["homograph_dropped"] = homo
                 if person == "2":
                     key = lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"])  # noqa: E731
                     allb = min(cands, key=key)
@@ -300,6 +339,9 @@ def build() -> tuple[dict, dict, str]:
                     # usted/ustedes are 3rd-person forms: after subject drop they collapse
                     # into he/they, so only genuinely 2nd-person forms (tú / vosotros, vous) compete.
                     cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous")]
+                if not cands:
+                    cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
+                    continue
                 scored = sorted(
                     cands, key=lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"])
                 )
@@ -322,6 +364,18 @@ def build() -> tuple[dict, dict, str]:
                             "candidates": [{"form": c["form"], "lang": c["lang"]} for c in keepc],
                         }
                     )
+                elif any(
+                    tok(h["form"]) < st and u8(h["form"]) < su for h in homo
+                ):
+                    cell.update(
+                        status="reject",
+                        reason="EN homograph collision: every shrinking candidate spells an English word",
+                    )
+                elif tense in PROG:
+                    cell.update(
+                        status="reject",
+                        reason="no progressive-preserving candidate shrinks both token and utf8 (EN kept)",
+                    )
                 else:
                     cell.update(status="reject", reason="no candidate shrinks both token and utf8")
     bank = {
@@ -331,7 +385,9 @@ def build() -> tuple[dict, dict, str]:
             "Generated — edit scripts/tense_matrix.py, not this file.",
             "Adopted only when token AND utf8 strictly shrink; `to` = runtime cheapest winner.",
             "Personal pronouns dropped (person-marked verb); demonstratives/relatives keep the subject.",
-            "Relatives and bare 'that' only with number-marking aux (is/are, has/have, was/were).",
+            "Relatives only with number-marking aux (is/are, has/have, was/were); bare 'that' (multi-POS) always stays EN.",
+            "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",
+            "Progressive: only progressive-preserving periphrases (estar/stare + gerund, estar a + inf, être en train de, aan het); no simple-tense fallback.",
             "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete.",
         ],
         "entries": entries,
@@ -353,6 +409,14 @@ def _markdown(cells: list[dict]) -> str:
         "Policy: adopt only when token **and** utf8 strictly shrink vs the full EN source.",
         "`to` is the nominal label; runtime cheapest (token→utf8→len) decides.",
         "",
+        "- **EN-homograph guard**: a candidate whose any token is spelled like an English word",
+        "  (`TesseraTalk/fixtures/en_wordlist.txt`, SCOWL-derived; e.g. es `he visto`, pt `fora`, es `van`, pt `a`)",
+        "  is dropped before ranking — the next-cheapest unique form wins, else EN stays (揺らぎ回避).",
+        "- **Bare `that`** is multi-POS (dem / rel / complementizer) → every `that` cell stays EN.",
+        "- **Progressive** keeps aspect: only es estar+gerundio, pt estar+gerúndio / estar a+inf,",
+        "  it stare+gerundio, fr être en train de+inf, nl zijn aan het+inf compete. Simple present /",
+        "  imperfect (also habitual) / future and nl simple past are not candidates.",
+        "",
         "## Adopted cells per subject × tense (count / dominant lang)",
         "",
         "| subject | " + " | ".join(TENSES) + " |",
@@ -373,6 +437,23 @@ def _markdown(cells: list[dict]) -> str:
             lang = Counter(c["lang"] for c in ad).most_common(1)[0][0]
             row.append(f"{len(ad)} {lang}")
         lines.append(f"| {sub[0]} | " + " | ".join(row) + " |")
+    prog = [c for c in cells if c["tense"] in PROG and c["status"] == "adopt"]
+    lines += [
+        "",
+        "## Progressive winners (shape / lang)",
+        "",
+        ", ".join(f"{k}: {v}" for k, v in sorted(Counter(f"{c['shape']}/{c['lang']}" for c in prog).items()))
+        or "(none)",
+        "",
+        "## EN-homograph guard",
+        "",
+        f"Cells with ≥1 dropped candidate: {sum('homograph_dropped' in c for c in cells)}; "
+        f"most frequent EN-spelled tokens: "
+        + ", ".join(
+            f"`{w}` {n}"
+            for w, n in Counter(w for c in cells for h in c.get("homograph_dropped", []) for w in h["en"]).most_common(15)
+        ),
+    ]
     lines += ["", "## Reject reasons", ""]
     for why, n in Counter(c["reason"] for c in cells if c["status"] == "reject").most_common():
         lines.append(f"- {n} × {why}")
