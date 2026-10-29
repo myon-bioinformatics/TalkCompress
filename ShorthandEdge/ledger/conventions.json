@@ -1226,12 +1226,11 @@
       "kind": "lex",
       "apply_layer": "E",
       "from": [
-        "could",
         "できる",
         "can"
       ],
       "to": "can",
-      "rationale": "could/できる → can",
+      "rationale": "could/できる → can。could は意味（法・時制）が変わるため写像しない",
       "inventory": "auxiliary",
       "metrics": {
         "token": {
@@ -1239,7 +1238,7 @@
           "after": 1,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "could",
+          "sample_from": "できる",
           "via": "B TesseraTalk estimate_tokens"
         },
         "bit": {
@@ -1248,7 +1247,7 @@
           "after": 2,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "could",
+          "sample_from": "できる",
           "via": "E MorphoZip closed_inventory_bits(auxiliary)",
           "utf8": {
             "before": 40,
@@ -1317,7 +1316,6 @@
       "kind": "lex",
       "apply_layer": "E",
       "from": [
-        "should",
         "しなければならない",
         "しなくてはならない",
         "なければならない",
@@ -1326,7 +1324,7 @@
         "must"
       ],
       "to": "must",
-      "rationale": "should / 〜なければならない系 → must",
+      "rationale": "should / 〜なければならない系 → must。should は意味（法・時制）が変わるため写像しない",
       "inventory": "auxiliary",
       "metrics": {
         "token": {
@@ -1334,7 +1332,7 @@
           "after": 1,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "should",
+          "sample_from": "しなければならない",
           "via": "B TesseraTalk estimate_tokens"
         },
         "bit": {
@@ -1343,7 +1341,7 @@
           "after": 2,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "should",
+          "sample_from": "しなければならない",
           "via": "E MorphoZip closed_inventory_bits(auxiliary)",
           "utf8": {
             "before": 48,
@@ -1366,12 +1364,11 @@
       "kind": "lex",
       "apply_layer": "E",
       "from": [
-        "might",
         "かもしれない",
         "may"
       ],
       "to": "may",
-      "rationale": "might/かもしれない → may",
+      "rationale": "might/かもしれない → may。might は意味（法・時制）が変わるため写像しない",
       "inventory": "auxiliary",
       "metrics": {
         "token": {
@@ -1379,7 +1376,7 @@
           "after": 1,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "might",
+          "sample_from": "かもしれない",
           "via": "B TesseraTalk estimate_tokens"
         },
         "bit": {
@@ -1388,7 +1385,7 @@
           "after": 2,
           "delta": 0,
           "ratio": 1.0,
-          "sample_from": "might",
+          "sample_from": "かもしれない",
           "via": "E MorphoZip closed_inventory_bits(auxiliary)",
           "utf8": {
             "before": 40,

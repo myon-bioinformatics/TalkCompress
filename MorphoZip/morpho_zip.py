@@ -273,7 +273,6 @@ ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "approximately": "~",
     "˅": "˅",
     "very": "˅",
-    "really": "˅",
     "extremely": "˅",
     "esp.": "esp.",
     "esp": "esp.",
@@ -298,14 +297,12 @@ AUX_CANONICAL: tuple[str, ...] = ("can", "will", "must", "may")
 AUX_EXTENDED: tuple[str, ...] = ("can", "will", "must", "may")
 AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
     "can": "can",
-    "could": "can",
     "できる": "can",
     "will": "will",
-    # would is NOT folded into will (tense/mood change: "it would rain" ≠ "it will rain").
+    "would": "will",
     "だろう": "will",
     "でしょう": "will",
     "must": "must",
-    "should": "must",
     "しなければならない": "must",
     "しなくてはならない": "must",
     "しねばならない": "must",
@@ -313,13 +310,12 @@ AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
     "なくてはならない": "must",
     "ねばならない": "must",
     "may": "may",
-    "might": "may",
     "かもしれない": "may",
 }
 _AUX_SURFACE_RE = re.compile(
     r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない|かもしれない|"
     r"できる|でしょう|だろう|"
-    r"\bcould\b|\bshould\b|\bmight\b|\bcan\b|\bwill\b|\bmust\b|\bmay\b",
+    r"\bcould\b|\bwould\b|\bshould\b|\bmight\b|\bcan\b|\bwill\b|\bmust\b|\bmay\b",
     re.I,
 )
 
@@ -624,7 +620,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         AUX_EXTENDED,
         AUX_ALIAS_TO_CANONICAL,
         _AUX_SURFACE_RE,
-        "could→can should→must (would kept: ≠will) might→may; I'll is C; "
+        "could/would/should/might keep form (meaning); I'll is C; "
         "neg → !can/!will/!must/!may; don't/not → !; polarity flag = 1bit separate",
     ),
     "preposition": ClosedInventory(
@@ -917,7 +913,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"あなたは|あなたが|お前は|お前が|君は|君が|あなた|お前|君"), "U"),
     (re.compile(r"你"), "U"),
     # EN your/yours stay (poss); yourself → you (obj-ish)
-    (re.compile(r"\byourself\b", re.I), "you"),
     # obj you after common verb/prep — sentinel so later nom you→U cannot re-eat
     (re.compile(
         r"\b(see|saw|seen|meet|met|tell|told|give|gave|given|ask|asked|"
@@ -1008,8 +1003,8 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bin accordance with\b", re.I), "準"),
     (re.compile(r"\bpursuant to\b", re.I), "準"),
     (re.compile(r"\bas for\b", re.I), "re:"),
-    (re.compile(r"\bas to\b", re.I), "re:"),
-    (re.compile(r"\bup to\b", re.I), "≤"),
+    (re.compile(r"(?<!\bso )\bas to\b", re.I), "re:"),
+    (re.compile(r"\bup to(?=\s*[$€£¥]?\d)", re.I), "≤"),
     (re.compile(r"\bdown to\b", re.I), "至"),
     (re.compile(r"\bin between\b", re.I), "間"),
     (re.compile(r"\boff of\b", re.I), "外"),
@@ -1145,7 +1140,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- adverbs (closed inventory): degree + polarity-adjacent frequency
     # always→□ (∀ kept for whatever); never→¬; often→oft; bare not→! (after may not etc.)
     (re.compile(r"\bextremely\b", re.I), "˅"),
-    (re.compile(r"\breally\b", re.I), "˅"),
     (re.compile(r"\bvery\b", re.I), "˅"),
     (re.compile(r"\bparticularly\b", re.I), "esp."),
     (re.compile(r"\balways\b", re.I), "□"),
@@ -1155,30 +1149,23 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # Negation / affirmation: polarity ``!`` is +1 bit flag (see polarity_bit_cost).
     # Longer neg forms before positives. should→must slot ⇒ shouldn't→!must.
     (re.compile(r"\bcannot\b", re.I), "!can"),
-    (re.compile(r"\bcan'?t\b", re.I), "!can"),
-    (re.compile(r"\bcouldn'?t\b", re.I), "!can"),
-    (re.compile(r"\bwon'?t\b", re.I), "!will"),
-    (re.compile(r"\bshould not\b", re.I), "!must"),
-    (re.compile(r"\bshouldn'?t\b", re.I), "!must"),
+    (re.compile(r"\bcan'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!can"),
+    (re.compile(r"\bwon'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!will"),
     (re.compile(r"\bmust not\b", re.I), "!must"),
     (re.compile(r"\bmustn'?t\b", re.I), "!must"),
     (re.compile(r"\bmay not\b", re.I), "!may"),
-    (re.compile(r"\bmight not\b", re.I), "!may"),
     (re.compile(r"\bdo not\b", re.I), "!"),
     (re.compile(r"\bdoes not\b", re.I), "!"),
     (re.compile(r"\bdid not\b", re.I), "!"),
-    (re.compile(r"\bdon'?t\b", re.I), "!"),
-    (re.compile(r"\bdoesn'?t\b", re.I), "!"),
-    (re.compile(r"\bdidn'?t\b", re.I), "!"),
+    (re.compile(r"\bdon'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
+    (re.compile(r"\bdoesn'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
+    (re.compile(r"\bdidn'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
     (re.compile(r"できない|出来ない"), "!can"),
     (re.compile(r"ではない|じゃない|じゃありません|ではありません"), "!"),
     (re.compile(r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない"), "must"),
     (re.compile(r"かもしれない"), "may"),
     (re.compile(r"することができ(?:る|ます)"), "can"),
     (re.compile(r"でしょう|だろう"), "will"),
-    (re.compile(r"\bcould\b", re.I), "can"),
-    (re.compile(r"\bshould\b", re.I), "must"),
-    (re.compile(r"\bmight\b", re.I), "may"),
     # Bare not (after may not / do not phrases above)
     (re.compile(r"\bnot\b", re.I), "!"),
     # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
@@ -1744,7 +1731,8 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\badditionally\b", re.I), "+"),
     (re.compile(r"\balso\b", re.I), "+"),
     (re.compile(r"\bespecially\b", re.I), "esp."),
-    (re.compile(r"\bthat is\b", re.I), "i.e."),
+    # appositive only (", that is," / "(that is"); "Oh, that is nonsense" is a clause
+    (re.compile(r"(?<=[,(;—] )that is(?=[,:])|(?<=[(—])that is(?=[,:])", re.I), "i.e."),
     (re.compile(r"\bversus\b", re.I), "vs"),
     # Formal/legal phrases before for→4 / that-deixis / and→& eat a piece.
     (re.compile(r"\bprovided, however, that\b", re.I), "if"),
@@ -1887,7 +1875,7 @@ _QUOTED_ARTICLE = re.compile(
     r"""|[\u201c\u2018](the|a|an)[\u201d\u2019]""",
     re.I,
 )
-_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b", re.I)
+_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?!\.\w)", re.I)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
 

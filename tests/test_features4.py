@@ -148,7 +148,9 @@ def test_c_ledger_spatial_and_conjunctions():
     assert apply_ledger_lex("nevertheless it works").startswith("but")
     assert "so" in apply_ledger_lex("therefore we stop")
     assert "e.g." not in apply_ledger_lex("for example cats")  # pruned (o200k)
-    assert "i.e." in apply_ledger_lex("that is the plan")
+    # bare clause "that is the plan" keeps its meaning; appositive gloss maps
+    assert "i.e." not in apply_ledger_lex("that is the plan")
+    assert "i.e." in apply_ledger_lex("a car, that is, a vehicle")
 
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     out = s.compress("check left and right carefully")
@@ -179,7 +181,7 @@ def test_e_new_counters_and_grammar():
     assert "5杯" in m.compress("drink 5 cups tonight")
     assert "4組" in m.compress("prepare 4 pairs now")
     assert "7通" in m.compress("send 7 emails today")
-    out = m.compress("additionally for example that is fine", unique=False, etymon=False)
+    out = m.compress("additionally for example, that is, fine", unique=False, etymon=False)
     assert "+" in out  # additionally→+ (gap-fill; was also)
     assert "additionally" not in out.lower()
     assert "e.g." in out

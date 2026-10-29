@@ -458,14 +458,13 @@ def test_morpho_auxiliary_inventory():
         etymon=False,
         counters=False,
     )
-    assert "can" in out and "must" in out and "may" in out
-    assert "could" not in out.lower()
-    # would is kept (would→will changes tense/mood)
-    assert "would" in out.lower()
+    # past / hypothetical modals keep their own form (meaning differs; o200k tie)
+    for w in ("could", "would", "should", "might"):
+        assert w in out.lower(), (w, out)
     # I'll stays C — E keeps I will
     assert "I'll" not in m.compress("I will go", unique=False, etymon=False, counters=False)
     assert "I will" in m.compress("I will go", unique=False, etymon=False, counters=False)
-    assert m.canonicalize_closed("auxiliary", "should") == "must"
+    assert m.canonicalize_closed("auxiliary", "should") is None  # should ≠ must
     assert m.auxiliary_bit_cost("can will must may")["total_bits"] == 8
     ja = m.compress("勉強しなければならないかもしれない", unique=False, etymon=False)
     assert "must" in ja and "may" in ja
@@ -1011,7 +1010,8 @@ def test_morpho_aux_negation_and_affirmation():
     assert "!can" in out and "!will" in out and "!must" in out and "!may" in out
     assert "cannot" not in out.lower()
     assert "won't" not in out.lower()
-    assert "shouldn't" not in out.lower()
+    # shouldn't / might not keep modality (should ≠ must); only polarity is flagged
+    assert "!must" in out and "!may" in out
     # do/does/did not → !
     dn = m.compress("I do not know and I don't see and she doesn't care", unique=False, etymon=False, counters=False)
     assert dn.count("!") >= 3

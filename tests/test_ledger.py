@@ -739,9 +739,11 @@ def test_that_is_latin_owns_not_contraction():
 
     # contractions must not rewrite bare that is
     assert apply_en_contractions("that is the plan") == "that is the plan"
-    assert "i.e." in apply_ledger_lex("that is the plan")
-    assert "i.e." in c_compress("that is the plan")
-    assert "i.e." in m.compress("that is fine", unique=False, etymon=False, counters=False)
+    # clause "that is the plan" is not a gloss (meaning change); appositive is
+    assert "i.e." not in apply_ledger_lex("that is the plan")
+    assert "i.e." in apply_ledger_lex("a car, that is, a vehicle")
+    assert "i.e." in c_compress("a car, that is, a vehicle")
+    assert "i.e." in m.compress("ok, that is, fine", unique=False, etymon=False, counters=False)
     # longer discursive form still maps
     assert "i.e." in apply_ledger_lex("that is to say yes")
 

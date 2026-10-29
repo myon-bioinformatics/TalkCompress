@@ -922,6 +922,14 @@ def _strip_interjections(text: str) -> str:
     return out
 
 
+# Fillers that are also content words / clauses ("I know you", "very well",
+# "you see the house", "turn right"): strip only when comma-delimited.
+_PUNCT_BOUNDED_ONLY: frozenset[str] = frozenset({
+    "oh", "ah", "well", "right", "like", "anyway", "anyhow", "you know", "i mean",
+    "you see", "i guess", "i suppose", "y'know", "just", "actually",
+})
+
+
 def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     """Remove light fillers / interjections. ``aggressive`` enables hedge words like just/like."""
     out = text
@@ -936,7 +944,15 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     for f in en:
         if f in _INTERJECTION_ONLY:
             continue
-        out = re.sub(rf"(?i)\b{re.escape(f)}\b", "", out)
+        e = re.escape(f)
+        # "Oh, X" / "Well, X": drop the filler together with its comma.
+        out = re.sub(rf"(?i)(?:(?<=^)|(?<=[\s“\"(\[—])){e}\s*,\s*", "", out)
+        # "..., I suppose, ..." / "..., you know." : drop with the leading comma.
+        out = re.sub(rf"(?i),\s*{e}(?=\s*[,.;:!?”\"—)\]]|\s*$)", "", out)
+        if f in _PUNCT_BOUNDED_ONLY:
+            continue
+        # Bare filler only when it is not an exclamation ("Oh!" / "Oh, oh!").
+        out = re.sub(rf"(?i)\b{e}\b(?!\s*[!?])", "", out)
 
     out = re.sub(r"[ \t]{2,}", " ", out)
     out = re.sub(r"\s+([,.;:!?])", r"\1", out)
