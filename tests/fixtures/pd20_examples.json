@@ -18,7 +18,7 @@
       "id": "moby-thought",
       "source": "melville-moby-01.txt",
       "text": "I thought I would sail about a little",
-      "expect": "pensé I would sail about a little",
+      "expect": "pensei I would sail about a little",
       "kind": "convert"
     },
     {

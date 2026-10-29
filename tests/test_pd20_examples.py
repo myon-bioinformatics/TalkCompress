@@ -169,7 +169,14 @@ def test_bank_to_label_matches_runtime_winner():
     t = _t()
     bank = json.loads((ROOT / "TesseraTalk/fixtures/es_fr_tense.json").read_text(encoding="utf-8"))
     langs = set()
+    blocked = t.collision_blocked("es_fr_tense")
     for e in bank["entries"]:
+        forms = {e["to"]} | {c["form"] for c in e.get("candidates") or []}
+        if all((e["id"], f) in blocked for f in forms):
+            # every form rejected by the collision guard: EN stays (give-past-1s di)
+            assert t.apply_es_fr_tense(e["from"][0]) == e["from"][0], e["id"]
+            continue
+        assert (e["id"], e["to"]) not in blocked, e["id"]
         assert t.apply_es_fr_tense(e["from"][0]) == e["to"], e["id"]
         langs.add(e["lang"])
     assert "el" in langs

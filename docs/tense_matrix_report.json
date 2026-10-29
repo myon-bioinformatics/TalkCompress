@@ -3384,6 +3384,10 @@
    "tense": "past",
    "verb": "go",
    "src": "you went",
+   "crossling_dropped": [
+    "es allé",
+    "sei andato"
+   ],
    "en_best": "you went",
    "usted_style_best": {
     "form": "foi",
@@ -3409,6 +3413,10 @@
    "tense": "past",
    "verb": "come",
    "src": "you came",
+   "crossling_dropped": [
+    "es venu",
+    "sei venuto"
+   ],
    "en_best": "you came",
    "homograph_dropped": [
     {
@@ -3450,24 +3458,16 @@
    "tense": "past",
    "verb": "see",
    "src": "you saw",
+   "crossling_dropped": [
+    "a vu",
+    "as vu"
+   ],
    "en_best": "you saw",
    "homograph_dropped": [
-    {
-     "form": "as vu",
-     "en": [
-      "as"
-     ]
-    },
     {
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -3495,24 +3495,16 @@
    "tense": "past",
    "verb": "take",
    "src": "you took",
+   "crossling_dropped": [
+    "a pris",
+    "as pris"
+   ],
    "en_best": "you took",
    "homograph_dropped": [
-    {
-     "form": "as pris",
-     "en": [
-      "as"
-     ]
-    },
     {
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -3540,24 +3532,16 @@
    "tense": "past",
    "verb": "find",
    "src": "you found",
+   "crossling_dropped": [
+    "a trouvé",
+    "as trouvé"
+   ],
    "en_best": "you found",
    "homograph_dropped": [
-    {
-     "form": "as trouvé",
-     "en": [
-      "as"
-     ]
-    },
     {
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -3585,24 +3569,16 @@
    "tense": "past",
    "verb": "want",
    "src": "you wanted",
+   "crossling_dropped": [
+    "a voulu",
+    "as voulu"
+   ],
    "en_best": "you wanted",
    "homograph_dropped": [
-    {
-     "form": "as voulu",
-     "en": [
-      "as"
-     ]
-    },
     {
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -3679,6 +3655,10 @@
    "tense": "past",
    "verb": "say",
    "src": "you said",
+   "crossling_dropped": [
+    "a dit",
+    "as dit"
+   ],
    "en_best": "you said",
    "homograph_dropped": [
     {
@@ -3688,21 +3668,9 @@
      ]
     },
     {
-     "form": "as dit",
-     "en": [
-      "as"
-     ]
-    },
-    {
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -3730,14 +3698,12 @@
    "tense": "past",
    "verb": "know",
    "src": "you knew",
+   "crossling_dropped": [
+    "a su",
+    "as su"
+   ],
    "en_best": "you knew",
    "homograph_dropped": [
-    {
-     "form": "as su",
-     "en": [
-      "as"
-     ]
-    },
     {
      "form": "wist",
      "en": [
@@ -3748,12 +3714,6 @@
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -3781,24 +3741,16 @@
    "tense": "past",
    "verb": "give",
    "src": "you gave",
+   "crossling_dropped": [
+    "a donné",
+    "as donné"
+   ],
    "en_best": "you gave",
    "homograph_dropped": [
-    {
-     "form": "as donné",
-     "en": [
-      "as"
-     ]
-    },
     {
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -3832,6 +3784,10 @@
    "tense": "perf",
    "verb": "go",
    "src": "you have gone",
+   "crossling_dropped": [
+    "es allé",
+    "sei andato"
+   ],
    "en_best": "you've gone",
    "homograph_dropped": [
     {
@@ -3871,6 +3827,10 @@
    "tense": "perf",
    "verb": "come",
    "src": "you have come",
+   "crossling_dropped": [
+    "es venu",
+    "sei venuto"
+   ],
    "en_best": "you've come",
    "homograph_dropped": [
     {
@@ -3916,18 +3876,16 @@
    "tense": "perf",
    "verb": "do",
    "src": "you have done",
+   "crossling_dropped": [
+    "a fait",
+    "as fait"
+   ],
    "en_best": "you've done",
    "homograph_dropped": [
     {
      "form": "has hecho",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as fait",
-     "en": [
-      "as"
      ]
     },
     {
@@ -3952,12 +3910,6 @@
      "form": "ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -3991,6 +3943,10 @@
    "tense": "perf",
    "verb": "see",
    "src": "you have seen",
+   "crossling_dropped": [
+    "a vu",
+    "as vu"
+   ],
    "en_best": "you've seen",
    "homograph_dropped": [
     {
@@ -4000,12 +3956,6 @@
      ]
     },
     {
-     "form": "as vu",
-     "en": [
-      "as"
-     ]
-    },
-    {
      "form": "ha visto",
      "en": [
       "ha"
@@ -4015,12 +3965,6 @@
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4048,18 +3992,16 @@
    "tense": "perf",
    "verb": "take",
    "src": "you have taken",
+   "crossling_dropped": [
+    "a pris",
+    "as pris"
+   ],
    "en_best": "you've taken",
    "homograph_dropped": [
     {
      "form": "has tomado",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as pris",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4072,12 +4014,6 @@
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4105,18 +4041,16 @@
    "tense": "perf",
    "verb": "find",
    "src": "you have found",
+   "crossling_dropped": [
+    "a trouvé",
+    "as trouvé"
+   ],
    "en_best": "you've found",
    "homograph_dropped": [
     {
      "form": "has encontrado",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as trouvé",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4129,12 +4063,6 @@
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4162,18 +4090,16 @@
    "tense": "perf",
    "verb": "want",
    "src": "you have wanted",
+   "crossling_dropped": [
+    "a voulu",
+    "as voulu"
+   ],
    "en_best": "you've wanted",
    "homograph_dropped": [
     {
      "form": "has querido",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as voulu",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4186,12 +4112,6 @@
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4219,18 +4139,16 @@
    "tense": "perf",
    "verb": "have",
    "src": "you have had",
+   "crossling_dropped": [
+    "a eu",
+    "as eu"
+   ],
    "en_best": "you've had",
    "homograph_dropped": [
     {
      "form": "has tenido",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as eu",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4249,12 +4167,6 @@
      "form": "ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4333,18 +4245,16 @@
    "tense": "perf",
    "verb": "say",
    "src": "you have said",
+   "crossling_dropped": [
+    "a dit",
+    "as dit"
+   ],
    "en_best": "you've said",
    "homograph_dropped": [
     {
      "form": "has dicho",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as dit",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4357,12 +4267,6 @@
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4390,18 +4294,16 @@
    "tense": "perf",
    "verb": "know",
    "src": "you have known",
+   "crossling_dropped": [
+    "a su",
+    "as su"
+   ],
    "en_best": "you've known",
    "homograph_dropped": [
     {
      "form": "has sabido",
      "en": [
       "has"
-     ]
-    },
-    {
-     "form": "as su",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4420,12 +4322,6 @@
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -4453,6 +4349,10 @@
    "tense": "perf",
    "verb": "give",
    "src": "you have given",
+   "crossling_dropped": [
+    "a donné",
+    "as donné"
+   ],
    "en_best": "you've given",
    "homograph_dropped": [
     {
@@ -4460,12 +4360,6 @@
      "en": [
       "has",
       "dado"
-     ]
-    },
-    {
-     "form": "as donné",
-     "en": [
-      "as"
      ]
     },
     {
@@ -4479,12 +4373,6 @@
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -5388,19 +5276,15 @@
    "tense": "presprog",
    "verb": "go",
    "src": "you are going",
+   "crossling_dropped": [
+    "es en train d'aller"
+   ],
    "en_best": "you're going",
    "homograph_dropped": [
     {
      "form": "estás a ir",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train d'aller",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -5485,19 +5369,15 @@
    "tense": "presprog",
    "verb": "come",
    "src": "you are coming",
+   "crossling_dropped": [
+    "es en train de venir"
+   ],
    "en_best": "you're coming",
    "homograph_dropped": [
     {
      "form": "estás a vir",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de venir",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -5582,19 +5462,15 @@
    "tense": "presprog",
    "verb": "do",
    "src": "you are doing",
+   "crossling_dropped": [
+    "es en train de faire"
+   ],
    "en_best": "you're doing",
    "homograph_dropped": [
     {
      "form": "estás a fazer",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de faire",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -5680,19 +5556,15 @@
    "tense": "presprog",
    "verb": "see",
    "src": "you are seeing",
+   "crossling_dropped": [
+    "es en train de voir"
+   ],
    "en_best": "you're seeing",
    "homograph_dropped": [
     {
      "form": "estás a ver",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de voir",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -5777,19 +5649,15 @@
    "tense": "presprog",
    "verb": "take",
    "src": "you are taking",
+   "crossling_dropped": [
+    "es en train de prendre"
+   ],
    "en_best": "you're taking",
    "homograph_dropped": [
     {
      "form": "estás a tomar",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de prendre",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -5875,19 +5743,15 @@
    "tense": "presprog",
    "verb": "find",
    "src": "you are finding",
+   "crossling_dropped": [
+    "es en train de trouver"
+   ],
    "en_best": "you're finding",
    "homograph_dropped": [
     {
      "form": "estás a achar",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de trouver",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -5973,19 +5837,15 @@
    "tense": "presprog",
    "verb": "want",
    "src": "you are wanting",
+   "crossling_dropped": [
+    "es en train de vouloir"
+   ],
    "en_best": "you're wanting",
    "homograph_dropped": [
     {
      "form": "estás a querer",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de vouloir",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -6071,19 +5931,15 @@
    "tense": "presprog",
    "verb": "have",
    "src": "you are having",
+   "crossling_dropped": [
+    "es en train d'avoir"
+   ],
    "en_best": "you're having",
    "homograph_dropped": [
     {
      "form": "estás a ter",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train d'avoir",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -6168,19 +6024,15 @@
    "tense": "presprog",
    "verb": "think",
    "src": "you are thinking",
+   "crossling_dropped": [
+    "es en train de penser"
+   ],
    "en_best": "you're thinking",
    "homograph_dropped": [
     {
      "form": "estás a pensar",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de penser",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -6266,20 +6118,15 @@
    "tense": "presprog",
    "verb": "say",
    "src": "you are saying",
+   "crossling_dropped": [
+    "es en train de dire"
+   ],
    "en_best": "you're saying",
    "homograph_dropped": [
     {
      "form": "estás a dizer",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de dire",
-     "en": [
-      "en",
-      "train",
-      "dire"
      ]
     },
     {
@@ -6368,6 +6215,9 @@
    "tense": "presprog",
    "verb": "know",
    "src": "you are knowing",
+   "crossling_dropped": [
+    "es en train de savoir"
+   ],
    "en_best": "you're knowing",
    "homograph_dropped": [
     {
@@ -6375,13 +6225,6 @@
      "en": [
       "a",
       "saber"
-     ]
-    },
-    {
-     "form": "es en train de savoir",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -6470,19 +6313,15 @@
    "tense": "presprog",
    "verb": "give",
    "src": "you are giving",
+   "crossling_dropped": [
+    "es en train de donner"
+   ],
    "en_best": "you're giving",
    "homograph_dropped": [
     {
      "form": "estás a dar",
      "en": [
       "a"
-     ]
-    },
-    {
-     "form": "es en train de donner",
-     "en": [
-      "en",
-      "train"
      ]
     },
     {
@@ -9156,18 +8995,15 @@
    "tense": "past",
    "verb": "see",
    "src": "he saw",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "he saw",
    "homograph_dropped": [
     {
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9195,18 +9031,15 @@
    "tense": "past",
    "verb": "take",
    "src": "he took",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "he took",
    "homograph_dropped": [
     {
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9234,18 +9067,15 @@
    "tense": "past",
    "verb": "find",
    "src": "he found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "he found",
    "homograph_dropped": [
     {
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9273,18 +9103,15 @@
    "tense": "past",
    "verb": "want",
    "src": "he wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "he wanted",
    "homograph_dropped": [
     {
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9357,18 +9184,15 @@
    "tense": "past",
    "verb": "say",
    "src": "he said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "he said",
    "homograph_dropped": [
     {
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9396,18 +9220,15 @@
    "tense": "past",
    "verb": "know",
    "src": "he knew",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "he knew",
    "homograph_dropped": [
     {
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -9441,18 +9262,15 @@
    "tense": "past",
    "verb": "give",
    "src": "he gave",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "he gave",
    "homograph_dropped": [
     {
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -9558,6 +9376,9 @@
    "tense": "perf",
    "verb": "do",
    "src": "he has done",
+   "crossling_dropped": [
+    "a fait"
+   ],
    "en_best": "he's done",
    "homograph_dropped": [
     {
@@ -9576,12 +9397,6 @@
      "form": "ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -9621,6 +9436,9 @@
    "tense": "perf",
    "verb": "see",
    "src": "he has seen",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "he's seen",
    "homograph_dropped": [
     {
@@ -9633,12 +9451,6 @@
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9666,6 +9478,9 @@
    "tense": "perf",
    "verb": "take",
    "src": "he has taken",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "he's taken",
    "homograph_dropped": [
     {
@@ -9678,12 +9493,6 @@
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9711,6 +9520,9 @@
    "tense": "perf",
    "verb": "find",
    "src": "he has found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "he's found",
    "homograph_dropped": [
     {
@@ -9723,12 +9535,6 @@
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9756,6 +9562,9 @@
    "tense": "perf",
    "verb": "want",
    "src": "he has wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "he's wanted",
    "homograph_dropped": [
     {
@@ -9768,12 +9577,6 @@
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9801,6 +9604,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "he has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "en_best": "he's had",
    "homograph_dropped": [
     {
@@ -9813,12 +9619,6 @@
      "form": "ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
      ]
     },
     {
@@ -9894,6 +9694,9 @@
    "tense": "perf",
    "verb": "say",
    "src": "he has said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "he's said",
    "homograph_dropped": [
     {
@@ -9906,12 +9709,6 @@
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -9939,6 +9736,9 @@
    "tense": "perf",
    "verb": "know",
    "src": "he has known",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "he's known",
    "homograph_dropped": [
     {
@@ -9951,12 +9751,6 @@
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -9990,6 +9784,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "he has given",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "he's given",
    "homograph_dropped": [
     {
@@ -10003,12 +9800,6 @@
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -12907,18 +12698,15 @@
    "tense": "past",
    "verb": "see",
    "src": "she saw",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "she saw",
    "homograph_dropped": [
     {
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -12946,18 +12734,15 @@
    "tense": "past",
    "verb": "take",
    "src": "she took",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "she took",
    "homograph_dropped": [
     {
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -12985,18 +12770,15 @@
    "tense": "past",
    "verb": "find",
    "src": "she found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "she found",
    "homograph_dropped": [
     {
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13024,18 +12806,15 @@
    "tense": "past",
    "verb": "want",
    "src": "she wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "she wanted",
    "homograph_dropped": [
     {
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13108,18 +12887,15 @@
    "tense": "past",
    "verb": "say",
    "src": "she said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "she said",
    "homograph_dropped": [
     {
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13147,18 +12923,15 @@
    "tense": "past",
    "verb": "know",
    "src": "she knew",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "she knew",
    "homograph_dropped": [
     {
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -13192,18 +12965,15 @@
    "tense": "past",
    "verb": "give",
    "src": "she gave",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "she gave",
    "homograph_dropped": [
     {
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -13309,6 +13079,9 @@
    "tense": "perf",
    "verb": "do",
    "src": "she has done",
+   "crossling_dropped": [
+    "a fait"
+   ],
    "en_best": "she's done",
    "homograph_dropped": [
     {
@@ -13327,12 +13100,6 @@
      "form": "ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -13372,6 +13139,9 @@
    "tense": "perf",
    "verb": "see",
    "src": "she has seen",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "she's seen",
    "homograph_dropped": [
     {
@@ -13384,12 +13154,6 @@
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13417,6 +13181,9 @@
    "tense": "perf",
    "verb": "take",
    "src": "she has taken",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "she's taken",
    "homograph_dropped": [
     {
@@ -13429,12 +13196,6 @@
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13462,6 +13223,9 @@
    "tense": "perf",
    "verb": "find",
    "src": "she has found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "she's found",
    "homograph_dropped": [
     {
@@ -13474,12 +13238,6 @@
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13507,6 +13265,9 @@
    "tense": "perf",
    "verb": "want",
    "src": "she has wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "she's wanted",
    "homograph_dropped": [
     {
@@ -13519,12 +13280,6 @@
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13552,6 +13307,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "she has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "en_best": "she's had",
    "homograph_dropped": [
     {
@@ -13564,12 +13322,6 @@
      "form": "ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
      ]
     },
     {
@@ -13645,6 +13397,9 @@
    "tense": "perf",
    "verb": "say",
    "src": "she has said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "she's said",
    "homograph_dropped": [
     {
@@ -13657,12 +13412,6 @@
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -13690,6 +13439,9 @@
    "tense": "perf",
    "verb": "know",
    "src": "she has known",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "she's known",
    "homograph_dropped": [
     {
@@ -13702,12 +13454,6 @@
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -13741,6 +13487,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "she has given",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "she's given",
    "homograph_dropped": [
     {
@@ -13754,12 +13503,6 @@
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -16694,18 +16437,15 @@
    "tense": "past",
    "verb": "see",
    "src": "it saw",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "it saw",
    "homograph_dropped": [
     {
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -16733,18 +16473,15 @@
    "tense": "past",
    "verb": "take",
    "src": "it took",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "it took",
    "homograph_dropped": [
     {
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -16772,18 +16509,15 @@
    "tense": "past",
    "verb": "find",
    "src": "it found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "it found",
    "homograph_dropped": [
     {
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -16811,18 +16545,15 @@
    "tense": "past",
    "verb": "want",
    "src": "it wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "it wanted",
    "homograph_dropped": [
     {
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -16895,18 +16626,15 @@
    "tense": "past",
    "verb": "say",
    "src": "it said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "it said",
    "homograph_dropped": [
     {
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -16934,18 +16662,15 @@
    "tense": "past",
    "verb": "know",
    "src": "it knew",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "it knew",
    "homograph_dropped": [
     {
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -16979,18 +16704,15 @@
    "tense": "past",
    "verb": "give",
    "src": "it gave",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "it gave",
    "homograph_dropped": [
     {
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -17096,6 +16818,9 @@
    "tense": "perf",
    "verb": "do",
    "src": "it has done",
+   "crossling_dropped": [
+    "a fait"
+   ],
    "en_best": "it's done",
    "homograph_dropped": [
     {
@@ -17114,12 +16839,6 @@
      "form": "ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -17159,6 +16878,9 @@
    "tense": "perf",
    "verb": "see",
    "src": "it has seen",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "it's seen",
    "homograph_dropped": [
     {
@@ -17171,12 +16893,6 @@
      "form": "ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -17204,6 +16920,9 @@
    "tense": "perf",
    "verb": "take",
    "src": "it has taken",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "it's taken",
    "homograph_dropped": [
     {
@@ -17216,12 +16935,6 @@
      "form": "ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -17249,6 +16962,9 @@
    "tense": "perf",
    "verb": "find",
    "src": "it has found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "it's found",
    "homograph_dropped": [
     {
@@ -17261,12 +16977,6 @@
      "form": "ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -17294,6 +17004,9 @@
    "tense": "perf",
    "verb": "want",
    "src": "it has wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "it's wanted",
    "homograph_dropped": [
     {
@@ -17306,12 +17019,6 @@
      "form": "ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -17339,6 +17046,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "it has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "en_best": "it's had",
    "homograph_dropped": [
     {
@@ -17351,12 +17061,6 @@
      "form": "ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a eu",
-     "en": [
-      "a"
      ]
     },
     {
@@ -17432,6 +17136,9 @@
    "tense": "perf",
    "verb": "say",
    "src": "it has said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "it's said",
    "homograph_dropped": [
     {
@@ -17444,12 +17151,6 @@
      "form": "ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -17477,6 +17178,9 @@
    "tense": "perf",
    "verb": "know",
    "src": "it has known",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "it's known",
    "homograph_dropped": [
     {
@@ -17489,12 +17193,6 @@
      "form": "ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -17528,6 +17226,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "it has given",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "it's given",
    "homograph_dropped": [
     {
@@ -17541,12 +17242,6 @@
      "form": "ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -25743,6 +25438,9 @@
    "tense": "perf",
    "verb": "do",
    "src": "this has done",
+   "crossling_dropped": [
+    "a fait"
+   ],
    "en_best": "this has done",
    "homograph_dropped": [
     {
@@ -25761,12 +25459,6 @@
      "form": "this ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -25802,6 +25494,9 @@
    "tense": "perf",
    "verb": "see",
    "src": "this has seen",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "this has seen",
    "homograph_dropped": [
     {
@@ -25814,12 +25509,6 @@
      "form": "this ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -25843,6 +25532,9 @@
    "tense": "perf",
    "verb": "take",
    "src": "this has taken",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "this has taken",
    "homograph_dropped": [
     {
@@ -25855,12 +25547,6 @@
      "form": "this ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -25884,6 +25570,9 @@
    "tense": "perf",
    "verb": "find",
    "src": "this has found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "this has found",
    "homograph_dropped": [
     {
@@ -25896,12 +25585,6 @@
      "form": "this ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -25925,6 +25608,9 @@
    "tense": "perf",
    "verb": "want",
    "src": "this has wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "this has wanted",
    "homograph_dropped": [
     {
@@ -25937,12 +25623,6 @@
      "form": "this ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -25966,6 +25646,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "this has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "en_best": "this has had",
    "homograph_dropped": [
     {
@@ -25978,12 +25661,6 @@
      "form": "this ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a eu",
-     "en": [
-      "a"
      ]
     },
     {
@@ -26051,6 +25728,9 @@
    "tense": "perf",
    "verb": "say",
    "src": "this has said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "this has said",
    "homograph_dropped": [
     {
@@ -26063,12 +25743,6 @@
      "form": "this ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -26092,6 +25766,9 @@
    "tense": "perf",
    "verb": "know",
    "src": "this has known",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "this has known",
    "homograph_dropped": [
     {
@@ -26104,12 +25781,6 @@
      "form": "this ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -26139,6 +25810,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "this has given",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "this has given",
    "homograph_dropped": [
     {
@@ -26152,12 +25826,6 @@
      "form": "this ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "this a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -34746,6 +34414,9 @@
    "tense": "perf",
    "verb": "do",
    "src": "who has done",
+   "crossling_dropped": [
+    "a fait"
+   ],
    "en_best": "who's done",
    "homograph_dropped": [
     {
@@ -34764,12 +34435,6 @@
      "form": "who ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -34804,6 +34469,9 @@
    "tense": "perf",
    "verb": "see",
    "src": "who has seen",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "who's seen",
    "homograph_dropped": [
     {
@@ -34816,12 +34484,6 @@
      "form": "who ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -34844,6 +34506,9 @@
    "tense": "perf",
    "verb": "take",
    "src": "who has taken",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "who's taken",
    "homograph_dropped": [
     {
@@ -34856,12 +34521,6 @@
      "form": "who ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -34884,6 +34543,9 @@
    "tense": "perf",
    "verb": "find",
    "src": "who has found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "who's found",
    "homograph_dropped": [
     {
@@ -34896,12 +34558,6 @@
      "form": "who ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -34924,6 +34580,9 @@
    "tense": "perf",
    "verb": "want",
    "src": "who has wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "who's wanted",
    "homograph_dropped": [
     {
@@ -34936,12 +34595,6 @@
      "form": "who ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -34964,6 +34617,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "who has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "en_best": "who's had",
    "homograph_dropped": [
     {
@@ -34976,12 +34632,6 @@
      "form": "who ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a eu",
-     "en": [
-      "a"
      ]
     },
     {
@@ -35047,6 +34697,9 @@
    "tense": "perf",
    "verb": "say",
    "src": "who has said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "who's said",
    "homograph_dropped": [
     {
@@ -35059,12 +34712,6 @@
      "form": "who ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -35087,6 +34734,9 @@
    "tense": "perf",
    "verb": "know",
    "src": "who has known",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "who's known",
    "homograph_dropped": [
     {
@@ -35099,12 +34749,6 @@
      "form": "who ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -35133,6 +34777,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "who has given",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "who's given",
    "homograph_dropped": [
     {
@@ -35146,12 +34793,6 @@
      "form": "who ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "who a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -38815,6 +38456,9 @@
    "tense": "perf",
    "verb": "do",
    "src": "which has done",
+   "crossling_dropped": [
+    "a fait"
+   ],
    "en_best": "which has done",
    "homograph_dropped": [
     {
@@ -38833,12 +38477,6 @@
      "form": "which ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -38873,6 +38511,9 @@
    "tense": "perf",
    "verb": "see",
    "src": "which has seen",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "which has seen",
    "homograph_dropped": [
     {
@@ -38885,12 +38526,6 @@
      "form": "which ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -38913,6 +38548,9 @@
    "tense": "perf",
    "verb": "take",
    "src": "which has taken",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "which has taken",
    "homograph_dropped": [
     {
@@ -38925,12 +38563,6 @@
      "form": "which ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -38953,6 +38585,9 @@
    "tense": "perf",
    "verb": "find",
    "src": "which has found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "which has found",
    "homograph_dropped": [
     {
@@ -38965,12 +38600,6 @@
      "form": "which ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -38993,6 +38622,9 @@
    "tense": "perf",
    "verb": "want",
    "src": "which has wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "which has wanted",
    "homograph_dropped": [
     {
@@ -39005,12 +38637,6 @@
      "form": "which ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -39033,6 +38659,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "which has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "en_best": "which has had",
    "homograph_dropped": [
     {
@@ -39045,12 +38674,6 @@
      "form": "which ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a eu",
-     "en": [
-      "a"
      ]
     },
     {
@@ -39116,6 +38739,9 @@
    "tense": "perf",
    "verb": "say",
    "src": "which has said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "which has said",
    "homograph_dropped": [
     {
@@ -39128,12 +38754,6 @@
      "form": "which ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -39156,6 +38776,9 @@
    "tense": "perf",
    "verb": "know",
    "src": "which has known",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "which has known",
    "homograph_dropped": [
     {
@@ -39168,12 +38791,6 @@
      "form": "which ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -39202,6 +38819,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "which has given",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "which has given",
    "homograph_dropped": [
     {
@@ -39215,12 +38835,6 @@
      "form": "which ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "which a donné",
-     "en": [
-      "a"
      ]
     },
     {
@@ -42880,6 +42494,9 @@
    "tense": "perf",
    "verb": "do",
    "src": "que has done",
+   "crossling_dropped": [
+    "a fait"
+   ],
    "en_best": "que has done",
    "homograph_dropped": [
     {
@@ -42898,12 +42515,6 @@
      "form": "que ha fatto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a fait",
-     "en": [
-      "a"
      ]
     },
     {
@@ -42938,6 +42549,9 @@
    "tense": "perf",
    "verb": "see",
    "src": "que has seen",
+   "crossling_dropped": [
+    "a vu"
+   ],
    "en_best": "que has seen",
    "homograph_dropped": [
     {
@@ -42950,12 +42564,6 @@
      "form": "que ha visto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a vu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -42978,6 +42586,9 @@
    "tense": "perf",
    "verb": "take",
    "src": "que has taken",
+   "crossling_dropped": [
+    "a pris"
+   ],
    "en_best": "que has taken",
    "homograph_dropped": [
     {
@@ -42990,12 +42601,6 @@
      "form": "que ha preso",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a pris",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -43018,6 +42623,9 @@
    "tense": "perf",
    "verb": "find",
    "src": "que has found",
+   "crossling_dropped": [
+    "a trouvé"
+   ],
    "en_best": "que has found",
    "homograph_dropped": [
     {
@@ -43030,12 +42638,6 @@
      "form": "que ha trovato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a trouvé",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -43058,6 +42660,9 @@
    "tense": "perf",
    "verb": "want",
    "src": "que has wanted",
+   "crossling_dropped": [
+    "a voulu"
+   ],
    "en_best": "que has wanted",
    "homograph_dropped": [
     {
@@ -43070,12 +42675,6 @@
      "form": "que ha voluto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a voulu",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -43098,6 +42697,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "que has had",
+   "crossling_dropped": [
+    "a eu"
+   ],
    "en_best": "que has had",
    "homograph_dropped": [
     {
@@ -43110,12 +42712,6 @@
      "form": "que ha avuto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a eu",
-     "en": [
-      "a"
      ]
     },
     {
@@ -43181,6 +42777,9 @@
    "tense": "perf",
    "verb": "say",
    "src": "que has said",
+   "crossling_dropped": [
+    "a dit"
+   ],
    "en_best": "que has said",
    "homograph_dropped": [
     {
@@ -43193,12 +42792,6 @@
      "form": "que ha detto",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a dit",
-     "en": [
-      "a"
      ]
     }
    ],
@@ -43221,6 +42814,9 @@
    "tense": "perf",
    "verb": "know",
    "src": "que has known",
+   "crossling_dropped": [
+    "a su"
+   ],
    "en_best": "que has known",
    "homograph_dropped": [
     {
@@ -43233,12 +42829,6 @@
      "form": "que ha saputo",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a su",
-     "en": [
-      "a"
      ]
     },
     {
@@ -43267,6 +42857,9 @@
    "tense": "perf",
    "verb": "give",
    "src": "que has given",
+   "crossling_dropped": [
+    "a donné"
+   ],
    "en_best": "que has given",
    "homograph_dropped": [
     {
@@ -43280,12 +42873,6 @@
      "form": "que ha dato",
      "en": [
       "ha"
-     ]
-    },
-    {
-     "form": "que a donné",
-     "en": [
-      "a"
      ]
     },
     {

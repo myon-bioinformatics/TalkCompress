@@ -468,10 +468,30 @@ def form_registry(conj: dict) -> dict[str, set[tuple[str, str, str]]]:
         for v, forms in tab.items():
             for f in forms.split():
                 put(f, L, v, cls)
+    for (L, key), slots in AUX.items():
+        for f in slots.values():
+            put(f, L, _aux_meaning(L, key), "aux")
+    for key, forms in NL_ZIJN.items():
+        for f in forms.split():
+            put(f, "nl", _aux_meaning("nl", key), "aux")
+    for L, slots in (("cs", CS_BUDU), ("pl", PL_BEDE), ("cs", CS_JSEM)):
+        for f in slots.values():
+            if f:
+                put(f, L, "will" if slots is not CS_JSEM else "be", "aux")
     for L, ws in FUNCTION_WORDS.items():
         for w in ws.split():
             put(w, L, "<func>", "func")
     return reg
+
+
+def _aux_meaning(lang: str, key: str) -> str:
+    """Meaning of an auxiliary table: have (perfect aux), be (essere / être / estar /
+    stare / zijn), will (nl zal / zullen)."""
+    if lang == "nl" and key == "futprog":
+        return "will"
+    if key.endswith("+e") or key in PROG:
+        return "be"
+    return "have"
 
 
 _SHAPE_CLS = {
@@ -523,6 +543,111 @@ def collision(c: dict, tense: str, verb: str, reg: dict) -> list[tuple[str, str,
             continue
         if v != verb or (lang != c["lang"] and k not in own):
             out.append((lang, v, k))
+    for tok in candidate_aux(c):
+        out.extend(aux_collision(tok, c["lang"], reg))
+    return out
+
+
+# fixed periphrasis particles per shape (pt estar a, fr en train de, nl aan het):
+# function words by construction, not auxiliaries. Only stripped for their own
+# shape (fr aux ``a`` in ``a vu`` is an auxiliary and is checked).
+_PERIPHRASIS_PARTICLES = {
+    "prog-a-inf": frozenset({"a"}),
+    "prog-en-train-de": frozenset({"en", "train", "de", "d"}),
+    "prog-aan-het": frozenset({"aan", "het"}),
+}
+
+
+def candidate_aux(c: dict) -> list[str]:
+    """Auxiliary tokens of a multi-word candidate (everything but the head and
+    the fixed periphrasis particles), lowercased."""
+    toks = [t.lower() for t in re.split(r"[ ']", c["form"]) if t]
+    if len(toks) < 2:
+        return []
+    head, _ = candidate_head(c, "pres")
+    rest = list(toks)
+    rest.remove(head)
+    skip = _PERIPHRASIS_PARTICLES.get(c.get("shape", ""), frozenset())
+    return [t for t in rest if t not in skip]
+
+
+def aux_collision(tok: str, lang: str, reg: dict) -> list[tuple[str, str, str]]:
+    """Readings that clash with an auxiliary token of ``lang``.
+
+    The auxiliary's meanings are those its own language registers for the
+    spelling (it ``ho`` = have aux and lexical have). Another language's reading
+    clashes when it means something else: a function word (fr aux ``a`` vs pt
+    article ``a``) or a different verb (es aux ``está`` is fine everywhere it
+    means be). Same-meaning twins across languages / classes are not clashes.
+    """
+    readings = reg.get(tok, set())
+    own = {v for L, v, _k in readings if L == lang}
+    if not own:
+        return []
+    return [(L, v, k) for L, v, k in sorted(readings) if L != lang and v not in own]
+
+
+# Conversion-time banks audited with the same registry (bank name → loader name).
+AUDITED_BANKS = {
+    "es_fr_tense": "load_es_fr_tense_bank",
+    "pt_el_latin_tense": "load_pt_el_latin_tense_bank",
+    "zh_de_phrases": "load_zh_de_phrase_bank",
+    "pt_el_latin_phrases": "load_pt_el_latin_phrase_bank",
+}
+_BANK_TENSE_CLS = {"present": "pres", "future": "fut", "past": "past", "conditional": "cond"}
+
+
+def bank_form_collision(form: str, lang: str, meanings: set[str], cls: str,
+                        reg: dict) -> list[tuple[str, str, str]]:
+    """Registry clashes of a conversion-time bank form (every token checked).
+
+    ``meanings`` = verbs named by the entry id (``want-go-pres-1s`` → want, go);
+    phrase banks pass ``{"<phrase>"}``. A token clashes with a reading of another
+    meaning (different verb / function word) or, for the same meaning in another
+    language, a tense class its own language lacks (same rule as ``collision``).
+    The token's own-language readings count as its meanings, so a form whose
+    auxiliary / particle is a native function word (pt ``de novo``) is fine.
+    Single-word forms also clash with an own-language reading of another verb
+    (pt ``via`` = ``ver`` imperfect). Multi-word forms skip function-word
+    readings (same exemption as the matrix: a bound token is never a standalone
+    article / pronoun).
+    """
+    toks = [w for w in re.split(r"[ ']", form.lower()) if w]
+    bound = len(toks) > 1
+    out: list[tuple[str, str, str]] = []
+    for tok in toks:
+        readings = reg.get(tok, set())
+        own_v = {v for L, v, _k in readings if L == lang} | meanings
+        own_k = {k for L, _v, k in readings if L == lang} | {cls}
+        for L, v, k in sorted(readings):
+            if bound and v == "<func>":
+                continue
+            if L == lang:
+                if not bound and v not in meanings and v != "<func>":
+                    out.append((L, v, k))
+                continue
+            if v not in own_v or (v in meanings and k not in own_k):
+                out.append((L, v, k))
+    return out
+
+
+def audit_banks(t, reg: dict) -> list[dict]:
+    """Conversion-time bank candidates that collide (generated into the matrix bank
+    as ``collision_blocked``; runtime ``_bank_phrase_pairs`` skips them)."""
+    out: list[dict] = []
+    for bank, loader in AUDITED_BANKS.items():
+        for e in getattr(t, loader)()["entries"]:
+            eid = str(e.get("id") or "")
+            if bank.endswith("_tense"):
+                meanings = {w for w in eid.split("-") if w in VERBS} or {eid.split("-")[0]}
+                cls = _BANK_TENSE_CLS.get(str(e.get("tense") or ""), "pres")
+            else:
+                meanings, cls = {"<phrase>"}, "phrase"
+            for form, lang in t._entry_candidate_forms(e):
+                hit = bank_form_collision(form, lang, meanings, cls, reg)
+                if hit:
+                    out.append({"bank": bank, "id": eid, "form": form, "lang": lang,
+                                "readings": [list(r) for r in hit]})
     return out
 
 
@@ -752,9 +877,11 @@ def build(gate=None) -> tuple[dict, dict, str]:
             "cs/pl: simple future (perfective or budu/będę + inf) and present perfect only (l-participle, generic masculine, pronouns I/you/we only — never he/she/it, they, demonstratives, relatives); no aspect stand-ins for futperf/pluperf/progressive.",
             "Exact (token, utf8) tie: es/fr/pt preferred over it/cs/pl (wider readership).",
             "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete.",
+            "Collision guard also checks auxiliary tokens (fr a/as, es/it sei …; participle after an aux still exempt from article/pronoun readings) and audits the conversion-time banks (es_fr_tense, pt_el_latin_tense, zh_de_phrases, pt_el_latin_phrases): `collision_blocked` rows are skipped at runtime, next-cheapest candidate wins.",
             "you → U at runtime (tessera_talk.apply_you_u, after these rows): same tokens, utf8 3→1. A matrix row strictly drops tokens so it always beats U + EN chain; guarded / rejected cells become U + EN chain (your/yours/yourself, you'X excluded).",
         ],
         "entries": entries,
+        "collision_blocked": audit_banks(t, reg),
     }
     report = {"version": 1, "cells": cells}
     return bank, report, _markdown(cells)
