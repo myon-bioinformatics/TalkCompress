@@ -147,7 +147,7 @@ def test_c_ledger_spatial_and_conjunctions():
     assert "moreover" not in apply_ledger_lex("moreover we continue").lower()
     assert apply_ledger_lex("nevertheless it works").startswith("but")
     assert "so" in apply_ledger_lex("therefore we stop")
-    assert "e.g." in apply_ledger_lex("for example cats")
+    assert "e.g." not in apply_ledger_lex("for example cats")  # pruned (o200k)
     assert "i.e." in apply_ledger_lex("that is the plan")
 
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")

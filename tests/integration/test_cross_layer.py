@@ -56,11 +56,9 @@ def test_pipeline_c_e_classic_three_animals():
     assert "um" not in pipe.lower()
     assert "ascrt" in pipe.lower()
     assert "I'll" in pipe
-    assert INFO_GLYPH in pipe
+    assert INFO_GLYPH not in pipe  # ℹ️ pruned (o200k)
     assert "3匹" in pipe
-    assert pipe == "I'll ascrt ℹ️ about 3匹" or (
-        "I'll" in pipe and "ascrt" in pipe.lower() and INFO_GLYPH in pipe and "3匹" in pipe
-    )
+    assert "information" in pipe
 
 
 def test_compare_json_shape():

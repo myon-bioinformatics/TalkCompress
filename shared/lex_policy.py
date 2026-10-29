@@ -431,6 +431,154 @@ _EN_CONTRACTIONS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 
+# Ledger rows pruned after the o200k-calibrated estimate_tokens: the short form
+# costs more tokens than English, or ties on tokens without saving utf8 bytes.
+LEDGER_PRUNED_O200K: frozenset[str] = frozenset(
+    {
+    "adv-a-priori",
+    "adv-after-all",
+    "adv-afterwards",
+    "adv-already",
+    "adv-alternately",
+    "adv-anew",
+    "adv-anytime",
+    "adv-anywhere",
+    "adv-apart",
+    "adv-aside",
+    "adv-backwards",
+    "adv-beforehand",
+    "adv-de-facto",
+    "adv-downstairs",
+    "adv-elsewhere",
+    "adv-ever-after",
+    "adv-everywhere",
+    "adv-ex-officio",
+    "adv-forever",
+    "adv-formerly",
+    "adv-in-effect",
+    "adv-in-practice",
+    "adv-in-situ",
+    "adv-in-succession",
+    "adv-indoors",
+    "adv-inside-out",
+    "adv-instead",
+    "adv-meanwhile",
+    "adv-mutatis-mutandis",
+    "adv-nearby",
+    "adv-no-doubt",
+    "adv-nowhere",
+    "adv-of-late",
+    "adv-offshore",
+    "adv-on-purpose",
+    "adv-only",
+    "adv-outdoors",
+    "adv-overboard",
+    "adv-overhead",
+    "adv-overnight",
+    "adv-overseas",
+    "adv-pending",
+    "adv-probably",
+    "adv-respectively",
+    "adv-right-then",
+    "adv-shortly-after",
+    "adv-shortly-before",
+    "adv-so-to-speak",
+    "adv-somewhat",
+    "adv-somewhere",
+    "adv-sui-generis",
+    "adv-thereafter",
+    "adv-under-way",
+    "adv-underground",
+    "adv-underwater",
+    "adv-upside-down",
+    "adv-upstairs",
+    "adv-very",
+    "aux-neg-can",
+    "c-inter-alia",
+    "c-na",
+    "c-regarding",
+    "compare-le",
+    "conj-for-example",
+    "conj-hence",
+    "conj-unless",
+    "conj-while",
+    "deixis-these",
+    "deixis-those",
+    "deixis-あれ",
+    "det-both",
+    "det-each",
+    "det-every",
+    "det-none",
+    "det-some",
+    "e-conj-therefore",
+    "e-conj-whereas",
+    "emoji-alarm",
+    "emoji-cry",
+    "emoji-heart",
+    "emoji-hundred",
+    "emoji-information",
+    "emoji-mail",
+    "emoji-money",
+    "emoji-party",
+    "emoji-pray",
+    "emoji-rocket",
+    "emoji-skull",
+    "emoji-time",
+    "emoji-warn",
+    "emoji-wrench",
+    "furniture-table",
+    "legal-herein",
+    "legal-notwithstanding",
+    "legal-therein",
+    "legal-thereof",
+    "legal-thereto",
+    "legal-therewith",
+    "legal-whereby",
+    "music-dim7",
+    "path-doc",
+    "polarity-never",
+    "prep-aboard",
+    "prep-across",
+    "prep-against",
+    "prep-along",
+    "prep-beside",
+    "prep-between",
+    "prep-beyond",
+    "prep-circa",
+    "prep-composed-of",
+    "prep-despite",
+    "prep-except",
+    "prep-faced-with",
+    "prep-further-to",
+    "prep-immune-to",
+    "prep-including",
+    "prep-opposite",
+    "prep-past",
+    "prep-preceding",
+    "prep-prone-to",
+    "prep-typical-of",
+    "prep-under-review",
+    "prep-until",
+    "prep-with",
+    "prep2-after",
+    "pronoun-I",
+    "pronoun-ella",
+    "pronoun-elle",
+    "pronoun-he-or-she",
+    "pronoun-mine",
+    "pronoun-ours",
+    "pronoun-theirs",
+    "pronoun-usted",
+    "pronoun-ustedes",
+    "pronoun-you-all",
+    "pronoun-yours",
+    "pronoun-yourself",
+    "quant-various",
+    "symbol-infinity",
+    }
+)
+
+
 def en_contraction_ledger_rows() -> list[dict[str, Any]]:
     """C ledger row skeletons for EN contractions (family=abbrev).
 
@@ -463,7 +611,7 @@ def en_contraction_ledger_rows() -> list[dict[str, Any]]:
                 ),
             }
         )
-    return rows
+    return [r for r in rows if r["id"] not in LEDGER_PRUNED_O200K]
 
 
 def apply_en_contractions(text: str) -> str:
@@ -987,7 +1135,7 @@ def symbol_ledger_rows() -> list[dict[str, Any]]:
                 "rationale": rationale,
             }
         )
-    return rows
+    return [r for r in rows if r["id"] not in LEDGER_PRUNED_O200K]
 
 
 def emoji_ledger_rows() -> list[dict[str, Any]]:
@@ -1015,7 +1163,7 @@ def emoji_ledger_rows() -> list[dict[str, Any]]:
                 "rationale": rationale,
             }
         )
-    return rows
+    return [r for r in rows if r["id"] not in LEDGER_PRUNED_O200K]
 
 
 def emoji_default_map() -> dict[str, str]:

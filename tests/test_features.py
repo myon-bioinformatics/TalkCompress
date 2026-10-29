@@ -38,7 +38,7 @@ def test_layer_ownership_matrix_classic_example():
     assert "I'll" in c_out
     assert "3" in c_out  # three → 3
     assert "three" not in c_out.lower()
-    assert INFO_GLYPH in c_out  # ℹ️ is C
+    assert INFO_GLYPH not in c_out  # ℹ️ pruned (o200k 1→2)
 
 
 # --- lexicon load ---
@@ -361,8 +361,8 @@ def test_morpho_information_to_info_glyph():
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     assert apply_etymon_align("information") == "information"
     assert INFO_GLYPH not in m.compress("send the information please")
-    assert INFO_GLYPH in s.compress("send the information please")
-    assert INFO_GLYPH in s.compress("インフォメーション")
+    assert INFO_GLYPH not in s.compress("send the information please")
+    assert INFO_GLYPH not in s.compress("インフォメーション")
 
 
 
