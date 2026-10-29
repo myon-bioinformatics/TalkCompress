@@ -35,6 +35,11 @@ Otherwise the plain token → utf8 → len → form order applies.
 
 Czech / Polish compete only in simple future and present perfect (see tables).
 
+Cross-language collision guard (all languages): a candidate whose lexical-verb
+token is already registered (``form_registry``) with another verb / function
+word, or in another language with a tense class its own language lacks, is
+dropped (it ``sa``/sv ``sa``, nl ``kom`` vs Nordic ``kom``, de ``das`` vs es ``das``).
+
 Progressive (be + -ing) only competes progressive-preserving periphrases —
 es estar + gerundio, pt estar + gerúndio / estar a + inf, it stare +
 gerundio, fr être en train de + inf, nl zijn aan het + inf. Simple present /
@@ -409,20 +414,109 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
     return uniq
 
 
-def _other_lang_forms(conj: dict) -> set[str]:
-    """Every es/pt/it/fr/nl/de verb form + Romance participles / gerunds."""
-    out: set[str] = set()
+# Function words that occupy a spelling in a candidate language (article /
+# pronoun / preposition). A verb candidate spelled like one would read as that
+# word (de ``das`` article vs es ``das`` "you give").
+FUNCTION_WORDS: dict[str, str] = {
+    "de": "der die das dem den des ein eine einen einem einer es sie er wir ihr ich du",
+    "nl": "de het een ik jij je hij zij ze wij we jullie",
+    "es": "el la los las un una yo tú él ella nosotros que de en",
+    "pt": "o a os as um uma eu tu ele ela nós que de em",
+    "it": "il lo la gli le un una io tu lui lei noi che di in",
+    "fr": "le la les un une je tu il elle nous vous ils elles que de en",
+}
+
+_CONJ_CLS = {"pres": "pres", "imperf": "past", "pret": "past", "plpf": "plpf", "fut": "fut"}
+
+
+def form_registry(conj: dict) -> dict[str, set[tuple[str, str, str]]]:
+    """Map lowercased spelling → {(lang, meaning-verb, tense-class)} across every table.
+
+    Generalizes the old cs/pl-only look-alike check: any language's candidate is
+    tested against everything already registered for every language.
+    """
+    reg: dict[str, set[tuple[str, str, str]]] = defaultdict(set)
+
+    def put(form: str, lang: str, verb: str, cls: str) -> None:
+        reg[form.lower()].add((lang, verb, cls))
+
     for L in ("es", "pt", "it", "fr"):
-        for v in conj[L].values():
-            for tense in v.values():
-                out.update(tense.values())
-        out.update(PP[L].values())
-    for g in GER.values():
-        out.update(g.values())
-    for tab in (NL_PRES, NL_PAST, DE_PRES, DE_PAST):
-        for v in tab.values():
-            out.update(v.split())
-    return {w.lower() for w in out}
+        by_inf = {VERBS[v][L]: v for v in VERBS}
+        for inf, tenses in conj[L].items():
+            v = by_inf.get(inf, f"?{inf}")
+            put(inf, L, v, "inf")
+            for tk, slots in tenses.items():
+                for f in slots.values():
+                    put(f, L, v, _CONJ_CLS.get(tk, tk))
+        for v, f in PP[L].items():
+            put(f, L, v, "pp")
+    for L, g in GER.items():
+        for v, f in g.items():
+            put(f, L, v, "ger")
+    for L, tab, cls in (("nl", NL_PRES, "pres"), ("nl", NL_PAST, "past"),
+                        ("de", DE_PRES, "pres"), ("de", DE_PAST, "past"),
+                        ("el", EL_AOR, "past"), ("cs", CS_FUT, "fut"), ("pl", PL_FUT, "fut"),
+                        ("cs", CS_INF, "inf"), ("pl", PL_INF, "inf"),
+                        ("cs", CS_LPART, "lpart"), ("pl", PL_LPART, "lpart")):
+        for v, forms in tab.items():
+            for f in forms.split():
+                put(f, L, v, cls)
+    for L, ws in FUNCTION_WORDS.items():
+        for w in ws.split():
+            put(w, L, "<func>", "func")
+    return reg
+
+
+_SHAPE_CLS = {
+    "simple-preterite": "past", "simple-pluperfect": "plpf", "compound": "pp",
+    "prog-gerund": "ger", "prog-a-inf": "inf", "prog-en-train-de": "inf",
+    "prog-aan-het": "inf", "budu-inf": "inf", "bede-inf": "inf",
+    "pf-future": "fut", SLAVIC_GENDERED: "lpart",
+}
+
+
+def candidate_head(c: dict, tense: str) -> tuple[str, str]:
+    """(lexical-verb token, tense-class) of a candidate before subject keeping."""
+    toks = c["form"].split()
+    shape = c["shape"]
+    if shape == SLAVIC_GENDERED:
+        head = toks[0]
+    elif shape == "prog-aan-het":
+        head = toks[toks.index("het") + 1]
+    elif shape == "prog-en-train-de":
+        head = toks[-1].split("'")[-1]
+    else:
+        head = toks[-1]
+    cls = _SHAPE_CLS.get(shape) or {"pres": "pres", "fut": "fut", "past": "past"}.get(tense, tense)
+    return head.lower(), cls
+
+
+def collision(c: dict, tense: str, verb: str, reg: dict) -> list[tuple[str, str, str]]:
+    """Registered readings of the candidate's head token that clash with its meaning.
+
+    Clash = a different verb / function word (any language), or a different
+    language with a different tense class (nl ``kom`` 'I come' vs Nordic past
+    ``kom`` 'came'), unless the candidate's own language already has that
+    reading for the spelling. Same-language same-verb syncretism (es
+    ``tomamos`` present = preterite) and cross-language same-meaning twins
+    (es/pt ``tomamos``) are not clashes.
+    """
+    head, cls = candidate_head(c, tense)
+    readings = reg.get(head, set())
+    # tense classes the candidate's own language already gives this spelling
+    # (es ``tomamos`` = present AND preterite): a foreign twin adds no new ambiguity.
+    own = {k for lang, v, k in readings if lang == c["lang"] and v == verb} | {cls}
+    # a head that follows an auxiliary / periphrasis (``aurai eu``, ``estoy yendo``)
+    # is a participle / gerund / infinitive slot, never a standalone article or
+    # pronoun: function-word readings only clash for single-word forms.
+    bound = len(c["form"].split()) > 1
+    out = []
+    for lang, v, k in sorted(readings):
+        if bound and v == "<func>":
+            continue
+        if v != verb or (lang != c["lang"] and k not in own):
+            out.append((lang, v, k))
+    return out
 
 
 def _existing_sources(t) -> set[str]:
@@ -435,13 +529,16 @@ def _existing_sources(t) -> set[str]:
     return srcs
 
 
-def build() -> tuple[dict, dict, str]:
+def build(gate=None) -> tuple[dict, dict, str]:
+    """Rebuild bank / report / md. ``gate(form, lang) -> bool`` (optional) drops
+    candidates before ranking — used by scripts/roundtrip.py impact reports only;
+    the committed bank is always built with ``gate=None`` (report-only)."""
     from tests._helpers import load
 
     t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
     conj = json.loads(CONJ_PATH.read_text(encoding="utf-8"))["conj"]
     existing = _existing_sources(t)
-    other_forms = _other_lang_forms(conj)
+    reg = form_registry(conj)
     tok = t.estimate_tokens
     u8 = lambda s: len(s.encode("utf-8"))  # noqa: E731
     cells: list[dict] = []
@@ -464,16 +561,22 @@ def build() -> tuple[dict, dict, str]:
                 if keep or person in ("3s", "3p"):
                     # gendered Slavic past: only for gender-unspecified pronouns
                     cands = [c for c in cands if c["shape"] != SLAVIC_GENDERED]
-                # cross-language homograph: a cs/pl form spelled like any other
-                # candidate-language verb form (pl ``da`` = es/it/pt "gives")
-                # would read as a different tense → dropped (揺らぎ回避).
-                xl = [c["form"] for c in cands if c["lang"] in ("cs", "pl") and c["form"].split()[-1] in other_forms]
+                # cross-language collision guard (all languages): a candidate whose
+                # lexical-verb token is already registered with another meaning
+                # (pl ``da`` = es/it/pt "gives", de ``das`` article) is dropped (揺らぎ回避).
+                xl = {c["form"]: collision(c, tense, verb, reg) for c in cands}
+                xl = {f: v for f, v in xl.items() if v}
                 if xl:
-                    cell["crossling_dropped"] = xl
-                    cands = [c for c in cands if not (c["lang"] in ("cs", "pl") and c["form"].split()[-1] in other_forms)]
+                    cell["crossling_dropped"] = sorted(xl)
+                    cands = [c for c in cands if c["form"] not in xl]
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
+                if gate is not None:
+                    gated = [c["form"] for c in cands if not gate(c["form"], c["lang"])]
+                    if gated:
+                        cell["roundtrip_gated"] = gated
+                        cands = [c for c in cands if c["form"] not in gated]
                 st, su = tok(src), u8(src)
                 # English-homograph guard (runtime twin): drop candidates with an
                 # EN-spelled token; keep the measured losers for the report.
@@ -486,7 +589,7 @@ def build() -> tuple[dict, dict, str]:
                 cands = [c for c in cands if not t.en_homograph_tokens(c["form"], keep_head=head)]
                 if homo:
                     cell["homograph_dropped"] = homo
-                if person == "2":
+                if person == "2" and cands:
                     key = lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"])  # noqa: E731
                     allb = min(cands, key=key)
                     cell["usted_style_best"] = {"form": allb["form"], "number": allb["number"], "tok": tok(allb["form"])}
