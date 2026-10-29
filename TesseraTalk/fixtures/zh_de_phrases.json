@@ -470,10 +470,6 @@
           "token": 1,
           "utf8": 32
         },
-        "vs_file": {
-          "token": 1,
-          "utf8": 32
-        },
         "vs_堵车": {
           "token": 2,
           "utf8": 48
@@ -487,17 +483,12 @@
           "class": "compound"
         },
         {
-          "form": "file",
-          "lang": "nl",
-          "class": "compound"
-        },
-        {
           "form": "堵车",
           "lang": "zh",
           "class": "densifier"
         }
       ],
-      "note": "cheapest: Stau ≺ file ≺ 堵车 (Stau/file tied token; Stau shorter utf8)"
+      "note": "cheapest: Stau ≺ 堵车. nl `file` dropped: an English homograph (\"Avoid the file ahead.\") that wins outright under o200k_base."
     },
     {
       "id": "lenkrad",

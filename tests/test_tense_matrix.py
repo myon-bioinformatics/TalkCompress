@@ -370,7 +370,8 @@ def test_tie_prefers_es_fr_pt_over_it(s, want):
 
 def test_prefer_on_tie_rule():
     t = _t()
-    m = lambda f: (t.estimate_tokens(f), len(f.encode()))  # noqa: E731
+    # fixed metric: the rule is about ties, not about any estimator's numbers
+    m = lambda f: ({"vezme": 1}.get(f, 2), len(f.encode()))  # noqa: E731
     assert t.prefer_on_tie(("avrà visto", "it"), [("avrà visto", "it"), ("terá visto", "pt")], m) == ("terá visto", "pt")
     assert t.prefer_on_tie(("vezme", "cs"), [("vezme", "cs"), ("tomará", "es")], m) == ("vezme", "cs")  # not a tie
     assert t.prefer_on_tie(("wil", "nl"), [("wil", "nl")], m) == ("wil", "nl")

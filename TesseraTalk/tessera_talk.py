@@ -466,28 +466,154 @@ _OTHER_WORD = re.compile(
 )
 
 
-def estimate_tokens(text: str) -> int:
-    """Rough multilingual token estimate for ranking translation candidates.
+DEFAULT_O200K_CALIB = _FIXTURES_DIR / "o200k_calib.json"
+# o200k-style pre-tokens: a Latin letter-run (+ optional English contraction
+# suffix, which o200k keeps in the same pre-token: ``we've`` = 1), digit groups
+# of <= 3, one CJK/kana/Hangul/Thai char, an other-script run, a punctuation run.
+_PRETOKEN = re.compile(
+    r"(?P<w>[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]+(?:['\u2019](?:s|t|re|ve|m|ll|d)(?![A-Za-z]))?)"
+    r"|(?P<d>\d{1,3})"
+    r"|(?P<k>[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]+)"
+    r"|(?P<c>[\u0E00-\u0E7F])"
+    r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
+    r"|(?P<p>[^\w\s]+)",
+    re.IGNORECASE,
+)
+_GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
+_LATIN_EXT_A = re.compile(r"[\u0100-\u024F]")
+_CALIB: dict | None = None
 
-    Heuristic (stdlib-only, deterministic):
-    - each CJK / kana / Hangul character ≈ 1 token
-    - each Latin / digit word ≈ max(1, ceil(chars/4)) (GPT-ish subword)
-    - other script letter-runs (Cyrillic, Arabic, Devanagari, Greek) ≈ same subword rule
-    - Latin Extended Additional chars (U+1E00–U+1EFF, Vietnamese) stay inside the
-      Latin word and add +1 token each (poorly merged by BPE)
-    - each Thai character (U+0E00–U+0E7F) ≈ 1 token
-    Punctuation and whitespace do not add tokens. Absolute counts are approximate;
-    relative ranking across in-scope langs (Romance / Germanic / Greek / ja / zh) matters for B.
+
+def _pretokens(s: str) -> list[tuple[str, str]]:
+    return [(m.lastgroup, m.group()) for m in _PRETOKEN.finditer(s)]
+
+
+def _wclass(w: str) -> str:
+    """Script class of a Latin word: ``v`` Vietnamese (U+1E00–U+1EFF), ``s`` Latin Extended-A
+    (Czech / Polish ě ř ů ł ś …, poorly merged), ``x`` other accents, ``a`` ASCII."""
+    if _GREEK.search(w):
+        return "g"
+    if _OTHER_WORD.search(w):
+        return "o"
+    if _LATIN_EXT_ADD.search(w):
+        return "v"
+    if _LATIN_EXT_A.search(w):
+        return "s"
+    return "a" if w.isascii() else "x"
+
+
+def _fallback_cost(w: str, len_table: dict, suffixes: dict | None = None, floor: dict | None = None) -> int:
+    """Cost of a word in no table: calibrated per (class, length) plus a suffix delta
+    (e.g. Romance futures ``-rei``/``-ré`` split off), else the legacy ceil(len/4) rule."""
+    k = f"{_wclass(w)}{len(w)}"
+    if k in len_table:
+        if len(w) < 5:
+            return len_table[k]
+        fl, sx = floor or {}, suffixes or {}
+        f = fl.get(w[-3:], fl.get(w[-2:]))
+        if f is not None:  # documented floor rule wins over learned deltas
+            return max(f, len_table[k])
+        return max(1, len_table[k] + sx.get(w[-3:], sx.get(w[-2:], 0)))
+    if k[0] == "g":  # Greek: o200k merges it poorly, ≈ ceil(len/2) beyond 3 letters
+        return 1 if len(w) <= 3 else (len(w) + 1) // 2
+    return max(1, (len(w) + 3) // 4) + len(_LATIN_EXT_ADD.findall(w))
+
+
+def _load_calib() -> dict:
+    """Lazy-load the committed o200k calibration table (missing file -> legacy heuristic)."""
+    global _CALIB
+    if _CALIB is None:
+        c: dict = {"en": {}, "len_table": {}, "contractions": {}, "exceptions": {}, "suffixes": {}, "suffix_floor": {}, "cjk": frozenset()}
+        if DEFAULT_O200K_CALIB.exists():
+            import base64
+
+            d = json.loads(DEFAULT_O200K_CALIB.read_text(encoding="utf-8"))
+            words = sorted(load_en_wordlist())
+            packed = base64.b64decode(d["en_costs"])
+            if len(packed) == (len(words) + 3) // 4:
+                c["en"] = {w: ((packed[i >> 2] >> ((i & 3) * 2)) & 3) + 1 for i, w in enumerate(words)}
+            c["len_table"] = d.get("len_table", {})
+            c["contractions"] = d.get("contractions", {})
+            c["exceptions"] = d.get("exceptions", {})
+            c["suffixes"] = d.get("suffixes", {})
+            c["suffix_floor"] = d.get("suffix_floor", {})
+            c["cased"] = d.get("exceptions_cased", {})
+            c["cjk_sp"] = frozenset(d.get("cjk_space_vocab", "").split())
+            c["sym"] = frozenset(d.get("symbol_vocab", ""))
+            c["cjk"] = frozenset(d.get("cjk_vocab", "").split())
+        _CALIB = c
+    return _CALIB
+
+
+def _word_cost(w: str, cal: dict) -> int:
+    if w in cal.get("cased", ()):
+        return cal["cased"][w]
+    lw = w.lower().replace("\u2019", "'")
+    for t in ("exceptions", "contractions", "en"):
+        if lw in cal[t]:
+            return cal[t][lw]
+    if "'" in lw:  # unknown contraction: stem + suffix
+        stem, _, _ = lw.partition("'")
+        return _word_cost(stem, cal) + 1
+    return _fallback_cost(lw, cal["len_table"], cal["suffixes"], cal["suffix_floor"])
+
+
+def _cjk_cost(run: str, vocab: frozenset) -> int:
+    """Greedy longest match (4..2 chars) against o200k's CJK multi-char tokens; else 1 per char."""
+    n = i = 0
+    while i < len(run):
+        for L in (4, 3, 2):
+            if run[i:i + L] in vocab:
+                i += L
+                break
+        else:
+            i += 1
+        n += 1
+    return n
+
+
+def estimate_tokens(text: str) -> int:
+    """Stdlib-only token estimate calibrated toward o200k_base (no tiktoken at runtime).
+
+    Splits like o200k's pre-tokenizer, then costs each piece:
+    - Latin word (+ English contraction suffix): committed o200k table lookup
+      (``fixtures/o200k_calib.json``: English wordlist costs, contractions,
+      training-split exceptions), else a calibrated per-(class, length) fallback,
+      else the legacy ``max(1, ceil(len/4))`` (+1 per U+1E00–U+1EFF char)
+    - CJK / kana / Hangul runs: greedy longest match against the committed o200k
+      multi-char token list (``cjk_vocab``), else 1 per character; Thai = 1 per char
+    - other-script runs (Greek, Cyrillic, Arabic, Devanagari) go through the same
+      tables (own classes in the fallback)
+    - digit groups of <= 3 = 1; each punctuation run = 1
+    Whitespace is free. Regenerate the table with ``scripts/calibrate_estimate.py --write``.
     """
     if not text or not text.strip():
         return 0
     s = unicodedata.normalize("NFC", text)
-    n = len(_CJK_CHAR.findall(s))
-    n += len(_THAI_CHAR.findall(s))
-    for w in _LATIN_WORD.findall(s):
-        n += max(1, (len(w) + 3) // 4) + len(_LATIN_EXT_ADD.findall(w))
-    for w in _OTHER_WORD.findall(s):
-        n += max(1, (len(w) + 3) // 4)
+    cal = _load_calib()
+    n = 0
+    for m in _PRETOKEN.finditer(s):
+        kind, p = m.lastgroup, m.group()
+        if kind in ("w", "o"):
+            n += _word_cost(p, cal)
+        elif kind == "k":
+            if m.start() == 0 or s[m.start() - 1] == " ":
+                # o200k merges the preceding space only into some CJK tokens
+                # (" 开" yes, " 绿" no: the bare space then costs its own token)
+                for L in (4, 3, 2, 1):
+                    if p[:L] in cal["cjk_sp"]:
+                        n += 1 + (_cjk_cost(p[L:], cal["cjk"]) if p[L:] else 0)
+                        break
+                else:
+                    n += 1 + _cjk_cost(p, cal["cjk"])
+            else:
+                n += _cjk_cost(p, cal["cjk"])
+        elif kind == "p":
+            # a punctuation run is one token; non-ASCII symbols outside o200k's
+            # single-token set (e.g. "∴") cost one extra byte-level token each
+            n += 1 + sum(1 for ch in p if ord(ch) > 127 and ch not in cal["sym"])
+        else:
+            n += 1
     return n
 
 
@@ -926,7 +1052,9 @@ def minify_by_translation(
             flat.append(s)
         elif re.search(r"[。？！]$", prev) or re.match(
             r"^[\u3040-\u30ff\u3400-\u9fff]", s
-        ):
+        ) or re.match(r"^[\"'\u201d\u2019)\]]+(?:\s|$)", s):
+            # closing quote/bracket split off after a terminator (``?"`` -> ``?`` + ``"``):
+            # re-attach without a space (a space would cost an extra o200k token)
             flat.append(s)
         else:
             flat.append(" " + s)

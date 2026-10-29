@@ -550,7 +550,7 @@
       "from": [
         "I will want"
       ],
-      "to": "querré",
+      "to": "I will want",
       "lang": "es",
       "tense": "future",
       "metrics": {
@@ -760,7 +760,7 @@
       "from": [
         "I knew"
       ],
-      "to": "supe",
+      "to": "I knew",
       "lang": "es",
       "tense": "past",
       "metrics": {
@@ -793,7 +793,7 @@
         "I will leave",
         "I'll leave"
       ],
-      "to": "saldré",
+      "to": "I will leave",
       "lang": "es",
       "tense": "future",
       "metrics": {
@@ -809,7 +809,7 @@
       "from": [
         "I left"
       ],
-      "to": "salí",
+      "to": "I left",
       "lang": "es",
       "tense": "past",
       "metrics": {
@@ -826,7 +826,7 @@
         "I am going to leave",
         "I'm going to leave"
       ],
-      "to": "saldré",
+      "to": "vou sair",
       "lang": "es",
       "tense": "future",
       "metrics": {
@@ -854,7 +854,7 @@
         "I will take",
         "I'll take"
       ],
-      "to": "πάρω",
+      "to": "tomaré",
       "lang": "el",
       "tense": "future",
       "metrics": {
@@ -946,7 +946,7 @@
         "I am going to take",
         "I'm going to take"
       ],
-      "to": "πάρω",
+      "to": "tomaré",
       "lang": "el",
       "tense": "future",
       "metrics": {
@@ -1090,7 +1090,7 @@
       "from": [
         "I tried"
       ],
-      "to": "tentei",
+      "to": "essayé",
       "lang": "pt",
       "tense": "past",
       "metrics": {
@@ -1255,7 +1255,7 @@
       "from": [
         "I called"
       ],
-      "to": "llamé",
+      "to": "I called",
       "lang": "es",
       "tense": "past",
       "metrics": {

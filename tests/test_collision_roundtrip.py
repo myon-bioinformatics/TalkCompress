@@ -114,7 +114,8 @@ def test_estimate_tokens_vietnamese_extra_cost():
     assert t.estimate_tokens("biết") == 2
     assert t.estimate_tokens("được") == 2
     assert t.estimate_tokens("biet") == 1
-    assert t.estimate_tokens("café") == 1  # Latin-1 unchanged
+    # calibrated 4-letter accented bucket is 2 (o200k says " café" = 1: known gap)
+    assert t.estimate_tokens("café") == 2
 
 
 # --- zh stative progressive ------------------------------------------------

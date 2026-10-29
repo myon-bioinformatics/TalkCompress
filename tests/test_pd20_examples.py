@@ -88,7 +88,6 @@ def test_c_contractions_shrink(src, want):
     "full,short,winner",
     [
         ("I will go", "I'll go", "vou"),
-        ("I will take it", "I'll take it", "πάρω it"),
     ],
 )
 def test_b_final_accepts_full_and_contracted(full, short, winner):
@@ -102,7 +101,6 @@ def test_b_final_accepts_full_and_contracted(full, short, winner):
 @pytest.mark.parametrize(
     "full,short",
     [
-        ("I will find it", "I'll find it"),
         ("I would go", "I'd go"),
         ("we will go", "we'll go"),
     ],
@@ -137,11 +135,7 @@ def test_going_to_guard_contracted():
 @pytest.mark.parametrize(
     "src,el",
     [
-        ("I will take", "πάρω"),
-        ("I'll take", "πάρω"),
-        ("I am going to take", "πάρω"),
         ("I will find", "βρω"),
-        ("I'll find", "βρω"),
     ],
 )
 def test_el_wins_cheapest(src, el):
@@ -149,6 +143,26 @@ def test_el_wins_cheapest(src, el):
     out = t.apply_es_fr_tense(src)
     assert out == el
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
+
+
+@pytest.mark.parametrize(
+    "full,short,winner",
+    [("I will take it", "I'll take it", "tomaré it"), ("I will find it", "I'll find it", "βρω it")],
+)
+def test_contracted_future_ties_stay_english(full, short, winner):
+    """o200k: " I'll take it" = 3 = " tomaré it"; the full form (4) still converts."""
+    t = _t()
+    assert t.apply_es_fr_tense(full) == winner
+    assert t.apply_es_fr_tense(short) == short
+    assert t.estimate_tokens(short) == t.estimate_tokens(winner) < t.estimate_tokens(full)
+
+
+@pytest.mark.parametrize("src", ["I will take", "I am going to take"])
+def test_take_future_es_wins_tie_on_bytes(src):
+    """πάρω and tomaré are both 2 o200k tokens; tomaré is 7 bytes vs 8."""
+    t = _t()
+    assert t.apply_es_fr_tense(src) == "tomaré"
+    assert t.apply_es_fr_tense("I'll take") == "I'll take"
 
 
 def test_bank_to_label_matches_runtime_winner():
