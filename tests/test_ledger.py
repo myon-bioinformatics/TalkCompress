@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 import sys
 from pathlib import Path
 
@@ -36,7 +37,6 @@ def test_ledger_file_exists_and_loads():
     # E MorphoZip closed-POS registrations live as apply_layer=E (metrics/inventory;
     # rewrite ownership stays on E; C apply_ledger_lex does not consume them).
     e_lex = list_conventions(kind="lex", apply_layer="E")
-    assert any(c["id"] == "pronoun-I" for c in e_lex)
     assert any(c["id"] == "prep-from" for c in e_lex)
     assert any(c["id"] == "particle-kara" for c in e_lex)
     assert all(c.get("to") != "fr" for c in e_lex)
@@ -100,51 +100,19 @@ def test_morpho_does_not_apply_ledger_under():
 
 
 
-def test_furniture_table_to_desk_lexeme_not_sql():
-    """Furniture table → 机 (or allowed 桌/桌子); SQL/tech keeps table."""
+def test_furniture_table_removed_no_token_saving():
+    """furniture-table (tables→机) was dropped: o200k-calibrated " tables" = 1 < " 机" = 2."""
     from shared.ledger import apply_ledger_lex, list_conventions
 
-    furniture = list_conventions(kind="lex", apply_layer="C")
-    row = next(c for c in furniture if c["id"] == "furniture-table")
-    assert row["to"] == "机"
-    assert set(row.get("allowed_to") or []) >= {"机", "桌"}
-    assert row.get("skip_sql_tech") is True
-
-    out = apply_ledger_lex("put it on the table")
-    assert "机" in out or "桌" in out
-    assert "table" not in out.lower()
-
-    out2 = apply_ledger_lex("The lamp is under the table")
-    assert "下" in out2
-    assert ("机" in out2 or "桌" in out2)
-    assert "table" not in out2.lower()
-
-    # SQL / tech keep English table
-    for sql in (
-        "CREATE TABLE users",
-        "create table users",
-        "SELECT * FROM users_table JOIN orders",
-        "sql table schema",
-        "drop table accounts",
-        "alter table t add column x",
-        "INSERT INTO my_table VALUES (1)",
-        "the database table users",
-        "query the db table",
-    ):
-        kept = apply_ledger_lex(sql)
-        assert "table" in kept.lower(), f"expected table kept in {sql!r} → {kept!r}"
-        assert "机" not in kept and "桌" not in kept, f"furniture lex leaked into {sql!r} → {kept!r}"
+    assert "table" in apply_ledger_lex("put it on the table").lower()
+    assert "机" not in apply_ledger_lex("put it on the table")
 
 
-def test_shorthand_furniture_table_and_sql():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    out = s.compress("put it on the table")
-    assert "机" in out or "桌" in out
-    assert "table" not in out.lower()
+@pytest.mark.parametrize("cid", ["legal-therein", "c-na", "path-doc", "music-dim7", "furniture-table"])
+def test_non_saving_lex_removed(cid):
+    from shared.ledger import list_conventions
 
-    sql = s.compress("CREATE TABLE users")
-    assert "table" in sql.lower()
-    assert "机" not in sql and "桌" not in sql
+    assert cid not in {c["id"] for c in list_conventions()}
 
 
 def test_ambiguity_gate_moreover_also():
@@ -191,7 +159,7 @@ def test_lex_dual_metrics_schema_and_samples():
     assert validate_ledger_metrics(strict=True) == []
 
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
-    for cid in ("spatial-under", "conj-moreover", "furniture-table"):
+    for cid in ("spatial-under", "conj-moreover"):
         c = by_id[cid]
         assert "metrics" in c
         m = c["metrics"]
@@ -209,17 +177,14 @@ def test_lex_dual_metrics_schema_and_samples():
 
     under = by_id["spatial-under"]["metrics"]
     assert under["token"]["sample_from"] == "under"
-    assert under["token"]["before"] == 2 and under["token"]["after"] == 1
+    assert under["token"]["before"] == 1 and under["token"]["after"] == 1  # o200k tie, utf8 shrinks
     assert under["bit"]["model"] == "utf8"
     assert under["bit"]["before"] == 40 and under["bit"]["after"] == 24
 
     moreover = by_id["conj-moreover"]["metrics"]
     assert moreover["token"]["sample_from"] == "moreover"
-    assert moreover["token"]["before"] == 2 and moreover["token"]["after"] == 1
+    assert moreover["token"]["before"] == 1 and moreover["token"]["after"] == 1  # o200k tie
 
-    table = by_id["furniture-table"]["metrics"]
-    assert table["token"]["after"] == 1
-    assert table["bit"]["utf8"]["after"] == 24
 
     # policy may omit / null metrics
     policy = list_conventions(kind="policy")[0]
@@ -227,9 +192,7 @@ def test_lex_dual_metrics_schema_and_samples():
 
     # compute helper matches ledger for under→下
     computed = compute_lex_metrics("under", "下")
-    # stored token snapshot predates the o200k-calibrated estimate (" under" = 1 = " 下");
-    # refreshing conventions.json is a separate follow-up, so only check no regression
-    assert computed["token"]["after"] <= computed["token"]["before"]
+    assert computed["token"] == under["token"]
     assert computed["bit"]["before"] == under["bit"]["before"]
     assert computed["bit"]["after"] == under["bit"]["after"]
 
@@ -264,16 +227,13 @@ def test_ledger_pos_registrations_dual_metrics():
     assert validate_ledger_metrics(strict=True) == []
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
     for cid in (
-        "pronoun-I",
         "pronoun-yo",
         "pronoun-私たち",
         "particle-to",
         "particle-kara",
-        "prep-with",
         "prep-from",
         "prep2-without",
         "aux-can",
-        "aux-neg-can",
         "e-conj-because",
         "compare-ge",
         "conj-etc",
@@ -298,25 +258,15 @@ def test_ledger_pos_registrations_dual_metrics():
     # deferred-at-100 batch (restored after zero-bit prune)
     assert "c-brb" in by_id and by_id["c-brb"]["to"] == "brb"
     assert "c-afaik" in by_id and by_id["c-afaik"]["to"] == "AFAIK"
-    assert by_id["e-conj-whereas"]["to"] == "∵"
     # finite prep compounds + legal shorts (this tranche)
     assert by_id["prep-throughout"]["to"] == "通"
     assert by_id["prep-toward"]["to"] == "→"
     assert by_id["legal-hereinafter"]["to"] == "∴↓"
-    assert by_id["legal-therewith"]["to"] == "∴w/"
-    assert by_id["legal-whereby"]["to"] == "∴by"
-    assert by_id["c-regarding"]["to"] == "re:"
     assert by_id["c-as-follows"]["to"] == "↓"
-    assert by_id["c-inter-alia"]["to"] == "i.a."
     # prep / prep-like adv finite set
-    assert by_id["prep-across"]["to"] == "↔"
     assert by_id["prep-among"]["to"] == "中"
-    assert by_id["prep-between"]["to"] == "間"
     assert by_id["prep-through"]["to"] == "通"
-    assert by_id["prep-until"]["to"] == "〜"
-    assert by_id["adv-meanwhile"]["to"] == "∥"
     assert by_id["adv-together"]["to"] == "共"
-    assert by_id["adv-nearby"]["to"] == "近"
     # prep / prep-like adv follow-up tranche
     assert by_id["prep-according-to"]["to"] == "依"
     assert by_id["prep-owing-due"]["to"] == "因"
@@ -324,15 +274,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-in-spite-of"]["to"] == "雖"
     assert by_id["prep-far-from"]["to"] == "遠"
     assert by_id["prep-out-of"]["to"] == "外"
-    assert by_id["prep-opposite"]["to"] == "対側"
-    assert by_id["prep-circa"]["to"] == "c."
     assert by_id["prep-into"]["to"] == "入"
-    assert by_id["adv-beforehand"]["to"] == "先"
-    assert by_id["adv-forever"]["to"] == "∞"
-    assert by_id["adv-overnight"]["to"] == "泊"
-    assert by_id["adv-somewhere"]["to"] == "某处"
-    assert by_id["adv-elsewhere"]["to"] == "别处"
-    assert by_id["adv-anew"]["to"] == "再"
     # cycle2
     assert by_id["prep-in-favor-of"]["to"] == "pro"
     assert by_id["prep-on-behalf-of"]["to"] == "代表"
@@ -343,9 +285,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-in-light-of"]["to"] == "鑑"
     assert by_id["prep-for-sake-of"]["to"] == "為"
     assert by_id["prep-regardless"]["to"] == "不問"
-    assert by_id["prep-past"]["to"] == "過"
     assert by_id["prep-following"]["to"] == "次"
-    assert by_id["adv-pending"]["to"] == "未決"
     # cycle3
     assert by_id["prep-by-virtue-of"]["to"] == "力"
     assert by_id["prep-by-way-of"]["to"] == "経"
@@ -397,7 +337,6 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-depending-on"]["to"] == "依"
     assert by_id["conj-as-well-as"]["to"] == "+"
     assert by_id["conj-let-alone"]["to"] == "況"
-    assert by_id["prep-faced-with"]["to"] == "直面"
     assert by_id["prep-pertaining-to"]["to"] == "関"
     assert by_id["prep-independent-of"]["to"] == "独立"
     assert by_id["prep-akin-to"]["to"] == "≒"
@@ -412,19 +351,15 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-at-first"]["to"] == "初"
     assert by_id["adv-in-short"]["to"] == "略"
     assert by_id["adv-in-fact"]["to"] == "実"
-    assert by_id["adv-in-practice"]["to"] == "実際"
     assert by_id["adv-in-theory"]["to"] == "理"
     assert by_id["adv-in-general"]["to"] == "一般"
-    assert by_id["adv-on-purpose"]["to"] == "故意"
     assert by_id["adv-in-vain"]["to"] == "徒"
     assert by_id["adv-at-present"]["to"] == "今"
     assert by_id["adv-ahead-of-time"]["to"] == "早"
-    assert by_id["adv-under-way"]["to"] == "進行"
     # cycle6
     assert by_id["prep-contrary-to"]["to"] == "逆"
     assert by_id["prep-proportional-to"]["to"] == "比例"
     assert by_id["prep-in-pursuit-of"]["to"] == "追"
-    assert by_id["adv-after-all"]["to"] == "結局"
     assert by_id["adv-above-all"]["to"] == "最"
     assert by_id["adv-all-in-all"]["to"] == "総"
     assert by_id["adv-all-the-same"]["to"] == "猶"
@@ -475,8 +410,6 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-on-one-hand"]["to"] == "一方"
     assert by_id["adv-in-short-run"]["to"] == "短期"
     assert by_id["adv-to-large-extent"]["to"] == "大程"
-    assert by_id["adv-shortly-after"]["to"] == "直後"
-    assert by_id["adv-shortly-before"]["to"] == "直前"
     assert by_id["adv-day-by-day"]["to"] == "日々"
     assert by_id["adv-year-by-year"]["to"] == "年々"
     assert by_id["adv-face-to-face"]["to"] == "対面"
@@ -486,34 +419,25 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-out-of-place"]["to"] == "不所"
     assert by_id["prep-out-of-reach"]["to"] == "届外"
     assert by_id["prep-under-fire"]["to"] == "被弾"
-    assert by_id["prep-under-review"]["to"] == "審査中"
-    assert by_id["prep-immune-to"]["to"] == "免疫"
-    assert by_id["prep-prone-to"]["to"] == "傾向"
     assert by_id["prep-preparatory-to"]["to"] == "準備"
-    assert by_id["prep-further-to"]["to"] == "追伸"
     assert by_id["prep-in-praise-of"]["to"] == "賛"
     assert by_id["prep-such-as"]["to"] == "如"
     assert by_id["adv-for-real"]["to"] == "真"
     assert by_id["adv-in-turn"]["to"] == "順"
     assert by_id["adv-in-full"]["to"] == "全"
-    assert by_id["adv-in-succession"]["to"] == "連続"
     assert by_id["adv-hand-in-hand"]["to"] == "携"
     assert by_id["adv-head-to-head"]["to"] == "直接"
     assert by_id["adv-long-since"]["to"] == "久"
-    assert by_id["adv-right-then"]["to"] == "其時"
     assert by_id["adv-en-route"]["to"] == "途中"
     assert by_id["adv-by-no-means"]["to"] == "決して"
-    assert by_id["adv-no-doubt"]["to"] == "疑無"
     assert by_id["adv-in-some-way"]["to"] == "或様"
     assert by_id["adv-in-many-ways"]["to"] == "多様"
     assert by_id["adv-at-times"]["to"] == "時々"
     assert by_id["adv-at-all-times"]["to"] == "常時"
     assert by_id["adv-at-random"]["to"] == "乱"
     assert "out of nowhere" in by_id["adv-all-of-a-sudden"]["from"]
-    assert "excluding" in by_id["prep-except"]["from"]
     assert by_id["prep-upstream-of"]["breakdown"] == "前"
     assert by_id["adv-at-random"]["breakdown"] == "副"
-    assert "exclusive of" in by_id["prep-except"]["from"]
     # cycle9
     assert by_id["prep-abreast-of"]["to"] == "並"
     assert by_id["prep-cognizant-of"]["to"] == "知"
@@ -523,31 +447,22 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-capable-of"]["to"] == "能"
     assert by_id["prep-incapable-of"]["to"] == "不能"
     assert by_id["prep-worthy-of"]["to"] == "値"
-    assert by_id["prep-typical-of"]["to"] == "典型"
     assert by_id["prep-indicative-of"]["to"] == "示"
     assert by_id["prep-suggestive-of"]["to"] == "示唆"
     assert by_id["prep-characteristic-of"]["to"] == "特質"
     assert by_id["prep-rid-of"]["to"] == "撤"
     assert by_id["prep-full-of"]["to"] == "満"
-    assert by_id["prep-composed-of"]["to"] == "構成"
-    assert "consisting of" in by_id["prep-composed-of"]["from"]
     assert by_id["prep-for-the-duration-of"]["to"] == "期間"
-    assert by_id["adv-offshore"]["to"] == "沖"
     assert by_id["adv-simultaneously"]["to"] == "同時"
-    assert by_id["adv-respectively"]["to"] == "各"
     assert by_id["adv-similarly"]["to"] == "同様"
     assert by_id["adv-in-particular"]["to"] == "特"
-    assert by_id["adv-so-to-speak"]["to"] == "言わば"
     assert by_id["adv-as-such"]["to"] == "斯"
     assert by_id["adv-once-and-for-all"]["to"] == "断"
     assert by_id["adv-currently"]["to"] == "現"
-    assert by_id["adv-formerly"]["to"] == "旧"
-    assert by_id["adv-alternately"]["to"] == "交互"
     assert by_id["adv-ever-since"]["to"] == "以来"
     assert "bereft of" in by_id["prep-for-lack-of"]["from"]
     assert "afraid of" in by_id["prep-for-fear-of"]["from"]
     assert "conversely" in by_id["prep-contrary-to"]["from"]
-    assert "thereupon" in by_id["adv-right-then"]["from"]
     assert by_id["prep-abreast-of"]["breakdown"] == "前"
     assert by_id["adv-currently"]["breakdown"] == "副"
     # cycle10
@@ -557,19 +472,13 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-empty-of"]["to"] == "空"
     assert by_id["prep-made-of"]["to"] == "製"
     assert by_id["adv-ashore"]["to"] == "岸"
-    assert by_id["adv-overboard"]["to"] == "船外"
-    assert by_id["adv-underwater"]["to"] == "水中"
     assert by_id["adv-nationwide"]["to"] == "全国"
     assert by_id["adv-worldwide"]["to"] == "世界"
     assert by_id["adv-clockwise"]["to"] == "時計"
     assert by_id["adv-counterclockwise"]["to"] == "反時計"
-    assert by_id["adv-inside-out"]["to"] == "裏返"
-    assert by_id["adv-upside-down"]["to"] == "逆さ"
-    assert by_id["adv-backwards"]["to"] == "後方"
     assert by_id["adv-sideways"]["to"] == "横"
     assert by_id["adv-en-masse"]["to"] == "一斉"
     assert by_id["adv-all-along"]["to"] == "当初"
-    assert by_id["adv-ever-after"]["to"] == "以後"
     assert by_id["adv-for-keeps"]["to"] == "永久"
     assert by_id["adv-off-and-on"]["to"] == "断続"
     assert by_id["adv-through-and-through"]["to"] == "徹底"
@@ -577,34 +486,21 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-at-a-glance"]["to"] == "一見"
     assert by_id["adv-at-stake"]["to"] == "賭"
     assert by_id["adv-in-earnest"]["to"] == "本気"
-    assert by_id["adv-in-effect"]["to"] == "実質"
     assert by_id["adv-out-of-stock"]["to"] == "品切"
     # cycle11 spaced deferred
     assert by_id["prep-as-of"]["to"] == "起"
     assert by_id["adv-for-once"]["to"] == "一度"
-    assert by_id["adv-of-late"]["to"] == "近頃"
     assert by_id["adv-hitherto"]["to"] == "従来"
     assert by_id["adv-thus-far"]["to"] == "今迄"
     assert "to date" in by_id["adv-thus-far"]["from"]
     assert by_id["adv-under-age"]["to"] == "年少"
     assert by_id["adv-one-on-one"]["to"] == "1:1"
     assert by_id["adv-by-and-by"]["to"] == "稍後"
-    assert by_id["adv-anywhere"]["to"] == "∃loc"
-    assert by_id["adv-nowhere"]["to"] == "∅loc"
-    assert by_id["adv-anytime"]["to"] == "∀時"
-    assert by_id["adv-somewhat"]["to"] == "稍"
-    assert by_id["adv-mutatis-mutandis"]["to"] == "準変"
     assert by_id["adv-ceteris-paribus"]["to"] == "他同"
-    assert by_id["adv-sui-generis"]["to"] == "独自"
     assert by_id["adv-pari-passu"]["to"] == "同率"
-    assert by_id["adv-ex-officio"]["to"] == "職権"
     assert by_id["adv-prima-facie"]["to"] == "一応"
     assert by_id["adv-ipso-facto"]["to"] == "当然"
-    assert by_id["adv-a-priori"]["to"] == "先験"
-    assert by_id["adv-de-facto"]["to"] == "d.f."
-    assert by_id["adv-in-situ"]["to"] == "現場"
     assert by_id["adv-ad-hoc"]["to"] == "adhoc"
-    assert "for good" in by_id["adv-forever"]["from"]
     assert "somehow" in by_id["adv-in-some-way"]["from"]
     # relative / 関代
     assert by_id["rel-which"]["to"] == "that"
@@ -618,31 +514,19 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["rel-que"]["breakdown"] == "関代"
 
     # objective gap-fill closed thin
-    assert by_id["det-every"]["to"] == "∀"
-    assert by_id["det-each"]["to"] == "各"
-    assert by_id["det-some"]["to"] == "∃"
-    assert by_id["det-none"]["to"] == "∅"
-    assert by_id["det-both"]["to"] == "両"
     assert by_id["quant-several"]["to"] == "数"
-    assert by_id["quant-various"]["to"] == "諸"
     assert by_id["quant-numerous"]["to"] == "多"
     assert "a lot of" in by_id["quant-numerous"]["from"]
     assert by_id["quant-a-few"]["to"] == "few"
     assert by_id["quant-a-little"]["to"] == "少"
-    assert by_id["det-every"]["breakdown"] == "限"
     assert by_id["quant-numerous"]["breakdown"] == "限"
-    assert by_id["conj-unless"]["to"] == "!if"
     assert by_id["conj-whether"]["to"] == "if"
-    assert by_id["conj-while"]["to"] == "∥"
     assert by_id["conj-so-that"]["to"] == "so"
     assert by_id["conj-in-order-to"]["to"] == "to"
     assert by_id["pronoun-each-other"]["to"] == "互"
     assert "one another" in by_id["pronoun-each-other"]["from"]
     assert by_id["adv-maybe"]["to"] == "或"
-    assert by_id["adv-probably"]["to"] == "恐"
-    assert by_id["adv-already"]["to"] == "既"
     assert by_id["adv-also"]["to"] == "+"
-    assert by_id["adv-only"]["to"] == "僅"
     assert by_id["adv-still"]["to"] == "尚"
     assert "roughly" in by_id["adv-approx"]["from"]
     assert "usually" in by_id["adv-as-usual"]["from"]
@@ -652,24 +536,18 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["aux-sorta"]["to"] == "sorta"
     assert by_id["aux-kinda"]["breakdown"] == "俗"
     assert by_id["prep-as-of"]["breakdown"] == "前"
-    assert by_id["adv-mutatis-mutandis"]["breakdown"] == "連"
     assert "vis-a-vis" in by_id["prep-as-opposed-to"]["from"]
-    assert "afterward" in by_id["adv-afterwards"]["from"]
     assert "as of yet" in by_id["adv-as-yet"]["from"]
     assert "first and foremost" in by_id["adv-above-all"]["from"]
     assert "in a nutshell" in by_id["adv-in-short"]["from"]
-    assert "ad infinitum" in by_id["adv-forever"]["from"]
     assert by_id["prep-weary-of"]["breakdown"] == "前"
     assert by_id["adv-at-stake"]["breakdown"] == "副"
     assert "every now and then" in by_id["adv-from-time-to-time"]["from"]
     assert by_id["prep-north-of"]["breakdown"] == "前"
     assert by_id["adv-no-longer"]["breakdown"] == "副"
     assert "with regard to" in by_id["prep-in-regard-to"]["from"]
-    assert "once again" in by_id["adv-anew"]["from"]
     assert "right now" in by_id["adv-at-present"]["from"]
-    assert by_id["adv-after-all"]["breakdown"] == "副"
     assert by_id["prep-contrary-to"]["breakdown"] == "前"
-    assert "in the meantime" in by_id["adv-meanwhile"]["from"]
     assert "based on" in by_id["prep-on-basis-of"]["from"]
     assert "from now on" in by_id["legal-henceforth"]["from"]
     assert "in compliance with" in by_id["prep-in-accordance-with"]["from"]
@@ -683,9 +561,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-by-virtue-of"]["breakdown"] == "前"
     assert by_id["prep-in-favor-of"]["breakdown"] == "前"
     assert by_id["prep-according-to"]["breakdown"] == "前"
-    assert by_id["adv-forever"]["breakdown"] == "副"
     assert "underneath" in by_id["spatial-under"]["from"]
-    assert by_id["e-conj-whereas"].get("extended") is True
     # no lex emits fr
     assert all(c.get("to") != "fr" for c in by_id.values())
 
@@ -710,15 +586,9 @@ def test_formal_legal_connectives_dual_metrics():
         "legal-hereinafter",
         "legal-hereinafter-aka",
         "legal-hereafter",
-        "legal-herein",
-        "legal-thereof",
-        "legal-therewith",
-        "legal-whereby",
         "prep-throughout",
         "prep-toward",
-        "c-regarding",
         "c-as-follows",
-        "c-inter-alia",
     }
     for cid in skipped:
         assert cid in by_id
@@ -733,16 +603,12 @@ def test_formal_legal_connectives_dual_metrics():
     assert apply_ledger_lex("agreed thereby") == "agreed thereby"
 
     expected = {
-        "legal-therein": "∈it",
-        "legal-thereto": "∴to",
         "legal-henceforth": "∴→",
-        "legal-notwithstanding": "雖",
         "conj-insofar": "insofar",
         "c-pursuant": "per",
         "conj-provided": "if",
         "conj-in-lieu": "vs",
         "c-namely": "viz",
-        "conj-hence": "∴",
         "conj-albeit": "tho",
         "c-foregoing": "supra",
         "c-aforementioned": "said",
@@ -757,7 +623,7 @@ def test_formal_legal_connectives_dual_metrics():
         assert c["to"] == dst, cid
         assert c["breakdown"] in BREAKDOWN_ALLOWED
         m = c["metrics"]
-        assert m["token"]["delta"] < 0, cid
+        assert m["token"]["delta"] < 0 or (m["token"]["delta"] == 0 and m["bit"]["utf8"]["delta"] < 0), cid
         assert m["bit"]["utf8"]["delta"] < 0, cid
         assert m["token"]["sample_from"] == c["from"][0]
 
@@ -781,7 +647,7 @@ def test_formal_legal_connectives_dual_metrics():
         ["viz", "viz.", "i.e."], reference="namely"
     )["chosen"] == "viz"
 
-    assert apply_ledger_lex("notwithstanding section 5") == "雖 section 5"
+    assert apply_ledger_lex("notwithstanding section 5") == "notwithstanding section 5"  # pruned (o200k)
     assert apply_ledger_lex("insofar as possible") == "insofar possible"
     assert "to the extent of" in apply_ledger_lex("to the extent of 5")
     assert apply_ledger_lex("pursuant to section 2") == "per section 2"
@@ -795,8 +661,8 @@ def test_formal_legal_connectives_dual_metrics():
     assert "provided that" in apply_ledger_lex(
         "provided that we pay", prefer_precision=True
     )
-    assert apply_ledger_lex("now therefore the parties") == "∴ the parties"
-    assert apply_ledger_lex("hence we stop") == "∴ we stop"
+    assert apply_ledger_lex("now therefore the parties") == "now so the parties"  # ∴ pruned (o200k); therefore→so kept
+    assert apply_ledger_lex("hence we stop") == "hence we stop"  # pruned (o200k)
     assert apply_ledger_lex("null and void") == "void"
     assert apply_ledger_lex("terms and conditions") == "T&C"
     assert apply_ledger_lex("smith and others") == "smith etal"
@@ -845,15 +711,12 @@ def test_abbrev_family_contractions_synced():
     # Registration-only: ledger apply must NOT emit I'll from I will
     assert "I'll" not in apply_ledger_lex("I will go")
     # latin abbrevs still apply via ledger
-    assert "e.g." in apply_ledger_lex("for example we try")
+    assert "e.g." not in apply_ledger_lex("for example we try")  # pruned (o200k 2→4)
     assert by_id["conj-etc"]["family"] == "abbrev"
-    assert by_id["conj-for-example"]["abbrev_kind"] == "latin"
     assert by_id["c-asap"]["family"] == "abbrev"
     assert by_id["c-asap"]["abbrev_kind"] == "acronym"
 
     # E rows for polarity remain E; no duplicate I'll ownership
-    assert by_id["aux-neg-can"]["apply_layer"] == "E"
-    assert by_id["aux-neg-can"]["to"] == "!can"
 
 
 def test_that_is_latin_owns_not_contraction():
@@ -933,35 +796,29 @@ def test_emoji_family_synced():
     assert by_id["emoji-fire"]["pivot"] == "fire"
     assert by_id["emoji-fire"]["pivot_lang"] == "en"
     assert by_id["emoji-fire"]["from"][0] == "ファイア"
-    assert by_id["emoji-heart"]["to"] == "♡"
-    assert by_id["emoji-heart"]["pivot"] == "heart"
-    assert "heart" in by_id["emoji-heart"]["from"]
 
     assert apply_ledger_lex("ファイア") == "🔥"
     assert apply_ledger_lex("Feuer") == "🔥"  # ML → pivot fire → 🔥
-    assert "♡" in apply_ledger_lex("heart")
-    assert "♡" in apply_ledger_lex("ハート")
+    assert "♡" not in apply_ledger_lex("heart")  # pruned (o200k)
+    assert "♡" not in apply_ledger_lex("ハート")
     assert "🔥" in apply_ledger_lex("on fire")
     assert "👍" in apply_ledger_lex("thumbs up")
-    assert "⚠" in apply_ledger_lex("warning")
+    assert "⚠" not in apply_ledger_lex("warning")  # pruned (o200k)
     assert "✓" in apply_ledger_lex("check mark")
     assert "✅" not in apply_ledger_lex("check mark")
     assert "✕" in apply_ledger_lex("cross mark")
 
     # information→ℹ️ is C family=emoji (sole apply; not ETYMON)
-    assert "emoji-information" in by_id
-    assert by_id["emoji-information"]["to"] == INFO_GLYPH
-    assert by_id["emoji-information"]["pivot"] == "information"
-    assert by_id["emoji-information"]["from"][0] == "information"
-    assert INFO_GLYPH in apply_ledger_lex("information")
-    assert INFO_GLYPH in apply_ledger_lex("インフォメーション")
-    assert INFO_GLYPH in apply_ledger_lex("información")
+    assert "emoji-information" not in by_id  # pruned (o200k)
+    assert INFO_GLYPH not in apply_ledger_lex("information")
+    assert INFO_GLYPH not in apply_ledger_lex("インフォメーション")
+    assert INFO_GLYPH not in apply_ledger_lex("información")
 
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    assert "♡" in s.compress("heart")
+    assert "♡" not in s.compress("heart")
     assert "🔥" in s.compress("ファイア")
     assert "🔥" in s.compress("fire")
-    assert INFO_GLYPH in s.compress("send the information please")
+    assert INFO_GLYPH not in s.compress("send the information please")
     # FYI phrase must win over bare information→ℹ️
     assert "FYI" in s.compress("for your information please")
     assert INFO_GLYPH not in s.compress("for your information please")
@@ -976,13 +833,13 @@ def test_select_cheapest_form_and_symbol_family():
         select_cheapest_form,
         validate_ledger_metrics,
     )
-    from shared.lex_policy import SYMBOL_SPEC
+    from shared.lex_policy import LEDGER_PRUNED_O200K, SYMBOL_SPEC
 
     assert validate_ledger_metrics(strict=True) == []
     ids = convention_ids()
     assert "policy-cross-lang-cheapest" in ids
     assert "symbol-neq" in ids
-    assert "symbol-infinity" in ids
+    assert "symbol-infinity" not in ids  # pruned (o200k)
 
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
     assert by_id["emoji-check"]["to"] == "✓"
@@ -991,6 +848,9 @@ def test_select_cheapest_form_and_symbol_family():
 
     for sid, _forms, dst, _r in SYMBOL_SPEC:
         cid = f"symbol-{sid}"
+        if cid in LEDGER_PRUNED_O200K:
+            assert cid not in by_id, cid
+            continue
         assert cid in by_id, cid
         c = by_id[cid]
         assert c["family"] == "symbol"
@@ -999,7 +859,7 @@ def test_select_cheapest_form_and_symbol_family():
         assert c["metrics"]["bit"]["utf8"]["delta"] < 0, cid
 
     assert "≠" in apply_ledger_lex("not equal")
-    assert "∞" in apply_ledger_lex("infinity")
+    assert "∞" not in apply_ledger_lex("infinity")  # pruned (o200k)
     assert "±" in apply_ledger_lex("plus or minus")
     assert "%" in apply_ledger_lex("パーセント")
     assert "⇒" in apply_ledger_lex("implies that")
@@ -1053,7 +913,7 @@ def test_ever_family_no_matter_to_ever():
         assert c["to"] == dst
         assert sample in [str(x).lower() for x in c["from"]]
         m = c["metrics"]
-        assert m["token"]["delta"] < 0, cid
+        assert m["token"]["delta"] < 0 or (m["token"]["delta"] == 0 and m["bit"]["utf8"]["delta"] < 0), cid
         assert m["bit"]["utf8"]["delta"] < 0, cid
         assert m["token"]["sample_from"] == sample
 
@@ -1163,7 +1023,6 @@ def test_lex_breakdown_flat_pos_or_tag():
         bd = c.get("breakdown")
         assert isinstance(bd, str) and bd in BREAKDOWN_ALLOWED, c.get("id")
     by_id = {c["id"]: c for c in lex}
-    assert by_id["pronoun-mine"]["breakdown"] == "代"
     assert by_id["deixis-this"]["breakdown"] == "示"
     assert by_id["c-asap"]["breakdown"] in ("頭", "連", "略")
     assert by_id["ever-however"]["breakdown"] == "連"
@@ -1210,7 +1069,6 @@ def test_eng_dev_qed_abbrev_tranche():
         "c-eof": "EOF",
         "c-eol": "EOL",
         "c-nan": "NaN",
-        "c-na": "N/A",
         "c-oom": "OOM",
         "c-npe": "NPE",
         "c-segfault": "segfault",
@@ -1231,7 +1089,7 @@ def test_eng_dev_qed_abbrev_tranche():
         assert c["abbrev_kind"] == "acronym"
         assert c["breakdown"] == "頭"
         m = c["metrics"]
-        assert m["token"]["delta"] < 0, cid
+        assert m["token"]["delta"] < 0 or (m["token"]["delta"] == 0 and m["bit"]["utf8"]["delta"] < 0), cid
         assert m["bit"]["utf8"]["delta"] < 0, cid
         assert m["token"]["sample_from"] == c["from"][0]
 
@@ -1274,7 +1132,6 @@ def test_path_unix_short_tranche():
 
     expected = {
         "path-src": "src",
-        "path-doc": "doc",
         "path-docs": "docs",
         "path-tmp": "tmp",
         "path-lib": "lib",
@@ -1306,7 +1163,7 @@ def test_path_unix_short_tranche():
         assert c["family"] == "path"
         assert c["breakdown"] in BREAKDOWN_ALLOWED
         m = c["metrics"]
-        assert m["token"]["delta"] < 0, cid
+        assert m["token"]["delta"] < 0 or (m["token"]["delta"] == 0 and m["bit"]["utf8"]["delta"] < 0), cid
         assert m["bit"]["utf8"]["delta"] < 0, cid
         assert m["token"]["sample_from"] == c["from"][0]
 
@@ -1321,7 +1178,7 @@ def test_path_unix_short_tranche():
     assert "library of Congress" in apply_ledger_lex("library of Congress")
     assert apply_ledger_lex("temporary directory") == "tmp"
     assert "temporary measure" in apply_ledger_lex("temporary measure")
-    assert apply_ledger_lex("documentation") == "doc"
+    assert apply_ledger_lex("documentation") == "documentation"  # pruned (o200k tie, no utf8 win? see LEDGER_PRUNED_O200K)
     assert apply_ledger_lex("documents") == "docs"
     assert apply_ledger_lex("configuration") == "cfg"
     assert apply_ledger_lex("format string") == "fmt"
@@ -1362,7 +1219,6 @@ def test_music_term_abbrev_tranche():
     expected = {
         "music-aug": "aug",
         "music-dim": "dim",
-        "music-dim7": "dim7",
         "music-sus": "sus",
         "music-sus4": "sus4",
         "music-sus2": "sus2",
@@ -1388,14 +1244,13 @@ def test_music_term_abbrev_tranche():
         assert c["family"] == "music"
         assert c["breakdown"] in BREAKDOWN_ALLOWED
         m = c["metrics"]
-        assert m["token"]["delta"] < 0, cid
+        assert m["token"]["delta"] < 0 or (m["token"]["delta"] == 0 and m["bit"]["utf8"]["delta"] < 0), cid
         assert m["bit"]["utf8"]["delta"] < 0, cid
         assert m["token"]["sample_from"] == c["from"][0]
 
     # apply positives
     assert apply_ledger_lex("augmented triad") == "aug"
     assert apply_ledger_lex("diminished chord") == "dim"
-    assert apply_ledger_lex("diminished seventh") == "dim7"
     assert apply_ledger_lex("suspended chord") == "sus"
     assert apply_ledger_lex("suspended fourth") == "sus4"
     assert apply_ledger_lex("suspended second") == "sus2"
@@ -1473,7 +1328,7 @@ def test_cmd_unix_shell_abbrev_tranche():
         assert c["family"] == "cmd"
         assert c["breakdown"] in BREAKDOWN_ALLOWED
         m = c["metrics"]
-        assert m["token"]["delta"] < 0, cid
+        assert m["token"]["delta"] < 0 or (m["token"]["delta"] == 0 and m["bit"]["utf8"]["delta"] < 0), cid
         assert m["bit"]["utf8"]["delta"] < 0, cid
         assert m["token"]["sample_from"] == c["from"][0]
 
