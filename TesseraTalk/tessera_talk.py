@@ -93,10 +93,28 @@ FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja", "nl", "p
 FINAL_PT_EL_LATIN_PHRASE_LANGS: frozenset[str] = frozenset({"pt", "el", "it", "la"})
 """Sibling phrase bank langs (pt_el_latin_phrases.json): living PT/EL/IT + scholarly Latin."""
 
-FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "el"})
+FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el"})
 # Person × tense matrix bank (scripts/tense_matrix.py) also allows live it.
-FINAL_TENSE_MATRIX_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "el", "it"})
-"""Tense densifier bank langs: live Romance + Dutch + Greek (classical Latin conjugations skipped)."""
+FINAL_TENSE_MATRIX_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el", "it"})
+"""Tense densifier bank langs: live Romance + Dutch + German + Greek (classical Latin conjugations skipped)."""
+
+# de-over-nl tie rule: when a German and a Dutch candidate tie on
+# (estimate_tokens, utf8 bytes), German wins; Dutch is kept only where it is
+# strictly cheaper. Against other languages the plain token → utf8 → len → form
+# order applies unchanged.
+_TIE_PREFER: dict[str, str] = {"nl": "de"}
+
+
+def prefer_on_tie(best: tuple[str, str], cands: list[tuple[str, str]], metric) -> tuple[str, str]:
+    """Return a preferred-lang candidate that ties ``best`` on ``metric``, else ``best``."""
+    want = _TIE_PREFER.get(best[1])
+    if not want:
+        return best
+    m = metric(best[0])
+    ties = [c for c in cands if c[1] == want and metric(c[0]) == m]
+    if not ties:
+        return best
+    return min(ties, key=lambda c: (len(c[0]), c[0]))
 
 _CUES: dict[str, tuple[str, ...]] = {
     "en": (
@@ -1176,16 +1194,22 @@ def _cheapest_repl(src: str, cands: list[tuple[str, str]]) -> str | None:
 
     ``cands`` is ``(replacement, lang)``. Returns None if nothing beats ``src``.
     """
-    best: tuple[int, int, int, str] | None = None
+    best: tuple[int, int, int, str, str] | None = None
     src_n = estimate_tokens(src)
+    ok: list[tuple[str, str]] = []
     for repl, _lang in cands:
         n = estimate_tokens(repl)
         if n >= src_n:
             continue
-        key = (n, _utf8_len(repl), len(repl), repl)
+        ok.append((repl, _lang))
+        key = (n, _utf8_len(repl), len(repl), repl, _lang)
         if best is None or key < best:
             best = key
-    return best[3] if best else None
+    if best is None:
+        return None
+    return prefer_on_tie(
+        (best[3], best[4]), ok, lambda r: (estimate_tokens(r), _utf8_len(r))
+    )[0]
 
 
 # Common irregular English past participles (regular ones match ``-ed``).

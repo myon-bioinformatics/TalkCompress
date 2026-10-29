@@ -76,6 +76,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "I want",
+   "homograph_dropped": [
+    {
+     "form": "will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "best": "wil",
    "lang": "nl",
    "shape": "simple",
@@ -272,8 +280,8 @@
      ]
     }
    ],
-   "best": "kwam",
-   "lang": "nl",
+   "best": "kam",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -282,7 +290,7 @@
    ],
    "utf8": [
     6,
-    4
+    3
    ],
    "status": "adopt"
   },
@@ -319,8 +327,8 @@
      ]
     }
    ],
-   "best": "vis",
-   "lang": "fr",
+   "best": "sah",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -2737,10 +2745,10 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "neemt",
-   "lang": "nl",
+   "best": "nehmt",
+   "lang": "de",
    "shape": "simple",
-   "number": "2sg-tú",
+   "number": "2pl-vosotros/vous",
    "tok": [
     2,
     2
@@ -2782,6 +2790,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "you want",
+   "homograph_dropped": [
+    {
+     "form": "will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "usted_style_best": {
     "form": "wil",
     "number": "2sg-tú",
@@ -2820,9 +2836,9 @@
     "tok": 2
    },
    "best": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
-   "number": "2sg-tú",
+   "number": "2pl-vosotros/vous",
    "tok": [
     3,
     2
@@ -3245,14 +3261,14 @@
     }
    ],
    "usted_style_best": {
-    "form": "kwam",
-    "number": "2sg-tú",
+    "form": "kam",
+    "number": "2sg-usted",
     "tok": 1
    },
-   "best": "kwam",
-   "lang": "nl",
+   "best": "kamt",
+   "lang": "de",
    "shape": "simple",
-   "number": "2sg-tú",
+   "number": "2pl-vosotros/vous",
    "tok": [
     2,
     1
@@ -3297,7 +3313,7 @@
     }
    ],
    "usted_style_best": {
-    "form": "vio",
+    "form": "sah",
     "number": "2sg-usted",
     "tok": 1
    },
@@ -3385,8 +3401,8 @@
     }
    ],
    "usted_style_best": {
-    "form": "vond",
-    "number": "2sg-tú",
+    "form": "fand",
+    "number": "2sg-usted",
     "tok": 1
    },
    "best": "vond",
@@ -3621,6 +3637,12 @@
      "form": "a donné",
      "en": [
       "a"
+     ]
+    },
+    {
+     "form": "gab",
+     "en": [
+      "gab"
      ]
     }
    ],
@@ -8406,6 +8428,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "he wants",
+   "homograph_dropped": [
+    {
+     "form": "will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "best": "wil",
    "lang": "nl",
    "shape": "simple",
@@ -8439,7 +8469,7 @@
    "verb": "think",
    "src": "he thinks",
    "best": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -8804,8 +8834,8 @@
      ]
     }
    ],
-   "best": "kwam",
-   "lang": "nl",
+   "best": "kam",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -8814,7 +8844,7 @@
    ],
    "utf8": [
     7,
-    4
+    3
    ],
    "status": "adopt",
    "parity_class": [
@@ -8850,8 +8880,8 @@
      ]
     }
    ],
-   "best": "vio",
-   "lang": "es",
+   "best": "sah",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -8926,8 +8956,8 @@
      ]
     }
    ],
-   "best": "vond",
-   "lang": "nl",
+   "best": "fand",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -9127,6 +9157,12 @@
      "form": "a donné",
      "en": [
       "a"
+     ]
+    },
+    {
+     "form": "gab",
+     "en": [
+      "gab"
      ]
     }
    ],
@@ -12005,6 +12041,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "she wants",
+   "homograph_dropped": [
+    {
+     "form": "will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "best": "wil",
    "lang": "nl",
    "shape": "simple",
@@ -12038,7 +12082,7 @@
    "verb": "think",
    "src": "she thinks",
    "best": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -12403,8 +12447,8 @@
      ]
     }
    ],
-   "best": "kwam",
-   "lang": "nl",
+   "best": "kam",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -12413,7 +12457,7 @@
    ],
    "utf8": [
     8,
-    4
+    3
    ],
    "status": "adopt",
    "parity_class": [
@@ -12449,8 +12493,8 @@
      ]
     }
    ],
-   "best": "vio",
-   "lang": "es",
+   "best": "sah",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -12525,8 +12569,8 @@
      ]
     }
    ],
-   "best": "vond",
-   "lang": "nl",
+   "best": "fand",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -12726,6 +12770,12 @@
      "form": "a donné",
      "en": [
       "a"
+     ]
+    },
+    {
+     "form": "gab",
+     "en": [
+      "gab"
      ]
     }
    ],
@@ -15604,6 +15654,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "it wants",
+   "homograph_dropped": [
+    {
+     "form": "will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "best": "wil",
    "lang": "nl",
    "shape": "simple",
@@ -15637,7 +15695,7 @@
    "verb": "think",
    "src": "it thinks",
    "best": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -16035,8 +16093,8 @@
      ]
     }
    ],
-   "best": "kwam",
-   "lang": "nl",
+   "best": "kam",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -16045,7 +16103,7 @@
    ],
    "utf8": [
     7,
-    4
+    3
    ],
    "status": "adopt",
    "parity_class": [
@@ -16081,8 +16139,8 @@
      ]
     }
    ],
-   "best": "vio",
-   "lang": "es",
+   "best": "sah",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -16157,8 +16215,8 @@
      ]
     }
    ],
-   "best": "vond",
-   "lang": "nl",
+   "best": "fand",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -16358,6 +16416,12 @@
      "form": "a donné",
      "en": [
       "a"
+     ]
+    },
+    {
+     "form": "gab",
+     "en": [
+      "gab"
      ]
     }
    ],
@@ -19194,8 +19258,8 @@
    "tense": "pres",
    "verb": "find",
    "src": "we find",
-   "best": "vinden",
-   "lang": "nl",
+   "best": "finden",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19214,8 +19278,8 @@
    "tense": "pres",
    "verb": "want",
    "src": "we want",
-   "best": "willen",
-   "lang": "nl",
+   "best": "wollen",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19243,7 +19307,7 @@
    "verb": "think",
    "src": "we think",
    "best": "denken",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19261,8 +19325,8 @@
    "tense": "pres",
    "verb": "say",
    "src": "we say",
-   "best": "disons",
-   "lang": "fr",
+   "best": "sagen",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19271,7 +19335,7 @@
    ],
    "utf8": [
     6,
-    6
+    5
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -19538,8 +19602,8 @@
    "tense": "past",
    "verb": "come",
    "src": "we came",
-   "best": "kwamen",
-   "lang": "nl",
+   "best": "kamen",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19548,7 +19612,7 @@
    ],
    "utf8": [
     7,
-    6
+    5
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -19566,8 +19630,8 @@
    "tense": "past",
    "verb": "see",
    "src": "we saw",
-   "best": "vimos",
-   "lang": "es",
+   "best": "sahen",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19606,8 +19670,8 @@
    "tense": "past",
    "verb": "find",
    "src": "we found",
-   "best": "vonden",
-   "lang": "nl",
+   "best": "fanden",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19653,7 +19717,7 @@
    "verb": "think",
    "src": "we thought",
    "best": "dachten",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -21852,7 +21916,7 @@
    "verb": "think",
    "src": "they think",
    "best": "denken",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -22144,8 +22208,8 @@
    "tense": "past",
    "verb": "come",
    "src": "they came",
-   "best": "kwamen",
-   "lang": "nl",
+   "best": "kamen",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -22154,7 +22218,7 @@
    ],
    "utf8": [
     9,
-    6
+    5
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -22172,8 +22236,8 @@
    "tense": "past",
    "verb": "see",
    "src": "they saw",
-   "best": "viram",
-   "lang": "pt",
+   "best": "sahen",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -22212,8 +22276,8 @@
    "tense": "past",
    "verb": "find",
    "src": "they found",
-   "best": "vonden",
-   "lang": "nl",
+   "best": "fanden",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -22259,7 +22323,7 @@
    "verb": "think",
    "src": "they thought",
    "best": "dachten",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -33185,6 +33249,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "who wants",
+   "homograph_dropped": [
+    {
+     "form": "who will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "best": "who wil",
    "lang": "nl",
    "shape": "simple",
@@ -33213,7 +33285,7 @@
    "verb": "think",
    "src": "who thinks",
    "best": "who denkt",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -35374,7 +35446,7 @@
    "verb": "think",
    "src": "who think",
    "best": "who denken",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -37124,6 +37196,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "which wants",
+   "homograph_dropped": [
+    {
+     "form": "which will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "best": "which wil",
    "lang": "nl",
    "shape": "simple",
@@ -37152,7 +37232,7 @@
    "verb": "think",
    "src": "which thinks",
    "best": "which denkt",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -39313,7 +39393,7 @@
    "verb": "think",
    "src": "which think",
    "best": "which denken",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -41063,6 +41143,14 @@
    "tense": "pres",
    "verb": "want",
    "src": "que wants",
+   "homograph_dropped": [
+    {
+     "form": "que will",
+     "en": [
+      "will"
+     ]
+    }
+   ],
    "best": "que wil",
    "lang": "nl",
    "shape": "simple",
@@ -41091,7 +41179,7 @@
    "verb": "think",
    "src": "que thinks",
    "best": "que denkt",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -43252,7 +43340,7 @@
    "verb": "think",
    "src": "que think",
    "best": "que denken",
-   "lang": "nl",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [

@@ -133,8 +133,8 @@ def test_en_homograph_tokens_keeps_subject_head():
     ("s", "want"),
     [
         ("I give", "dou"),  # "do" (EN) dropped → next-cheapest unique
-        ("I came", "kwam"),  # vim / vine dropped → matrix nl
-        ("I saw", "vis"),  # vi dropped → matrix fr
+        ("I came", "kam"),  # vim / vine dropped → matrix de (kam ≺ kwam)
+        ("I saw", "sah"),  # vi dropped → matrix de (sah ties vis, form order)
         ("I have seen it", "ai vu it"),  # he visto dropped
         ("I am", "I am"),  # sou / soy both EN → EN kept
     ],

@@ -9,6 +9,7 @@
   "Relatives only with number-marking aux (is/are, has/have, was/were); bare 'that' (multi-POS) always stays EN.",
   "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",
   "Progressive: only progressive-preserving periphrases (estar/stare + gerund, estar a + inf, être en train de, aan het); no simple-tense fallback.",
+  "de (Präsens/Präteritum, du/ihr, never Sie) competes; de wins (tokens, utf8) ties against nl, nl kept only when strictly cheaper.",
   "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete."
  ],
  "entries": [
@@ -87,6 +88,10 @@
      "lang": "es"
     },
     {
+     "form": "gebe",
+     "lang": "de"
+    },
+    {
      "form": "geef",
      "lang": "nl"
     }
@@ -97,11 +102,15 @@
    "from": [
     "I came"
    ],
-   "to": "kwam",
-   "lang": "nl",
+   "to": "kam",
+   "lang": "de",
    "tense": "past",
    "subject": "1s",
    "candidates": [
+    {
+     "form": "kam",
+     "lang": "de"
+    },
     {
      "form": "kwam",
      "lang": "nl"
@@ -117,11 +126,15 @@
    "from": [
     "I saw"
    ],
-   "to": "vis",
-   "lang": "fr",
+   "to": "sah",
+   "lang": "de",
    "tense": "past",
    "subject": "1s",
    "candidates": [
+    {
+     "form": "sah",
+     "lang": "de"
+    },
     {
      "form": "vis",
      "lang": "fr"
@@ -165,6 +178,10 @@
     {
      "form": "voulus",
      "lang": "fr"
+    },
+    {
+     "form": "wollte",
+     "lang": "de"
     }
    ]
   },
@@ -1303,6 +1320,10 @@
      "lang": "nl"
     },
     {
+     "form": "geht",
+     "lang": "de"
+    },
+    {
      "form": "vais",
      "lang": "pt"
     },
@@ -1349,6 +1370,10 @@
     {
      "form": "vês",
      "lang": "pt"
+    },
+    {
+     "form": "seht",
+     "lang": "de"
     },
     {
      "form": "vedi",
@@ -1402,10 +1427,14 @@
     "you think"
    ],
    "to": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "tense": "pres",
    "subject": "2",
    "candidates": [
+    {
+     "form": "denkt",
+     "lang": "de"
+    },
     {
      "form": "denkt",
      "lang": "nl"
@@ -1417,6 +1446,10 @@
     {
      "form": "denken",
      "lang": "nl"
+    },
+    {
+     "form": "denkst",
+     "lang": "de"
     },
     {
      "form": "pensas",
@@ -1465,6 +1498,10 @@
     {
      "form": "dite",
      "lang": "it"
+    },
+    {
+     "form": "sagt",
+     "lang": "de"
     },
     {
      "form": "zegt",
@@ -1517,6 +1554,10 @@
     {
      "form": "dás",
      "lang": "pt"
+    },
+    {
+     "form": "gebt",
+     "lang": "de"
     }
    ]
   },
@@ -1949,11 +1990,15 @@
    "from": [
     "you came"
    ],
-   "to": "kwam",
-   "lang": "nl",
+   "to": "kamt",
+   "lang": "de",
    "tense": "past",
    "subject": "2",
    "candidates": [
+    {
+     "form": "kamt",
+     "lang": "de"
+    },
     {
      "form": "kwam",
      "lang": "nl"
@@ -1981,6 +2026,10 @@
     {
      "form": "zag",
      "lang": "nl"
+    },
+    {
+     "form": "saht",
+     "lang": "de"
     }
    ]
   },
@@ -2019,12 +2068,20 @@
      "lang": "nl"
     },
     {
+     "form": "fandet",
+     "lang": "de"
+    },
+    {
      "form": "vonden",
      "lang": "nl"
     },
     {
      "form": "achaste",
      "lang": "pt"
+    },
+    {
+     "form": "fandest",
+     "lang": "de"
     },
     {
      "form": "trouvas",
@@ -2075,12 +2132,20 @@
      "lang": "it"
     },
     {
+     "form": "wolltet",
+     "lang": "de"
+    },
+    {
      "form": "quiseste",
      "lang": "pt"
     },
     {
      "form": "quisiste",
      "lang": "es"
+    },
+    {
+     "form": "wolltest",
+     "lang": "de"
     },
     {
      "form": "voulûtes",
@@ -2109,6 +2174,14 @@
     {
      "form": "dachten",
      "lang": "nl"
+    },
+    {
+     "form": "dachtet",
+     "lang": "de"
+    },
+    {
+     "form": "dachtest",
+     "lang": "de"
     },
     {
      "form": "pensaste",
@@ -2177,6 +2250,10 @@
     {
      "form": "gaf",
      "lang": "nl"
+    },
+    {
+     "form": "gabt",
+     "lang": "de"
     }
    ]
   },
@@ -3809,6 +3886,10 @@
     {
      "form": "gaat",
      "lang": "nl"
+    },
+    {
+     "form": "geht",
+     "lang": "de"
     }
    ]
   },
@@ -3829,6 +3910,10 @@
     {
      "form": "komt",
      "lang": "nl"
+    },
+    {
+     "form": "kommt",
+     "lang": "de"
     },
     {
      "form": "viene",
@@ -3899,6 +3984,10 @@
      "lang": "nl"
     },
     {
+     "form": "nimmt",
+     "lang": "de"
+    },
+    {
      "form": "prend",
      "lang": "fr"
     },
@@ -3929,6 +4018,10 @@
     {
      "form": "vindt",
      "lang": "nl"
+    },
+    {
+     "form": "findet",
+     "lang": "de"
     },
     {
      "form": "trouve",
@@ -3974,10 +4067,14 @@
     "he thinks"
    ],
    "to": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "tense": "pres",
    "subject": "3s-he",
    "candidates": [
+    {
+     "form": "denkt",
+     "lang": "de"
+    },
     {
      "form": "denkt",
      "lang": "nl"
@@ -4019,6 +4116,10 @@
      "lang": "pt"
     },
     {
+     "form": "sagt",
+     "lang": "de"
+    },
+    {
      "form": "zegt",
      "lang": "nl"
     }
@@ -4053,6 +4154,10 @@
     {
      "form": "weet",
      "lang": "nl"
+    },
+    {
+     "form": "weiß",
+     "lang": "de"
     }
    ]
   },
@@ -4077,6 +4182,10 @@
     {
      "form": "dá",
      "lang": "pt"
+    },
+    {
+     "form": "gibt",
+     "lang": "de"
     },
     {
      "form": "donne",
@@ -4341,11 +4450,15 @@
    "from": [
     "he came"
    ],
-   "to": "kwam",
-   "lang": "nl",
+   "to": "kam",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-he",
    "candidates": [
+    {
+     "form": "kam",
+     "lang": "de"
+    },
     {
      "form": "kwam",
      "lang": "nl"
@@ -4365,11 +4478,15 @@
    "from": [
     "he saw"
    ],
-   "to": "vio",
-   "lang": "es",
+   "to": "sah",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-he",
    "candidates": [
+    {
+     "form": "sah",
+     "lang": "de"
+    },
     {
      "form": "vio",
      "lang": "es"
@@ -4407,6 +4524,10 @@
      "lang": "nl"
     },
     {
+     "form": "nahm",
+     "lang": "de"
+    },
+    {
      "form": "prit",
      "lang": "fr"
     },
@@ -4421,11 +4542,15 @@
    "from": [
     "he found"
    ],
-   "to": "vond",
-   "lang": "nl",
+   "to": "fand",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-he",
    "candidates": [
+    {
+     "form": "fand",
+     "lang": "de"
+    },
     {
      "form": "vond",
      "lang": "nl"
@@ -4473,6 +4598,10 @@
     {
      "form": "voulut",
      "lang": "fr"
+    },
+    {
+     "form": "wollte",
+     "lang": "de"
     }
    ]
   },
@@ -4501,6 +4630,10 @@
     {
      "form": "pensó",
      "lang": "es"
+    },
+    {
+     "form": "dachte",
+     "lang": "de"
     },
     {
      "form": "pensou",
@@ -5813,6 +5946,10 @@
     {
      "form": "gaat",
      "lang": "nl"
+    },
+    {
+     "form": "geht",
+     "lang": "de"
     }
    ]
   },
@@ -5833,6 +5970,10 @@
     {
      "form": "komt",
      "lang": "nl"
+    },
+    {
+     "form": "kommt",
+     "lang": "de"
     },
     {
      "form": "viene",
@@ -5903,6 +6044,10 @@
      "lang": "nl"
     },
     {
+     "form": "nimmt",
+     "lang": "de"
+    },
+    {
      "form": "prend",
      "lang": "fr"
     },
@@ -5933,6 +6078,10 @@
     {
      "form": "vindt",
      "lang": "nl"
+    },
+    {
+     "form": "findet",
+     "lang": "de"
     },
     {
      "form": "trouve",
@@ -5978,10 +6127,14 @@
     "she thinks"
    ],
    "to": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "tense": "pres",
    "subject": "3s-she",
    "candidates": [
+    {
+     "form": "denkt",
+     "lang": "de"
+    },
     {
      "form": "denkt",
      "lang": "nl"
@@ -6023,6 +6176,10 @@
      "lang": "pt"
     },
     {
+     "form": "sagt",
+     "lang": "de"
+    },
+    {
      "form": "zegt",
      "lang": "nl"
     }
@@ -6057,6 +6214,10 @@
     {
      "form": "weet",
      "lang": "nl"
+    },
+    {
+     "form": "weiß",
+     "lang": "de"
     }
    ]
   },
@@ -6081,6 +6242,10 @@
     {
      "form": "dá",
      "lang": "pt"
+    },
+    {
+     "form": "gibt",
+     "lang": "de"
     },
     {
      "form": "donne",
@@ -6345,11 +6510,15 @@
    "from": [
     "she came"
    ],
-   "to": "kwam",
-   "lang": "nl",
+   "to": "kam",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-she",
    "candidates": [
+    {
+     "form": "kam",
+     "lang": "de"
+    },
     {
      "form": "kwam",
      "lang": "nl"
@@ -6373,11 +6542,15 @@
    "from": [
     "she saw"
    ],
-   "to": "vio",
-   "lang": "es",
+   "to": "sah",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-she",
    "candidates": [
+    {
+     "form": "sah",
+     "lang": "de"
+    },
     {
      "form": "vio",
      "lang": "es"
@@ -6415,6 +6588,10 @@
      "lang": "nl"
     },
     {
+     "form": "nahm",
+     "lang": "de"
+    },
+    {
      "form": "prit",
      "lang": "fr"
     },
@@ -6433,11 +6610,15 @@
    "from": [
     "she found"
    ],
-   "to": "vond",
-   "lang": "nl",
+   "to": "fand",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-she",
    "candidates": [
+    {
+     "form": "fand",
+     "lang": "de"
+    },
     {
      "form": "vond",
      "lang": "nl"
@@ -6489,6 +6670,10 @@
     {
      "form": "voulut",
      "lang": "fr"
+    },
+    {
+     "form": "wollte",
+     "lang": "de"
     }
    ]
   },
@@ -6517,6 +6702,10 @@
     {
      "form": "pensó",
      "lang": "es"
+    },
+    {
+     "form": "dachte",
+     "lang": "de"
     },
     {
      "form": "pensou",
@@ -7845,6 +8034,10 @@
     {
      "form": "gaat",
      "lang": "nl"
+    },
+    {
+     "form": "geht",
+     "lang": "de"
     }
    ]
   },
@@ -7865,6 +8058,10 @@
     {
      "form": "komt",
      "lang": "nl"
+    },
+    {
+     "form": "kommt",
+     "lang": "de"
     },
     {
      "form": "viene",
@@ -7935,6 +8132,10 @@
      "lang": "nl"
     },
     {
+     "form": "nimmt",
+     "lang": "de"
+    },
+    {
      "form": "prend",
      "lang": "fr"
     },
@@ -7965,6 +8166,10 @@
     {
      "form": "vindt",
      "lang": "nl"
+    },
+    {
+     "form": "findet",
+     "lang": "de"
     },
     {
      "form": "trouve",
@@ -8010,10 +8215,14 @@
     "it thinks"
    ],
    "to": "denkt",
-   "lang": "nl",
+   "lang": "de",
    "tense": "pres",
    "subject": "3s-it",
    "candidates": [
+    {
+     "form": "denkt",
+     "lang": "de"
+    },
     {
      "form": "denkt",
      "lang": "nl"
@@ -8055,6 +8264,10 @@
      "lang": "pt"
     },
     {
+     "form": "sagt",
+     "lang": "de"
+    },
+    {
      "form": "zegt",
      "lang": "nl"
     }
@@ -8089,6 +8302,10 @@
     {
      "form": "weet",
      "lang": "nl"
+    },
+    {
+     "form": "weiß",
+     "lang": "de"
     }
    ]
   },
@@ -8113,6 +8330,10 @@
     {
      "form": "dá",
      "lang": "pt"
+    },
+    {
+     "form": "gibt",
+     "lang": "de"
     },
     {
      "form": "donne",
@@ -8455,6 +8676,10 @@
      "lang": "nl"
     },
     {
+     "form": "ging",
+     "lang": "de"
+    },
+    {
      "form": "andò",
      "lang": "it"
     }
@@ -8465,11 +8690,15 @@
    "from": [
     "it came"
    ],
-   "to": "kwam",
-   "lang": "nl",
+   "to": "kam",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-it",
    "candidates": [
+    {
+     "form": "kam",
+     "lang": "de"
+    },
     {
      "form": "kwam",
      "lang": "nl"
@@ -8489,11 +8718,15 @@
    "from": [
     "it saw"
    ],
-   "to": "vio",
-   "lang": "es",
+   "to": "sah",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-it",
    "candidates": [
+    {
+     "form": "sah",
+     "lang": "de"
+    },
     {
      "form": "vio",
      "lang": "es"
@@ -8531,6 +8764,10 @@
      "lang": "nl"
     },
     {
+     "form": "nahm",
+     "lang": "de"
+    },
+    {
      "form": "prit",
      "lang": "fr"
     },
@@ -8545,11 +8782,15 @@
    "from": [
     "it found"
    ],
-   "to": "vond",
-   "lang": "nl",
+   "to": "fand",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-it",
    "candidates": [
+    {
+     "form": "fand",
+     "lang": "de"
+    },
     {
      "form": "vond",
      "lang": "nl"
@@ -8597,6 +8838,10 @@
     {
      "form": "voulut",
      "lang": "fr"
+    },
+    {
+     "form": "wollte",
+     "lang": "de"
     }
    ]
   },
@@ -8625,6 +8870,10 @@
     {
      "form": "pensó",
      "lang": "es"
+    },
+    {
+     "form": "dachte",
+     "lang": "de"
     },
     {
      "form": "pensou",
@@ -9950,10 +10199,14 @@
     "we think"
    ],
    "to": "denken",
-   "lang": "nl",
+   "lang": "de",
    "tense": "pres",
    "subject": "1p",
    "candidates": [
+    {
+     "form": "denken",
+     "lang": "de"
+    },
     {
      "form": "denken",
      "lang": "nl"
@@ -10153,11 +10406,15 @@
    "from": [
     "we found"
    ],
-   "to": "vonden",
-   "lang": "nl",
+   "to": "fanden",
+   "lang": "de",
    "tense": "past",
    "subject": "1p",
    "candidates": [
+    {
+     "form": "fanden",
+     "lang": "de"
+    },
     {
      "form": "vonden",
      "lang": "nl"
@@ -10191,6 +10448,10 @@
      "lang": "it"
     },
     {
+     "form": "wollten",
+     "lang": "de"
+    },
+    {
      "form": "quisemos",
      "lang": "pt"
     },
@@ -10210,10 +10471,14 @@
     "we thought"
    ],
    "to": "dachten",
-   "lang": "nl",
+   "lang": "de",
    "tense": "past",
    "subject": "1p",
    "candidates": [
+    {
+     "form": "dachten",
+     "lang": "de"
+    },
     {
      "form": "dachten",
      "lang": "nl"
@@ -11142,10 +11407,14 @@
     "they think"
    ],
    "to": "denken",
-   "lang": "nl",
+   "lang": "de",
    "tense": "pres",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "denken",
+     "lang": "de"
+    },
     {
      "form": "denken",
      "lang": "nl"
@@ -11417,11 +11686,15 @@
    "from": [
     "they found"
    ],
-   "to": "vonden",
-   "lang": "nl",
+   "to": "fanden",
+   "lang": "de",
    "tense": "past",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "fanden",
+     "lang": "de"
+    },
     {
      "form": "vonden",
      "lang": "nl"
@@ -11451,6 +11724,10 @@
      "lang": "it"
     },
     {
+     "form": "wollten",
+     "lang": "de"
+    },
+    {
      "form": "quiseram",
      "lang": "pt"
     }
@@ -11462,10 +11739,14 @@
     "they thought"
    ],
    "to": "dachten",
-   "lang": "nl",
+   "lang": "de",
    "tense": "past",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "dachten",
+     "lang": "de"
+    },
     {
      "form": "dachten",
      "lang": "nl"
@@ -13797,6 +14078,10 @@
     {
      "form": "who weet",
      "lang": "nl"
+    },
+    {
+     "form": "who weiß",
+     "lang": "de"
     }
    ]
   },
@@ -13821,6 +14106,10 @@
     {
      "form": "who dá",
      "lang": "pt"
+    },
+    {
+     "form": "who gibt",
+     "lang": "de"
     }
    ]
   },
@@ -14281,6 +14570,10 @@
     {
      "form": "which weet",
      "lang": "nl"
+    },
+    {
+     "form": "which weiß",
+     "lang": "de"
     }
    ]
   },
@@ -14305,6 +14598,10 @@
     {
      "form": "which dá",
      "lang": "pt"
+    },
+    {
+     "form": "which gibt",
+     "lang": "de"
     }
    ]
   },
@@ -14765,6 +15062,10 @@
     {
      "form": "que weet",
      "lang": "nl"
+    },
+    {
+     "form": "que weiß",
+     "lang": "de"
     }
    ]
   },
@@ -14789,6 +15090,10 @@
     {
      "form": "que dá",
      "lang": "pt"
+    },
+    {
+     "form": "que gibt",
+     "lang": "de"
     }
    ]
   },

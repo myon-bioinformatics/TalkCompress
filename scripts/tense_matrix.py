@@ -1,7 +1,7 @@
 """Person × tense coverage matrix for the B-final short-tense bank.
 
 Builds every (subject, tense, verb) cell for the existing high-frequency verb
-set, scores live-language candidates (es/fr/pt/it/nl/el) with
+set, scores live-language candidates (es/fr/pt/it/nl/de/el) with
 ``estimate_tokens`` + utf8, and writes:
 
 * ``TesseraTalk/fixtures/tense_matrix.json`` — adopted cells only (runtime bank)
@@ -27,6 +27,10 @@ English-homograph guard (same function as runtime,
 ``tessera_talk.en_homograph_tokens``): a candidate with any token spelled like
 an English word (es ``he visto``, pt ``fora``, es ``van``, pt ``a`` …) is
 dropped before ranking; the next-cheapest unique form wins, else EN stays.
+
+German (de) competes Präsens / Präteritum with du / ihr for you (never Sie).
+Tie rule: where de ties nl on (tokens, utf8) de wins; nl stays only when strictly
+cheaper. Against other langs the plain token → utf8 → len → form order applies.
 
 Progressive (be + -ing) only competes progressive-preserving periphrases —
 es estar + gerundio, pt estar + gerúndio / estar a + inf, it stare +
@@ -138,6 +142,26 @@ NL_PAST = {
     "go": "ging gingen", "come": "kwam kwamen", "do": "deed deden", "see": "zag zagen",
     "take": "nam namen", "find": "vond vonden", "want": "wilde wilden", "have": "had hadden",
     "think": "dacht dachten", "say": "zei zeiden", "know": "wist wisten", "give": "gaf gaven",
+}
+# de: P6 order (1s ich, 2s du, 3s er/sie/es, 1p wir, 2p ihr, 3p sie). Never Sie
+# (formal = 3p form → collapses into they after subject drop, like usted).
+DE_PRES = {
+    "go": "gehe gehst geht gehen geht gehen", "come": "komme kommst kommt kommen kommt kommen",
+    "do": "tue tust tut tun tut tun", "see": "sehe siehst sieht sehen seht sehen",
+    "take": "nehme nimmst nimmt nehmen nehmt nehmen", "find": "finde findest findet finden findet finden",
+    "want": "will willst will wollen wollt wollen", "have": "habe hast hat haben habt haben",
+    "think": "denke denkst denkt denken denkt denken", "say": "sage sagst sagt sagen sagt sagen",
+    "know": "weiß weißt weiß wissen wisst wissen", "give": "gebe gibst gibt geben gebt geben",
+}
+DE_PAST = {
+    "go": "ging gingst ging gingen gingt gingen", "come": "kam kamst kam kamen kamt kamen",
+    "do": "tat tatest tat taten tatet taten", "see": "sah sahst sah sahen saht sahen",
+    "take": "nahm nahmst nahm nahmen nahmt nahmen", "find": "fand fandest fand fanden fandet fanden",
+    "want": "wollte wolltest wollte wollten wolltet wollten",
+    "have": "hatte hattest hatte hatten hattet hatten",
+    "think": "dachte dachtest dachte dachten dachtet dachten",
+    "say": "sagte sagtest sagte sagten sagtet sagten",
+    "know": "wusste wusstest wusste wussten wusstet wussten", "give": "gab gabst gab gaben gabt gaben",
 }
 # el aorist (simple past): 3s, 1p, 3p — single words; future needs θα (multiword).
 EL_AOR = {
@@ -285,13 +309,19 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
             zijn = NL_ZIJN[tense].split()[{"1s": 0, "2s": 1, "3s": 2}.get(slot, 3)]
             tail = " zijn" if tense == "futprog" else ""
             add(f"{zijn} aan het {nl_pres[2]}{tail}", "nl", "prog-aan-het", tag)
+        # de (Präsens / Präteritum; slot 2s = du, 2p = ihr, usted-slot 3s/3p = er/sie)
+        if tense in ("pres", "past"):
+            de = (DE_PRES if tense == "pres" else DE_PAST)[verb].split()[P6.index(slot)]
+            add(de, "de", "simple", tag)
         # el aorist
         if tense == "past" and verb in EL_AOR and slot in ("3s", "1p", "3p"):
             add(EL_AOR[verb].split()[("3s", "1p", "3p").index(slot)], "el", "simple", tag)
     seen: set[str] = set()
     uniq = []
     for c in out:
-        k = (c["form"], c["lang"])
+        # de 2p (ihr) often equals 3s (er): keep the genuine 2nd-person copy too,
+        # so the usted filter below does not drop the ihr form with its 3s twin.
+        k = (c["form"], c["lang"], c["number"] if c["lang"] == "de" else "")
         if k not in seen:
             seen.add(k)
             uniq.append(c)
@@ -359,8 +389,16 @@ def build() -> tuple[dict, dict, str]:
                     cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
                     continue
                 scored = sorted(
-                    cands, key=lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"])
+                    cands,
+                    key=lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"]),
                 )
+                # de-over-nl tie rule (runtime twin: tessera_talk.prefer_on_tie)
+                if scored[0]["lang"] == "nl":
+                    m0 = (tok(scored[0]["form"]), u8(scored[0]["form"]))
+                    tie = [c for c in scored if c["lang"] == "de" and (tok(c["form"]), u8(c["form"])) == m0]
+                    if tie:
+                        scored.remove(tie[0])
+                        scored.insert(0, tie[0])
                 best = scored[0]
                 cell.update(
                     best=best["form"], lang=best["lang"], shape=best["shape"], number=best["number"],
@@ -454,6 +492,7 @@ def build() -> tuple[dict, dict, str]:
             "Relatives only with number-marking aux (is/are, has/have, was/were); bare 'that' (multi-POS) always stays EN.",
             "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",
             "Progressive: only progressive-preserving periphrases (estar/stare + gerund, estar a + inf, être en train de, aan het); no simple-tense fallback.",
+            "de (Präsens/Präteritum, du/ihr, never Sie) competes; de wins (tokens, utf8) ties against nl, nl kept only when strictly cheaper.",
             "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete.",
         ],
         "entries": entries,
