@@ -94,6 +94,15 @@ def gate_for(data: dict, scope: str):
     return gate
 
 
+REQUIRED_RULES = (("nl", "perf"),)  # (lang, tense) whose bank winners need round-trip
+
+
+def required_keys(bank: dict) -> list[str]:
+    """Bank winners that must carry a round-trip record (nl preterite for EN perfect)."""
+    return sorted({key(e["lang"], e["to"]) for e in bank["entries"]
+                   if (e["lang"], e["tense"]) in REQUIRED_RULES})
+
+
 def _winners(bank: dict) -> dict[str, tuple[str, str, str]]:
     return {e["id"]: (e["from"][0], e["to"], e["lang"]) for e in bank["entries"]}
 
@@ -143,6 +152,26 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
     return data
 
 
+def impact_doc(data: dict) -> str:
+    import tense_matrix as tm
+
+    bank = tm.build()[0]
+    rows = impact(data, "lt100m")
+    lines = [f"{k}\t{src}\t{old}\t->\t{new}" for k, src, old, new in rows]
+    flip = {k: f"{old} -> {new}" for k, _s, old, new in rows}
+    req = [e for e in bank["entries"] if (e["lang"], e["tense"]) in REQUIRED_RULES]
+    out = [
+        "# 往復チェック強制時の影響（report-only、記録0件時点）", "",
+        "生成: `uv run python scripts/roundtrip.py --write-doc`（採点は o200k_base）。", "",
+        "## 往復チェック必須の nl 過去形（現在完了セル）", "",
+        f"nl（1億人未満）の現在完了セル採用 {len(req)} 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。", "",
+        "| id | EN | 採用 | lt100m 強制時 |", "|---|---|---|---|",
+    ]
+    out += [f"| {e['id']} | {e['from'][0]} | {e['to']} | {flip.get(e['id'], '(変化なし)')} |" for e in req]
+    out += ["", f"## 全件（`--impact lt100m`、{len(lines)}件）", "", "```", *lines, "```", ""]
+    return "\n".join(out)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--status", action="store_true")
@@ -150,6 +179,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--cmd")
     ap.add_argument("--lang")
+    ap.add_argument("--write-doc", action="store_true")
+    ap.add_argument("--sync-required", action="store_true",
+                    help="rewrite data['required'] from the current bank")
     a = ap.parse_args(argv)
     data = load()
     if a.run:
@@ -157,6 +189,13 @@ def main(argv: list[str] | None = None) -> int:
             ap.error("--run needs --cmd")
         DATA_PATH.write_text(json.dumps(run(data, a.cmd, only_lang=a.lang), ensure_ascii=False, indent=2) + "\n",
                              encoding="utf-8")
+    if a.sync_required:
+        import tense_matrix as tm
+
+        data["required"] = required_keys(tm.build()[0])
+        DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if a.write_doc:
+        (ROOT / "docs/roundtrip_impact.md").write_text(impact_doc(data), encoding="utf-8")
     if a.status:
         import tense_matrix as tm
         from collections import Counter

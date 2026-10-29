@@ -9,7 +9,11 @@ authors = [{ name = "myon" }]
 dependencies = []
 
 [dependency-groups]
-dev = ["pytest>=8"]
+dev = [
+    "pytest>=8",
+    "tiktoken>=0.14.0",
+    "tokenizers>=0.23.3",
+]
 # Opt-in live MT for TesseraTalk --translate-engine=deep (not pulled by default uv sync).
 # Argos is intentionally omitted here (heavy language packs); install manually if needed.
 translate = ["deep-translator>=1.11.4"]

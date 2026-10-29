@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -387,6 +388,9 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
             add(nl_pres[nl_i], "nl", "simple", tag)
         if tense == "past":
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple", tag)
+        if tense == "perf":
+            # nl preterite for EN present perfect (same policy as es/pt preterite)
+            add(nl_past[0 if nl_i < 2 else 1], "nl", "simple-preterite", tag)
         if tense in PROG:
             zijn = NL_ZIJN[tense].split()[{"1s": 0, "2s": 1, "3s": 2}.get(slot, 3)]
             tail = " zijn" if tense == "futprog" else ""
@@ -395,6 +399,9 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
         if tense in ("pres", "past"):
             de = (DE_PRES if tense == "pres" else DE_PAST)[verb].split()[P6.index(slot)]
             add(de, "de", "simple", tag)
+        if tense == "perf":
+            # de Präteritum for EN present perfect (same policy as es/pt preterite)
+            add(DE_PAST[verb].split()[P6.index(slot)], "de", "simple-preterite", tag)
         # cs / pl (fut, perf only)
         if tense in ("fut", "perf"):
             for f, L, shape in _slavic(verb, tense, slot):
@@ -529,6 +536,39 @@ def _existing_sources(t) -> set[str]:
     return srcs
 
 
+_ENC = None
+
+
+def o200k_tokens(s: str) -> int:
+    """Real o200k_base token count, scored mid-sentence (leading space).
+    Build-time only (uv dev group); runtime tessera_talk never imports tiktoken."""
+    global _ENC
+    if _ENC is None:
+        import tiktoken
+
+        _ENC = tiktoken.get_encoding("o200k_base")
+    return len(_ENC.encode(" " + s))
+
+
+_EN_CONTRACT = [
+    (r"\b(I|you|we|they|who) have\b", r"\1've"), (r"\b(he|she|it|who|that) has\b", r"\1's"),
+    (r"\b(I|you|we|they|he|she|it|who|that) will\b", r"\1'll"),
+    (r"\b(I|you|we|they|he|she|it|who) had\b", r"\1'd"),
+    (r"\bI am\b", "I'm"), (r"\b(you|we|they|who) are\b", r"\1're"),
+    (r"\b(he|she|it|who|that) is\b", r"\1's"),
+]
+
+
+def en_baselines(src: str) -> list[str]:
+    """EN source plus its contracted spellings (we've, they're, I'll ...)."""
+    out = [src]
+    for pat, rep in _EN_CONTRACT:
+        v = re.sub(pat, rep, out[0], count=1)
+        if v != out[0]:
+            out.append(v)
+    return out
+
+
 def build(gate=None) -> tuple[dict, dict, str]:
     """Rebuild bank / report / md. ``gate(form, lang) -> bool`` (optional) drops
     candidates before ranking — used by scripts/roundtrip.py impact reports only;
@@ -539,7 +579,7 @@ def build(gate=None) -> tuple[dict, dict, str]:
     conj = json.loads(CONJ_PATH.read_text(encoding="utf-8"))["conj"]
     existing = _existing_sources(t)
     reg = form_registry(conj)
-    tok = t.estimate_tokens
+    tok = o200k_tokens
     u8 = lambda s: len(s.encode("utf-8"))  # noqa: E731
     cells: list[dict] = []
     entries: list[dict] = []
@@ -577,7 +617,9 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     if gated:
                         cell["roundtrip_gated"] = gated
                         cands = [c for c in cands if c["form"] not in gated]
-                st, su = tok(src), u8(src)
+                en_best = min(en_baselines(src), key=lambda f: (tok(f), u8(f)))
+                st, su = tok(en_best), u8(en_best)
+                cell["en_best"] = en_best
                 # English-homograph guard (runtime twin): drop candidates with an
                 # EN-spelled token; keep the measured losers for the report.
                 head = surf if keep else ""
@@ -619,11 +661,11 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     best=best["form"], lang=best["lang"], shape=best["shape"], number=best["number"],
                     tok=[st, tok(best["form"])], utf8=[su, u8(best["form"])],
                 )
-                shrink = [c for c in scored if tok(c["form"]) < st and u8(c["form"]) <= su]
+                shrink = [c for c in scored if (tok(c["form"]), u8(c["form"])) < (st, su)]
                 cell["_pending"] = {
                     "src": src, "label": label, "best": best, "scored": scored, "kind": kind,
                     "num_key": (person, num), "keepc": shrink, "st": st, "su": su,
-                    "homo_shrinks": any(tok(h["form"]) < st and u8(h["form"]) < su for h in homo),
+                    "homo_shrinks": any((tok(h["form"]), u8(h["form"])) < (st, su) for h in homo),
                     "cls": _parity_class(sub),
                 }
     # class-level decision: adopt iff for EVERY member token strictly shrinks and
@@ -645,14 +687,14 @@ def build(gate=None) -> tuple[dict, dict, str]:
             vw = class_verb[(p0["num_key"], tense, verb)]
             head = p["src"].split(" ", 1)[0]
             hit = [k for k in p["scored"] if vw and k["form"] == f"{head} {vw}"]
-            if hit and tok(hit[0]["form"]) < p["st"] and u8(hit[0]["form"]) < p["su"]:
+            if hit and (tok(hit[0]["form"]), u8(hit[0]["form"])) < (p["st"], p["su"]):
                 b = hit[0]
                 c.update(status="adopt", best=b["form"], lang=b["lang"], shape=b["shape"], number=b["number"],
                          tok=[p["st"], tok(b["form"])], utf8=[p["su"], u8(b["form"])], parity_verb=vw)
                 c["_entry"] = {
                     "id": f"mx-{verb}-{tense}-{p['label']}", "from": [p["src"]], "to": b["form"],
                     "lang": b["lang"], "tense": tense, "subject": p["label"],
-                    "candidates": [{"form": b["form"], "lang": b["lang"]}],
+                    "candidates": [{"form": b["form"], "lang": b["lang"]}], "scored_by": "o200k_base",
                 }
             elif vw:
                 c.update(status="reject", parity_verb=vw,
@@ -662,11 +704,9 @@ def build(gate=None) -> tuple[dict, dict, str]:
             continue
         def ok(c):
             p = c["_pending"]
-            return tok(p["best"]["form"]) < p["st"] and u8(p["best"]["form"]) <= p["su"]
+            return (tok(p["best"]["form"]), u8(p["best"]["form"])) < (p["st"], p["su"])
         oks = [ok(c) for c in members]
-        adopt = all(oks) and any(
-            u8(c["_pending"]["best"]["form"]) < c["_pending"]["su"] for c in members
-        )
+        adopt = all(oks)
         if p0["kind"] == "pron" and p0["num_key"][0] in ("3s", "3p"):
             class_verb[(p0["num_key"], tense, verb)] = p0["best"]["form"] if adopt else None
         for c in members:
@@ -684,7 +724,8 @@ def build(gate=None) -> tuple[dict, dict, str]:
                         "lang": best["lang"],
                         "tense": tense,
                         "subject": p["label"],
-                        "candidates": [{"form": k["form"], "lang": k["lang"]} for k in p["keepc"]],
+                        "candidates": [{"form": best["form"], "lang": best["lang"]}],
+                        "scored_by": "o200k_base",
                     }
                 )
             elif p["homo_shrinks"]:

@@ -8,7 +8,13 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+import sys
+from pathlib import Path
+
 import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import tense_matrix as tm  # noqa: E402
 
 from tests._helpers import load as _load
 
@@ -49,12 +55,10 @@ def test_matrix_to_is_runtime_winner_and_shrinks(e):
     for src in e["from"][:1]:
         out = t.apply_es_fr_tense(src)
         assert out == e["to"], (src, out)
-        assert t.estimate_tokens(out) < t.estimate_tokens(src)
-        # parity classes: utf8 never grows; strict shrink is required class-wide
-        # (>=1 member), e.g. he/it is doing (11→11) ride on she is doing (12→11).
-        assert len(out.encode()) <= len(src.encode())
-        if "parity_class" not in _CELL_BY_ID.get(e["id"], {}):
-            assert len(out.encode()) < len(src.encode())
+        # o200k_base (leading space): strictly beats EN's cheapest spelling
+        # (contractions included) on (tokens, utf8).
+        en = min(tm.en_baselines(src), key=lambda f: (tm.o200k_tokens(f), len(f.encode())))
+        assert (tm.o200k_tokens(out), len(out.encode())) < (tm.o200k_tokens(en), len(en.encode()))
         assert t.apply_es_fr_tense(src) == out  # deterministic
         if e["subject"].startswith(("dem-", "rel-")):
             assert out.split(" ", 1)[0].lower() == src.split(" ", 1)[0].lower()
@@ -98,7 +102,8 @@ def test_no_token_increase_on_sentences():
     t = _t()
     for c in CELLS:
         s = f"{c['src']} today."
-        assert t.estimate_tokens(t.apply_es_fr_tense(s)) <= t.estimate_tokens(s)
+        o = t.apply_es_fr_tense(s)
+        assert tm.o200k_tokens(o) <= tm.o200k_tokens(s), (s, o)
 
 
 # --- EN-homograph guard ----------------------------------------------------
@@ -135,7 +140,7 @@ def test_en_homograph_tokens_keeps_subject_head():
         ("I give", "dou"),  # "do" (EN) dropped → next-cheapest unique
         ("I came", "kam"),  # vim / vine dropped → matrix de (kam ≺ kwam)
         ("I saw", "sah"),  # vi dropped → matrix de (sah ties vis, form order)
-        ("I have seen it", "ai vu it"),  # he visto dropped
+        ("I have seen it", "sah it"),  # de preterite (he visto dropped)
         ("I am", "I am"),  # sou / soy both EN → EN kept
     ],
 )
@@ -216,8 +221,8 @@ def test_progressive_hand_rows_not_simple_present():
 
 @pytest.mark.parametrize(
     ("s", "want"),
-    [("he is going", "está indo"), ("he was going", "estava indo"), ("I will be going", "estarei indo"),
-     ("we will be doing", "staremo facendo")],
+    [("he was going", "estava indo"), ("I will be going", "estarei indo"),
+     ("we will be doing", "estaremos fazendo")],
 )
 def test_progressive_examples(s, want):
     assert _t().apply_es_fr_tense(s) == want
@@ -267,7 +272,8 @@ def test_parity_class_same_verb_winner(cls):
 
 @pytest.mark.parametrize("subj", ["he", "she", "it"])
 def test_3sg_is_doing_parity_runtime(subj):
-    assert _t().apply_es_fr_tense(f"{subj} is doing") == "sta facendo"
+    # o200k: EN "he's doing" (2 tok) is cheapest → EN kept for the whole 3sg class
+    assert _t().apply_es_fr_tense(f"{subj} is doing") == f"{subj} is doing"
 
 
 def test_that_stays_unconverted():
@@ -282,7 +288,7 @@ def test_that_stays_unconverted():
         ("the book which was read", "the book que was read"),  # which (2 tok) → que (1 tok)
         ("people who went", "people who went"),  # number-neutral verb stays EN
         ("the man who has gone", "the man who foi"),  # has → sg
-        ("the man that has seen it", "the man que vio it"),  # DET+NOUN+that → que, has → sg
+        ("the man that has seen it", "the man que sah it"),  # DET+NOUN+that → que, has → sg
         ("the fact that he left", "the fact that he left"),  # complementizer
         ("the proposition that all men are", "the proposition that all men are"),
         ("Who is going?", "Who is going?"),  # interrogative (no noun before) untouched
@@ -324,9 +330,9 @@ def test_relative_connective_single_neutral_form():
     ("s", "want"),
     [
         ("they have gone", "foram"),  # cs/pl gendered past barred for 3pl (parity w/ these/those)
-        ("he will take", "vezme"),  # cs perfective future, gender-neutral
-        ("she will take", "vezme"),  # he/she/it parity
-        ("it will take", "vezme"),
+        ("he will take", "prendra"),  # o200k: fr 1 tok beats cs vezme
+        ("she will take", "prendra"),  # he/she/it parity
+        ("it will take", "prendra"),
         ("we will give", "damy"),  # pl perfective future
         ("you will give", "dasz"),
         ("these will give", "these dají"),

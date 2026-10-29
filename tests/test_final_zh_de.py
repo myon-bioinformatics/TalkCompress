@@ -84,7 +84,8 @@ def test_es_fr_tense_progressive_keeps_aspect():
     src = "I'm going now."
     out = t.apply_es_fr_tense(src)
     assert out == src
-    assert t.apply_es_fr_tense("he is going") == "está indo"
+    # o200k: EN "he's going" (2 tok) is cheapest → EN kept
+    assert t.apply_es_fr_tense("he is going") == "he is going"
 
 
 def test_es_fr_tense_bank_all_drop_tokens():
@@ -262,7 +263,6 @@ def test_tense_before_after_examples():
         ("I said", ("dije",)),
         ("I could", ("pude",)),
         ("I would like", ("gostaria", "quisiera")),
-        ("he is going", ("está indo",)),
         ("I am going to go", ("vou", "iré", "irei", "πάω")),
         ("I'm going to leave", ("saldré", "vou sair")),
         ("I came", ("kam",)),
