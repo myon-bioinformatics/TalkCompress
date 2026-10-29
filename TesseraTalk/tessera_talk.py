@@ -1594,6 +1594,27 @@ def apply_relative_que(text: str) -> str:
     return _REL_PRON_RE.sub(_sub, text or "")
 
 
+# Second person ``you`` → ``U`` (1 char). Same token count but utf8 3→1 bytes,
+# so the cheapest rule (tokens → utf8) picks it whenever no bank row wins.
+# Runs AFTER phrase/tense rows: a matrix row (du/tú/vosotros …) strictly drops
+# tokens and so always beats ``U <EN chain>``; rows blocked by a guard (pro-drop
+# off clause start, aux+pp, modal, have-to) leave ``you`` → it becomes ``U`` here.
+# ``U`` is case- and number-neutral (subject/object, sg/pl): the following EN
+# aux/verb keeps tense/number, so no person collapse. Excluded: your / yours /
+# yourself (word boundary) and contractions you'd / you're / you've / you'll
+# ('d/'s type detection keeps the EN contraction).
+_YOU_RE = re.compile(r"(?<![A-Za-z0-9'’])you(?![A-Za-z0-9'’])", re.IGNORECASE)
+YOU_FORM = "U"
+
+
+def apply_you_u(text: str) -> str:
+    """``you`` → ``U`` when cheaper (token → utf8); your/yours/yourself/you'X stay."""
+    src = text or ""
+    if estimate_tokens(YOU_FORM) > estimate_tokens("you") or _utf8_len(YOU_FORM) >= _utf8_len("you"):
+        return src
+    return _YOU_RE.sub(YOU_FORM, src)
+
+
 def apply_es_fr_tense(
     text: str,
     *,
@@ -1622,11 +1643,13 @@ def apply_es_fr_tense(
         pt_el_latin_tense_pairs(sibling_bank_path),
         tense_matrix_pairs(),
     )
-    return _apply_phrase_pairs(
-        apply_relative_que(text),
-        pairs,
-        require_token_drop=require_token_drop,
-        homograph_guard=True,
+    return apply_you_u(
+        _apply_phrase_pairs(
+            apply_relative_que(text),
+            pairs,
+            require_token_drop=require_token_drop,
+            homograph_guard=True,
+        )
     )
 
 
