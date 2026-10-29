@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "title": "PD corpus 20(+1) B-final examples",
+  "notes": [
+    "expect = 現行 final_token_pass 実出力（願望形ではない）。",
+    "kind=keep は意図的非変換または未変換で出力不変。want_contains は未達の短形 → xfail。"
+  ],
+  "entries": [
+    {
+      "id": "alice-beginning",
+      "source": "carroll-alice-01.txt",
+      "text": "Alice was beginning to get very tired",
+      "expect": "Alice was beginning to get very tired",
+      "kind": "keep"
+    },
+    {
+      "id": "moby-thought",
+      "source": "melville-moby-01.txt",
+      "text": "I thought I would sail about a little",
+      "expect": "pensé I would sail about a little",
+      "kind": "convert"
+    },
+    {
+      "id": "frank-will-rejoice",
+      "source": "shelley-frank-01.txt",
+      "text": "You will rejoice to hear that no disaster has accompanied",
+      "expect": "You will rejoice to hear that no disaster has accompanied",
+      "kind": "keep"
+    },
+    {
+      "id": "frank-arrived",
+      "source": "shelley-frank-01.txt",
+      "text": "I arrived here yesterday",
+      "expect": "I arrived here yesterday",
+      "kind": "keep",
+      "want_contains": "llegué",
+      "xfail_reason": "arrive-past-1s 未登録（es 単純過去 llegué は今後の tranche）"
+    },
+    {
+      "id": "dickens-it-was",
+      "source": "dickens-two-cities-01.txt",
+      "text": "It was the best of times",
+      "expect": "It was the best of times",
+      "kind": "keep"
+    },
+    {
+      "id": "dracula-should-have",
+      "source": "stoker-dracula-01.txt",
+      "text": "should have arrived at 6:46",
+      "expect": "should have arrived at 6:46",
+      "kind": "keep"
+    },
+    {
+      "id": "dracula-arriving",
+      "source": "stoker-dracula-01.txt",
+      "text": "arriving at Vienna early next morning",
+      "expect": "arriving at Vienna early next morning",
+      "kind": "keep",
+      "want_contains": "llegando",
+      "xfail_reason": "主語なし現在分詞は B-final 対象外（主語付き進行のみ）"
+    },
+    {
+      "id": "aesop-never-beaten",
+      "source": "aesop-tortoise-hare.txt",
+      "text": "I have never yet been beaten",
+      "expect": "I have never yet been beaten",
+      "kind": "keep"
+    },
+    {
+      "id": "aesop-challenge",
+      "source": "aesop-tortoise-hare.txt",
+      "text": "I challenge any one",
+      "expect": "I challenge any one",
+      "kind": "keep",
+      "want_contains": "reto",
+      "xfail_reason": "challenge-pres-1s 未登録（reto は今後候補）"
+    },
+    {
+      "id": "wells-recondite",
+      "source": "wells-time-machine-01.txt",
+      "text": "expounding a recondite matter",
+      "expect": "expounding a recondite matter",
+      "kind": "keep"
+    },
+    {
+      "id": "dracula-train-late",
+      "source": "stoker-dracula-01.txt",
+      "text": "train was an hour late",
+      "expect": "train was an hour late",
+      "kind": "keep"
+    },
+    {
+      "id": "verne-club",
+      "source": "verne-moon-01.txt",
+      "text": "influential club was established in the city of Baltimore",
+      "expect": "influential club was established in the city of Baltimore",
+      "kind": "keep"
+    },
+    {
+      "id": "walden-lived",
+      "source": "thoreau-walden-01.txt",
+      "text": "I lived alone, in the woods",
+      "expect": "I lived alone, in the woods",
+      "kind": "keep",
+      "want_contains": "vivi",
+      "xfail_reason": "live-past-1s は 'I lived' 単独を持たない／cheapest 未勝"
+    },
+    {
+      "id": "emerson-arrives",
+      "source": "emerson-self-reliance-01.txt",
+      "text": "he arrives at the conviction",
+      "expect": "he arrives at the conviction",
+      "kind": "keep"
+    },
+    {
+      "id": "kipling-day-rest",
+      "source": "kipling-jungle-01.txt",
+      "text": "woke up from his day's rest",
+      "expect": "woke up from his day's rest",
+      "kind": "keep"
+    },
+    {
+      "id": "rfc-ip",
+      "source": "rfc-791-ip.txt",
+      "text": "Internet Protocol",
+      "expect": "Internet Protocol",
+      "kind": "keep"
+    },
+    {
+      "id": "rfc-networks",
+      "source": "rfc-791-ip.txt",
+      "text": "packet-switched computer communication networks",
+      "expect": "packet-switched computer communication networks",
+      "kind": "keep"
+    },
+    {
+      "id": "aes-cipher",
+      "source": "nist-fips-197-aes.txt",
+      "text": "symmetric block cipher",
+      "expect": "symmetric block cipher",
+      "kind": "keep"
+    },
+    {
+      "id": "gettysburg-proposition",
+      "source": "gettysburg-01.txt",
+      "text": "dedicated to the proposition that all men are created equal",
+      "expect": "dedicated to the proposition that all men are created equal",
+      "kind": "keep"
+    },
+    {
+      "id": "cdc-wash",
+      "source": "cdc-hygiene-rf.txt",
+      "text": "Wash your hands with soap and water",
+      "expect": "Wash your hands with soap and water",
+      "kind": "keep"
+    },
+    {
+      "id": "london-would-have",
+      "source": "london-call-01.txt",
+      "text": "would have known that trouble was brewing",
+      "expect": "would have known that trouble was brewing",
+      "kind": "keep"
+    }
+  ]
+}

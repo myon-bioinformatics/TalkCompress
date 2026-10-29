@@ -12,7 +12,8 @@
     "Classical Latin conjugations (ibo/ivi/sum…) skipped — prefer surviving modern Romance / live Latin-derived abbrevs (e.g./i.e./etc. stay C).",
     "Progressive *going is not applied when followed by 'to' (going-to future guard in apply_es_fr_tense / _apply_phrase_pairs).",
     "Explicit going-to phrases (I am going to go → iré/vou/…) registered as longer sources.",
-    "Tranche2 1s (~35): take/think/try/find/call/put/bring/write/read/buy/wait/use/open/pay/live/send/stay; skip tell≃say, make≃do, get, ask (pedir/preguntar shaky)."
+    "Tranche2 1s (~35): take/think/try/find/call/put/bring/write/read/buy/wait/use/open/pay/live/send/stay; skip tell≃say, make≃do, get, ask (pedir/preguntar shaky).",
+    "`to`/`lang` は runtime cheapest（token→utf8→len）の実勝者に合わせた名目ラベル。勝者は常に runtime が決める（el πάρω/βρω/πάω/μένω 等が勝つ行あり）。"
   ],
   "entries": [
     {
@@ -21,14 +22,14 @@
         "I will go",
         "I'll go"
       ],
-      "to": "iré",
-      "lang": "es",
+      "to": "vou",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 1,
         "utf8_before": 9,
-        "utf8_after": 4,
+        "utf8_after": 3,
         "both_shrink": true
       },
       "candidates": [
@@ -58,8 +59,8 @@
         "I am going",
         "I'm going"
       ],
-      "to": "voy",
-      "lang": "es",
+      "to": "vou",
+      "lang": "pt",
       "tense": "present",
       "metrics": {
         "token_before": 2,
@@ -116,14 +117,14 @@
       "from": [
         "he will go"
       ],
-      "to": "irá",
-      "lang": "es",
+      "to": "vai",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 1,
         "utf8_before": 10,
-        "utf8_after": 4,
+        "utf8_after": 3,
         "both_shrink": true
       },
       "candidates": [
@@ -142,14 +143,14 @@
       "from": [
         "she will go"
       ],
-      "to": "irá",
-      "lang": "es",
+      "to": "vai",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 1,
         "utf8_before": 11,
-        "utf8_after": 4,
+        "utf8_after": 3,
         "both_shrink": true
       },
       "candidates": [
@@ -184,14 +185,14 @@
       "from": [
         "we will go"
       ],
-      "to": "iremos",
-      "lang": "es",
+      "to": "vamos",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 2,
         "utf8_before": 10,
-        "utf8_after": 6,
+        "utf8_after": 5,
         "both_shrink": true
       },
       "candidates": [
@@ -355,14 +356,14 @@
         "I am going to go",
         "I'm going to go"
       ],
-      "to": "iré",
-      "lang": "es",
+      "to": "vou",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 6,
         "token_after": 1,
         "utf8_before": 16,
-        "utf8_after": 4,
+        "utf8_after": 3,
         "both_shrink": true
       },
       "candidates": [
@@ -557,8 +558,8 @@
       "from": [
         "I am"
       ],
-      "to": "soy",
-      "lang": "es",
+      "to": "sou",
+      "lang": "pt",
       "tense": "present",
       "metrics": {
         "token_before": 2,
@@ -610,14 +611,14 @@
       "from": [
         "I will have"
       ],
-      "to": "tendré",
-      "lang": "es",
+      "to": "terei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 7,
+        "utf8_after": 5,
         "both_shrink": true
       },
       "candidates": [
@@ -1008,14 +1009,14 @@
         "I will take",
         "I'll take"
       ],
-      "to": "tomaré",
-      "lang": "es",
+      "to": "πάρω",
+      "lang": "el",
       "tense": "future",
       "metrics": {
         "token_before": 3,
-        "token_after": 2,
+        "token_after": 1,
         "utf8_before": 11,
-        "utf8_after": 7,
+        "utf8_after": 8,
         "both_shrink": true
       },
       "candidates": [
@@ -1039,14 +1040,14 @@
       "from": [
         "I took"
       ],
-      "to": "tomé",
-      "lang": "es",
+      "to": "pris",
+      "lang": "fr",
       "tense": "past",
       "metrics": {
         "token_before": 2,
         "token_after": 1,
         "utf8_before": 6,
-        "utf8_after": 5,
+        "utf8_after": 4,
         "both_shrink": true
       },
       "candidates": [
@@ -1067,8 +1068,8 @@
         "I'm taking",
         "I take"
       ],
-      "to": "tomo",
-      "lang": "es",
+      "to": "neem",
+      "lang": "nl",
       "tense": "present",
       "metrics": {
         "token_before": 4,
@@ -1098,14 +1099,14 @@
         "I am going to take",
         "I'm going to take"
       ],
-      "to": "tomaré",
-      "lang": "es",
+      "to": "πάρω",
+      "lang": "el",
       "tense": "future",
       "metrics": {
         "token_before": 6,
-        "token_after": 2,
+        "token_after": 1,
         "utf8_before": 18,
-        "utf8_after": 7,
+        "utf8_after": 8,
         "both_shrink": true
       },
       "candidates": [
@@ -1163,14 +1164,14 @@
         "I'm thinking",
         "I am thinking"
       ],
-      "to": "penso",
-      "lang": "pt",
+      "to": "denk",
+      "lang": "nl",
       "tense": "present",
       "metrics": {
         "token_before": 3,
-        "token_after": 2,
+        "token_after": 1,
         "utf8_before": 7,
-        "utf8_after": 5,
+        "utf8_after": 4,
         "both_shrink": true
       },
       "candidates": [
@@ -1319,14 +1320,14 @@
       "from": [
         "I will find"
       ],
-      "to": "acharei",
-      "lang": "pt",
+      "to": "βρω",
+      "lang": "el",
       "tense": "future",
       "metrics": {
         "token_before": 3,
-        "token_after": 2,
+        "token_after": 1,
         "utf8_before": 11,
-        "utf8_after": 7,
+        "utf8_after": 6,
         "both_shrink": true
       },
       "candidates": [
@@ -1346,14 +1347,14 @@
       "from": [
         "I found"
       ],
-      "to": "encontré",
-      "lang": "es",
+      "to": "vond",
+      "lang": "nl",
       "tense": "past",
       "metrics": {
         "token_before": 3,
-        "token_after": 2,
+        "token_after": 1,
         "utf8_before": 7,
-        "utf8_after": 9,
+        "utf8_after": 4,
         "both_shrink": false
       },
       "candidates": [
@@ -1377,14 +1378,14 @@
         "I am going to find",
         "I'm going to find"
       ],
-      "to": "acharei",
-      "lang": "pt",
+      "to": "βρω",
+      "lang": "el",
       "tense": "future",
       "metrics": {
         "token_before": 6,
-        "token_after": 2,
+        "token_after": 1,
         "utf8_before": 18,
-        "utf8_after": 7,
+        "utf8_after": 6,
         "both_shrink": true
       },
       "candidates": [
@@ -1486,14 +1487,14 @@
       "from": [
         "I will put"
       ],
-      "to": "pondré",
-      "lang": "es",
+      "to": "porei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 2,
         "utf8_before": 10,
-        "utf8_after": 7,
+        "utf8_after": 5,
         "both_shrink": true
       },
       "candidates": [
@@ -1518,14 +1519,14 @@
         "I am going to put",
         "I'm going to put"
       ],
-      "to": "pondré",
-      "lang": "es",
+      "to": "porei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 6,
         "token_after": 2,
         "utf8_before": 17,
-        "utf8_after": 7,
+        "utf8_after": 5,
         "both_shrink": true
       },
       "candidates": [
@@ -1550,14 +1551,14 @@
         "I will bring",
         "I'll bring"
       ],
-      "to": "traeré",
-      "lang": "es",
+      "to": "trarei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 4,
         "token_after": 2,
         "utf8_before": 12,
-        "utf8_after": 7,
+        "utf8_after": 6,
         "both_shrink": true
       },
       "candidates": [
@@ -1603,14 +1604,14 @@
         "I am going to bring",
         "I'm going to bring"
       ],
-      "to": "traeré",
-      "lang": "es",
+      "to": "trarei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 7,
         "token_after": 2,
         "utf8_before": 19,
-        "utf8_after": 7,
+        "utf8_after": 6,
         "both_shrink": true
       },
       "candidates": [
@@ -1654,14 +1655,14 @@
       "from": [
         "I will read"
       ],
-      "to": "leeré",
-      "lang": "es",
+      "to": "lerei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 6,
+        "utf8_after": 5,
         "both_shrink": true
       },
       "candidates": [
@@ -1761,14 +1762,14 @@
         "I am waiting",
         "I'm waiting"
       ],
-      "to": "espero",
-      "lang": "es",
+      "to": "wacht",
+      "lang": "nl",
       "tense": "present",
       "metrics": {
         "token_before": 4,
         "token_after": 2,
         "utf8_before": 12,
-        "utf8_after": 6,
+        "utf8_after": 5,
         "both_shrink": true
       },
       "candidates": [
@@ -1880,14 +1881,14 @@
       "from": [
         "I will live"
       ],
-      "to": "viviré",
-      "lang": "es",
+      "to": "vivrai",
+      "lang": "fr",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 7,
+        "utf8_after": 6,
         "both_shrink": true
       },
       "candidates": [
@@ -1941,14 +1942,14 @@
       "from": [
         "I will stay"
       ],
-      "to": "quedaré",
-      "lang": "es",
+      "to": "ficarei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
         "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 8,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
