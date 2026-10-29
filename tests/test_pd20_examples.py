@@ -113,9 +113,18 @@ def test_b_final_contracted_matches_full(full, short):
     assert t.apply_es_fr_tense(short) == t.apply_es_fr_tense(full)
 
 
-@pytest.mark.xfail(strict=True, reason="I'm going to <V> 未登録の動詞(buy)は going-to 未変換（誤食しないのは正）")
-def test_going_to_buy_contracted():
-    assert _t().apply_es_fr_tense("I'm going to buy") != "I'm going to buy"
+@pytest.mark.parametrize("src", ["I'm going to buy", "I am going to buy"])
+def test_going_to_buy_contracted(src):
+    t = _t()
+    out = t.apply_es_fr_tense(src)
+    assert out == "compraré"
+    assert t.estimate_tokens(out) < t.estimate_tokens(src)
+    assert len(out.encode()) < len(src.encode())
+
+
+@pytest.mark.parametrize("w", ["morning", "evening", "thing", "nothing", "being", "arriving at Vienna"])
+def test_bare_ing_words_untouched(w):
+    assert _t().final_token_pass(w) == w
 
 
 def test_going_to_guard_contracted():

@@ -2098,6 +2098,35 @@
         }
       ],
       "note": "tranche3: es reto 1tok"
+    },
+    {
+      "id": "buy-fut-goingto-1s",
+      "from": [
+        "I am going to buy",
+        "I'm going to buy"
+      ],
+      "to": "compraré",
+      "lang": "es",
+      "tense": "future",
+      "candidates": [
+        {
+          "form": "compraré",
+          "lang": "es"
+        },
+        {
+          "form": "comprarei",
+          "lang": "pt"
+        },
+        {
+          "form": "achèterai",
+          "lang": "fr"
+        },
+        {
+          "form": "αγοράσω",
+          "lang": "el"
+        }
+      ],
+      "note": "explicit going-to; compraré 2tok/9B（αγοράσω 2tok/14B は utf8 負け）; nl koop/ga kopen は未来の意味が弱く不採用"
     }
   ],
   "examples_not_registered": [
