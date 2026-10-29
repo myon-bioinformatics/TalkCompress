@@ -32,7 +32,7 @@ utf8 must shrink on the sample. Each row records ``pivot`` / ``pivot_lang``:
 multilingual aliases → pivot (default EN; JA when EN awkward) → emoji, so the
 ledger alone makes the judgment clear. Apply prefers two-step (alias→pivot then
 pivot→emoji). Short-form priority policy: **math/symbol first** when it clearly
-covers meaning (≧≦←→∴∵& ✓ ★ ≠ ∞ …); else emoji. Do not invent redundant new
+covers meaning (≥≤←→∴∵& ✓ ★ ≠ ∞ …); else emoji. Do not invent redundant new
 math when an inventory symbol already covers it. Overlaps: check→✓ (not ✅),
 star→★ (not ⭐), cross→✕ (not ❌). Symbol family (``family=symbol``) registers
 open math (≠ ∞ ± % ° …) that are not E closed POS. Cross-lang: among meaning-
@@ -642,13 +642,10 @@ def sync_emoji_lex(
     emoji_note = (
         "family=emoji (C-only): ML aliases → pivot (default EN; JA ok) → emoji via "
         "EMOJI_SPEC; ledger rows record pivot/pivot_lang; ledger_apply=true "
-        "(two-step apply). Dual metrics; utf8 must shrink on sample. Short-form "
-        "priority: math/symbol first when meaning is clear, else emoji — prefer "
-        "existing inventory over inventing new math or emoji peers (check→✓ not ✅; "
-        "star→★ not ⭐; cross→✕ not ❌). information→ℹ️ is C; FYI phrase is "
-        "DEFAULT_MAP-first. Bare fire/idea/eyes/… utf8-flat forms may live in "
-        "DEFAULT_MAP runtime extras. Cross-lang cheapest: select_cheapest_form / "
-        "policy-cross-lang-cheapest (token then utf8)."
+        "(two-step apply). Adoption rule (o200k, mid-sentence leading-space): the "
+        "emoji must cost strictly fewer tokens than the EN pivot; only thumbs up→👍 "
+        "qualifies. Rejected emoji/symbols are memo-only in "
+        "docs/emoji_symbols_notes.md, not ledger rows."
     )
     # Drop older emoji note variants so the pivot/priority wording is sole.
     if isinstance(notes, list):
@@ -743,7 +740,7 @@ def sync_symbol_lex(
     symbol_note = (
         "family=symbol (C-only): open math/symbol shortenings not in E closed POS "
         "(≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear "
-        "(policy-short-form-priority). Skip E-owned ~/≒/= /≧/≦/∴/bc/∀. Dual "
+        "(policy-short-form-priority). Skip E-owned ~/≒/= /≥/≤/∴/bc/∀. Dual "
         "metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form."
     )
     if isinstance(notes, list):

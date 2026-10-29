@@ -610,7 +610,7 @@ def test_morpho_prep_like_finite_set():
     assert "手段" in m.compress("by means of force", **kw)
     assert "観点" in m.compress("in terms of cost", **kw)
     assert "準" in m.compress("in accordance with law", **kw)
-    assert "≦" in m.compress("up to 5", **kw)
+    assert "≤" in m.compress("up to 5", **kw)
     assert "至" in m.compress("down to zero", **kw)
     assert "鑑" in m.compress("in light of evidence", **kw)
     assert "為" in m.compress("for the sake of peace", **kw)
@@ -1090,41 +1090,41 @@ def test_morpho_density_closed_summary():
 
 
 def test_morpho_compare_inventory():
-    """Language-agnostic ≧/≦; JA/ZH/EN/ES/FR/DE; bare under/below untouched (C)."""
+    """Language-agnostic ≥/≤; JA/ZH/EN/ES/FR/DE; bare under/below untouched (C)."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.COMPARE_CANONICAL == ("≧", "≦")
+    assert m.COMPARE_CANONICAL == ("≥", "≤")
     assert m.compare_inventory_bits() == 1
     ja = m.compress("18歳以上 かつ 60歳以下", unique=False, etymon=False, counters=False)
-    assert "≧" in ja and "≦" in ja
+    assert "≥" in ja and "≤" in ja
     assert "以上" not in ja and "以下" not in ja
     zh = m.compress("18岁以上 60岁以下", unique=False, etymon=False, counters=False)
-    assert "≧" in zh and "≦" in zh
+    assert "≥" in zh and "≤" in zh
     en = m.compress(
         "3 or more and 10 or less; at least 2; at most 5; 18 and above; 65 and below",
         unique=False,
         etymon=False,
         counters=False,
     )
-    assert en.count("≧") >= 3 and en.count("≦") >= 3
+    assert en.count("≥") >= 3 and en.count("≤") >= 3
     en2 = m.compress("more than 3 less than 10", unique=False, etymon=False, counters=False)
-    assert "≧" in en2 and "≦" in en2
+    assert "≥" in en2 and "≤" in en2
     # one non-EN/JA form each direction
     es = m.compress("más de 3 menos de 10 al menos 2 como máximo 5", unique=False, etymon=False, counters=False)
-    assert "≧" in es and "≦" in es
+    assert "≥" in es and "≤" in es
     fr = m.compress("plus de 3 moins de 10", unique=False, etymon=False, counters=False)
-    assert "≧" in fr and "≦" in fr
+    assert "≥" in fr and "≤" in fr
     de = m.compress("mehr als 3 weniger als 10", unique=False, etymon=False, counters=False)
-    assert "≧" in de and "≦" in de
+    assert "≥" in de and "≤" in de
     approx = m.compress("approximately equal to 5; equal to 1", unique=False, etymon=False, counters=False)
     assert "≒" in approx and "=" in approx
     under = m.compress("under the table below the shelf", unique=False, etymon=False, counters=False)
     assert "under" in under.lower() and "below" in under.lower()
-    assert m.canonicalize_closed("compare", "以上") == "≧"
-    assert m.canonicalize_closed("compare", "以下") == "≦"
-    assert m.canonicalize_closed("compare", "at least") == "≧"
-    assert m.canonicalize_closed("compare", "más de") == "≧"
-    assert m.canonicalize_closed("compare", "weniger als") == "≦"
-    assert m.compare_bit_cost("≧ ≦")["total_bits"] == 2
+    assert m.canonicalize_closed("compare", "以上") == "≥"
+    assert m.canonicalize_closed("compare", "以下") == "≤"
+    assert m.canonicalize_closed("compare", "at least") == "≥"
+    assert m.canonicalize_closed("compare", "más de") == "≥"
+    assert m.canonicalize_closed("compare", "weniger als") == "≤"
+    assert m.compare_bit_cost("≥ ≤")["total_bits"] == 2
 
 
 def test_morpho_from_arrow_and_ml_aliases():
