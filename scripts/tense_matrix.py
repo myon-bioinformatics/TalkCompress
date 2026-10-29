@@ -163,7 +163,23 @@ SUBJECTS = [
     ("rel-who-pl", "who", "3p", "pl", True, "rel"),
     ("rel-which-sg", "which", "3s", "sg", True, "rel"),
     ("rel-which-pl", "which", "3p", "pl", True, "rel"),
+    # after apply_relative_que: relative slot rewritten to neutral 'que';
+    # the EN verb still marks number (is/was/has → sg, are/were/have → pl).
+    ("rel-que-sg", "que", "3s", "sg", True, "rel"),
+    ("rel-que-pl", "que", "3p", "pl", True, "rel"),
 ]
+# Parity classes: subjects sharing one conjugation slot (same person key, kind,
+# subject handling). The verb winner is decided once per class so he/she/it
+# (or these/those, who/which) never diverge on subject-length tie-breaks.
+def _parity_class(sub: tuple) -> tuple:
+    label, _surf, person, num, _keep, kind = sub
+    # number-following classes: 3sg = he/she/it/this, 3pl = they/these/those.
+    # Relatives keep their own (number-gated) handling; 'that' never converts.
+    if kind == "pron" and person in ("3s", "3p"):
+        return (person, num)
+    return (label,)
+
+
 NUMBER_MARKED = {"pres", "perf", "presprog", "pastprog"}
 
 
@@ -350,40 +366,90 @@ def build() -> tuple[dict, dict, str]:
                     best=best["form"], lang=best["lang"], shape=best["shape"], number=best["number"],
                     tok=[st, tok(best["form"])], utf8=[su, u8(best["form"])],
                 )
-                if tok(best["form"]) < st and u8(best["form"]) < su:
-                    keepc = [c for c in scored if tok(c["form"]) < st and u8(c["form"]) < su]
-                    cell["status"] = "adopt"
-                    entries.append(
-                        {
-                            "id": f"mx-{verb}-{tense}-{label}",
-                            "from": [src],
-                            "to": best["form"],
-                            "lang": best["lang"],
-                            "tense": tense,
-                            "subject": label,
-                            "candidates": [{"form": c["form"], "lang": c["lang"]} for c in keepc],
-                        }
-                    )
-                elif any(
-                    tok(h["form"]) < st and u8(h["form"]) < su for h in homo
-                ):
-                    cell.update(
-                        status="reject",
-                        reason="EN homograph collision: every shrinking candidate spells an English word",
-                    )
-                elif tense in PROG:
-                    cell.update(
-                        status="reject",
-                        reason="no progressive-preserving candidate shrinks both token and utf8 (EN kept)",
-                    )
-                else:
-                    cell.update(status="reject", reason="no candidate shrinks both token and utf8")
+                shrink = [c for c in scored if tok(c["form"]) < st and u8(c["form"]) <= su]
+                cell["_pending"] = {
+                    "src": src, "label": label, "best": best, "scored": scored, "kind": kind,
+                    "num_key": (person, num), "keepc": shrink, "st": st, "su": su,
+                    "homo_shrinks": any(tok(h["form"]) < st and u8(h["form"]) < su for h in homo),
+                    "cls": _parity_class(sub),
+                }
+    # class-level decision: adopt iff for EVERY member token strictly shrinks and
+    # utf8 never grows, and utf8 strictly shrinks for at least one member
+    # (singleton class == the plain strict token AND utf8 rule).
+    groups: dict[tuple, list[dict]] = defaultdict(list)
+    for c in cells:
+        if "_pending" in c:
+            groups[(c["_pending"]["cls"], c["tense"], c["verb"])].append(c)
+    # pronoun classes first; demonstratives (this / these, those) then reuse the
+    # number-matched pronoun verb winner with their subject kept.
+    order = sorted(groups.items(), key=lambda kv: kv[1][0]["_pending"]["kind"] == "dem")
+    class_verb: dict[tuple, str | None] = {}
+    for (_cls, tense, verb), members in order:
+        p0 = members[0]["_pending"]
+        if p0["kind"] == "dem" and (p0["num_key"], tense, verb) in class_verb:
+            c = members[0]
+            p = c.pop("_pending")
+            vw = class_verb[(p0["num_key"], tense, verb)]
+            head = p["src"].split(" ", 1)[0]
+            hit = [k for k in p["scored"] if vw and k["form"] == f"{head} {vw}"]
+            if hit and tok(hit[0]["form"]) < p["st"] and u8(hit[0]["form"]) < p["su"]:
+                b = hit[0]
+                c.update(status="adopt", best=b["form"], lang=b["lang"], shape=b["shape"], number=b["number"],
+                         tok=[p["st"], tok(b["form"])], utf8=[p["su"], u8(b["form"])], parity_verb=vw)
+                c["_entry"] = {
+                    "id": f"mx-{verb}-{tense}-{p['label']}", "from": [p["src"]], "to": b["form"],
+                    "lang": b["lang"], "tense": tense, "subject": p["label"],
+                    "candidates": [{"form": b["form"], "lang": b["lang"]}],
+                }
+            elif vw:
+                c.update(status="reject", parity_verb=vw,
+                         reason="parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)")
+            else:
+                c.update(status="reject", reason="parity: number-matched pronouns stay EN (EN kept)")
+            continue
+        def ok(c):
+            p = c["_pending"]
+            return tok(p["best"]["form"]) < p["st"] and u8(p["best"]["form"]) <= p["su"]
+        oks = [ok(c) for c in members]
+        adopt = all(oks) and any(
+            u8(c["_pending"]["best"]["form"]) < c["_pending"]["su"] for c in members
+        )
+        if p0["kind"] == "pron" and p0["num_key"][0] in ("3s", "3p"):
+            class_verb[(p0["num_key"], tense, verb)] = p0["best"]["form"] if adopt else None
+        for c in members:
+            p = c.pop("_pending")
+            best = p["best"]
+            if adopt:
+                c["status"] = "adopt"
+                if len(members) > 1:
+                    c["parity_class"] = [m["subject"] for m in members]
+                c["_entry"] = (
+                    {
+                        "id": f"mx-{verb}-{tense}-{p['label']}",
+                        "from": [p["src"]],
+                        "to": best["form"],
+                        "lang": best["lang"],
+                        "tense": tense,
+                        "subject": p["label"],
+                        "candidates": [{"form": k["form"], "lang": k["lang"]} for k in p["keepc"]],
+                    }
+                )
+            elif p["homo_shrinks"]:
+                c.update(status="reject", reason="EN homograph collision: every shrinking candidate spells an English word")
+            elif len(members) > 1 and any(oks) and not all(oks):
+                c.update(status="reject", reason="parity class: not every subject in the class shrinks (EN kept for all)")
+            elif tense in PROG:
+                c.update(status="reject", reason="no progressive-preserving candidate shrinks both token and utf8 (EN kept)")
+            else:
+                c.update(status="reject", reason="no candidate shrinks both token and utf8")
+    entries.extend(c.pop("_entry") for c in cells if "_entry" in c)
     bank = {
         "version": 1,
         "title": "Person × tense matrix bank (generated by scripts/tense_matrix.py)",
         "notes": [
             "Generated — edit scripts/tense_matrix.py, not this file.",
             "Adopted only when token AND utf8 strictly shrink; `to` = runtime cheapest winner.",
+            "Parity by number (3sg: he/she/it/this, 3pl: they/these/those): he/she/it decided as one class; this/these/those reuse the number-matched pronoun verb winner with subject kept, or stay EN; relatives/that unchanged: decided once per class — every member token-shrinks, utf8 never grows, ≥1 member utf8-shrinks; same verb winner for all.",
             "Personal pronouns dropped (person-marked verb); demonstratives/relatives keep the subject.",
             "Relatives only with number-marking aux (is/are, has/have, was/were); bare 'that' (multi-POS) always stays EN.",
             "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",

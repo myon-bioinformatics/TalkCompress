@@ -17,6 +17,7 @@ BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(en
 REPORT = json.loads((ROOT / "docs/tense_matrix_report.json").read_text(encoding="utf-8"))
 ENTRIES = BANK["entries"]
 CELLS = REPORT["cells"]
+_CELL_BY_ID = {f"mx-{c['verb']}-{c['tense']}-{c['subject']}": c for c in CELLS}
 
 
 def _t():
@@ -49,7 +50,11 @@ def test_matrix_to_is_runtime_winner_and_shrinks(e):
         out = t.apply_es_fr_tense(src)
         assert out == e["to"], (src, out)
         assert t.estimate_tokens(out) < t.estimate_tokens(src)
-        assert len(out.encode()) < len(src.encode())
+        # parity classes: utf8 never grows; strict shrink is required class-wide
+        # (>=1 member), e.g. he/it is doing (11→11) ride on she is doing (12→11).
+        assert len(out.encode()) <= len(src.encode())
+        if "parity_class" not in _CELL_BY_ID.get(e["id"], {}):
+            assert len(out.encode()) < len(src.encode())
         assert t.apply_es_fr_tense(src) == out  # deterministic
         if e["subject"].startswith(("dem-", "rel-")):
             assert out.split(" ", 1)[0].lower() == src.split(" ", 1)[0].lower()
@@ -221,3 +226,92 @@ def test_progressive_examples(s, want):
 def test_no_progressive_no_shrink_reason():
     rej = [c for c in CELLS if c["tense"].endswith("prog") and c["status"] == "reject"]
     assert any("progressive-preserving" in c["reason"] for c in rej)
+
+
+_PARITY = {  # number-following classes: (pronouns, demonstratives)
+    "3sg": (("3s-he", "3s-she", "3s-it"), ("dem-this",)),
+    "3pl": (("3p",), ("dem-these", "dem-those")),
+}
+
+
+def _verb_part(c):
+    if c["status"] != "adopt":
+        return None
+    f = c["best"]
+    return f.split(" ", 1)[1] if c["subject"].startswith(("dem-", "rel-")) else f
+
+
+@pytest.mark.parametrize("cls", sorted(_PARITY))
+def test_parity_class_same_verb_winner(cls):
+    """Same-number subjects share one verb winner: pronouns all-or-EN, demonstratives
+    (subject kept) either reuse that verb form or stay EN — never a different form."""
+    by = {(c["subject"], c["tense"], c["verb"]): c for c in CELLS}
+    prons, dems = _PARITY[cls]
+    bad = []
+    for tense in sorted({c["tense"] for c in CELLS}):
+        for verb in sorted({c["verb"] for c in CELLS}):
+            pc = [by[(s, tense, verb)] for s in prons]
+            if any(c["status"] == "existing" for c in pc):
+                continue
+            pv = {_verb_part(c) for c in pc}
+            if len(pv) > 1:
+                bad.append((tense, verb, "pron", pv))
+                continue
+            (w,) = pv
+            for s in dems:
+                dv = _verb_part(by[(s, tense, verb)])
+                if dv is not None and dv != w:
+                    bad.append((tense, verb, s, dv, w))
+    assert not bad, bad
+
+
+@pytest.mark.parametrize("subj", ["he", "she", "it"])
+def test_3sg_is_doing_parity_runtime(subj):
+    assert _t().apply_es_fr_tense(f"{subj} is doing") == "sta facendo"
+
+
+def test_that_stays_unconverted():
+    assert all(c["status"] != "adopt" for c in CELLS if c["subject"] == "dem-that")
+
+
+@pytest.mark.parametrize(
+    ("src", "want"),
+    [
+        ("the man who is going", "the man who is going"),  # who≡que on cost; está indo hits 'indo' guard
+        ("people who are going", "people who are going"),
+        ("the book which was read", "the book que was read"),  # which (2 tok) → que (1 tok)
+        ("people who went", "people who went"),  # number-neutral verb stays EN
+        ("the man who has gone", "the man who foi"),  # has → sg
+        ("the man that has seen it", "the man que vio it"),  # DET+NOUN+that → que, has → sg
+        ("the fact that he left", "the fact that he left"),  # complementizer
+        ("the proposition that all men are", "the proposition that all men are"),
+        ("Who is going?", "Who is going?"),  # interrogative (no noun before) untouched
+        ("that book is mine", "that book is mine"),  # determiner 'that'
+    ],
+)
+def test_relative_que_runtime(src, want):
+    assert _t().apply_es_fr_tense(src) == want
+
+
+@pytest.mark.parametrize("s", ["I think that he left", "I know that is true", "so that we can", "that is it"])
+def test_non_relative_that_unconverted(s):
+    out = _t().apply_relative_que(s)
+    assert out == s
+
+
+def test_relative_number_from_en_verb():
+    """que rows: sg only with is/was/has, pl only with are/were/have; neutral verbs reject."""
+    for c in CELLS:
+        if not c["subject"].startswith("rel-que") or c["status"] != "adopt":
+            continue
+        aux = c["src"].split()[1]
+        assert c["tense"] in ("pres", "perf", "presprog", "pastprog"), c  # number-marking only
+        if c["subject"].endswith("-sg"):
+            assert aux in ("is", "was", "has") or (c["tense"] == "pres" and aux.endswith("s")), c
+        else:
+            assert aux in ("are", "were", "have") or (c["tense"] == "pres" and not aux.endswith("s")), c
+
+
+def test_relative_connective_single_neutral_form():
+    forms = [f for f, _ in _t().REL_QUE_FORMS]
+    assert forms == ["que"]

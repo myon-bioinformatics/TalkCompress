@@ -8290,7 +8290,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8309,7 +8314,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8336,7 +8346,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8355,7 +8370,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8374,7 +8394,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8393,7 +8418,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8420,7 +8450,12 @@
     9,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8453,7 +8488,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8472,7 +8512,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8491,7 +8536,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8526,7 +8576,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8545,7 +8600,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8564,7 +8624,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8583,7 +8648,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8602,7 +8672,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8629,7 +8704,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8648,7 +8728,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8667,7 +8752,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8686,7 +8776,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8721,7 +8816,12 @@
     7,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8762,7 +8862,12 @@
     6,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8795,7 +8900,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8828,7 +8938,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8861,7 +8976,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8902,7 +9022,12 @@
     10,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8935,7 +9060,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -8974,7 +9104,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9007,7 +9142,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9034,7 +9174,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9067,7 +9212,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9112,7 +9262,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9151,7 +9306,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9190,7 +9350,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9229,7 +9394,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9268,7 +9438,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9307,7 +9482,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9346,7 +9526,12 @@
     14,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9385,7 +9570,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9424,7 +9614,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9464,7 +9659,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9483,7 +9683,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9502,7 +9707,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9529,7 +9739,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9556,7 +9771,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9583,7 +9803,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9610,7 +9835,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9637,7 +9867,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9664,7 +9899,12 @@
     16,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9691,7 +9931,12 @@
     20,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9718,7 +9963,12 @@
     17,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9745,7 +9995,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9784,7 +10039,12 @@
     18,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9845,7 +10105,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9864,7 +10129,12 @@
     11,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9883,7 +10153,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9902,7 +10177,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9921,7 +10201,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9940,7 +10225,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9959,7 +10249,12 @@
     10,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9978,7 +10273,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9997,7 +10297,12 @@
     11,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10016,7 +10321,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10049,7 +10359,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10089,7 +10404,12 @@
     11,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10129,7 +10449,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10169,8 +10494,12 @@
     11,
     11
    ],
-   "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10210,7 +10539,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10251,7 +10585,7 @@
     13
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity class: not every subject in the class shrinks (EN kept for all)"
   },
   {
    "subject": "3s-he",
@@ -10291,7 +10625,12 @@
     13,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10331,7 +10670,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10371,7 +10715,12 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10411,7 +10760,12 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10452,7 +10806,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10493,7 +10852,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10533,7 +10897,12 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -10573,7 +10942,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11060,7 +11434,12 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11094,7 +11473,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11128,7 +11512,12 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11162,7 +11551,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11196,7 +11590,12 @@
     17,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11230,7 +11629,12 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11264,7 +11668,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11298,7 +11707,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11332,7 +11746,12 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11367,7 +11786,12 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11402,7 +11826,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -11436,7 +11865,12 @@
     17,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11455,7 +11889,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11474,7 +11913,12 @@
     9,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11501,7 +11945,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11520,7 +11969,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11539,7 +11993,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11558,7 +12017,12 @@
     9,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11585,7 +12049,12 @@
     10,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11618,7 +12087,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11637,7 +12111,12 @@
     9,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11656,7 +12135,12 @@
     9,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11691,7 +12175,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11710,7 +12199,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11729,7 +12223,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11748,7 +12247,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11767,7 +12271,12 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11794,7 +12303,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11813,7 +12327,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11832,7 +12351,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11851,7 +12375,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11886,7 +12415,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11927,7 +12461,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11960,7 +12499,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -11993,7 +12537,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12026,7 +12575,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12067,7 +12621,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12100,7 +12659,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12139,7 +12703,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12172,7 +12741,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12199,7 +12773,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12232,7 +12811,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12277,7 +12861,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12316,7 +12905,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12355,7 +12949,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12394,7 +12993,12 @@
     13,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12433,7 +13037,12 @@
     14,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12472,7 +13081,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12511,7 +13125,12 @@
     15,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12550,7 +13169,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12589,7 +13213,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12629,7 +13258,12 @@
     13,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12648,7 +13282,12 @@
     18,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12667,7 +13306,12 @@
     18,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12694,7 +13338,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12721,7 +13370,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12748,7 +13402,12 @@
     19,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12775,7 +13434,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12802,7 +13466,12 @@
     20,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12829,7 +13498,12 @@
     17,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12856,7 +13530,12 @@
     21,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12883,7 +13562,12 @@
     18,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12910,7 +13594,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12949,7 +13638,12 @@
     19,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13010,7 +13704,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13029,7 +13728,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13048,7 +13752,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13067,7 +13776,12 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13086,7 +13800,12 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13105,7 +13824,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13124,7 +13848,12 @@
     11,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13143,7 +13872,12 @@
     15,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13162,7 +13896,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13181,7 +13920,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13214,7 +13958,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13254,7 +14003,12 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13294,7 +14048,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13334,7 +14093,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13374,7 +14138,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13415,7 +14184,7 @@
     13
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity class: not every subject in the class shrinks (EN kept for all)"
   },
   {
    "subject": "3s-she",
@@ -13455,7 +14224,12 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13495,7 +14269,12 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13535,7 +14314,12 @@
     13,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13575,7 +14359,12 @@
     15,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13616,7 +14405,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13657,7 +14451,12 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13697,7 +14496,12 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -13737,7 +14541,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14224,7 +15033,12 @@
     17,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14258,7 +15072,12 @@
     18,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14292,7 +15111,12 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14326,7 +15150,12 @@
     18,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14360,7 +15189,12 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14394,7 +15228,12 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14428,7 +15267,12 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14462,7 +15306,12 @@
     18,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14496,7 +15345,12 @@
     20,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14531,7 +15385,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14566,7 +15425,12 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -14600,7 +15464,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14619,7 +15488,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14638,7 +15512,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14665,7 +15544,12 @@
     7,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14684,7 +15568,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14703,7 +15592,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14722,7 +15616,12 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14749,7 +15648,12 @@
     9,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14782,7 +15686,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14801,7 +15710,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14820,7 +15734,12 @@
     8,
     2
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14877,7 +15796,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14896,7 +15820,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14915,7 +15844,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14934,7 +15868,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14953,7 +15892,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14980,7 +15924,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -14999,7 +15948,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15018,7 +15972,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15037,7 +15996,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15083,7 +16047,12 @@
     7,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15124,7 +16093,12 @@
     6,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15157,7 +16131,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15190,7 +16169,12 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15223,7 +16207,12 @@
     9,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15264,7 +16253,12 @@
     10,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15297,7 +16291,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15336,7 +16335,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15369,7 +16373,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15396,7 +16405,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15429,7 +16443,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15474,7 +16493,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15513,7 +16537,12 @@
     11,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15552,7 +16581,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15591,7 +16625,12 @@
     12,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15630,7 +16669,12 @@
     13,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15669,7 +16713,12 @@
     10,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15708,7 +16757,12 @@
     14,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15747,7 +16801,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15786,7 +16845,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15826,7 +16890,12 @@
     12,
     3
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15845,7 +16914,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15864,7 +16938,12 @@
     17,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15891,7 +16970,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15918,7 +17002,12 @@
     17,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15945,7 +17034,12 @@
     18,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15972,7 +17066,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -15999,7 +17098,12 @@
     19,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16026,7 +17130,12 @@
     16,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16053,7 +17162,12 @@
     20,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16080,7 +17194,12 @@
     17,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16107,7 +17226,12 @@
     18,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16146,7 +17270,12 @@
     18,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16207,7 +17336,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16226,7 +17360,12 @@
     11,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16245,7 +17384,12 @@
     11,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16264,7 +17408,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16283,7 +17432,12 @@
     12,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16302,7 +17456,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16321,7 +17480,12 @@
     10,
     6
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16340,7 +17504,12 @@
     14,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16359,7 +17528,12 @@
     11,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16378,7 +17552,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16411,7 +17590,12 @@
     12,
     4
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16451,7 +17635,12 @@
     11,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16491,7 +17680,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16531,8 +17725,12 @@
     11,
     11
    ],
-   "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16572,7 +17770,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16613,7 +17816,7 @@
     13
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity class: not every subject in the class shrinks (EN kept for all)"
   },
   {
    "subject": "3s-it",
@@ -16653,7 +17856,12 @@
     13,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16693,7 +17901,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16733,7 +17946,12 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16773,7 +17991,12 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16814,7 +18037,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16855,7 +18083,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16895,7 +18128,12 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16935,7 +18173,12 @@
     12,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17422,7 +18665,12 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17456,7 +18704,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17490,7 +18743,12 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17524,7 +18782,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17558,7 +18821,12 @@
     17,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17592,7 +18860,12 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17626,7 +18899,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17660,7 +18938,12 @@
     17,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17694,7 +18977,12 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17729,7 +19017,12 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17764,7 +19057,12 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -17798,7 +19096,12 @@
     17,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "1p",
@@ -23115,7 +24418,8 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "ira"
   },
   {
    "subject": "dem-this",
@@ -23134,7 +24438,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "virá"
   },
   {
    "subject": "dem-this",
@@ -23153,7 +24458,8 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "fera"
   },
   {
    "subject": "dem-this",
@@ -23172,7 +24478,8 @@
     13,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "verá"
   },
   {
    "subject": "dem-this",
@@ -23192,7 +24499,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tomará",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -23212,7 +24520,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "achará",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -23232,7 +24541,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vorrà",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -23259,7 +24569,8 @@
     15,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensera"
   },
   {
    "subject": "dem-this",
@@ -23278,7 +24589,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "dira"
   },
   {
    "subject": "dem-this",
@@ -23298,7 +24610,8 @@
     10
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "saura",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -23317,7 +24630,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "darà"
   },
   {
    "subject": "dem-this",
@@ -23440,7 +24754,8 @@
     13,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "foi"
   },
   {
    "subject": "dem-this",
@@ -23473,7 +24788,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "veio"
   },
   {
    "subject": "dem-this",
@@ -23518,7 +24834,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "hizo"
   },
   {
    "subject": "dem-this",
@@ -23557,7 +24874,8 @@
     13,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "vio"
   },
   {
    "subject": "dem-this",
@@ -23596,7 +24914,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomó"
   },
   {
    "subject": "dem-this",
@@ -23635,7 +24954,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "achou"
   },
   {
    "subject": "dem-this",
@@ -23674,7 +24994,8 @@
     15,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quis"
   },
   {
    "subject": "dem-this",
@@ -23713,7 +25034,8 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "teve"
   },
   {
    "subject": "dem-this",
@@ -23752,7 +25074,8 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensó"
   },
   {
    "subject": "dem-this",
@@ -23791,7 +25114,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "dijo"
   },
   {
    "subject": "dem-this",
@@ -23830,7 +25154,8 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "supo"
   },
   {
    "subject": "dem-this",
@@ -23870,7 +25195,8 @@
     14,
     8
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "deu"
   },
   {
    "subject": "dem-this",
@@ -23889,7 +25215,8 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá ido"
   },
   {
    "subject": "dem-this",
@@ -23908,7 +25235,8 @@
     19,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "sera venu"
   },
   {
    "subject": "dem-this",
@@ -23936,7 +25264,8 @@
     16
    ],
    "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "parity_verb": "avrà fatto",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -23964,7 +25293,8 @@
     16
    ],
    "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "parity_verb": "avrà visto",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -23991,7 +25321,8 @@
     20,
     16
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà preso"
   },
   {
    "subject": "dem-this",
@@ -24018,7 +25349,8 @@
     20,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá achado"
   },
   {
    "subject": "dem-this",
@@ -24045,7 +25377,8 @@
     21,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà voluto"
   },
   {
    "subject": "dem-this",
@@ -24072,7 +25405,8 @@
     18,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá tido"
   },
   {
    "subject": "dem-this",
@@ -24099,7 +25433,8 @@
     22,
     18
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà pensato"
   },
   {
    "subject": "dem-this",
@@ -24126,7 +25461,8 @@
     19,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "terá dito"
   },
   {
    "subject": "dem-this",
@@ -24153,7 +25489,8 @@
     20,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà saputo"
   },
   {
    "subject": "dem-this",
@@ -24192,7 +25529,8 @@
     20,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avrà dato"
   },
   {
    "subject": "dem-this",
@@ -24226,7 +25564,7 @@
     14
    ],
    "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24254,7 +25592,8 @@
     10
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24274,7 +25613,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24293,7 +25633,8 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "vira"
   },
   {
    "subject": "dem-this",
@@ -24312,7 +25653,8 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomara"
   },
   {
    "subject": "dem-this",
@@ -24331,7 +25673,8 @@
     14,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "achara"
   },
   {
    "subject": "dem-this",
@@ -24350,7 +25693,8 @@
     15,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quisera"
   },
   {
    "subject": "dem-this",
@@ -24370,7 +25714,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tivera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24389,7 +25734,8 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensara"
   },
   {
    "subject": "dem-this",
@@ -24409,7 +25755,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dissera",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24428,7 +25775,8 @@
     14,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "soubera"
   },
   {
    "subject": "dem-this",
@@ -24461,7 +25809,8 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "dera"
   },
   {
    "subject": "dem-this",
@@ -24502,7 +25851,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "está indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24543,7 +25893,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "está vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24584,7 +25935,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta facendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24625,7 +25977,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "está vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24666,7 +26019,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24707,7 +26060,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta trovando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24748,7 +26102,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24789,7 +26144,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta avendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24830,7 +26186,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24872,7 +26229,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta dicendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24914,7 +26272,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta sapendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24955,7 +26314,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "sta dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -24996,7 +26356,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estava indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25037,7 +26398,7 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25078,7 +26439,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25119,7 +26480,7 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25160,7 +26521,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25201,7 +26562,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25242,7 +26603,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25283,7 +26644,7 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25324,7 +26685,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25366,7 +26727,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25408,7 +26769,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25449,7 +26810,7 @@
     16
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25483,7 +26844,8 @@
     18,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "estará indo"
   },
   {
    "subject": "dem-this",
@@ -25518,7 +26880,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25553,7 +26916,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà facendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25588,7 +26952,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25623,7 +26988,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará tomando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25658,7 +27024,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará achando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25693,7 +27060,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25728,7 +27096,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estará tendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25763,7 +27132,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25799,7 +27169,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà dicendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25835,7 +27206,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà sapendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25870,7 +27242,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "starà dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-that",
@@ -26869,7 +28242,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "virão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -26909,7 +28283,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "verán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -26929,7 +28304,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tomarán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -26949,7 +28325,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "acharão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -26969,7 +28346,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "querrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -26996,7 +28374,8 @@
     16,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensarán"
   },
   {
    "subject": "dem-these",
@@ -27016,7 +28395,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dirán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27036,7 +28416,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "sabrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27056,7 +28437,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "darán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27172,7 +28554,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27192,7 +28575,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27212,7 +28596,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27232,7 +28617,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27251,7 +28637,8 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-these",
@@ -27270,7 +28657,8 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-these",
@@ -27289,7 +28677,8 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-these",
@@ -27309,7 +28698,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "ont eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27328,7 +28718,8 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-these",
@@ -27348,7 +28739,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dijeron",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27367,7 +28759,8 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "ont su"
   },
   {
    "subject": "dem-these",
@@ -27394,7 +28787,8 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-these",
@@ -27414,7 +28808,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão ido",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27434,7 +28829,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27454,7 +28849,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront fait",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27474,7 +28870,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront vu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27493,7 +28890,8 @@
     21,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "auront pris"
   },
   {
    "subject": "dem-these",
@@ -27513,7 +28911,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão achado",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27533,7 +28932,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront voulu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27553,7 +28953,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27573,7 +28974,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront pensé",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27593,7 +28995,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront dit",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27612,7 +29015,8 @@
     21,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "auront su"
   },
   {
    "subject": "dem-these",
@@ -27645,7 +29049,8 @@
     21,
     18
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avranno dato"
   },
   {
    "subject": "dem-these",
@@ -27665,7 +29070,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27685,7 +29091,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27705,7 +29112,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27725,7 +29133,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27744,7 +29153,8 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-these",
@@ -27763,7 +29173,8 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-these",
@@ -27782,7 +29193,8 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-these",
@@ -27802,7 +29214,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tiveram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27821,7 +29234,8 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-these",
@@ -27841,7 +29255,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "disseram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27860,7 +29275,8 @@
     15,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "souberam"
   },
   {
    "subject": "dem-these",
@@ -27893,7 +29309,8 @@
     15,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-these",
@@ -27928,7 +29345,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27963,7 +29381,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -27998,7 +29416,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28033,7 +29451,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28068,7 +29486,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28103,7 +29521,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28138,7 +29556,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28173,7 +29591,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28208,7 +29626,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28244,7 +29662,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28280,7 +29698,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28315,7 +29733,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28350,7 +29768,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estavam indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28385,7 +29804,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28420,7 +29839,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28455,7 +29874,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28490,7 +29909,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28525,7 +29944,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28560,7 +29979,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28595,7 +30014,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28630,7 +30049,7 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28666,7 +30085,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28702,7 +30121,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28737,7 +30156,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28772,7 +30191,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28807,7 +30227,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28842,7 +30263,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão fazendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28877,7 +30299,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28912,7 +30335,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán tomando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28947,7 +30371,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão achando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -28982,7 +30407,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "staranno volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29017,7 +30443,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão tendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29052,7 +30479,8 @@
     23
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29088,7 +30516,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão dizendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29124,7 +30553,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão sabendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -29159,7 +30589,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29294,7 +30725,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "virão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29334,7 +30766,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "verán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29354,7 +30787,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tomarán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29374,7 +30808,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "acharão",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29394,7 +30829,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "querrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29421,7 +30857,8 @@
     16,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensarán"
   },
   {
    "subject": "dem-those",
@@ -29441,7 +30878,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dirán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29461,7 +30899,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "sabrán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29481,7 +30920,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "darán",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29597,7 +31037,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29617,7 +31058,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29637,7 +31079,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29657,7 +31100,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29676,7 +31120,8 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-those",
@@ -29695,7 +31140,8 @@
     16,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-those",
@@ -29714,7 +31160,8 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-those",
@@ -29734,7 +31181,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "ont eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29753,7 +31201,8 @@
     18,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-those",
@@ -29773,7 +31222,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "dijeron",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29792,7 +31242,8 @@
     16,
     12
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "ont su"
   },
   {
    "subject": "dem-those",
@@ -29819,7 +31270,8 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-those",
@@ -29839,7 +31291,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão ido",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29859,7 +31312,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29879,7 +31332,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront fait",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29899,7 +31353,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront vu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29918,7 +31373,8 @@
     21,
     17
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "auront pris"
   },
   {
    "subject": "dem-those",
@@ -29938,7 +31394,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "terão achado",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29958,7 +31415,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront voulu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29978,7 +31436,8 @@
     15
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront eu",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -29998,7 +31457,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront pensé",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30018,7 +31478,8 @@
     16
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "auront dit",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30037,7 +31498,8 @@
     21,
     15
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "auront su"
   },
   {
    "subject": "dem-those",
@@ -30070,7 +31532,8 @@
     21,
     18
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "avranno dato"
   },
   {
    "subject": "dem-those",
@@ -30090,7 +31553,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "foram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30110,7 +31574,8 @@
     12
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "vieram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30130,7 +31595,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "fizeram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30150,7 +31616,8 @@
     11
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "viram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30169,7 +31636,8 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "tomaram"
   },
   {
    "subject": "dem-those",
@@ -30188,7 +31656,8 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "acharam"
   },
   {
    "subject": "dem-those",
@@ -30207,7 +31676,8 @@
     16,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "quiseram"
   },
   {
    "subject": "dem-those",
@@ -30227,7 +31697,8 @@
     13
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "tiveram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30246,7 +31717,8 @@
     17,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "pensaram"
   },
   {
    "subject": "dem-those",
@@ -30266,7 +31738,8 @@
     14
    ],
    "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "parity_verb": "disseram",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30285,7 +31758,8 @@
     15,
     14
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "souberam"
   },
   {
    "subject": "dem-those",
@@ -30318,7 +31792,8 @@
     15,
     11
    ],
-   "status": "adopt"
+   "status": "adopt",
+   "parity_verb": "deram"
   },
   {
    "subject": "dem-those",
@@ -30353,7 +31828,8 @@
     17
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30388,7 +31864,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30423,7 +31899,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30458,7 +31934,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30493,7 +31969,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30528,7 +32004,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30563,7 +32039,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30598,7 +32074,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30633,7 +32109,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30669,7 +32145,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30705,7 +32181,7 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30740,7 +32216,7 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30775,7 +32251,8 @@
     18
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estavam indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30810,7 +32287,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30845,7 +32322,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30880,7 +32357,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30915,7 +32392,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30950,7 +32427,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -30985,7 +32462,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31020,7 +32497,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31055,7 +32532,7 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31091,7 +32568,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31127,7 +32604,7 @@
     21
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31162,7 +32639,7 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31197,7 +32674,8 @@
     19
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão indo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31232,7 +32710,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vindo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31267,7 +32746,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão fazendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31302,7 +32782,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão vendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31337,7 +32818,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán tomando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31372,7 +32854,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão achando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31407,7 +32890,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "staranno volendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31442,7 +32926,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão tendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31477,7 +32962,8 @@
     23
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán pensando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31513,7 +32999,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão dizendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31549,7 +33036,8 @@
     22
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarão sabendo",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -31584,7 +33072,8 @@
     20
    ],
    "status": "reject",
-   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+   "parity_verb": "estarán dando",
+   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
    "subject": "rel-who-sg",
@@ -39461,6 +40950,3945 @@
    "tense": "futprog",
    "verb": "give",
    "src": "which will be giving",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "go",
+   "src": "que goes",
+   "best": "que va",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    6
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "come",
+   "src": "que comes",
+   "best": "que vem",
+   "lang": "pt",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    9,
+    7
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "do",
+   "src": "que does",
+   "status": "reject",
+   "reason": "aux-capable verb: would eat do-support / perfect aux (he does not…, he had eaten)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "see",
+   "src": "que sees",
+   "best": "que ve",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    6
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "take",
+   "src": "que takes",
+   "best": "que toma",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    9,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "find",
+   "src": "que finds",
+   "best": "que acha",
+   "lang": "pt",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    9,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "want",
+   "src": "que wants",
+   "best": "que wil",
+   "lang": "nl",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    9,
+    7
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "have",
+   "src": "que has",
+   "status": "reject",
+   "reason": "aux-capable verb: would eat do-support / perfect aux (he does not…, he had eaten)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "think",
+   "src": "que thinks",
+   "best": "que denkt",
+   "lang": "nl",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    10,
+    9
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "say",
+   "src": "que says",
+   "homograph_dropped": [
+    {
+     "form": "que dice",
+     "en": [
+      "dice"
+     ]
+    },
+    {
+     "form": "que dice",
+     "en": [
+      "dice"
+     ]
+    }
+   ],
+   "best": "que dit",
+   "lang": "fr",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    7
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "know",
+   "src": "que knows",
+   "best": "que sa",
+   "lang": "it",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    9,
+    6
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pres",
+   "verb": "give",
+   "src": "que gives",
+   "best": "que da",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    9,
+    6
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "go",
+   "src": "que will go",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "come",
+   "src": "que will come",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "do",
+   "src": "que will do",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "see",
+   "src": "que will see",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "take",
+   "src": "que will take",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "find",
+   "src": "que will find",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "want",
+   "src": "que will want",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "have",
+   "src": "que will have",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "think",
+   "src": "que will think",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "say",
+   "src": "que will say",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "know",
+   "src": "que will know",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "fut",
+   "verb": "give",
+   "src": "que will give",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "go",
+   "src": "que went",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "come",
+   "src": "que came",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "do",
+   "src": "que did",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "see",
+   "src": "que saw",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "take",
+   "src": "que took",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "find",
+   "src": "que found",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "want",
+   "src": "que wanted",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "have",
+   "src": "que had",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "think",
+   "src": "que thought",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "say",
+   "src": "que said",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "know",
+   "src": "que knew",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "past",
+   "verb": "give",
+   "src": "que gave",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "go",
+   "src": "que has gone",
+   "homograph_dropped": [
+    {
+     "form": "que ha ido",
+     "en": [
+      "ha"
+     ]
+    }
+   ],
+   "best": "que foi",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    12,
+    7
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "come",
+   "src": "que has come",
+   "homograph_dropped": [
+    {
+     "form": "que ha venido",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que vino",
+     "en": [
+      "vino"
+     ]
+    }
+   ],
+   "best": "que veio",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    12,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "do",
+   "src": "que has done",
+   "homograph_dropped": [
+    {
+     "form": "que ha hecho",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que fez",
+     "en": [
+      "fez"
+     ]
+    },
+    {
+     "form": "que ha fatto",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a fait",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que hizo",
+   "lang": "es",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    12,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "see",
+   "src": "que has seen",
+   "homograph_dropped": [
+    {
+     "form": "que ha visto",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha visto",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a vu",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que vio",
+   "lang": "es",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    12,
+    7
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "take",
+   "src": "que has taken",
+   "homograph_dropped": [
+    {
+     "form": "que ha tomado",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha preso",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a pris",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que tomó",
+   "lang": "es",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    2
+   ],
+   "utf8": [
+    13,
+    9
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "find",
+   "src": "que has found",
+   "homograph_dropped": [
+    {
+     "form": "que ha encontrado",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha trovato",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a trouvé",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que achou",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    13,
+    9
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "want",
+   "src": "que has wanted",
+   "homograph_dropped": [
+    {
+     "form": "que ha querido",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha voluto",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a voulu",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que quis",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    2
+   ],
+   "utf8": [
+    14,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "have",
+   "src": "que has had",
+   "homograph_dropped": [
+    {
+     "form": "que ha tenido",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha avuto",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a eu",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que teve",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    11,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "think",
+   "src": "que has thought",
+   "homograph_dropped": [
+    {
+     "form": "que ha pensado",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha pensato",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a pensé",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que pensó",
+   "lang": "es",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    15,
+    10
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "say",
+   "src": "que has said",
+   "homograph_dropped": [
+    {
+     "form": "que ha dicho",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha detto",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a dit",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que dijo",
+   "lang": "es",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    2
+   ],
+   "utf8": [
+    12,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "know",
+   "src": "que has known",
+   "homograph_dropped": [
+    {
+     "form": "que ha sabido",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que ha saputo",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a su",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que supo",
+   "lang": "es",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    2
+   ],
+   "utf8": [
+    13,
+    8
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "perf",
+   "verb": "give",
+   "src": "que has given",
+   "homograph_dropped": [
+    {
+     "form": "que ha dado",
+     "en": [
+      "ha",
+      "dado"
+     ]
+    },
+    {
+     "form": "que ha dato",
+     "en": [
+      "ha"
+     ]
+    },
+    {
+     "form": "que a donné",
+     "en": [
+      "a"
+     ]
+    }
+   ],
+   "best": "que deu",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    2
+   ],
+   "utf8": [
+    13,
+    7
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "go",
+   "src": "que will have gone",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "come",
+   "src": "que will have come",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "do",
+   "src": "que will have done",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "see",
+   "src": "que will have seen",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "take",
+   "src": "que will have taken",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "find",
+   "src": "que will have found",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "want",
+   "src": "que will have wanted",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "have",
+   "src": "que will have had",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "think",
+   "src": "que will have thought",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "say",
+   "src": "que will have said",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "know",
+   "src": "que will have known",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futperf",
+   "verb": "give",
+   "src": "que will have given",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "go",
+   "src": "que had gone",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "come",
+   "src": "que had come",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "do",
+   "src": "que had done",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "see",
+   "src": "que had seen",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "take",
+   "src": "que had taken",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "find",
+   "src": "que had found",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "want",
+   "src": "que had wanted",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "have",
+   "src": "que had had",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "think",
+   "src": "que had thought",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "say",
+   "src": "que had said",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "know",
+   "src": "que had known",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pluperf",
+   "verb": "give",
+   "src": "que had given",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "go",
+   "src": "que is going",
+   "homograph_dropped": [
+    {
+     "form": "que está a ir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train d'aller",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het gaan",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que está indo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    12,
+    14
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "come",
+   "src": "que is coming",
+   "homograph_dropped": [
+    {
+     "form": "que está a vir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de venir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het komen",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que está vindo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "do",
+   "src": "que is doing",
+   "homograph_dropped": [
+    {
+     "form": "que está a fazer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de faire",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het doen",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta facendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    12,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "see",
+   "src": "que is seeing",
+   "homograph_dropped": [
+    {
+     "form": "que está a ver",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de voir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het zien",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que está vendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "take",
+   "src": "que is taking",
+   "homograph_dropped": [
+    {
+     "form": "que está a tomar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de prendre",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het nemen",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que está tomando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "find",
+   "src": "que is finding",
+   "homograph_dropped": [
+    {
+     "form": "que está a achar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de trouver",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het vinden",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta trovando",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "want",
+   "src": "que is wanting",
+   "homograph_dropped": [
+    {
+     "form": "que está a querer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de vouloir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het willen",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta volendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    14,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "have",
+   "src": "que is having",
+   "homograph_dropped": [
+    {
+     "form": "que está a ter",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train d'avoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het hebben",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta avendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    14
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "think",
+   "src": "que is thinking",
+   "homograph_dropped": [
+    {
+     "form": "que está a pensar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de penser",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het denken",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta pensando",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    15,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "say",
+   "src": "que is saying",
+   "homograph_dropped": [
+    {
+     "form": "que está a dizer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de dire",
+     "en": [
+      "en",
+      "train",
+      "dire"
+     ]
+    },
+    {
+     "form": "que is aan het zeggen",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta dicendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "know",
+   "src": "que is knowing",
+   "homograph_dropped": [
+    {
+     "form": "que está a saber",
+     "en": [
+      "a",
+      "saber"
+     ]
+    },
+    {
+     "form": "que est en train de savoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het weten",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta sapendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    14,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "presprog",
+   "verb": "give",
+   "src": "que is giving",
+   "homograph_dropped": [
+    {
+     "form": "que está a dar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que est en train de donner",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que is aan het geven",
+     "en": [
+      "is"
+     ]
+    }
+   ],
+   "best": "que sta dando",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    13
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "go",
+   "src": "que was going",
+   "homograph_dropped": [
+    {
+     "form": "que estava a ir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train d'aller",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het gaan",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que estava indo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "come",
+   "src": "que was coming",
+   "homograph_dropped": [
+    {
+     "form": "que estava a vir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de venir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het komen",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que estava vindo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "do",
+   "src": "que was doing",
+   "homograph_dropped": [
+    {
+     "form": "que estava a fazer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de faire",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het doen",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que stava facendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    13,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "see",
+   "src": "que was seeing",
+   "homograph_dropped": [
+    {
+     "form": "que estava a ver",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de voir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het zien",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que estava vendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "take",
+   "src": "que was taking",
+   "homograph_dropped": [
+    {
+     "form": "que estava a tomar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de prendre",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het nemen",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que estaba tomando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "find",
+   "src": "que was finding",
+   "homograph_dropped": [
+    {
+     "form": "que estava a achar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de trouver",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het vinden",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que estava achando",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "want",
+   "src": "que was wanting",
+   "homograph_dropped": [
+    {
+     "form": "que estava a querer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de vouloir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het willen",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que stava volendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "have",
+   "src": "que was having",
+   "homograph_dropped": [
+    {
+     "form": "que estava a ter",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train d'avoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het hebben",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que estava tendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "think",
+   "src": "que was thinking",
+   "homograph_dropped": [
+    {
+     "form": "que estava a pensar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de penser",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het denken",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que stava pensando",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    16,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "say",
+   "src": "que was saying",
+   "homograph_dropped": [
+    {
+     "form": "que estava a dizer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de dire",
+     "en": [
+      "en",
+      "train",
+      "dire"
+     ]
+    },
+    {
+     "form": "que was aan het zeggen",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que stava dicendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "know",
+   "src": "que was knowing",
+   "homograph_dropped": [
+    {
+     "form": "que estava a saber",
+     "en": [
+      "a",
+      "saber"
+     ]
+    },
+    {
+     "form": "que était en train de savoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het weten",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que stava sapendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "pastprog",
+   "verb": "give",
+   "src": "que was giving",
+   "homograph_dropped": [
+    {
+     "form": "que estava a dar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que était en train de donner",
+     "en": [
+      "en",
+      "train"
+     ]
+    },
+    {
+     "form": "que was aan het geven",
+     "en": [
+      "was"
+     ]
+    }
+   ],
+   "best": "que stava dando",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "go",
+   "src": "que will be going",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "come",
+   "src": "que will be coming",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "do",
+   "src": "que will be doing",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "see",
+   "src": "que will be seeing",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "take",
+   "src": "que will be taking",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "find",
+   "src": "que will be finding",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "want",
+   "src": "que will be wanting",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "have",
+   "src": "que will be having",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "think",
+   "src": "que will be thinking",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "say",
+   "src": "que will be saying",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "know",
+   "src": "que will be knowing",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-sg",
+   "tense": "futprog",
+   "verb": "give",
+   "src": "que will be giving",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "go",
+   "src": "que go",
+   "homograph_dropped": [
+    {
+     "form": "que van",
+     "en": [
+      "van"
+     ]
+    }
+   ],
+   "best": "que vão",
+   "lang": "pt",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    6,
+    8
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "come",
+   "src": "que come",
+   "best": "que vêm",
+   "lang": "pt",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    8
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "do",
+   "src": "que do",
+   "status": "reject",
+   "reason": "aux-capable verb: would eat do-support / perfect aux (he does not…, he had eaten)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "see",
+   "src": "que see",
+   "best": "que ven",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    7,
+    7
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "take",
+   "src": "que take",
+   "best": "que nemen",
+   "lang": "nl",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    3
+   ],
+   "utf8": [
+    8,
+    9
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "find",
+   "src": "que find",
+   "best": "que acham",
+   "lang": "pt",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    3
+   ],
+   "utf8": [
+    8,
+    9
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "want",
+   "src": "que want",
+   "best": "que querem",
+   "lang": "pt",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    3
+   ],
+   "utf8": [
+    8,
+    10
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "have",
+   "src": "que have",
+   "status": "reject",
+   "reason": "aux-capable verb: would eat do-support / perfect aux (he does not…, he had eaten)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "think",
+   "src": "que think",
+   "best": "que denken",
+   "lang": "nl",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    9,
+    10
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "say",
+   "src": "que say",
+   "best": "que dicen",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    3
+   ],
+   "utf8": [
+    7,
+    9
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "know",
+   "src": "que know",
+   "best": "que sabem",
+   "lang": "pt",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    3
+   ],
+   "utf8": [
+    8,
+    9
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pres",
+   "verb": "give",
+   "src": "que give",
+   "best": "que dan",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    7
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "go",
+   "src": "que will go",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "come",
+   "src": "que will come",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "do",
+   "src": "que will do",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "see",
+   "src": "que will see",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "take",
+   "src": "que will take",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "find",
+   "src": "que will find",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "want",
+   "src": "que will want",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "have",
+   "src": "que will have",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "think",
+   "src": "que will think",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "say",
+   "src": "que will say",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "know",
+   "src": "que will know",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "fut",
+   "verb": "give",
+   "src": "que will give",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "go",
+   "src": "que went",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "come",
+   "src": "que came",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "do",
+   "src": "que did",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "see",
+   "src": "que saw",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "take",
+   "src": "que took",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "find",
+   "src": "que found",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "want",
+   "src": "que wanted",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "have",
+   "src": "que had",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "think",
+   "src": "que thought",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "say",
+   "src": "que said",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "know",
+   "src": "que knew",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "past",
+   "verb": "give",
+   "src": "que gave",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "go",
+   "src": "que have gone",
+   "best": "que foram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    13,
+    9
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "come",
+   "src": "que have come",
+   "best": "que vieram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    13,
+    10
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "do",
+   "src": "que have done",
+   "best": "que fizeram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    13,
+    11
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "see",
+   "src": "que have seen",
+   "best": "que viram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    13,
+    9
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "take",
+   "src": "que have taken",
+   "best": "que tomaram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    14,
+    11
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "find",
+   "src": "que have found",
+   "best": "que acharam",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    14,
+    11
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "want",
+   "src": "que have wanted",
+   "best": "que quiseram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    15,
+    12
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "have",
+   "src": "que have had",
+   "best": "que ont eu",
+   "lang": "fr",
+   "shape": "compound",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    12,
+    10
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "think",
+   "src": "que have thought",
+   "best": "que pensaram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    16,
+    12
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "say",
+   "src": "que have said",
+   "best": "que dijeron",
+   "lang": "es",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    3,
+    3
+   ],
+   "utf8": [
+    13,
+    11
+   ],
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "know",
+   "src": "que have known",
+   "best": "que ont su",
+   "lang": "fr",
+   "shape": "compound",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    14,
+    10
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "perf",
+   "verb": "give",
+   "src": "que have given",
+   "homograph_dropped": [
+    {
+     "form": "que han dado",
+     "en": [
+      "dado"
+     ]
+    }
+   ],
+   "best": "que deram",
+   "lang": "pt",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    4,
+    3
+   ],
+   "utf8": [
+    14,
+    9
+   ],
+   "status": "adopt"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "go",
+   "src": "que will have gone",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "come",
+   "src": "que will have come",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "do",
+   "src": "que will have done",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "see",
+   "src": "que will have seen",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "take",
+   "src": "que will have taken",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "find",
+   "src": "que will have found",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "want",
+   "src": "que will have wanted",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "have",
+   "src": "que will have had",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "think",
+   "src": "que will have thought",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "say",
+   "src": "que will have said",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "know",
+   "src": "que will have known",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futperf",
+   "verb": "give",
+   "src": "que will have given",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "go",
+   "src": "que had gone",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "come",
+   "src": "que had come",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "do",
+   "src": "que had done",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "see",
+   "src": "que had seen",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "take",
+   "src": "que had taken",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "find",
+   "src": "que had found",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "want",
+   "src": "que had wanted",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "have",
+   "src": "que had had",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "think",
+   "src": "que had thought",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "say",
+   "src": "que had said",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "know",
+   "src": "que had known",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pluperf",
+   "verb": "give",
+   "src": "que had given",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "go",
+   "src": "que are going",
+   "homograph_dropped": [
+    {
+     "form": "que estão a ir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train d'aller",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estão indo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    13,
+    15
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "come",
+   "src": "que are coming",
+   "homograph_dropped": [
+    {
+     "form": "que estão a vir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de venir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estão vindo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "do",
+   "src": "que are doing",
+   "homograph_dropped": [
+    {
+     "form": "que estão a fazer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de faire",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estão fazendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    13,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "see",
+   "src": "que are seeing",
+   "homograph_dropped": [
+    {
+     "form": "que estão a ver",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de voir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estão vendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "take",
+   "src": "que are taking",
+   "homograph_dropped": [
+    {
+     "form": "que estão a tomar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de prendre",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que están tomando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "find",
+   "src": "que are finding",
+   "homograph_dropped": [
+    {
+     "form": "que estão a achar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de trouver",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estão achando",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "want",
+   "src": "que are wanting",
+   "homograph_dropped": [
+    {
+     "form": "que estão a querer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de vouloir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que stanno volendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "have",
+   "src": "que are having",
+   "homograph_dropped": [
+    {
+     "form": "que estão a ter",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train d'avoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estão tendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "think",
+   "src": "que are thinking",
+   "homograph_dropped": [
+    {
+     "form": "que estão a pensar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de penser",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que están pensando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    16,
+    19
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "say",
+   "src": "que are saying",
+   "homograph_dropped": [
+    {
+     "form": "que estão a dizer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de dire",
+     "en": [
+      "en",
+      "train",
+      "dire"
+     ]
+    }
+   ],
+   "best": "que estão dizendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "know",
+   "src": "que are knowing",
+   "homograph_dropped": [
+    {
+     "form": "que estão a saber",
+     "en": [
+      "a",
+      "saber"
+     ]
+    },
+    {
+     "form": "que sont en train de savoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estão sabendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    18
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "presprog",
+   "verb": "give",
+   "src": "que are giving",
+   "homograph_dropped": [
+    {
+     "form": "que estão a dar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que sont en train de donner",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que están dando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "go",
+   "src": "que were going",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a ir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train d'aller",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estavam indo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    4
+   ],
+   "utf8": [
+    14,
+    16
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "come",
+   "src": "que were coming",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a vir",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de venir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estavam vindo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "do",
+   "src": "que were doing",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a fazer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de faire",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estavam fazendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    14,
+    19
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "see",
+   "src": "que were seeing",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a ver",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de voir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estavam vendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "take",
+   "src": "que were taking",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a tomar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de prendre",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estaban tomando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    19
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "find",
+   "src": "que were finding",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a achar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de trouver",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estavam achando",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    16,
+    19
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "want",
+   "src": "que were wanting",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a querer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de vouloir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que stavano volendo",
+   "lang": "it",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    16,
+    19
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "have",
+   "src": "que were having",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a ter",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train d'avoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estavam tendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "think",
+   "src": "que were thinking",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a pensar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de penser",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estaban pensando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    17,
+    20
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "say",
+   "src": "que were saying",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a dizer",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de dire",
+     "en": [
+      "en",
+      "train",
+      "dire"
+     ]
+    }
+   ],
+   "best": "que estavam dizendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    19
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "know",
+   "src": "que were knowing",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a saber",
+     "en": [
+      "a",
+      "saber"
+     ]
+    },
+    {
+     "form": "que étaient en train de savoir",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estavam sabendo",
+   "lang": "pt",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    16,
+    19
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "pastprog",
+   "verb": "give",
+   "src": "que were giving",
+   "homograph_dropped": [
+    {
+     "form": "que estavam a dar",
+     "en": [
+      "a"
+     ]
+    },
+    {
+     "form": "que étaient en train de donner",
+     "en": [
+      "en",
+      "train"
+     ]
+    }
+   ],
+   "best": "que estaban dando",
+   "lang": "es",
+   "shape": "prog-gerund",
+   "number": "",
+   "tok": [
+    4,
+    5
+   ],
+   "utf8": [
+    15,
+    17
+   ],
+   "status": "reject",
+   "reason": "no progressive-preserving candidate shrinks both token and utf8 (EN kept)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "go",
+   "src": "que will be going",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "come",
+   "src": "que will be coming",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "do",
+   "src": "que will be doing",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "see",
+   "src": "que will be seeing",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "take",
+   "src": "que will be taking",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "find",
+   "src": "que will be finding",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "want",
+   "src": "que will be wanting",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "have",
+   "src": "que will be having",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "think",
+   "src": "que will be thinking",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "say",
+   "src": "que will be saying",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "know",
+   "src": "que will be knowing",
+   "status": "reject",
+   "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
+  },
+  {
+   "subject": "rel-que-pl",
+   "tense": "futprog",
+   "verb": "give",
+   "src": "que will be giving",
    "status": "reject",
    "reason": "number-ambiguous: relative with will/past/had (EN aux does not mark sg/pl)"
   }
