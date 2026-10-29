@@ -1166,6 +1166,21 @@ _MODAL_TAIL_RE = re.compile(
     re.IGNORECASE,
 )
 _NEXT_WORD_LOOKAHEAD = r"(?!\s+[A-Za-z])"
+# Common English bare verbs. A have-ending possession row (I had → tive) must
+# not fire before "to <verb>" (obligation: I had to go) nor before a bare verb
+# (I had go); it fires only before a noun phrase / determiner / end / punct.
+# Full obligation rows (I have to go → …) still win via cheapest selection.
+_EN_BARE_VERBS = frozenset(
+    """go do see eat come make take be have say get know think want like buy live
+    work give find tell ask use try leave call keep let begin seem help talk turn
+    start show hear play run move pay meet bring write sit stand lose read learn
+    change lead understand watch follow stop speak spend grow open walk win offer
+    remember love consider appear wait serve die send expect build stay fall cut
+    reach kill remain need feel put look drink sleep drive fly sing swim""".split()
+)
+_HAVE_OBLIG_LOOKAHEAD = (
+    r"(?!\s+to\b)(?!\s+(?:" + "|".join(sorted(_EN_BARE_VERBS)) + r")(?![A-Za-z0-9']))"
+)
 
 
 def _apply_phrase_pairs(
@@ -1217,7 +1232,11 @@ def _apply_phrase_pairs(
             going_guard = r"(?!\s+to\b)" if phrase.lower().endswith("going") else ""
             # Generic aux guard: "I had" (possession) must not fire on
             # "I had gone" — longer matrix rows or EN handle the full phrase.
-            aux_guard = _PP_LOOKAHEAD if _HAVE_AUX_TAIL_RE.search(phrase) else ""
+            aux_guard = (
+                _PP_LOOKAHEAD + _HAVE_OBLIG_LOOKAHEAD
+                if _HAVE_AUX_TAIL_RE.search(phrase)
+                else ""
+            )
             # Modal/any row before "have <pp>" (I could have gone → not "pude have
             # gone"): the perfect auxiliary belongs to the following participle.
             aux_guard += _HAVE_PP_LOOKAHEAD
