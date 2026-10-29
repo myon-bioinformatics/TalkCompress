@@ -966,7 +966,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # EN that: demonstrative only — skip complementizer/relative
     # ("I think that…", "the book that…"). Keep bare that when ambiguous.
     (re.compile(r"\bthat('s|s)\b", re.I), r"eso\1"),
-    (re.compile(r"\bthat\s+(one|ones|thing|stuff|guy|girl|man|woman|person|people|day|time|way|book|idea|problem|issue|point|part|side|end)\b", re.I), r"eso \1"),
+    # Demonstrative determiner that/those + NOUN → the (o200k tie 1=1, utf8 fewer).
+    # Pronoun-use that/those (that is…, I said that., those who…) untouched.
+    (re.compile(r"\b(?:that|those)\s+(one|ones|thing|things|stuff|guy|guys|girl|girls|man|men|woman|women|person|people|day|days|time|times|way|ways|book|books|idea|ideas|problem|problems|issue|issues|point|points|part|parts|side|sides|end|ends|car|cars|house|houses|place|places|year|years|room|rooms|file|files|case|cases|kind|kinds|sort|sorts)\b", re.I), lambda m: ("The " if m.group(0)[0].isupper() else "the ") + m.group(1)),
     # bare that+(is|was|…) → eso REMOVED: eats relative `N that BE` after which→that.
     # Demonstrative "that is" → i.e. in _PHRASE_GRAMMAR; ^that / post-punct that /
     # that's / that one|thing|… still cover deixis.
@@ -1767,6 +1769,7 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     # Consume the optional period; \b after "." never matches.
     (re.compile(r"\bet al\.?(?!\w)", re.I), "etal"),
     (re.compile(r"\bthe foregoing\b", re.I), "supra"),
+    (re.compile(r"\bvice versa\b", re.I), "⇄"),  # o200k tie 2=2, utf8 11→4
     # compare / equality — language-agnostic → ≥/≤/= /≒ (BEFORE and/or/at/_SUBS)
     (re.compile(r"\bapproximately equal(?: to)?\b", re.I), "≒"),
     (re.compile(r"\babout equal(?: to)?\b", re.I), "≒"),

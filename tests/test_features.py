@@ -558,7 +558,7 @@ def test_morpho_prep_compounds_and_legal_shorts():
     assert "therein" in m.expand("∈it").lower()
     assert "thereto" in m.expand("∴to").lower()
     assert "vice versa" in m.expand("⇄").lower()  # legacy decode kept
-    assert "⇄" not in m.compress("and vice versa", **kw)  # o200k tie 2=2: rule removed
+    assert "⇄" in m.compress("and vice versa", **kw)  # o200k tie 2=2, utf8 fewer: adopted
 
 
 
@@ -925,7 +925,7 @@ def test_morpho_relative_pronouns():
     assert m.compress("Whom did you see?", **kw).startswith("Who ")
     # complementizer + deixis unchanged
     assert "that" not in m.compress("I think that it works", **kw)
-    assert "eso" in m.compress("that book is mine", **kw)
+    assert m.compress("that book is mine", **kw) == "the book is mine"
     assert "eso" in m.compress("That was wrong.", **kw)
     # Romance/DE → que; lo que / interrogative Welche skipped
     assert m.compress("lequel est venu", **kw).startswith("que ")
@@ -1173,3 +1173,19 @@ def test_complementizer_that_deletion():
     assert m.compress("I said that.") == "I said that."
     assert m.compress("I think that is right") != "I think is right"
     assert "," not in m.compress("I think that he is going")
+
+
+def test_demonstrative_that_those_to_the():
+    from tests._helpers import load
+    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    # determiner + noun → the
+    assert m.compress("I like that book") == "I like the book"
+    assert m.compress("I read those books") == "I read the books"
+    assert m.compress("Those books are old") == "the books are old"
+    # pronoun-use that/those untouched
+    assert m.compress("I said that.") == "I said that."
+    assert m.compress("I like that.") == "I like that."
+    assert "the" not in m.compress("that is right").split()
+    assert m.compress("those who wait") == "those who wait"
+    # #36 complementizer deletion and #23 relative unchanged
+    assert m.compress("I think that he is going") == "I think he is going"
