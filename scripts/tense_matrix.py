@@ -506,8 +506,14 @@ def collision(c: dict, tense: str, verb: str, reg: dict) -> list[tuple[str, str,
     # tense classes the candidate's own language already gives this spelling
     # (es ``tomamos`` = present AND preterite): a foreign twin adds no new ambiguity.
     own = {k for lang, v, k in readings if lang == c["lang"] and v == verb} | {cls}
+    # a head that follows an auxiliary / periphrasis (``aurai eu``, ``estoy yendo``)
+    # is a participle / gerund / infinitive slot, never a standalone article or
+    # pronoun: function-word readings only clash for single-word forms.
+    bound = len(c["form"].split()) > 1
     out = []
     for lang, v, k in sorted(readings):
+        if bound and v == "<func>":
+            continue
         if v != verb or (lang != c["lang"] and k not in own):
             out.append((lang, v, k))
     return out

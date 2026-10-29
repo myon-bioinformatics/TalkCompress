@@ -672,9 +672,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "I have had",
-   "crossling_dropped": [
-    "ai eu"
-   ],
    "homograph_dropped": [
     {
      "form": "he tenido",
@@ -981,11 +978,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "I will have had",
-   "crossling_dropped": [
-    "aurai eu"
-   ],
-   "best": "terei tido",
-   "lang": "pt",
+   "best": "aurai eu",
+   "lang": "fr",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -994,7 +988,7 @@
    ],
    "utf8": [
     15,
-    10
+    8
    ],
    "status": "adopt"
   },
@@ -1238,9 +1232,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "I had had",
-   "crossling_dropped": [
-    "avais eu"
-   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -4073,17 +4064,17 @@
    "tense": "perf",
    "verb": "have",
    "src": "you have had",
-   "crossling_dropped": [
-    "a eu",
-    "as eu",
-    "avez eu",
-    "ont eu"
-   ],
    "homograph_dropped": [
     {
      "form": "has tenido",
      "en": [
       "has"
+     ]
+    },
+    {
+     "form": "as eu",
+     "en": [
+      "as"
      ]
     },
     {
@@ -4097,6 +4088,12 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "a eu",
+     "en": [
+      "a"
+     ]
     }
    ],
    "usted_style_best": {
@@ -4104,10 +4101,10 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "tiveste",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
+   "best": "avez eu",
+   "lang": "fr",
+   "shape": "compound",
+   "number": "2pl-vosotros/vous",
    "tok": [
     3,
     2
@@ -4593,28 +4590,36 @@
    "tense": "futperf",
    "verb": "have",
    "src": "you will have had",
-   "crossling_dropped": [
-    "aura eu",
-    "auras eu",
-    "aurez eu",
-    "auront eu"
+   "homograph_dropped": [
+    {
+     "form": "auras eu",
+     "en": [
+      "auras"
+     ]
+    },
+    {
+     "form": "aura eu",
+     "en": [
+      "aura"
+     ]
+    }
    ],
    "usted_style_best": {
     "form": "terá tido",
     "number": "2sg-usted",
     "tok": 2
    },
-   "best": "terás tido",
-   "lang": "pt",
+   "best": "aurez eu",
+   "lang": "fr",
    "shape": "compound",
-   "number": "2sg-tú",
+   "number": "2pl-vosotros/vous",
    "tok": [
     4,
     3
    ],
    "utf8": [
     17,
-    11
+    8
    ],
    "status": "adopt"
   },
@@ -5005,12 +5010,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "you had had",
-   "crossling_dropped": [
-    "avaient eu",
-    "avais eu",
-    "avait eu",
-    "aviez eu"
-   ],
    "usted_style_best": {
     "form": "tivera",
     "number": "2sg-usted",
@@ -9514,9 +9513,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "he has had",
-   "crossling_dropped": [
-    "a eu"
-   ],
    "homograph_dropped": [
     {
      "form": "ha tenido",
@@ -9528,6 +9524,12 @@
      "form": "ha avuto",
      "en": [
       "ha"
+     ]
+    },
+    {
+     "form": "a eu",
+     "en": [
+      "a"
      ]
     }
    ],
@@ -9937,8 +9939,13 @@
    "tense": "futperf",
    "verb": "have",
    "src": "he will have had",
-   "crossling_dropped": [
-    "aura eu"
+   "homograph_dropped": [
+    {
+     "form": "aura eu",
+     "en": [
+      "aura"
+     ]
+    }
    ],
    "best": "terá tido",
    "lang": "pt",
@@ -10285,9 +10292,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "he had had",
-   "crossling_dropped": [
-    "avait eu"
-   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -13126,9 +13130,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "she has had",
-   "crossling_dropped": [
-    "a eu"
-   ],
    "homograph_dropped": [
     {
      "form": "ha tenido",
@@ -13140,6 +13141,12 @@
      "form": "ha avuto",
      "en": [
       "ha"
+     ]
+    },
+    {
+     "form": "a eu",
+     "en": [
+      "a"
      ]
     }
    ],
@@ -13549,8 +13556,13 @@
    "tense": "futperf",
    "verb": "have",
    "src": "she will have had",
-   "crossling_dropped": [
-    "aura eu"
+   "homograph_dropped": [
+    {
+     "form": "aura eu",
+     "en": [
+      "aura"
+     ]
+    }
    ],
    "best": "terá tido",
    "lang": "pt",
@@ -13897,9 +13909,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "she had had",
-   "crossling_dropped": [
-    "avait eu"
-   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -16771,9 +16780,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "it has had",
-   "crossling_dropped": [
-    "a eu"
-   ],
    "homograph_dropped": [
     {
      "form": "ha tenido",
@@ -16785,6 +16791,12 @@
      "form": "ha avuto",
      "en": [
       "ha"
+     ]
+    },
+    {
+     "form": "a eu",
+     "en": [
+      "a"
      ]
     }
    ],
@@ -17194,8 +17206,13 @@
    "tense": "futperf",
    "verb": "have",
    "src": "it will have had",
-   "crossling_dropped": [
-    "aura eu"
+   "homograph_dropped": [
+    {
+     "form": "aura eu",
+     "en": [
+      "aura"
+     ]
+    }
    ],
    "best": "terá tido",
    "lang": "pt",
@@ -17542,9 +17559,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "it had had",
-   "crossling_dropped": [
-    "avait eu"
-   ],
    "best": "tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -19955,9 +19969,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "we have had",
-   "crossling_dropped": [
-    "avons eu"
-   ],
    "best": "tivemos",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -20198,11 +20209,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "we will have had",
-   "crossling_dropped": [
-    "aurons eu"
-   ],
-   "best": "teremos tido",
-   "lang": "pt",
+   "best": "aurons eu",
+   "lang": "fr",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -20211,7 +20219,7 @@
    ],
    "utf8": [
     16,
-    12
+    9
    ],
    "status": "adopt"
   },
@@ -20447,12 +20455,9 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "we had had",
-   "crossling_dropped": [
-    "avions eu"
-   ],
-   "best": "tivéramos",
-   "lang": "pt",
-   "shape": "simple-pluperfect",
+   "best": "avions eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
@@ -20460,7 +20465,7 @@
    ],
    "utf8": [
     10,
-    10
+    9
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -22582,12 +22587,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "they have had",
-   "crossling_dropped": [
-    "ont eu"
-   ],
-   "best": "tiveram",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
@@ -22595,7 +22597,7 @@
    ],
    "utf8": [
     13,
-    7
+    6
    ],
    "status": "adopt"
   },
@@ -22825,11 +22827,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "they will have had",
-   "crossling_dropped": [
-    "auront eu"
-   ],
-   "best": "terão tido",
-   "lang": "pt",
+   "best": "auront eu",
+   "lang": "fr",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -22838,7 +22837,7 @@
    ],
    "utf8": [
     18,
-    11
+    9
    ],
    "status": "adopt"
   },
@@ -23073,9 +23072,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "they had had",
-   "crossling_dropped": [
-    "avaient eu"
-   ],
    "best": "tiveram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -25136,9 +25132,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "this has had",
-   "crossling_dropped": [
-    "a eu"
-   ],
    "homograph_dropped": [
     {
      "form": "this ha tenido",
@@ -25150,6 +25143,12 @@
      "form": "this ha avuto",
      "en": [
       "ha"
+     ]
+    },
+    {
+     "form": "this a eu",
+     "en": [
+      "a"
      ]
     }
    ],
@@ -25513,8 +25512,13 @@
    "tense": "futperf",
    "verb": "have",
    "src": "this will have had",
-   "crossling_dropped": [
-    "aura eu"
+   "homograph_dropped": [
+    {
+     "form": "this aura eu",
+     "en": [
+      "aura"
+     ]
+    }
    ],
    "best": "this terá tido",
    "lang": "pt",
@@ -25819,9 +25823,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "this had had",
-   "crossling_dropped": [
-    "avait eu"
-   ],
    "best": "this tivera",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -28808,12 +28809,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "these have had",
-   "crossling_dropped": [
-    "ont eu"
-   ],
-   "best": "these tiveram",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "these ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     4,
@@ -28821,10 +28819,10 @@
    ],
    "utf8": [
     14,
-    13
+    12
    ],
    "status": "reject",
-   "parity_verb": "tiveram",
+   "parity_verb": "ont eu",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -29069,11 +29067,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "these will have had",
-   "crossling_dropped": [
-    "auront eu"
-   ],
-   "best": "these terão tido",
-   "lang": "pt",
+   "best": "these auront eu",
+   "lang": "fr",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -29082,10 +29077,10 @@
    ],
    "utf8": [
     19,
-    17
+    15
    ],
    "status": "reject",
-   "parity_verb": "terão tido",
+   "parity_verb": "auront eu",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -29336,9 +29331,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "these had had",
-   "crossling_dropped": [
-    "avaient eu"
-   ],
    "best": "these tiveram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -31308,12 +31300,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "those have had",
-   "crossling_dropped": [
-    "ont eu"
-   ],
-   "best": "those tiveram",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "those ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     4,
@@ -31321,10 +31310,10 @@
    ],
    "utf8": [
     14,
-    13
+    12
    ],
    "status": "reject",
-   "parity_verb": "tiveram",
+   "parity_verb": "ont eu",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -31569,11 +31558,8 @@
    "tense": "futperf",
    "verb": "have",
    "src": "those will have had",
-   "crossling_dropped": [
-    "auront eu"
-   ],
-   "best": "those terão tido",
-   "lang": "pt",
+   "best": "those auront eu",
+   "lang": "fr",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -31582,10 +31568,10 @@
    ],
    "utf8": [
     19,
-    17
+    15
    ],
    "status": "reject",
-   "parity_verb": "terão tido",
+   "parity_verb": "auront eu",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -31836,9 +31822,6 @@
    "tense": "pluperf",
    "verb": "have",
    "src": "those had had",
-   "crossling_dropped": [
-    "avaient eu"
-   ],
    "best": "those tiveram",
    "lang": "pt",
    "shape": "simple-pluperfect",
@@ -33930,9 +33913,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "who has had",
-   "crossling_dropped": [
-    "a eu"
-   ],
    "homograph_dropped": [
     {
      "form": "who ha tenido",
@@ -33944,6 +33924,12 @@
      "form": "who ha avuto",
      "en": [
       "ha"
+     ]
+    },
+    {
+     "form": "who a eu",
+     "en": [
+      "a"
      ]
     }
    ],
@@ -35949,12 +35935,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "who have had",
-   "crossling_dropped": [
-    "ont eu"
-   ],
-   "best": "who tiveram",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "who ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
@@ -35962,7 +35945,7 @@
    ],
    "utf8": [
     12,
-    11
+    10
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -37884,9 +37867,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "which has had",
-   "crossling_dropped": [
-    "a eu"
-   ],
    "homograph_dropped": [
     {
      "form": "which ha tenido",
@@ -37898,6 +37878,12 @@
      "form": "which ha avuto",
      "en": [
       "ha"
+     ]
+    },
+    {
+     "form": "which a eu",
+     "en": [
+      "a"
      ]
     }
    ],
@@ -39903,12 +39889,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "which have had",
-   "crossling_dropped": [
-    "ont eu"
-   ],
-   "best": "which tiveram",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "which ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     4,
@@ -39916,7 +39899,7 @@
    ],
    "utf8": [
     14,
-    13
+    12
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"
@@ -41838,9 +41821,6 @@
    "tense": "perf",
    "verb": "have",
    "src": "que has had",
-   "crossling_dropped": [
-    "a eu"
-   ],
    "homograph_dropped": [
     {
      "form": "que ha tenido",
@@ -41852,6 +41832,12 @@
      "form": "que ha avuto",
      "en": [
       "ha"
+     ]
+    },
+    {
+     "form": "que a eu",
+     "en": [
+      "a"
      ]
     }
    ],
@@ -43857,12 +43843,9 @@
    "tense": "perf",
    "verb": "have",
    "src": "que have had",
-   "crossling_dropped": [
-    "ont eu"
-   ],
-   "best": "que tiveram",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "que ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
@@ -43870,7 +43853,7 @@
    ],
    "utf8": [
     12,
-    11
+    10
    ],
    "status": "reject",
    "reason": "no candidate shrinks both token and utf8"

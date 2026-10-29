@@ -42,7 +42,8 @@ def _c(form, lang, shape="simple"):
         (_c("da", "es"), "pres", "give"),  # pl future (symmetric)
         (_c("di", "es"), "past", "give"),  # it preposition
         (_c("vimos", "es"), "past", "see"),  # pt 'we come'
-        (_c("avons eu", "fr", "compound"), "perf", "have"),  # pt pronoun eu
+        (_c("eu", "fr"), "pres", "have"),  # standalone: pt pronoun eu
+        (_c("aurai pensé", "fr", "compound"), "futperf", "think"),  # verb clash kept after aux
         (_c("kom", "sv"), "past", "come"),  # nl present 'I come'
         (_c("ga", "nb"), "past", "give"),  # nl 'I go'
     ],
@@ -58,6 +59,8 @@ def test_collision_rejects(cand, tense, verb):
         (_c("kom", "nl"), "pres", "come"),  # its own registration
         (_c("fant", "nb"), "past", "find"),  # unregistered
         (_c("estoy yendo", "es", "prog-gerund"), "presprog", "go"),
+        (_c("aurai eu", "fr", "compound"), "futperf", "have"),  # bound participle: pt pronoun eu ignored
+        (_c("avez eu", "fr", "compound"), "perf", "have"),
         (_c("mysleli jsme", "cs", tm.SLAVIC_GENDERED), "perf", "think"),
     ],
 )

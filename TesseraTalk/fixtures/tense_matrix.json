@@ -391,6 +391,10 @@
      "lang": "es"
     },
     {
+     "form": "ai eu",
+     "lang": "fr"
+    },
+    {
      "form": "miałem",
      "lang": "pl"
     },
@@ -685,11 +689,15 @@
    "from": [
     "I will have had"
    ],
-   "to": "terei tido",
-   "lang": "pt",
+   "to": "aurai eu",
+   "lang": "fr",
    "tense": "futperf",
    "subject": "1s",
    "candidates": [
+    {
+     "form": "aurai eu",
+     "lang": "fr"
+    },
     {
      "form": "terei tido",
      "lang": "pt"
@@ -2665,11 +2673,15 @@
    "from": [
     "you have had"
    ],
-   "to": "tiveste",
-   "lang": "pt",
+   "to": "avez eu",
+   "lang": "fr",
    "tense": "perf",
    "subject": "2",
    "candidates": [
+    {
+     "form": "avez eu",
+     "lang": "fr"
+    },
     {
      "form": "tiveste",
      "lang": "pt"
@@ -3069,11 +3081,15 @@
    "from": [
     "you will have had"
    ],
-   "to": "terás tido",
-   "lang": "pt",
+   "to": "aurez eu",
+   "lang": "fr",
    "tense": "futperf",
    "subject": "2",
    "candidates": [
+    {
+     "form": "aurez eu",
+     "lang": "fr"
+    },
     {
      "form": "terás tido",
      "lang": "pt"
@@ -11309,11 +11325,15 @@
    "from": [
     "we will have had"
    ],
-   "to": "teremos tido",
-   "lang": "pt",
+   "to": "aurons eu",
+   "lang": "fr",
    "tense": "futperf",
    "subject": "1p",
    "candidates": [
+    {
+     "form": "aurons eu",
+     "lang": "fr"
+    },
     {
      "form": "teremos tido",
      "lang": "pt"
@@ -12401,11 +12421,15 @@
    "from": [
     "they have had"
    ],
-   "to": "tiveram",
-   "lang": "pt",
+   "to": "ont eu",
+   "lang": "fr",
    "tense": "perf",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "ont eu",
+     "lang": "fr"
+    },
     {
      "form": "tiveram",
      "lang": "pt"
@@ -12657,11 +12681,15 @@
    "from": [
     "they will have had"
    ],
-   "to": "terão tido",
-   "lang": "pt",
+   "to": "auront eu",
+   "lang": "fr",
    "tense": "futperf",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "auront eu",
+     "lang": "fr"
+    },
     {
      "form": "terão tido",
      "lang": "pt"

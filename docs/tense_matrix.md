@@ -44,7 +44,7 @@ prog-gerund/es: 8, prog-gerund/it: 82, prog-gerund/pt: 49
 
 ## EN-homograph guard
 
-Cells with ≥1 dropped candidate: 746; most frequent EN-spelled tokens: `a` 704, `en` 612, `train` 612, `ha` 208, `was` 108, `is` 96, `dado` 71, `dire` 51, `saber` 51, `aura` 40, `as` 15, `dice` 14, `ho` 12, `he` 12, `vino` 12
+Cells with ≥1 dropped candidate: 751; most frequent EN-spelled tokens: `a` 712, `en` 612, `train` 612, `ha` 208, `was` 108, `is` 96, `dado` 71, `dire` 51, `saber` 51, `aura` 45, `as` 16, `dice` 14, `ho` 12, `he` 12, `vino` 12
 
 ## Reject reasons
 
@@ -62,10 +62,10 @@ Cells with ≥1 dropped candidate: 746; most frequent EN-spelled tokens: `a` 704
 
 ## 2nd person (you) — number of winning form
 
-Adopted (2nd-person-only forms): 2pl-vosotros/vous: 10, 2sg-tú: 78
+Adopted (2nd-person-only forms): 2pl-vosotros/vous: 12, 2sg-tú: 76
 
 If usted/ustedes were allowed, the overall cheapest would be: 2pl-ustedes: 1, 2pl-vosotros/vous: 4, 2sg-tú: 6, 2sg-usted: 91 — rejected: after subject drop usted≡él/ella and ustedes≡ellos (person collapse).
 
 ## Shape of winners (compound vs simple)
 
-compound: 108, pf-future: 17, prog-gerund: 139, simple: 168, simple-pluperfect: 95, simple-preterite: 152
+compound: 110, pf-future: 17, prog-gerund: 139, simple: 168, simple-pluperfect: 95, simple-preterite: 150
