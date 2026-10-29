@@ -933,6 +933,10 @@
         {
           "form": "neem",
           "lang": "nl"
+        },
+        {
+          "form": "nehme",
+          "lang": "de"
         }
       ]
     },
@@ -1031,6 +1035,10 @@
         {
           "form": "denk",
           "lang": "nl"
+        },
+        {
+          "form": "denke",
+          "lang": "de"
         }
       ]
     },
@@ -1157,8 +1165,8 @@
       "from": [
         "I found"
       ],
-      "to": "vond",
-      "lang": "nl",
+      "to": "fand",
+      "lang": "de",
       "tense": "past",
       "metrics": {
         "token_before": 3,
@@ -1179,6 +1187,10 @@
         {
           "form": "vond",
           "lang": "nl"
+        },
+        {
+          "form": "fand",
+          "lang": "de"
         }
       ]
     },

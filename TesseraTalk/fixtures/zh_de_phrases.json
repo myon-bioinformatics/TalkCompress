@@ -1006,7 +1006,19 @@
         "utf8_bits_after": 56,
         "both_shrink": true
       },
-      "class": "compound"
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "zwembad",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "Schwimmbad",
+          "lang": "de",
+          "class": "compound"
+        }
+      ]
     },
     {
       "id": "wasmachine",
@@ -1022,7 +1034,19 @@
         "utf8_bits_after": 80,
         "both_shrink": true
       },
-      "class": "compound"
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "wasmachine",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "Waschmaschine",
+          "lang": "de",
+          "class": "compound"
+        }
+      ]
     },
     {
       "id": "eetkamer",

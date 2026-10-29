@@ -20,13 +20,13 @@ Policy: adopt only when token **and** utf8 strictly shrink vs the full EN source
 
 | subject | pres | fut | past | perf | futperf | pluperf | presprog | pastprog | futprog |
 |---|---|---|---|---|---|---|---|---|---|
-| 1s | 4 nl | – (11 ex) | 3 nl | 12 es | 12 fr | 11 pt | 5 it | – | 12 it |
+| 1s | 4 nl | – (11 ex) | 3 de | 12 es | 12 fr | 11 pt | 5 it | – | 12 it |
 | 2 | 8 it | 10 it | 10 nl | 12 pt | 12 fr | 12 pt | 11 it | 1 pt | 12 it |
-| 3s-he | 10 es | 9 fr | 9 nl | 12 pt | 12 it | 11 pt | 11 it | 1 pt | 12 it |
-| 3s-she | 10 es | 9 fr | 9 nl | 12 pt | 12 it | 11 pt | 11 it | 1 pt | 12 it |
-| 3s-it | 10 es | 11 fr | 10 nl | 12 pt | 12 it | 11 pt | 11 it | 1 pt | 12 it |
-| 1p | 3 nl | 7 it | 3 nl | 12 pt | 11 fr | 9 pt | – | – | 11 it |
-| 3p | 5 pt | 9 es | 3 nl | 12 pt | 11 fr | 12 pt | 1 pt | 1 pt | 12 pt |
+| 3s-he | 10 es | 9 fr | 9 de | 12 pt | 12 it | 11 pt | 11 it | 1 pt | 12 it |
+| 3s-she | 10 es | 9 fr | 9 de | 12 pt | 12 it | 11 pt | 11 it | 1 pt | 12 it |
+| 3s-it | 10 es | 11 fr | 10 pt | 12 pt | 12 it | 11 pt | 11 it | 1 pt | 12 it |
+| 1p | 3 nl | 7 it | 3 de | 12 pt | 11 fr | 9 pt | – | – | 11 it |
+| 3p | 5 pt | 9 es | 3 de | 12 pt | 11 fr | 12 pt | 1 pt | 1 pt | 12 pt |
 | dem-this | – | 7 fr | – | 12 pt | 10 it | 7 pt | – | – | 1 pt |
 | dem-that | – | – | – | – | – | – | – | – | – |
 | dem-these | – | 2 es | – | 6 pt | 3 fr | 6 pt | – | – | – |
@@ -44,7 +44,7 @@ prog-gerund/es: 8, prog-gerund/it: 84, prog-gerund/pt: 47
 
 ## EN-homograph guard
 
-Cells with ≥1 dropped candidate: 748; most frequent EN-spelled tokens: `a` 724, `en` 612, `train` 612, `ha` 208, `was` 108, `is` 96, `dado` 71, `dire` 51, `saber` 51, `aura` 50, `as` 18, `dice` 14, `ho` 12, `he` 12, `vino` 12
+Cells with ≥1 dropped candidate: 756; most frequent EN-spelled tokens: `a` 724, `en` 612, `train` 612, `ha` 208, `was` 108, `is` 96, `dado` 71, `dire` 51, `saber` 51, `aura` 50, `as` 18, `dice` 14, `ho` 12, `he` 12, `vino` 12
 
 ## Reject reasons
 
@@ -62,9 +62,9 @@ Cells with ≥1 dropped candidate: 748; most frequent EN-spelled tokens: `a` 724
 
 ## 2nd person (you) — number of winning form
 
-Adopted (2nd-person-only forms): 2pl-vosotros/vous: 11, 2sg-tú: 77
+Adopted (2nd-person-only forms): 2pl-vosotros/vous: 13, 2sg-tú: 75
 
-If usted/ustedes were allowed, the overall cheapest would be: 2pl-ustedes: 1, 2pl-vosotros/vous: 4, 2sg-tú: 7, 2sg-usted: 90 — rejected: after subject drop usted≡él/ella and ustedes≡ellos (person collapse).
+If usted/ustedes were allowed, the overall cheapest would be: 2pl-ustedes: 1, 2pl-vosotros/vous: 4, 2sg-tú: 5, 2sg-usted: 92 — rejected: after subject drop usted≡él/ella and ustedes≡ellos (person collapse).
 
 ## Shape of winners (compound vs simple)
 
