@@ -464,7 +464,7 @@ def test_morpho_auxiliary_inventory():
     # I'll stays C — E keeps I will
     assert "I'll" not in m.compress("I will go", unique=False, etymon=False, counters=False)
     assert "I will" in m.compress("I will go", unique=False, etymon=False, counters=False)
-    assert m.canonicalize_closed("auxiliary", "should") == "must"
+    assert m.canonicalize_closed("auxiliary", "should") is None  # should ≠ must
     assert m.auxiliary_bit_cost("can will must may")["total_bits"] == 8
     ja = m.compress("勉強しなければならないかもしれない", unique=False, etymon=False)
     assert "must" in ja and "may" in ja

@@ -273,7 +273,6 @@ ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "approximately": "~",
     "˅": "˅",
     "very": "˅",
-    "really": "˅",
     "extremely": "˅",
     "esp.": "esp.",
     "esp": "esp.",
@@ -298,14 +297,12 @@ AUX_CANONICAL: tuple[str, ...] = ("can", "will", "must", "may")
 AUX_EXTENDED: tuple[str, ...] = ("can", "will", "must", "may")
 AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
     "can": "can",
-    "could": "can",
     "できる": "can",
     "will": "will",
     "would": "will",
     "だろう": "will",
     "でしょう": "will",
     "must": "must",
-    "should": "must",
     "しなければならない": "must",
     "しなくてはならない": "must",
     "しねばならない": "must",
@@ -313,7 +310,6 @@ AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
     "なくてはならない": "must",
     "ねばならない": "must",
     "may": "may",
-    "might": "may",
     "かもしれない": "may",
 }
 _AUX_SURFACE_RE = re.compile(
@@ -624,7 +620,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         AUX_EXTENDED,
         AUX_ALIAS_TO_CANONICAL,
         _AUX_SURFACE_RE,
-        "could→can would→will should→must might→may; I'll is C; "
+        "could/would/should/might keep form (meaning); I'll is C; "
         "neg → !can/!will/!must/!may; don't/not → !; polarity flag = 1bit separate",
     ),
     "preposition": ClosedInventory(
@@ -1144,7 +1140,6 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- adverbs (closed inventory): degree + polarity-adjacent frequency
     # always→□ (∀ kept for whatever); never→¬; often→oft; bare not→! (after may not etc.)
     (re.compile(r"\bextremely\b", re.I), "˅"),
-    (re.compile(r"\breally\b", re.I), "˅"),
     (re.compile(r"\bvery\b", re.I), "˅"),
     (re.compile(r"\bparticularly\b", re.I), "esp."),
     (re.compile(r"\balways\b", re.I), "□"),

@@ -1,0 +1,109 @@
+{
+  "description": "Extended copyright-free corpus (2026-10-30): everyday / play dialogue / etiquette / colloquial fiction / US-gov procedures. Line-per-unit excerpts; built by seeded sampling (seed 20261030). Gutenberg boilerplate removed.",
+  "files": [
+    {
+      "file": "tatoeba-eng-500.tsv",
+      "title": "Tatoeba English sentences (500, seeded sample; id<TAB>text)",
+      "author": "Tatoeba contributors",
+      "source_url": "https://tatoeba.org/en/downloads",
+      "license": "CC BY 2.0 FR (attribution: Tatoeba.org, sentence ids in column 1)",
+      "genre": "everyday",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 500,
+      "bytes": 24171,
+      "sha256": "9cdd447e4acbb990b1a942c2265c029f1240f2e90f1df49110640f379fe9a4ed"
+    },
+    {
+      "file": "wilde-earnest-dialogue.txt",
+      "title": "The Importance of Being Earnest — dialogue lines",
+      "author": "Oscar Wilde",
+      "source_url": "https://www.gutenberg.org/ebooks/844",
+      "license": "Public domain (US)",
+      "genre": "play",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 150,
+      "bytes": 17017,
+      "sha256": "d1ee39729239b2705dd11cf04012a29f2d162a6e00be164d53f128ac128d89e8"
+    },
+    {
+      "file": "shaw-pygmalion-dialogue.txt",
+      "title": "Pygmalion — dialogue lines",
+      "author": "George Bernard Shaw",
+      "source_url": "https://www.gutenberg.org/ebooks/3825",
+      "license": "Public domain (US)",
+      "genre": "play",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 150,
+      "bytes": 16244,
+      "sha256": "483c5538c0f2d05ac71cac18385fbe011d8910aeec42a1599f8ee4c499e13a52"
+    },
+    {
+      "file": "post-etiquette-1922.txt",
+      "title": "Etiquette in Society, in Business, in Politics and at Home (1922)",
+      "author": "Emily Post",
+      "source_url": "https://www.gutenberg.org/ebooks/14314",
+      "license": "Public domain (US)",
+      "genre": "manners",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 150,
+      "bytes": 55628,
+      "sha256": "d781c6475fc3fc78caf5e3af440de8dffe18cf07a96f682520b90665a2144d90"
+    },
+    {
+      "file": "jerome-three-men-boat.txt",
+      "title": "Three Men in a Boat",
+      "author": "Jerome K. Jerome",
+      "source_url": "https://www.gutenberg.org/ebooks/308",
+      "license": "Public domain (US)",
+      "genre": "colloquial-fiction",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 150,
+      "bytes": 42668,
+      "sha256": "3e0956a786567574e833a05f2d1829d94ac1f03f0a3b96804cd08151505c679a"
+    },
+    {
+      "file": "ohenry-gift-magi.txt",
+      "title": "The Gift of the Magi",
+      "author": "O. Henry",
+      "source_url": "https://www.gutenberg.org/ebooks/7256",
+      "license": "Public domain (US)",
+      "genre": "colloquial-fiction",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 40,
+      "bytes": 11149,
+      "sha256": "0b6575cec33a9b56c21aa5e87036770881f40c62ce069853d149b579ed03bd27"
+    },
+    {
+      "file": "readygov-build-a-kit.txt",
+      "title": "Build A Kit",
+      "author": "FEMA / Ready.gov",
+      "source_url": "https://www.ready.gov/kit",
+      "license": "U.S. government work (17 U.S.C. §105)",
+      "genre": "procedure",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 44,
+      "bytes": 3686,
+      "sha256": "553f8a6d9888faaf2369634c46782a8b584cc38cfcbf80e29ff5eea8a3b0a17a"
+    },
+    {
+      "file": "cdc-clean-hands.txt",
+      "title": "About Handwashing",
+      "author": "CDC",
+      "source_url": "https://www.cdc.gov/clean-hands/about/index.html",
+      "license": "U.S. government work (17 U.S.C. §105)",
+      "genre": "procedure",
+      "lang": "en",
+      "retrieved": "2026-10-30",
+      "lines": 38,
+      "bytes": 2971,
+      "sha256": "d078533c40e39129e6d56889a6fef4ff0c4c32a98661e2fe6e9ad096485b84c6"
+    }
+  ]
+}
