@@ -163,6 +163,10 @@ SUBJECTS = [
     ("rel-who-pl", "who", "3p", "pl", True, "rel"),
     ("rel-which-sg", "which", "3s", "sg", True, "rel"),
     ("rel-which-pl", "which", "3p", "pl", True, "rel"),
+    # after apply_relative_que: relative slot rewritten to neutral 'que';
+    # the EN verb still marks number (is/was/has → sg, are/were/have → pl).
+    ("rel-que-sg", "que", "3s", "sg", True, "rel"),
+    ("rel-que-pl", "que", "3p", "pl", True, "rel"),
 ]
 # Parity classes: subjects sharing one conjugation slot (same person key, kind,
 # subject handling). The verb winner is decided once per class so he/she/it

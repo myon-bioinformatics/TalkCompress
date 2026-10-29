@@ -14655,6 +14655,490 @@
      "lang": "es"
     }
    ]
+  },
+  {
+   "id": "mx-come-pres-rel-que-sg",
+   "from": [
+    "que comes"
+   ],
+   "to": "que vem",
+   "lang": "pt",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que vem",
+     "lang": "pt"
+    },
+    {
+     "form": "que komt",
+     "lang": "nl"
+    }
+   ]
+  },
+  {
+   "id": "mx-take-pres-rel-que-sg",
+   "from": [
+    "que takes"
+   ],
+   "to": "que toma",
+   "lang": "es",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que toma",
+     "lang": "es"
+    },
+    {
+     "form": "que toma",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-find-pres-rel-que-sg",
+   "from": [
+    "que finds"
+   ],
+   "to": "que acha",
+   "lang": "pt",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que acha",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-want-pres-rel-que-sg",
+   "from": [
+    "que wants"
+   ],
+   "to": "que wil",
+   "lang": "nl",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que wil",
+     "lang": "nl"
+    },
+    {
+     "form": "que quer",
+     "lang": "pt"
+    },
+    {
+     "form": "que veut",
+     "lang": "fr"
+    }
+   ]
+  },
+  {
+   "id": "mx-know-pres-rel-que-sg",
+   "from": [
+    "que knows"
+   ],
+   "to": "que sa",
+   "lang": "it",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que sa",
+     "lang": "it"
+    },
+    {
+     "form": "que sabe",
+     "lang": "es"
+    },
+    {
+     "form": "que sabe",
+     "lang": "pt"
+    },
+    {
+     "form": "que sait",
+     "lang": "fr"
+    },
+    {
+     "form": "que weet",
+     "lang": "nl"
+    }
+   ]
+  },
+  {
+   "id": "mx-give-pres-rel-que-sg",
+   "from": [
+    "que gives"
+   ],
+   "to": "que da",
+   "lang": "es",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que da",
+     "lang": "es"
+    },
+    {
+     "form": "que dà",
+     "lang": "it"
+    },
+    {
+     "form": "que dá",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-go-perf-rel-que-sg",
+   "from": [
+    "que has gone"
+   ],
+   "to": "que foi",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que foi",
+     "lang": "pt"
+    },
+    {
+     "form": "que fue",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-come-perf-rel-que-sg",
+   "from": [
+    "que has come"
+   ],
+   "to": "que veio",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que veio",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-do-perf-rel-que-sg",
+   "from": [
+    "que has done"
+   ],
+   "to": "que hizo",
+   "lang": "es",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que hizo",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-see-perf-rel-que-sg",
+   "from": [
+    "que has seen"
+   ],
+   "to": "que vio",
+   "lang": "es",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que vio",
+     "lang": "es"
+    },
+    {
+     "form": "que viu",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-take-perf-rel-que-sg",
+   "from": [
+    "que has taken"
+   ],
+   "to": "que tomó",
+   "lang": "es",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que tomó",
+     "lang": "es"
+    },
+    {
+     "form": "que tomou",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-find-perf-rel-que-sg",
+   "from": [
+    "que has found"
+   ],
+   "to": "que achou",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que achou",
+     "lang": "pt"
+    },
+    {
+     "form": "que encontró",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-want-perf-rel-que-sg",
+   "from": [
+    "que has wanted"
+   ],
+   "to": "que quis",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que quis",
+     "lang": "pt"
+    },
+    {
+     "form": "que quiso",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-have-perf-rel-que-sg",
+   "from": [
+    "que has had"
+   ],
+   "to": "que teve",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que teve",
+     "lang": "pt"
+    },
+    {
+     "form": "que tuvo",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-think-perf-rel-que-sg",
+   "from": [
+    "que has thought"
+   ],
+   "to": "que pensó",
+   "lang": "es",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que pensó",
+     "lang": "es"
+    },
+    {
+     "form": "que pensou",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-say-perf-rel-que-sg",
+   "from": [
+    "que has said"
+   ],
+   "to": "que dijo",
+   "lang": "es",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que dijo",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-know-perf-rel-que-sg",
+   "from": [
+    "que has known"
+   ],
+   "to": "que supo",
+   "lang": "es",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que supo",
+     "lang": "es"
+    },
+    {
+     "form": "que soube",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-give-perf-rel-que-sg",
+   "from": [
+    "que has given"
+   ],
+   "to": "que deu",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que deu",
+     "lang": "pt"
+    },
+    {
+     "form": "que dio",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-take-perf-rel-que-pl",
+   "from": [
+    "que have taken"
+   ],
+   "to": "que tomaram",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que tomaram",
+     "lang": "pt"
+    },
+    {
+     "form": "que tomaron",
+     "lang": "es"
+    },
+    {
+     "form": "que ont pris",
+     "lang": "fr"
+    }
+   ]
+  },
+  {
+   "id": "mx-find-perf-rel-que-pl",
+   "from": [
+    "que have found"
+   ],
+   "to": "que acharam",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que acharam",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-want-perf-rel-que-pl",
+   "from": [
+    "que have wanted"
+   ],
+   "to": "que quiseram",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que quiseram",
+     "lang": "pt"
+    }
+   ]
+  },
+  {
+   "id": "mx-think-perf-rel-que-pl",
+   "from": [
+    "que have thought"
+   ],
+   "to": "que pensaram",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que pensaram",
+     "lang": "pt"
+    },
+    {
+     "form": "que pensaron",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-know-perf-rel-que-pl",
+   "from": [
+    "que have known"
+   ],
+   "to": "que ont su",
+   "lang": "fr",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que ont su",
+     "lang": "fr"
+    },
+    {
+     "form": "que souberam",
+     "lang": "pt"
+    },
+    {
+     "form": "que supieron",
+     "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-give-perf-rel-que-pl",
+   "from": [
+    "que have given"
+   ],
+   "to": "que deram",
+   "lang": "pt",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que deram",
+     "lang": "pt"
+    },
+    {
+     "form": "que dieron",
+     "lang": "es"
+    }
+   ]
   }
  ]
 }

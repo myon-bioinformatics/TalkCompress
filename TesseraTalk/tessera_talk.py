@@ -1350,6 +1350,71 @@ def apply_zh_de_phrases(
     )
 
 
+# Relative pronoun → number/animacy-neutral ``que`` (es/fr/pt). Only in an
+# unambiguous relative slot: <noun> who|which|that <word>. Bare ``that`` also
+# needs a determiner before the noun (the man that …) so demonstrative /
+# complementizer / determiner ``that`` (I think that he…, that book) stays EN.
+_REL_PRON_RE = re.compile(r"(?<![A-Za-z0-9'])(who|which|that)(?=\s+[A-Za-z])", re.IGNORECASE)
+_REL_DET = frozenset(
+    "the a an this these those my your his her its our their every each some any no all many few several".split()
+)
+_REL_CLOSED = frozenset(
+    """i you he she it we they me him us them this that these those who which what whom whose
+    and or but so if as than then because though although when where while whether
+    is are was were be been being am do does did have has had will would can could shall should
+    may might must not no yes to of in on at by for with from about into over after before
+    think thought know knew say said believe hope see saw feel felt mean meant guess sure such
+    now just also only even very said tell told show showed ask asked realize realized
+    the a an my your his her its our their""".split()
+)
+# Connectives never mark animacy/gender: single neutral form only (no quien/qui/
+# lequel/il quale/cuyo).
+_REL_SUBJ_DET = _REL_DET | frozenset(
+    "i you he she it we they this that these those there both either neither".split()
+)
+REL_QUE_FORMS: tuple[tuple[str, str], ...] = (("que", "es"),)
+
+
+def _rel_slot(text: str, start: int, word: str) -> bool:
+    prev = re.findall(r"[A-Za-z']+|[^\sA-Za-z']", text[:start])
+    if not prev or not re.fullmatch(r"[A-Za-z']+", prev[-1]):
+        return False  # sentence start / after punctuation: interrogative or ambiguous
+    w1 = prev[-1].lower()
+    if w1 in _REL_CLOSED or "'" in w1:
+        return False
+    if word.lower() == "that":
+        # NOUN + that + VERB only: a following subject/determiner (that he…, that all
+        # men…) marks a complementizer clause → EN.
+        nxt = re.match(r"\s+([A-Za-z']+)", text[start + len(word):])
+        if not nxt or nxt.group(1).lower() in _REL_SUBJ_DET or "'" in nxt.group(1):
+            return False
+        return len(prev) >= 2 and prev[-2].lower() in _REL_DET
+    return True
+
+
+def apply_relative_que(text: str) -> str:
+    """who/which/that (relative slot only) → cheapest of EN vs ``que`` (token→utf8).
+
+    Number is left to the following EN verb (is/was/has → sg, are/were/have → pl);
+    matrix ``que …`` rows convert it, number-neutral verbs (went, will go) stay EN.
+    """
+    def _sub(m: re.Match[str]) -> str:
+        w = m.group(1)
+        if not _rel_slot(m.string, m.start(), w):
+            return w
+        best = w
+        key = (estimate_tokens(w), len(w.encode()))
+        for form, _lg in REL_QUE_FORMS:
+            if en_homograph_tokens(form):
+                continue
+            k = (estimate_tokens(form), len(form.encode()))
+            if k < key:
+                best, key = form, k
+        return best
+
+    return _REL_PRON_RE.sub(_sub, text or "")
+
+
 def apply_es_fr_tense(
     text: str,
     *,
@@ -1379,7 +1444,7 @@ def apply_es_fr_tense(
         tense_matrix_pairs(),
     )
     return _apply_phrase_pairs(
-        text,
+        apply_relative_que(text),
         pairs,
         require_token_drop=require_token_drop,
         homograph_guard=True,
