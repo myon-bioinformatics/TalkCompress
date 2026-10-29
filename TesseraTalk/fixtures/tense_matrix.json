@@ -13,6 +13,7 @@
   "cs/pl: simple future (perfective or budu/będę + inf) and present perfect only (l-participle, generic masculine, pronouns I/you/we only — never he/she/it, they, demonstratives, relatives); no aspect stand-ins for futperf/pluperf/progressive.",
   "Exact (token, utf8) tie: es/fr/pt preferred over it/cs/pl (wider readership).",
   "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete.",
+  "Collision guard also checks auxiliary tokens (fr a/as, es/it sei …; participle after an aux still exempt from article/pronoun readings) and audits the conversion-time banks (es_fr_tense, pt_el_latin_tense, zh_de_phrases, pt_el_latin_phrases): `collision_blocked` rows are skipped at runtime, next-cheapest candidate wins.",
   "you → U at runtime (tessera_talk.apply_you_u, after these rows): same tokens, utf8 3→1. A matrix row strictly drops tokens so it always beats U + EN chain; guarded / rejected cells become U + EN chain (your/yours/yourself, you'X excluded)."
  ],
  "entries": [
@@ -14448,6 +14449,60 @@
     }
    ],
    "scored_by": "o200k_base"
+  }
+ ],
+ "collision_blocked": [
+  {
+   "bank": "es_fr_tense",
+   "id": "go-past-1s",
+   "form": "vim",
+   "lang": "pt",
+   "readings": [
+    [
+     "pt",
+     "come",
+     "past"
+    ]
+   ]
+  },
+  {
+   "bank": "es_fr_tense",
+   "id": "give-past-1s",
+   "form": "di",
+   "lang": "es",
+   "readings": [
+    [
+     "it",
+     "<func>",
+     "func"
+    ]
+   ]
+  },
+  {
+   "bank": "es_fr_tense",
+   "id": "think-past-1s",
+   "form": "pensé",
+   "lang": "es",
+   "readings": [
+    [
+     "fr",
+     "think",
+     "pp"
+    ]
+   ]
+  },
+  {
+   "bank": "pt_el_latin_phrases",
+   "id": "by-means-of-pt-el",
+   "form": "via",
+   "lang": "pt",
+   "readings": [
+    [
+     "pt",
+     "see",
+     "past"
+    ]
+   ]
   }
  ]
 }

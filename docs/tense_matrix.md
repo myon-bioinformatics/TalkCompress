@@ -44,7 +44,7 @@ prog-gerund/es: 42, prog-gerund/it: 16, prog-gerund/pt: 132
 
 ## EN-homograph guard
 
-Cells with ≥1 dropped candidate: 751; most frequent EN-spelled tokens: `a` 712, `en` 612, `train` 612, `ha` 208, `was` 108, `is` 96, `dado` 71, `dire` 51, `saber` 51, `aura` 45, `as` 16, `dice` 14, `wist` 13, `gab` 13, `ho` 12
+Cells with ≥1 dropped candidate: 751; most frequent EN-spelled tokens: `a` 612, `en` 600, `train` 600, `ha` 208, `was` 108, `is` 96, `dado` 71, `saber` 51, `dire` 50, `aura` 45, `dice` 14, `wist` 13, `gab` 13, `ho` 12, `he` 12
 
 ## Reject reasons
 
