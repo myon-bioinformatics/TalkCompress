@@ -56,9 +56,6 @@ jobs:
             ShorthandEdge/shorthand_edge.py \
             DensityZip/density_zip.py \
             MorphoZip/morpho_zip.py
-      - name: Token estimate agreement (stdlib vs o200k_base, report-only)
-        run: |
-          uv run --locked python scripts/tokenizer_compat.py --agreement | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Test with JUnit
         run: |
           mkdir -p build/test-results
