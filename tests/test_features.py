@@ -557,7 +557,8 @@ def test_morpho_prep_compounds_and_legal_shorts():
     assert "whereby" in m.expand("∴by").lower()
     assert "therein" in m.expand("∈it").lower()
     assert "thereto" in m.expand("∴to").lower()
-    assert "vice versa" in m.expand("⇄").lower()
+    assert "vice versa" in m.expand("⇄").lower()  # legacy decode kept
+    assert "⇄" not in m.compress("and vice versa", **kw)  # o200k tie 2=2: rule removed
 
 
 

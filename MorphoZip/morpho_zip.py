@@ -1743,7 +1743,6 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     # Consume the optional period; \b after "." never matches.
     (re.compile(r"\bet al\.?(?!\w)", re.I), "etal"),
     (re.compile(r"\bthe foregoing\b", re.I), "supra"),
-    (re.compile(r"\bvice versa\b", re.I), "⇄"),
     # compare / equality — language-agnostic → ≥/≤/= /≒ (BEFORE and/or/at/_SUBS)
     (re.compile(r"\bapproximately equal(?: to)?\b", re.I), "≒"),
     (re.compile(r"\babout equal(?: to)?\b", re.I), "≒"),

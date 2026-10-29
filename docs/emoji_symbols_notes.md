@@ -49,7 +49,7 @@
 - degrees → °（1 = 1）
 - proportional to → ∝（2 = 2）
 - divided by → ÷（2 = 2）
-- vice versa → ⇄（2 = 2。E 層の MorphoZip 規則は別途残置）
+- vice versa → ⇄（2 = 2。E 層の MorphoZip 規則も削除済み。⇄ の復号のみ互換のため残置）
 - 行内の単独形 percent / implies / iff / sqrt（1 = 1）
 
 ## more than / less than
