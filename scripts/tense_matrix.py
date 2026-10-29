@@ -1,7 +1,7 @@
 """Person × tense coverage matrix for the B-final short-tense bank.
 
 Builds every (subject, tense, verb) cell for the existing high-frequency verb
-set, scores live-language candidates (es/fr/pt/it/nl/de/el) with
+set, scores live-language candidates (es/fr/pt/it/nl/de/el/cs/pl) with
 ``estimate_tokens`` + utf8, and writes:
 
 * ``TesseraTalk/fixtures/tense_matrix.json`` — adopted cells only (runtime bank)
@@ -30,7 +30,10 @@ dropped before ranking; the next-cheapest unique form wins, else EN stays.
 
 German (de) competes Präsens / Präteritum with du / ihr for you (never Sie).
 Tie rule: where de ties nl on (tokens, utf8) de wins; nl stays only when strictly
-cheaper. Against other langs the plain token → utf8 → len → form order applies.
+cheaper. On an exact (tokens, utf8) tie es/fr/pt also beat it/cs/pl.
+Otherwise the plain token → utf8 → len → form order applies.
+
+Czech / Polish compete only in simple future and present perfect (see tables).
 
 Progressive (be + -ing) only competes progressive-preserving periphrases —
 es estar + gerundio, pt estar + gerúndio / estar a + inf, it stare +
@@ -169,6 +172,80 @@ EL_AOR = {
     "see": "είδε είδαμε είδαν", "take": "πήρε πήραμε πήραν", "find": "βρήκε βρήκαμε βρήκαν",
     "say": "είπε είπαμε είπαν", "give": "έδωσε δώσαμε έδωσαν",
 }
+
+# cs / pl: ONLY simple future (fut) and present perfect (perf). No aspect-based
+# stand-ins for futperf / pluperf / progressive. P6 order (2p = vy / wy).
+# fut: perfective future (single word) or budu / będę + infinitive where the
+# perfective is not a plain future (want / know / have …). Gender-neutral.
+CS_FUT = {
+    "go": "půjdu půjdeš půjde půjdeme půjdete půjdou",
+    "come": "přijdu přijdeš přijde přijdeme přijdete přijdou",
+    "do": "udělám uděláš udělá uděláme uděláte udělají",
+    "see": "uvidím uvidíš uvidí uvidíme uvidíte uvidí",
+    "take": "vezmu vezmeš vezme vezmeme vezmete vezmou",
+    "find": "najdu najdeš najde najdeme najdete najdou",
+    "say": "řeknu řekneš řekne řekneme řeknete řeknou",
+    "give": "dám dáš dá dáme dáte dají",
+}
+CS_INF = {"want": "chtít", "have": "mít", "think": "myslet", "know": "vědět"}
+CS_BUDU = _p6("budu budeš bude budeme budete budou")
+PL_FUT = {
+    "go": "pójdę pójdziesz pójdzie pójdziemy pójdziecie pójdą",
+    "come": "przyjdę przyjdziesz przyjdzie przyjdziemy przyjdziecie przyjdą",
+    "do": "zrobię zrobisz zrobi zrobimy zrobicie zrobią",
+    "see": "zobaczę zobaczysz zobaczy zobaczymy zobaczycie zobaczą",
+    "take": "wezmę weźmiesz weźmie weźmiemy weźmiecie wezmą",
+    "find": "znajdę znajdziesz znajdzie znajdziemy znajdziecie znajdą",
+    "think": "pomyślę pomyślisz pomyśli pomyślimy pomyślicie pomyślą",
+    "say": "powiem powiesz powie powiemy powiecie powiedzą",
+    "give": "dam dasz da damy dacie dadzą",
+}
+PL_INF = {"want": "chcieć", "have": "mieć", "know": "wiedzieć"}
+PL_BEDE = _p6("będę będziesz będzie będziemy będziecie będą")
+# perf: l-participle past (masc. sg, masc.-personal pl) — the Slavic past
+# carries GENDER. Used only for gender-unspecified pronoun subjects
+# (I / you / we / they, generic masculine); never for he/she/it (forms diverge
+# across the parity class: šel/šla/šlo), demonstratives or relatives (referent
+# gender / animacy unknown). pl person endings -łem/-łeś/-liśmy/-liście;
+# cs aux jsem/jsi/jsme/jste (3p bare).
+CS_LPART = {
+    "go": "šel šli", "come": "přišel přišli", "do": "udělal udělali", "see": "viděl viděli",
+    "take": "vzal vzali", "find": "našel našli", "want": "chtěl chtěli", "have": "měl měli",
+    "think": "myslel mysleli", "say": "řekl řekli", "know": "věděl věděli", "give": "dal dali",
+}
+CS_JSEM = {"1s": "jsem", "2s": "jsi", "1p": "jsme", "2p": "jste", "3p": ""}
+PL_LPART = {
+    "go": "poszedł poszli", "come": "przyszedł przyszli", "do": "zrobił zrobili",
+    "see": "zobaczył zobaczyli", "take": "wziął wzięli", "find": "znalazł znaleźli",
+    "want": "chciał chcieli", "have": "miał mieli", "think": "pomyślał pomyśleli",
+    "say": "powiedział powiedzieli", "know": "wiedział wiedzieli", "give": "dał dali",
+}
+SLAVIC_GENDERED = "gendered-past"
+
+
+def _slavic(verb: str, tense: str, slot: str) -> list[tuple[str, str, str]]:
+    """(form, lang, shape) cs/pl candidates for fut / perf at a P6 slot."""
+    out: list[tuple[str, str, str]] = []
+    i = P6.index(slot)
+    if tense == "fut":
+        if verb in CS_FUT:
+            out.append((CS_FUT[verb].split()[i], "cs", "pf-future"))
+        else:
+            out.append((f"{CS_BUDU[slot]} {CS_INF[verb]}", "cs", "budu-inf"))
+        if verb in PL_FUT:
+            out.append((PL_FUT[verb].split()[i], "pl", "pf-future"))
+        else:
+            out.append((f"{PL_BEDE[slot]} {PL_INF[verb]}", "pl", "bede-inf"))
+    elif tense == "perf" and slot not in ("3s", "3p"):
+        sg, pl = CS_LPART[verb].split()
+        part = pl if slot.endswith("p") else sg
+        aux = CS_JSEM[slot]
+        out.append((f"{part} {aux}".strip(), "cs", SLAVIC_GENDERED))
+        sg, pl = PL_LPART[verb].split()
+        end = {"1s": "em", "2s": "eś", "1p": "śmy", "2p": "ście", "3p": ""}[slot]
+        out.append(((pl if slot.endswith("p") else sg) + end, "pl", SLAVIC_GENDERED))
+    return out
+
 
 # subject rows: (label, en surface, person key, number, keep_subject, kind)
 SUBJECTS = [
@@ -313,6 +390,10 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
         if tense in ("pres", "past"):
             de = (DE_PRES if tense == "pres" else DE_PAST)[verb].split()[P6.index(slot)]
             add(de, "de", "simple", tag)
+        # cs / pl (fut, perf only)
+        if tense in ("fut", "perf"):
+            for f, L, shape in _slavic(verb, tense, slot):
+                add(f, L, shape, tag)
         # el aorist
         if tense == "past" and verb in EL_AOR and slot in ("3s", "1p", "3p"):
             add(EL_AOR[verb].split()[("3s", "1p", "3p").index(slot)], "el", "simple", tag)
@@ -326,6 +407,22 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
             seen.add(k)
             uniq.append(c)
     return uniq
+
+
+def _other_lang_forms(conj: dict) -> set[str]:
+    """Every es/pt/it/fr/nl/de verb form + Romance participles / gerunds."""
+    out: set[str] = set()
+    for L in ("es", "pt", "it", "fr"):
+        for v in conj[L].values():
+            for tense in v.values():
+                out.update(tense.values())
+        out.update(PP[L].values())
+    for g in GER.values():
+        out.update(g.values())
+    for tab in (NL_PRES, NL_PAST, DE_PRES, DE_PAST):
+        for v in tab.values():
+            out.update(v.split())
+    return {w.lower() for w in out}
 
 
 def _existing_sources(t) -> set[str]:
@@ -344,6 +441,7 @@ def build() -> tuple[dict, dict, str]:
     t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
     conj = json.loads(CONJ_PATH.read_text(encoding="utf-8"))["conj"]
     existing = _existing_sources(t)
+    other_forms = _other_lang_forms(conj)
     tok = t.estimate_tokens
     u8 = lambda s: len(s.encode("utf-8"))  # noqa: E731
     cells: list[dict] = []
@@ -363,6 +461,16 @@ def build() -> tuple[dict, dict, str]:
                     cell.update(status="existing", reason="already in es_fr_tense / pt_el_latin_tense")
                     continue
                 cands = _candidates(conj, person, tense, verb, num)
+                if keep or person in ("3s", "3p"):
+                    # gendered Slavic past: only for gender-unspecified pronouns
+                    cands = [c for c in cands if c["shape"] != SLAVIC_GENDERED]
+                # cross-language homograph: a cs/pl form spelled like any other
+                # candidate-language verb form (pl ``da`` = es/it/pt "gives")
+                # would read as a different tense → dropped (揺らぎ回避).
+                xl = [c["form"] for c in cands if c["lang"] in ("cs", "pl") and c["form"].split()[-1] in other_forms]
+                if xl:
+                    cell["crossling_dropped"] = xl
+                    cands = [c for c in cands if not (c["lang"] in ("cs", "pl") and c["form"].split()[-1] in other_forms)]
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
@@ -392,13 +500,17 @@ def build() -> tuple[dict, dict, str]:
                     cands,
                     key=lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"]),
                 )
-                # de-over-nl tie rule (runtime twin: tessera_talk.prefer_on_tie)
-                if scored[0]["lang"] == "nl":
-                    m0 = (tok(scored[0]["form"]), u8(scored[0]["form"]))
-                    tie = [c for c in scored if c["lang"] == "de" and (tok(c["form"]), u8(c["form"])) == m0]
-                    if tie:
-                        scored.remove(tie[0])
-                        scored.insert(0, tie[0])
+                # exact (token, utf8) tie rules (runtime twin: tessera_talk.prefer_on_tie):
+                # de over nl; es/fr/pt over it/cs/pl.
+                pick = t.prefer_on_tie(
+                    (scored[0]["form"], scored[0]["lang"]),
+                    [(c["form"], c["lang"]) for c in scored],
+                    lambda f: (tok(f), u8(f)),
+                )
+                if pick != (scored[0]["form"], scored[0]["lang"]):
+                    w = next(c for c in scored if (c["form"], c["lang"]) == pick)
+                    scored.remove(w)
+                    scored.insert(0, w)
                 best = scored[0]
                 cell.update(
                     best=best["form"], lang=best["lang"], shape=best["shape"], number=best["number"],
@@ -493,6 +605,8 @@ def build() -> tuple[dict, dict, str]:
             "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",
             "Progressive: only progressive-preserving periphrases (estar/stare + gerund, estar a + inf, être en train de, aan het); no simple-tense fallback.",
             "de (Präsens/Präteritum, du/ihr, never Sie) competes; de wins (tokens, utf8) ties against nl, nl kept only when strictly cheaper.",
+            "cs/pl: simple future (perfective or budu/będę + inf) and present perfect only (l-participle, generic masculine, pronouns I/you/we only — never he/she/it, they, demonstratives, relatives); no aspect stand-ins for futperf/pluperf/progressive.",
+            "Exact (token, utf8) tie: es/fr/pt preferred over it/cs/pl (wider readership).",
             "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete.",
         ],
         "entries": entries,

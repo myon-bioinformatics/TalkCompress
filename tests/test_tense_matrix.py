@@ -315,3 +315,56 @@ def test_relative_number_from_en_verb():
 def test_relative_connective_single_neutral_form():
     forms = [f for f, _ in _t().REL_QUE_FORMS]
     assert forms == ["que"]
+
+
+# --- cs / pl (simple future + present perfect only) and tie preference ---------
+
+
+@pytest.mark.parametrize(
+    ("s", "want"),
+    [
+        ("they have gone", "foram"),  # cs/pl gendered past barred for 3pl (parity w/ these/those)
+        ("he will take", "vezme"),  # cs perfective future, gender-neutral
+        ("she will take", "vezme"),  # he/she/it parity
+        ("it will take", "vezme"),
+        ("we will give", "damy"),  # pl perfective future
+        ("you will give", "dasz"),
+        ("these will give", "these dají"),
+    ],
+)
+def test_cs_pl_wins(s, want):
+    assert _t().apply_es_fr_tense(s) == want
+
+
+def test_cs_pl_only_fut_and_perf_and_no_gendered_3s():
+    for e in ENTRIES:
+        if e["lang"] in ("cs", "pl"):
+            assert e["tense"] in ("fut", "perf"), e["id"]
+            if e["tense"] == "perf":
+                # gendered l-participle: never he/she/it, demonstratives, relatives
+                assert e["subject"] in ("1s", "2", "1p"), e["id"]
+
+
+def test_no_crossling_homograph_for_slavic():
+    # pl "da" (he will give) = es/it/pt "gives" → dropped
+    assert _t().apply_es_fr_tense("he will give") != "da"
+
+
+@pytest.mark.parametrize(
+    ("s", "want"),
+    [
+        ("he will have seen", "terá visto"),  # ties it avrà visto → pt
+        ("you go", "vas"),  # ties it vai → es
+        ("I will be having", "estarei tendo"),
+    ],
+)
+def test_tie_prefers_es_fr_pt_over_it(s, want):
+    assert _t().apply_es_fr_tense(s) == want
+
+
+def test_prefer_on_tie_rule():
+    t = _t()
+    m = lambda f: (t.estimate_tokens(f), len(f.encode()))  # noqa: E731
+    assert t.prefer_on_tie(("avrà visto", "it"), [("avrà visto", "it"), ("terá visto", "pt")], m) == ("terá visto", "pt")
+    assert t.prefer_on_tie(("vezme", "cs"), [("vezme", "cs"), ("tomará", "es")], m) == ("vezme", "cs")  # not a tie
+    assert t.prefer_on_tie(("wil", "nl"), [("wil", "nl")], m) == ("wil", "nl")

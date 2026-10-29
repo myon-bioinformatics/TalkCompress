@@ -10,6 +10,8 @@
   "EN-homograph guard: candidates with a token spelled like an English word (fixtures/en_wordlist.txt) are dropped; next-cheapest unique form wins.",
   "Progressive: only progressive-preserving periphrases (estar/stare + gerund, estar a + inf, être en train de, aan het); no simple-tense fallback.",
   "de (Präsens/Präteritum, du/ihr, never Sie) competes; de wins (tokens, utf8) ties against nl, nl kept only when strictly cheaper.",
+  "cs/pl: simple future (perfective or budu/będę + inf) and present perfect only (l-participle, generic masculine, pronouns I/you/we only — never he/she/it, they, demonstratives, relatives); no aspect stand-ins for futperf/pluperf/progressive.",
+  "Exact (token, utf8) tie: es/fr/pt preferred over it/cs/pl (wider readership).",
   "you: usted/ustedes measured but excluded (3rd-person forms collapse into he/they after subject drop); tú vs vosotros/vous compete."
  ],
  "entries": [
@@ -204,6 +206,10 @@
      "lang": "pt"
     },
     {
+     "form": "šel jsem",
+     "lang": "cs"
+    },
+    {
      "form": "suis allé",
      "lang": "fr"
     }
@@ -246,6 +252,10 @@
     {
      "form": "ai fait",
      "lang": "fr"
+    },
+    {
+     "form": "zrobiłem",
+     "lang": "pl"
     }
    ]
   },
@@ -286,6 +296,14 @@
     {
      "form": "ai pris",
      "lang": "fr"
+    },
+    {
+     "form": "wziąłem",
+     "lang": "pl"
+    },
+    {
+     "form": "vzal jsem",
+     "lang": "cs"
     }
    ]
   },
@@ -310,6 +328,14 @@
     {
      "form": "ai trouvé",
      "lang": "fr"
+    },
+    {
+     "form": "znalazłem",
+     "lang": "pl"
+    },
+    {
+     "form": "našel jsem",
+     "lang": "cs"
     }
    ]
   },
@@ -332,8 +358,16 @@
      "lang": "es"
     },
     {
+     "form": "chciałem",
+     "lang": "pl"
+    },
+    {
      "form": "ai voulu",
      "lang": "fr"
+    },
+    {
+     "form": "chtěl jsem",
+     "lang": "cs"
     }
    ]
   },
@@ -358,6 +392,14 @@
     {
      "form": "ai eu",
      "lang": "fr"
+    },
+    {
+     "form": "miałem",
+     "lang": "pl"
+    },
+    {
+     "form": "měl jsem",
+     "lang": "cs"
     }
    ]
   },
@@ -382,6 +424,14 @@
     {
      "form": "ai pensé",
      "lang": "fr"
+    },
+    {
+     "form": "myslel jsem",
+     "lang": "cs"
+    },
+    {
+     "form": "pomyślałem",
+     "lang": "pl"
     }
    ]
   },
@@ -406,6 +456,10 @@
     {
      "form": "ai dit",
      "lang": "fr"
+    },
+    {
+     "form": "řekl jsem",
+     "lang": "cs"
     }
    ]
   },
@@ -430,6 +484,14 @@
     {
      "form": "soube",
      "lang": "pt"
+    },
+    {
+     "form": "wiedziałem",
+     "lang": "pl"
+    },
+    {
+     "form": "věděl jsem",
+     "lang": "cs"
     }
    ]
   },
@@ -450,6 +512,14 @@
     {
      "form": "dei",
      "lang": "pt"
+    },
+    {
+     "form": "dałem",
+     "lang": "pl"
+    },
+    {
+     "form": "dal jsem",
+     "lang": "cs"
     },
     {
      "form": "ai donné",
@@ -1134,18 +1204,18 @@
    "from": [
     "I will be finding"
    ],
-   "to": "starò trovando",
-   "lang": "it",
+   "to": "estarei achando",
+   "lang": "pt",
    "tense": "futprog",
    "subject": "1s",
    "candidates": [
     {
-     "form": "starò trovando",
-     "lang": "it"
-    },
-    {
      "form": "estarei achando",
      "lang": "pt"
+    },
+    {
+     "form": "starò trovando",
+     "lang": "it"
     }
    ]
   },
@@ -1174,18 +1244,18 @@
    "from": [
     "I will be having"
    ],
-   "to": "starò avendo",
-   "lang": "it",
+   "to": "estarei tendo",
+   "lang": "pt",
    "tense": "futprog",
    "subject": "1s",
    "candidates": [
     {
-     "form": "starò avendo",
-     "lang": "it"
-    },
-    {
      "form": "estarei tendo",
      "lang": "pt"
+    },
+    {
+     "form": "starò avendo",
+     "lang": "it"
     },
     {
      "form": "estaré teniendo",
@@ -1294,18 +1364,18 @@
    "from": [
     "you go"
    ],
-   "to": "vai",
-   "lang": "it",
+   "to": "vas",
+   "lang": "es",
    "tense": "pres",
    "subject": "2",
    "candidates": [
     {
-     "form": "vai",
-     "lang": "it"
-    },
-    {
      "form": "vas",
      "lang": "es"
+    },
+    {
+     "form": "vai",
+     "lang": "it"
     },
     {
      "form": "vas",
@@ -1538,18 +1608,18 @@
    "from": [
     "you give"
    ],
-   "to": "dai",
-   "lang": "it",
+   "to": "das",
+   "lang": "es",
    "tense": "pres",
    "subject": "2",
    "candidates": [
     {
-     "form": "dai",
-     "lang": "it"
-    },
-    {
      "form": "das",
      "lang": "es"
+    },
+    {
+     "form": "dai",
+     "lang": "it"
     },
     {
      "form": "dás",
@@ -1600,6 +1670,14 @@
      "lang": "fr"
     },
     {
+     "form": "přijdeš",
+     "lang": "cs"
+    },
+    {
+     "form": "přijdete",
+     "lang": "cs"
+    },
+    {
      "form": "vendréis",
      "lang": "es"
     }
@@ -1610,18 +1688,18 @@
    "from": [
     "you will do"
    ],
-   "to": "farai",
-   "lang": "it",
+   "to": "feras",
+   "lang": "fr",
    "tense": "fut",
    "subject": "2",
    "candidates": [
     {
-     "form": "farai",
-     "lang": "it"
-    },
-    {
      "form": "feras",
      "lang": "fr"
+    },
+    {
+     "form": "farai",
+     "lang": "it"
     },
     {
      "form": "ferez",
@@ -1646,6 +1724,22 @@
     {
      "form": "haréis",
      "lang": "es"
+    },
+    {
+     "form": "zrobisz",
+     "lang": "pl"
+    },
+    {
+     "form": "zrobicie",
+     "lang": "pl"
+    },
+    {
+     "form": "uděláš",
+     "lang": "cs"
+    },
+    {
+     "form": "uděláte",
+     "lang": "cs"
     }
    ]
   },
@@ -1690,6 +1784,14 @@
     {
      "form": "vedrete",
      "lang": "it"
+    },
+    {
+     "form": "uvidíš",
+     "lang": "cs"
+    },
+    {
+     "form": "uvidíte",
+     "lang": "cs"
     }
    ]
   },
@@ -1698,11 +1800,19 @@
    "from": [
     "you will take"
    ],
-   "to": "tomarás",
-   "lang": "es",
+   "to": "vezmeš",
+   "lang": "cs",
    "tense": "fut",
    "subject": "2",
    "candidates": [
+    {
+     "form": "vezmeš",
+     "lang": "cs"
+    },
+    {
+     "form": "vezmete",
+     "lang": "cs"
+    },
     {
      "form": "tomarás",
      "lang": "es"
@@ -1726,6 +1836,10 @@
     {
      "form": "tomaréis",
      "lang": "es"
+    },
+    {
+     "form": "weźmiesz",
+     "lang": "pl"
     }
    ]
   },
@@ -1734,11 +1848,19 @@
    "from": [
     "you will find"
    ],
-   "to": "acharás",
-   "lang": "pt",
+   "to": "najdeš",
+   "lang": "cs",
    "tense": "fut",
    "subject": "2",
    "candidates": [
+    {
+     "form": "najdeš",
+     "lang": "cs"
+    },
+    {
+     "form": "najdete",
+     "lang": "cs"
+    },
     {
      "form": "acharás",
      "lang": "pt"
@@ -1798,18 +1920,18 @@
    "from": [
     "you will think"
    ],
-   "to": "penserai",
-   "lang": "it",
+   "to": "penseras",
+   "lang": "fr",
    "tense": "fut",
    "subject": "2",
    "candidates": [
     {
-     "form": "penserai",
-     "lang": "it"
-    },
-    {
      "form": "penseras",
      "lang": "fr"
+    },
+    {
+     "form": "penserai",
+     "lang": "it"
     },
     {
      "form": "penserez",
@@ -1834,6 +1956,14 @@
     {
      "form": "pensaréis",
      "lang": "es"
+    },
+    {
+     "form": "pomyślisz",
+     "lang": "pl"
+    },
+    {
+     "form": "pomyślicie",
+     "lang": "pl"
     }
    ]
   },
@@ -1842,18 +1972,18 @@
    "from": [
     "you will say"
    ],
-   "to": "dirai",
-   "lang": "it",
+   "to": "diras",
+   "lang": "fr",
    "tense": "fut",
    "subject": "2",
    "candidates": [
     {
-     "form": "dirai",
-     "lang": "it"
-    },
-    {
      "form": "diras",
      "lang": "fr"
+    },
+    {
+     "form": "dirai",
+     "lang": "it"
     },
     {
      "form": "direz",
@@ -1878,6 +2008,22 @@
     {
      "form": "diréis",
      "lang": "es"
+    },
+    {
+     "form": "powiesz",
+     "lang": "pl"
+    },
+    {
+     "form": "řekneš",
+     "lang": "cs"
+    },
+    {
+     "form": "řeknete",
+     "lang": "cs"
+    },
+    {
+     "form": "powiecie",
+     "lang": "pl"
     }
    ]
   },
@@ -1886,18 +2032,18 @@
    "from": [
     "you will know"
    ],
-   "to": "saprai",
-   "lang": "it",
+   "to": "sauras",
+   "lang": "fr",
    "tense": "fut",
    "subject": "2",
    "candidates": [
     {
-     "form": "saprai",
-     "lang": "it"
-    },
-    {
      "form": "sauras",
      "lang": "fr"
+    },
+    {
+     "form": "saprai",
+     "lang": "it"
     },
     {
      "form": "saurez",
@@ -1930,11 +2076,27 @@
    "from": [
     "you will give"
    ],
-   "to": "darai",
-   "lang": "it",
+   "to": "dasz",
+   "lang": "pl",
    "tense": "fut",
    "subject": "2",
    "candidates": [
+    {
+     "form": "dasz",
+     "lang": "pl"
+    },
+    {
+     "form": "dáš",
+     "lang": "cs"
+    },
+    {
+     "form": "dáte",
+     "lang": "cs"
+    },
+    {
+     "form": "dacie",
+     "lang": "pl"
+    },
     {
      "form": "darai",
      "lang": "it"
@@ -2284,8 +2446,16 @@
      "lang": "fr"
     },
     {
+     "form": "šel jsi",
+     "lang": "cs"
+    },
+    {
      "form": "fuisteis",
      "lang": "es"
+    },
+    {
+     "form": "šli jste",
+     "lang": "cs"
     }
    ]
   },
@@ -2342,6 +2512,10 @@
     {
      "form": "avez fait",
      "lang": "fr"
+    },
+    {
+     "form": "zrobiłeś",
+     "lang": "pl"
     }
    ]
   },
@@ -2400,8 +2574,16 @@
      "lang": "pt"
     },
     {
+     "form": "vzal jsi",
+     "lang": "cs"
+    },
+    {
      "form": "avez pris",
      "lang": "fr"
+    },
+    {
+     "form": "wziąłeś",
+     "lang": "pl"
     },
     {
      "form": "hai preso",
@@ -2410,6 +2592,14 @@
     {
      "form": "tomasteis",
      "lang": "es"
+    },
+    {
+     "form": "vzali jste",
+     "lang": "cs"
+    },
+    {
+     "form": "wzięliście",
+     "lang": "pl"
     }
    ]
   },
@@ -2432,6 +2622,18 @@
      "lang": "pt"
     },
     {
+     "form": "našel jsi",
+     "lang": "cs"
+    },
+    {
+     "form": "znalazłeś",
+     "lang": "pl"
+    },
+    {
+     "form": "našli jste",
+     "lang": "cs"
+    },
+    {
      "form": "encontraste",
      "lang": "es"
     },
@@ -2442,6 +2644,10 @@
     {
      "form": "avez trouvé",
      "lang": "fr"
+    },
+    {
+     "form": "znaleźliście",
+     "lang": "pl"
     }
    ]
   },
@@ -2464,8 +2670,16 @@
      "lang": "es"
     },
     {
+     "form": "chciałeś",
+     "lang": "pl"
+    },
+    {
      "form": "quisestes",
      "lang": "pt"
+    },
+    {
+     "form": "chtěl jsi",
+     "lang": "cs"
     },
     {
      "form": "avez voulu",
@@ -2478,6 +2692,14 @@
     {
      "form": "quisisteis",
      "lang": "es"
+    },
+    {
+     "form": "chcieliście",
+     "lang": "pl"
+    },
+    {
+     "form": "chtěli jste",
+     "lang": "cs"
     }
    ]
   },
@@ -2504,8 +2726,20 @@
      "lang": "es"
     },
     {
+     "form": "miałeś",
+     "lang": "pl"
+    },
+    {
+     "form": "měl jsi",
+     "lang": "cs"
+    },
+    {
      "form": "tivestes",
      "lang": "pt"
+    },
+    {
+     "form": "měli jste",
+     "lang": "cs"
     }
    ]
   },
@@ -2532,6 +2766,10 @@
      "lang": "pt"
     },
     {
+     "form": "myslel jsi",
+     "lang": "cs"
+    },
+    {
      "form": "pensasteis",
      "lang": "es"
     },
@@ -2542,6 +2780,14 @@
     {
      "form": "hai pensato",
      "lang": "it"
+    },
+    {
+     "form": "mysleli jste",
+     "lang": "cs"
+    },
+    {
+     "form": "pomyślałeś",
+     "lang": "pl"
     }
    ]
   },
@@ -2566,6 +2812,10 @@
     {
      "form": "disseste",
      "lang": "pt"
+    },
+    {
+     "form": "řekl jsi",
+     "lang": "cs"
     }
    ]
   },
@@ -2602,6 +2852,18 @@
     {
      "form": "hai saputo",
      "lang": "it"
+    },
+    {
+     "form": "věděl jsi",
+     "lang": "cs"
+    },
+    {
+     "form": "wiedziałeś",
+     "lang": "pl"
+    },
+    {
+     "form": "věděli jste",
+     "lang": "cs"
     }
    ]
   },
@@ -2628,12 +2890,28 @@
      "lang": "pt"
     },
     {
+     "form": "dałeś",
+     "lang": "pl"
+    },
+    {
+     "form": "dal jsi",
+     "lang": "cs"
+    },
+    {
      "form": "disteis",
      "lang": "es"
     },
     {
      "form": "hai dato",
      "lang": "it"
+    },
+    {
+     "form": "daliście",
+     "lang": "pl"
+    },
+    {
+     "form": "dali jste",
+     "lang": "cs"
     },
     {
      "form": "avete dato",
@@ -4222,6 +4500,14 @@
     {
      "form": "hará",
      "lang": "es"
+    },
+    {
+     "form": "zrobi",
+     "lang": "pl"
+    },
+    {
+     "form": "udělá",
+     "lang": "cs"
     }
    ]
   },
@@ -4248,8 +4534,16 @@
      "lang": "fr"
     },
     {
+     "form": "uvidí",
+     "lang": "cs"
+    },
+    {
      "form": "vedrà",
      "lang": "it"
+    },
+    {
+     "form": "zobaczy",
+     "lang": "pl"
     }
    ]
   },
@@ -4258,11 +4552,15 @@
    "from": [
     "he will take"
    ],
-   "to": "tomará",
-   "lang": "es",
+   "to": "vezme",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3s-he",
    "candidates": [
+    {
+     "form": "vezme",
+     "lang": "cs"
+    },
     {
      "form": "tomará",
      "lang": "es"
@@ -4270,6 +4568,10 @@
     {
      "form": "tomará",
      "lang": "pt"
+    },
+    {
+     "form": "weźmie",
+     "lang": "pl"
     },
     {
      "form": "prendra",
@@ -4286,11 +4588,15 @@
    "from": [
     "he will find"
    ],
-   "to": "achará",
-   "lang": "pt",
+   "to": "najde",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3s-he",
    "candidates": [
+    {
+     "form": "najde",
+     "lang": "cs"
+    },
     {
      "form": "achará",
      "lang": "pt"
@@ -4302,6 +4608,10 @@
     {
      "form": "trouvera",
      "lang": "fr"
+    },
+    {
+     "form": "znajdzie",
+     "lang": "pl"
     }
    ]
   },
@@ -4310,18 +4620,18 @@
    "from": [
     "he will want"
    ],
-   "to": "vorrà",
-   "lang": "it",
+   "to": "voudra",
+   "lang": "fr",
    "tense": "fut",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "vorrà",
-     "lang": "it"
-    },
-    {
      "form": "voudra",
      "lang": "fr"
+    },
+    {
+     "form": "vorrà",
+     "lang": "it"
     },
     {
      "form": "querrá",
@@ -4358,6 +4668,14 @@
     {
      "form": "penserà",
      "lang": "it"
+    },
+    {
+     "form": "pomyśli",
+     "lang": "pl"
+    },
+    {
+     "form": "bude myslet",
+     "lang": "cs"
     }
    ]
   },
@@ -4386,6 +4704,14 @@
     {
      "form": "dirá",
      "lang": "pt"
+    },
+    {
+     "form": "powie",
+     "lang": "pl"
+    },
+    {
+     "form": "řekne",
+     "lang": "cs"
     }
    ]
   },
@@ -4422,18 +4748,18 @@
    "from": [
     "he will give"
    ],
-   "to": "darà",
-   "lang": "it",
+   "to": "dará",
+   "lang": "es",
    "tense": "fut",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "darà",
-     "lang": "it"
-    },
-    {
      "form": "dará",
      "lang": "es"
+    },
+    {
+     "form": "darà",
+     "lang": "it"
     },
     {
      "form": "dará",
@@ -5006,18 +5332,18 @@
    "from": [
     "he will have done"
    ],
-   "to": "avrà fatto",
-   "lang": "it",
+   "to": "terá feito",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "avrà fatto",
-     "lang": "it"
-    },
-    {
      "form": "terá feito",
      "lang": "pt"
+    },
+    {
+     "form": "avrà fatto",
+     "lang": "it"
     }
    ]
   },
@@ -5026,18 +5352,18 @@
    "from": [
     "he will have seen"
    ],
-   "to": "avrà visto",
-   "lang": "it",
+   "to": "terá visto",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "avrà visto",
-     "lang": "it"
-    },
-    {
      "form": "terá visto",
      "lang": "pt"
+    },
+    {
+     "form": "avrà visto",
+     "lang": "it"
     }
    ]
   },
@@ -5134,18 +5460,18 @@
    "from": [
     "he will have thought"
    ],
-   "to": "avrà pensato",
-   "lang": "it",
+   "to": "terá pensado",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "avrà pensato",
-     "lang": "it"
-    },
-    {
      "form": "terá pensado",
      "lang": "pt"
+    },
+    {
+     "form": "avrà pensato",
+     "lang": "it"
     },
     {
      "form": "habrá pensado",
@@ -5178,18 +5504,18 @@
    "from": [
     "he will have known"
    ],
-   "to": "avrà saputo",
-   "lang": "it",
+   "to": "terá sabido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "avrà saputo",
-     "lang": "it"
-    },
-    {
      "form": "terá sabido",
      "lang": "pt"
+    },
+    {
+     "form": "avrà saputo",
+     "lang": "it"
     },
     {
      "form": "habrá sabido",
@@ -6282,6 +6608,14 @@
     {
      "form": "hará",
      "lang": "es"
+    },
+    {
+     "form": "zrobi",
+     "lang": "pl"
+    },
+    {
+     "form": "udělá",
+     "lang": "cs"
     }
    ]
   },
@@ -6308,8 +6642,16 @@
      "lang": "fr"
     },
     {
+     "form": "uvidí",
+     "lang": "cs"
+    },
+    {
      "form": "vedrà",
      "lang": "it"
+    },
+    {
+     "form": "zobaczy",
+     "lang": "pl"
     }
    ]
   },
@@ -6318,11 +6660,15 @@
    "from": [
     "she will take"
    ],
-   "to": "tomará",
-   "lang": "es",
+   "to": "vezme",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3s-she",
    "candidates": [
+    {
+     "form": "vezme",
+     "lang": "cs"
+    },
     {
      "form": "tomará",
      "lang": "es"
@@ -6330,6 +6676,10 @@
     {
      "form": "tomará",
      "lang": "pt"
+    },
+    {
+     "form": "weźmie",
+     "lang": "pl"
     },
     {
      "form": "prendra",
@@ -6346,11 +6696,15 @@
    "from": [
     "she will find"
    ],
-   "to": "achará",
-   "lang": "pt",
+   "to": "najde",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3s-she",
    "candidates": [
+    {
+     "form": "najde",
+     "lang": "cs"
+    },
     {
      "form": "achará",
      "lang": "pt"
@@ -6362,6 +6716,10 @@
     {
      "form": "trouvera",
      "lang": "fr"
+    },
+    {
+     "form": "znajdzie",
+     "lang": "pl"
     }
    ]
   },
@@ -6370,18 +6728,18 @@
    "from": [
     "she will want"
    ],
-   "to": "vorrà",
-   "lang": "it",
+   "to": "voudra",
+   "lang": "fr",
    "tense": "fut",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "vorrà",
-     "lang": "it"
-    },
-    {
      "form": "voudra",
      "lang": "fr"
+    },
+    {
+     "form": "vorrà",
+     "lang": "it"
     },
     {
      "form": "querrá",
@@ -6418,6 +6776,14 @@
     {
      "form": "penserà",
      "lang": "it"
+    },
+    {
+     "form": "pomyśli",
+     "lang": "pl"
+    },
+    {
+     "form": "bude myslet",
+     "lang": "cs"
     }
    ]
   },
@@ -6446,6 +6812,14 @@
     {
      "form": "dirá",
      "lang": "pt"
+    },
+    {
+     "form": "powie",
+     "lang": "pl"
+    },
+    {
+     "form": "řekne",
+     "lang": "cs"
     }
    ]
   },
@@ -6482,18 +6856,18 @@
    "from": [
     "she will give"
    ],
-   "to": "darà",
-   "lang": "it",
+   "to": "dará",
+   "lang": "es",
    "tense": "fut",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "darà",
-     "lang": "it"
-    },
-    {
      "form": "dará",
      "lang": "es"
+    },
+    {
+     "form": "darà",
+     "lang": "it"
     },
     {
      "form": "dará",
@@ -7082,18 +7456,18 @@
    "from": [
     "she will have done"
    ],
-   "to": "avrà fatto",
-   "lang": "it",
+   "to": "terá feito",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "avrà fatto",
-     "lang": "it"
-    },
-    {
      "form": "terá feito",
      "lang": "pt"
+    },
+    {
+     "form": "avrà fatto",
+     "lang": "it"
     }
    ]
   },
@@ -7102,18 +7476,18 @@
    "from": [
     "she will have seen"
    ],
-   "to": "avrà visto",
-   "lang": "it",
+   "to": "terá visto",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "avrà visto",
-     "lang": "it"
-    },
-    {
      "form": "terá visto",
      "lang": "pt"
+    },
+    {
+     "form": "avrà visto",
+     "lang": "it"
     }
    ]
   },
@@ -7210,18 +7584,18 @@
    "from": [
     "she will have thought"
    ],
-   "to": "avrà pensato",
-   "lang": "it",
+   "to": "terá pensado",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "avrà pensato",
-     "lang": "it"
-    },
-    {
      "form": "terá pensado",
      "lang": "pt"
+    },
+    {
+     "form": "avrà pensato",
+     "lang": "it"
     },
     {
      "form": "habrá pensado",
@@ -7254,18 +7628,18 @@
    "from": [
     "she will have known"
    ],
-   "to": "avrà saputo",
-   "lang": "it",
+   "to": "terá sabido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "avrà saputo",
-     "lang": "it"
-    },
-    {
      "form": "terá sabido",
      "lang": "pt"
+    },
+    {
+     "form": "avrà saputo",
+     "lang": "it"
     },
     {
      "form": "habrá sabido",
@@ -8370,6 +8744,14 @@
     {
      "form": "andrà",
      "lang": "it"
+    },
+    {
+     "form": "půjde",
+     "lang": "cs"
+    },
+    {
+     "form": "pójdzie",
+     "lang": "pl"
     }
    ]
   },
@@ -8390,6 +8772,10 @@
     {
      "form": "verrà",
      "lang": "it"
+    },
+    {
+     "form": "přijde",
+     "lang": "cs"
     },
     {
      "form": "vendrá",
@@ -8426,6 +8812,14 @@
     {
      "form": "hará",
      "lang": "es"
+    },
+    {
+     "form": "zrobi",
+     "lang": "pl"
+    },
+    {
+     "form": "udělá",
+     "lang": "cs"
     }
    ]
   },
@@ -8452,8 +8846,16 @@
      "lang": "fr"
     },
     {
+     "form": "uvidí",
+     "lang": "cs"
+    },
+    {
      "form": "vedrà",
      "lang": "it"
+    },
+    {
+     "form": "zobaczy",
+     "lang": "pl"
     }
    ]
   },
@@ -8462,11 +8864,15 @@
    "from": [
     "it will take"
    ],
-   "to": "tomará",
-   "lang": "es",
+   "to": "vezme",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3s-it",
    "candidates": [
+    {
+     "form": "vezme",
+     "lang": "cs"
+    },
     {
      "form": "tomará",
      "lang": "es"
@@ -8474,6 +8880,10 @@
     {
      "form": "tomará",
      "lang": "pt"
+    },
+    {
+     "form": "weźmie",
+     "lang": "pl"
     },
     {
      "form": "prendra",
@@ -8490,11 +8900,15 @@
    "from": [
     "it will find"
    ],
-   "to": "achará",
-   "lang": "pt",
+   "to": "najde",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3s-it",
    "candidates": [
+    {
+     "form": "najde",
+     "lang": "cs"
+    },
     {
      "form": "achará",
      "lang": "pt"
@@ -8506,6 +8920,10 @@
     {
      "form": "trouvera",
      "lang": "fr"
+    },
+    {
+     "form": "znajdzie",
+     "lang": "pl"
     }
    ]
   },
@@ -8514,18 +8932,18 @@
    "from": [
     "it will want"
    ],
-   "to": "vorrà",
-   "lang": "it",
+   "to": "voudra",
+   "lang": "fr",
    "tense": "fut",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "vorrà",
-     "lang": "it"
-    },
-    {
      "form": "voudra",
      "lang": "fr"
+    },
+    {
+     "form": "vorrà",
+     "lang": "it"
     },
     {
      "form": "querrá",
@@ -8562,6 +8980,14 @@
     {
      "form": "penserà",
      "lang": "it"
+    },
+    {
+     "form": "pomyśli",
+     "lang": "pl"
+    },
+    {
+     "form": "bude myslet",
+     "lang": "cs"
     }
    ]
   },
@@ -8590,6 +9016,14 @@
     {
      "form": "dirá",
      "lang": "pt"
+    },
+    {
+     "form": "powie",
+     "lang": "pl"
+    },
+    {
+     "form": "řekne",
+     "lang": "cs"
     }
    ]
   },
@@ -8626,18 +9060,18 @@
    "from": [
     "it will give"
    ],
-   "to": "darà",
-   "lang": "it",
+   "to": "dará",
+   "lang": "es",
    "tense": "fut",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "darà",
-     "lang": "it"
-    },
-    {
      "form": "dará",
      "lang": "es"
+    },
+    {
+     "form": "darà",
+     "lang": "it"
     },
     {
      "form": "dará",
@@ -9246,18 +9680,18 @@
    "from": [
     "it will have done"
    ],
-   "to": "avrà fatto",
-   "lang": "it",
+   "to": "terá feito",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "avrà fatto",
-     "lang": "it"
-    },
-    {
      "form": "terá feito",
      "lang": "pt"
+    },
+    {
+     "form": "avrà fatto",
+     "lang": "it"
     }
    ]
   },
@@ -9266,18 +9700,18 @@
    "from": [
     "it will have seen"
    ],
-   "to": "avrà visto",
-   "lang": "it",
+   "to": "terá visto",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "avrà visto",
-     "lang": "it"
-    },
-    {
      "form": "terá visto",
      "lang": "pt"
+    },
+    {
+     "form": "avrà visto",
+     "lang": "it"
     }
    ]
   },
@@ -9374,18 +9808,18 @@
    "from": [
     "it will have thought"
    ],
-   "to": "avrà pensato",
-   "lang": "it",
+   "to": "terá pensado",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "avrà pensato",
-     "lang": "it"
-    },
-    {
      "form": "terá pensado",
      "lang": "pt"
+    },
+    {
+     "form": "avrà pensato",
+     "lang": "it"
     },
     {
      "form": "habrá pensado",
@@ -9418,18 +9852,18 @@
    "from": [
     "it will have known"
    ],
-   "to": "avrà saputo",
-   "lang": "it",
+   "to": "terá sabido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "avrà saputo",
-     "lang": "it"
-    },
-    {
      "form": "terá sabido",
      "lang": "pt"
+    },
+    {
+     "form": "avrà saputo",
+     "lang": "it"
     },
     {
      "form": "habrá sabido",
@@ -10234,18 +10668,22 @@
    "from": [
     "we will come"
    ],
-   "to": "verremo",
-   "lang": "it",
+   "to": "viremos",
+   "lang": "pt",
    "tense": "fut",
    "subject": "1p",
    "candidates": [
+    {
+     "form": "viremos",
+     "lang": "pt"
+    },
     {
      "form": "verremo",
      "lang": "it"
     },
     {
-     "form": "viremos",
-     "lang": "pt"
+     "form": "přijdeme",
+     "lang": "cs"
     }
    ]
   },
@@ -10254,18 +10692,18 @@
    "from": [
     "we will see"
    ],
-   "to": "vedremo",
-   "lang": "it",
+   "to": "veremos",
+   "lang": "es",
    "tense": "fut",
    "subject": "1p",
    "candidates": [
     {
-     "form": "vedremo",
-     "lang": "it"
-    },
-    {
      "form": "veremos",
      "lang": "es"
+    },
+    {
+     "form": "vedremo",
+     "lang": "it"
     },
     {
      "form": "veremos",
@@ -10274,6 +10712,46 @@
     {
      "form": "verrons",
      "lang": "fr"
+    },
+    {
+     "form": "uvidíme",
+     "lang": "cs"
+    }
+   ]
+  },
+  {
+   "id": "mx-take-fut-1p",
+   "from": [
+    "we will take"
+   ],
+   "to": "vezmeme",
+   "lang": "cs",
+   "tense": "fut",
+   "subject": "1p",
+   "candidates": [
+    {
+     "form": "vezmeme",
+     "lang": "cs"
+    },
+    {
+     "form": "weźmiemy",
+     "lang": "pl"
+    }
+   ]
+  },
+  {
+   "id": "mx-find-fut-1p",
+   "from": [
+    "we will find"
+   ],
+   "to": "najdeme",
+   "lang": "cs",
+   "tense": "fut",
+   "subject": "1p",
+   "candidates": [
+    {
+     "form": "najdeme",
+     "lang": "cs"
     }
    ]
   },
@@ -10302,18 +10780,22 @@
    "from": [
     "we will think"
    ],
-   "to": "penseremo",
-   "lang": "it",
+   "to": "penserons",
+   "lang": "fr",
    "tense": "fut",
    "subject": "1p",
    "candidates": [
+    {
+     "form": "penserons",
+     "lang": "fr"
+    },
     {
      "form": "penseremo",
      "lang": "it"
     },
     {
-     "form": "penserons",
-     "lang": "fr"
+     "form": "pomyślimy",
+     "lang": "pl"
     },
     {
      "form": "pensaremos",
@@ -10330,18 +10812,18 @@
    "from": [
     "we will say"
    ],
-   "to": "diremo",
-   "lang": "it",
+   "to": "dirons",
+   "lang": "fr",
    "tense": "fut",
    "subject": "1p",
    "candidates": [
     {
-     "form": "diremo",
-     "lang": "it"
-    },
-    {
      "form": "dirons",
      "lang": "fr"
+    },
+    {
+     "form": "diremo",
+     "lang": "it"
     },
     {
      "form": "diremos",
@@ -10350,6 +10832,14 @@
     {
      "form": "diremos",
      "lang": "pt"
+    },
+    {
+     "form": "powiemy",
+     "lang": "pl"
+    },
+    {
+     "form": "řekneme",
+     "lang": "cs"
     }
    ]
   },
@@ -10358,18 +10848,18 @@
    "from": [
     "we will know"
    ],
-   "to": "sapremo",
-   "lang": "it",
+   "to": "saurons",
+   "lang": "fr",
    "tense": "fut",
    "subject": "1p",
    "candidates": [
     {
-     "form": "sapremo",
-     "lang": "it"
-    },
-    {
      "form": "saurons",
      "lang": "fr"
+    },
+    {
+     "form": "sapremo",
+     "lang": "it"
     },
     {
      "form": "sabremos",
@@ -10382,11 +10872,19 @@
    "from": [
     "we will give"
    ],
-   "to": "daremo",
-   "lang": "it",
+   "to": "damy",
+   "lang": "pl",
    "tense": "fut",
    "subject": "1p",
    "candidates": [
+    {
+     "form": "damy",
+     "lang": "pl"
+    },
+    {
+     "form": "dáme",
+     "lang": "cs"
+    },
     {
      "form": "daremo",
      "lang": "it"
@@ -10518,6 +11016,10 @@
     {
      "form": "fuimos",
      "lang": "es"
+    },
+    {
+     "form": "šli jsme",
+     "lang": "cs"
     }
    ]
   },
@@ -10602,6 +11104,14 @@
     {
      "form": "avons pris",
      "lang": "fr"
+    },
+    {
+     "form": "vzali jsme",
+     "lang": "cs"
+    },
+    {
+     "form": "wzięliśmy",
+     "lang": "pl"
     }
    ]
   },
@@ -10620,8 +11130,16 @@
      "lang": "pt"
     },
     {
+     "form": "našli jsme",
+     "lang": "cs"
+    },
+    {
      "form": "encontramos",
      "lang": "es"
+    },
+    {
+     "form": "znaleźliśmy",
+     "lang": "pl"
     }
    ]
   },
@@ -10642,6 +11160,14 @@
     {
      "form": "quisimos",
      "lang": "es"
+    },
+    {
+     "form": "chcieliśmy",
+     "lang": "pl"
+    },
+    {
+     "form": "chtěli jsme",
+     "lang": "cs"
     }
    ]
   },
@@ -10662,6 +11188,14 @@
     {
      "form": "tuvimos",
      "lang": "es"
+    },
+    {
+     "form": "mieliśmy",
+     "lang": "pl"
+    },
+    {
+     "form": "měli jsme",
+     "lang": "cs"
     }
    ]
   },
@@ -10682,6 +11216,14 @@
     {
      "form": "pensamos",
      "lang": "pt"
+    },
+    {
+     "form": "mysleli jsme",
+     "lang": "cs"
+    },
+    {
+     "form": "pomyśleliśmy",
+     "lang": "pl"
     }
    ]
   },
@@ -10726,6 +11268,14 @@
     {
      "form": "avons su",
      "lang": "fr"
+    },
+    {
+     "form": "věděli jsme",
+     "lang": "cs"
+    },
+    {
+     "form": "wiedzieliśmy",
+     "lang": "pl"
     }
    ]
   },
@@ -10746,6 +11296,14 @@
     {
      "form": "dimos",
      "lang": "es"
+    },
+    {
+     "form": "daliśmy",
+     "lang": "pl"
+    },
+    {
+     "form": "dali jsme",
+     "lang": "cs"
     },
     {
      "form": "abbiamo dato",
@@ -11472,6 +12030,14 @@
      "lang": "pt"
     },
     {
+     "form": "przyjdą",
+     "lang": "pl"
+    },
+    {
+     "form": "přijdou",
+     "lang": "cs"
+    },
+    {
      "form": "vendrán",
      "lang": "es"
     },
@@ -11496,12 +12062,20 @@
      "lang": "es"
     },
     {
+     "form": "uvidí",
+     "lang": "cs"
+    },
+    {
      "form": "verão",
      "lang": "pt"
     },
     {
      "form": "verront",
      "lang": "fr"
+    },
+    {
+     "form": "zobaczą",
+     "lang": "pl"
     },
     {
      "form": "vedranno",
@@ -11514,11 +12088,19 @@
    "from": [
     "they will take"
    ],
-   "to": "tomarán",
-   "lang": "es",
+   "to": "wezmą",
+   "lang": "pl",
    "tense": "fut",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "wezmą",
+     "lang": "pl"
+    },
+    {
+     "form": "vezmou",
+     "lang": "cs"
+    },
     {
      "form": "tomarán",
      "lang": "es"
@@ -11534,11 +12116,19 @@
    "from": [
     "they will find"
    ],
-   "to": "acharão",
-   "lang": "pt",
+   "to": "najdou",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "najdou",
+     "lang": "cs"
+    },
+    {
+     "form": "znajdą",
+     "lang": "pl"
+    },
     {
      "form": "acharão",
      "lang": "pt"
@@ -11588,6 +12178,10 @@
      "lang": "es"
     },
     {
+     "form": "pomyślą",
+     "lang": "pl"
+    },
+    {
      "form": "pensarão",
      "lang": "pt"
     },
@@ -11624,8 +12218,16 @@
      "lang": "fr"
     },
     {
+     "form": "řeknou",
+     "lang": "cs"
+    },
+    {
      "form": "diranno",
      "lang": "it"
+    },
+    {
+     "form": "powiedzą",
+     "lang": "pl"
     }
    ]
   },
@@ -11662,11 +12264,19 @@
    "from": [
     "they will give"
    ],
-   "to": "darán",
-   "lang": "es",
+   "to": "dají",
+   "lang": "cs",
    "tense": "fut",
    "subject": "3p",
    "candidates": [
+    {
+     "form": "dají",
+     "lang": "cs"
+    },
+    {
+     "form": "dadzą",
+     "lang": "pl"
+    },
     {
      "form": "darán",
      "lang": "es"
@@ -12926,14 +13536,14 @@
    "from": [
     "this will give"
    ],
-   "to": "this darà",
-   "lang": "it",
+   "to": "this dará",
+   "lang": "es",
    "tense": "fut",
    "subject": "dem-this",
    "candidates": [
     {
-     "form": "this darà",
-     "lang": "it"
+     "form": "this dará",
+     "lang": "es"
     }
    ]
   },
@@ -13230,14 +13840,14 @@
    "from": [
     "this will have thought"
    ],
-   "to": "this avrà pensato",
-   "lang": "it",
+   "to": "this terá pensado",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "dem-this",
    "candidates": [
     {
-     "form": "this avrà pensato",
-     "lang": "it"
+     "form": "this terá pensado",
+     "lang": "pt"
     }
    ]
   },
@@ -13262,14 +13872,14 @@
    "from": [
     "this will have known"
    ],
-   "to": "this avrà saputo",
-   "lang": "it",
+   "to": "this terá sabido",
+   "lang": "pt",
    "tense": "futperf",
    "subject": "dem-this",
    "candidates": [
     {
-     "form": "this avrà saputo",
-     "lang": "it"
+     "form": "this terá sabido",
+     "lang": "pt"
     }
    ]
   },
@@ -13450,6 +14060,22 @@
     {
      "form": "these pensarán",
      "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-give-fut-dem-these",
+   "from": [
+    "these will give"
+   ],
+   "to": "these dají",
+   "lang": "cs",
+   "tense": "fut",
+   "subject": "dem-these",
+   "candidates": [
+    {
+     "form": "these dají",
+     "lang": "cs"
     }
    ]
   },
@@ -13726,6 +14352,22 @@
     {
      "form": "those pensarán",
      "lang": "es"
+    }
+   ]
+  },
+  {
+   "id": "mx-give-fut-dem-those",
+   "from": [
+    "those will give"
+   ],
+   "to": "those dají",
+   "lang": "cs",
+   "tense": "fut",
+   "subject": "dem-those",
+   "candidates": [
+    {
+     "form": "those dají",
+     "lang": "cs"
     }
    ]
   },

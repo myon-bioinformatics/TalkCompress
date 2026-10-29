@@ -2427,8 +2427,8 @@
      ]
     }
    ],
-   "best": "starò trovando",
-   "lang": "it",
+   "best": "estarei achando",
+   "lang": "pt",
    "shape": "prog-gerund",
    "number": "",
    "tok": [
@@ -2495,8 +2495,8 @@
      ]
     }
    ],
-   "best": "starò avendo",
-   "lang": "it",
+   "best": "estarei tendo",
+   "lang": "pt",
    "shape": "prog-gerund",
    "number": "",
    "tok": [
@@ -2665,8 +2665,8 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "vai",
-   "lang": "it",
+   "best": "vas",
+   "lang": "es",
    "shape": "simple",
    "number": "2sg-tú",
    "tok": [
@@ -2953,8 +2953,8 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "dai",
-   "lang": "it",
+   "best": "das",
+   "lang": "es",
    "shape": "simple",
    "number": "2sg-tú",
    "tok": [
@@ -3009,8 +3009,8 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "farai",
-   "lang": "it",
+   "best": "feras",
+   "lang": "fr",
    "shape": "simple",
    "number": "2sg-tú",
    "tok": [
@@ -3053,13 +3053,13 @@
    "verb": "take",
    "src": "you will take",
    "usted_style_best": {
-    "form": "tomará",
+    "form": "vezme",
     "number": "2sg-usted",
     "tok": 2
    },
-   "best": "tomarás",
-   "lang": "es",
-   "shape": "simple",
+   "best": "vezmeš",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "2sg-tú",
    "tok": [
     3,
@@ -3067,7 +3067,7 @@
    ],
    "utf8": [
     13,
-    8
+    7
    ],
    "status": "adopt"
   },
@@ -3077,13 +3077,13 @@
    "verb": "find",
    "src": "you will find",
    "usted_style_best": {
-    "form": "achará",
+    "form": "najde",
     "number": "2sg-usted",
     "tok": 2
    },
-   "best": "acharás",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "najdeš",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "2sg-tú",
    "tok": [
     3,
@@ -3091,7 +3091,7 @@
    ],
    "utf8": [
     13,
-    8
+    7
    ],
    "status": "adopt"
   },
@@ -3137,8 +3137,8 @@
     "number": "2sg-usted",
     "tok": 2
    },
-   "best": "penserai",
-   "lang": "it",
+   "best": "penseras",
+   "lang": "fr",
    "shape": "simple",
    "number": "2sg-tú",
    "tok": [
@@ -3161,8 +3161,8 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "dirai",
-   "lang": "it",
+   "best": "diras",
+   "lang": "fr",
    "shape": "simple",
    "number": "2sg-tú",
    "tok": [
@@ -3185,8 +3185,8 @@
     "number": "2sg-usted",
     "tok": 2
    },
-   "best": "saprai",
-   "lang": "it",
+   "best": "sauras",
+   "lang": "fr",
    "shape": "simple",
    "number": "2sg-tú",
    "tok": [
@@ -3204,22 +3204,26 @@
    "tense": "fut",
    "verb": "give",
    "src": "you will give",
+   "crossling_dropped": [
+    "dá",
+    "da"
+   ],
    "usted_style_best": {
-    "form": "darà",
-    "number": "2sg-usted",
+    "form": "dasz",
+    "number": "2sg-tú",
     "tok": 1
    },
-   "best": "darai",
-   "lang": "it",
-   "shape": "simple",
+   "best": "dasz",
+   "lang": "pl",
+   "shape": "pf-future",
    "number": "2sg-tú",
    "tok": [
     3,
-    2
+    1
    ],
    "utf8": [
     13,
-    5
+    4
    ],
    "status": "adopt"
   },
@@ -8642,9 +8646,9 @@
    "tense": "fut",
    "verb": "take",
    "src": "he will take",
-   "best": "tomará",
-   "lang": "es",
-   "shape": "simple",
+   "best": "vezme",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -8652,7 +8656,7 @@
    ],
    "utf8": [
     12,
-    7
+    5
    ],
    "status": "adopt",
    "parity_class": [
@@ -8666,9 +8670,9 @@
    "tense": "fut",
    "verb": "find",
    "src": "he will find",
-   "best": "achará",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "najde",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -8676,7 +8680,7 @@
    ],
    "utf8": [
     12,
-    7
+    5
    ],
    "status": "adopt",
    "parity_class": [
@@ -8690,8 +8694,8 @@
    "tense": "fut",
    "verb": "want",
    "src": "he will want",
-   "best": "vorrà",
-   "lang": "it",
+   "best": "voudra",
+   "lang": "fr",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -8794,8 +8798,12 @@
    "tense": "fut",
    "verb": "give",
    "src": "he will give",
-   "best": "darà",
-   "lang": "it",
+   "crossling_dropped": [
+    "dá",
+    "da"
+   ],
+   "best": "dará",
+   "lang": "es",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -9763,8 +9771,8 @@
      ]
     }
    ],
-   "best": "avrà fatto",
-   "lang": "it",
+   "best": "terá feito",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -9795,8 +9803,8 @@
      ]
     }
    ],
-   "best": "avrà visto",
-   "lang": "it",
+   "best": "terá visto",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -9955,8 +9963,8 @@
      ]
     }
    ],
-   "best": "avrà pensato",
-   "lang": "it",
+   "best": "terá pensado",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -10019,8 +10027,8 @@
      ]
     }
    ],
-   "best": "avrà saputo",
-   "lang": "it",
+   "best": "terá sabido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -12255,9 +12263,9 @@
    "tense": "fut",
    "verb": "take",
    "src": "she will take",
-   "best": "tomará",
-   "lang": "es",
-   "shape": "simple",
+   "best": "vezme",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -12265,7 +12273,7 @@
    ],
    "utf8": [
     13,
-    7
+    5
    ],
    "status": "adopt",
    "parity_class": [
@@ -12279,9 +12287,9 @@
    "tense": "fut",
    "verb": "find",
    "src": "she will find",
-   "best": "achará",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "najde",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -12289,7 +12297,7 @@
    ],
    "utf8": [
     13,
-    7
+    5
    ],
    "status": "adopt",
    "parity_class": [
@@ -12303,8 +12311,8 @@
    "tense": "fut",
    "verb": "want",
    "src": "she will want",
-   "best": "vorrà",
-   "lang": "it",
+   "best": "voudra",
+   "lang": "fr",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -12407,8 +12415,12 @@
    "tense": "fut",
    "verb": "give",
    "src": "she will give",
-   "best": "darà",
-   "lang": "it",
+   "crossling_dropped": [
+    "dá",
+    "da"
+   ],
+   "best": "dará",
+   "lang": "es",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -13376,8 +13388,8 @@
      ]
     }
    ],
-   "best": "avrà fatto",
-   "lang": "it",
+   "best": "terá feito",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -13408,8 +13420,8 @@
      ]
     }
    ],
-   "best": "avrà visto",
-   "lang": "it",
+   "best": "terá visto",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -13568,8 +13580,8 @@
      ]
     }
    ],
-   "best": "avrà pensato",
-   "lang": "it",
+   "best": "terá pensado",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -13632,8 +13644,8 @@
      ]
     }
    ],
-   "best": "avrà saputo",
-   "lang": "it",
+   "best": "terá sabido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -15890,9 +15902,9 @@
    "tense": "fut",
    "verb": "take",
    "src": "it will take",
-   "best": "tomará",
-   "lang": "es",
-   "shape": "simple",
+   "best": "vezme",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -15900,7 +15912,7 @@
    ],
    "utf8": [
     12,
-    7
+    5
    ],
    "status": "adopt",
    "parity_class": [
@@ -15914,9 +15926,9 @@
    "tense": "fut",
    "verb": "find",
    "src": "it will find",
-   "best": "achará",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "najde",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -15924,7 +15936,7 @@
    ],
    "utf8": [
     12,
-    7
+    5
    ],
    "status": "adopt",
    "parity_class": [
@@ -15938,8 +15950,8 @@
    "tense": "fut",
    "verb": "want",
    "src": "it will want",
-   "best": "vorrà",
-   "lang": "it",
+   "best": "voudra",
+   "lang": "fr",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -16042,8 +16054,12 @@
    "tense": "fut",
    "verb": "give",
    "src": "it will give",
-   "best": "darà",
-   "lang": "it",
+   "crossling_dropped": [
+    "dá",
+    "da"
+   ],
+   "best": "dará",
+   "lang": "es",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -17022,8 +17038,8 @@
      ]
     }
    ],
-   "best": "avrà fatto",
-   "lang": "it",
+   "best": "terá feito",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -17054,8 +17070,8 @@
      ]
     }
    ],
-   "best": "avrà visto",
-   "lang": "it",
+   "best": "terá visto",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -17214,8 +17230,8 @@
      ]
     }
    ],
-   "best": "avrà pensato",
-   "lang": "it",
+   "best": "terá pensado",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -17278,8 +17294,8 @@
      ]
     }
    ],
-   "best": "avrà saputo",
-   "lang": "it",
+   "best": "terá sabido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -19393,8 +19409,8 @@
    "tense": "fut",
    "verb": "come",
    "src": "we will come",
-   "best": "verremo",
-   "lang": "it",
+   "best": "viremos",
+   "lang": "pt",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19420,8 +19436,8 @@
    "tense": "fut",
    "verb": "see",
    "src": "we will see",
-   "best": "vedremo",
-   "lang": "it",
+   "best": "veremos",
+   "lang": "es",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19439,40 +19455,38 @@
    "tense": "fut",
    "verb": "take",
    "src": "we will take",
-   "best": "prendrons",
-   "lang": "fr",
-   "shape": "simple",
+   "best": "vezmeme",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
-    3
+    2
    ],
    "utf8": [
     12,
-    9
+    7
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "1p",
    "tense": "fut",
    "verb": "find",
    "src": "we will find",
-   "best": "acharemos",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "najdeme",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
-    3
+    2
    ],
    "utf8": [
     12,
-    9
+    7
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "1p",
@@ -19506,8 +19520,8 @@
    "tense": "fut",
    "verb": "think",
    "src": "we will think",
-   "best": "penseremo",
-   "lang": "it",
+   "best": "penserons",
+   "lang": "fr",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19525,8 +19539,8 @@
    "tense": "fut",
    "verb": "say",
    "src": "we will say",
-   "best": "diremo",
-   "lang": "it",
+   "best": "dirons",
+   "lang": "fr",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19544,8 +19558,8 @@
    "tense": "fut",
    "verb": "know",
    "src": "we will know",
-   "best": "sapremo",
-   "lang": "it",
+   "best": "saurons",
+   "lang": "fr",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -19563,17 +19577,17 @@
    "tense": "fut",
    "verb": "give",
    "src": "we will give",
-   "best": "daremo",
-   "lang": "it",
-   "shape": "simple",
+   "best": "damy",
+   "lang": "pl",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
-    2
+    1
    ],
    "utf8": [
     12,
-    6
+    4
    ],
    "status": "adopt"
   },
@@ -19775,8 +19789,8 @@
    "tense": "past",
    "verb": "give",
    "src": "we gave",
-   "best": "demmo",
-   "lang": "it",
+   "best": "demos",
+   "lang": "pt",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -22047,9 +22061,9 @@
    "tense": "fut",
    "verb": "take",
    "src": "they will take",
-   "best": "tomarán",
-   "lang": "es",
-   "shape": "simple",
+   "best": "wezmą",
+   "lang": "pl",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -22057,7 +22071,7 @@
    ],
    "utf8": [
     14,
-    8
+    6
    ],
    "status": "adopt"
   },
@@ -22066,9 +22080,9 @@
    "tense": "fut",
    "verb": "find",
    "src": "they will find",
-   "best": "acharão",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "najdou",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -22076,7 +22090,7 @@
    ],
    "utf8": [
     14,
-    8
+    6
    ],
    "status": "adopt"
   },
@@ -22169,17 +22183,17 @@
    "tense": "fut",
    "verb": "give",
    "src": "they will give",
-   "best": "darán",
-   "lang": "es",
-   "shape": "simple",
+   "best": "dají",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
-    2
+    1
    ],
    "utf8": [
     14,
-    6
+    5
    ],
    "status": "adopt"
   },
@@ -24550,9 +24564,9 @@
    "tense": "fut",
    "verb": "take",
    "src": "this will take",
-   "best": "this tomará",
-   "lang": "es",
-   "shape": "simple",
+   "best": "this vezme",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -24560,10 +24574,10 @@
    ],
    "utf8": [
     14,
-    12
+    10
    ],
    "status": "reject",
-   "parity_verb": "tomará",
+   "parity_verb": "vezme",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -24571,9 +24585,9 @@
    "tense": "fut",
    "verb": "find",
    "src": "this will find",
-   "best": "this achará",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "this najde",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     3,
@@ -24581,10 +24595,10 @@
    ],
    "utf8": [
     14,
-    12
+    10
    ],
    "status": "reject",
-   "parity_verb": "achará",
+   "parity_verb": "najde",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -24592,8 +24606,8 @@
    "tense": "fut",
    "verb": "want",
    "src": "this will want",
-   "best": "this vorrà",
-   "lang": "it",
+   "best": "this voudra",
+   "lang": "fr",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -24605,7 +24619,7 @@
     11
    ],
    "status": "reject",
-   "parity_verb": "vorrà",
+   "parity_verb": "voudra",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -24682,8 +24696,12 @@
    "tense": "fut",
    "verb": "give",
    "src": "this will give",
-   "best": "this darà",
-   "lang": "it",
+   "crossling_dropped": [
+    "dá",
+    "da"
+   ],
+   "best": "this dará",
+   "lang": "es",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -24695,7 +24713,7 @@
     10
    ],
    "status": "adopt",
-   "parity_verb": "darà"
+   "parity_verb": "dará"
   },
   {
    "subject": "dem-this",
@@ -25315,8 +25333,8 @@
      ]
     }
    ],
-   "best": "this avrà fatto",
-   "lang": "it",
+   "best": "this terá feito",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -25328,7 +25346,7 @@
     16
    ],
    "status": "reject",
-   "parity_verb": "avrà fatto",
+   "parity_verb": "terá feito",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -25344,8 +25362,8 @@
      ]
     }
    ],
-   "best": "this avrà visto",
-   "lang": "it",
+   "best": "this terá visto",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -25357,7 +25375,7 @@
     16
    ],
    "status": "reject",
-   "parity_verb": "avrà visto",
+   "parity_verb": "terá visto",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -25485,8 +25503,8 @@
      ]
     }
    ],
-   "best": "this avrà pensato",
-   "lang": "it",
+   "best": "this terá pensado",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -25498,7 +25516,7 @@
     18
    ],
    "status": "adopt",
-   "parity_verb": "avrà pensato"
+   "parity_verb": "terá pensado"
   },
   {
    "subject": "dem-this",
@@ -25541,8 +25559,8 @@
      ]
     }
    ],
-   "best": "this avrà saputo",
-   "lang": "it",
+   "best": "this terá sabido",
+   "lang": "pt",
    "shape": "compound",
    "number": "",
    "tok": [
@@ -25554,7 +25572,7 @@
     17
    ],
    "status": "adopt",
-   "parity_verb": "avrà saputo"
+   "parity_verb": "terá sabido"
   },
   {
    "subject": "dem-this",
@@ -28355,9 +28373,9 @@
    "tense": "fut",
    "verb": "take",
    "src": "these will take",
-   "best": "these tomarán",
-   "lang": "es",
-   "shape": "simple",
+   "best": "these wezmą",
+   "lang": "pl",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     4,
@@ -28365,10 +28383,10 @@
    ],
    "utf8": [
     15,
-    14
+    12
    ],
    "status": "reject",
-   "parity_verb": "tomarán",
+   "parity_verb": "wezmą",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -28376,9 +28394,9 @@
    "tense": "fut",
    "verb": "find",
    "src": "these will find",
-   "best": "these acharão",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "these najdou",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     4,
@@ -28386,10 +28404,10 @@
    ],
    "utf8": [
     15,
-    14
+    12
    ],
    "status": "reject",
-   "parity_verb": "acharão",
+   "parity_verb": "najdou",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -28488,21 +28506,20 @@
    "tense": "fut",
    "verb": "give",
    "src": "these will give",
-   "best": "these darán",
-   "lang": "es",
-   "shape": "simple",
+   "best": "these dají",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     4,
-    4
+    3
    ],
    "utf8": [
     15,
-    12
+    11
    ],
-   "status": "reject",
-   "parity_verb": "darán",
-   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
+   "status": "adopt",
+   "parity_verb": "dají"
   },
   {
    "subject": "dem-these",
@@ -30838,9 +30855,9 @@
    "tense": "fut",
    "verb": "take",
    "src": "those will take",
-   "best": "those tomarán",
-   "lang": "es",
-   "shape": "simple",
+   "best": "those wezmą",
+   "lang": "pl",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     4,
@@ -30848,10 +30865,10 @@
    ],
    "utf8": [
     15,
-    14
+    12
    ],
    "status": "reject",
-   "parity_verb": "tomarán",
+   "parity_verb": "wezmą",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -30859,9 +30876,9 @@
    "tense": "fut",
    "verb": "find",
    "src": "those will find",
-   "best": "those acharão",
-   "lang": "pt",
-   "shape": "simple",
+   "best": "those najdou",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     4,
@@ -30869,10 +30886,10 @@
    ],
    "utf8": [
     15,
-    14
+    12
    ],
    "status": "reject",
-   "parity_verb": "acharão",
+   "parity_verb": "najdou",
    "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
   },
   {
@@ -30971,21 +30988,20 @@
    "tense": "fut",
    "verb": "give",
    "src": "those will give",
-   "best": "those darán",
-   "lang": "es",
-   "shape": "simple",
+   "best": "those dají",
+   "lang": "cs",
+   "shape": "pf-future",
    "number": "",
    "tok": [
     4,
-    4
+    3
    ],
    "utf8": [
     15,
-    12
+    11
    ],
-   "status": "reject",
-   "parity_verb": "darán",
-   "reason": "parity: number-matched pronoun verb winner does not shrink with subject kept (EN kept)"
+   "status": "adopt",
+   "parity_verb": "dají"
   },
   {
    "subject": "dem-those",

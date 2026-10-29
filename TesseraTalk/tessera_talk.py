@@ -95,14 +95,22 @@ FINAL_PT_EL_LATIN_PHRASE_LANGS: frozenset[str] = frozenset({"pt", "el", "it", "l
 
 FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el"})
 # Person × tense matrix bank (scripts/tense_matrix.py) also allows live it.
-FINAL_TENSE_MATRIX_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el", "it"})
+FINAL_TENSE_MATRIX_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el", "it", "cs", "pl"})
 """Tense densifier bank langs: live Romance + Dutch + German + Greek (classical Latin conjugations skipped)."""
 
 # de-over-nl tie rule: when a German and a Dutch candidate tie on
 # (estimate_tokens, utf8 bytes), German wins; Dutch is kept only where it is
 # strictly cheaper. Against other languages the plain token → utf8 → len → form
 # order applies unchanged.
-_TIE_PREFER: dict[str, str] = {"nl": "de"}
+# Wider-readership tie rule: on an exact (tokens, utf8) tie es/fr/pt beat
+# it/cs/pl (more speakers / readers; meaning carries further).
+_ROMANCE_MAJOR: tuple[str, ...] = ("es", "fr", "pt")
+_TIE_PREFER: dict[str, tuple[str, ...]] = {
+    "nl": ("de",),
+    "it": _ROMANCE_MAJOR,
+    "cs": _ROMANCE_MAJOR,
+    "pl": _ROMANCE_MAJOR,
+}
 
 
 def prefer_on_tie(best: tuple[str, str], cands: list[tuple[str, str]], metric) -> tuple[str, str]:
@@ -111,7 +119,7 @@ def prefer_on_tie(best: tuple[str, str], cands: list[tuple[str, str]], metric) -
     if not want:
         return best
     m = metric(best[0])
-    ties = [c for c in cands if c[1] == want and metric(c[0]) == m]
+    ties = [c for c in cands if c[1] in want and metric(c[0]) == m]
     if not ties:
         return best
     return min(ties, key=lambda c: (len(c[0]), c[0]))
