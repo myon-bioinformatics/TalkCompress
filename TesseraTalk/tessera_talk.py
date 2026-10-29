@@ -1137,6 +1137,10 @@ def _subject_aux_variants(src: str) -> list[str]:
     return out
 
 
+# (source.lower(), replacement) pairs decided at build time with o200k_base.
+_PRESCORED: set[tuple[str, str]] = set()
+
+
 def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = None) -> list[tuple[str, str, str]]:
     """(source, replacement, lang) from a bank; longest source first.
 
@@ -1155,9 +1159,17 @@ def _bank_phrase_pairs(data: dict[str, Any], *, allow_langs: set[str] | None = N
             for v in _subject_aux_variants(str(src).strip()):
                 if v and v not in srcs:
                     srcs.append(v)
+        # Build-time pre-scored entries (scripts/tense_matrix.py, real o200k_base):
+        # the generator already proved the single winner beats EN's cheapest form,
+        # so the stdlib estimate must not re-judge it (runtime never imports tiktoken).
+        prescored = entry.get("scored_by") == "o200k_base"
         for s in srcs:
             src_n = estimate_tokens(s)
             for form, lang in forms:
+                if prescored:
+                    _PRESCORED.add((s.lower(), form))
+                    pairs.append((s, form, lang))
+                    continue
                 # Only keep candidates that strictly cut tokens for this source
                 # (losing densifiers stay in JSON for documentation / competition).
                 if estimate_tokens(form) < src_n:
@@ -1231,6 +1243,8 @@ def _cheapest_repl(src: str, cands: list[tuple[str, str]]) -> str | None:
     best: tuple[int, int, int, str, str] | None = None
     src_n = estimate_tokens(src)
     ok: list[tuple[str, str]] = []
+    if len(cands) == 1 and (src.lower(), cands[0][0]) in _PRESCORED:
+        return cands[0][0]
     for repl, _lang in cands:
         n = estimate_tokens(repl)
         if n >= src_n:

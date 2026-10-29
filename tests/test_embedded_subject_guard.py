@@ -60,6 +60,6 @@ def test_regression_examples():
     t = _t()
     assert t.apply_es_fr_tense("I think that he is going") == "denk that he is going"
     assert t.apply_es_fr_tense("I know he is going") == "sé he is going"
-    assert t.apply_es_fr_tense("he is going") == "está indo"
-    assert t.apply_es_fr_tense("Yes. He is going") == "Yes. está indo"
+    assert t.apply_es_fr_tense("he is going") == "he is going"  # o200k: "he's going" (2) unbeaten
+    assert t.apply_es_fr_tense("Yes. He is going") == "Yes. He is going"
     assert t.apply_es_fr_tense("I said, he went").endswith("he went")

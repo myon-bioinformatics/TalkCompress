@@ -34,3 +34,24 @@ def pytest_addoption(parser):
         default=4,
         help="PD passages to sample per mid-split smoke test (default: 4)",
     )
+
+
+def pytest_terminal_summary(terminalreporter):
+    """Report stdlib estimate_tokens vs o200k_base agreement in every CI run
+    (yardstick for eventually dropping the tiktoken dev dependency)."""
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    try:
+        import tokenizer_compat as tc
+
+        r = tc.agreement()
+    except Exception as e:  # report-only: never fail the run here
+        terminalreporter.write_line(f"token agreement: unavailable ({type(e).__name__}: {e})")
+        return
+    terminalreporter.section("token agreement (stdlib vs o200k_base, report-only)")
+    terminalreporter.write_line(
+        f"sample exact {r['sample_exact']}/{r['sample_n']}, matrix exact {r['matrix_exact']}/{r['matrix_n']}, "
+        f"winner flips {r['winner_flips']}/{r['cells_judged']}"
+    )

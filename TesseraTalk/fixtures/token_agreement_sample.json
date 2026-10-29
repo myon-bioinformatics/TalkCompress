@@ -1,0 +1,10 @@
+{
+  "notes": ["Fixed sample for stdlib estimate_tokens vs o200k_base agreement (scored with a leading space). Do not change casually: it is the yardstick for dropping tiktoken."],
+  "sample": [
+    "we have seen", "we've seen", "he's going", "they're doing", "I'll take", "I'd said",
+    "zagen", "sahen", "vimos", "avons vu", "hemos visto", "abbiamo visto", "viděli jsme", "zobaczyliśmy",
+    "está indo", "estaremos fazendo", "staremo facendo", "prendra", "vezme", "dachten", "pensamos",
+    "fanden", "encontrará", "hatten", "quisemos", "wilden", "nahmen", "tomó", "dijo", "zei",
+    "这是一个测试", "現在進行中", "ภาษาไทย", "tiếng Việt", "Ελληνικά", "русский язык", "the man que sah it"
+  ]
+}
