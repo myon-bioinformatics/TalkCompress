@@ -45,6 +45,7 @@
         "c-ur",
         "c-were",
         "c-theyre",
+        "c-hes",
         "c-its",
         "c-theres",
         "c-therere",
@@ -8655,7 +8656,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-as-follows",
@@ -8692,7 +8694,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-inter-alia",
@@ -8730,7 +8733,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "abbrev_kind": "acronym"
     },
     {
       "id": "prep-across",
@@ -12768,7 +12772,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "abbrev_kind": "acronym"
     },
     {
       "id": "conj-provided",
@@ -13005,7 +13010,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "abbrev_kind": "acronym"
     },
     {
       "id": "c-aforementioned",
@@ -13044,7 +13050,8 @@
           },
           "inventory": null
         }
-      }
+      },
+      "abbrev_kind": "acronym"
     },
     {
       "id": "symbol-vice-versa",
@@ -26723,6 +26730,46 @@
         }
       },
       "skip_if_re": "\\brun\\s+as\\s+root\\s+(?:cause|metaphor|vegetable)\\b|\\bsuperuser\\s+do\\s+not\\b"
+    },
+    {
+      "id": "c-hes",
+      "kind": "lex",
+      "apply_layer": "C",
+      "family": "abbrev",
+      "abbrev_kind": "contraction",
+      "ledger_apply": false,
+      "rewrite_via": "apply_en_contractions",
+      "from": [
+        "he is"
+      ],
+      "to": "he's",
+      "rationale": "he is→he's は C 同一言語略（I'll 族）。書換は apply_en_contractions；台帳は登録のみ。",
+      "breakdown": "略",
+      "metrics": {
+        "token": {
+          "before": 2,
+          "after": 1,
+          "delta": -1,
+          "ratio": 0.5,
+          "sample_from": "he is",
+          "via": "B TesseraTalk estimate_tokens"
+        },
+        "bit": {
+          "model": "utf8",
+          "before": 40,
+          "after": 32,
+          "delta": -8,
+          "ratio": 0.8,
+          "sample_from": "he is",
+          "via": "E MorphoZip utf8_bits",
+          "utf8": {
+            "before": 40,
+            "after": 32,
+            "delta": -8
+          },
+          "inventory": null
+        }
+      }
     }
   ]
 }

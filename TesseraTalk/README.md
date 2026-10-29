@@ -61,3 +61,7 @@ uv run python TesseraTalk/tessera_talk.py compress --translate-min --allow-langs
 ## Round notes
 
 翻訳バンクに ES/FR/PT/IT/DE/NL/EL を拡充。`--translate-min` は DensityZip 経由でも可。`--translate-engine=deep|argos` は並列多言語→長さ＋揺らぎで採用。
+
+### `es_fr_tense.json` の `to` について
+
+`to` / `lang` は名目ラベルで、実際の置換は runtime cheapest（token→utf8→len）が `candidates` から選びます。ラベルは runtime 勝者に合わせてあり（例: take→`πάρω`(el), find→`βρω`(el)）、`tests/test_pd20_examples.py::test_bank_to_label_matches_runtime_winner` で同期を検査します。

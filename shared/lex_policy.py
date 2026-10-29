@@ -397,6 +397,7 @@ EN_CONTRACTION_SPEC: tuple[tuple[str, str, str], ...] = (
     ("ur", "you are", "u r"),
     ("were", "we are", "we're"),
     ("theyre", "they are", "they're"),
+    ("hes", "he is", "he's"),
     ("its", "it is", "it's"),
     # that is → i.e. owned by conj-that-is / MorphoZip; do not dual-claim via that's
     ("theres", "there is", "there's"),
