@@ -21,7 +21,7 @@ Policy: adopt only when token **and** utf8 strictly shrink vs the full EN source
 | subject | pres | fut | past | perf | futperf | pluperf | presprog | pastprog | futprog |
 |---|---|---|---|---|---|---|---|---|---|
 | 1s | 4 nl | – (11 ex) | 3 de | 12 de | 12 fr | 11 pt | 1 it | 11 pt | 6 pt |
-| 2 | 10 it | 10 fr | 10 nl | 12 nl | 12 fr | 12 pt | 5 pt | 8 pt | 8 pt |
+| 2 | 10 nl | 10 fr | 10 nl | 12 nl | 12 fr | 12 pt | 5 pt | 8 pt | 8 pt |
 | 3s-he | 10 es | 9 fr | 9 de | 12 pt | 12 pt | 11 pt | 2 it | 11 pt | 12 pt |
 | 3s-she | 10 es | 9 fr | 9 de | 12 pt | 12 pt | 11 pt | 2 it | 11 pt | 12 pt |
 | 3s-it | 10 es | 11 fr | 10 pt | 12 pt | 12 pt | 11 pt | 2 it | 11 pt | 12 pt |
@@ -44,7 +44,7 @@ prog-gerund/es: 42, prog-gerund/it: 16, prog-gerund/pt: 132
 
 ## EN-homograph guard
 
-Cells with ≥1 dropped candidate: 751; most frequent EN-spelled tokens: `a` 612, `en` 600, `train` 600, `ha` 208, `was` 108, `is` 96, `dado` 71, `saber` 51, `dire` 50, `aura` 45, `dice` 14, `wist` 13, `gab` 13, `ho` 12, `he` 12
+Cells with ≥1 dropped candidate: 750; most frequent EN-spelled tokens: `a` 612, `en` 600, `train` 600, `ha` 208, `was` 108, `is` 84, `dado` 71, `saber` 51, `dire` 50, `aura` 45, `dice` 14, `wist` 13, `ho` 12, `he` 12, `vino` 12
 
 ## Reject reasons
 
@@ -62,10 +62,10 @@ Cells with ≥1 dropped candidate: 751; most frequent EN-spelled tokens: `a` 612
 
 ## 2nd person (you) — number of winning form
 
-Adopted (2nd-person-only forms): 2pl-vosotros/vous: 16, 2sg-tú: 71
+Adopted (2nd-person-only forms): 2pl-vosotros/vous: 14, 2sg-tú: 73
 
-If usted/ustedes were allowed, the overall cheapest would be: 2pl-ustedes: 4, 2pl-vosotros/vous: 10, 2sg-tú: 9, 2sg-usted: 79 — rejected: after subject drop usted≡él/ella and ustedes≡ellos (person collapse).
+If usted/ustedes were allowed, the overall cheapest would be: 2pl-ustedes: 4, 2pl-vosotros/vous: 10, 2sg-tú: 13, 2sg-usted: 75 — rejected: after subject drop usted≡él/ella and ustedes≡ellos (person collapse).
 
 ## Shape of winners (compound vs simple)
 
-compound: 129, pf-future: 10, prog-gerund: 190, simple: 237, simple-pluperfect: 100, simple-preterite: 183
+compound: 131, pf-future: 10, prog-gerund: 190, simple: 237, simple-pluperfect: 100, simple-preterite: 181

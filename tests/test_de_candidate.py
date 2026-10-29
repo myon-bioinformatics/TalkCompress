@@ -33,7 +33,7 @@ def test_de_strictly_wins_kam(s, want):
 @pytest.mark.parametrize(
     "s,want",
     [("he thinks", "denkt"), ("we think", "denken"), ("they think", "denken"), ("we found", "fanden"),
-     ("they found", "fanden"), ("he found", "fand"), ("you think", "denkt")],
+     ("they found", "fanden"), ("he found", "fand")],
 )
 def test_tie_goes_to_de(s, want):
     assert BY_SRC[s]["to"] == want and BY_SRC[s]["lang"] == "de"

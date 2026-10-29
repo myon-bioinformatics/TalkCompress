@@ -4,7 +4,7 @@
 
 ## 往復チェック必須の nl 過去形（現在完了セル）
 
-nl（1億人未満）の現在完了セル採用 65 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。
+nl（1億人未満）の現在完了セル採用 62 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。
 
 | id | EN | 採用 | lt100m 強制時 |
 |---|---|---|---|
@@ -12,16 +12,13 @@ nl（1億人未満）の現在完了セル採用 65 件は `fixtures/roundtrip.j
 | mx-think-perf-1s | I have thought | dacht | ('dacht', 'nl') -> ('dachte', 'de') |
 | mx-say-perf-1s | I have said | zei | ('zei', 'nl') -> ('dije', 'es') |
 | mx-go-perf-2 | you have gone | ging | ('ging', 'nl') -> ('foste', 'pt') |
-| mx-come-perf-2 | you have come | kwam | ('kwam', 'nl') -> ('kamt', 'de') |
-| mx-do-perf-2 | you have done | deden | ('deden', 'nl') -> ('tatet', 'de') |
+| mx-come-perf-2 | you have come | kwam | ('kwam', 'nl') -> ('kamst', 'de') |
 | mx-see-perf-2 | you have seen | zag | ('zag', 'nl') -> ('viste', 'es') |
-| mx-take-perf-2 | you have taken | nam | ('nam', 'nl') -> ('nahmt', 'de') |
-| mx-find-perf-2 | you have found | vond | ('vond', 'nl') -> ('fandet', 'de') |
-| mx-want-perf-2 | you have wanted | wilde | ('wilde', 'nl') -> ('wolltet', 'de') |
-| mx-have-perf-2 | you have had | hadden | ('hadden', 'nl') -> ('hattet', 'de') |
-| mx-think-perf-2 | you have thought | dacht | ('dacht', 'nl') -> ('dachtet', 'de') |
-| mx-say-perf-2 | you have said | zei | ('zei', 'nl') -> ('sagtet', 'de') |
-| mx-know-perf-2 | you have known | wisten | ('wisten', 'nl') -> ('avez su', 'fr') |
+| mx-take-perf-2 | you have taken | nam | ('nam', 'nl') -> ('nahmst', 'de') |
+| mx-find-perf-2 | you have found | vond | ('vond', 'nl') -> ('achaste', 'pt') |
+| mx-want-perf-2 | you have wanted | wilde | ('wilde', 'nl') -> ('quiseste', 'pt') |
+| mx-think-perf-2 | you have thought | dacht | ('dacht', 'nl') -> ('dachtest', 'de') |
+| mx-say-perf-2 | you have said | zei | ('zei', 'nl') -> ('dijiste', 'es') |
 | mx-give-perf-2 | you have given | gaf | ('gaf', 'nl') -> ('deste', 'pt') |
 | mx-take-perf-3s-he | he has taken | nam | ('nam', 'nl') -> ('nahm', 'de') |
 | mx-think-perf-3s-he | he has thought | dacht | ('dacht', 'nl') -> ('dachte', 'de') |
@@ -74,16 +71,15 @@ nl（1億人未満）の現在完了セル採用 65 件は `fixtures/roundtrip.j
 | mx-take-perf-rel-que-pl | que have taken | que namen | ('que namen', 'nl') -> ('que nahmen', 'de') |
 | mx-want-perf-rel-que-pl | que have wanted | que wilden | ('que wilden', 'nl') -> ('que wollten', 'de') |
 
-## 全件（`--impact lt100m`、127件）
+## 全件（`--impact lt100m`、124件）
 
 ```
 mx-come-past-2	you came	('kwam', 'nl')	->	('vins', 'fr')
-mx-come-perf-2	you have come	('kwam', 'nl')	->	('kamt', 'de')
+mx-come-perf-2	you have come	('kwam', 'nl')	->	('kamst', 'de')
 mx-come-pres-1p	we come	('komen', 'nl')	->	('kommen', 'de')
 mx-come-pres-1s	I come	('kom', 'nl')	->	('komme', 'de')
-mx-come-pres-2	you come	('komt', 'nl')	->	('kommt', 'de')
+mx-come-pres-2	you come	('komt', 'nl')	->	('venez', 'fr')
 mx-do-perf-1p	we have done	('deden', 'nl')	->	('taten', 'de')
-mx-do-perf-2	you have done	('deden', 'nl')	->	('tatet', 'de')
 mx-do-perf-3p	they have done	('deden', 'nl')	->	('fizeram', 'pt')
 mx-do-perf-dem-these	these have done	('these deden', 'nl')	->	('these fizeram', 'pt')
 mx-do-perf-dem-those	those have done	('those deden', 'nl')	->	('those fizeram', 'pt')
@@ -94,8 +90,8 @@ mx-find-fut-1p	we will find	('najdeme', 'cs')	->	('acharemos', 'pt')
 mx-find-fut-3p	they will find	('najdou', 'cs')	->	('acharão', 'pt')
 mx-find-fut-dem-these	these will find	('these najdou', 'cs')	->	('these acharão', 'pt')
 mx-find-fut-dem-those	those will find	('those najdou', 'cs')	->	('those acharão', 'pt')
-mx-find-past-2	you found	('vond', 'nl')	->	('fandet', 'de')
-mx-find-perf-2	you have found	('vond', 'nl')	->	('fandet', 'de')
+mx-find-past-2	you found	('vond', 'nl')	->	('achaste', 'pt')
+mx-find-perf-2	you have found	('vond', 'nl')	->	('achaste', 'pt')
 mx-give-fut-1p	we will give	('damy', 'pl')	->	('daremo', 'it')
 mx-give-fut-2	you will give	('dasz', 'pl')	->	('darai', 'it')
 mx-give-fut-3p	they will give	('dají', 'cs')	->	('darán', 'es')
@@ -106,13 +102,11 @@ mx-give-perf-2	you have given	('gaf', 'nl')	->	('deste', 'pt')
 mx-go-past-2	you went	('ging', 'nl')	->	('allas', 'fr')
 mx-go-perf-2	you have gone	('ging', 'nl')	->	('foste', 'pt')
 mx-go-pres-1p	we go	('gaan', 'nl')	->	('gehen', 'de')
-mx-have-perf-2	you have had	('hadden', 'nl')	->	('hattet', 'de')
 mx-know-perf-1p	we have known	('wisten', 'nl')	->	('supimos', 'es')
-mx-know-perf-2	you have known	('wisten', 'nl')	->	('avez su', 'fr')
 mx-know-pres-1p	we know	('weten', 'nl')	->	('savons', 'fr')
 mx-say-past-2	you said	('zei', 'nl')	->	('dîtes', 'fr')
 mx-say-perf-1s	I have said	('zei', 'nl')	->	('dije', 'es')
-mx-say-perf-2	you have said	('zei', 'nl')	->	('sagtet', 'de')
+mx-say-perf-2	you have said	('zei', 'nl')	->	('dijiste', 'es')
 mx-say-perf-3s-he	he has said	('zei', 'nl')	->	('dijo', 'es')
 mx-say-perf-3s-it	it has said	('zei', 'nl')	->	('dijo', 'es')
 mx-say-perf-3s-she	she has said	('zei', 'nl')	->	('dijo', 'es')
@@ -140,7 +134,7 @@ mx-take-past-3s-it	it took	('nam', 'nl')	->	('nahm', 'de')
 mx-take-past-3s-she	she took	('nam', 'nl')	->	('nahm', 'de')
 mx-take-perf-1p	we have taken	('namen', 'nl')	->	('nahmen', 'de')
 mx-take-perf-1s	I have taken	('nam', 'nl')	->	('nahm', 'de')
-mx-take-perf-2	you have taken	('nam', 'nl')	->	('nahmt', 'de')
+mx-take-perf-2	you have taken	('nam', 'nl')	->	('nahmst', 'de')
 mx-take-perf-3p	they have taken	('namen', 'nl')	->	('nahmen', 'de')
 mx-take-perf-3s-he	he has taken	('nam', 'nl')	->	('nahm', 'de')
 mx-take-perf-3s-it	it has taken	('nam', 'nl')	->	('nahm', 'de')
@@ -157,13 +151,13 @@ mx-take-perf-rel-who-sg	who has taken	('who nam', 'nl')	->	('who nahm', 'de')
 mx-take-pres-1p	we take	('nemen', 'nl')	->	('nehmen', 'de')
 mx-take-pres-2	you take	('neemt', 'nl')	->	('prends', 'fr')
 mx-take-pres-3p	they take	('nemen', 'nl')	->	('toman', 'es')
-mx-think-past-2	you thought	('dacht', 'nl')	->	('dachtet', 'de')
+mx-think-past-2	you thought	('dacht', 'nl')	->	('dachtest', 'de')
 mx-think-past-3p	they thought	('dachten', 'de')	->	('pensaram', 'pt')
 mx-think-past-3s-he	he thought	('dacht', 'nl')	->	('dachte', 'de')
 mx-think-past-3s-it	it thought	('dacht', 'nl')	->	('dachte', 'de')
 mx-think-past-3s-she	she thought	('dacht', 'nl')	->	('dachte', 'de')
 mx-think-perf-1s	I have thought	('dacht', 'nl')	->	('dachte', 'de')
-mx-think-perf-2	you have thought	('dacht', 'nl')	->	('dachtet', 'de')
+mx-think-perf-2	you have thought	('dacht', 'nl')	->	('dachtest', 'de')
 mx-think-perf-3p	they have thought	('dachten', 'de')	->	('pensaram', 'pt')
 mx-think-perf-3s-he	he has thought	('dacht', 'nl')	->	('dachte', 'de')
 mx-think-perf-3s-it	it has thought	('dacht', 'nl')	->	('dachte', 'de')
@@ -177,7 +171,7 @@ mx-think-perf-rel-which-pl	which have thought	('which dachten', 'de')	->	('which
 mx-think-perf-rel-which-sg	which has thought	('which dacht', 'nl')	->	('which dachte', 'de')
 mx-think-perf-rel-who-sg	who has thought	('who dacht', 'nl')	->	('who dachte', 'de')
 mx-think-pres-1p	we think	('denken', 'de')	->	('pensamos', 'es')
-mx-think-pres-2	you think	('denkt', 'de')	->	('pensez', 'fr')
+mx-think-pres-2	you think	('denkt', 'nl')	->	('pensez', 'fr')
 mx-think-pres-3p	they think	('denken', 'de')	->	('pensent', 'fr')
 mx-think-pres-3s-he	he thinks	('denkt', 'de')	->	('pense', 'fr')
 mx-think-pres-3s-it	it thinks	('denkt', 'de')	->	('pense', 'fr')
@@ -189,7 +183,7 @@ mx-want-past-1p	we wanted	('wilden', 'nl')	->	('wollten', 'de')
 mx-want-past-2	you wanted	('wilde', 'nl')	->	('voulus', 'fr')
 mx-want-past-3p	they wanted	('wilden', 'nl')	->	('wollten', 'de')
 mx-want-perf-1p	we have wanted	('wilden', 'nl')	->	('wollten', 'de')
-mx-want-perf-2	you have wanted	('wilde', 'nl')	->	('wolltet', 'de')
+mx-want-perf-2	you have wanted	('wilde', 'nl')	->	('quiseste', 'pt')
 mx-want-perf-3p	they have wanted	('wilden', 'nl')	->	('wollten', 'de')
 mx-want-perf-dem-these	these have wanted	('these wilden', 'nl')	->	('these wollten', 'de')
 mx-want-perf-dem-those	those have wanted	('those wilden', 'nl')	->	('those wollten', 'de')

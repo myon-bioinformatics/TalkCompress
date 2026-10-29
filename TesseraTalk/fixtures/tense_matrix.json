@@ -1145,13 +1145,13 @@
     "you think"
    ],
    "to": "denkt",
-   "lang": "de",
+   "lang": "nl",
    "tense": "pres",
    "subject": "2",
    "candidates": [
     {
      "form": "denkt",
-     "lang": "de"
+     "lang": "nl"
     }
    ],
    "scored_by": "o200k_base"
@@ -1586,14 +1586,14 @@
    "from": [
     "you have done"
    ],
-   "to": "deden",
-   "lang": "nl",
+   "to": "tatest",
+   "lang": "de",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "deden",
-     "lang": "nl"
+     "form": "tatest",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -1671,14 +1671,14 @@
    "from": [
     "you have had"
    ],
-   "to": "hadden",
-   "lang": "nl",
+   "to": "avez eu",
+   "lang": "fr",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "hadden",
-     "lang": "nl"
+     "form": "avez eu",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1722,14 +1722,14 @@
    "from": [
     "you have known"
    ],
-   "to": "wisten",
-   "lang": "nl",
+   "to": "avez su",
+   "lang": "fr",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "wisten",
-     "lang": "nl"
+     "form": "avez su",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
