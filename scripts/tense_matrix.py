@@ -643,7 +643,10 @@ def audit_banks(t, reg: dict) -> list[dict]:
                 cls = _BANK_TENSE_CLS.get(str(e.get("tense") or ""), "pres")
             else:
                 meanings, cls = {"<phrase>"}, "phrase"
+            srcs = {str(x).lower() for x in e.get("from") or []}
             for form, lang in t._entry_candidate_forms(e):
+                if form.lower() in srcs:  # EN kept as-is (identity row), nothing to read
+                    continue
                 hit = bank_form_collision(form, lang, meanings, cls, reg)
                 if hit:
                     out.append({"bank": bank, "id": eid, "form": form, "lang": lang,
