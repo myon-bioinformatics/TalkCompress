@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import functools
 import json
 import re
 import sys
@@ -93,6 +94,8 @@ FINAL_PT_EL_LATIN_PHRASE_LANGS: frozenset[str] = frozenset({"pt", "el", "it", "l
 """Sibling phrase bank langs (pt_el_latin_phrases.json): living PT/EL/IT + scholarly Latin."""
 
 FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "el"})
+# Person × tense matrix bank (scripts/tense_matrix.py) also allows live it.
+FINAL_TENSE_MATRIX_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "el", "it"})
 """Tense densifier bank langs: live Romance + Dutch + Greek (classical Latin conjugations skipped)."""
 
 _CUES: dict[str, tuple[str, ...]] = {
@@ -420,6 +423,7 @@ DEFAULT_ZH_DE_PHRASE_BANK = _FIXTURES_DIR / "zh_de_phrases.json"
 DEFAULT_ES_FR_TENSE_BANK = _FIXTURES_DIR / "es_fr_tense.json"
 DEFAULT_PT_EL_LATIN_PHRASE_BANK = _FIXTURES_DIR / "pt_el_latin_phrases.json"
 DEFAULT_PT_EL_LATIN_TENSE_BANK = _FIXTURES_DIR / "pt_el_latin_tense.json"
+DEFAULT_TENSE_MATRIX_BANK = Path(__file__).resolve().parent / "fixtures" / "tense_matrix.json"
 TRANSLATE_ENGINES = ("fixture", "argos", "deep")
 
 _CJK_CHAR = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]")
@@ -922,6 +926,29 @@ def load_pt_el_latin_tense_bank(path: str | None = None) -> dict[str, Any]:
     return data
 
 
+def load_tense_matrix_bank(path: str | None = None) -> dict[str, Any]:
+    """Load generated person × tense matrix bank (scripts/tense_matrix.py)."""
+    p = Path(path) if path is not None else DEFAULT_TENSE_MATRIX_BANK
+    if not p.exists():
+        return {"entries": []}
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or "entries" not in data:
+        raise ValueError(f"tense matrix bank missing entries: {p}")
+    return data
+
+
+def tense_matrix_pairs(path: str | Path | None = None) -> list[tuple[str, str, str]]:
+    """Return pairs from the generated person × tense matrix bank (cached)."""
+    langs = frozenset(FINAL_TENSE_MATRIX_LANGS)
+    return list(_tense_matrix_pairs_cached(str(path) if path is not None else "", langs))
+
+
+@functools.lru_cache(maxsize=8)
+def _tense_matrix_pairs_cached(path: str, langs: frozenset[str]) -> tuple[tuple[str, str, str], ...]:
+    data = load_tense_matrix_bank(path or None)
+    return tuple(_bank_phrase_pairs(data, allow_langs=set(langs)))
+
+
 def _entry_candidate_forms(
     entry: dict[str, Any],
     *,
@@ -1100,8 +1127,12 @@ def _apply_phrase_pairs(
         by_src[key].append((repl, lang))
 
     out = src
+    out_low = out.lower()
     for phrase in order:
         key = phrase.lower()
+        # Cheap substring prefilter (case-insensitive) before any regex work.
+        if key not in out_low:
+            continue
         cands = by_src[key]
         # Latin / ASCII phrase → word-boundary, case-insensitive.
         # Generic going-to guard: phrases ending in "going" must not fire when
@@ -1124,14 +1155,22 @@ def _apply_phrase_pairs(
                 chosen = _cheapest_repl(span if require_token_drop else _phrase, _cands)
                 if chosen is None and not require_token_drop:
                     chosen = _cands[0][0]
-                return chosen if chosen is not None else span
+                if chosen is None:
+                    return span
+                # Subject-kept rows (this/who …): keep the matched subject's casing.
+                head = span.split(" ", 1)[0]
+                if chosen.split(" ", 1)[0].lower() == head.lower() and " " in chosen:
+                    chosen = head + chosen[len(head):]
+                return chosen
 
             out = pat.sub(_sub, out)
+            out_low = out.lower()
         else:
             if phrase in out:
                 chosen = _cheapest_repl(phrase, cands)
                 if chosen is not None:
                     out = out.replace(phrase, chosen)
+                    out_low = out.lower()
     return out
 
 
@@ -1179,6 +1218,7 @@ def apply_es_fr_tense(
     pairs = _merge_phrase_pair_banks(
         es_fr_tense_pairs(bank_path),
         pt_el_latin_tense_pairs(sibling_bank_path),
+        tense_matrix_pairs(),
     )
     return _apply_phrase_pairs(
         text,
