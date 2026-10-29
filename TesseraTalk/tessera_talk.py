@@ -1233,6 +1233,27 @@ _HAVE_OBLIG_LOOKAHEAD = (
 )
 
 
+# Pro-drop (subject-dropping) rows are valid only at a clause start where the
+# subject is the main subject of that clause: text start or after sentence
+# punctuation / newline. Inside an embedded clause (I think that he…, I know he…,
+# … because we …) or after any preceding word, dropping the subject loses the
+# clause's person → EN stays. Subject-kept rows (this/these/who …) are unaffected.
+_SUBJ_PRONOUNS = frozenset("i you he she it we they".split())
+_CLAUSE_START_RE = re.compile(r"(?:^|[.!?;\n])[\s\"'“‘(\[]*$")
+
+
+def _is_pro_drop(span: str, chosen: str) -> bool:
+    head = span.split(" ", 1)[0]
+    subj = re.split(r"['’]", head, maxsplit=1)[0].lower()
+    if subj not in _SUBJ_PRONOUNS:
+        return False
+    return chosen.split(" ", 1)[0].lower() != head.lower()
+
+
+def _at_clause_start(text: str, start: int) -> bool:
+    return bool(_CLAUSE_START_RE.search(text[:start]))
+
+
 def _apply_phrase_pairs(
     text: str,
     pairs: list[tuple[str, str, str]],
@@ -1308,6 +1329,10 @@ def _apply_phrase_pairs(
                 if chosen is None and not require_token_drop:
                     chosen = _cands[0][0]
                 if chosen is None:
+                    return span
+                if _is_pro_drop(span, chosen) and not _at_clause_start(
+                    m.string, m.start()
+                ):
                     return span
                 # Subject-kept rows (this/who …): keep the matched subject's casing.
                 head = span.split(" ", 1)[0]
