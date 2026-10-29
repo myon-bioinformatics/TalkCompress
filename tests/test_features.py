@@ -428,7 +428,7 @@ def test_morpho_conjunction_inventory():
 
 def test_morpho_adverb_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.ADVERB_CANONICAL == ("tho", "~", "˅", "esp.")
+    assert m.ADVERB_CANONICAL == ("tho", "~", "esp.")
     out = m.compress(
         "However, approximately very particularly ready",
         unique=False,
@@ -438,7 +438,7 @@ def test_morpho_adverb_inventory():
     # very→˅ removed (o200k 1 tok vs 2 tok)
     assert "tho" in out and "~" in out and "very" in out and "esp." in out
     assert m.canonicalize_closed("adverb", "very") is None
-    assert m.adverb_bit_cost("tho ~ ˅ esp.")["total_bits"] == 8  # 4×2
+    assert m.adverb_bit_cost("tho ~ esp.")["total_bits"] == 6  # 3×2 (˅ dropped)
     freq = m.compress(
         "always often never ready",
         unique=False,
@@ -926,7 +926,7 @@ def test_morpho_relative_pronouns():
     assert m.compress("Whom did you see?", **kw).startswith("Who ")
     # complementizer + deixis unchanged
     assert "that" not in m.compress("I think that it works", **kw)
-    assert m.compress("that book is mine", **kw) == "that book is mine"
+    assert m.compress("that book is mine", **kw) == "the book is mine"
     assert m.compress("That was wrong.", **kw).startswith("That ")  # pronoun that untouched
     # Romance/DE → que; lo que / interrogative Welche skipped
     assert m.compress("lequel est venu", **kw).startswith("que ")
@@ -1178,14 +1178,13 @@ def test_complementizer_that_deletion():
     assert "," not in m.compress("I think that he is going")
 
 
-def test_demonstrative_that_those_untouched():
+def test_demonstrative_that_those_to_the():
     from tests._helpers import load
     m = load("morpho_zip", "MorphoZip/morpho_zip.py")
     # determiner + noun → the
-    # that/those + noun → the REMOVED (meaning change): untouched now
-    assert m.compress("I like that book") == "I like that book"
-    assert m.compress("I read those books") == "I read those books"
-    assert m.compress("Those books are old") .lower() == "those books are old"
+    assert m.compress("I like that book") == "I like the book"
+    assert m.compress("I read those books") == "I read the books"
+    assert m.compress("Those books are old") .lower() == "the books are old"
     # pronoun-use that/those untouched
     assert m.compress("I said that.") == "I said that."
     assert m.compress("I like that.") == "I like that."
