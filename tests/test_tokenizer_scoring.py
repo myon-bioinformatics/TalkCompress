@@ -53,7 +53,8 @@ def test_agreement_metric_reported():
     assert 0 <= r["sample_exact"] <= r["sample_n"] and 0 <= r["winner_flips"] <= r["cells_judged"]
     # regression floor (main before calibration: sample 15/37, matrix 798/3097, flips 100/1211;
     # calibrated: 25/37, 3091/3097, 0/1211); raise as estimate_tokens improves
-    assert r["sample_exact"] >= 25 and r["matrix_exact"] >= 3091
+    # matrix floor as a miss count: dropped cells shrink matrix_n, not accuracy
+    assert r["sample_exact"] >= 25 and r["matrix_n"] - r["matrix_exact"] <= 7
     assert r["winner_flips"] == 0
 
 

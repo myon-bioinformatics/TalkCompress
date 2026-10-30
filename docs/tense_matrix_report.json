@@ -695,7 +695,7 @@
    "verb": "want",
    "src": "I have wanted",
    "roundtrip_gated": [
-    "wilde"
+    "heb gewild"
    ],
    "en_best": "I've wanted",
    "homograph_dropped": [
@@ -712,17 +712,17 @@
      ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "ai voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     11,
-    4
+    8
    ],
    "status": "adopt"
   },
@@ -732,7 +732,7 @@
    "verb": "have",
    "src": "I have had",
    "roundtrip_gated": [
-    "had"
+    "heb gehad"
    ],
    "en_best": "I've had",
    "homograph_dropped": [
@@ -749,17 +749,17 @@
      ]
     }
    ],
-   "best": "tive",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "ai eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     8,
-    4
+    5
    ],
    "status": "adopt"
   },
@@ -847,7 +847,7 @@
    "verb": "know",
    "src": "I have known",
    "roundtrip_gated": [
-    "wist"
+    "heb geweten"
    ],
    "en_best": "I've known",
    "homograph_dropped": [
@@ -864,17 +864,17 @@
      ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "ai su",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     10,
-    6
+    5
    ],
    "status": "adopt"
   },
@@ -4208,50 +4208,23 @@
    "tense": "perf",
    "verb": "want",
    "src": "you have wanted",
-   "crossling_dropped": [
-    "a voulu",
-    "as voulu"
-   ],
-   "roundtrip_gated": [
-    "wilde"
-   ],
    "en_best": "you've wanted",
-   "homograph_dropped": [
-    {
-     "form": "has querido",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "ha querido",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha voluto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
    "usted_style_best": {
-    "form": "quis",
-    "number": "2sg-usted",
-    "tok": 1
+    "form": "avoir voulu",
+    "number": "2-neutral",
+    "tok": 2
    },
-   "best": "quiseste",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
+   "best": "avoir voulu",
+   "lang": "fr",
+   "shape": "inf-perfect",
+   "number": "2-neutral",
    "tok": [
     2,
     2
    ],
    "utf8": [
     13,
-    8
+    11
    ],
    "status": "adopt"
   },
@@ -4260,50 +4233,23 @@
    "tense": "perf",
    "verb": "have",
    "src": "you have had",
-   "crossling_dropped": [
-    "a eu",
-    "as eu"
-   ],
-   "roundtrip_gated": [
-    "had"
-   ],
    "en_best": "you've had",
-   "homograph_dropped": [
-    {
-     "form": "has tenido",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "ha tenido",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha avuto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
    "usted_style_best": {
-    "form": "teve",
-    "number": "2sg-usted",
-    "tok": 1
+    "form": "avoir eu",
+    "number": "2-neutral",
+    "tok": 2
    },
-   "best": "avez eu",
+   "best": "avoir eu",
    "lang": "fr",
-   "shape": "compound",
-   "number": "2pl-vosotros/vous",
+   "shape": "inf-perfect",
+   "number": "2-neutral",
    "tok": [
     2,
     2
    ],
    "utf8": [
     10,
-    7
+    8
    ],
    "status": "adopt"
   },
@@ -4418,50 +4364,23 @@
    "tense": "perf",
    "verb": "know",
    "src": "you have known",
-   "crossling_dropped": [
-    "a su",
-    "as su"
-   ],
-   "roundtrip_gated": [
-    "wist"
-   ],
    "en_best": "you've known",
-   "homograph_dropped": [
-    {
-     "form": "has sabido",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "ha sabido",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha saputo",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
    "usted_style_best": {
-    "form": "supo",
-    "number": "2sg-usted",
+    "form": "avoir su",
+    "number": "2-neutral",
     "tok": 2
    },
-   "best": "avez su",
+   "best": "avoir su",
    "lang": "fr",
-   "shape": "compound",
-   "number": "2pl-vosotros/vous",
+   "shape": "inf-perfect",
+   "number": "2-neutral",
    "tok": [
     2,
     2
    ],
    "utf8": [
     12,
-    7
+    8
    ],
    "status": "adopt"
   },
@@ -9639,7 +9558,7 @@
     "a voulu"
    ],
    "roundtrip_gated": [
-    "wilde"
+    "heeft gewild"
    ],
    "en_best": "he's wanted",
    "homograph_dropped": [
@@ -9654,26 +9573,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    11,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -9684,7 +9593,7 @@
     "a eu"
    ],
    "roundtrip_gated": [
-    "had"
+    "heeft gehad"
    ],
    "en_best": "he's had",
    "homograph_dropped": [
@@ -9699,26 +9608,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gehabt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    8,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -9819,7 +9718,7 @@
     "a su"
    ],
    "roundtrip_gated": [
-    "wist"
+    "heeft geweten"
    ],
    "en_best": "he's known",
    "homograph_dropped": [
@@ -9834,26 +9733,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewusst",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    10,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -13375,7 +13264,7 @@
     "a voulu"
    ],
    "roundtrip_gated": [
-    "wilde"
+    "heeft gewild"
    ],
    "en_best": "she's wanted",
    "homograph_dropped": [
@@ -13390,26 +13279,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    12,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -13420,7 +13299,7 @@
     "a eu"
    ],
    "roundtrip_gated": [
-    "had"
+    "heeft gehad"
    ],
    "en_best": "she's had",
    "homograph_dropped": [
@@ -13435,26 +13314,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gehabt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    9,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -13555,7 +13424,7 @@
     "a su"
    ],
    "roundtrip_gated": [
-    "wist"
+    "heeft geweten"
    ],
    "en_best": "she's known",
    "homograph_dropped": [
@@ -13570,26 +13439,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewusst",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    11,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -17150,7 +17009,7 @@
     "a voulu"
    ],
    "roundtrip_gated": [
-    "wilde"
+    "heeft gewild"
    ],
    "en_best": "it's wanted",
    "homograph_dropped": [
@@ -17165,26 +17024,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    11,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -17195,7 +17044,7 @@
     "a eu"
    ],
    "roundtrip_gated": [
-    "had"
+    "heeft gehad"
    ],
    "en_best": "it's had",
    "homograph_dropped": [
@@ -17210,26 +17059,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gehabt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    8,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -17330,7 +17169,7 @@
     "a su"
    ],
    "roundtrip_gated": [
-    "wist"
+    "heeft geweten"
    ],
    "en_best": "it's known",
    "homograph_dropped": [
@@ -17345,26 +17184,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewusst",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    10,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -20490,20 +20319,20 @@
    "verb": "want",
    "src": "we have wanted",
    "roundtrip_gated": [
-    "wilden"
+    "hebben gewild"
    ],
    "en_best": "we've wanted",
-   "best": "wollten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "avons voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     12,
-    7
+    11
    ],
    "status": "adopt"
   },
@@ -20513,20 +20342,20 @@
    "verb": "have",
    "src": "we have had",
    "roundtrip_gated": [
-    "hadden"
+    "hebben gehad"
    ],
    "en_best": "we've had",
-   "best": "hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "avons eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     9,
-    6
+    8
    ],
    "status": "adopt"
   },
@@ -20585,12 +20414,12 @@
    "verb": "know",
    "src": "we have known",
    "roundtrip_gated": [
-    "wisten"
+    "hebben geweten"
    ],
    "en_best": "we've known",
-   "best": "supimos",
-   "lang": "es",
-   "shape": "simple-preterite",
+   "best": "avons su",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
@@ -20598,7 +20427,7 @@
    ],
    "utf8": [
     11,
-    7
+    8
    ],
    "status": "adopt"
   },
@@ -23394,20 +23223,20 @@
    "verb": "want",
    "src": "they have wanted",
    "roundtrip_gated": [
-    "wilden"
+    "hebben gewild"
    ],
    "en_best": "they've wanted",
-   "best": "wollten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     14,
-    7
+    9
    ],
    "status": "adopt"
   },
@@ -23417,16 +23246,16 @@
    "verb": "have",
    "src": "they have had",
    "roundtrip_gated": [
-    "hadden"
+    "hebben gehad"
    ],
    "en_best": "they've had",
-   "best": "hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     11,
@@ -23489,7 +23318,7 @@
    "verb": "know",
    "src": "they have known",
    "roundtrip_gated": [
-    "wisten"
+    "hebben geweten"
    ],
    "en_best": "they've known",
    "best": "ont su",
@@ -26120,7 +25949,7 @@
     "a voulu"
    ],
    "roundtrip_gated": [
-    "this wilde"
+    "this heeft gewild"
    ],
    "en_best": "this has wanted",
    "homograph_dropped": [
@@ -26135,22 +25964,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "this hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "this quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    15,
-    9
-   ],
-   "status": "adopt",
-   "parity_verb": "quis"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -26161,7 +25984,7 @@
     "a eu"
    ],
    "roundtrip_gated": [
-    "this had"
+    "this heeft gehad"
    ],
    "en_best": "this has had",
    "homograph_dropped": [
@@ -26176,22 +25999,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "this hat gehabt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "this teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    12,
-    9
-   ],
-   "status": "adopt",
-   "parity_verb": "teve"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -26284,7 +26101,7 @@
     "a su"
    ],
    "roundtrip_gated": [
-    "this wist"
+    "this heeft geweten"
    ],
    "en_best": "this has known",
    "homograph_dropped": [
@@ -26299,22 +26116,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "this hat gewusst",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "this wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    14,
-    11
-   ],
-   "status": "adopt",
-   "parity_verb": "wusste"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -29861,23 +29672,23 @@
    "verb": "want",
    "src": "these have wanted",
    "roundtrip_gated": [
-    "these wilden"
+    "these hebben gewild"
    ],
    "en_best": "these have wanted",
-   "best": "these wollten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "these ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     17,
-    13
+    15
    ],
    "status": "adopt",
-   "parity_verb": "wollten"
+   "parity_verb": "ont voulu"
   },
   {
    "subject": "dem-these",
@@ -29885,23 +29696,23 @@
    "verb": "have",
    "src": "these have had",
    "roundtrip_gated": [
-    "these hadden"
+    "these hebben gehad"
    ],
    "en_best": "these have had",
-   "best": "these hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "these ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     14,
     12
    ],
    "status": "adopt",
-   "parity_verb": "hatten"
+   "parity_verb": "ont eu"
   },
   {
    "subject": "dem-these",
@@ -29960,7 +29771,7 @@
    "verb": "know",
    "src": "these have known",
    "roundtrip_gated": [
-    "these wisten"
+    "these hebben geweten"
    ],
    "en_best": "these have known",
    "best": "these ont su",
@@ -32558,23 +32369,23 @@
    "verb": "want",
    "src": "those have wanted",
    "roundtrip_gated": [
-    "those wilden"
+    "those hebben gewild"
    ],
    "en_best": "those have wanted",
-   "best": "those wollten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "those ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     17,
-    13
+    15
    ],
    "status": "adopt",
-   "parity_verb": "wollten"
+   "parity_verb": "ont voulu"
   },
   {
    "subject": "dem-those",
@@ -32582,23 +32393,23 @@
    "verb": "have",
    "src": "those have had",
    "roundtrip_gated": [
-    "those hadden"
+    "those hebben gehad"
    ],
    "en_best": "those have had",
-   "best": "those hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "those ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     14,
     12
    ],
    "status": "adopt",
-   "parity_verb": "hatten"
+   "parity_verb": "ont eu"
   },
   {
    "subject": "dem-those",
@@ -32657,7 +32468,7 @@
    "verb": "know",
    "src": "those have known",
    "roundtrip_gated": [
-    "those wisten"
+    "those hebben geweten"
    ],
    "en_best": "those have known",
    "best": "those ont su",
@@ -35389,7 +35200,7 @@
     "a voulu"
    ],
    "roundtrip_gated": [
-    "who wilde"
+    "who heeft gewild"
    ],
    "en_best": "who's wanted",
    "homograph_dropped": [
@@ -35404,21 +35215,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "who hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "who quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    12,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -35429,7 +35235,7 @@
     "a eu"
    ],
    "roundtrip_gated": [
-    "who had"
+    "who heeft gehad"
    ],
    "en_best": "who's had",
    "homograph_dropped": [
@@ -35444,21 +35250,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "who hat gehabt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "who teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    9,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -35549,7 +35350,7 @@
     "a su"
    ],
    "roundtrip_gated": [
-    "who wist"
+    "who heeft geweten"
    ],
    "en_best": "who's known",
    "homograph_dropped": [
@@ -35564,21 +35365,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "who hat gewusst",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "who wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    11,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -37457,22 +37253,23 @@
    "verb": "want",
    "src": "who have wanted",
    "roundtrip_gated": [
-    "who wilden"
+    "who hebben gewild"
    ],
    "en_best": "who've wanted",
-   "best": "who wollten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "who ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    2
+    3
    ],
    "utf8": [
     13,
-    11
+    13
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-who-pl",
@@ -37480,16 +37277,16 @@
    "verb": "have",
    "src": "who have had",
    "roundtrip_gated": [
-    "who hadden"
+    "who hebben gehad"
    ],
    "en_best": "who've had",
-   "best": "who hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "who ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    2
+    3
    ],
    "utf8": [
     10,
@@ -37555,7 +37352,7 @@
    "verb": "know",
    "src": "who have known",
    "roundtrip_gated": [
-    "who wisten"
+    "who hebben geweten"
    ],
    "en_best": "who've known",
    "best": "who ont su",
@@ -39545,7 +39342,7 @@
     "a voulu"
    ],
    "roundtrip_gated": [
-    "which wilde"
+    "which heeft gewild"
    ],
    "en_best": "which has wanted",
    "homograph_dropped": [
@@ -39560,21 +39357,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "which hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "which quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    16,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -39585,7 +39377,7 @@
     "a eu"
    ],
    "roundtrip_gated": [
-    "which had"
+    "which heeft gehad"
    ],
    "en_best": "which has had",
    "homograph_dropped": [
@@ -39600,21 +39392,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "which hat gehabt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "which teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    13,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -39705,7 +39492,7 @@
     "a su"
    ],
    "roundtrip_gated": [
-    "which wist"
+    "which heeft geweten"
    ],
    "en_best": "which has known",
    "homograph_dropped": [
@@ -39720,21 +39507,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "which hat gewusst",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "which wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    15,
-    12
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -41610,20 +41392,20 @@
    "verb": "want",
    "src": "which have wanted",
    "roundtrip_gated": [
-    "which wilden"
+    "which hebben gewild"
    ],
    "en_best": "which have wanted",
-   "best": "which wollten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "which ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     17,
-    13
+    15
    ],
    "status": "adopt"
   },
@@ -41633,16 +41415,16 @@
    "verb": "have",
    "src": "which have had",
    "roundtrip_gated": [
-    "which hadden"
+    "which hebben gehad"
    ],
    "en_best": "which have had",
-   "best": "which hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "which ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     14,
@@ -41705,7 +41487,7 @@
    "verb": "know",
    "src": "which have known",
    "roundtrip_gated": [
-    "which wisten"
+    "which hebben geweten"
    ],
    "en_best": "which have known",
    "best": "which ont su",
@@ -43694,7 +43476,7 @@
     "a voulu"
    ],
    "roundtrip_gated": [
-    "que wilde"
+    "que heeft gewild"
    ],
    "en_best": "que has wanted",
    "homograph_dropped": [
@@ -43709,21 +43491,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "que hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "que quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    14,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43734,7 +43511,7 @@
     "a eu"
    ],
    "roundtrip_gated": [
-    "que had"
+    "que heeft gehad"
    ],
    "en_best": "que has had",
    "homograph_dropped": [
@@ -43749,21 +43526,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "que hat gehabt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "que teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    11,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43854,7 +43626,7 @@
     "a su"
    ],
    "roundtrip_gated": [
-    "que wist"
+    "que heeft geweten"
    ],
    "en_best": "que has known",
    "homograph_dropped": [
@@ -43869,21 +43641,16 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "que hat gewusst",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "que wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    13,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -45759,20 +45526,20 @@
    "verb": "want",
    "src": "que have wanted",
    "roundtrip_gated": [
-    "que wilden"
+    "que hebben gewild"
    ],
    "en_best": "que have wanted",
-   "best": "que wollten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "que ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     15,
-    11
+    13
    ],
    "status": "adopt"
   },
@@ -45782,16 +45549,16 @@
    "verb": "have",
    "src": "que have had",
    "roundtrip_gated": [
-    "que hadden"
+    "que hebben gehad"
    ],
    "en_best": "que have had",
-   "best": "que hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "que ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     12,
@@ -45854,7 +45621,7 @@
    "verb": "know",
    "src": "que have known",
    "roundtrip_gated": [
-    "que wisten"
+    "que hebben geweten"
    ],
    "en_best": "que have known",
    "best": "que ont su",

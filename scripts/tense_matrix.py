@@ -172,6 +172,22 @@ DE_PAST = {
     "say": "sagte sagtest sagte sagten sagtet sagten",
     "know": "wusste wusstest wusste wussten wusstet wussten", "give": "gab gabst gab gaben gabt gaben",
 }
+# Stative verbs: their EN present perfect is usually continuative ("I have
+# known her for years" = de ich kenne / nl ik ken, present), so the Präteritum /
+# nl / es / pt preterite (wusste, hatten, wilde, supe, quis …) shifts the
+# meaning. Perf cells for these verbs get no simple-preterite candidate; de/nl
+# get the meaning-preserving compound perfect instead (habe gewusst …).
+STATIVE = frozenset({"know", "have", "want"})
+DE_PERF_AUX = "habe hast hat haben habt haben"
+NL_PERF_AUX = "heb hebt heeft hebben"  # (1s, jij, 3s, pl)
+DE_PP = {"know": "gewusst", "have": "gehabt", "want": "gewollt"}
+NL_PP = {"know": "geweten", "have": "gehad", "want": "gewild"}
+# fr: EN `you` + perfect of a stative verb. ``avez su`` / ``as su`` force a
+# vous / tu (number / formality) choice EN does not make; myon prefers the
+# person-neutral infinitive-perfect (``avoir su``) when the conjugation changes
+# with sg/pl. Conjugated Romance (es/it/fr) perfects are dropped for these
+# you-cells (es/pt preterites already are, see STATIVE).
+FR_YOU_INF = {"know": "avoir su", "have": "avoir eu", "want": "avoir voulu"}
 # el aorist (simple past): 3s, 1p, 3p — single words; future needs θα (multiword).
 EL_AOR = {
     "go": "πήγε πήγαμε πήγαν", "come": "ήρθε ήρθαμε ήρθαν", "do": "έκανε κάναμε έκαναν",
@@ -356,10 +372,16 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
                     aux = AUX[(L, "perf+e" if e else "perf")][slot]
                     add(f"{aux} {pp}", L, "compound", tag)
             elif tense == "perf":
-                if L in ("es", "it", "fr"):
+                if person == "2" and verb in STATIVE:
+                    # tu/vous (es tú/vosotros, it tu/voi) forms pick a number EN
+                    # `you` leaves open: only the person-neutral fr infinitive-perfect.
+                    if L == "fr" and slot == "2s":
+                        add(FR_YOU_INF[verb], L, "inf-perfect", "2-neutral")
+                elif L in ("es", "it", "fr"):
                     aux = AUX[(L, "perf+e" if e and L != "es" else "perf")][slot]
                     add(f"{aux} {pp}", L, "compound", tag)
-                if L in ("es", "pt"):
+                if L in ("es", "pt") and verb not in STATIVE:
+                    # stative preterite (supe / quis / tive) shifts the continuative perfect
                     add(c["pret"][slot], L, "simple-preterite", tag)
             elif tense == "pluperf":
                 key = (L, "pluperf+e") if e and L in ("it", "fr") else (L, "pluperf")
@@ -391,7 +413,12 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
             add(nl_pres[nl_i], "nl", "simple", tag)
         if dn and tense == "past":
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple", tag)
-        if dn and tense == "perf":
+        stative_you = person == "2" and verb in STATIVE  # jij/du forms pick sg (see FR_YOU_INF)
+        if dn and tense == "perf" and verb in STATIVE:
+            if not stative_you:
+                add(f"{NL_PERF_AUX.split()[{'1s': 0, '2s': 1, '3s': 2}.get(slot, 3)]} {NL_PP[verb]}",
+                    "nl", "compound", tag)
+        elif dn and tense == "perf":
             # nl preterite for EN present perfect (same policy as es/pt preterite)
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple-preterite", tag)
         if dn and tense in PROG:
@@ -402,7 +429,10 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
         if dn and tense in ("pres", "past"):
             de = (DE_PRES if tense == "pres" else DE_PAST)[verb].split()[P6.index(slot)]
             add(de, "de", "simple", tag)
-        if dn and tense == "perf":
+        if dn and tense == "perf" and verb in STATIVE:
+            if not stative_you:
+                add(f"{DE_PERF_AUX.split()[P6.index(slot)]} {DE_PP[verb]}", "de", "compound", tag)
+        elif dn and tense == "perf":
             # de Präteritum for EN present perfect (same policy as es/pt preterite)
             add(DE_PAST[verb].split()[P6.index(slot)], "de", "simple-preterite", tag)
         # cs / pl (fut, perf only)
@@ -788,7 +818,7 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     cell["usted_style_best"] = {"form": allb["form"], "number": allb["number"], "tok": tok(allb["form"])}
                     # usted/ustedes are 3rd-person forms: after subject drop they collapse
                     # into he/they, so only genuinely 2nd-person forms (tú / vosotros, vous) compete.
-                    cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous")]
+                    cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous", "2-neutral")]
                 if not cands:
                     cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
                     continue
