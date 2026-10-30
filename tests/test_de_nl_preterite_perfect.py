@@ -20,15 +20,18 @@ CONJ = json.loads(tm.CONJ_PATH.read_text(encoding="utf-8"))["conj"]
 
 
 @pytest.mark.parametrize("eid,to,lang", [
-    ("mx-see-perf-1p", "zagen", "nl"),
     ("mx-see-perf-3s-he", "sah", "de"),
-    ("mx-take-perf-1s", "nam", "nl"),
-    ("mx-say-perf-3s-she", "zei", "nl"),
     ("mx-have-perf-1p", "hatten", "de"),
 ])
 def test_winner(eid, to, lang):
     e = BY_ID[eid]
     assert (e["to"], e["lang"]) == (to, lang)
+
+
+@pytest.mark.parametrize("eid", ["mx-see-perf-1p", "mx-take-perf-1s", "mx-say-perf-3s-she"])
+def test_nl_preterite_gated_for_perfect(eid):
+    # #29: nl preterite for EN perfect restores as simple past (0/9 etc.) -> gated
+    assert BY_ID[eid]["lang"] != "nl"
 
 
 @pytest.mark.parametrize("person,de,nl", [("1s", "sah", "zag"), ("1p", "sahen", "zagen"), ("3", "sah", "zag")])
@@ -52,7 +55,7 @@ def test_nl_perfect_winners_require_roundtrip():
     data = rt.load()
     assert data["required"] == rt.required_keys(BANK)
     nl = {rt.key(e["lang"], e["to"]) for e in BANK["entries"] if e["lang"] == "nl" and e["tense"] == "perf"}
-    assert nl and nl <= set(data["required"])
+    assert nl <= set(data["required"])  # empty after #29 gating
     assert "nl" not in data["ge100m_langs"]
 
 

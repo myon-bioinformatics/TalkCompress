@@ -47,8 +47,8 @@ def test_hand_bank_tie_goes_to_de():
 
 @pytest.mark.parametrize(
     "s,want",
-    [("I want", "wil"), ("I come", "kom"), ("you went", "ging"), ("he took", "nam"),
-     ("we wanted", "wilden"), ("I take", "neem"), ("I think", "denk")],
+    # #29: matrix nl wil/ging/nam/wilden failed the AI round-trip (< 0.9) and are gated
+    [("I come", "kom"), ("I take", "neem"), ("I think", "denk")],
 )
 def test_nl_kept_where_strictly_cheaper(s, want):
     assert _t().apply_es_fr_tense(s) == want
