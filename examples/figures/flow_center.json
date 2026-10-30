@@ -1,0 +1,34 @@
+{
+  "canvas": {
+    "width": 480,
+    "height": 240
+  },
+  "items": [
+    {
+      "type": "box",
+      "id": "p",
+      "x": 48,
+      "y": 88,
+      "w": 120,
+      "h": 56,
+      "label": "A"
+    },
+    {
+      "type": "box",
+      "id": "q",
+      "x": 312,
+      "y": 88,
+      "w": 120,
+      "h": 56,
+      "label": "B"
+    },
+    {
+      "type": "edge",
+      "from": "p",
+      "to": "q",
+      "mode": "center",
+      "color": "#1f4e79",
+      "width": 2
+    }
+  ]
+}

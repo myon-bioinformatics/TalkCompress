@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="240" viewBox="0 0 480 240">
+<rect x="0" y="0" width="480" height="240" fill="#ffffff"/>
+<rect x="48" y="88" width="120" height="56" fill="none" stroke="#363636" stroke-width="1.5"/>
+<text x="108" y="122" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#363636">A</text>
+<rect x="312" y="88" width="120" height="56" fill="none" stroke="#363636" stroke-width="1.5"/>
+<text x="372" y="122" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#363636">B</text>
+<line x1="108" y1="116" x2="360" y2="116" stroke="#1f4e79" stroke-width="2"/>
+<path d="M 372 116 L 360 122 L 360 110 Z" fill="#1f4e79" stroke="#1f4e79" stroke-width="1"/>
+</svg>

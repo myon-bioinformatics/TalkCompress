@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320" viewBox="0 0 640 320">
+<rect x="0" y="0" width="640" height="320" fill="#ffffff"/>
+<rect x="40" y="120" width="152" height="64" fill="none" stroke="#363636" stroke-width="1.5"/>
+<text x="116" y="158" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#363636">入力</text>
+<rect x="244" y="120" width="152" height="64" fill="none" stroke="#363636" stroke-width="1.5"/>
+<text x="320" y="158" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#363636">変換</text>
+<rect x="448" y="120" width="152" height="64" fill="none" stroke="#363636" stroke-width="1.5"/>
+<text x="524" y="158" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#363636">出力</text>
+<line x1="192" y1="152" x2="232" y2="152" stroke="#363636" stroke-width="1.5"/>
+<path d="M 244 152 L 232 158 L 232 146 Z" fill="#363636" stroke="#363636" stroke-width="1"/>
+<line x1="396" y1="152" x2="436" y2="152" stroke="#363636" stroke-width="1.5"/>
+<path d="M 448 152 L 436 158 L 436 146 Z" fill="#363636" stroke="#363636" stroke-width="1"/>
+</svg>
