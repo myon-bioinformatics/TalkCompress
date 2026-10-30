@@ -156,4 +156,3 @@ def test_custom_id_not_leaked_in_question():
 
 def test_sentence_final_number_is_scored():
     assert score(build_probes('42'), '', lambda prompt: '42.')['hits'] == 1
-

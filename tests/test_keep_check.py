@@ -136,4 +136,3 @@ def test_custom_identifier_boundaries():
 def test_number_followed_by_sentence_period_is_preserved():
     assert check('Budget 42', 'Budget 42.').ok
     assert extract_exact('Budget 42.')['number'] == {'42'}
-
