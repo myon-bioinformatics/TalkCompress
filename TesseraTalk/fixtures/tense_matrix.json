@@ -56,14 +56,14 @@
    "from": [
     "I want"
    ],
-   "to": "wil",
-   "lang": "nl",
+   "to": "veux",
+   "lang": "fr",
    "tense": "pres",
    "subject": "1s",
    "candidates": [
     {
-     "form": "wil",
-     "lang": "nl"
+     "form": "veux",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -209,14 +209,14 @@
    "from": [
     "I have taken"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "1s",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -277,14 +277,14 @@
    "from": [
     "I have thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "1s",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -294,14 +294,14 @@
    "from": [
     "I have said"
    ],
-   "to": "zei",
-   "lang": "nl",
+   "to": "dije",
+   "lang": "es",
    "tense": "perf",
    "subject": "1s",
    "candidates": [
     {
-     "form": "zei",
-     "lang": "nl"
+     "form": "dije",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -1059,14 +1059,14 @@
    "from": [
     "you come"
    ],
-   "to": "komt",
-   "lang": "nl",
+   "to": "venez",
+   "lang": "fr",
    "tense": "pres",
    "subject": "2",
    "candidates": [
     {
-     "form": "komt",
-     "lang": "nl"
+     "form": "venez",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1093,14 +1093,14 @@
    "from": [
     "you take"
    ],
-   "to": "neemt",
-   "lang": "nl",
+   "to": "prends",
+   "lang": "fr",
    "tense": "pres",
    "subject": "2",
    "candidates": [
     {
-     "form": "neemt",
-     "lang": "nl"
+     "form": "prends",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1127,14 +1127,14 @@
    "from": [
     "you want"
    ],
-   "to": "wil",
-   "lang": "nl",
+   "to": "veux",
+   "lang": "fr",
    "tense": "pres",
    "subject": "2",
    "candidates": [
     {
-     "form": "wil",
-     "lang": "nl"
+     "form": "veux",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1144,14 +1144,14 @@
    "from": [
     "you think"
    ],
-   "to": "denkt",
-   "lang": "nl",
+   "to": "pensez",
+   "lang": "fr",
    "tense": "pres",
    "subject": "2",
    "candidates": [
     {
-     "form": "denkt",
-     "lang": "nl"
+     "form": "pensez",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1382,14 +1382,14 @@
    "from": [
     "you went"
    ],
-   "to": "ging",
-   "lang": "nl",
+   "to": "allas",
+   "lang": "fr",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "ging",
-     "lang": "nl"
+     "form": "allas",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1399,14 +1399,14 @@
    "from": [
     "you came"
    ],
-   "to": "kwam",
-   "lang": "nl",
+   "to": "vins",
+   "lang": "fr",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "kwam",
-     "lang": "nl"
+     "form": "vins",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1433,14 +1433,14 @@
    "from": [
     "you took"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "pris",
+   "lang": "fr",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "pris",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1450,14 +1450,14 @@
    "from": [
     "you found"
    ],
-   "to": "vond",
-   "lang": "nl",
+   "to": "achaste",
+   "lang": "pt",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "vond",
-     "lang": "nl"
+     "form": "achaste",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -1467,14 +1467,14 @@
    "from": [
     "you wanted"
    ],
-   "to": "wilde",
-   "lang": "nl",
+   "to": "voulus",
+   "lang": "fr",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "wilde",
-     "lang": "nl"
+     "form": "voulus",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1484,14 +1484,14 @@
    "from": [
     "you thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachtest",
+   "lang": "de",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachtest",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -1501,14 +1501,14 @@
    "from": [
     "you said"
    ],
-   "to": "zei",
-   "lang": "nl",
+   "to": "dîtes",
+   "lang": "fr",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "zei",
-     "lang": "nl"
+     "form": "dîtes",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1535,14 +1535,14 @@
    "from": [
     "you gave"
    ],
-   "to": "gaf",
-   "lang": "nl",
+   "to": "deste",
+   "lang": "pt",
    "tense": "past",
    "subject": "2",
    "candidates": [
     {
-     "form": "gaf",
-     "lang": "nl"
+     "form": "deste",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -1552,14 +1552,14 @@
    "from": [
     "you have gone"
    ],
-   "to": "ging",
-   "lang": "nl",
+   "to": "foste",
+   "lang": "pt",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "ging",
-     "lang": "nl"
+     "form": "foste",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -1569,14 +1569,14 @@
    "from": [
     "you have come"
    ],
-   "to": "kwam",
-   "lang": "nl",
+   "to": "kamst",
+   "lang": "de",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "kwam",
-     "lang": "nl"
+     "form": "kamst",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -1603,14 +1603,14 @@
    "from": [
     "you have seen"
    ],
-   "to": "zag",
-   "lang": "nl",
+   "to": "viste",
+   "lang": "es",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "zag",
-     "lang": "nl"
+     "form": "viste",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -1620,14 +1620,14 @@
    "from": [
     "you have taken"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahmst",
+   "lang": "de",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahmst",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -1637,14 +1637,14 @@
    "from": [
     "you have found"
    ],
-   "to": "vond",
-   "lang": "nl",
+   "to": "achaste",
+   "lang": "pt",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "vond",
-     "lang": "nl"
+     "form": "achaste",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -1654,14 +1654,14 @@
    "from": [
     "you have wanted"
    ],
-   "to": "wilde",
-   "lang": "nl",
+   "to": "quiseste",
+   "lang": "pt",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "wilde",
-     "lang": "nl"
+     "form": "quiseste",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -1688,14 +1688,14 @@
    "from": [
     "you have thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachtest",
+   "lang": "de",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachtest",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -1705,14 +1705,14 @@
    "from": [
     "you have said"
    ],
-   "to": "zei",
-   "lang": "nl",
+   "to": "dijiste",
+   "lang": "es",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "zei",
-     "lang": "nl"
+     "form": "dijiste",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -1739,14 +1739,14 @@
    "from": [
     "you have given"
    ],
-   "to": "gaf",
-   "lang": "nl",
+   "to": "deste",
+   "lang": "pt",
    "tense": "perf",
    "subject": "2",
    "candidates": [
     {
-     "form": "gaf",
-     "lang": "nl"
+     "form": "deste",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -2606,14 +2606,14 @@
    "from": [
     "he wants"
    ],
-   "to": "wil",
-   "lang": "nl",
+   "to": "quer",
+   "lang": "pt",
    "tense": "pres",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "wil",
-     "lang": "nl"
+     "form": "quer",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -2878,14 +2878,14 @@
    "from": [
     "he took"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahm",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -2929,14 +2929,14 @@
    "from": [
     "he thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachte",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -3065,14 +3065,14 @@
    "from": [
     "he has taken"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -3133,14 +3133,14 @@
    "from": [
     "he has thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -3150,14 +3150,14 @@
    "from": [
     "he has said"
    ],
-   "to": "zei",
-   "lang": "nl",
+   "to": "dijo",
+   "lang": "es",
    "tense": "perf",
    "subject": "3s-he",
    "candidates": [
     {
-     "form": "zei",
-     "lang": "nl"
+     "form": "dijo",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -4102,14 +4102,14 @@
    "from": [
     "she wants"
    ],
-   "to": "wil",
-   "lang": "nl",
+   "to": "quer",
+   "lang": "pt",
    "tense": "pres",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "wil",
-     "lang": "nl"
+     "form": "quer",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -4374,14 +4374,14 @@
    "from": [
     "she took"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahm",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -4425,14 +4425,14 @@
    "from": [
     "she thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachte",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -4561,14 +4561,14 @@
    "from": [
     "she has taken"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -4629,14 +4629,14 @@
    "from": [
     "she has thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -4646,14 +4646,14 @@
    "from": [
     "she has said"
    ],
-   "to": "zei",
-   "lang": "nl",
+   "to": "dijo",
+   "lang": "es",
    "tense": "perf",
    "subject": "3s-she",
    "candidates": [
     {
-     "form": "zei",
-     "lang": "nl"
+     "form": "dijo",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -5598,14 +5598,14 @@
    "from": [
     "it wants"
    ],
-   "to": "wil",
-   "lang": "nl",
+   "to": "quer",
+   "lang": "pt",
    "tense": "pres",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "wil",
-     "lang": "nl"
+     "form": "quer",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -5921,14 +5921,14 @@
    "from": [
     "it took"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahm",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -5972,14 +5972,14 @@
    "from": [
     "it thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachte",
+   "lang": "de",
    "tense": "past",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -6108,14 +6108,14 @@
    "from": [
     "it has taken"
    ],
-   "to": "nam",
-   "lang": "nl",
+   "to": "nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "nam",
-     "lang": "nl"
+     "form": "nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -6176,14 +6176,14 @@
    "from": [
     "it has thought"
    ],
-   "to": "dacht",
-   "lang": "nl",
+   "to": "dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "dacht",
-     "lang": "nl"
+     "form": "dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -6193,14 +6193,14 @@
    "from": [
     "it has said"
    ],
-   "to": "zei",
-   "lang": "nl",
+   "to": "dijo",
+   "lang": "es",
    "tense": "perf",
    "subject": "3s-it",
    "candidates": [
     {
-     "form": "zei",
-     "lang": "nl"
+     "form": "dijo",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -7111,14 +7111,14 @@
    "from": [
     "we take"
    ],
-   "to": "nemen",
-   "lang": "nl",
+   "to": "nehmen",
+   "lang": "de",
    "tense": "pres",
    "subject": "1p",
    "candidates": [
     {
-     "form": "nemen",
-     "lang": "nl"
+     "form": "nehmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7417,14 +7417,14 @@
    "from": [
     "we saw"
    ],
-   "to": "zagen",
-   "lang": "nl",
+   "to": "sahen",
+   "lang": "de",
    "tense": "past",
    "subject": "1p",
    "candidates": [
     {
-     "form": "zagen",
-     "lang": "nl"
+     "form": "sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7434,14 +7434,14 @@
    "from": [
     "we took"
    ],
-   "to": "namen",
-   "lang": "nl",
+   "to": "nahmen",
+   "lang": "de",
    "tense": "past",
    "subject": "1p",
    "candidates": [
     {
-     "form": "namen",
-     "lang": "nl"
+     "form": "nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7468,14 +7468,14 @@
    "from": [
     "we wanted"
    ],
-   "to": "wilden",
-   "lang": "nl",
+   "to": "wollten",
+   "lang": "de",
    "tense": "past",
    "subject": "1p",
    "candidates": [
     {
-     "form": "wilden",
-     "lang": "nl"
+     "form": "wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7587,14 +7587,14 @@
    "from": [
     "we have done"
    ],
-   "to": "deden",
-   "lang": "nl",
+   "to": "taten",
+   "lang": "de",
    "tense": "perf",
    "subject": "1p",
    "candidates": [
     {
-     "form": "deden",
-     "lang": "nl"
+     "form": "taten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7604,14 +7604,14 @@
    "from": [
     "we have seen"
    ],
-   "to": "zagen",
-   "lang": "nl",
+   "to": "sahen",
+   "lang": "de",
    "tense": "perf",
    "subject": "1p",
    "candidates": [
     {
-     "form": "zagen",
-     "lang": "nl"
+     "form": "sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7621,14 +7621,14 @@
    "from": [
     "we have taken"
    ],
-   "to": "namen",
-   "lang": "nl",
+   "to": "nahmen",
+   "lang": "de",
    "tense": "perf",
    "subject": "1p",
    "candidates": [
     {
-     "form": "namen",
-     "lang": "nl"
+     "form": "nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7655,14 +7655,14 @@
    "from": [
     "we have wanted"
    ],
-   "to": "wilden",
-   "lang": "nl",
+   "to": "wollten",
+   "lang": "de",
    "tense": "perf",
    "subject": "1p",
    "candidates": [
     {
-     "form": "wilden",
-     "lang": "nl"
+     "form": "wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -7723,14 +7723,14 @@
    "from": [
     "we have known"
    ],
-   "to": "wisten",
-   "lang": "nl",
+   "to": "supimos",
+   "lang": "es",
    "tense": "perf",
    "subject": "1p",
    "candidates": [
     {
-     "form": "wisten",
-     "lang": "nl"
+     "form": "supimos",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -8250,14 +8250,14 @@
    "from": [
     "they take"
    ],
-   "to": "nemen",
-   "lang": "nl",
+   "to": "toman",
+   "lang": "es",
    "tense": "pres",
    "subject": "3p",
    "candidates": [
     {
-     "form": "nemen",
-     "lang": "nl"
+     "form": "toman",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -8556,14 +8556,14 @@
    "from": [
     "they saw"
    ],
-   "to": "zagen",
-   "lang": "nl",
+   "to": "sahen",
+   "lang": "de",
    "tense": "past",
    "subject": "3p",
    "candidates": [
     {
-     "form": "zagen",
-     "lang": "nl"
+     "form": "sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -8573,14 +8573,14 @@
    "from": [
     "they took"
    ],
-   "to": "namen",
-   "lang": "nl",
+   "to": "nahmen",
+   "lang": "de",
    "tense": "past",
    "subject": "3p",
    "candidates": [
     {
-     "form": "namen",
-     "lang": "nl"
+     "form": "nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -8607,14 +8607,14 @@
    "from": [
     "they wanted"
    ],
-   "to": "wilden",
-   "lang": "nl",
+   "to": "wollten",
+   "lang": "de",
    "tense": "past",
    "subject": "3p",
    "candidates": [
     {
-     "form": "wilden",
-     "lang": "nl"
+     "form": "wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -8726,14 +8726,14 @@
    "from": [
     "they have done"
    ],
-   "to": "deden",
-   "lang": "nl",
+   "to": "fizeram",
+   "lang": "pt",
    "tense": "perf",
    "subject": "3p",
    "candidates": [
     {
-     "form": "deden",
-     "lang": "nl"
+     "form": "fizeram",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -8743,14 +8743,14 @@
    "from": [
     "they have seen"
    ],
-   "to": "zagen",
-   "lang": "nl",
+   "to": "sahen",
+   "lang": "de",
    "tense": "perf",
    "subject": "3p",
    "candidates": [
     {
-     "form": "zagen",
-     "lang": "nl"
+     "form": "sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -8760,14 +8760,14 @@
    "from": [
     "they have taken"
    ],
-   "to": "namen",
-   "lang": "nl",
+   "to": "nahmen",
+   "lang": "de",
    "tense": "perf",
    "subject": "3p",
    "candidates": [
     {
-     "form": "namen",
-     "lang": "nl"
+     "form": "nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -8794,14 +8794,14 @@
    "from": [
     "they have wanted"
    ],
-   "to": "wilden",
-   "lang": "nl",
+   "to": "wollten",
+   "lang": "de",
    "tense": "perf",
    "subject": "3p",
    "candidates": [
     {
-     "form": "wilden",
-     "lang": "nl"
+     "form": "wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -10086,14 +10086,14 @@
    "from": [
     "this has taken"
    ],
-   "to": "this nam",
-   "lang": "nl",
+   "to": "this nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-this",
    "candidates": [
     {
-     "form": "this nam",
-     "lang": "nl"
+     "form": "this nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -10154,14 +10154,14 @@
    "from": [
     "this has thought"
    ],
-   "to": "this dacht",
-   "lang": "nl",
+   "to": "this dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-this",
    "candidates": [
     {
-     "form": "this dacht",
-     "lang": "nl"
+     "form": "this dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -10171,14 +10171,14 @@
    "from": [
     "this has said"
    ],
-   "to": "this zei",
-   "lang": "nl",
+   "to": "this dijo",
+   "lang": "es",
    "tense": "perf",
    "subject": "dem-this",
    "candidates": [
     {
-     "form": "this zei",
-     "lang": "nl"
+     "form": "this dijo",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -11021,14 +11021,14 @@
    "from": [
     "these have done"
    ],
-   "to": "these deden",
-   "lang": "nl",
+   "to": "these fizeram",
+   "lang": "pt",
    "tense": "perf",
    "subject": "dem-these",
    "candidates": [
     {
-     "form": "these deden",
-     "lang": "nl"
+     "form": "these fizeram",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -11038,14 +11038,14 @@
    "from": [
     "these have seen"
    ],
-   "to": "these zagen",
-   "lang": "nl",
+   "to": "these sahen",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-these",
    "candidates": [
     {
-     "form": "these zagen",
-     "lang": "nl"
+     "form": "these sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -11055,14 +11055,14 @@
    "from": [
     "these have taken"
    ],
-   "to": "these namen",
-   "lang": "nl",
+   "to": "these nahmen",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-these",
    "candidates": [
     {
-     "form": "these namen",
-     "lang": "nl"
+     "form": "these nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -11089,14 +11089,14 @@
    "from": [
     "these have wanted"
    ],
-   "to": "these wilden",
-   "lang": "nl",
+   "to": "these wollten",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-these",
    "candidates": [
     {
-     "form": "these wilden",
-     "lang": "nl"
+     "form": "these wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -11990,14 +11990,14 @@
    "from": [
     "those have done"
    ],
-   "to": "those deden",
-   "lang": "nl",
+   "to": "those fizeram",
+   "lang": "pt",
    "tense": "perf",
    "subject": "dem-those",
    "candidates": [
     {
-     "form": "those deden",
-     "lang": "nl"
+     "form": "those fizeram",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -12007,14 +12007,14 @@
    "from": [
     "those have seen"
    ],
-   "to": "those zagen",
-   "lang": "nl",
+   "to": "those sahen",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-those",
    "candidates": [
     {
-     "form": "those zagen",
-     "lang": "nl"
+     "form": "those sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -12024,14 +12024,14 @@
    "from": [
     "those have taken"
    ],
-   "to": "those namen",
-   "lang": "nl",
+   "to": "those nahmen",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-those",
    "candidates": [
     {
-     "form": "those namen",
-     "lang": "nl"
+     "form": "those nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -12058,14 +12058,14 @@
    "from": [
     "those have wanted"
    ],
-   "to": "those wilden",
-   "lang": "nl",
+   "to": "those wollten",
+   "lang": "de",
    "tense": "perf",
    "subject": "dem-those",
    "candidates": [
     {
-     "form": "those wilden",
-     "lang": "nl"
+     "form": "those wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -12976,14 +12976,14 @@
    "from": [
     "who has taken"
    ],
-   "to": "who nam",
-   "lang": "nl",
+   "to": "who nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-who-sg",
    "candidates": [
     {
-     "form": "who nam",
-     "lang": "nl"
+     "form": "who nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -13044,14 +13044,14 @@
    "from": [
     "who has thought"
    ],
-   "to": "who dacht",
-   "lang": "nl",
+   "to": "who dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-who-sg",
    "candidates": [
     {
-     "form": "who dacht",
-     "lang": "nl"
+     "form": "who dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -13061,14 +13061,14 @@
    "from": [
     "who has said"
    ],
-   "to": "who zei",
-   "lang": "nl",
+   "to": "who dijo",
+   "lang": "es",
    "tense": "perf",
    "subject": "rel-who-sg",
    "candidates": [
     {
-     "form": "who zei",
-     "lang": "nl"
+     "form": "who dijo",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -13159,57 +13159,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-do-perf-rel-who-pl",
-   "from": [
-    "who have done"
-   ],
-   "to": "who deden",
-   "lang": "nl",
-   "tense": "perf",
-   "subject": "rel-who-pl",
-   "candidates": [
-    {
-     "form": "who deden",
-     "lang": "nl"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-see-perf-rel-who-pl",
-   "from": [
-    "who have seen"
-   ],
-   "to": "who zagen",
-   "lang": "nl",
-   "tense": "perf",
-   "subject": "rel-who-pl",
-   "candidates": [
-    {
-     "form": "who zagen",
-     "lang": "nl"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-take-perf-rel-who-pl",
-   "from": [
-    "who have taken"
-   ],
-   "to": "who namen",
-   "lang": "nl",
-   "tense": "perf",
-   "subject": "rel-who-pl",
-   "candidates": [
-    {
-     "form": "who namen",
-     "lang": "nl"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-find-perf-rel-who-pl",
    "from": [
     "who have found"
@@ -13231,14 +13180,14 @@
    "from": [
     "who have wanted"
    ],
-   "to": "who wilden",
-   "lang": "nl",
+   "to": "who wollten",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-who-pl",
    "candidates": [
     {
-     "form": "who wilden",
-     "lang": "nl"
+     "form": "who wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -13503,14 +13452,14 @@
    "from": [
     "which has taken"
    ],
-   "to": "which nam",
-   "lang": "nl",
+   "to": "which nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-which-sg",
    "candidates": [
     {
-     "form": "which nam",
-     "lang": "nl"
+     "form": "which nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -13571,14 +13520,14 @@
    "from": [
     "which has thought"
    ],
-   "to": "which dacht",
-   "lang": "nl",
+   "to": "which dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-which-sg",
    "candidates": [
     {
-     "form": "which dacht",
-     "lang": "nl"
+     "form": "which dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -13588,14 +13537,14 @@
    "from": [
     "which has said"
    ],
-   "to": "which zei",
-   "lang": "nl",
+   "to": "which dijo",
+   "lang": "es",
    "tense": "perf",
    "subject": "rel-which-sg",
    "candidates": [
     {
-     "form": "which zei",
-     "lang": "nl"
+     "form": "which dijo",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -13690,14 +13639,14 @@
    "from": [
     "which have done"
    ],
-   "to": "which deden",
-   "lang": "nl",
+   "to": "which fizeram",
+   "lang": "pt",
    "tense": "perf",
    "subject": "rel-which-pl",
    "candidates": [
     {
-     "form": "which deden",
-     "lang": "nl"
+     "form": "which fizeram",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -13707,14 +13656,14 @@
    "from": [
     "which have seen"
    ],
-   "to": "which zagen",
-   "lang": "nl",
+   "to": "which sahen",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-which-pl",
    "candidates": [
     {
-     "form": "which zagen",
-     "lang": "nl"
+     "form": "which sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -13724,14 +13673,14 @@
    "from": [
     "which have taken"
    ],
-   "to": "which namen",
-   "lang": "nl",
+   "to": "which nahmen",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-which-pl",
    "candidates": [
     {
-     "form": "which namen",
-     "lang": "nl"
+     "form": "which nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -13758,14 +13707,14 @@
    "from": [
     "which have wanted"
    ],
-   "to": "which wilden",
-   "lang": "nl",
+   "to": "which wollten",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-which-pl",
    "candidates": [
     {
-     "form": "which wilden",
-     "lang": "nl"
+     "form": "which wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -14098,14 +14047,14 @@
    "from": [
     "que has taken"
    ],
-   "to": "que nam",
-   "lang": "nl",
+   "to": "que nahm",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-que-sg",
    "candidates": [
     {
-     "form": "que nam",
-     "lang": "nl"
+     "form": "que nahm",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -14166,14 +14115,14 @@
    "from": [
     "que has thought"
    ],
-   "to": "que dacht",
-   "lang": "nl",
+   "to": "que dachte",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-que-sg",
    "candidates": [
     {
-     "form": "que dacht",
-     "lang": "nl"
+     "form": "que dachte",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -14183,14 +14132,14 @@
    "from": [
     "que has said"
    ],
-   "to": "que zei",
-   "lang": "nl",
+   "to": "que dijo",
+   "lang": "es",
    "tense": "perf",
    "subject": "rel-que-sg",
    "candidates": [
     {
-     "form": "que zei",
-     "lang": "nl"
+     "form": "que dijo",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -14285,14 +14234,14 @@
    "from": [
     "que have done"
    ],
-   "to": "que deden",
-   "lang": "nl",
+   "to": "que fizeram",
+   "lang": "pt",
    "tense": "perf",
    "subject": "rel-que-pl",
    "candidates": [
     {
-     "form": "que deden",
-     "lang": "nl"
+     "form": "que fizeram",
+     "lang": "pt"
     }
    ],
    "scored_by": "o200k_base"
@@ -14302,14 +14251,14 @@
    "from": [
     "que have seen"
    ],
-   "to": "que zagen",
-   "lang": "nl",
+   "to": "que sahen",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-que-pl",
    "candidates": [
     {
-     "form": "que zagen",
-     "lang": "nl"
+     "form": "que sahen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -14319,14 +14268,14 @@
    "from": [
     "que have taken"
    ],
-   "to": "que namen",
-   "lang": "nl",
+   "to": "que nahmen",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-que-pl",
    "candidates": [
     {
-     "form": "que namen",
-     "lang": "nl"
+     "form": "que nahmen",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
@@ -14353,14 +14302,14 @@
    "from": [
     "que have wanted"
    ],
-   "to": "que wilden",
-   "lang": "nl",
+   "to": "que wollten",
+   "lang": "de",
    "tense": "perf",
    "subject": "rel-que-pl",
    "candidates": [
     {
-     "form": "que wilden",
-     "lang": "nl"
+     "form": "que wollten",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
