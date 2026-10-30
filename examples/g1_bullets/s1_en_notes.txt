@@ -1,0 +1,1 @@
+Um, so basically we decided to move the parser to TalkCompress #40. Do not delete the old branch until https://example.com/spec is reviewed. If the check fails on 2026-10-30, retry once. Also keep commit 3f9a2c1d for reference.

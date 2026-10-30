@@ -39,3 +39,7 @@ def test_empty_input_gives_empty_output():
 
 def test_first_ascii_letter_is_capitalized_after_filler_removal():
     assert to_bullets("Um, so basically we ship it.") == "- We ship it"
+
+
+def test_marker_can_be_empty_for_plain_lines():
+    assert to_bullets("Deploy the build. Run the tests.", marker="") == "Deploy the build\nRun the tests"
