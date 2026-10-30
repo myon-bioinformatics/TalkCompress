@@ -945,9 +945,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"她的"), "her"),
     (re.compile(r"她"), "she"),
     # EN 3sg: keep he/she/him/her/his (case intact; do NOT rewrite to 彼/她)
-    # 2sg case-split: nom→U, poss→your, obj→you. Skip discourse you know/see (C).
+    # 2sg: nom+obj→U, poss→your. Skip discourse you know/see (C).
     (re.compile(r"あなたの|お前の|君の"), "your"),
-    (re.compile(r"あなたを|お前を|君を"), "you"),
+    (re.compile(r"あなたを|お前を|君を"), "U"),
     (re.compile(r"あなたは|あなたが|お前は|お前が|君は|君が|あなた|お前|君"), "U"),
     (re.compile(r"你"), "U"),
     # EN your/yours stay (poss); yourself → you (obj-ish)
@@ -956,7 +956,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
         r"\b(see|saw|seen|meet|met|tell|told|give|gave|given|ask|asked|"
         r"for|to|with|from|at|on|about|of|near|call|called|show|showed|shown)\s+you\b",
         re.I,
-    ), r"\1 <<YOUOBJ>>"),
+    ), r"\1 U"),  # obj you → U too (2sg consistency; U 1tok/2B)
     (re.compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "U"),
     # Complementizer that-deletion (o200k: " that" = 1 tok → 0; a comma at the
     # deletion point would re-add 1 tok, so none is inserted). Relative that → que
