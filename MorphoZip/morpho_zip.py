@@ -1259,7 +1259,11 @@ _COUNTER_SUBS: list[tuple[re.Pattern[str], str]] = [
 # get/go family incl. inflections. Only meaning-safe pairs whose one-word
 # paraphrase wins on o200k (fewer tokens; tests/test_get_phrase.py). Ambiguous
 # pairs (go on/up/down/out/over, get going/tired/back …) keep the verb.
-_GET_END = r"(?=\s*(?:[.,;:!?)]|$)|\s+(?:and|but|or|soon|now|again|today|quickly|fast)\b)"
+# Flat lookahead (no nested groups) so test_token_policy strips it whole.
+_GET_END = r"(?=" + "|".join(
+    [r"\s*[.,;:!?]", r"\s*$"]
+    + [r"\s+" + w + r"\b" for w in ("and", "but", "or", "soon", "now", "again", "today", "quickly", "fast")]
+) + ")"
 # (verb forms → paraphrase forms) aligned base, past, pp, ing, 3sg.
 _VERB_UNITS: tuple[tuple[str, tuple[tuple[str, str], ...], str], ...] = (
     ("rid of", (("get", "remove"), ("gets", "removes"), ("got", "removed"),
@@ -1277,7 +1281,7 @@ _VERB_UNITS: tuple[tuple[str, tuple[tuple[str, str], ...], str], ...] = (
     ("worse", (("get", "worsen"), ("gets", "worsens"), ("got", "worsened"),
                ("gotten", "worsened"), ("getting", "worsening")), _GET_END),
     ("back", (("go", "return"), ("goes", "returns"), ("went", "returned"),
-              ("gone", "returned"), ("going", "returning")), r"(?!\s+(?:on|in time)\b)"),
+              ("gone", "returned"), ("going", "returning")), r"(?!\s+on\b|\s+in time\b)"),
     ("wrong", (("go", "fail"), ("goes", "fails"), ("went", "failed"),
                ("gone", "failed"), ("going", "failing")), ""),
 )

@@ -153,3 +153,9 @@ def test_verb_unit_exact_table(tail):
     for verb, want in zip(forms, EXPECTED[tail]):
         assert m.apply_phrase_grammar(f"we {verb} {tail}.") == f"we {want}.", verb
         assert wins(f" {want}", f" {verb} {tail}"), (verb, tail)
+
+
+@pytest.mark.parametrize("w", ["and", "but", "or", "soon", "now", "again", "today", "quickly", "fast"])
+def test_get_end_words(w):
+    assert m.apply_phrase_grammar(f"it will get better {w} x") == f"it will improve {w} x"
+    assert m.apply_phrase_grammar(f"it will get better {w}x") == f"it will get better {w}x"
