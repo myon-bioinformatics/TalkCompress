@@ -60,7 +60,9 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
         if not isinstance(long, str) or not isinstance(short, str):
             raise ValueError('rules must be strings')
         long = ' '.join(long.split())
-        if not 4 <= len(long) <= 100 or long.casefold() not in observed:
+        if not 4 <= len(long) <= 100:
+            raise ValueError('long form must be 4..100 characters after whitespace normalization')
+        if long.casefold() not in observed:
             raise ValueError('long form must occur in training')
         if not re.fullmatch(r'[A-Za-z][A-Za-z0-9]{0,5}', short) or len(short) >= len(long):
             raise ValueError('short form must be a shorter 1..6 character code')
@@ -144,7 +146,9 @@ def negotiate(client: Client, training: list[dict], peers: int, rounds: int, gro
     transcripts = []
     for round_no in range(rounds):
         prompt = (f'Negotiation group {group_id}. You are the sender. Invent 1 to 8 short opaque codes for repeated phrases '
-                  'in the training messages. Preserve exact meanings, including negation and conditions. '
+                  'in the training messages. Each long form must be 4..100 characters after whitespace normalization, '
+                  'must occur in training, and must be longer than its short code. '
+                  'Preserve exact meanings, including negation and conditions. '
                   'Codes must be 1..6 ASCII letters/digits, start with a letter, and not existing words. '
                   'Return {"mapping":[{"long":"observed phrase","short":"code"}]}. '
                   'Do not invent or change task values.\nTraining messages:\n' +

@@ -136,3 +136,14 @@ def test_tokenizer_unavailable_is_not_silently_an_estimate(monkeypatch):
     monkeypatch.setattr(client, 'post', lambda *args: {'tokens': 42})
     with pytest.raises(ValueError, match='tokenizer'):
         client.tokens('text')
+
+
+def test_proposer_gets_same_length_limit_as_validator_and_precise_feedback():
+    client = ScriptedClient()
+    negotiate(client, corpus()[0], peers=1, rounds=1)
+    prompt = client.calls[0]['request']['messages'][0]['content']
+    assert '4..100 characters after whitespace normalization' in prompt
+    with pytest.raises(ValueError, match=r'4\.\.100 characters'):
+        validate_mapping({'mapping': [{'long': 'x' * 101, 'short': 'q1'}]}, corpus()[0])
+    with pytest.raises(ValueError, match='must occur in training'):
+        validate_mapping({'mapping': [{'long': 'unseen phrase', 'short': 'q1'}]}, corpus()[0])

@@ -125,3 +125,41 @@ round 1〜3で提案コードを修正しましたが、peer 1の曖昧性指摘
 交渉の実費（llama-server `usage`、チャットテンプレート込み）は初回が入力1,438＋出力530＝1,968 tokens、
 追加条件が入力3,738＋出力967＝4,705 tokensでした。呼び出し所要時間の合計はそれぞれ約41秒・76秒です。
 未合意のため圧縮後ペイロードがなく、wireの損益分岐メッセージ数は未定義です。
+
+MiniCPM5-2B Q4_K_Mの既定テンプレート＋thinking無効条件は、最初の呼び出しで
+HTTP 400になりました。`json_object` のgrammar開始位置と空think prefillが食い違う
+ランタイム互換性エラーであり、モデルの圧縮能力を測った失敗ではありません。
+元のJSON・起動条件・サーバーログは `results/minicpm5-default-*` に保持しています。
+
+限定的な互換再試験では `templates/minicpm5_json_nonthinking.jinja` を明示指定し、
+MiniCPMのbos/ChatML区切りを保ってthink prefillを省き、`--reasoning off` にしました。
+JSON制約・実験ロジック・承認基準は変更していません。これは既定テンプレートの結果とは別条件です。
+400は解消しましたが、4roundとも全文章の置換案を繰り返し、検証で拒否されました。
+4呼び出し、入力1,301＋出力984＝2,285 tokens、約62秒で `no_agreement` です。
+peer承認と未見20件の復号評価には到達していません。結果・起動条件・サーバーログは
+`results/minicpm5-nonthinking-v1-*` に保持しています。
+
+この負の結果は現在のプロトコルでの限定的な結果です。sender promptは繰り返し句を
+要求しますが、検証器の4..100文字上限は明示せず、長さ違反も学習内出現違反と同じ
+エラー文で返します。このフィードバックの不十分さが提案修正を妨げた可能性があり、
+モデルの一般的能力や、共有圧縮方式が不可能であることを示しません。
+この所見を受けたv2では制約と拒否理由を正確に提示します。条件自体は緩めません。
+v1のreceiptとsource hashは保持し、v2は別の測定として記録します。
+
+再現時のMiniCPM追加サーバー引数:
+
+```bash
+--jinja --reasoning-format none --reasoning off \
+  --chat-template-file Zipilogue/templates/minicpm5_json_nonthinking.jinja
+```
+
+**現段階では共有表現は確立していません。** QwenとMiniCPMという別の重みを試しましたが、
+各試行の送信者と監査peerは同じ重みを異なる文脈で呼び出しています。
+交渉した不透明な略号の検証を目指す制御実験であり、自然発生した私的言語の証明ではありません。
+
+v2で上限の明示と長さ違反理由の分離を修正し、同じMiniCPM互換テンプレート・4roundで
+1回再測定しました。4回とも長さ違反の全文章案で不合意となり、未見評価には未到達です。
+入力1,438＋出力985＝2,423 tokens、約74秒でした（`results/minicpm5-nonthinking-v2-*`）。
+v1 runner SHA256は `4ce0a0441c1426b61cecb4e00bcf707d727da8d75f32fdbfe09e0825ebacf05f`、
+v2は `d8425e9e896ff8e093b15132e422b1b391479100ecb001f6b7833dc9df836950`。
+条件上限を維持した修正であり、既存の負の結果は置き換えていません。

@@ -1,0 +1,48 @@
+warning: no usable GPU found, --gpu-layers option will be ignored
+warning: one possible reason is that llama.cpp was compiled without GPU support
+warning: consult docs/build.md for compilation instructions
+0.00.002.138 W Setting 'enable_thinking' via --chat-template-kwargs is deprecated. Use --reasoning on / --reasoning off instead.
+0.00.002.304 I srv  llama_server: initializing ...
+0.00.002.323 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.002.675 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.004.266 I srv    load_model: loading model '/workspace/scratch/8d8b3b52a303/llama-lab/models/MiniCPM5-2B-Q4_K_M.gguf'
+0.02.271.790 I cmn          init: llama threadpool init, n_threads = 2
+0.02.768.048 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 4096, kv_unified = 'false'
+0.02.772.639 W srv          init: chat template supports preserving reasoning, it is enabled by default (may use more tokens, disable via --no-reasoning-preserve)
+0.02.772.718 I srv  server_run_i: model loaded
+0.02.772.733 I srv  server_on_li: listening on http://127.0.0.1:8080
+0.02.882.638 I slot get_availabl: id  0 | task -1 | selected slot by LRU, n_tokens = 0, t_last = -1
+0.02.883.922 E common_sampler_init: error initializing grammar sampler for grammar:
+array ::= "[" space ( value ("," space value)* )? space "]"
+boolean ::= ("true" | "false")
+char ::= [^"\\\x7F\x00-\x1F] | [\\] (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+decimal-part ::= [0-9]{1,16}
+integral-part ::= [0] | [1-9] [0-9]{0,15}
+json-array ::= "[" space ("]" | json-value (space "," space json-value)* space "]")
+json-bool ::= "true" | "false"
+json-null ::= "null"
+json-number ::= "-"? ("0" | [1-9] [0-9]*) ("." [0-9]+)? (("e" | "E") [+-]? [0-9]+)?
+json-object ::= "{" space ("}" | json-string space ":" space json-value (space "," space json-string space ":" space json-value)* space "}")
+json-string ::= "\"" ( [^"\\] | "\\" ( ["\\/ bfnrt] | "u" [0-9a-fA-F]{4} ) )* "\""
+json-value ::= json-object | json-array | json-string | json-number | json-bool | json-null
+null ::= "null"
+number ::= ("-"? integral-part) ("." decimal-part)? ([eE] [-+]? integral-part)?
+object ::= "{" space ( string ":" space value ("," space string ":" space value)* )? space "}"
+response-format ::= object
+root ::= "<|im_start|>assistant\n" response-format
+space ::= | " " | "\n"{1,2} [ \t]{0,20}
+string ::= "\"" char* "\""
+value ::= object | array | string | number | boolean | null
+
+
+Generation prompt:
+'<|im_start|>assistant
+<think>
+
+</think>
+
+'
+0.02.884.015 E srv    send_error: task id = 0, error: Failed to initialize samplers: std::exception
+0.02.884.036 E srv  process_sing: failed to launch slot with task, id_task = 0
+0.02.884.064 W srv          stop: cancel task, id_task = 0
+0.02.896.151 I srv    operator(): operator(): cleaning up before exit...

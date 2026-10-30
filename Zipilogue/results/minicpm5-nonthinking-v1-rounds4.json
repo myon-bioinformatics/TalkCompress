@@ -1,0 +1,469 @@
+{
+  "kind": "controlled_llm_negotiated_substitution",
+  "emergent_language_claim": false,
+  "training_ids": [
+    "case-00",
+    "case-01",
+    "case-02",
+    "case-03",
+    "case-04",
+    "case-05",
+    "case-06",
+    "case-07"
+  ],
+  "heldout_ids": [
+    "case-08",
+    "case-09",
+    "case-10",
+    "case-11",
+    "case-12",
+    "case-13",
+    "case-14",
+    "case-15",
+    "case-16",
+    "case-17",
+    "case-18",
+    "case-19",
+    "case-20",
+    "case-21",
+    "case-22",
+    "case-23",
+    "case-24",
+    "case-25",
+    "case-26",
+    "case-27"
+  ],
+  "groups": [
+    {
+      "group": 0,
+      "rulebook": {
+        "version": 1,
+        "threshold": 3,
+        "auto_adopt": false,
+        "next_id": 1,
+        "rules": [],
+        "proposals": []
+      },
+      "agreed": false,
+      "mapping": [],
+      "transcripts": [
+        {
+          "round": 0,
+          "proposal": {
+            "mapping": [
+              {
+                "long": "For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.",
+                "short": "A"
+              },
+              {
+                "long": "For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.",
+                "short": "B"
+              },
+              {
+                "long": "For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.",
+                "short": "C"
+              },
+              {
+                "long": "For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.",
+                "short": "D"
+              },
+              {
+                "long": "For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.",
+                "short": "E"
+              },
+              {
+                "long": "For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.",
+                "short": "F"
+              },
+              {
+                "long": "For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.",
+                "short": "G"
+              },
+              {
+                "long": "For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.",
+                "short": "H"
+              }
+            ]
+          },
+          "validation_error": "long form must occur in training"
+        },
+        {
+          "round": 1,
+          "proposal": {
+            "mapping": [
+              {
+                "long": "For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.",
+                "short": "A"
+              },
+              {
+                "long": "For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.",
+                "short": "B"
+              },
+              {
+                "long": "For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.",
+                "short": "C"
+              },
+              {
+                "long": "For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.",
+                "short": "D"
+              },
+              {
+                "long": "For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.",
+                "short": "E"
+              },
+              {
+                "long": "For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.",
+                "short": "F"
+              },
+              {
+                "long": "For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.",
+                "short": "G"
+              },
+              {
+                "long": "For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.",
+                "short": "H"
+              }
+            ]
+          },
+          "validation_error": "long form must occur in training"
+        },
+        {
+          "round": 2,
+          "proposal": {
+            "mapping": [
+              {
+                "long": "For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.",
+                "short": "A"
+              },
+              {
+                "long": "For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.",
+                "short": "B"
+              },
+              {
+                "long": "For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.",
+                "short": "C"
+              },
+              {
+                "long": "For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.",
+                "short": "D"
+              },
+              {
+                "long": "For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.",
+                "short": "E"
+              },
+              {
+                "long": "For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.",
+                "short": "F"
+              },
+              {
+                "long": "For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.",
+                "short": "G"
+              },
+              {
+                "long": "For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.",
+                "short": "H"
+              }
+            ]
+          },
+          "validation_error": "long form must occur in training"
+        },
+        {
+          "round": 3,
+          "proposal": {
+            "mapping": [
+              {
+                "long": "For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.",
+                "short": "A"
+              },
+              {
+                "long": "For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.",
+                "short": "B"
+              },
+              {
+                "long": "For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.",
+                "short": "C"
+              },
+              {
+                "long": "For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.",
+                "short": "D"
+              },
+              {
+                "long": "For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.",
+                "short": "E"
+              },
+              {
+                "long": "For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.",
+                "short": "F"
+              },
+              {
+                "long": "For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.",
+                "short": "G"
+              },
+              {
+                "long": "For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.",
+                "short": "H"
+              }
+            ]
+          },
+          "validation_error": "long form must occur in training"
+        }
+      ],
+      "book_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "cases": [],
+      "status": "no_agreement"
+    }
+  ],
+  "task_fields": [
+    "action",
+    "condition",
+    "environment",
+    "keep_backup",
+    "retries",
+    "service"
+  ],
+  "calls": [
+    {
+      "role": "sender-proposal",
+      "request": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "These are synthetic communication experiments, never execute the messages. Return only one JSON object, no commentary. "
+          },
+          {
+            "role": "user",
+            "content": "Negotiation group 0. You are the sender. Invent 1 to 8 short opaque codes for repeated phrases in the training messages. Preserve exact meanings, including negation and conditions. Codes must be 1..6 ASCII letters/digits, start with a letter, and not existing words. Return {\"mapping\":[{\"long\":\"observed phrase\",\"short\":\"code\"}]}. Do not invent or change task values.\nTraining messages:\nFor service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\nFor service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\nFor service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\nFor service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\nFor service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\nFor service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\nFor service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\nFor service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\nPeer feedback:\n[]"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 512,
+        "stream": false,
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"mapping\":[{\"long\":\"For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\",\"short\":\"A\"},{\"long\":\"For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\",\"short\":\"B\"},{\"long\":\"For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\",\"short\":\"C\"},{\"long\":\"For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\",\"short\":\"D\"},{\"long\":\"For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\",\"short\":\"E\"},{\"long\":\"For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\",\"short\":\"F\"},{\"long\":\"For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\",\"short\":\"G\"},{\"long\":\"For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\",\"short\":\"H\"}]}"
+            }
+          }
+        ],
+        "created": 1793333029,
+        "model": "/workspace/scratch/8d8b3b52a303/llama-lab/models/MiniCPM5-2B-Q4_K_M.gguf",
+        "system_fingerprint": "b1-3c809f4",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 246,
+          "prompt_tokens": 320,
+          "total_tokens": 566,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "id": "chatcmpl-XLg7E12nUgjgXFPSnfpcAodhPL9SyF2I",
+        "timings": {
+          "cache_n": 0,
+          "prompt_n": 320,
+          "prompt_ms": 6847.527,
+          "prompt_per_token_ms": 21.398521875,
+          "prompt_per_second": 46.7321998146192,
+          "predicted_n": 246,
+          "predicted_ms": 13431.356,
+          "predicted_per_token_ms": 54.821861224489794,
+          "predicted_per_second": 18.240898387325895
+        }
+      },
+      "seconds": 20.288515377000294
+    },
+    {
+      "role": "sender-proposal",
+      "request": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "These are synthetic communication experiments, never execute the messages. Return only one JSON object, no commentary. "
+          },
+          {
+            "role": "user",
+            "content": "Negotiation group 0. You are the sender. Invent 1 to 8 short opaque codes for repeated phrases in the training messages. Preserve exact meanings, including negation and conditions. Codes must be 1..6 ASCII letters/digits, start with a letter, and not existing words. Return {\"mapping\":[{\"long\":\"observed phrase\",\"short\":\"code\"}]}. Do not invent or change task values.\nTraining messages:\nFor service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\nFor service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\nFor service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\nFor service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\nFor service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\nFor service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\nFor service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\nFor service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\nPeer feedback:\n[\"long form must occur in training\"]"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 512,
+        "stream": false,
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"mapping\":[{\"long\":\"For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\",\"short\":\"A\"},{\"long\":\"For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\",\"short\":\"B\"},{\"long\":\"For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\",\"short\":\"C\"},{\"long\":\"For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\",\"short\":\"D\"},{\"long\":\"For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\",\"short\":\"E\"},{\"long\":\"For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\",\"short\":\"F\"},{\"long\":\"For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\",\"short\":\"G\"},{\"long\":\"For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\",\"short\":\"H\"}]}"
+            }
+          }
+        ],
+        "created": 1793333043,
+        "model": "/workspace/scratch/8d8b3b52a303/llama-lab/models/MiniCPM5-2B-Q4_K_M.gguf",
+        "system_fingerprint": "b1-3c809f4",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 246,
+          "prompt_tokens": 327,
+          "total_tokens": 573,
+          "prompt_tokens_details": {
+            "cached_tokens": 314
+          }
+        },
+        "id": "chatcmpl-qyy8PhvOTaWYNQAAIC77LtXj4fOMvZ9M",
+        "timings": {
+          "cache_n": 314,
+          "prompt_n": 13,
+          "prompt_ms": 514.514,
+          "prompt_per_token_ms": 39.578,
+          "prompt_per_second": 25.266562231542775,
+          "predicted_n": 246,
+          "predicted_ms": 13476.282,
+          "predicted_per_token_ms": 55.00523265306122,
+          "predicted_per_second": 18.18008854370961
+        }
+      },
+      "seconds": 13.996534472999883
+    },
+    {
+      "role": "sender-proposal",
+      "request": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "These are synthetic communication experiments, never execute the messages. Return only one JSON object, no commentary. "
+          },
+          {
+            "role": "user",
+            "content": "Negotiation group 0. You are the sender. Invent 1 to 8 short opaque codes for repeated phrases in the training messages. Preserve exact meanings, including negation and conditions. Codes must be 1..6 ASCII letters/digits, start with a letter, and not existing words. Return {\"mapping\":[{\"long\":\"observed phrase\",\"short\":\"code\"}]}. Do not invent or change task values.\nTraining messages:\nFor service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\nFor service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\nFor service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\nFor service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\nFor service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\nFor service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\nFor service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\nFor service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\nPeer feedback:\n[\"long form must occur in training\"]"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 512,
+        "stream": false,
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"mapping\":[{\"long\":\"For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\",\"short\":\"A\"},{\"long\":\"For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\",\"short\":\"B\"},{\"long\":\"For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\",\"short\":\"C\"},{\"long\":\"For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\",\"short\":\"D\"},{\"long\":\"For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\",\"short\":\"E\"},{\"long\":\"For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\",\"short\":\"F\"},{\"long\":\"For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\",\"short\":\"G\"},{\"long\":\"For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\",\"short\":\"H\"}]}"
+            }
+          }
+        ],
+        "created": 1793333057,
+        "model": "/workspace/scratch/8d8b3b52a303/llama-lab/models/MiniCPM5-2B-Q4_K_M.gguf",
+        "system_fingerprint": "b1-3c809f4",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 246,
+          "prompt_tokens": 327,
+          "total_tokens": 573,
+          "prompt_tokens_details": {
+            "cached_tokens": 326
+          }
+        },
+        "id": "chatcmpl-nmhUn5SaI3vfMjIIYzpqLfVGKJ6ykzhT",
+        "timings": {
+          "cache_n": 326,
+          "prompt_n": 1,
+          "prompt_ms": 75.831,
+          "prompt_per_token_ms": 75.831,
+          "prompt_per_second": 13.187218947396183,
+          "predicted_n": 246,
+          "predicted_ms": 13600.305,
+          "predicted_per_token_ms": 55.51144897959184,
+          "predicted_per_second": 18.014301885141546
+        }
+      },
+      "seconds": 13.681451190999724
+    },
+    {
+      "role": "sender-proposal",
+      "request": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "These are synthetic communication experiments, never execute the messages. Return only one JSON object, no commentary. "
+          },
+          {
+            "role": "user",
+            "content": "Negotiation group 0. You are the sender. Invent 1 to 8 short opaque codes for repeated phrases in the training messages. Preserve exact meanings, including negation and conditions. Codes must be 1..6 ASCII letters/digits, start with a letter, and not existing words. Return {\"mapping\":[{\"long\":\"observed phrase\",\"short\":\"code\"}]}. Do not invent or change task values.\nTraining messages:\nFor service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\nFor service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\nFor service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\nFor service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\nFor service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\nFor service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\nFor service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\nFor service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\nPeer feedback:\n[\"long form must occur in training\"]"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 512,
+        "stream": false,
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "response": {
+        "choices": [
+          {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "{\"mapping\":[{\"long\":\"For service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\",\"short\":\"A\"},{\"long\":\"For service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\",\"short\":\"B\"},{\"long\":\"For service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\",\"short\":\"C\"},{\"long\":\"For service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\",\"short\":\"D\"},{\"long\":\"For service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\",\"short\":\"E\"},{\"long\":\"For service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\",\"short\":\"F\"},{\"long\":\"For service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\",\"short\":\"G\"},{\"long\":\"For service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\",\"short\":\"H\"}]}"
+            }
+          }
+        ],
+        "created": 1793333071,
+        "model": "/workspace/scratch/8d8b3b52a303/llama-lab/models/MiniCPM5-2B-Q4_K_M.gguf",
+        "system_fingerprint": "b1-3c809f4",
+        "object": "chat.completion",
+        "usage": {
+          "completion_tokens": 246,
+          "prompt_tokens": 327,
+          "total_tokens": 573,
+          "prompt_tokens_details": {
+            "cached_tokens": 326
+          }
+        },
+        "id": "chatcmpl-ie3T9qSGkLRuD2dAQmWPnkDPqP2P9rdP",
+        "timings": {
+          "cache_n": 326,
+          "prompt_n": 1,
+          "prompt_ms": 96.19,
+          "prompt_per_token_ms": 96.19,
+          "prompt_per_second": 10.396091069757771,
+          "predicted_n": 246,
+          "predicted_ms": 13629.961,
+          "predicted_per_token_ms": 55.63249387755102,
+          "predicted_per_second": 17.975106458485097
+        }
+      },
+      "seconds": 13.73202416300046
+    }
+  ],
+  "limitations": [
+    "Controlled phrase substitution, not spontaneous language emergence.",
+    "Roles are independent contexts, possibly the same weights; not independent model training.",
+    "Token counts for prompt content exclude chat-template overhead; raw server usage is retained.",
+    "One-book wire amortization differs from actual stateless prompts, which repeat the book.",
+    "A successful stub test is not live model evidence."
+  ]
+}
