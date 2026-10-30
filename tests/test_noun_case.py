@@ -188,3 +188,9 @@ def test_capital_stats():
     assert st == {"noun_sentence_start": 1, "noun_proper": 1, "other_sentence_start": 1, "other_capital": 1}
     assert nc.capital_stats("w/O ça Éa", []) == dict.fromkeys(st, 0)
     assert nc.capital_stats("x\nThe", [])["other_sentence_start"] == 1
+
+
+def test_standalone_digit_and_unicode_punct_neighbours():
+    assert nc.standalone("3dog", 1, 4)
+    assert nc.standalone("—dog—", 1, 4)
+    assert not nc.standalone("édog", 1, 4)
