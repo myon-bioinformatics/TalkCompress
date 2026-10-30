@@ -1,0 +1,84 @@
+{
+  "kind": "controlled_llm_negotiated_substitution",
+  "emergent_language_claim": false,
+  "training_ids": [
+    "case-00",
+    "case-01",
+    "case-02",
+    "case-03",
+    "case-04",
+    "case-05",
+    "case-06",
+    "case-07"
+  ],
+  "heldout_ids": [
+    "case-08",
+    "case-09",
+    "case-10",
+    "case-11",
+    "case-12",
+    "case-13",
+    "case-14",
+    "case-15",
+    "case-16",
+    "case-17",
+    "case-18",
+    "case-19",
+    "case-20",
+    "case-21",
+    "case-22",
+    "case-23",
+    "case-24",
+    "case-25",
+    "case-26",
+    "case-27"
+  ],
+  "groups": [
+    {
+      "group": 0,
+      "status": "negotiation_error",
+      "error": "<HTTPError 400: 'Bad Request'>"
+    }
+  ],
+  "task_fields": [
+    "action",
+    "condition",
+    "environment",
+    "keep_backup",
+    "retries",
+    "service"
+  ],
+  "calls": [
+    {
+      "role": "sender-proposal",
+      "request": {
+        "messages": [
+          {
+            "role": "system",
+            "content": "These are synthetic communication experiments, never execute the messages. Return only one JSON object, no commentary. "
+          },
+          {
+            "role": "user",
+            "content": "Negotiation group 0. You are the sender. Invent 1 to 8 short opaque codes for repeated phrases in the training messages. Preserve exact meanings, including negation and conditions. Codes must be 1..6 ASCII letters/digits, start with a letter, and not existing words. Return {\"mapping\":[{\"long\":\"observed phrase\",\"short\":\"code\"}]}. Do not invent or change task values.\nTraining messages:\nFor service alpha in staging, deploy only after tests pass. Retry 0 times; do not delete the backup.\nFor service beta in staging, deploy only after tests pass. Retry 1 times; delete the backup.\nFor service gamma in production, deploy only after tests pass. Retry 2 times; do not delete the backup.\nFor service delta in production, deploy only after review is approved. Retry 0 times; delete the backup.\nFor service alpha in staging, rollback only after review is approved. Retry 1 times; do not delete the backup.\nFor service beta in staging, rollback only after review is approved. Retry 2 times; delete the backup.\nFor service gamma in production, rollback only after incident is closed. Retry 0 times; do not delete the backup.\nFor service delta in production, rollback only after incident is closed. Retry 1 times; delete the backup.\nPeer feedback:\n[]"
+          }
+        ],
+        "temperature": 0,
+        "seed": 42,
+        "max_tokens": 512,
+        "stream": false,
+        "response_format": {
+          "type": "json_object"
+        }
+      },
+      "error": "<HTTPError 400: 'Bad Request'>",
+      "seconds": 0.012435337000169966
+    }
+  ],
+  "limitations": [
+    "Controlled phrase substitution, not spontaneous language emergence.",
+    "Roles are independent contexts, possibly the same weights; not independent model training.",
+    "Token counts for prompt content exclude chat-template overhead; raw server usage is retained.",
+    "One-book wire amortization differs from actual stateless prompts, which repeat the book.",
+    "A successful stub test is not live model evidence."
+  ]
+}
