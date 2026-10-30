@@ -35,20 +35,20 @@
   }
  },
  "skipped": {},
- "adopted": 824,
+ "adopted": 812,
  "beats_en_count": {
-  "o200k_base": 824,
-  "cl100k_base": 653,
-  "qwen2.5": 670,
-  "qwen3": 670,
-  "llama3.2": 664,
-  "mistral-v0.3": 585,
-  "deepseek-v3": 664
+  "o200k_base": 812,
+  "cl100k_base": 641,
+  "qwen2.5": 658,
+  "qwen3": 658,
+  "llama3.2": 652,
+  "mistral-v0.3": 578,
+  "deepseek-v3": 652
  },
  "categories": {
-  "all": 564,
+  "all": 557,
   "o200k only": 129,
-  "6/7": 80,
+  "6/7": 75,
   "2/7": 15,
   "4/7": 13,
   "3/7": 12,
@@ -1584,193 +1584,6 @@
     "deepseek-v3"
    ],
    "category": "all"
-  },
-  {
-   "id": "mx-go-futperf-2",
-   "src": "you will have gone",
-   "to": "terás ido",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-come-futperf-2",
-   "src": "you will have come",
-   "to": "serez venus",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "deepseek-v3"
-   ],
-   "category": "6/7"
-  },
-  {
-   "id": "mx-do-futperf-2",
-   "src": "you will have done",
-   "to": "aurez fait",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-see-futperf-2",
-   "src": "you will have seen",
-   "to": "aurez vu",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-take-futperf-2",
-   "src": "you will have taken",
-   "to": "aurez pris",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "deepseek-v3"
-   ],
-   "category": "6/7"
-  },
-  {
-   "id": "mx-find-futperf-2",
-   "src": "you will have found",
-   "to": "aurez trouvé",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "deepseek-v3"
-   ],
-   "category": "6/7"
-  },
-  {
-   "id": "mx-want-futperf-2",
-   "src": "you will have wanted",
-   "to": "aurez voulu",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "deepseek-v3"
-   ],
-   "category": "6/7"
-  },
-  {
-   "id": "mx-have-futperf-2",
-   "src": "you will have had",
-   "to": "aurez eu",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-think-futperf-2",
-   "src": "you will have thought",
-   "to": "terás pensado",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-say-futperf-2",
-   "src": "you will have said",
-   "to": "aurez dit",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-know-futperf-2",
-   "src": "you will have known",
-   "to": "aurez su",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-give-futperf-2",
-   "src": "you will have given",
-   "to": "aurez donné",
-   "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "deepseek-v3"
-   ],
-   "category": "6/7"
   },
   {
    "id": "mx-go-pluperf-2",
