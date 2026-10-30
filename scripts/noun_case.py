@@ -37,7 +37,19 @@ SCHEMES = ("A", "B", "C")
 DETERMINERS = frozenset(
     {"the", "a", "an", "my", "your", "his", "her", "its", "our", "their", "these", "those"}
 )
-_WORD_RE = re.compile(r"[A-Za-z]+")
+# Unicode letter runs: ``ça`` is one word (its ``a`` is never a determiner).
+_WORD_RE = re.compile(r"[^\W\d_]+")
+# A word glued to one of these (``w/o``, ``ça``'s neighbours, ``x+a``) is a
+# symbol/substitution fragment, never a standalone English word.
+_GLUE = frozenset("/&+@'’-_")
+# Lexicon entries that are mostly pronoun/verb uses in running text.
+AMBIGUOUS_LEXICON = frozenset({"one", "fish"})
+# Frequent adjectives seen right after a determiner (false positives).
+DET_ADJECTIVES = frozenset(
+    {"own", "first", "proper", "real", "domestic", "dear", "same", "other", "last", "next",
+     "whole", "old", "young", "little", "great", "good", "poor", "new", "best", "very"}
+)
+_SENT_END = re.compile(r"(?:^|[.!?]\s+|\n\s*)$")
 _ALT_RE = re.compile(r"\(\?:([a-z|?()]+)\)|\(([a-z|]+)\)")
 
 
@@ -79,7 +91,7 @@ def noun_lexicon(mz: ModuleType) -> frozenset[str]:
             body = m.group(1) or m.group(2)
             if body != "that|those":
                 words |= expand_alternation(body)
-    return frozenset(words)
+    return frozenset(words - AMBIGUOUS_LEXICON)
 
 
 def determiner_rules(mz: ModuleType) -> list[tuple[re.Pattern[str], object]]:
@@ -106,19 +118,52 @@ def closed_surfaces(mz: ModuleType) -> frozenset[str]:
     return frozenset(s.lower() for s in out)
 
 
+def standalone(text: str, start: int, end: int) -> bool:
+    """ASCII word not glued to a symbol / non-ASCII substitution."""
+    if not text[start:end].isascii():
+        return False
+    before = text[start - 1] if start else " "
+    after = text[end] if end < len(text) else " "
+    return all(c not in _GLUE and (c.isascii() or not c.isalnum()) for c in (before, after))
+
+
 def noun_spans(text: str, lexicon: frozenset[str], closed: frozenset[str]) -> list[tuple[int, int]]:
     """(start, end) of words tagged as nouns in ``text``."""
     spans: list[tuple[int, int]] = []
     prev = ""
     prev_end = 0
     for m in _WORD_RE.finditer(text):
+        if not standalone(text, m.start(), m.end()):
+            prev = ""
+            prev_end = m.end()
+            continue
         w = m.group(0).lower()
-        after_det = prev in DETERMINERS and text[prev_end : m.start()] == " "
+        after_det = prev in DETERMINERS and text[prev_end : m.start()] == " " and w not in DET_ADJECTIVES
         if w not in closed and (w in lexicon or after_det):
             spans.append((m.start(), m.end()))
         prev = w
         prev_end = m.end()
     return spans
+
+
+def capital_stats(text: str, spans: list[tuple[int, int]]) -> dict[str, int]:
+    """Capital-initial collisions for scheme B.
+
+    ``noun_sentence_start`` / ``noun_proper``: noun hits already capitalised
+    (B mark invisible). ``other_sentence_start`` / ``other_capital``: non-noun
+    capitalised words that B readers would mistake for noun marks.
+    """
+    tagged = set(spans)
+    out = dict.fromkeys(("noun_sentence_start", "noun_proper", "other_sentence_start", "other_capital"), 0)
+    for m in _WORD_RE.finditer(text):
+        if not m.group(0)[:1].isupper() or not standalone(text, m.start(), m.end()):
+            continue
+        start = _SENT_END.search(text[max(0, m.start() - 4) : m.start()]) is not None
+        key = ("noun_" if (m.start(), m.end()) in tagged else "other_") + (
+            "sentence_start" if start else ("proper" if (m.start(), m.end()) in tagged else "capital")
+        )
+        out[key] += 1
+    return out
 
 
 def mark(text: str, scheme: str, spans: list[tuple[int, int]]) -> str:
@@ -148,10 +193,13 @@ def measure(
     """Per-scheme token/byte totals + per-word worst cases."""
     totals = {s: {"tokens": 0, "bytes": 0} for s in SCHEMES}
     words: dict[str, dict[str, object]] = {}
+    caps = dict.fromkeys(("noun_sentence_start", "noun_proper", "other_sentence_start", "other_capital"), 0)
     for name in sorted(texts):
         src = texts[name]
         comp = compress(src)
         spans = noun_spans(comp, lexicon, closed)
+        for k, v in capital_stats(comp, spans).items():
+            caps[k] += v
         src_words = {w.lower() for w in _WORD_RE.findall(src)}
         for s in SCHEMES:
             out = mark(comp, s, spans)
@@ -175,6 +223,7 @@ def measure(
         "totals": totals,
         "words": words,
         "noun_tokens": sum(int(v["n"]) for v in words.values()),
+        "capitals": caps,
         "short_forms": short_form_costs(texts, compress, count),
     }
 
@@ -230,6 +279,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(res, indent=1))
         return 0
     print(f"noun occurrences: {res['noun_tokens']}  distinct: {len(res['words'])}")
+    print("capitals:", " ".join(f"{k}={v}" for k, v in res["capitals"].items()))
     for s in SCHEMES:
         t = res["totals"][s]
         print(f"{s}: tokens={t['tokens']} bytes={t['bytes']}")

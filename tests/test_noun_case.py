@@ -158,3 +158,33 @@ def test_rank_short_forms_uses_c_increase():
     sf = {"b": {"n": 1, "A": 1, "B": 5, "C": 2}, "a": {"n": 2, "A": 1, "B": 1, "C": 2}, "c": {"n": 1, "A": 1, "B": 1, "C": 4}}
     assert [w for w, _ in nc.rank_short_forms(sf, 5)] == ["c", "a", "b"]
     assert [w for w, _ in nc.rank_short_forms(sf, 1)] == ["c"]
+
+
+def test_unicode_word_never_splits_determiner():
+    # ``ça`` is one word: its trailing ``a`` is not an article.
+    assert nc.noun_spans("ça dog", LEX, CLOSED) == []
+    assert nc.noun_spans("ça book", LEX, CLOSED) == [(3, 7)]
+    # symbol-glued fragments (w/a, x+a) neither act as determiners nor get tagged
+    for t in ("w/a dog", "x+a dog", "a-dog", "a’dog", "日a dog", "the book/x"):
+        assert nc.noun_spans(t, LEX, CLOSED) == [], t
+    assert nc.noun_spans("the bookç", LEX, CLOSED) == []
+    assert nc.standalone("a dog", 0, 1) and not nc.standalone("ça", 1, 2)
+    assert nc.standalone("(a) x", 1, 2)
+
+
+def test_ambiguous_lexicon_and_det_adjectives():
+    lex = nc.noun_lexicon(nc.load_morpho())
+    assert "one" not in lex and "fish" not in lex
+    for adj in ("own", "first", "proper", "real", "domestic", "dear"):
+        assert adj in nc.DET_ADJECTIVES
+        assert nc.noun_spans(f"the {adj}", frozenset(), CLOSED) == []
+    assert nc.noun_spans("the dog", frozenset(), CLOSED) == [(4, 7)]
+
+
+def test_capital_stats():
+    text = "Book is here. The dog met Tom. my Cats"
+    spans = nc.noun_spans(text, LEX, CLOSED)
+    st = nc.capital_stats(text, spans)
+    assert st == {"noun_sentence_start": 1, "noun_proper": 1, "other_sentence_start": 1, "other_capital": 1}
+    assert nc.capital_stats("w/O ça Éa", []) == dict.fromkeys(st, 0)
+    assert nc.capital_stats("x\nThe", [])["other_sentence_start"] == 1
