@@ -11,7 +11,8 @@ Canonical rules:
 - Root: xmlns is the SVG namespace (a missing xmlns is accepted and added);
   width and height are positive integers; viewBox must be exactly "0 0 WIDTH HEIGHT".
 - Numbers: rounded to 2 decimals (half-even), trailing zeros removed, no
-  "-0", integers without a decimal point.
+  "-0", integers without a decimal point. Canonical integer parts are limited
+  to 1,024 digits to bound expansion of scientific notation.
 - Colors: "none" or "#rrggbb" (lowercase; #rgb is expanded).
 - Path: commands M L H V C S Q T Z and their lowercase forms only (no arcs).
   Tokens are joined with single spaces; numbers use the number rule.
@@ -41,7 +42,7 @@ import sys
 import unicodedata
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
-from decimal import ROUND_HALF_EVEN, Decimal, InvalidOperation
+from decimal import ROUND_HALF_EVEN, Context, Decimal, DecimalException, InvalidOperation
 from pathlib import Path
 from xml.sax.saxutils import escape
 
@@ -64,6 +65,7 @@ TEXT_ANCHORS = {"start", "middle", "end"}
 # fontconfig resolves here; "Noto Sans JP" falls back to a font without kana/kanji.
 FONT_STACKS = {"Noto Sans CJK JP": "Noto Sans CJK JP", "Noto Sans CJK JP, sans-serif": "Noto Sans CJK JP, sans-serif"}
 DECIMALS = Decimal("0.01")
+MAX_INTEGER_DIGITS = 1024
 RECOMMENDED_MULTIPLE = 8
 
 _NUM = r"[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?"
@@ -94,19 +96,38 @@ def _local(tag: str) -> str:
     return name if ns == SVG_NS else "!" + tag
 
 
-def fmt_num(raw: str) -> str:
-    """Round to two decimals, drop trailing zeros and any '-0'."""
+def _number(raw: str) -> Decimal:
+    """Parse a finite decimal without expanding an unbounded exponent."""
     try:
         d = Decimal(raw)
     except InvalidOperation as exc:
         raise SvgDslError(f"bad number {raw!r}") from exc
     if not d.is_finite():
         raise SvgDslError(f"non-finite number {raw!r}")
-    q = d.quantize(DECIMALS, rounding=ROUND_HALF_EVEN)
+    if d and d.adjusted() >= MAX_INTEGER_DIGITS:
+        raise SvgDslError(f"number exceeds {MAX_INTEGER_DIGITS} integer digits")
+    return d
+
+
+def fmt_num(raw: str) -> str:
+    """Round half-even to two decimals independently of the ambient context.
+
+    The integer-part limit bounds canonical expansion, including root sizes.
+    Very small finite values round directly to zero without exponent expansion.
+    """
+    d = _number(raw)
+    if not d or d.adjusted() < -3:
+        return "0"
+    context = Context(prec=MAX_INTEGER_DIGITS + 3, rounding=ROUND_HALF_EVEN,
+                      Emin=-MAX_INTEGER_DIGITS, Emax=MAX_INTEGER_DIGITS)
+    try:
+        q = d.quantize(DECIMALS, context=context)
+    except DecimalException as exc:
+        raise SvgDslError("number cannot be represented at two decimal places") from exc
     if q == 0:
         return "0"
-    if q == q.to_integral_value():
-        return str(int(q))
+    if q.adjusted() >= MAX_INTEGER_DIGITS:
+        raise SvgDslError(f"rounded number exceeds {MAX_INTEGER_DIGITS} integer digits")
     return format(q, "f").rstrip("0").rstrip(".")
 
 
@@ -137,25 +158,29 @@ def _path(raw: str) -> str:
     out: list[str] = []
     cmd = None
     args: list[str] = []
+    needs_group = False
     for t in tokens:
         if t.upper() in _PATH_ARGS:
-            if cmd is not None and args:
+            if cmd is not None and (args or needs_group):
                 raise SvgDslError(f"command {cmd} has wrong argument count")
             cmd = t
             out.append(t)
             args = []
+            needs_group = _PATH_ARGS[t.upper()] != 0
             if _PATH_ARGS[t.upper()] == 0:
                 cmd = None
             continue
         if cmd is None:
             raise SvgDslError("number before any path command")
-        args.append(fmt_num(t))
-        out.append(fmt_num(t))
+        value = fmt_num(t)
+        args.append(value)
+        out.append(value)
         if len(args) == _PATH_ARGS[cmd.upper()]:
             args = []
+            needs_group = False
             if cmd.upper() == "M":
                 cmd = "L" if cmd == "M" else "l"
-    if cmd is not None and args:
+    if cmd is not None and (args or needs_group):
         raise SvgDslError("path ends in an incomplete command")
     return " ".join(out)
 
@@ -251,9 +276,9 @@ def _root_checks(root: ET.Element, errors: list[str], warnings: list[str]) -> No
     dims: list[int] = []
     for key in ("width", "height"):
         try:
-            d = Decimal(root.attrib.get(key, "x").strip())
-        except InvalidOperation:
-            errors.append(f"{key} must be a positive integer")
+            d = _number(root.attrib.get(key, "x").strip())
+        except SvgDslError as exc:
+            errors.append(f"{key}: {exc}")
             return
         if not d.is_finite() or d <= 0 or d != d.to_integral_value():
             errors.append(f"{key} must be a positive integer")

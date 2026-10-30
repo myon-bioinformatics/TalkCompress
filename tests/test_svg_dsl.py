@@ -137,3 +137,94 @@ def test_decimal_coordinates_are_allowed_and_rounded():
 def test_root_size_must_be_integer():
     result = analyze('<svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="8" viewBox="0 0 10.5 8"/>')
     assert not result.ok
+
+
+@pytest.mark.parametrize("path", [
+    "M", "m", "M Z", "M0 0 L", "M0 0 C L1 2", "M0 0 H Z",
+    "M0 0 V", "M0 0 S", "M0 0 Q", "M0 0 T", "M0 0 m",
+    "M0 0 L1 2 3", "M0 0 C1 2 3 4 5", "M0 0 Z 1 2",
+])
+def test_every_path_command_requires_a_complete_first_argument_group(path):
+    source = wrap(f'<path d="{path}"/>')
+    result = analyze(source)
+    assert not result.ok
+    assert result.canonical is None
+    with pytest.raises(SvgDslError):
+        canonicalize(source)
+
+
+@pytest.mark.parametrize("path", [
+    "M0 0", "m0 0 1 2 3 4", "M0 0 Z", "M0 0 Z L1 2 Z",
+    "M0 0 M1 2", "M0 0 L1 2 3 4", "M0 0 H1 2 V3 4",
+    "M0 0 C1 2 3 4 5 6 7 8 9 10 11 12",
+    "M0 0 S1 2 3 4 Q5 6 7 8 T9 10 11 12 Z",
+])
+def test_complete_and_implicit_path_groups_remain_valid(path):
+    source = wrap(f'<path d="{path}"/>')
+    assert analyze(source).ok
+    assert is_idempotent(source)
+
+
+@pytest.mark.parametrize("raw, expected", [
+    ("1e50", "1" + "0" * 50), ("-1e50", "-1" + "0" * 50),
+    ("1e-1000000", "0"), ("-1e-1000000", "0"),
+    ("0e1000000", "0"), ("-0e1000000", "0"),
+    ("0.005", "0"), ("0.015", "0.02"), ("-0.015", "-0.02"),
+    ("9.995", "10"), ("1e1023", "1" + "0" * 1023),
+])
+def test_numbers_have_bounded_context_independent_expansion(raw, expected):
+    assert fmt_num(raw) == expected
+    assert fmt_num(expected) == expected
+
+
+def test_number_rounding_does_not_inherit_precision_or_rounding_traps():
+    from decimal import Inexact, ROUND_UP, Rounded, localcontext
+
+    with localcontext() as context:
+        context.prec = 2
+        context.rounding = ROUND_UP
+        context.traps[Inexact] = True
+        context.traps[Rounded] = True
+        assert fmt_num("1.005") == "1"
+        assert fmt_num("1.015") == "1.02"
+        assert fmt_num("1e50") == "1" + "0" * 50
+        assert analyze(wrap('<circle cx="1e50"/>')).ok
+
+
+@pytest.mark.parametrize("raw", [
+    "1e1024", "-1e1024", "1e1000000", "-1e1000000",
+    "1e9999999999999999999999999999999999999999999",
+    "9" * 1024 + ".995", "NaN", "sNaN", "Infinity", "-Infinity",
+])
+def test_extreme_or_nonfinite_numbers_return_dsl_errors(raw):
+    with pytest.raises(SvgDslError):
+        fmt_num(raw)
+    result = analyze(wrap(f'<circle cx="{raw}"/>'))
+    assert not result.ok
+    assert result.canonical is None
+    assert result.errors
+
+
+@pytest.mark.parametrize("attribute", ["width", "height"])
+def test_root_dimensions_reject_huge_exponent_before_integer_expansion(attribute):
+    attrs = {"width": "8", "height": "8", "viewBox": "0 0 8 8"}
+    attrs[attribute] = "1e1000000"
+    source = "<svg " + " ".join(f'{key}="{value}"' for key, value in attrs.items()) + "/>"
+    result = analyze(source)
+    assert not result.ok
+    assert any(attribute in error for error in result.errors)
+
+
+def test_large_bounded_root_dimensions_canonicalize_without_decimal_exception():
+    width = "1" + "0" * 50
+    source = f'<svg width="1e50" height="8" viewBox="0 0 {width} 8"/>'
+    result = analyze(source)
+    assert result.ok
+    assert f'width="{width}"' in result.canonical
+    assert is_idempotent(source)
+
+
+def test_optional_shape_coordinates_stay_legal_svg_defaults():
+    source = wrap('<circle r="20"/><rect width="10" height="8"/><line x2="10"/>')
+    assert analyze(source).ok
+    assert is_idempotent(source)

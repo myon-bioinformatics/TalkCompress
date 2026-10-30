@@ -36,7 +36,8 @@ Notes:
 
 ## 3. What the report contains
 
-- `meta`: model label, endpoint, token limit, DSL version, prompt version, Python version.
+- `meta`: model label, endpoint, token limit, DSL version, prompt version,
+  scorer version, Python version.
 - `reports[]` per figure: the description, the generated SVG, whether it passed
   DSL v0 (`dsl_ok`), the validation errors, and the probe results (`hits`, `total`,
   `score`, and each question with the answer).
@@ -46,12 +47,34 @@ Exit status is 0 only when every figure passes DSL v0.
 
 ## 4. How to read the score
 
-- `score` is the share of probes whose expected value appears in the answer.
-  It measures retained facts, not drawing quality.
+- Prompt/scorer version **2** requires a complete typed JSON array for each
+  requested attribute list. It never searches a question, prose answer or copied
+  SVG for a matching number. Questions contain no original coordinates or other
+  expected values. This fixes version 1's question-echo false hits.
+- `score` is the share of source items correctly returned in those arrays. Radius,
+  rectangle width, line x2 and text values are compared in document order. Explicit
+  non-`none` colors are compared as a unique unordered list. Numbers compare as
+  exact decimals, without rounding the answer; text compares as complete strings.
+  An omitted radius, rectangle width or line x2 supplies SVG's zero default.
+- This is an attribute-retention metric, not drawing quality or semantic shape
+  matching. Reordering same-kind shapes/text can change the score even if a drawing
+  looks equivalent. Paths, computed inherited colors, and full layout are not
+  measured by these probes.
+- A missing, malformed, truncated or wrong-length list earns no hits for that
+  category and records `status: unscorable` and an error per affected item.
+  A report with any such item has overall `status: incomplete`; its hit ratio
+  must not be read as a completed model-quality measurement.
+  Completed wrong values record `status: scored` with `ok: false`. Think-block
+  contents are excluded. No magic replacement text is ever treated as an answer.
+- A valid drawing with no probes has `score: null`, `status: not_applicable` and
+  `total: 0`, not a perfect or zero-quality result.
+- Version 1 and version 2 scores are **not comparable**. Preserve old reports and
+  their provenance; do not reinterpret old scores as version-2 results. Each new
+  figure report and its metadata carry the prompt/scorer versions.
 - A figure that fails DSL v0 scores 0 by definition. Count those separately
   (`dsl_ok` false) before comparing scores.
 - The probes come from the original figure's own attributes. Each probe is one
-  number, text, or color, so one wrong digit costs one probe.
+  number, text, or color; duplicates in ordered lists remain separate items.
 - Small sample: six figures give a few dozen probes. A difference of a few points
   is noise until it repeats across runs.
 

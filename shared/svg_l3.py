@@ -34,18 +34,20 @@ import shlex
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass
+from decimal import Decimal, DecimalException
 from pathlib import Path
 
 try:
-    from shared.qa_fidelity import Probe, score
+    from shared.qa_fidelity import Probe, make_prompt
     from shared.svg_dsl import analyze, canonicalize
 except ImportError:
-    from qa_fidelity import Probe, score
+    from qa_fidelity import Probe, make_prompt
     from svg_dsl import analyze, canonicalize
 
 DSL_VERSION = "0"
-PROMPT_VERSION = "1"  # bump when describe/generate prompts change
-UNFINISHED = "<<unfinished>>"  # never matches an expected value
+PROMPT_VERSION = "2"  # includes the probe answer contract
+SCORER_VERSION = "2"  # do not compare or reinterpret version-1 scores
 
 DSL_RULES = """Write one SVG document using only these elements and attributes:
 - <svg width="W" height="H" viewBox="0 0 W H" xmlns="http://www.w3.org/2000/svg"> with integer W and H
@@ -55,7 +57,7 @@ DSL_RULES = """Write one SVG document using only these elements and attributes:
 - No transform, no arcs (A), no style, no script, no images.
 Output the SVG only, in one code block."""
 
-_SVG_RE = re.compile(r"<svg\b[^>]*/>|<svg\b.*</svg>", re.S)
+_SVG_RE = re.compile(r"<svg\b[^>]*/>|<svg\b.*?</svg>", re.S)
 
 
 def ask(cmd: str, prompt: str, timeout: int = 300) -> str:
@@ -80,15 +82,60 @@ def generate_prompt(description: str) -> str:
 
 
 def extract_svg(text: str) -> str:
-    """Return the first SVG document in a model answer, or an empty string."""
-    m = _SVG_RE.search(text)
-    return m.group(0).strip() if m else ""
+    """Return a final SVG, ignoring reasoning outside the SVG document.
+
+    Do not run prose substitutions inside SVG: CDATA may legitimately contain
+    strings such as '<think>'. A closing tag outside the candidate means a
+    template supplied the opening reasoning tag, so that candidate is discarded.
+    """
+    while True:
+        m = _SVG_RE.search(text)
+        if not m:
+            return ""
+        depth = 0
+        for tag in re.finditer(r"</?think>", text[:m.start()], re.I):
+            depth = max(0, depth - 1) if tag.group(0).startswith("</") else depth + 1
+        if depth:
+            for tag in re.finditer(r"</?think>", text[m.start():], re.I):
+                depth += -1 if tag.group(0).startswith("</") else 1
+                if depth == 0:
+                    text = text[m.start() + tag.end():]
+                    break
+            else:
+                return ""
+            continue
+        closing = re.search(r"</think>", text[m.end():], re.I)
+        if closing:
+            text = text[m.end() + closing.end():]
+            continue
+        return m.group(0).strip()
 
 
-def probes_from(svg: str) -> list[Probe]:
-    """Questions whose expected answers are the original drawing's own values."""
+@dataclass(frozen=True)
+class SvgProbe(Probe):
+    field: str
+    index: int | None
+
+
+_QUESTIONS = {
+    "circle.r": "List the radius of every circle element in document order. Return only a JSON array of numbers; include SVG default values for omitted attributes.",
+    "rect.width": "List the width of every rect element in document order. Return only a JSON array of numbers; include SVG default values for omitted attributes.",
+    "line.x2": "List the x2 coordinate of every line element in document order. Return only a JSON array of numbers; include SVG default values for omitted attributes.",
+    "text": "List the text content of every nonempty text element in document order. Return only a JSON array of strings.",
+    "color": "List every distinct explicitly specified fill or stroke color used in the drawing, excluding none. Return only a JSON array of #rrggbb strings, without duplicates.",
+}
+
+
+def probes_from(svg: str) -> list[SvgProbe]:
+    """Attribute-list probes: no source value or coordinate enters a question.
+
+    Geometry/text correspondence uses document order, not shape recognition.
+    Omitted circle radius, rect width and line x2 have SVG's zero default.
+    Colors describe explicit attributes, not computed inherited appearance.
+    """
     root = ET.fromstring(svg)
-    probes: list[Probe] = []
+    probes: list[SvgProbe] = []
+    indices: dict[str, int] = {}
     colors: set[str] = set()
     for el in root.iter():
         name = el.tag.rsplit("}", 1)[-1]
@@ -96,27 +143,120 @@ def probes_from(svg: str) -> list[Probe]:
         for key in ("fill", "stroke"):
             if a.get(key, "none") != "none":
                 colors.add(a[key])
-        if name == "circle":
-            probes.append(Probe("number", f"What is the radius of the circle centered at x={a['cx']}, y={a['cy']}? Answer with a number.", a["r"]))
-        elif name == "rect":
-            probes.append(Probe("number", f"What is the width of the rectangle whose top-left corner is x={a['x']}, y={a['y']}? Answer with a number.", a["width"]))
-        elif name == "line":
-            probes.append(Probe("number", f"What is x2 of the line that starts at x1={a['x1']}, y1={a['y1']}? Answer with a number.", a["x2"]))
+        field = {"circle": "circle.r", "rect": "rect.width", "line": "line.x2"}.get(name)
+        if field is not None:
+            index = indices.get(field, 0)
+            indices[field] = index + 1
+            probes.append(SvgProbe("number", _QUESTIONS[field], a.get(field.split(".")[1], "0"), field, index))
         elif name == "text" and (el.text or "").strip():
-            probes.append(Probe("id", "What text is written in the drawing? Copy it exactly.", el.text.strip()))
+            index = indices.get("text", 0)
+            indices["text"] = index + 1
+            probes.append(SvgProbe("id", _QUESTIONS["text"], el.text.strip(), "text", index))
     for color in sorted(colors):
-        probes.append(Probe("id", "List every fill or stroke color (#rrggbb) used in the drawing.", color))
+        probes.append(SvgProbe("id", _QUESTIONS["color"], color, "color", None))
     return probes
+
+
+def _final_payload(raw: str) -> str:
+    """Remove leading reasoning, never rewrite literal strings inside JSON.
+
+    qa_fidelity's prose filtering is deliberately not used for structured data:
+    a legitimate SVG text may itself contain the characters '<think>'.
+    """
+    text = raw.strip()
+    while text.lower().startswith("<think>"):
+        depth = 0
+        end = None
+        for match in re.finditer(r"</?think>", text, re.I):
+            depth += -1 if match.group(0).startswith("</") else 1
+            if depth == 0:
+                end = match.end()
+                break
+        if end is None:
+            return ""
+        text = text[end:].strip()
+    # Templates may supply the opening tag. A complete JSON candidate takes
+    # precedence, so a closing tag inside a JSON string remains literal data.
+    if not text.startswith(("[", "<svg", "```")) and re.search(r"</think>", text, re.I):
+        text = re.split(r"</think>", text, flags=re.I)[-1].strip()
+    return text
+
+
+def _answer_values(raw: str, field: str, count: int) -> tuple[str, list]:
+    """Require one complete typed JSON array, never extract a matching substring."""
+    answer = _final_payload(raw)
+    def reject_constant(value):
+        raise ValueError(f"non-finite JSON number: {value}")
+    values = json.loads(answer, parse_float=Decimal, parse_int=Decimal, parse_constant=reject_constant)
+    if not isinstance(values, list) or len(values) != count:
+        raise ValueError("answer must be one JSON array with one value per requested item")
+    if field in {"circle.r", "rect.width", "line.x2"}:
+        if any(not isinstance(value, Decimal) or not value.is_finite() for value in values):
+            raise ValueError("numeric answers must contain only finite JSON numbers")
+    elif any(not isinstance(value, str) for value in values):
+        raise ValueError("text/color answers must contain only JSON strings")
+    if field == "color":
+        if len(set(values)) != len(values) or any(not re.fullmatch(r"#[0-9a-f]{6}", value) for value in values):
+            raise ValueError("colors must be unique lowercase #rrggbb strings")
+    return answer, values
+
+
+def score_probes(probes: list[SvgProbe], generated: str, ask_fn) -> dict:
+    """Score each source item; request each attribute list only once.
+
+    A missing, malformed, unfinished or wrong-length list is explicitly
+    unscorable and earns no hits. It is not replaced with a magic answer string.
+    """
+    counts: dict[str, int] = {}
+    for probe in probes:
+        counts[probe.field] = counts.get(probe.field, 0) + 1
+    answers: dict[str, tuple[str, str, list | None, str | None]] = {}
+    results = []
+    for probe in probes:
+        if probe.field not in answers:
+            raw = ""
+            try:
+                raw = ask_fn(make_prompt(generated, probe.question))
+                answer, values = _answer_values(raw, probe.field, counts[probe.field])
+                answers[probe.field] = (raw, answer, values, None)
+            except (RuntimeError, subprocess.TimeoutExpired, ValueError, TypeError, DecimalException) as exc:
+                answers[probe.field] = (raw, _final_payload(raw) if isinstance(raw, str) else "", None, str(exc))
+        raw, answer, values, error = answers[probe.field]
+        ok = False
+        if values is not None:
+            expected = Decimal(probe.expected) if probe.kind == "number" else probe.expected
+            ok = expected in values if probe.index is None else values[probe.index] == expected
+        results.append({"kind": probe.kind, "field": probe.field, "index": probe.index,
+                        "expected": probe.expected, "ok": ok, "question": probe.question,
+                        "answer": answer, "raw_answer": raw, "error": error,
+                        "status": "unscorable" if error is not None else "scored"})
+    hits = sum(result["ok"] for result in results)
+    unscorable = sum(result["status"] == "unscorable" for result in results)
+    return {"hits": hits, "total": len(probes), "score": round(hits / len(probes), 3) if probes else None,
+            "status": ("incomplete" if unscorable else "scored") if probes else "not_applicable",
+            "results": results, "unscorable": unscorable}
 
 
 def run(source_svg: str, ask_fn) -> dict:
     """Run describe, generate, validate and probe with ``ask_fn(prompt) -> str``."""
     original = canonicalize(source_svg)
-    description = ask_fn(describe_prompt(original))
-    raw = ask_fn(generate_prompt(description))
-    generated_src = extract_svg(raw)
-    report: dict = {"description": description, "generated": generated_src, "dsl_ok": False,
-                    "score": 0.0, "hits": 0, "total": 0, "errors": []}
+    report: dict = {"description": "", "generated": "", "dsl_ok": False,
+                    "score": 0.0, "hits": 0, "total": 0, "errors": [],
+                    "prompt_version": PROMPT_VERSION, "scorer_version": SCORER_VERSION}
+    stage = "describe"
+    try:
+        description = _final_payload(ask_fn(describe_prompt(original)))
+        if not description:
+            raise ValueError("no completed description")
+        report["description"] = description
+        stage = "generate"
+        raw = ask_fn(generate_prompt(description))
+        generated_src = extract_svg(raw)
+    except (RuntimeError, subprocess.TimeoutExpired, ValueError, TypeError) as exc:
+        report["status"] = "incomplete"
+        report["errors"].append(f"{stage}: {exc}")
+        return report
+    report["generated"] = generated_src
     if not generated_src:
         report["errors"].append("no svg in model output")
         return report
@@ -131,14 +271,7 @@ def run(source_svg: str, ask_fn) -> dict:
 
     probes = probes_from(original)
 
-    def answer(prompt: str) -> str:
-        try:
-            return ask_fn(prompt)
-        except RuntimeError:
-            return UNFINISHED
-
-    result = score(probes, generated, answer)
-    report.update(hits=result["hits"], total=result["total"], score=result["score"], results=result["results"])
+    report.update(score_probes(probes, generated, ask_fn))
     return report
 
 
@@ -164,6 +297,7 @@ def main(argv: list[str] | None = None) -> int:
         "max_tokens_env": os.environ.get("LLAMA_MAX_TOKENS", "128 (default)"),
         "dsl_version": DSL_VERSION,
         "prompt_version": PROMPT_VERSION,
+        "scorer_version": SCORER_VERSION,
         "python": sys.version.split()[0],
     }
     out = {"meta": meta, "reports": reports}
