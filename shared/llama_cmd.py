@@ -15,6 +15,8 @@ Then pass this script to qa_fidelity::
         --cmd "uv run python shared/llama_cmd.py"
 
 Set ``LLAMA_URL`` to change the endpoint (default ``http://127.0.0.1:8080/v1/chat/completions``).
+Set ``LLAMA_MAX_TOKENS`` to change the answer limit (default 128). A limit hit
+shows up as finish_reason=length and is rejected, not scored.
 """
 
 from __future__ import annotations
@@ -51,7 +53,7 @@ def ask_llama(prompt: str, url: str = DEFAULT_URL, timeout: int = 300) -> str:
         {
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0,
-            "max_tokens": 128,
+            "max_tokens": int(os.environ.get("LLAMA_MAX_TOKENS", "128")),
             "stream": False,
         }
     ).encode("utf-8")

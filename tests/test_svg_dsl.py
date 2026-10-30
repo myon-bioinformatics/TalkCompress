@@ -10,7 +10,7 @@ SAMPLE = f"""<?xml version="1.0"?>
   <rect x="8" y="8" width="240" height="240" fill="none" stroke="#000" stroke-width="2"/>
   <circle cx="128" cy="128" r="40" fill="#FFF" stroke="#abc"/>
   <path d="M10,20L30 40 Z" stroke="#000000"/>
-  <text x="16" y="32" font-family="Noto Sans JP, sans-serif" font-size="12">千ヶ谷 &amp; 図</text>
+  <text x="16" y="32" font-family="Noto Sans CJK JP, sans-serif" font-size="12">千ヶ谷 &amp; 図</text>
 </svg>
 """
 
@@ -18,7 +18,7 @@ EXPECTED = """<svg height="256" viewBox="0 0 256 256" width="256" xmlns="http://
   <rect fill="none" height="240" stroke="#000000" stroke-width="2" width="240" x="8" y="8"/>
   <circle cx="128" cy="128" fill="#ffffff" r="40" stroke="#aabbcc"/>
   <path d="M 10 20 L 30 40 Z" stroke="#000000"/>
-  <text font-family="Noto Sans JP, sans-serif" font-size="12" x="16" y="32">千ヶ谷 &amp; 図</text>
+  <text font-family="Noto Sans CJK JP, sans-serif" font-size="12" x="16" y="32">千ヶ谷 &amp; 図</text>
 </svg>
 """
 
@@ -68,12 +68,12 @@ def test_implicit_lineto_after_moveto_is_kept_as_numbers():
 
 def test_text_is_nfc_and_whitespace_collapsed():
     decomposed = "が"  # が as base + combining voiced mark
-    out = canonicalize(wrap(f'<text x="0" y="8" font-family="Noto Sans JP">{decomposed}   図\n 表</text>'))
+    out = canonicalize(wrap(f'<text x="0" y="8" font-family="Noto Sans CJK JP">{decomposed}   図\n 表</text>'))
     assert "が 図 表" in out
 
 
 def test_text_special_characters_escaped():
-    out = canonicalize(wrap('<text x="0" y="8" font-family="Noto Sans JP">a &lt; b &amp; c</text>'))
+    out = canonicalize(wrap('<text x="0" y="8" font-family="Noto Sans CJK JP">a &lt; b &amp; c</text>'))
     assert "a &lt; b &amp; c" in out
 
 
@@ -94,7 +94,7 @@ def test_missing_xmlns_is_added_on_output():
         '<path d="M0 0 A5 5 0 0 1 10 10" stroke="#000"/>',
         '<rect x="0" y="0" width="8" height="8" fill="red"/>',
         '<text x="0" y="8" font-family="Meiryo">x</text>',
-        '<text x="0" y="8" font-family="Noto Sans JP"><tspan>x</tspan></text>',
+        '<text x="0" y="8" font-family="Noto Sans CJK JP"><tspan>x</tspan></text>',
         '<x:foo xmlns:x="urn:example"/>',
     ],
 )

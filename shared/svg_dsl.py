@@ -60,8 +60,9 @@ ATTRS: dict[str, set[str]] = {
 NUMBER_ATTRS = {"width", "height", "x", "y", "cx", "cy", "r", "x1", "y1", "x2", "y2", "stroke-width", "font-size"}
 COLOR_ATTRS = {"fill", "stroke"}
 TEXT_ANCHORS = {"start", "middle", "end"}
-# Font stacks allowed for text. Pending confirmation of the default font.
-FONT_STACKS = {"Noto Sans JP": "Noto Sans JP", "Noto Sans JP, sans-serif": "Noto Sans JP, sans-serif"}
+# Font families allowed for text. Noto Sans CJK JP (OFL) is the family that
+# fontconfig resolves here; "Noto Sans JP" falls back to a font without kana/kanji.
+FONT_STACKS = {"Noto Sans CJK JP": "Noto Sans CJK JP", "Noto Sans CJK JP, sans-serif": "Noto Sans CJK JP, sans-serif"}
 DECIMALS = Decimal("0.01")
 RECOMMENDED_MULTIPLE = 8
 
