@@ -57,3 +57,18 @@ def test_fixture_is_keyed_by_model(tmp_path):
 
 def test_missing_fixture_file_is_empty():
     assert load_fixture(None) == {}
+
+
+import pytest
+from shared.claude_token_stub import uses_new_tokenizer as _unt
+
+
+@pytest.mark.parametrize("model,expected", [
+    ("claude-opus-4-20250514", False),
+    ("claude-sonnet-4-20250514", False),
+    ("claude-opus-4-7-20260101", True),
+    ("claude-opus-4-7", True),
+    ("claude-opus-4-1-20250805", False),
+])
+def test_dated_model_names_parse_version(model, expected):
+    assert _unt(model) is expected

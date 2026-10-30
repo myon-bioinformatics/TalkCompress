@@ -32,7 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 NEW_TOKENIZER_FACTOR = 1.3  # docs: "approximately 30 percent more" on 4.7+ and Mythos
 
-_MODEL_RE = re.compile(r"^claude-(?:(?P<family>[a-z]+)-)?(?P<major>\d+)(?:-(?P<minor>\d+))?", re.IGNORECASE)
+_MODEL_RE = re.compile(r"^claude-(?:(?P<family>[a-z]+)-)?(?P<major>\d+)(?:-(?P<minor>\d{1,2})(?!\d))?", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
