@@ -58,7 +58,8 @@
               8
             ]
           ],
-          "color": "#1f4e79"
+          "color": "#1f4e79",
+          "label": "実測"
         },
         {
           "points": [
@@ -84,7 +85,8 @@
             ]
           ],
           "color": "#363636",
-          "width": 1.5
+          "width": 1.5,
+          "label": "予測"
         }
       ],
       "labels": {

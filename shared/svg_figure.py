@@ -18,9 +18,9 @@ Spec (all coordinates in px; canvas defaults to 640 x 480, a multiple of 8)::
        {"type": "polyline", "points": [[0, 0], [10, 5]], "color": "#1f4e79", "width": 2},
        {"type": "text", "x": 320, "y": 40, "text": "title", "size": 16, "anchor": "middle"},
        {"type": "chart", "box": [80, 40, 600, 400],
-        "x": {"min": 0, "max": 10, "ticks": [0, 5, 10]},
-        "y": {"min": 0, "max": 1, "ticks": [0, 0.5, 1]},
-        "series": [{"points": [[0, 0], [5, 0.7], [10, 0.4]], "color": "#1f4e79"}],
+        "x": {"min": 0, "max": 10},
+        "y": {"min": 0, "max": 1},
+        "series": [{"points": [[0, 0], [5, 0.7], [10, 0.4]], "color": "#1f4e79", "label": "実測"}],
         "labels": {"x": "time", "y": "value"}}
      ]}
 
@@ -131,15 +131,22 @@ class Figure:
 
         self.line(x0, y1, x1, y1)  # x axis
         self.line(x0, y0, x0, y1)  # y axis
-        for t in xs.get("ticks", []):
+        for t in xs.get("ticks") or nice_ticks(xmin, xmax):
             self.line(px(t), y1, px(t), y1 + _TICK)
             self.text(px(t), y1 + _TICK + 18, _fmt_tick(t), size=14, anchor="middle")
-        for t in ys.get("ticks", []):
+        for t in ys.get("ticks") or nice_ticks(ymin, ymax):
             self.line(x0 - _TICK, py(t), x0, py(t))
             self.text(x0 - _TICK - 6, py(t) + 5, _fmt_tick(t), size=14, anchor="end")
+        named = []
         for s in item.get("series", []):
-            self.polyline([(px(a), py(b)) for a, b in s["points"]], color=s.get("color", ACCENT),
-                          width=s.get("width", 2))
+            color = s.get("color", ACCENT)
+            self.polyline([(px(a), py(b)) for a, b in s["points"]], color=color, width=s.get("width", 2))
+            if s.get("label"):
+                named.append((s["label"], color))
+        for i, (label, color) in enumerate(named):
+            ly = y0 + 24 + i * 24
+            self.line(x1 - 120, ly, x1 - 96, ly, color=color, width=2)
+            self.text(x1 - 88, ly + 5, label, size=14)
         labels = item.get("labels", {})
         if labels.get("x"):
             self.text((x0 + x1) / 2, y1 + 48, labels["x"], size=16, anchor="middle")
@@ -168,6 +175,21 @@ def _boundary(box: dict, toward: tuple[float, float]) -> tuple[float, float]:
         ts.append((box["h"] / 2) / abs(dy))
     t = min(ts) if ts else 0.0
     return cx + dx * t, cy + dy * t
+
+
+def nice_ticks(lo: float, hi: float, target: int = 5) -> list[float]:
+    """About ``target`` round tick values (steps of 1, 2 or 5 times a power of ten) inside [lo, hi]."""
+    if hi <= lo:
+        raise ValueError("tick range must be increasing")
+    raw = (hi - lo) / target
+    magnitude = 10 ** math.floor(math.log10(raw))
+    step = min((m * magnitude for m in (1, 2, 5, 10) if m * magnitude >= raw), default=10 * magnitude)
+    first = math.ceil(lo / step - 1e-9) * step
+    ticks, k = [], 0
+    while first + k * step <= hi + 1e-9:
+        ticks.append(round(first + k * step, 10))
+        k += 1
+    return ticks
 
 
 def _fmt_tick(v: float) -> str:

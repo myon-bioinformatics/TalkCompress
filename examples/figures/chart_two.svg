@@ -24,6 +24,10 @@
 <text x="84" y="45" font-family="Noto Sans CJK JP" font-size="14" text-anchor="end" fill="#363636">8</text>
 <path d="M 96 355 L 222 265 L 348 175 L 474 130 L 600 40" fill="none" stroke="#1f4e79" stroke-width="2"/>
 <path d="M 96 400 L 222 355 L 348 310 L 474 220 L 600 175" fill="none" stroke="#363636" stroke-width="1.5"/>
+<line x1="480" y1="64" x2="504" y2="64" stroke="#1f4e79" stroke-width="2"/>
+<text x="512" y="69" font-family="Noto Sans CJK JP" font-size="14" text-anchor="start" fill="#363636">実測</text>
+<line x1="480" y1="88" x2="504" y2="88" stroke="#363636" stroke-width="2"/>
+<text x="512" y="93" font-family="Noto Sans CJK JP" font-size="14" text-anchor="start" fill="#363636">予測</text>
 <text x="348" y="448" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#363636">t</text>
 <text x="48" y="220" font-family="Noto Sans CJK JP" font-size="16" text-anchor="middle" fill="#363636">y</text>
 </svg>

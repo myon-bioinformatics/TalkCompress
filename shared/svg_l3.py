@@ -17,12 +17,16 @@ server, use ``shared/llama_cmd.py`` with ``LLAMA_URL`` and ``LLAMA_MAX_TOKENS``.
 
 CLI::
 
-    python shared/svg_l3.py drawing.svg --cmd "python shared/llama_cmd.py"
+    python shared/svg_l3.py examples/figures/*.svg --cmd "python shared/llama_cmd.py" \\
+        --model "LFM3-1.7B Q4_K_M" -o l3-report.json
+
+See docs/l3-run.md for the full procedure.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -39,6 +43,8 @@ except ImportError:
     from qa_fidelity import Probe, score
     from svg_dsl import analyze, canonicalize
 
+DSL_VERSION = "0"
+PROMPT_VERSION = "1"  # bump when describe/generate prompts change
 UNFINISHED = "<<unfinished>>"  # never matches an expected value
 
 DSL_RULES = """Write one SVG document using only these elements and attributes:
@@ -138,13 +144,35 @@ def run(source_svg: str, ask_fn) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("file", type=Path)
+    parser.add_argument("files", nargs="+", type=Path)
     parser.add_argument("--cmd", required=True, help="command that reads a prompt on stdin and prints the answer")
+    parser.add_argument("--model", required=True, help="label of the model you ran, e.g. 'LFM3-1.7B Q4_K_M'")
+    parser.add_argument("-o", "--output", type=Path, help="write the JSON report here instead of stdout")
     args = parser.parse_args(argv)
-    report = run(args.file.read_text(encoding="utf-8"), lambda p: ask(args.cmd, p))
-    json.dump(report, sys.stdout, ensure_ascii=False, indent=2)
-    sys.stdout.write("\n")
-    return 0 if report["dsl_ok"] else 1
+    reports = []
+    for path in args.files:
+        text = path.read_text(encoding="utf-8")
+        report = run(text, lambda p: ask(args.cmd, p))
+        report["figure"] = path.name
+        report["source_sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        reports.append(report)
+    meta = {
+        "stage": "L3",
+        "model": args.model,
+        "command": args.cmd,
+        "llama_url": os.environ.get("LLAMA_URL", "http://127.0.0.1:8080/v1/chat/completions"),
+        "max_tokens_env": os.environ.get("LLAMA_MAX_TOKENS", "128 (default)"),
+        "dsl_version": DSL_VERSION,
+        "prompt_version": PROMPT_VERSION,
+        "python": sys.version.split()[0],
+    }
+    out = {"meta": meta, "reports": reports}
+    text = json.dumps(out, ensure_ascii=False, indent=2) + "\n"
+    if args.output:
+        args.output.write_text(text, encoding="utf-8")
+    else:
+        sys.stdout.write(text)
+    return 0 if all(r["dsl_ok"] for r in reports) else 1
 
 
 if __name__ == "__main__":

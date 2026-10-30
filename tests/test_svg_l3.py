@@ -57,3 +57,22 @@ def test_unanswered_probes_score_zero():
     report = run(SRC, ask)
     assert report["dsl_ok"]
     assert report["score"] == 0.0
+
+
+def test_cli_writes_meta_and_reports(tmp_path):
+    import json
+    from shared.svg_l3 import main
+
+    fig = tmp_path / "f.svg"
+    fig.write_text(SRC, encoding="utf-8")
+    out = tmp_path / "report.json"
+    # A model that never writes an SVG: the run must finish, record the failure, and exit 1.
+    rc = main([str(fig), "--cmd", "python3 -c \"import sys; sys.stdin.read(); print('no svg')\"",
+               "--model", "test-model", "-o", str(out)])
+    data = json.loads(out.read_text(encoding="utf-8"))
+    assert rc == 1
+    assert data["meta"]["model"] == "test-model"
+    assert data["meta"]["stage"] == "L3"
+    assert data["reports"][0]["figure"] == "f.svg"
+    assert len(data["reports"][0]["source_sha256"]) == 64
+    assert data["reports"][0]["dsl_ok"] is False
