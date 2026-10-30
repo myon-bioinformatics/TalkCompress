@@ -1756,6 +1756,26 @@
         "both_shrink": true
       },
       "class": "densifier"
+    },
+    {
+      "id": "wenn",
+      "from": [
+        "if and when",
+        "when and if",
+        "if or when",
+        "when or if"
+      ],
+      "to": "wenn",
+      "lang": "de",
+      "class": "conjunction",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_bits_before": 80,
+        "utf8_bits_after": 32,
+        "both_shrink": true
+      },
+      "note": "de wenn = neutral if/when (o200k_base: if and when 3 tok/11 B -> wenn 1/4). Bare if (1/2) and when (1/4) are not replaced: wenn loses to if and only ties when."
     }
   ]
 }
