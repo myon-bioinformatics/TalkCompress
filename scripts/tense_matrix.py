@@ -258,7 +258,9 @@ def _slavic(verb: str, tense: str, slot: str) -> list[tuple[str, str, str]]:
             out.append((PL_FUT[verb].split()[i], "pl", "pf-future"))
         else:
             out.append((f"{PL_BEDE[slot]} {PL_INF[verb]}", "pl", "bede-inf"))
-    elif tense == "perf" and slot not in ("3s", "3p"):
+    elif tense == "perf" and slot not in ("3s", "3p") and verb not in STATIVE:
+        # stative know/have/want: the l-participle past (věděl jsem, miałem) reads
+        # as simple past, not the continuative perfect (see STATIVE); no cs/pl form.
         sg, pl = CS_LPART[verb].split()
         part = pl if slot.endswith("p") else sg
         aux = CS_JSEM[slot]
@@ -388,6 +390,11 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
                 add(f"{AUX[key][slot]} {pp}", L, "compound", tag)
                 if L == "pt":
                     add(c["plpf"][slot], L, "simple-pluperfect", tag)
+            elif tense == "futperf" and person == "2":
+                # aurez / auras, habréis / habrás … pick vous/tu (sg/pl) that EN `you`
+                # leaves open; an infinitive (``avoir su``) would lose the future and
+                # duplicate the perf you-cell form, so these cells stay EN.
+                pass
             elif tense == "futperf":
                 key = (L, "futperf+e") if e and L in ("it", "fr") else (L, "futperf")
                 add(f"{AUX[key][slot]} {pp}", L, "compound", tag)
@@ -744,6 +751,25 @@ def _rt_ok(form: str, lang: str, gate=None) -> bool:
     return gate is None or gate(form, lang)
 
 
+def _rt_status(form: str, lang: str) -> str:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import roundtrip as rt
+
+    return rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form)
+
+
+def restore_nl(cell: dict, cands: list[dict], held: list[dict], en_tok: int, tok) -> list[dict]:
+    """Keep a round-trip-gated nl candidate only when it saves >= 1 token over the
+    best remaining option (other candidates or EN). Byte-only gains never restore.
+    Restored forms are recorded in ``cell["roundtrip_restored"]``."""
+    rest = [c for c in cands if c not in held]
+    floor = min([en_tok] + [tok(c["form"]) for c in rest])
+    keep = [c for c in cands if c in held and tok(c["form"]) < floor]
+    if keep:
+        cell["roundtrip_restored"] = [c["form"] for c in keep]
+    return rest + keep
+
+
 def build(gate=None) -> tuple[dict, dict, str]:
     """Rebuild bank / report / md. ``gate(form, lang) -> bool`` (optional) drops
     candidates before ranking — used by scripts/roundtrip.py impact reports only;
@@ -797,7 +823,14 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
                     if gated:
                         cell["roundtrip_gated"] = [c["form"] for c in gated]
-                        cands = [c for c in cands if c not in gated]
+                    # myon rule: an nl form failing only the nl round-trip gate may be
+                    # restored when dropping it costs tokens (decided after the guards below).
+                    # Measured failures ("never"/"fail") stay dropped: only forms with no
+                    # verdict yet ("unverified") are eligible.
+                    nl_hold = [c for c in gated if c["lang"] in ROUNDTRIP_ENFORCED_LANGS
+                               and _rt_status(c["form"], c["lang"]) == "unverified"
+                               and (gate is None or gate(c["form"], c["lang"]))]
+                    cands = [c for c in cands if c not in gated or c in nl_hold]
                 en_best = min(en_baselines(src), key=lambda f: (tok(f), u8(f)))
                 st, su = tok(en_best), u8(en_best)
                 cell["en_best"] = en_best
@@ -819,6 +852,8 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     # usted/ustedes are 3rd-person forms: after subject drop they collapse
                     # into he/they, so only genuinely 2nd-person forms (tú / vosotros, vous) compete.
                     cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous", "2-neutral")]
+                if nl_hold:
+                    cands = restore_nl(cell, cands, nl_hold, st, tok)
                 if not cands:
                     cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
                     continue

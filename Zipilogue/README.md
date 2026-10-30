@@ -129,15 +129,15 @@ round 1〜3で提案コードを修正しましたが、peer 1の曖昧性指摘
 MiniCPM5-2B Q4_K_Mの既定テンプレート＋thinking無効条件は、最初の呼び出しで
 HTTP 400になりました。`json_object` のgrammar開始位置と空think prefillが食い違う
 ランタイム互換性エラーであり、モデルの圧縮能力を測った失敗ではありません。
-元のJSON・起動条件・サーバーログは `results/minicpm5-default-*` に保持しています。
+元のJSON・起動条件は `results/minicpm5-default-*` に保持しています（サーバーログはリポジトリから削除済みです）。
 
 限定的な互換再試験では `templates/minicpm5_json_nonthinking.jinja` を明示指定し、
 MiniCPMのbos/ChatML区切りを保ってthink prefillを省き、`--reasoning off` にしました。
 JSON制約・実験ロジック・承認基準は変更していません。これは既定テンプレートの結果とは別条件です。
 400は解消しましたが、4roundとも全文章の置換案を繰り返し、検証で拒否されました。
 4呼び出し、入力1,301＋出力984＝2,285 tokens、約62秒で `no_agreement` です。
-peer承認と未見20件の復号評価には到達していません。結果・起動条件・サーバーログは
-`results/minicpm5-nonthinking-v1-*` に保持しています。
+peer承認と未見20件の復号評価には到達していません。結果・起動条件は
+`results/minicpm5-nonthinking-v1-*` に保持しています（サーバーログはリポジトリから削除済みです）。
 
 この負の結果は現在のプロトコルでの限定的な結果です。sender promptは繰り返し句を
 要求しますが、検証器の4..100文字上限は明示せず、長さ違反も学習内出現違反と同じ

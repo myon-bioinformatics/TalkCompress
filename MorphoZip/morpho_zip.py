@@ -1255,11 +1255,48 @@ _COUNTER_SUBS: list[tuple[re.Pattern[str], str]] = [
 
 # Multi-word grammar-min applied *before* etymon so "for example" → e.g.
 # is not eaten by example→ex.
+# Basic verb + following word evaluated as one unit (like be + complement):
+# get/go family incl. inflections. Only meaning-safe pairs whose one-word
+# paraphrase wins on o200k (fewer tokens; tests/test_get_phrase.py). Ambiguous
+# pairs (go on/up/down/out/over, get going/tired/back …) keep the verb.
+# Flat lookahead (no nested groups) so test_token_policy strips it whole.
+_GET_END = r"(?=" + "|".join(
+    [r"\s*[.,;:!?]", r"\s*$"]
+    + [r"\s+" + w + r"\b" for w in ("and", "but", "or", "soon", "now", "again", "today", "quickly", "fast")]
+) + ")"
+# (verb forms → paraphrase forms) aligned base, past, pp, ing, 3sg.
+_VERB_UNITS: tuple[tuple[str, tuple[tuple[str, str], ...], str], ...] = (
+    ("rid of", (("get", "remove"), ("gets", "removes"), ("got", "removed"),
+                ("gotten", "removed"), ("getting", "removing")), ""),
+    ("in touch with", (("get", "contact"), ("gets", "contacts"), ("got", "contacted"),
+                       ("gotten", "contacted"), ("getting", "contacting")), ""),
+    ("used to", (("get", "adapt to"), ("gets", "adapts to"), ("got", "adapted to"),
+                 ("gotten", "adapted to"), ("getting", "adapting to")), ""),
+    ("started", (("get", "start"), ("gets", "starts"), ("got", "started"),
+                 ("gotten", "started"), ("getting", "starting")), ""),
+    ("married", (("get", "marry"), ("gets", "marries"), ("got", "married"),
+                 ("gotten", "married"), ("getting", "marrying")), r"(?!\s+to\b)"),
+    ("better", (("get", "improve"), ("gets", "improves"), ("got", "improved"),
+                ("gotten", "improved"), ("getting", "improving")), _GET_END),
+    ("worse", (("get", "worsen"), ("gets", "worsens"), ("got", "worsened"),
+               ("gotten", "worsened"), ("getting", "worsening")), _GET_END),
+    ("back", (("go", "return"), ("goes", "returns"), ("went", "returned"),
+              ("gone", "returned"), ("going", "returning")), r"(?!\s+on\b|\s+in time\b)"),
+    ("wrong", (("go", "fail"), ("goes", "fails"), ("went", "failed"),
+               ("gone", "failed"), ("going", "failing")), ""),
+)
+GET_PHRASES: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\b" + verb + " " + tail + r"\b" + guard, re.I), repl)
+    for tail, forms, guard in _VERB_UNITS
+    for verb, repl in forms
+]
+
 _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bthat is to say\b", re.I), "that is"),  # i.e.→that is (token loser)
     # of course → sure (o200k 2→1 tok, 10→5 B); must precede word-level of→de.
     (re.compile(r"\bOf course\b"), "Sure"),
     (re.compile(r"\bof course\b", re.I), "sure"),
+    *GET_PHRASES,
     (re.compile(r"\bin particular\b", re.I), "特"),
     (re.compile(r"\bin addition to\b", re.I), "+"),
     (re.compile(r"\bin addition\b", re.I), "+"),
