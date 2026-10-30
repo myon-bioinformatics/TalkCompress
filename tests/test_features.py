@@ -136,7 +136,7 @@ def test_morpho_pronoun_inventory():
     assert "she" in m.compress("she will go")
     assert "U" in m.compress("you choose")
     assert "君" not in m.compress("you choose")
-    assert "you" in m.compress("I see you")
+    assert m.compress("I see you") == "I see U"  # obj you → U (consistency)
     assert "your" in m.compress("your book")
     assert "you know" in m.compress("you know me")
     assert "y'all" in m.compress("you all ready")
