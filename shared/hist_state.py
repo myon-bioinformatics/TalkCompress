@@ -80,7 +80,8 @@ def build_state(old_rows: list[dict]) -> tuple[str, int]:
     lines.extend(f"- {t}" for t in _unique(decided) or ["なし"])
     lines.append("未決:")
     lines.extend(f"- {t}" for t in _unique(open_items) or ["なし"])
-    lines.append("識別子・数値: " + (", ".join(_unique(ids)) if ids else "なし"))
+    # Separate exact items by whitespace so URL punctuation is not changed.
+    lines.append("識別子・数値: " + ("\n".join(_unique(ids)) if ids else "なし"))
     lines.append("次の一手: " + (next_step if next_step else "なし"))
     if cleared:
         lines.append(f"ツール結果: {cleared} 件を削除（件数のみ残す）")

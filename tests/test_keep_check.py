@@ -87,3 +87,53 @@ def test_language_labels_are_not_paths_but_explicit_paths_remain():
     from shared.keep_check import extract_exact
     paths = extract_exact("ES/DE/FR EN/JA shared/config.yml ./ES/DE/FR")['path']
     assert paths == {'shared/config.yml', './ES/DE/FR'}
+
+
+
+def test_overlap_suppression_uses_occurrence_positions():
+    for enclosing in ('#142', 'https://example.com/142', 'abc142def', '2042-10-30', 'dir/142'):
+        source = f'Budget 42; reference {enclosing}'
+        assert '42' in extract_exact(source)['number']
+        assert {'kind': 'number', 'item': '42'} in check(source, enclosing).missing
+    assert extract_exact('42; issue #42')['number'] == {'42'}
+    assert extract_exact('#142')['number'] == set()
+
+
+def test_path_at_separate_position_is_not_suppressed_by_url():
+    source = 'https://example.com/dir/file dir/file'
+    assert 'dir/file' in extract_exact(source)['path']
+    assert {'kind': 'path', 'item': 'dir/file'} in check(source, 'https://example.com/dir/file').missing
+
+
+def test_complete_tokens_not_substrings():
+    cases = [
+        ('number', '42', '142'),
+        ('number', '42', '#42'),
+        ('number', '42', '42.5'),
+        ('number', '42', 'abc42'),
+        ('sha', 'abc1234', 'abc12345'),
+        ('sha', 'abc1234', 'xabc1234'),
+        ('date', '2026-10-30', '2026-10-300'),
+        ('url', 'https://example.com/a', 'https://example.com/ab'),
+        ('url', 'https://example.com/a', 'https://example.com/a?x=1'),
+        ('issue', '#40', '#400'),
+        ('issue', '#40', 'abc#40'),
+        ('issue', '#40', '##40'),
+        ('url', 'https://example.com/a', 'xhttps://example.com/a'),
+        ('path', 'dir/file', 'dir/file2'),
+    ]
+    for kind, original, changed in cases:
+        assert {'kind': kind, 'item': original} in check(original, changed).missing
+        assert check(original, f'({original})').ok
+
+
+def test_custom_identifier_boundaries():
+    assert check('', '(#40 keep-check)', ids=('#40 keep-check',)).ok
+    assert not check('', '#40 keep-checker', ids=('#40 keep-check',)).ok
+    assert not check('', '#400', ids=('#40',)).ok
+
+
+def test_number_followed_by_sentence_period_is_preserved():
+    assert check('Budget 42', 'Budget 42.').ok
+    assert extract_exact('Budget 42.')['number'] == {'42'}
+

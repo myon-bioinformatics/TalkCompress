@@ -37,3 +37,16 @@ def test_without_hist_state_window_only_drops_rows():
     rows = _run("--window", "2")
     assert not any(r["text"].startswith("[state]") for r in rows)
     assert len(rows) == 3  # system + last 2 rows
+
+
+def test_density_hist_state_keeps_independent_budget(tmp_path):
+    from shared.keep_check import check
+    source = 'Budget 42; issue #142; https://example.com/a on 2026-10-30 commit abc1234'
+    sample = tmp_path / 'chat.jsonl'
+    sample.write_text(json.dumps({'role': 'assistant', 'text': source}) + '\n', encoding='utf-8')
+    # Isolate history integration from the intentionally lossy text layers.
+    rows = _run('--file', str(sample), '--role-layers', 'assistant=identity',
+                '--window', '0', '--hist-state')
+    state = next(r['text'] for r in rows if r['text'].startswith('[state]'))
+    assert check(source, state).ok
+    assert '42' in state.split('識別子・数値: ')[1].split('次の一手:')[0].splitlines()

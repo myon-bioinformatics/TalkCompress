@@ -28,12 +28,12 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-URL_RE = re.compile(r"https?://[^\s)>\]\"']+")
+URL_RE = re.compile(r"(?<![\w])https?://[^\s)>\]\"']+")
 PATH_RE = re.compile(r"(?<![\w:/.])(?:\.{1,2}/)?[\w.-]+(?:/[\w.-]+)+")
 SHA_RE = re.compile(r"\b(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b")
 DATE_RE = re.compile(r"\b\d{4}[-/]\d{2}[-/]\d{2}\b")
-ISSUE_RE = re.compile(r"(?<![\w&])#\d+\b")
-NUMBER_RE = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?![\w.])")
+ISSUE_RE = re.compile(r"(?<![\w&#])#\d+\b")
+NUMBER_RE = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?!\w|\.\d)")
 
 NEGATION_RE = re.compile(
     r"\b(?:not|no|never|cannot|without|n't)\b|\b\w+n't\b|ない|ません|なし|禁止|不要",
@@ -60,32 +60,37 @@ def _find_all(pattern: re.Pattern[str], text: str) -> list[str]:
 
 def extract_exact(text: str) -> dict[str, set[str]]:
     """Return the exact-match items found in ``text``, grouped by kind."""
-    urls = set(_find_all(URL_RE, text))
-    # Paths inside URLs are part of the URL, so drop them from the path set.
-    paths = {
-        p for p in _find_all(PATH_RE, text)
-        if not any(p in u for u in urls)
-        # Slash-separated ISO-style language labels are not filesystem paths.
-        # Explicit ./ and ../ prefixes continue to identify real paths.
-        and not all(part in {"ES", "DE", "FR", "EN", "JA", "PT", "IT", "ZH", "KO"}
-                    for part in p.split("/"))
+    patterns = {
+        "url": URL_RE, "path": PATH_RE, "sha": SHA_RE,
+        "date": DATE_RE, "issue": ISSUE_RE,
     }
-    found = {
-        "url": urls,
-        "path": paths,
-        "sha": set(_find_all(SHA_RE, text)),
-        "date": set(_find_all(DATE_RE, text)),
-        "issue": set(_find_all(ISSUE_RE, text)),
+    matches = {kind: list(pattern.finditer(text)) for kind, pattern in patterns.items()}
+    # Suppress only occurrences actually inside a URL, not equal text elsewhere.
+    matches["path"] = [
+        m for m in matches["path"]
+        if not all(part in {"ES", "DE", "FR", "EN", "JA", "PT", "IT", "ZH", "KO"}
+                   for part in m.group().split("/"))
+        and not any(u.start() <= m.start() and m.end() <= u.end()
+                   for u in matches["url"])
+    ]
+    found = {kind: {m.group() for m in ms} for kind, ms in matches.items()}
+    spans = [m.span() for ms in matches.values() for m in ms]
+    found["number"] = {
+        m.group() for m in NUMBER_RE.finditer(text)
+        if not any(start <= m.start() and m.end() <= end for start, end in spans)
     }
-    # A number inside a larger exact item (2026 in a date, 40 in #40) is already
-    # covered by that item, so it is not reported twice.
-    others = set().union(*found.values())
-    numbers = {
-        n for n in _find_all(NUMBER_RE, text)
-        if not any(n in other for other in others)
-    }
-    found["number"] = numbers
     return found
+
+
+def contains_exact(text: str, item: str, kind: str = "id") -> bool:
+    """Match complete extracted tokens, or a caller-defined identifier boundary.
+
+    Numbers embedded in another protected token cannot satisfy a standalone
+    number. Custom identifiers must not be part of a longer word/identifier.
+    """
+    if kind != "id":
+        return item in extract_exact(text).get(kind, set())
+    return re.search(r"(?<![\w#])" + re.escape(item) + r"(?![\w])", text) is not None
 
 
 def count_items(text: str) -> dict[str, int]:
@@ -118,13 +123,14 @@ def check(source: str, compressed: str, ids: tuple[str, ...] = ()) -> Report:
     """Compare ``compressed`` against ``source`` and report what was lost."""
     report = Report()
 
+    destination = extract_exact(compressed)
     for kind, items in extract_exact(source).items():
         for item in sorted(items):
-            if item not in compressed:
+            if item not in destination[kind]:
                 report.missing.append({"kind": kind, "item": item})
 
     for item in ids:
-        if item not in compressed:
+        if not contains_exact(compressed, item):
             report.missing.append({"kind": "id", "item": item})
 
     src_counts = count_items(source)

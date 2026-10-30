@@ -66,3 +66,11 @@ def test_keep_check_passes_for_ids_between_old_text_and_state():
     kinds = {m["kind"] for m in report.missing}
     assert "url" not in kinds and "sha" not in kinds and "issue" not in kinds
     assert not report.secrets
+
+
+def test_state_preserves_number_independent_of_issue_overlap():
+    from shared.hist_state import build_state
+    source = 'Budget 42; issue #142; https://example.com/a on 2026-10-30 commit abc1234'
+    state, _ = build_state([{'role': 'assistant', 'text': source}])
+    assert '42' in state.split('識別子・数値: ')[1].split('次の一手:')[0].splitlines()
+    assert check(source, state).ok

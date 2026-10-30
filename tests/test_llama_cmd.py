@@ -47,3 +47,4 @@ def test_incomplete_and_invalid_answers_are_rejected():
 def test_completed_reasoning_is_removed_before_answer_is_returned():
     from shared.llama_cmd import extract_answer
     assert extract_answer({'choices': [{'finish_reason': 'stop', 'message': {'content': '<think>#400</think>#40'}}]}) == '#40'
+

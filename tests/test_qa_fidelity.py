@@ -126,3 +126,34 @@ def test_empty_or_reasoning_only_command_output_is_invalid():
     for answer in ['', '   ', '<think>#40</think>']:
         with pytest.raises(ValueError):
             score(build_probes('#40'), '', lambda _: answer)
+
+
+
+def test_numeric_probe_survives_overlapping_issue_number():
+    probes = build_probes('Budget 42; issue #142')
+    assert any(p.kind == 'number' and p.expected == '42' for p in probes)
+
+
+def test_scoring_rejects_longer_tokens():
+    for source, answer in [('#40', '#400'), ('42', '142'), ('abc1234', 'abc12345'),
+                           ('2026-10-30', '2026-10-300'),
+                           ('https://example.com/a', 'https://example.com/ab')]:
+        result = score(build_probes(source), answer, lambda prompt: answer)
+        assert result['hits'] == 0
+
+
+def test_reasoning_does_not_supply_answers():
+    probes = build_probes('#40')
+    for answer in ('<think>#40</think> unknown', '#40</think> unknown'):
+        assert score(probes, '', lambda prompt: answer)['hits'] == 0
+    assert score(probes, '', lambda prompt: '<think>#400</think>#40')['hits'] == 1
+
+
+def test_custom_id_not_leaked_in_question():
+    probes = build_probes('', ids=('unseen-value',))
+    assert 'unseen-value' not in make_prompt('', probes[0].question)
+
+
+def test_sentence_final_number_is_scored():
+    assert score(build_probes('42'), '', lambda prompt: '42.')['hits'] == 1
+
