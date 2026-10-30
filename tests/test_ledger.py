@@ -59,8 +59,8 @@ def test_ledger_lex_under_below_and_凹凸():
     assert "上下" == apply_ledger_lex("up and down")
     assert "上下" == apply_ledger_lex("above and below")
     assert "凹凸" in apply_ledger_lex("デコボコな道")
-    assert "凹凸" in apply_ledger_lex("bumpy road")
-    assert "凹凸" in apply_ledger_lex("uneven surface")
+    assert "凹凸" not in apply_ledger_lex("bumpy road")  # 凹凸 token loser vs EN
+    assert "凹凸" not in apply_ledger_lex("uneven surface")
     # do not mangle understand
     assert "understand" in apply_ledger_lex("I understand now").lower()
 
@@ -80,7 +80,7 @@ def test_shorthand_applies_ledger_under_and_凹凸():
     assert "デコボコ" not in out3
 
     out4 = s.compress("bumpy path")
-    assert "凹凸" in out4
+    assert "凹凸" not in out4  # token loser vs EN
 
     # opt-out
     kept = s.compress("under the table", ledger=False)
@@ -248,7 +248,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-from"]["to"] == "←"
     assert by_id["prep-from"]["apply_layer"] == "E"
     assert by_id["prep-from"]["inventory"] == "preposition"
-    assert "fr" in by_id["prep-from"]["from"]
+    assert "fr" not in by_id["prep-from"]["from"]  # fr→← tie, no byte saving
     assert by_id["particle-kara"]["to"] == "←"
     assert by_id["particle-kara"].get("extended") is True
     assert by_id["particle-kara"]["metrics"]["bit"]["inventory"]["extended"] is True
@@ -260,7 +260,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert "c-afaik" in by_id and by_id["c-afaik"]["to"] == "AFAIK"
     # finite prep compounds + legal shorts (this tranche)
     assert by_id["prep-throughout"]["to"] == "通"
-    assert by_id["prep-toward"]["to"] == "→"
+    assert by_id["prep-toward"]["to"] == "to"  # → token loser
     assert by_id["legal-hereinafter"]["to"] == "∴↓"
     assert by_id["c-as-follows"]["to"] == "↓"
     # prep / prep-like adv finite set
@@ -271,7 +271,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-according-to"]["to"] == "依"
     assert by_id["prep-owing-due"]["to"] == "因"
     assert "due to" in by_id["prep-owing-due"]["from"]
-    assert by_id["prep-in-spite-of"]["to"] == "雖"
+    assert by_id["prep-in-spite-of"]["to"] == "despite"  # 雖 token loser
     assert by_id["prep-far-from"]["to"] == "遠"
     assert by_id["prep-out-of"]["to"] == "外"
     assert by_id["prep-into"]["to"] == "入"
@@ -280,7 +280,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-on-behalf-of"]["to"] == "代表"
     assert by_id["prep-by-means-of"]["to"] == "手段"
     assert by_id["prep-in-accordance-with"]["to"] == "準"
-    assert "pursuant to" in by_id["prep-in-accordance-with"]["from"]
+    assert "pursuant to" not in by_id["prep-in-accordance-with"]["from"]  # token loser removed
     assert by_id["prep-up-to"]["to"] == "≤"
     assert by_id["prep-in-light-of"]["to"] == "鑑"
     assert by_id["prep-for-sake-of"]["to"] == "為"
@@ -295,7 +295,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-on-top-of"]["to"] == "且"
     assert by_id["prep-at-expense-of"]["to"] == "犠牲"
     assert by_id["prep-in-middle-of"]["to"] == "最中"
-    assert by_id["prep-as-result-of"]["to"] == "∴"
+    assert by_id["prep-as-result-of"]["to"] == 'due to'  # ∴ token loser
     assert by_id["prep-courtesy-of"]["to"] == "経"
     # cycle4
     assert by_id["prep-for-purpose-of"]["to"] == "目的"
@@ -312,7 +312,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-in-name-of"]["to"] == "名"
     assert by_id["prep-at-hands-of"]["to"] == "手"
     assert by_id["prep-at-mercy-of"]["to"] == "弄"
-    assert by_id["prep-ahead-of"]["to"] == "先"
+    assert by_id["prep-ahead-of"]["to"] == 'before'  # 先 token loser
     assert "in advance of" in by_id["prep-ahead-of"]["from"]
     assert by_id["prep-in-association-with"]["to"] == "連携"
     assert by_id["prep-in-comparison"]["to"] == "比"
@@ -328,17 +328,17 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-in-presence-of"]["to"] == "在"
     assert by_id["prep-at-price-of"]["to"] == "代価"
     assert by_id["prep-under-auspices"]["to"] == "傘"
-    assert by_id["prep-in-parallel-with"]["to"] == "∥"
+    assert by_id["prep-in-parallel-with"]["to"] == 'alongside'  # ∥ token loser
     # cycle5
     assert by_id["prep-in-response-to"]["to"] == "応"
     assert by_id["prep-in-answer-to"]["to"] == "答"
-    assert by_id["prep-in-line-with"]["to"] == "沿"
+    assert "prep-in-line-with" not in by_id  # 沿 token loser removed
     assert by_id["prep-in-agreement-with"]["to"] == "合"
     assert by_id["prep-depending-on"]["to"] == "依"
     assert by_id["conj-as-well-as"]["to"] == "+"
     assert by_id["conj-let-alone"]["to"] == "況"
     assert by_id["prep-pertaining-to"]["to"] == "関"
-    assert by_id["prep-independent-of"]["to"] == "独立"
+    assert by_id["prep-independent-of"]["to"] == 'independent of'  # 独立 token loser
     assert by_id["prep-akin-to"]["to"] == "≒"
     assert by_id["prep-equivalent-to"]["to"] == "≡"
     assert by_id["prep-limited-to"]["to"] == "限"
@@ -365,7 +365,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-all-the-same"]["to"] == "猶"
     assert by_id["adv-by-and-large"]["to"] == "概"
     assert by_id["adv-by-far"]["to"] == "遥"
-    assert by_id["adv-for-sure"]["to"] == "確"
+    assert by_id["adv-for-sure"]["to"] == 'for sure'  # 確 token loser
     assert by_id["adv-in-any-case"]["to"] == "何れ"
     assert by_id["adv-in-the-end"]["to"] == "最終"
     assert by_id["adv-in-long-run"]["to"] == "長期"
@@ -384,7 +384,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-by-all-means"]["to"] == "是非"
     assert by_id["adv-in-essence"]["to"] == "本質"
     assert by_id["adv-in-detail"]["to"] == "詳"
-    assert by_id["adv-in-retrospect"]["to"] == "回顧"
+    assert by_id["adv-in-retrospect"]["to"] == 'in retrospect'  # 回顧 token loser
     assert by_id["adv-without-fail"]["to"] == "必ず"
     # cycle7
     assert by_id["prep-north-of"]["to"] == "北"
@@ -418,8 +418,8 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-downstream-of"]["to"] == "下流"
     assert by_id["prep-out-of-place"]["to"] == "不所"
     assert by_id["prep-out-of-reach"]["to"] == "届外"
-    assert by_id["prep-under-fire"]["to"] == "被弾"
-    assert by_id["prep-preparatory-to"]["to"] == "準備"
+    assert by_id["prep-under-fire"]["to"] == 'under fire'  # 被弾 token loser
+    assert by_id["prep-preparatory-to"]["to"] == 'preparatory to'  # 準備 token loser
     assert by_id["prep-in-praise-of"]["to"] == "賛"
     assert by_id["prep-such-as"]["to"] == "如"
     assert by_id["adv-for-real"]["to"] == "真"
@@ -451,14 +451,14 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-suggestive-of"]["to"] == "示唆"
     assert by_id["prep-characteristic-of"]["to"] == "特質"
     assert by_id["prep-rid-of"]["to"] == "撤"
-    assert by_id["prep-full-of"]["to"] == "満"
+    assert by_id["prep-full-of"]["to"] == 'full of'  # 満 token loser
     assert by_id["prep-for-the-duration-of"]["to"] == "期間"
-    assert by_id["adv-simultaneously"]["to"] == "同時"
-    assert by_id["adv-similarly"]["to"] == "同様"
+    assert by_id["adv-simultaneously"]["to"] == 'simultaneously'  # 同時 token loser
+    assert by_id["adv-similarly"]["to"] == 'similarly'  # 同様 token loser
     assert by_id["adv-in-particular"]["to"] == "特"
     assert by_id["adv-as-such"]["to"] == "斯"
     assert by_id["adv-once-and-for-all"]["to"] == "断"
-    assert by_id["adv-currently"]["to"] == "現"
+    assert by_id["adv-currently"]["to"] == 'currently'  # 現 token loser
     assert by_id["adv-ever-since"]["to"] == "以来"
     assert "bereft of" in by_id["prep-for-lack-of"]["from"]
     assert "afraid of" in by_id["prep-for-fear-of"]["from"]
@@ -468,7 +468,7 @@ def test_ledger_pos_registrations_dual_metrics():
     # cycle10
     assert by_id["prep-weary-of"]["to"] == "厭"
     assert by_id["prep-ashamed-of"]["to"] == "恥"
-    assert by_id["prep-jealous-of"]["to"] == "嫉"
+    assert by_id["prep-jealous-of"]["to"] == 'jealous of'  # 嫉 token loser
     assert by_id["prep-empty-of"]["to"] == "空"
     assert by_id["prep-made-of"]["to"] == "製"
     assert by_id["adv-ashore"]["to"] == "岸"
@@ -477,7 +477,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-clockwise"]["to"] == "時計"
     assert by_id["adv-counterclockwise"]["to"] == "反時計"
     assert by_id["adv-sideways"]["to"] == "横"
-    assert by_id["adv-en-masse"]["to"] == "一斉"
+    assert by_id["adv-en-masse"]["to"] == 'en masse'  # 一斉 token loser
     assert by_id["adv-all-along"]["to"] == "当初"
     assert by_id["adv-for-keeps"]["to"] == "永久"
     assert by_id["adv-off-and-on"]["to"] == "断続"
@@ -491,17 +491,17 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["prep-as-of"]["to"] == "起"
     assert by_id["adv-for-once"]["to"] == "一度"
     assert by_id["adv-hitherto"]["to"] == "従来"
-    assert by_id["adv-thus-far"]["to"] == "今迄"
-    assert "to date" in by_id["adv-thus-far"]["from"]
+    assert by_id["adv-thus-far"]["to"] == 'thus far'  # 今迄 token loser
+    assert "to date" not in by_id["adv-thus-far"]["from"]  # token loser removed
     assert by_id["adv-under-age"]["to"] == "年少"
-    assert by_id["adv-one-on-one"]["to"] == "1:1"
+    assert "adv-one-on-one" not in by_id  # 1:1 token loser removed
     assert by_id["adv-by-and-by"]["to"] == "稍後"
     assert by_id["adv-ceteris-paribus"]["to"] == "他同"
     assert by_id["adv-pari-passu"]["to"] == "同率"
     assert by_id["adv-prima-facie"]["to"] == "一応"
     assert by_id["adv-ipso-facto"]["to"] == "当然"
     assert by_id["adv-ad-hoc"]["to"] == "adhoc"
-    assert "somehow" in by_id["adv-in-some-way"]["from"]
+    assert "somehow" not in by_id["adv-in-some-way"]["from"]  # token loser removed
     # relative / 関代
     assert by_id["rel-which"]["to"] == "that"
     assert by_id["rel-whom"]["to"] == "who"
@@ -555,7 +555,7 @@ def test_ledger_pos_registrations_dual_metrics():
     assert by_id["adv-for-time-being"]["breakdown"] == "副"
     assert "by dint of" in by_id["prep-by-virtue-of"]["from"]
     assert "on the brink of" in by_id["prep-on-verge-of"]["from"]
-    assert "as per" in by_id["prep-in-accordance-with"]["from"]
+    assert "as per" not in by_id["prep-in-accordance-with"]["from"]  # token loser removed
     assert "free of" in by_id["prep2-without"]["from"]
     assert by_id["prep-for-purpose-of"]["breakdown"] == "前"
     assert by_id["prep-by-virtue-of"]["breakdown"] == "前"
@@ -603,7 +603,6 @@ def test_formal_legal_connectives_dual_metrics():
     assert apply_ledger_lex("agreed thereby") == "agreed thereby"
 
     expected = {
-        "legal-henceforth": "∴→",
         "conj-insofar": "insofar",
         "c-pursuant": "per",
         "conj-provided": "if",
@@ -719,7 +718,7 @@ def test_abbrev_family_contractions_synced():
 
 
 def test_that_is_latin_owns_not_contraction():
-    """Bare ``that is`` → ``i.e.`` (conj-that-is); no dual c-thats claim.
+    """``that is`` stays English (i.e. is an o200k token loser) (conj-that-is); no dual c-thats claim.
 
     Chosen behavior: latin gloss wins. ``that's`` contraction dropped from
     EN_CONTRACTION_SPEC / ledger so C contractions no longer shadow or race
@@ -734,18 +733,18 @@ def test_that_is_latin_owns_not_contraction():
     assert "c-thats" not in by_id
     assert "conj-that-is" in by_id
     assert "that is" in [f.lower() for f in by_id["conj-that-is"]["from"]]
-    assert by_id["conj-that-is"]["to"] == "i.e."
+    assert by_id["conj-that-is"]["to"] == "that is"  # i.e. token loser
     assert not any(sid == "thats" for sid, _src, _dst in EN_CONTRACTION_SPEC)
 
     # contractions must not rewrite bare that is
     assert apply_en_contractions("that is the plan") == "that is the plan"
     # clause "that is the plan" is not a gloss (meaning change); appositive is
     assert "i.e." not in apply_ledger_lex("that is the plan")
-    assert "i.e." in apply_ledger_lex("a car, that is, a vehicle")
-    assert "i.e." in c_compress("a car, that is, a vehicle")
-    assert "i.e." in m.compress("ok, that is, fine", unique=False, etymon=False, counters=False)
-    # longer discursive form still maps
-    assert "i.e." in apply_ledger_lex("that is to say yes")
+    assert "i.e." not in apply_ledger_lex("a car, that is, a vehicle")
+    assert "i.e." not in c_compress("a car, that is, a vehicle")  # i.e. token loser
+    assert "i.e." not in m.compress("ok, that is, fine", unique=False, etymon=False, counters=False)
+    # longer discursive form collapses to plain "that is"
+    assert "i.e." not in apply_ledger_lex("that is to say yes")
 
 
 

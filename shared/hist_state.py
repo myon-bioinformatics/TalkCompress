@@ -112,7 +112,7 @@ def summarize_old(rows: list[dict], keep_recent: int) -> tuple[list[dict], str, 
 
 def _old_text(rows: list[dict], keep_recent: int) -> str:
     body = [r for r in rows if str(r.get("role") or "").lower() != "system"]
-    old = body[: len(body) - keep_recent] if keep_recent else body
+    old = body[: max(0, len(body) - keep_recent)]
     return "\n".join(str(r.get("text") or "") for r in old if str(r.get("role") or "").lower() != "tool")
 
 
@@ -135,21 +135,23 @@ def main(argv: list[str] | None = None) -> int:
 
     rows = _load(args.file)
     new_rows, state, cleared = summarize_old(rows, args.keep_recent)
+    if args.check:
+        report = check(_old_text(rows, args.keep_recent), state)
+        print(
+            json.dumps(
+                {"ok": report.ok, "missing": report.missing, "count_drops": report.count_drops, "cleared_tool_rows": cleared},
+                ensure_ascii=False,
+            ),
+            file=sys.stderr,
+        )
+        # A failed retention/privacy check must not emit rejected chat output.
+        if not report.ok:
+            return 1
+
     for row in new_rows:
         json.dump(row, sys.stdout, ensure_ascii=False)
         sys.stdout.write("\n")
-
-    if not args.check:
-        return 0
-    report = check(_old_text(rows, args.keep_recent), state)
-    print(
-        json.dumps(
-            {"ok": report.ok, "missing": report.missing, "count_drops": report.count_drops, "cleared_tool_rows": cleared},
-            ensure_ascii=False,
-        ),
-        file=sys.stderr,
-    )
-    return 0 if report.ok else 1
+    return 0
 
 
 if __name__ == "__main__":

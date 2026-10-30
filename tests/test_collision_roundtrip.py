@@ -221,8 +221,10 @@ def test_guard_falls_to_next_best_not_english():
     cells = {c["src"]: c for c in json.loads(tm.REPORT_PATH.read_text(encoding="utf-8"))["cells"]}
     c = cells["we have seen"]
     assert c["crossling_dropped"] == ["vimos"]
-    # o200k: vimos (1 tok) dropped → next-best nl zagen (1 tok / 5 B) beats EN "we've seen" (2 / 10)
+    # o200k: vimos (1 tok) dropped → nl zagen round-trip-gated (#29) → next-best de sahen
+    # (2 tok / 5 B) ties EN "we've seen" on tokens (2 / 10) and wins on bytes
     assert c["en_best"] == "we've seen"
-    assert c["best"] == "zagen" and c["lang"] == "nl"
-    assert c["tok"] == [2, 1] and c["status"] == "adopt"
+    assert c["roundtrip_gated"] == ["zagen"]
+    assert c["best"] == "sahen" and c["lang"] == "de"
+    assert c["tok"] == [2, 2] and c["utf8"][1] < c["utf8"][0] and c["status"] == "adopt"
     assert _t().apply_es_fr_tense("you give") == "dai"  # das dropped → it dai adopted

@@ -168,10 +168,10 @@ def test_morpho_english_multi():
     # I'm-family contractions are C-owned; E keeps "I am"
     assert "I'm" not in out
     assert "I am" in out
-    assert "w/" in out
+    assert "with" in out  # with→w/ removed (token loser)
     assert "无" in out  # without → 无 (prep2; w/o is alias)
     assert "&" in out
-    assert "∀" in out
+    assert "whatever" in out  # ∀ removed
 
 
 def test_morpho_density_stats():

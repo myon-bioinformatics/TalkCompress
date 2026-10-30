@@ -85,13 +85,14 @@ FILLERS_JA: tuple[str, ...] = (
 
 # Rank-1 / unique-reading: prefer jargon / specialized verbs (fewer senses).
 UNIQUE_READINGS: dict[str, str] = {
-    "get": "obtain",
+    # get: removed (o200k: get 1tok/4B; obtain 1/7, obt 1/4 = loser/tie).
+    # get+adj/pp (get tired), get+ppl (get going) also keep get (become = 2tok/13B).
     "make": "construct",
     "do": "perform",
     "put": "place",
     "take": "acquire",
     "give": "provide",
-    "look at": "inspect",
+    "look at": "see",  # o200k: look at 2/8, inspect 1/8, insp 1/5, 👀 2/5, see 1/4
     "think about": "consider",
     "talk about": "discuss",
     "find out": "ascertain",
@@ -961,6 +962,13 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     return out.strip()
 
 
+_DO_MAIN_VERB = re.compile(
+    r"(?i)\bdo\b(?=\s+(?:the|a|an|it|this|my|your|his|her|our|their|some|any|"
+    r"everything|something|anything|nothing|work|homework|research|business|"
+    r"job|task|tasks|chores|dishes|laundry)\b)"
+)
+
+
 def apply_unique_readings(text: str, *, compact: bool = False) -> str:
     """Replace polysemous basics with tighter verbs; optionally UNIQUE_COMPACT.
 
@@ -969,6 +977,10 @@ def apply_unique_readings(text: str, *, compact: bool = False) -> str:
     """
     out = text
     for long, tight in sorted(UNIQUE_READINGS.items(), key=lambda kv: len(kv[0]), reverse=True):
+        if long == "do":
+            # Only main-verb do + object. Aux/pro-verb do ("I do.", "Do you?") untouched.
+            out = re.sub(_DO_MAIN_VERB, tight, out)
+            continue
         out = re.sub(rf"(?i)\b{re.escape(long)}\b", tight, out)
     if compact:
         out = apply_unique_compact(out)

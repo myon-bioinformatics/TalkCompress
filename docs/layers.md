@@ -38,3 +38,12 @@ A の RuleBook（`Zipilogue/rulebook.py`）は機械同士で育つスラング�
 **A Zipilogue 実験方針（2026-10-27）:** **llama.cpp または同等の軽量 GGUF** スタック（同クラス；既定では重いフル精度サーバは使わない）で継続会話を回し、間隔観察で共有スラング（RuleBook）が育つかを見る。二者固定より**複数エージェント並列グループ**を優先。ランナー実装は未着手（方針のみ）。
 
 F は当面なし。
+
+## 最終手段: protect_join（ドイツ語複合名詞方式の拡張）
+
+ドイツ語の複合名詞（`Handschuh` など）は、複数の語を1語に結合して単一の意味単位にします。これと同じ考え方で、単語レベルの変換を当てると意味が変わってしまう固定句を1語に結合し、変換対象から外します（例: `that way`、`by that time`、`in those days`、`in that case`）。保護する句は `MorphoZip.PROTECTED_PHRASES` に登録します。
+
+- 結合形式は CamelCase（`ThatWay`）、ハイフン（`that-way`）、snake_case（`that_way`）の3つです。句ごとに o200k のトークン数が最も少ないものを採り、同数ならバイト数の少ないものを採ります。現在の登録句はすべて CamelCase が最安でした（例: ` ThatWays` は 2 tok / 9 B、ハイフンと snake は 3 tok / 10 B）。`test_protect_join_cheapest` が毎回再計測し、選んだ形式が最安であることを保証します。
+- トークンが1つ増える場合でも、意味の保持を優先します。
+- 対象は that に限りません。意味が壊れる句があれば、どれでもここに追加できます。ただしリストは小さく保ちます。
+- 複数語のフレーズ規則（`_PHRASE_GRAMMAR`、例: `of course`→`sure`）は、単語レベルの `_SUBS`（`of`→`de` など）より先に適用します。`test_multiword_subs_not_shadowed_by_earlier_word_rules` がこの順序を保証します。

@@ -172,6 +172,22 @@ DE_PAST = {
     "say": "sagte sagtest sagte sagten sagtet sagten",
     "know": "wusste wusstest wusste wussten wusstet wussten", "give": "gab gabst gab gaben gabt gaben",
 }
+# Stative verbs: their EN present perfect is usually continuative ("I have
+# known her for years" = de ich kenne / nl ik ken, present), so the Präteritum /
+# nl / es / pt preterite (wusste, hatten, wilde, supe, quis …) shifts the
+# meaning. Perf cells for these verbs get no simple-preterite candidate; de/nl
+# get the meaning-preserving compound perfect instead (habe gewusst …).
+STATIVE = frozenset({"know", "have", "want"})
+DE_PERF_AUX = "habe hast hat haben habt haben"
+NL_PERF_AUX = "heb hebt heeft hebben"  # (1s, jij, 3s, pl)
+DE_PP = {"know": "gewusst", "have": "gehabt", "want": "gewollt"}
+NL_PP = {"know": "geweten", "have": "gehad", "want": "gewild"}
+# fr: EN `you` + perfect of a stative verb. ``avez su`` / ``as su`` force a
+# vous / tu (number / formality) choice EN does not make; myon prefers the
+# person-neutral infinitive-perfect (``avoir su``) when the conjugation changes
+# with sg/pl. Conjugated Romance (es/it/fr) perfects are dropped for these
+# you-cells (es/pt preterites already are, see STATIVE).
+FR_YOU_INF = {"know": "avoir su", "have": "avoir eu", "want": "avoir voulu"}
 # el aorist (simple past): 3s, 1p, 3p — single words; future needs θα (multiword).
 EL_AOR = {
     "go": "πήγε πήγαμε πήγαν", "come": "ήρθε ήρθαμε ήρθαν", "do": "έκανε κάναμε έκαναν",
@@ -242,7 +258,9 @@ def _slavic(verb: str, tense: str, slot: str) -> list[tuple[str, str, str]]:
             out.append((PL_FUT[verb].split()[i], "pl", "pf-future"))
         else:
             out.append((f"{PL_BEDE[slot]} {PL_INF[verb]}", "pl", "bede-inf"))
-    elif tense == "perf" and slot not in ("3s", "3p"):
+    elif tense == "perf" and slot not in ("3s", "3p") and verb not in STATIVE:
+        # stative know/have/want: the l-participle past (věděl jsem, miałem) reads
+        # as simple past, not the continuative perfect (see STATIVE); no cs/pl form.
         sg, pl = CS_LPART[verb].split()
         part = pl if slot.endswith("p") else sg
         aux = CS_JSEM[slot]
@@ -356,16 +374,27 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
                     aux = AUX[(L, "perf+e" if e else "perf")][slot]
                     add(f"{aux} {pp}", L, "compound", tag)
             elif tense == "perf":
-                if L in ("es", "it", "fr"):
+                if person == "2" and verb in STATIVE:
+                    # tu/vous (es tú/vosotros, it tu/voi) forms pick a number EN
+                    # `you` leaves open: only the person-neutral fr infinitive-perfect.
+                    if L == "fr" and slot == "2s":
+                        add(FR_YOU_INF[verb], L, "inf-perfect", "2-neutral")
+                elif L in ("es", "it", "fr"):
                     aux = AUX[(L, "perf+e" if e and L != "es" else "perf")][slot]
                     add(f"{aux} {pp}", L, "compound", tag)
-                if L in ("es", "pt"):
+                if L in ("es", "pt") and verb not in STATIVE:
+                    # stative preterite (supe / quis / tive) shifts the continuative perfect
                     add(c["pret"][slot], L, "simple-preterite", tag)
             elif tense == "pluperf":
                 key = (L, "pluperf+e") if e and L in ("it", "fr") else (L, "pluperf")
                 add(f"{AUX[key][slot]} {pp}", L, "compound", tag)
                 if L == "pt":
                     add(c["plpf"][slot], L, "simple-pluperfect", tag)
+            elif tense == "futperf" and person == "2":
+                # aurez / auras, habréis / habrás … pick vous/tu (sg/pl) that EN `you`
+                # leaves open; an infinitive (``avoir su``) would lose the future and
+                # duplicate the perf you-cell form, so these cells stay EN.
+                pass
             elif tense == "futperf":
                 key = (L, "futperf+e") if e and L in ("it", "fr") else (L, "futperf")
                 add(f"{AUX[key][slot]} {pp}", L, "compound", tag)
@@ -391,7 +420,12 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
             add(nl_pres[nl_i], "nl", "simple", tag)
         if dn and tense == "past":
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple", tag)
-        if dn and tense == "perf":
+        stative_you = person == "2" and verb in STATIVE  # jij/du forms pick sg (see FR_YOU_INF)
+        if dn and tense == "perf" and verb in STATIVE:
+            if not stative_you:
+                add(f"{NL_PERF_AUX.split()[{'1s': 0, '2s': 1, '3s': 2}.get(slot, 3)]} {NL_PP[verb]}",
+                    "nl", "compound", tag)
+        elif dn and tense == "perf":
             # nl preterite for EN present perfect (same policy as es/pt preterite)
             add(nl_past[0 if nl_i < 2 else 1], "nl", "simple-preterite", tag)
         if dn and tense in PROG:
@@ -402,7 +436,10 @@ def _candidates(conj: dict, person: str, tense: str, verb: str, num: str) -> lis
         if dn and tense in ("pres", "past"):
             de = (DE_PRES if tense == "pres" else DE_PAST)[verb].split()[P6.index(slot)]
             add(de, "de", "simple", tag)
-        if dn and tense == "perf":
+        if dn and tense == "perf" and verb in STATIVE:
+            if not stative_you:
+                add(f"{DE_PERF_AUX.split()[P6.index(slot)]} {DE_PP[verb]}", "de", "compound", tag)
+        elif dn and tense == "perf":
             # de Präteritum for EN present perfect (same policy as es/pt preterite)
             add(DE_PAST[verb].split()[P6.index(slot)], "de", "simple-preterite", tag)
         # cs / pl (fut, perf only)
@@ -700,12 +737,50 @@ def en_baselines(src: str) -> list[str]:
     return out
 
 
+ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
+_RT_DATA: dict = {}
+
+
+def _rt_ok(form: str, lang: str, gate=None) -> bool:
+    if lang in ROUNDTRIP_ENFORCED_LANGS:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import roundtrip as rt
+
+        if rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form) != "pass":
+            return False
+    return gate is None or gate(form, lang)
+
+
+def _rt_status(form: str, lang: str) -> str:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import roundtrip as rt
+
+    return rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form)
+
+
+def restore_nl(cell: dict, cands: list[dict], held: list[dict], en_tok: int, tok) -> list[dict]:
+    """Keep a round-trip-gated nl candidate only when it saves >= 1 token over the
+    best remaining option (other candidates or EN). Byte-only gains never restore.
+    Restored forms are recorded in ``cell["roundtrip_restored"]``."""
+    rest = [c for c in cands if c not in held]
+    floor = min([en_tok] + [tok(c["form"]) for c in rest])
+    keep = [c for c in cands if c in held and tok(c["form"]) < floor]
+    if keep:
+        cell["roundtrip_restored"] = [c["form"] for c in keep]
+    return rest + keep
+
+
 def build(gate=None) -> tuple[dict, dict, str]:
     """Rebuild bank / report / md. ``gate(form, lang) -> bool`` (optional) drops
     candidates before ranking — used by scripts/roundtrip.py impact reports only;
-    the committed bank is always built with ``gate=None`` (report-only)."""
+    the committed bank is always built with ``gate=None`` (report-only).
+
+    Exception (#29): languages in ``ROUNDTRIP_ENFORCED_LANGS`` (nl, <100M speakers)
+    are always gated — a form is adopted only when its recorded AI round-trip status
+    is ``pass`` (restore rate >= lt100m threshold 0.9); unverified forms are dropped."""
     from tests._helpers import load
 
+    _RT_DATA.clear()
     t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
     conj = json.loads(CONJ_PATH.read_text(encoding="utf-8"))["conj"]
     existing = _existing_sources(t)
@@ -743,11 +818,19 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
-                if gate is not None:
-                    gated = [c["form"] for c in cands if not gate(c["form"], c["lang"])]
+                if True:  # nl always gated (#29); others only with an explicit gate
+                    # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
+                    gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
                     if gated:
-                        cell["roundtrip_gated"] = gated
-                        cands = [c for c in cands if c["form"] not in gated]
+                        cell["roundtrip_gated"] = [c["form"] for c in gated]
+                    # myon rule: an nl form failing only the nl round-trip gate may be
+                    # restored when dropping it costs tokens (decided after the guards below).
+                    # Measured failures ("never"/"fail") stay dropped: only forms with no
+                    # verdict yet ("unverified") are eligible.
+                    nl_hold = [c for c in gated if c["lang"] in ROUNDTRIP_ENFORCED_LANGS
+                               and _rt_status(c["form"], c["lang"]) == "unverified"
+                               and (gate is None or gate(c["form"], c["lang"]))]
+                    cands = [c for c in cands if c not in gated or c in nl_hold]
                 en_best = min(en_baselines(src), key=lambda f: (tok(f), u8(f)))
                 st, su = tok(en_best), u8(en_best)
                 cell["en_best"] = en_best
@@ -768,7 +851,9 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     cell["usted_style_best"] = {"form": allb["form"], "number": allb["number"], "tok": tok(allb["form"])}
                     # usted/ustedes are 3rd-person forms: after subject drop they collapse
                     # into he/they, so only genuinely 2nd-person forms (tú / vosotros, vous) compete.
-                    cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous")]
+                    cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous", "2-neutral")]
+                if nl_hold:
+                    cands = restore_nl(cell, cands, nl_hold, st, tok)
                 if not cands:
                     cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
                     continue
