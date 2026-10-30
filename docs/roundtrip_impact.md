@@ -4,7 +4,7 @@
 
 ## 往復チェック必須の nl 過去形（現在完了セル）
 
-nl（1億人未満）の現在完了セル採用 62 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。
+nl（1億人未満）の現在完了セル採用 53 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。
 
 | id | EN | 採用 | lt100m 強制時 |
 |---|---|---|---|
@@ -16,7 +16,6 @@ nl（1億人未満）の現在完了セル採用 62 件は `fixtures/roundtrip.j
 | mx-see-perf-2 | you have seen | zag | ('zag', 'nl') -> ('viste', 'es') |
 | mx-take-perf-2 | you have taken | nam | ('nam', 'nl') -> ('nahmst', 'de') |
 | mx-find-perf-2 | you have found | vond | ('vond', 'nl') -> ('achaste', 'pt') |
-| mx-want-perf-2 | you have wanted | wilde | ('wilde', 'nl') -> ('quiseste', 'pt') |
 | mx-think-perf-2 | you have thought | dacht | ('dacht', 'nl') -> ('dachtest', 'de') |
 | mx-say-perf-2 | you have said | zei | ('zei', 'nl') -> ('dijiste', 'es') |
 | mx-give-perf-2 | you have given | gaf | ('gaf', 'nl') -> ('deste', 'pt') |
@@ -32,46 +31,38 @@ nl（1億人未満）の現在完了セル採用 62 件は `fixtures/roundtrip.j
 | mx-do-perf-1p | we have done | deden | ('deden', 'nl') -> ('taten', 'de') |
 | mx-see-perf-1p | we have seen | zagen | ('zagen', 'nl') -> ('sahen', 'de') |
 | mx-take-perf-1p | we have taken | namen | ('namen', 'nl') -> ('nahmen', 'de') |
-| mx-want-perf-1p | we have wanted | wilden | ('wilden', 'nl') -> ('wollten', 'de') |
-| mx-know-perf-1p | we have known | wisten | ('wisten', 'nl') -> ('supimos', 'es') |
 | mx-do-perf-3p | they have done | deden | ('deden', 'nl') -> ('fizeram', 'pt') |
 | mx-see-perf-3p | they have seen | zagen | ('zagen', 'nl') -> ('sahen', 'de') |
 | mx-take-perf-3p | they have taken | namen | ('namen', 'nl') -> ('nahmen', 'de') |
-| mx-want-perf-3p | they have wanted | wilden | ('wilden', 'nl') -> ('wollten', 'de') |
 | mx-take-perf-dem-this | this has taken | this nam | ('this nam', 'nl') -> ('this nahm', 'de') |
 | mx-think-perf-dem-this | this has thought | this dacht | ('this dacht', 'nl') -> ('this dachte', 'de') |
 | mx-say-perf-dem-this | this has said | this zei | ('this zei', 'nl') -> ('this dijo', 'es') |
 | mx-do-perf-dem-these | these have done | these deden | ('these deden', 'nl') -> ('these fizeram', 'pt') |
 | mx-see-perf-dem-these | these have seen | these zagen | ('these zagen', 'nl') -> ('these sahen', 'de') |
 | mx-take-perf-dem-these | these have taken | these namen | ('these namen', 'nl') -> ('these nahmen', 'de') |
-| mx-want-perf-dem-these | these have wanted | these wilden | ('these wilden', 'nl') -> ('these wollten', 'de') |
 | mx-do-perf-dem-those | those have done | those deden | ('those deden', 'nl') -> ('those fizeram', 'pt') |
 | mx-see-perf-dem-those | those have seen | those zagen | ('those zagen', 'nl') -> ('those sahen', 'de') |
 | mx-take-perf-dem-those | those have taken | those namen | ('those namen', 'nl') -> ('those nahmen', 'de') |
-| mx-want-perf-dem-those | those have wanted | those wilden | ('those wilden', 'nl') -> ('those wollten', 'de') |
 | mx-take-perf-rel-who-sg | who has taken | who nam | ('who nam', 'nl') -> ('who nahm', 'de') |
 | mx-think-perf-rel-who-sg | who has thought | who dacht | ('who dacht', 'nl') -> ('who dachte', 'de') |
 | mx-say-perf-rel-who-sg | who has said | who zei | ('who zei', 'nl') -> ('who dijo', 'es') |
 | mx-do-perf-rel-who-pl | who have done | who deden | ('who deden', 'nl') -> None |
 | mx-see-perf-rel-who-pl | who have seen | who zagen | ('who zagen', 'nl') -> None |
 | mx-take-perf-rel-who-pl | who have taken | who namen | ('who namen', 'nl') -> None |
-| mx-want-perf-rel-who-pl | who have wanted | who wilden | ('who wilden', 'nl') -> ('who wollten', 'de') |
 | mx-take-perf-rel-which-sg | which has taken | which nam | ('which nam', 'nl') -> ('which nahm', 'de') |
 | mx-think-perf-rel-which-sg | which has thought | which dacht | ('which dacht', 'nl') -> ('which dachte', 'de') |
 | mx-say-perf-rel-which-sg | which has said | which zei | ('which zei', 'nl') -> ('which dijo', 'es') |
 | mx-do-perf-rel-which-pl | which have done | which deden | ('which deden', 'nl') -> ('which fizeram', 'pt') |
 | mx-see-perf-rel-which-pl | which have seen | which zagen | ('which zagen', 'nl') -> ('which sahen', 'de') |
 | mx-take-perf-rel-which-pl | which have taken | which namen | ('which namen', 'nl') -> ('which nahmen', 'de') |
-| mx-want-perf-rel-which-pl | which have wanted | which wilden | ('which wilden', 'nl') -> ('which wollten', 'de') |
 | mx-take-perf-rel-que-sg | que has taken | que nam | ('que nam', 'nl') -> ('que nahm', 'de') |
 | mx-think-perf-rel-que-sg | que has thought | que dacht | ('que dacht', 'nl') -> ('que dachte', 'de') |
 | mx-say-perf-rel-que-sg | que has said | que zei | ('que zei', 'nl') -> ('que dijo', 'es') |
 | mx-do-perf-rel-que-pl | que have done | que deden | ('que deden', 'nl') -> ('que fizeram', 'pt') |
 | mx-see-perf-rel-que-pl | que have seen | que zagen | ('que zagen', 'nl') -> ('que sahen', 'de') |
 | mx-take-perf-rel-que-pl | que have taken | que namen | ('que namen', 'nl') -> ('que nahmen', 'de') |
-| mx-want-perf-rel-que-pl | que have wanted | que wilden | ('que wilden', 'nl') -> ('que wollten', 'de') |
 
-## 全件（`--impact lt100m`、124件）
+## 全件（`--impact lt100m`、115件）
 
 ```
 mx-come-past-2	you came	('kwam', 'nl')	->	('vins', 'fr')
@@ -102,7 +93,6 @@ mx-give-perf-2	you have given	('gaf', 'nl')	->	('deste', 'pt')
 mx-go-past-2	you went	('ging', 'nl')	->	('allas', 'fr')
 mx-go-perf-2	you have gone	('ging', 'nl')	->	('foste', 'pt')
 mx-go-pres-1p	we go	('gaan', 'nl')	->	('gehen', 'de')
-mx-know-perf-1p	we have known	('wisten', 'nl')	->	('supimos', 'es')
 mx-know-pres-1p	we know	('weten', 'nl')	->	('savons', 'fr')
 mx-say-past-2	you said	('zei', 'nl')	->	('dîtes', 'fr')
 mx-say-perf-1s	I have said	('zei', 'nl')	->	('dije', 'es')
@@ -182,14 +172,6 @@ mx-think-pres-rel-who-sg	who thinks	('who denkt', 'de')	->	('who pense', 'fr')
 mx-want-past-1p	we wanted	('wilden', 'nl')	->	('wollten', 'de')
 mx-want-past-2	you wanted	('wilde', 'nl')	->	('voulus', 'fr')
 mx-want-past-3p	they wanted	('wilden', 'nl')	->	('wollten', 'de')
-mx-want-perf-1p	we have wanted	('wilden', 'nl')	->	('wollten', 'de')
-mx-want-perf-2	you have wanted	('wilde', 'nl')	->	('quiseste', 'pt')
-mx-want-perf-3p	they have wanted	('wilden', 'nl')	->	('wollten', 'de')
-mx-want-perf-dem-these	these have wanted	('these wilden', 'nl')	->	('these wollten', 'de')
-mx-want-perf-dem-those	those have wanted	('those wilden', 'nl')	->	('those wollten', 'de')
-mx-want-perf-rel-que-pl	que have wanted	('que wilden', 'nl')	->	('que wollten', 'de')
-mx-want-perf-rel-which-pl	which have wanted	('which wilden', 'nl')	->	('which wollten', 'de')
-mx-want-perf-rel-who-pl	who have wanted	('who wilden', 'nl')	->	('who wollten', 'de')
 mx-want-pres-1s	I want	('wil', 'nl')	->	('veux', 'fr')
 mx-want-pres-2	you want	('wil', 'nl')	->	('veux', 'fr')
 mx-want-pres-3s-he	he wants	('wil', 'nl')	->	('quer', 'pt')

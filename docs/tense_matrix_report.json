@@ -679,17 +679,17 @@
      ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "ai voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     11,
-    4
+    8
    ],
    "status": "adopt"
   },
@@ -711,25 +711,19 @@
      "en": [
       "ho"
      ]
-    },
-    {
-     "form": "had",
-     "en": [
-      "had"
-     ]
     }
    ],
-   "best": "tive",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "ai eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     8,
-    4
+    5
    ],
    "status": "adopt"
   },
@@ -823,25 +817,19 @@
      "en": [
       "ho"
      ]
-    },
-    {
-     "form": "wist",
-     "en": [
-      "wist"
-     ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "ai su",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     10,
-    6
+    5
    ],
    "status": "adopt"
   },
@@ -4070,47 +4058,23 @@
    "tense": "perf",
    "verb": "want",
    "src": "you have wanted",
-   "crossling_dropped": [
-    "a voulu",
-    "as voulu"
-   ],
    "en_best": "you've wanted",
-   "homograph_dropped": [
-    {
-     "form": "has querido",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "ha querido",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha voluto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
    "usted_style_best": {
-    "form": "quis",
-    "number": "2sg-usted",
-    "tok": 1
+    "form": "avoir voulu",
+    "number": "2-neutral",
+    "tok": 2
    },
-   "best": "wilde",
-   "lang": "nl",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
+   "best": "avoir voulu",
+   "lang": "fr",
+   "shape": "inf-perfect",
+   "number": "2-neutral",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     13,
-    5
+    11
    ],
    "status": "adopt"
   },
@@ -4119,53 +4083,23 @@
    "tense": "perf",
    "verb": "have",
    "src": "you have had",
-   "crossling_dropped": [
-    "a eu",
-    "as eu"
-   ],
    "en_best": "you've had",
-   "homograph_dropped": [
-    {
-     "form": "has tenido",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "had",
-     "en": [
-      "had"
-     ]
-    },
-    {
-     "form": "ha tenido",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha avuto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
    "usted_style_best": {
-    "form": "teve",
-    "number": "2sg-usted",
-    "tok": 1
+    "form": "avoir eu",
+    "number": "2-neutral",
+    "tok": 2
    },
-   "best": "avez eu",
+   "best": "avoir eu",
    "lang": "fr",
-   "shape": "compound",
-   "number": "2pl-vosotros/vous",
+   "shape": "inf-perfect",
+   "number": "2-neutral",
    "tok": [
     2,
     2
    ],
    "utf8": [
     10,
-    7
+    8
    ],
    "status": "adopt"
   },
@@ -4274,53 +4208,23 @@
    "tense": "perf",
    "verb": "know",
    "src": "you have known",
-   "crossling_dropped": [
-    "a su",
-    "as su"
-   ],
    "en_best": "you've known",
-   "homograph_dropped": [
-    {
-     "form": "has sabido",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "wist",
-     "en": [
-      "wist"
-     ]
-    },
-    {
-     "form": "ha sabido",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha saputo",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
    "usted_style_best": {
-    "form": "supo",
-    "number": "2sg-usted",
+    "form": "avoir su",
+    "number": "2-neutral",
     "tok": 2
    },
-   "best": "avez su",
+   "best": "avoir su",
    "lang": "fr",
-   "shape": "compound",
-   "number": "2pl-vosotros/vous",
+   "shape": "inf-perfect",
+   "number": "2-neutral",
    "tok": [
     2,
     2
    ],
    "utf8": [
     12,
-    7
+    8
    ],
    "status": "adopt"
   },
@@ -9480,26 +9384,28 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "heeft gewild",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    3
    ],
    "utf8": [
     11,
-    4
+    12
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -9524,30 +9430,26 @@
      ]
     },
     {
-     "form": "had",
+     "form": "hat gehabt",
      "en": [
-      "had"
+      "hat"
      ]
     }
    ],
-   "best": "teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "heeft gehad",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     8,
-    4
+    11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3s-he",
@@ -9656,30 +9558,26 @@
      ]
     },
     {
-     "form": "wist",
+     "form": "hat gewusst",
      "en": [
-      "wist"
+      "hat"
      ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "heeft geweten",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    3
    ],
    "utf8": [
     10,
-    6
+    13
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -13183,26 +13081,28 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "heeft gewild",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    3
    ],
    "utf8": [
     12,
-    4
+    12
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -13227,30 +13127,26 @@
      ]
     },
     {
-     "form": "had",
+     "form": "hat gehabt",
      "en": [
-      "had"
+      "hat"
      ]
     }
    ],
-   "best": "teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "heeft gehad",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     9,
-    4
+    11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -13359,30 +13255,26 @@
      ]
     },
     {
-     "form": "wist",
+     "form": "hat gewusst",
      "en": [
-      "wist"
+      "hat"
      ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "heeft geweten",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    3
    ],
    "utf8": [
     11,
-    6
+    13
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -16922,26 +16814,28 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "heeft gewild",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    3
    ],
    "utf8": [
     11,
-    4
+    12
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -16966,30 +16860,26 @@
      ]
     },
     {
-     "form": "had",
+     "form": "hat gehabt",
      "en": [
-      "had"
+      "hat"
      ]
     }
    ],
-   "best": "teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "heeft gehad",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     8,
-    4
+    11
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3s-it",
@@ -17098,30 +16988,26 @@
      ]
     },
     {
-     "form": "wist",
+     "form": "hat gewusst",
      "en": [
-      "wist"
+      "hat"
      ]
     }
    ],
-   "best": "wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "heeft geweten",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    3
    ],
    "utf8": [
     10,
-    6
+    13
    ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -20214,17 +20100,17 @@
    "verb": "want",
    "src": "we have wanted",
    "en_best": "we've wanted",
-   "best": "wilden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "avons voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     12,
-    6
+    11
    ],
    "status": "adopt"
   },
@@ -20234,17 +20120,17 @@
    "verb": "have",
    "src": "we have had",
    "en_best": "we've had",
-   "best": "hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "avons eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     9,
-    6
+    8
    ],
    "status": "adopt"
   },
@@ -20297,9 +20183,9 @@
    "verb": "know",
    "src": "we have known",
    "en_best": "we've known",
-   "best": "wisten",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "avons su",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
@@ -20307,7 +20193,7 @@
    ],
    "utf8": [
     11,
-    6
+    8
    ],
    "status": "adopt"
   },
@@ -22926,17 +22812,17 @@
    "verb": "want",
    "src": "they have wanted",
    "en_best": "they've wanted",
-   "best": "wilden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     14,
-    6
+    9
    ],
    "status": "adopt"
   },
@@ -22946,13 +22832,13 @@
    "verb": "have",
    "src": "they have had",
    "en_best": "they've had",
-   "best": "hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    1
+    2
    ],
    "utf8": [
     11,
@@ -25526,22 +25412,28 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "this hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "this quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "this heeft gewild",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    4
    ],
    "utf8": [
     15,
-    9
+    17
    ],
-   "status": "adopt",
-   "parity_verb": "quis"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25566,26 +25458,26 @@
      ]
     },
     {
-     "form": "this had",
+     "form": "this hat gehabt",
      "en": [
-      "had"
+      "hat"
      ]
     }
    ],
-   "best": "this teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "this heeft gehad",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     12,
-    9
+    16
    ],
-   "status": "adopt",
-   "parity_verb": "teve"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25686,26 +25578,26 @@
      ]
     },
     {
-     "form": "this wist",
+     "form": "this hat gewusst",
      "en": [
-      "wist"
+      "hat"
      ]
     }
    ],
-   "best": "this wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "this heeft geweten",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    4
    ],
    "utf8": [
     14,
-    11
+    18
    ],
-   "status": "adopt",
-   "parity_verb": "wusste"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -29267,20 +29159,20 @@
    "verb": "want",
    "src": "these have wanted",
    "en_best": "these have wanted",
-   "best": "these wilden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "these ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     17,
-    12
+    15
    ],
    "status": "adopt",
-   "parity_verb": "wilden"
+   "parity_verb": "ont voulu"
   },
   {
    "subject": "dem-these",
@@ -29288,20 +29180,20 @@
    "verb": "have",
    "src": "these have had",
    "en_best": "these have had",
-   "best": "these hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "these ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     14,
     12
    ],
    "status": "adopt",
-   "parity_verb": "hatten"
+   "parity_verb": "ont eu"
   },
   {
    "subject": "dem-these",
@@ -31820,20 +31712,20 @@
    "verb": "want",
    "src": "those have wanted",
    "en_best": "those have wanted",
-   "best": "those wilden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "those ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     17,
-    12
+    15
    ],
    "status": "adopt",
-   "parity_verb": "wilden"
+   "parity_verb": "ont voulu"
   },
   {
    "subject": "dem-those",
@@ -31841,20 +31733,20 @@
    "verb": "have",
    "src": "those have had",
    "en_best": "those have had",
-   "best": "those hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "those ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     14,
     12
    ],
    "status": "adopt",
-   "parity_verb": "hatten"
+   "parity_verb": "ont eu"
   },
   {
    "subject": "dem-those",
@@ -34498,21 +34390,28 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "who hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "who quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "who heeft gewild",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    2
+    4
    ],
    "utf8": [
     12,
-    8
+    16
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-who-sg",
@@ -34537,25 +34436,26 @@
      ]
     },
     {
-     "form": "who had",
+     "form": "who hat gehabt",
      "en": [
-      "had"
+      "hat"
      ]
     }
    ],
-   "best": "who teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "who heeft gehad",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    2
+    3
    ],
    "utf8": [
     9,
-    8
+    15
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-who-sg",
@@ -34654,25 +34554,26 @@
      ]
     },
     {
-     "form": "who wist",
+     "form": "who hat gewusst",
      "en": [
-      "wist"
+      "hat"
      ]
     }
    ],
-   "best": "who wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "who heeft geweten",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    2
+    4
    ],
    "utf8": [
     11,
-    10
+    17
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-who-sg",
@@ -36569,19 +36470,20 @@
    "verb": "want",
    "src": "who have wanted",
    "en_best": "who've wanted",
-   "best": "who wilden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "who ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    2
+    3
    ],
    "utf8": [
     13,
-    10
+    13
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-who-pl",
@@ -36589,13 +36491,13 @@
    "verb": "have",
    "src": "who have had",
    "en_best": "who've had",
-   "best": "who hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "who ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     2,
-    2
+    3
    ],
    "utf8": [
     10,
@@ -38540,21 +38442,28 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "which hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "which quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "which heeft gewild",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    4
    ],
    "utf8": [
     16,
-    10
+    18
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-which-sg",
@@ -38579,25 +38488,26 @@
      ]
     },
     {
-     "form": "which had",
+     "form": "which hat gehabt",
      "en": [
-      "had"
+      "hat"
      ]
     }
    ],
-   "best": "which teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "which heeft gehad",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     13,
-    10
+    17
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-which-sg",
@@ -38696,25 +38606,26 @@
      ]
     },
     {
-     "form": "which wist",
+     "form": "which hat gewusst",
      "en": [
-      "wist"
+      "hat"
      ]
     }
    ],
-   "best": "which wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "which heeft geweten",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    4
    ],
    "utf8": [
     15,
-    12
+    19
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-which-sg",
@@ -40611,17 +40522,17 @@
    "verb": "want",
    "src": "which have wanted",
    "en_best": "which have wanted",
-   "best": "which wilden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "which ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     17,
-    12
+    15
    ],
    "status": "adopt"
   },
@@ -40631,13 +40542,13 @@
    "verb": "have",
    "src": "which have had",
    "en_best": "which have had",
-   "best": "which hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "which ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     14,
@@ -42578,21 +42489,28 @@
      "en": [
       "ha"
      ]
+    },
+    {
+     "form": "que hat gewollt",
+     "en": [
+      "hat"
+     ]
     }
    ],
-   "best": "que quis",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "que heeft gewild",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    4
    ],
    "utf8": [
     14,
-    8
+    16
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-sg",
@@ -42617,25 +42535,26 @@
      ]
     },
     {
-     "form": "que had",
+     "form": "que hat gehabt",
      "en": [
-      "had"
+      "hat"
      ]
     }
    ],
-   "best": "que teve",
-   "lang": "pt",
-   "shape": "simple-preterite",
+   "best": "que heeft gehad",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     11,
-    8
+    15
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-sg",
@@ -42734,25 +42653,26 @@
      ]
     },
     {
-     "form": "que wist",
+     "form": "que hat gewusst",
      "en": [
-      "wist"
+      "hat"
      ]
     }
    ],
-   "best": "que wusste",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "que heeft geweten",
+   "lang": "nl",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    4
    ],
    "utf8": [
     13,
-    10
+    17
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-sg",
@@ -44649,17 +44569,17 @@
    "verb": "want",
    "src": "que have wanted",
    "en_best": "que have wanted",
-   "best": "que wilden",
-   "lang": "nl",
-   "shape": "simple-preterite",
+   "best": "que ont voulu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     15,
-    10
+    13
    ],
    "status": "adopt"
   },
@@ -44669,13 +44589,13 @@
    "verb": "have",
    "src": "que have had",
    "en_best": "que have had",
-   "best": "que hatten",
-   "lang": "de",
-   "shape": "simple-preterite",
+   "best": "que ont eu",
+   "lang": "fr",
+   "shape": "compound",
    "number": "",
    "tok": [
     3,
-    2
+    3
    ],
    "utf8": [
     12,

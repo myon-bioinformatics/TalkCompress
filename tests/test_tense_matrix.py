@@ -92,7 +92,7 @@ def test_subject_kept_and_goingto(s, want):
 
 def test_second_person_only_true_2nd_forms():
     two = [c for c in CELLS if c["subject"] == "2" and c["status"] == "adopt"]
-    assert two and all(c["number"] in ("2sg-tú", "2pl-vosotros/vous") for c in two)
+    assert two and all(c["number"] in ("2sg-tú", "2pl-vosotros/vous", "2-neutral") for c in two)
     # usted would win more cells, but collapses into 3sg after subject drop.
     ust = Counter(c["usted_style_best"]["number"] for c in CELLS if "usted_style_best" in c)
     assert ust["2sg-usted"] > ust["2sg-tú"]

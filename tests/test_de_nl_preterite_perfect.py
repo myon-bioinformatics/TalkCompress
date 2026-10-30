@@ -24,7 +24,8 @@ CONJ = json.loads(tm.CONJ_PATH.read_text(encoding="utf-8"))["conj"]
     ("mx-see-perf-3s-he", "sah", "de"),
     ("mx-take-perf-1s", "nam", "nl"),
     ("mx-say-perf-3s-she", "zei", "nl"),
-    ("mx-have-perf-1p", "hatten", "de"),
+    # stative have/know/want: no preterite (continuative perfect) -> fr passé composé
+    ("mx-have-perf-1p", "avons eu", "fr"),
 ])
 def test_winner(eid, to, lang):
     e = BY_ID[eid]
