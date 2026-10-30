@@ -85,13 +85,14 @@ FILLERS_JA: tuple[str, ...] = (
 
 # Rank-1 / unique-reading: prefer jargon / specialized verbs (fewer senses).
 UNIQUE_READINGS: dict[str, str] = {
-    "get": "obtain",
+    # get: removed (o200k: get 1tok/4B; obtain 1/7, obt 1/4 = loser/tie).
+    # get+adj/pp (get tired), get+ppl (get going) also keep get (become = 2tok/13B).
     "make": "construct",
     "do": "perform",
     "put": "place",
     "take": "acquire",
     "give": "provide",
-    "look at": "inspect",
+    "look at": "see",  # o200k: look at 2/8, inspect 1/8, insp 1/5, 👀 2/5, see 1/4
     "think about": "consider",
     "talk about": "discuss",
     "find out": "ascertain",

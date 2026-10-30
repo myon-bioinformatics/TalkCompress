@@ -730,12 +730,31 @@ def en_baselines(src: str) -> list[str]:
     return out
 
 
+ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
+_RT_DATA: dict = {}
+
+
+def _rt_ok(form: str, lang: str, gate=None) -> bool:
+    if lang in ROUNDTRIP_ENFORCED_LANGS:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import roundtrip as rt
+
+        if rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form) != "pass":
+            return False
+    return gate is None or gate(form, lang)
+
+
 def build(gate=None) -> tuple[dict, dict, str]:
     """Rebuild bank / report / md. ``gate(form, lang) -> bool`` (optional) drops
     candidates before ranking — used by scripts/roundtrip.py impact reports only;
-    the committed bank is always built with ``gate=None`` (report-only)."""
+    the committed bank is always built with ``gate=None`` (report-only).
+
+    Exception (#29): languages in ``ROUNDTRIP_ENFORCED_LANGS`` (nl, <100M speakers)
+    are always gated — a form is adopted only when its recorded AI round-trip status
+    is ``pass`` (restore rate >= lt100m threshold 0.9); unverified forms are dropped."""
     from tests._helpers import load
 
+    _RT_DATA.clear()
     t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
     conj = json.loads(CONJ_PATH.read_text(encoding="utf-8"))["conj"]
     existing = _existing_sources(t)
@@ -773,11 +792,12 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
-                if gate is not None:
-                    gated = [c["form"] for c in cands if not gate(c["form"], c["lang"])]
+                if True:  # nl always gated (#29); others only with an explicit gate
+                    # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
+                    gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
                     if gated:
-                        cell["roundtrip_gated"] = gated
-                        cands = [c for c in cands if c["form"] not in gated]
+                        cell["roundtrip_gated"] = [c["form"] for c in gated]
+                        cands = [c for c in cands if c not in gated]
                 en_best = min(en_baselines(src), key=lambda f: (tok(f), u8(f)))
                 st, su = tok(en_best), u8(en_best)
                 cell["en_best"] = en_best

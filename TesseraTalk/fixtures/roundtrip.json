@@ -41,45 +41,726 @@
     "Maybe {s} today.",
     "She told me that {s}."
   ],
-  "records": {},
-  "required": [
-    "nl:dacht",
-    "nl:deden",
-    "nl:gaf",
-    "nl:ging",
-    "nl:kwam",
-    "nl:nam",
-    "nl:namen",
-    "nl:que dacht",
-    "nl:que deden",
-    "nl:que nam",
-    "nl:que namen",
-    "nl:que zagen",
-    "nl:que zei",
-    "nl:these deden",
-    "nl:these namen",
-    "nl:these zagen",
-    "nl:this dacht",
-    "nl:this nam",
-    "nl:this zei",
-    "nl:those deden",
-    "nl:those namen",
-    "nl:those zagen",
-    "nl:vond",
-    "nl:which dacht",
-    "nl:which deden",
-    "nl:which nam",
-    "nl:which namen",
-    "nl:which zagen",
-    "nl:which zei",
-    "nl:who dacht",
-    "nl:who deden",
-    "nl:who nam",
-    "nl:who namen",
-    "nl:who zagen",
-    "nl:who zei",
-    "nl:zag",
-    "nl:zagen",
-    "nl:zei"
-  ]
+  "records": {
+    "nl:kom": {
+      "lang": "nl",
+      "form": "kom",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:wil": {
+      "lang": "nl",
+      "form": "wil",
+      "trials": 45,
+      "restored": 9,
+      "failures": [
+        "Wil.",
+        "Wil.",
+        "Wil.",
+        "Maybe wil today.",
+        "Maybe wil today."
+      ]
+    },
+    "nl:nam": {
+      "lang": "nl",
+      "form": "nam",
+      "trials": 81,
+      "restored": 0,
+      "failures": [
+        "Nam.",
+        "Nam.",
+        "Nam.",
+        "Maybe nam today.",
+        "Maybe nam today."
+      ]
+    },
+    "nl:dacht": {
+      "lang": "nl",
+      "form": "dacht",
+      "trials": 81,
+      "restored": 0,
+      "failures": [
+        "Dacht.",
+        "Dacht.",
+        "Dacht.",
+        "Maybe dacht today.",
+        "Maybe dacht today."
+      ]
+    },
+    "nl:zei": {
+      "lang": "nl",
+      "form": "zei",
+      "trials": 54,
+      "restored": 0,
+      "failures": [
+        "Zei.",
+        "Zei.",
+        "Zei.",
+        "Maybe zei today.",
+        "Maybe zei today."
+      ]
+    },
+    "nl:komt": {
+      "lang": "nl",
+      "form": "komt",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Komt.",
+        "Komt.",
+        "Komt.",
+        "Maybe komt today.",
+        "Maybe komt today."
+      ]
+    },
+    "nl:neemt": {
+      "lang": "nl",
+      "form": "neemt",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Neemt.",
+        "Neemt.",
+        "Neemt.",
+        "Maybe neemt today.",
+        "Maybe neemt today."
+      ]
+    },
+    "nl:denkt": {
+      "lang": "nl",
+      "form": "denkt",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Denkt.",
+        "Denkt.",
+        "Denkt.",
+        "Maybe denkt today.",
+        "Maybe denkt today."
+      ]
+    },
+    "nl:ging": {
+      "lang": "nl",
+      "form": "ging",
+      "trials": 18,
+      "restored": 0,
+      "failures": [
+        "Ging.",
+        "Ging.",
+        "Ging.",
+        "Maybe ging today.",
+        "Maybe ging today."
+      ]
+    },
+    "nl:kwam": {
+      "lang": "nl",
+      "form": "kwam",
+      "trials": 18,
+      "restored": 0,
+      "failures": [
+        "Kwam.",
+        "Kwam.",
+        "Kwam.",
+        "Maybe kwam today.",
+        "Maybe kwam today."
+      ]
+    },
+    "nl:vond": {
+      "lang": "nl",
+      "form": "vond",
+      "trials": 18,
+      "restored": 0,
+      "failures": [
+        "Vond.",
+        "Vond.",
+        "Vond.",
+        "Maybe vond today.",
+        "Maybe vond today."
+      ]
+    },
+    "nl:wilde": {
+      "lang": "nl",
+      "form": "wilde",
+      "trials": 18,
+      "restored": 0,
+      "failures": [
+        "Wilde.",
+        "Wilde.",
+        "Wilde.",
+        "Maybe wilde today.",
+        "Maybe wilde today."
+      ]
+    },
+    "nl:gaf": {
+      "lang": "nl",
+      "form": "gaf",
+      "trials": 18,
+      "restored": 0,
+      "failures": [
+        "Gaf.",
+        "Gaf.",
+        "Gaf.",
+        "Maybe gaf today.",
+        "Maybe gaf today."
+      ]
+    },
+    "nl:zag": {
+      "lang": "nl",
+      "form": "zag",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Zag.",
+        "Zag.",
+        "Zag.",
+        "Maybe zag today.",
+        "Maybe zag today."
+      ]
+    },
+    "nl:gaan": {
+      "lang": "nl",
+      "form": "gaan",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:komen": {
+      "lang": "nl",
+      "form": "komen",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:zien": {
+      "lang": "nl",
+      "form": "zien",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:nemen": {
+      "lang": "nl",
+      "form": "nemen",
+      "trials": 18,
+      "restored": 9,
+      "failures": [
+        "Nemen.",
+        "Nemen.",
+        "Nemen.",
+        "Maybe nemen today.",
+        "Maybe nemen today."
+      ]
+    },
+    "nl:weten": {
+      "lang": "nl",
+      "form": "weten",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:zagen": {
+      "lang": "nl",
+      "form": "zagen",
+      "trials": 36,
+      "restored": 9,
+      "failures": [
+        "Zagen.",
+        "Zagen.",
+        "Zagen.",
+        "Maybe zagen today.",
+        "Maybe zagen today."
+      ]
+    },
+    "nl:namen": {
+      "lang": "nl",
+      "form": "namen",
+      "trials": 36,
+      "restored": 9,
+      "failures": [
+        "Namen.",
+        "Namen.",
+        "Namen.",
+        "Maybe namen today.",
+        "Maybe namen today."
+      ]
+    },
+    "nl:wilden": {
+      "lang": "nl",
+      "form": "wilden",
+      "trials": 36,
+      "restored": 9,
+      "failures": [
+        "Wilden.",
+        "Wilden.",
+        "Wilden.",
+        "Maybe wilden today.",
+        "Maybe wilden today."
+      ]
+    },
+    "nl:deden": {
+      "lang": "nl",
+      "form": "deden",
+      "trials": 18,
+      "restored": 0,
+      "failures": [
+        "Deden.",
+        "Deden.",
+        "Deden.",
+        "Maybe deden today.",
+        "Maybe deden today."
+      ]
+    },
+    "nl:wisten": {
+      "lang": "nl",
+      "form": "wisten",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Wisten.",
+        "Wisten.",
+        "Wisten.",
+        "Maybe wisten today.",
+        "Maybe wisten today."
+      ]
+    },
+    "nl:this nam": {
+      "lang": "nl",
+      "form": "this nam",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "This nam.",
+        "This nam.",
+        "This nam.",
+        "Maybe this nam today.",
+        "Maybe this nam today."
+      ]
+    },
+    "nl:this dacht": {
+      "lang": "nl",
+      "form": "this dacht",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "This dacht.",
+        "This dacht.",
+        "This dacht.",
+        "Maybe this dacht today.",
+        "Maybe this dacht today."
+      ]
+    },
+    "nl:this zei": {
+      "lang": "nl",
+      "form": "this zei",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "This zei.",
+        "This zei.",
+        "This zei.",
+        "Maybe this zei today.",
+        "Maybe this zei today."
+      ]
+    },
+    "nl:these deden": {
+      "lang": "nl",
+      "form": "these deden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "These deden.",
+        "These deden.",
+        "These deden.",
+        "Maybe these deden today.",
+        "Maybe these deden today."
+      ]
+    },
+    "nl:these zagen": {
+      "lang": "nl",
+      "form": "these zagen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "These zagen.",
+        "These zagen.",
+        "These zagen.",
+        "Maybe these zagen today.",
+        "Maybe these zagen today."
+      ]
+    },
+    "nl:these namen": {
+      "lang": "nl",
+      "form": "these namen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "These namen.",
+        "These namen.",
+        "These namen.",
+        "Maybe these namen today.",
+        "Maybe these namen today."
+      ]
+    },
+    "nl:these wilden": {
+      "lang": "nl",
+      "form": "these wilden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "These wilden.",
+        "These wilden.",
+        "These wilden.",
+        "Maybe these wilden today.",
+        "Maybe these wilden today."
+      ]
+    },
+    "nl:those deden": {
+      "lang": "nl",
+      "form": "those deden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Those deden.",
+        "Those deden.",
+        "Those deden.",
+        "Maybe those deden today.",
+        "Maybe those deden today."
+      ]
+    },
+    "nl:those zagen": {
+      "lang": "nl",
+      "form": "those zagen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Those zagen.",
+        "Those zagen.",
+        "Those zagen.",
+        "Maybe those zagen today.",
+        "Maybe those zagen today."
+      ]
+    },
+    "nl:those namen": {
+      "lang": "nl",
+      "form": "those namen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Those namen.",
+        "Those namen.",
+        "Those namen.",
+        "Maybe those namen today.",
+        "Maybe those namen today."
+      ]
+    },
+    "nl:those wilden": {
+      "lang": "nl",
+      "form": "those wilden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Those wilden.",
+        "Those wilden.",
+        "Those wilden.",
+        "Maybe those wilden today.",
+        "Maybe those wilden today."
+      ]
+    },
+    "nl:who wil": {
+      "lang": "nl",
+      "form": "who wil",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:who nam": {
+      "lang": "nl",
+      "form": "who nam",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Who nam.",
+        "Who nam.",
+        "Who nam.",
+        "Maybe who nam today.",
+        "Maybe who nam today."
+      ]
+    },
+    "nl:who dacht": {
+      "lang": "nl",
+      "form": "who dacht",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Who dacht.",
+        "Who dacht.",
+        "Who dacht.",
+        "Maybe who dacht today.",
+        "Maybe who dacht today."
+      ]
+    },
+    "nl:who zei": {
+      "lang": "nl",
+      "form": "who zei",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Who zei.",
+        "Who zei.",
+        "Who zei.",
+        "Maybe who zei today.",
+        "Maybe who zei today."
+      ]
+    },
+    "nl:who deden": {
+      "lang": "nl",
+      "form": "who deden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Who deden.",
+        "Who deden.",
+        "Who deden.",
+        "Maybe who deden today.",
+        "Maybe who deden today."
+      ]
+    },
+    "nl:who zagen": {
+      "lang": "nl",
+      "form": "who zagen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Who zagen.",
+        "Who zagen.",
+        "Who zagen.",
+        "Maybe who zagen today.",
+        "Maybe who zagen today."
+      ]
+    },
+    "nl:who namen": {
+      "lang": "nl",
+      "form": "who namen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Who namen.",
+        "Who namen.",
+        "Who namen.",
+        "Maybe who namen today.",
+        "Maybe who namen today."
+      ]
+    },
+    "nl:who wilden": {
+      "lang": "nl",
+      "form": "who wilden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Who wilden.",
+        "Who wilden.",
+        "Who wilden.",
+        "Maybe who wilden today.",
+        "Maybe who wilden today."
+      ]
+    },
+    "nl:which wil": {
+      "lang": "nl",
+      "form": "which wil",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:which nam": {
+      "lang": "nl",
+      "form": "which nam",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Which nam.",
+        "Which nam.",
+        "Which nam.",
+        "Maybe which nam today.",
+        "Maybe which nam today."
+      ]
+    },
+    "nl:which dacht": {
+      "lang": "nl",
+      "form": "which dacht",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Which dacht.",
+        "Which dacht.",
+        "Which dacht.",
+        "Maybe which dacht today.",
+        "Maybe which dacht today."
+      ]
+    },
+    "nl:which zei": {
+      "lang": "nl",
+      "form": "which zei",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Which zei.",
+        "Which zei.",
+        "Which zei.",
+        "Maybe which zei today.",
+        "Maybe which zei today."
+      ]
+    },
+    "nl:which deden": {
+      "lang": "nl",
+      "form": "which deden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Which deden.",
+        "Which deden.",
+        "Which deden.",
+        "Maybe which deden today.",
+        "Maybe which deden today."
+      ]
+    },
+    "nl:which zagen": {
+      "lang": "nl",
+      "form": "which zagen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Which zagen.",
+        "Which zagen.",
+        "Which zagen.",
+        "Maybe which zagen today.",
+        "Maybe which zagen today."
+      ]
+    },
+    "nl:which namen": {
+      "lang": "nl",
+      "form": "which namen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Which namen.",
+        "Which namen.",
+        "Which namen.",
+        "Maybe which namen today.",
+        "Maybe which namen today."
+      ]
+    },
+    "nl:which wilden": {
+      "lang": "nl",
+      "form": "which wilden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Which wilden.",
+        "Which wilden.",
+        "Which wilden.",
+        "Maybe which wilden today.",
+        "Maybe which wilden today."
+      ]
+    },
+    "nl:que wil": {
+      "lang": "nl",
+      "form": "que wil",
+      "trials": 9,
+      "restored": 9,
+      "failures": []
+    },
+    "nl:que nam": {
+      "lang": "nl",
+      "form": "que nam",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Que nam.",
+        "Que nam.",
+        "Que nam.",
+        "Maybe que nam today.",
+        "Maybe que nam today."
+      ]
+    },
+    "nl:que dacht": {
+      "lang": "nl",
+      "form": "que dacht",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Que dacht.",
+        "Que dacht.",
+        "Que dacht.",
+        "Maybe que dacht today.",
+        "Maybe que dacht today."
+      ]
+    },
+    "nl:que zei": {
+      "lang": "nl",
+      "form": "que zei",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Que zei.",
+        "Que zei.",
+        "Que zei.",
+        "Maybe que zei today.",
+        "Maybe que zei today."
+      ]
+    },
+    "nl:que deden": {
+      "lang": "nl",
+      "form": "que deden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Que deden.",
+        "Que deden.",
+        "Que deden.",
+        "Maybe que deden today.",
+        "Maybe que deden today."
+      ]
+    },
+    "nl:que zagen": {
+      "lang": "nl",
+      "form": "que zagen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Que zagen.",
+        "Que zagen.",
+        "Que zagen.",
+        "Maybe que zagen today.",
+        "Maybe que zagen today."
+      ]
+    },
+    "nl:que namen": {
+      "lang": "nl",
+      "form": "que namen",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Que namen.",
+        "Que namen.",
+        "Que namen.",
+        "Maybe que namen today.",
+        "Maybe que namen today."
+      ]
+    },
+    "nl:que wilden": {
+      "lang": "nl",
+      "form": "que wilden",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Que wilden.",
+        "Que wilden.",
+        "Que wilden.",
+        "Maybe que wilden today.",
+        "Maybe que wilden today."
+      ]
+    }
+  },
+  "required": []
 }

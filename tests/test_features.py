@@ -136,7 +136,7 @@ def test_morpho_pronoun_inventory():
     assert "she" in m.compress("she will go")
     assert "U" in m.compress("you choose")
     assert "君" not in m.compress("you choose")
-    assert "you" in m.compress("I see you")
+    assert m.compress("I see you") == "I see U"  # obj you → U (consistency)
     assert "your" in m.compress("your book")
     assert "you know" in m.compress("you know me")
     assert "y'all" in m.compress("you all ready")
@@ -179,7 +179,7 @@ def test_morpho_pronoun_inventory():
     assert m.compress("he uses") == "he use"
     assert m.compress("she closes") == "she close"
     assert "whichever" in m.compress("whichever option")  # ∀opt removed (token loser)
-    assert "4" in m.compress("成功するために学ぶ")
+    assert "4" not in m.compress("成功するために学ぶ")  # token-loser symbol removed
 
 
 
@@ -412,12 +412,12 @@ def test_morpho_article_inventory():
 
 def test_morpho_conjunction_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.CONJ_CANONICAL == ("&", "/", "bc", "∴")
+    assert m.CONJ_CANONICAL == ("&", "/", "bc", "therefore")  # ∴ token loser
     out = m.compress("cats and dogs or birds because rain therefore fly", unique=False, etymon=False)
     assert "&" in out and "/" in out and "bc" in out and "therefore" in out  # ∴ removed
     assert m.canonicalize_closed("conjunction", "and") == "&"
     assert m.canonicalize_closed("conjunction", "because") == "bc"
-    c = m.conjunction_bit_cost("a & b / c bc d ∴ e")
+    c = m.conjunction_bit_cost("a & b / c bc d therefore e")
     assert c["bits_per"] == 2
     assert c["count"] >= 4
     assert c["total_bits"] == c["count"] * 2
@@ -427,7 +427,7 @@ def test_morpho_conjunction_inventory():
 
 def test_morpho_adverb_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.ADVERB_CANONICAL == ("tho", "~", "esp.")
+    assert m.ADVERB_CANONICAL == ("tho", "~", "especially")  # esp. token loser
     out = m.compress(
         "However, approximately very particularly ready",
         unique=False,
@@ -437,7 +437,7 @@ def test_morpho_adverb_inventory():
     # very→˅ removed (o200k 1 tok vs 2 tok)
     assert "tho" in out and "~" in out and "very" in out and "particularly" in out  # esp. removed
     assert m.canonicalize_closed("adverb", "very") is None
-    assert m.adverb_bit_cost("tho ~ esp.")["total_bits"] == 6  # 3×2 (˅ dropped)
+    assert m.adverb_bit_cost("tho ~ especially")["total_bits"] == 6  # 3×2 (˅ dropped)
     freq = m.compress(
         "always often never ready",
         unique=False,
@@ -474,7 +474,7 @@ def test_morpho_auxiliary_inventory():
 
 def test_morpho_preposition_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.PREP_CANONICAL == ("w/", "4", "←", "@")
+    assert m.PREP_CANONICAL == ("with", "for", "←", "@")  # w/, 4 token losers
     out = m.compress(
         "go for lunch from home with friends at noon without fear",
         unique=False,
@@ -486,22 +486,22 @@ def test_morpho_preposition_inventory():
     # C ledger spatial left alone on E
     under = m.compress("under the table above the shelf", unique=False, etymon=False, counters=False)
     assert "under" in under.lower() and "above" in under.lower()
-    assert m.canonicalize_closed("preposition", "for") is None  # 4 removed
+    assert m.canonicalize_closed("preposition", "for") == "for"
     assert m.canonicalize_closed("preposition", "without") is None  # moved to prep2
     assert m.canonicalize_closed("prep2", "without") == "无"
     assert m.canonicalize_closed("prep2", "w/o") == "无"
-    c = m.preposition_bit_cost("w/ 4 ← @")
+    c = m.preposition_bit_cost("with for ← @")
     assert c["bits_per"] == 2 and c["count"] == 4 and c["total_bits"] == 8
     assert m.canonicalize_closed("preposition", "from") == "←"
     assert m.canonicalize_closed("preposition", "fr") == "←"  # alias
     assert m.canonicalize_closed("preposition", "desde") == "←"
-    assert m.canonicalize_closed("preposition", "con") is None  # w/ removed → with (not canonical)
-    assert m.canonicalize_closed("preposition", "pour") is None  # 4 removed → for
+    assert m.canonicalize_closed("preposition", "con") == "with"
+    assert m.canonicalize_closed("preposition", "pour") == "for"
 
 
 def test_morpho_prep2_inventory():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.PREP2_CANONICAL == ("de", "无", "内", "前", "後")
+    assert m.PREP2_CANONICAL == ("of", "无", "内", "前", "after")  # de, 後 token losers
     assert m.prep2_inventory_bits() == 3  # N=5
     out = m.compress(
         "of water without sugar within limits before noon after dusk",
@@ -509,19 +509,19 @@ def test_morpho_prep2_inventory():
         etymon=False,
         counters=False,
     )
-    assert "de" in out and "无" in out and "内" in out and "前" in out and "after" in out  # 後 removed
+    assert "of" in out and "无" in out and "内" in out and "前" in out and "after" in out  # 後 removed
     assert "without" not in out.lower()
     assert "before" not in out.lower()
-    assert m.canonicalize_closed("prep2", "of") == "de"
+    assert m.canonicalize_closed("prep2", "of") == "of"
     assert m.canonicalize_closed("prep2", "within") == "内"
     assert m.canonicalize_closed("prep2", "before") == "前"
-    assert m.canonicalize_closed("prep2", "after") is None  # 後 removed
-    assert m.canonicalize_closed("prep2", "后") == "後"
+    assert m.canonicalize_closed("prep2", "after") == "after"
+    assert m.canonicalize_closed("prep2", "后") == "after"
     assert m.canonicalize_closed("prep2", "sans") == "无"
     assert m.canonicalize_closed("prep2", "antes") == "前"
-    assert m.canonicalize_closed("prep2", "après") == "後"
+    assert m.canonicalize_closed("prep2", "après") == "after"
     assert m.canonicalize_closed("prep2", "vor") == "前"
-    c = m.prep2_bit_cost("de 无 内 前 後")
+    c = m.prep2_bit_cost("of 无 内 前 after")
     assert c["bits_per"] == 3 and c["count"] == 5 and c["total_bits"] == 15
     # w/o surface still aliases to 无
     assert "无" in m.compress("go w/o fear", unique=False, etymon=False, counters=False)
@@ -578,14 +578,14 @@ def test_morpho_prep_like_finite_set():
     assert "下" in m.compress("underneath the floor", **kw)
     # instead of stays phrase→vs; bare instead→代
     assert "vs" in m.compress("instead of tea", **kw).lower()
-    assert "代" in m.compress("go instead", **kw)
+    assert "代" not in m.compress("go instead", **kw)  # token-loser symbol removed
     # tranche: multiword prep + prep-like adv (dual-metric winners)
     assert "依" in m.compress("according to the report", **kw)
     assert "因" in m.compress("owing to rain", **kw)
     assert "因" in m.compress("due to delay", **kw)
-    assert "雖" in m.compress("in spite of warnings", **kw)
+    assert "雖" not in m.compress("in spite of warnings", **kw)  # token-loser symbol removed
     assert "前" in m.compress("in front of the house", **kw)
-    assert "傍" in m.compress("next to me", **kw)
+    assert "傍" not in m.compress("next to me", **kw)  # token-loser symbol removed
     assert "遠" in m.compress("far from here", **kw)
     assert "離" in m.compress("away from danger", **kw)
     assert "外" in m.compress("out of money", **kw)
@@ -639,7 +639,7 @@ def test_morpho_prep_like_finite_set():
     assert "欠" in m.compress("for lack of evidence", **kw)
     assert "超" in m.compress("in excess of 100", **kw)
     assert "対比" in m.compress("in contrast to prior", **kw)
-    assert "∴" in m.compress("as a result of delays", **kw)
+    assert "∴" not in m.compress("as a result of delays", **kw)  # token-loser symbol removed
     assert "過程" in m.compress("in the course of duty", **kw)
     assert "面前" in m.compress("in the face of danger", **kw)
     assert "経" in m.compress("courtesy of NASA", **kw)
@@ -659,7 +659,7 @@ def test_morpho_prep_like_finite_set():
     assert "名" in m.compress("in the name of justice", **kw)
     assert "手" in m.compress("at the hands of enemies", **kw)
     assert "弄" in m.compress("at the mercy of fate", **kw)
-    assert "先" in m.compress("ahead of schedule", **kw)
+    assert "前" in m.compress("ahead of schedule", **kw)  # 先 token loser → before → 前
     assert "連携" in m.compress("in association with partners", **kw)
     assert "比" in m.compress("in comparison with last year", **kw)
     assert "共通" in m.compress("in common with peers", **kw)
@@ -674,25 +674,25 @@ def test_morpho_prep_like_finite_set():
     assert "在" in m.compress("in the presence of witnesses", **kw)
     assert "代価" in m.compress("at the price of freedom", **kw)
     assert "傘" in m.compress("under the auspices of UNESCO", **kw)
-    assert "∥" in m.compress("in parallel with talks", **kw)
+    assert "alongside" in m.compress("in parallel with talks", **kw)  # ∥ token loser
     assert "力" in m.compress("by dint of effort", **kw)
     assert "瀕" in m.compress("on the brink of war", **kw)
-    assert "除" in m.compress("with the exception of one", **kw)
+    assert "except" in m.compress("with the exception of one", **kw)  # 除 token loser
     assert "无" in m.compress("free of errors", **kw)
-    assert "準" in m.compress("as per the contract", **kw)
+    assert "準" not in (_o := m.compress("as per the contract", **kw)) and _o == 'as per contract'  # token loser removed
     assert "≠" not in m.compress("unlike the others", **kw)  # token-loser symbol removed
 
     # cycle5 multiword prep + prep-like adv
     assert "応" in m.compress("in response to the query", **kw)
     assert "答" in m.compress("in answer to the letter", **kw)
-    assert "沿" in m.compress("in line with policy", **kw)
+    assert "沿" not in (_o := m.compress("in line with policy", **kw)) and _o == 'in line with policy'  # token loser removed
     assert "合" in m.compress("in agreement with the board", **kw)
     assert "依" in m.compress("depending on weather", **kw)
     assert "+" in m.compress("cats as well as dogs", **kw)
     assert "況" in m.compress("let alone the cost", **kw)
-    assert "直面" in m.compress("faced with a crisis", **kw)
+    assert "直面" not in (_o := m.compress("faced with a crisis", **kw)) and _o == 'faced with crisis'  # token loser removed
     assert "関" in m.compress("pertaining to safety", **kw)
-    assert "独立" in m.compress("independent of size", **kw)
+    assert "独立" not in (_o := m.compress("independent of size", **kw)) and _o == 'independent of size'  # token loser removed
     assert "≒" in m.compress("similar to the original", **kw)
     assert "≡" in m.compress("equivalent to 10", **kw)
     assert "限" in m.compress("limited to members", **kw)
@@ -705,30 +705,30 @@ def test_morpho_prep_like_finite_set():
     assert "初" in m.compress("at first glance", **kw)
     assert "略" in m.compress("in short we agree", **kw)
     assert "実" in m.compress("in fact true", **kw)
-    assert "実際" in m.compress("in practice hard", **kw)
+    assert "実際" not in (_o := m.compress("in practice hard", **kw)) and _o == 'in practice hard'  # token loser removed
     assert "理" in m.compress("in theory simple", **kw)
     assert "一般" in m.compress("in general fine", **kw)
-    assert "故意" in m.compress("on purpose delayed", **kw)
+    assert "故意" not in (_o := m.compress("on purpose delayed", **kw)) and _o == 'on purpose delayed'  # token loser removed
     assert "徒" in m.compress("in vain tried", **kw)
     assert "今" in m.compress("at present unclear", **kw)
     assert "早" in m.compress("ahead of time arrival", **kw)
-    assert "進行" in m.compress("work under way", **kw)
-    assert "∥" in m.compress("in the meantime wait", **kw)
+    assert "進行" not in (_o := m.compress("work under way", **kw)) and _o == 'work under way'  # token loser removed
+    assert "∥" not in (_o := m.compress("in the meantime wait", **kw)) and _o == 'meanwhile wait'  # token loser removed
     assert "基" in m.compress("based on data", **kw)
-    assert "∴→" in m.compress("from now on careful", **kw)
+    assert "∴→" not in (_o := m.compress("from now on careful", **kw)) and _o == 'henceforth careful'  # token loser removed
     assert "準" in m.compress("in compliance with rules", **kw)
 
     # cycle6 prep + prep-like adv / discourse
     assert "逆" in m.compress("contrary to expectations", **kw)
     assert "比例" in m.compress("proportional to size", **kw)
     assert "追" in m.compress("in pursuit of truth", **kw)
-    assert "結局" in m.compress("after all we agree", **kw)
+    assert "結局" not in (_o := m.compress("after all we agree", **kw)) and _o == 'after all we agree'  # token loser removed
     assert "最" in m.compress("above all be kind", **kw)
     assert "総" in m.compress("all in all fine", **kw)
     assert "猶" in m.compress("all the same go", **kw)
     assert "概" in m.compress("by and large ok", **kw)
     assert "遥" in m.compress("by far the best", **kw)
-    assert "確" in m.compress("for sure yes", **kw)
+    assert "確" not in (_o := m.compress("for sure yes", **kw)) and _o == 'for sure yes'  # token loser removed
     assert "何れ" in m.compress("in any case leave", **kw)
     assert "最終" in m.compress("in the end win", **kw)
     assert "長期" in m.compress("in the long run pay", **kw)
@@ -747,10 +747,10 @@ def test_morpho_prep_like_finite_set():
     assert "是非" in m.compress("by all means come", **kw)
     assert "本質" in m.compress("in essence simple", **kw)
     assert "詳" in m.compress("in detail explain", **kw)
-    assert "回顧" in m.compress("in retrospect wrong", **kw)
+    assert "回顧" not in (_o := m.compress("in retrospect wrong", **kw)) and _o == 'in retrospect wrong'  # token loser removed
     assert "必ず" in m.compress("without fail deliver", **kw)
-    assert "re:" in m.compress("with regard to cost", **kw).lower()
-    assert "再" in m.compress("once again try", **kw)
+    assert "re:" not in (_o := m.compress("with regard to cost", **kw)) and _o == 'about cost'  # token loser removed
+    assert "再" not in (_o := m.compress("once again try", **kw)) and _o == 'again try'  # token loser removed
     assert "今" in m.compress("right now go", **kw)
 
     # cycle7 spatial / state prep + prep-like adv
@@ -777,8 +777,8 @@ def test_morpho_prep_like_finite_set():
     assert "一方" in m.compress("on one hand good", **kw)
     assert "短期" in m.compress("in the short run costly", **kw)
     assert "大程" in m.compress("to a large extent true", **kw)
-    assert "直後" in m.compress("shortly after noon", **kw)
-    assert "直前" in m.compress("shortly before dawn", **kw)
+    assert "直後" not in (_o := m.compress("shortly after noon", **kw)) and _o == 'shortly after noon'  # token loser removed
+    assert "直前" not in (_o := m.compress("shortly before dawn", **kw)) and _o == 'shortly 前 dawn'  # token loser removed
     assert "日々" in m.compress("day by day better", **kw)
     assert "年々" in m.compress("year by year growth", **kw)
     assert "対面" in m.compress("face to face talk", **kw)
@@ -790,25 +790,25 @@ def test_morpho_prep_like_finite_set():
     assert "下流" in m.compress("downstream of the bridge", **kw)
     assert "不所" in m.compress("out of place remark", **kw)
     assert "届外" in m.compress("out of reach goal", **kw)
-    assert "被弾" in m.compress("under fire constantly", **kw)
-    assert "審査中" in m.compress("under review now", **kw)
-    assert "免疫" in m.compress("immune to criticism", **kw)
-    assert "傾向" in m.compress("prone to error", **kw)
-    assert "準備" in m.compress("preparatory to launch", **kw)
-    assert "追伸" in m.compress("further to our call", **kw)
+    assert "被弾" not in (_o := m.compress("under fire constantly", **kw)) and _o == 'under fire constantly'  # token loser removed
+    assert "審査中" not in (_o := m.compress("under review now", **kw)) and _o == 'under review now'  # token loser removed
+    assert "免疫" not in (_o := m.compress("immune to criticism", **kw)) and _o == 'immune to criticism'  # token loser removed
+    assert "傾向" not in (_o := m.compress("prone to error", **kw)) and _o == 'prone to error'  # token loser removed
+    assert "準備" not in (_o := m.compress("preparatory to launch", **kw)) and _o == 'preparatory to launch'  # token loser removed
+    assert "追伸" not in (_o := m.compress("further to our call", **kw)) and _o == 'further to our call'  # token loser removed
     assert "賛" in m.compress("in praise of art", **kw)
     assert "如" in m.compress("such as apples", **kw)
     assert "真" in m.compress("for real this time", **kw)
     assert "順" in m.compress("in turn each spoke", **kw)
     assert "全" in m.compress("in full detail", **kw)
-    assert "連続" in m.compress("in succession win", **kw)
+    assert "連続" not in (_o := m.compress("in succession win", **kw)) and _o == 'in succession win'  # token loser removed
     assert "携" in m.compress("hand in hand walk", **kw)
     assert "直接" in m.compress("head to head race", **kw)
     assert "久" in m.compress("long since gone", **kw)
-    assert "其時" in m.compress("right then left", **kw)
+    assert "其時" not in (_o := m.compress("right then left", **kw)) and _o == 'right then left'  # token loser removed
     assert "途中" in m.compress("en route to Paris", **kw)
     assert "決して" in m.compress("by no means easy", **kw)
-    assert "疑無" in m.compress("no doubt true", **kw)
+    assert "疑無" not in (_o := m.compress("no doubt true", **kw)) and _o == 'no doubt true'  # token loser removed
     assert "或様" in m.compress("in some way related", **kw)
     assert "多様" in m.compress("in many ways better", **kw)
     assert "時々" in m.compress("at times difficult", **kw)
@@ -825,20 +825,20 @@ def test_morpho_prep_like_finite_set():
     assert "能" in m.compress("capable of flight", **kw)
     assert "不能" in m.compress("incapable of lying", **kw)
     assert "値" in m.compress("worthy of praise", **kw)
-    assert "典型" in m.compress("typical of spring", **kw)
+    assert "典型" not in (_o := m.compress("typical of spring", **kw)) and _o == 'typical of spring'  # token loser removed
     assert "示" in m.compress("indicative of change", **kw)
     assert "示唆" in m.compress("suggestive of fraud", **kw)
     assert "特質" in m.compress("characteristic of youth", **kw)
     assert "撤" in m.compress("rid of pests", **kw)
-    assert "満" in m.compress("full of hope", **kw)
-    assert "構成" in m.compress("composed of atoms", **kw)
+    assert "満" not in (_o := m.compress("full of hope", **kw)) and _o == 'full of hope'  # token loser removed
+    assert "構成" not in (_o := m.compress("composed of atoms", **kw)) and _o == 'composed of atoms'  # token loser removed
     assert "期間" in m.compress("for the duration of war", **kw)
     assert "沖" not in m.compress("offshore wind", **kw)  # token-loser symbol removed
     assert "同時" not in m.compress("simultaneously occur", **kw)  # token-loser symbol removed
     assert "各" not in m.compress("A and B respectively", **kw)  # token-loser symbol removed
     assert "同様" not in m.compress("similarly affected", **kw)  # token-loser symbol removed
     assert "特" in m.compress("in particular note", **kw)
-    assert "言わば" in m.compress("so to speak free", **kw)
+    assert "言わば" not in (_o := m.compress("so to speak free", **kw)) and _o == 'so to speak free'  # token loser removed
     assert "斯" in m.compress("as such invalid", **kw)
     assert "断" in m.compress("once and for all done", **kw)
     assert "現" not in m.compress("currently active", **kw)  # token-loser symbol removed
@@ -850,7 +850,7 @@ def test_morpho_prep_like_finite_set():
     # cycle10
     assert "厭" in m.compress("weary of waiting", **kw)
     assert "恥" in m.compress("ashamed of failure", **kw)
-    assert "嫉" in m.compress("jealous of success", **kw)
+    assert "嫉" not in (_o := m.compress("jealous of success", **kw)) and _o == 'jealous of success'  # token loser removed
     assert "空" in m.compress("empty of meaning", **kw)
     assert "製" in m.compress("made of steel", **kw)
     assert "岸" in m.compress("ashore safely", **kw)
@@ -860,13 +860,13 @@ def test_morpho_prep_like_finite_set():
     assert "世界" in m.compress("worldwide release", **kw)
     assert "時計" in m.compress("clockwise turn", **kw)
     assert "反時計" in m.compress("counterclockwise spin", **kw)
-    assert "裏返" in m.compress("inside out shirt", **kw)
-    assert "逆さ" in m.compress("upside down cake", **kw)
+    assert "裏返" not in (_o := m.compress("inside out shirt", **kw)) and _o == '内 out shirt'  # token loser removed
+    assert "逆さ" not in (_o := m.compress("upside down cake", **kw)) and _o == 'upside down cake'  # token loser removed
     assert "後方" not in m.compress("backwards step", **kw)  # token-loser symbol removed
     assert "横" in m.compress("sideways glance", **kw)
-    assert "一斉" in m.compress("en masse protest", **kw)
+    assert "一斉" not in (_o := m.compress("en masse protest", **kw)) and _o == 'en masse protest'  # token loser removed
     assert "当初" in m.compress("all along known", **kw)
-    assert "以後" in m.compress("ever after happy", **kw)
+    assert "以後" not in (_o := m.compress("ever after happy", **kw)) and _o == 'ever after happy'  # token loser removed
     assert "永久" in m.compress("for keeps now", **kw)
     assert "断続" in m.compress("off and on rain", **kw)
     assert "徹底" in m.compress("through and through wet", **kw)
@@ -874,22 +874,22 @@ def test_morpho_prep_like_finite_set():
     assert "一見" in m.compress("at a glance clear", **kw)
     assert "賭" in m.compress("at stake here", **kw)
     assert "本気" in m.compress("in earnest talk", **kw)
-    assert "実質" in m.compress("in effect banned", **kw)
+    assert "実質" not in (_o := m.compress("in effect banned", **kw)) and _o == 'in effect banned'  # token loser removed
     assert "品切" in m.compress("out of stock item", **kw)
 
     # cycle11 spaced deferred
     assert "起" in m.compress("as of 2020", **kw)
     assert "未" in m.compress("as of yet unpaid", **kw)
     assert "一度" in m.compress("for once honest", **kw)
-    assert "近頃" in m.compress("of late quiet", **kw)
+    assert "近頃" not in (_o := m.compress("of late quiet", **kw)) and _o == 'of late quiet'  # token loser removed
     assert "従来" in m.compress("hitherto unknown", **kw)
-    assert "今迄" in m.compress("thus far ok", **kw)
-    assert "今迄" in m.compress("to date none", **kw)
+    assert "今迄" not in (_o := m.compress("thus far ok", **kw)) and _o == 'thus far ok'  # token loser removed
+    assert "今迄" not in (_o := m.compress("to date none", **kw)) and _o == 'to date none'  # token loser removed
     assert "年少" in m.compress("under age drinking", **kw)
-    assert "1:1" in m.compress("one-on-one meeting", **kw)
+    assert "1:1" not in (_o := m.compress("one-on-one meeting", **kw)) and _o == 'one-on-one meeting'  # token loser removed
     assert "稍後" in m.compress("by and by arrive", **kw)
     assert "∃loc" not in m.compress("anywhere else", **kw)  # token-loser symbol removed
-    assert "∅loc" in m.compress("nowhere found", **kw)
+    assert "∅loc" not in (_o := m.compress("nowhere found", **kw)) and _o == 'nowhere found'  # token loser removed
     assert "∀時" not in m.compress("anytime soon", **kw)  # token-loser symbol removed
     assert "稍" not in m.compress("somewhat odd", **kw)  # token-loser symbol removed
     assert "∞" in m.compress("for good gone", **kw)
@@ -898,12 +898,12 @@ def test_morpho_prep_like_finite_set():
     assert "他同" in m.compress("ceteris paribus hold", **kw)
     assert "独自" in m.compress("sui generis rule", **kw)
     assert "同率" in m.compress("pari passu claim", **kw)
-    assert "職権" in m.compress("ex officio member", **kw)
+    assert "職権" not in (_o := m.compress("ex officio member", **kw)) and _o == 'ex officio member'  # token loser removed
     assert "一応" in m.compress("prima facie case", **kw)
     assert "当然" in m.compress("ipso facto void", **kw)
-    assert "先験" in m.compress("a priori knowledge", **kw)
-    assert "d.f." in m.compress("de facto standard", **kw)
-    assert "現場" in m.compress("in situ hybrid", **kw)
+    assert "先験" not in (_o := m.compress("a priori knowledge", **kw)) and _o == 'priori knowledge'  # token loser removed
+    assert "d.f." not in (_o := m.compress("de facto standard", **kw)) and _o == 'de facto standard'  # token loser removed
+    assert "現場" not in (_o := m.compress("in situ hybrid", **kw)) and _o == 'in situ hybrid'  # token loser removed
     assert "adhoc" in m.compress("ad hoc committee", **kw)
 
 
@@ -947,12 +947,12 @@ def test_morpho_objective_gap_fill_closed_thin():
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
     kw = dict(unique=False, etymon=False, counters=False)
     # determiners / quantifiers
-    assert "∀" in m.compress("every item counts", **kw)
+    assert "∀" not in m.compress("every item counts", **kw)  # token-loser symbol removed
     assert "everywhere" in m.compress("everywhere else", **kw)
-    assert "各" in m.compress("each team wins", **kw)
+    assert "各" not in m.compress("each team wins", **kw)  # token-loser symbol removed
     assert "互" in m.compress("they help each other", **kw)
     assert "互" in m.compress("they help one another", **kw)
-    assert "∃" in m.compress("some cats sleep", **kw)
+    assert "∃" not in m.compress("some cats sleep", **kw)  # token-loser symbol removed
     assert "somewhere" in m.compress("somewhere else", **kw)
     assert "或程" in m.compress("to some extent true", **kw)
     assert "none" in m.compress("none remain", **kw)
@@ -968,7 +968,7 @@ def test_morpho_objective_gap_fill_closed_thin():
     assert "!if" not in m.compress("unless ready", **kw)  # token-loser symbol removed
     assert "if" in m.compress("whether ready", **kw)
     assert "whether" not in m.compress("whether ready", **kw).lower()
-    assert "∥" in m.compress("while waiting", **kw)
+    assert "∥" not in m.compress("while waiting", **kw)  # token-loser symbol removed
     assert "偶" in m.compress("once in a while", **kw)
     assert "awhile" in m.compress("wait a while", **kw)
     assert "so" in m.compress("speak so that all hear", **kw)
@@ -1020,7 +1020,7 @@ def test_morpho_aux_negation_and_affirmation():
     assert "can" in pos and "will" in pos and "must" in pos and "may" in pos
     # JA aux neg
     ja = m.compress("それはできない", unique=False, etymon=False, counters=False)
-    assert "!can" in ja
+    assert "cannot" in ja  # !can token loser
     ja2 = m.compress("本物ではない", unique=False, etymon=False, counters=False)
     assert "!" in ja2 and "ではない" not in ja2
     # I'll still not introduced by E
@@ -1048,11 +1048,11 @@ def test_morpho_adverb_polarity():
 def test_morpho_particle_inventory():
     """JA particles → ∅/→/∈/〜 core (2bit); ext +|&|←; C ledger untouched."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.PARTICLE_CANONICAL == ("∅", "→", "∈", "〜")
+    assert m.PARTICLE_CANONICAL == ("∅", "to", "in", "until")  # →/∈/〜 token losers
     assert m.particle_inventory_bits() == 2
-    assert m.canonicalize_closed("particle", "に") == "→"
-    assert m.canonicalize_closed("particle", "で") == "∈"
-    assert m.canonicalize_closed("particle", "まで") == "〜"
+    assert m.canonicalize_closed("particle", "に") == "to"
+    assert m.canonicalize_closed("particle", "で") == "in"
+    assert m.canonicalize_closed("particle", "まで") == "until"
     assert m.canonicalize_closed("particle", "を") == "∅"
     assert m.canonicalize_closed("particle", "も", extended=True) == "+"
     assert m.canonicalize_closed("particle", "と", extended=True) == "&"
@@ -1065,7 +1065,7 @@ def test_morpho_particle_inventory():
         counters=False,
     )
     assert "は" not in out and "を" not in out
-    assert "→" in out and "∈" in out and "〜" in out
+    assert " to " in out and " in " in out and " until " in out
     assert "猫魚食べる" in out.replace("。", "") or "猫魚食べる" in out
     out2 = m.compress("東京から来る。彼と話す。水もあるよ", unique=False, etymon=False, counters=False)
     assert "←" in out2 and "&" in out2 and "+" in out2
@@ -1132,7 +1132,7 @@ def test_morpho_compare_inventory():
 def test_morpho_from_arrow_and_ml_aliases():
     """from/から → ← canonical; fr alias; ES/FR/DE prep+subject fold when bits match."""
     m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    assert m.PREP_CANONICAL == ("w/", "4", "←", "@")
+    assert m.PREP_CANONICAL == ("with", "for", "←", "@")  # w/, 4 token losers
     assert m.PARTICLE_EXTENDED[-1] == "←"
     en = m.compress("from home", unique=False, etymon=False, counters=False)
     assert "←" in en and not __import__("re").search(r"\bfr\b", en, __import__("re").I)
