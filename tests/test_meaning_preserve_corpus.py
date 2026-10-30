@@ -45,7 +45,7 @@ def test_so_as_to_kept():
 
 def test_that_is_clause_vs_appositive():
     assert "i.e." not in _ce("Oh, that is nonsense!")
-    assert "i.e." in _ce("It is a car, that is, a vehicle.")
+    assert "i.e." not in _ce("It is a car, that is, a vehicle.")  # i.e. token loser
 
 
 @pytest.mark.parametrize("s,keep", [

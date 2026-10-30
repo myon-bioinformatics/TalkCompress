@@ -150,7 +150,7 @@ def test_c_ledger_spatial_and_conjunctions():
     assert "e.g." not in apply_ledger_lex("for example cats")  # pruned (o200k)
     # bare clause "that is the plan" keeps its meaning; appositive gloss maps
     assert "i.e." not in apply_ledger_lex("that is the plan")
-    assert "i.e." in apply_ledger_lex("a car, that is, a vehicle")
+    assert "i.e." not in apply_ledger_lex("a car, that is, a vehicle")  # i.e. token loser
 
     s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
     out = s.compress("check left and right carefully")
@@ -184,8 +184,8 @@ def test_e_new_counters_and_grammar():
     out = m.compress("additionally for example, that is, fine", unique=False, etymon=False)
     assert "+" in out  # additionally→+ (gap-fill; was also)
     assert "additionally" not in out.lower()
-    assert "e.g." in out
-    assert "i.e." in out
+    assert "e.g." not in out and "for example" in out  # e.g. token loser
+    assert "i.e." not in out and "that is" in out  # i.e. token loser
     # expand counters subset
     assert "vehicles" in m.expand("3台")
 
