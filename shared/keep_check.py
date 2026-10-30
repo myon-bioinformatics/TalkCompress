@@ -62,7 +62,14 @@ def extract_exact(text: str) -> dict[str, set[str]]:
     """Return the exact-match items found in ``text``, grouped by kind."""
     urls = set(_find_all(URL_RE, text))
     # Paths inside URLs are part of the URL, so drop them from the path set.
-    paths = {p for p in _find_all(PATH_RE, text) if not any(p in u for u in urls)}
+    paths = {
+        p for p in _find_all(PATH_RE, text)
+        if not any(p in u for u in urls)
+        # Slash-separated ISO-style language labels are not filesystem paths.
+        # Explicit ./ and ../ prefixes continue to identify real paths.
+        and not all(part in {"ES", "DE", "FR", "EN", "JA", "PT", "IT", "ZH", "KO"}
+                    for part in p.split("/"))
+    }
     found = {
         "url": urls,
         "path": paths,

@@ -1,7 +1,9 @@
 """Answer command for qa_fidelity (G4): prompt on stdin, answer on stdout.
 
 Talks to a local llama.cpp server (``llama-server``) through its OpenAI-compatible
-chat endpoint. Stdlib only, no API key, no network beyond the local host.
+chat endpoint. Stdlib only, no API key. The default endpoint is localhost.
+Only finish_reason=stop with nonempty final text is accepted; truncated or
+reasoning-only responses fail explicitly rather than being scored as answers.
 
 Start the server yourself, for example::
 
@@ -22,7 +24,26 @@ import os
 import sys
 import urllib.request
 
+try:
+    from shared.qa_fidelity import final_answer
+except ImportError:
+    from qa_fidelity import final_answer
+
 DEFAULT_URL = "http://127.0.0.1:8080/v1/chat/completions"
+
+
+def extract_answer(payload: dict) -> str:
+    """Reject unfinished, missing or non-text answers before scoring."""
+    choice = payload["choices"][0]
+    if choice.get("finish_reason") != "stop":
+        raise ValueError(f"answer did not complete: {choice.get('finish_reason')!r}")
+    content = choice["message"]["content"]
+    if not isinstance(content, str):
+        raise ValueError("answer content must be text")
+    answer = final_answer(content)
+    if not answer:
+        raise ValueError("no completed final answer")
+    return answer
 
 
 def ask_llama(prompt: str, url: str = DEFAULT_URL, timeout: int = 300) -> str:
@@ -37,7 +58,7 @@ def ask_llama(prompt: str, url: str = DEFAULT_URL, timeout: int = 300) -> str:
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         payload = json.loads(resp.read().decode("utf-8"))
-    return str(payload["choices"][0]["message"]["content"]).strip()
+    return extract_answer(payload)
 
 
 def main() -> int:

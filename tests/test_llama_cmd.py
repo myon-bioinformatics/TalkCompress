@@ -13,7 +13,7 @@ class _Handler(BaseHTTPRequestHandler):
         req = json.loads(self.rfile.read(length).decode("utf-8"))
         prompt = req["messages"][0]["content"]
         answer = "found" if "Question:" in prompt else "none"
-        body = json.dumps({"choices": [{"message": {"role": "assistant", "content": f" {answer} "}}]}).encode("utf-8")
+        body = json.dumps({"choices": [{"finish_reason": "stop", "message": {"role": "assistant", "content": f" {answer} "}}]}).encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
@@ -34,3 +34,16 @@ def test_ask_llama_reads_first_choice_content_from_local_server():
     finally:
         server.shutdown()
         server.server_close()
+
+
+def test_incomplete_and_invalid_answers_are_rejected():
+    import pytest
+    from shared.llama_cmd import extract_answer
+    for reason, content in [('length', '#40'), (None, '#40'), ('stop', None), ('stop', '<think>#40'), ('stop', '')]:
+        with pytest.raises(ValueError):
+            extract_answer({'choices': [{'finish_reason': reason, 'message': {'content': content}}]})
+
+
+def test_completed_reasoning_is_removed_before_answer_is_returned():
+    from shared.llama_cmd import extract_answer
+    assert extract_answer({'choices': [{'finish_reason': 'stop', 'message': {'content': '<think>#400</think>#40'}}]}) == '#40'

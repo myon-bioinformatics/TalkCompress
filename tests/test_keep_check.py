@@ -81,3 +81,9 @@ def test_japanese_negation_drop_is_reported():
 def test_number_inside_larger_item_not_reported_twice():
     items = extract_exact("on 2026-10-30 see #40 and 7 files")
     assert items["number"] == {"7"}
+
+
+def test_language_labels_are_not_paths_but_explicit_paths_remain():
+    from shared.keep_check import extract_exact
+    paths = extract_exact("ES/DE/FR EN/JA shared/config.yml ./ES/DE/FR")['path']
+    assert paths == {'shared/config.yml', './ES/DE/FR'}

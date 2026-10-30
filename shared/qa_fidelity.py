@@ -2,7 +2,8 @@
 
 Model-free probe builder and scorer. Probes come from the protected items that
 keep_check (G3) extracts from the source. For each item, the question asks for
-that item, and the answer is correct when it contains the expected string.
+all items of that kind. Scores match complete values and normalize supported
+calendar-date spellings, using only the final answer outside think blocks.
 
 The only model call is the answer step. ``--cmd`` gets the prompt on stdin and
 must print an answer on stdout; any local runner works, for example a wrapper
@@ -23,21 +24,26 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shlex
 import subprocess
 import sys
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 
-from keep_check import extract_exact
+try:
+    from shared.keep_check import extract_exact
+except ImportError:
+    from keep_check import extract_exact
 
 KIND_QUESTION = {
-    "url": "Which URL is mentioned?",
-    "path": "Which file or path is mentioned?",
-    "sha": "Which commit hash (SHA) is mentioned?",
-    "date": "Which date is mentioned?",
-    "issue": "Which issue or pull request number is mentioned?",
-    "number": "Which number is mentioned?",
+    "url": "List all URLs mentioned. Copy each URL exactly.",
+    "path": "List all filesystem paths mentioned. Copy each exactly.",
+    "sha": "List all commit hashes (SHA) mentioned. Copy each exactly.",
+    "date": "List all dates mentioned, using YYYY-MM-DD for each.",
+    "issue": "List all issue or pull request numbers mentioned, including the # prefix.",
+    "number": "List all numeric values mentioned, including counts. Use digits.",
 }
 
 
@@ -58,8 +64,67 @@ def build_probes(source: str, ids: tuple[str, ...] = ()) -> list[Probe]:
         for item in sorted(items):
             probes.append(Probe(kind=kind, question=question, expected=item))
     for item in ids:
-        probes.append(Probe(kind="id", question=f"Which identifier mentions '{item}'?", expected=item))
+        probes.append(Probe(kind="id", question="List all identifiers mentioned. Copy each exactly.", expected=item))
     return probes
+
+
+def final_answer(answer: str) -> str:
+    """Exclude think blocks; an unfinished block supplies no final answer.
+
+    A closing tag without an opening tag occurs when the template supplied the
+    opening tag. Treat everything before that closing tag as reasoning too.
+    """
+    answer = re.sub(r"<think>.*?</think>", "", answer, flags=re.I | re.S)
+    if re.search(r"<think>", answer, flags=re.I):
+        return ""
+    return re.split(r"</think>", answer, flags=re.I)[-1].strip()
+
+
+def _dates(text: str) -> set[date]:
+    """Recognize validated numeric and English full-month calendar dates."""
+    values: set[date] = set()
+
+    def add(year: str, month: str, day: str) -> None:
+        try:
+            values.add(date(int(year), int(month), int(day)))
+        except ValueError:
+            pass
+
+    for year, month, day in re.findall(
+        r"(?<!\w)(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})(?:日)?(?!\w)", text
+    ):
+        add(year, month, day)
+    months = "January February March April May June July August September October November December".split()
+    for number, month in enumerate(months, 1):
+        for day, year in re.findall(
+            rf"\b{month}\s+(\d{{1,2}})(?:st|nd|rd|th)?\s*,?\s+(\d{{4}})\b", text, re.I
+        ):
+            add(year, str(number), day)
+        for day, year in re.findall(
+            rf"\b(\d{{1,2}})(?:st|nd|rd|th)?\s+{month}\s+(\d{{4}})\b", text, re.I
+        ):
+            add(year, str(number), day)
+    return values
+
+
+def matches(probe: Probe, answer: str) -> bool:
+    """Match complete protected values, with calendar normalization for dates."""
+    if probe.kind == "date":
+        expected = _dates(probe.expected)
+        return bool(expected and expected.intersection(_dates(answer)))
+    # Do not accept #400 for #40, a longer hash, or a child path/URL. Terminal
+    # sentence punctuation is allowed. Keep URI/path suffix characters strict.
+    if probe.kind in {"url", "path"}:
+        end = r"(?![\w/\-?#=&%+~:@;]|\.[\w/])"
+    elif probe.kind == "number":
+        end = r"(?![\w]|[.,]\d)"
+    else:
+        end = r"(?!\w)"
+    start = r"(?<![\w/#])"
+    if probe.kind == "number":
+        start = r"(?<![\w/#.,+\-])"
+    flags = 0 if probe.kind in {"url", "path", "id"} else re.I
+    return re.search(start + re.escape(probe.expected) + end, answer, flags) is not None
 
 
 def make_prompt(compressed: str, question: str) -> str:
@@ -88,12 +153,17 @@ def score(probes: list[Probe], compressed: str, answer_fn) -> dict[str, object]:
     results = []
     hits = 0
     for probe in probes:
-        answer = answer_fn(make_prompt(compressed, probe.question))
-        ok = probe.expected.lower() in answer.lower()
+        raw_answer = answer_fn(make_prompt(compressed, probe.question))
+        answer = final_answer(raw_answer)
+        if not answer:
+            raise ValueError("no completed final answer")
+        ok = matches(probe, answer)
         hits += int(ok)
-        results.append({"kind": probe.kind, "expected": probe.expected, "ok": ok})
+        results.append({"kind": probe.kind, "expected": probe.expected, "ok": ok,
+                        "question": probe.question, "answer": answer, "raw_answer": raw_answer})
     total = len(probes)
     return {
+        "status": "scored" if total else "not_applicable",
         "hits": hits,
         "total": total,
         "score": round(hits / total, 3) if total else None,
