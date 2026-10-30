@@ -1,0 +1,133 @@
+{
+  "method": "Offline rescoring of previously recorded Qwen2.5 answers; no new inference",
+  "original_head": "db035aa04fa0d2e7b47ab18878e44347fcfd735f",
+  "answer_log_sha256": "ffb611209ab283993bdedcb4dc93dceb13b5142100767cde6c686e14a5517ed0",
+  "results": [
+    {
+      "sample": "s1_en_notes",
+      "form": "prose",
+      "hits": 4,
+      "total": 4,
+      "status": "scored"
+    },
+    {
+      "sample": "s2_readme_intro",
+      "form": "prose",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s3_layer_e_principle",
+      "form": "prose",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s4_issue40_ja_goal",
+      "form": "prose",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s5_todo_zipilogue",
+      "form": "prose",
+      "hits": 1,
+      "total": 1,
+      "status": "scored"
+    },
+    {
+      "sample": "s6_en_chat",
+      "form": "prose",
+      "hits": 1,
+      "total": 1,
+      "status": "scored"
+    },
+    {
+      "sample": "s1_en_notes",
+      "form": "bullet",
+      "hits": 4,
+      "total": 4,
+      "status": "scored"
+    },
+    {
+      "sample": "s2_readme_intro",
+      "form": "bullet",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s3_layer_e_principle",
+      "form": "bullet",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s4_issue40_ja_goal",
+      "form": "bullet",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s5_todo_zipilogue",
+      "form": "bullet",
+      "hits": 1,
+      "total": 1,
+      "status": "scored"
+    },
+    {
+      "sample": "s6_en_chat",
+      "form": "bullet",
+      "hits": 1,
+      "total": 1,
+      "status": "scored"
+    },
+    {
+      "sample": "s1_en_notes",
+      "form": "no_dash",
+      "hits": 4,
+      "total": 4,
+      "status": "scored"
+    },
+    {
+      "sample": "s2_readme_intro",
+      "form": "no_dash",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s3_layer_e_principle",
+      "form": "no_dash",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s4_issue40_ja_goal",
+      "form": "no_dash",
+      "hits": 0,
+      "total": 0,
+      "status": "not_applicable"
+    },
+    {
+      "sample": "s5_todo_zipilogue",
+      "form": "no_dash",
+      "hits": 1,
+      "total": 1,
+      "status": "scored"
+    },
+    {
+      "sample": "s6_en_chat",
+      "form": "no_dash",
+      "hits": 1,
+      "total": 1,
+      "status": "scored"
+    }
+  ]
+}

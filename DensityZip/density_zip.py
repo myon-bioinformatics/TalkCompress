@@ -934,6 +934,15 @@ def process_jsonl(
     # When jsonl + budget: budget applies as sliding char budget (drop oldest), not
     # the iterative pipeline budget used for plain text.
     keep_system = getattr(args, "keep_system", False)
+    if getattr(args, "hist_state", False) and window is not None:
+        # G2: old rows become one state block (placed after system rows); the last
+        # `window` rows stay verbatim. A budget, if set, still drops oldest afterwards.
+        if str(ROOT) not in sys.path:
+            sys.path.insert(0, str(ROOT))
+        from shared.hist_state import summarize_old
+
+        transformed_rows, _, _ = summarize_old(transformed_rows, window)
+        window = None
     if window is not None or (budget is not None and getattr(args, "jsonl", False)):
         transformed_rows = apply_window(
             transformed_rows,
@@ -1092,6 +1101,12 @@ def build_parser() -> argparse.ArgumentParser:
         "--keep-system",
         action="store_true",
         help="with --window/--budget on JSONL: never drop role=system lines",
+    )
+    p.add_argument(
+        "--hist-state",
+        action="store_true",
+        help="with --jsonl and --window: replace the old rows with one state block "
+        "(decisions / open / ids / next / cleared tool rows) instead of dropping them (G2)",
     )
     p.add_argument(
         "--profile",
