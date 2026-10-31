@@ -64,6 +64,12 @@ def is_romance(sentence: str) -> bool:
     return rom > 0 and rom > eng
 
 
+def has_english_cue(sentence: str) -> bool:
+    """True when *sentence* contains at least one English function word."""
+    s = unicodedata.normalize("NFC", sentence)
+    return any(w.lower() in _ENGLISH_CUES for w in _WORD.findall(s))
+
+
 def apply_outside_romance(text: str, fn: Callable[[str], str]) -> str:
     """Apply *fn* to each sentence of *text* that is not es / pt / fr.
 
@@ -100,12 +106,16 @@ def substitute_with_romance_context(
     text: str,
     substitutions: list[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]]],
     finish: Callable[[str, bool], str],
+    skip_in_protected: frozenset[int] = frozenset(),
 ) -> str:
     """Run substitutions globally, retaining pre-substitution protection.
 
     Each replacement inherits protection from any source character it consumes.
     Only the final English-only pass is partitioned; regex lookarounds and
     multiline context of all substitutions remain exactly those of full text.
+    Substitutions whose index is in *skip_in_protected* leave a match untouched
+    when it touches a protected (es / pt / fr) character, e.g. the pronoun pivot
+    ``Il a`` → ``he a``.
     """
     flags = bytearray()
     for match in _SENT.finditer(text):
@@ -115,12 +125,17 @@ def substitute_with_romance_context(
         for pattern, replacement in substitutions:
             text = pattern.sub(replacement, text)
         return finish(text, False)
-    for pattern, replacement in substitutions:
+    for idx, (pattern, replacement) in enumerate(substitutions):
+        skip = idx in skip_in_protected
         pieces: list[bytearray] = []
         cursor = 0
 
         def replace(match: re.Match[str]) -> str:
             nonlocal cursor
+            if skip and any(flags[match.start():match.end()]):
+                pieces.append(flags[cursor:match.end()])
+                cursor = match.end()
+                return match.group(0)
             value = replacement(match) if callable(replacement) else match.expand(replacement)
             pieces.append(flags[cursor:match.start()])
             pieces.append(bytearray([any(flags[match.start():match.end()])]) * len(value))

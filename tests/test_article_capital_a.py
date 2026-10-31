@@ -80,7 +80,7 @@ def test_symbol_predicate_case_preserved(predicate, case):
     ('THE END', 'END'),
     ('An owl.', 'owl.'),
     ('A ıs key.', 'ıs key.'),  # dotless i is not the ASCII predicate is
-    ('A İS key.', 'İS key.'),
+    ('A İS key is short.', 'İS key is short.'),  # English cue bypasses personal-a guard
 ])
 def test_article_casefold_is_scoped(src, want):
     assert strip_articles(src) == want
