@@ -13,6 +13,8 @@ Shared lexeme policy (``shared.lex_policy``) usage:
 - ETYMON_ALIGN (comm / cfg / doc…; information→ℹ️ is C family=emoji)
 - EN quantity phrases → short JA counters (experimental; needs digits already present)
 - strip unquoted articles ``the`` / ``a`` / ``an`` (quoted forms keep the word)
+- U+2011 is reserved as the article-protection join (``A‑Maria``); any U+2011
+  already in the input is normalized to ASCII ``-`` by ``compress``.
 - optional integer → hex rewrite (``hex_nums``)
 - protected spans ``[[keep:...]]`` / `` `keep:...` `` (wrappers stripped)
 
@@ -2368,8 +2370,12 @@ def compress(
     stripped unless ``keep_articles``. Quoted articles keep the inner word
     (quotes dropped). Counters map digit+noun phrases (``3 animals``→``3匹``);
     digitization of spelled words is C's job (or ``spelled_nums=True``).
+
+    User-input U+2011 (non-breaking hyphen) is normalized to ASCII ``-`` up
+    front, on every path including ``keep_articles=True``: U+2011 is reserved
+    as the article-protection join that ``expand`` turns back into a space.
     """
-    text = unicodedata.normalize("NFC", text)
+    text = unicodedata.normalize("NFC", text).replace(A_JOIN, "-")
     out, restores = extract_protected(text, protect_regexes)
     out = normalize_quotes(out)
     # aggressive_fillers implies strip

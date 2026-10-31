@@ -163,3 +163,42 @@ def test_u2011_survives_morphozip_cli(capsys):
     assert "a\u2011John" in out and "A\u2011Maria" in out
     morpho_zip.main(["--mode", "expand", "--text", out])
     assert capsys.readouterr().out.strip() == "I met a John. A Maria come."
+
+
+KEEP_SRC = "A\u2011Maria came."  # 利用者入力の U+2011 → ASCII '-' に正規化
+
+
+def test_keep_articles_input_u2011_morphozip():
+    out = compress(KEEP_SRC, keep_articles=True)
+    assert "\u2011" not in out and "A-Maria" in out
+    assert expand(out) == expand(compress("A-Maria came.", keep_articles=True))
+    assert "A-Maria" in expand(out)
+
+
+def test_keep_articles_input_u2011_densityzip():
+    import argparse
+    import importlib.util
+    from pathlib import Path
+
+    spec = importlib.util.spec_from_file_location("dz", Path(__file__).resolve().parents[1] / "DensityZip/density_zip.py")
+    dz = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(dz)
+    out = dz._run_e(KEEP_SRC, argparse.Namespace(mode="compress", keep_articles=True))
+    assert "\u2011" not in out and "A-Maria" in out
+    assert "A-Maria" in dz._run_e(out, argparse.Namespace(mode="expand", keep_articles=True))
+
+
+def test_keep_articles_input_u2011_cli(capsys):
+    from MorphoZip import morpho_zip
+
+    morpho_zip.main(["--keep-articles", "--text", KEEP_SRC])
+    out = capsys.readouterr().out.strip()
+    assert "\u2011" not in out and "A-Maria" in out
+    morpho_zip.main(["--mode", "expand", "--text", out])
+    assert "A-Maria" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("src", ["x-a test", "well-an expert", "x\u2011a test", "the-end"])
+def test_hyphen_adjacent_article_guard(src):
+    want = src.replace("\u2011", "-")
+    assert strip_articles(src) == want
