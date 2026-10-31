@@ -5,11 +5,50 @@
     {
       "path": "qwen25-1p5b-rounds4.json",
       "classification_counts": {
-        "proposal_unobserved_phrase": 1,
-        "peer_unlocalized_rejection": 3
+        "peer_unlocalized_rejection": 3,
+        "saved_error_unobserved_phrase": 1
       },
       "receiver_evaluation": "not_run_no_agreement",
-      "verified_semantic_defects": null
+      "verified_semantic_defects": null,
+      "current_validator_replay": [
+        {
+          "round": 0,
+          "saved_error": "long form must occur in training",
+          "all_proposed_longs_present_in_saved_training": true,
+          "current_per_rule_errors": [
+            {
+              "rule_index": 2,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 103
+            },
+            {
+              "rule_index": 3,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 104
+            },
+            {
+              "rule_index": 4,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 110
+            },
+            {
+              "rule_index": 5,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 102
+            },
+            {
+              "rule_index": 6,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 113
+            },
+            {
+              "rule_index": 7,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 106
+            }
+          ]
+        }
+      ]
     },
     {
       "path": "minicpm5-nonthinking-v2-rounds4.json",
@@ -17,7 +56,157 @@
         "proposal_length": 4
       },
       "receiver_evaluation": "not_run_no_agreement",
-      "verified_semantic_defects": null
+      "verified_semantic_defects": null,
+      "current_validator_replay": [
+        {
+          "round": 0,
+          "saved_error": "long form must be 4..100 characters after whitespace normalization",
+          "all_proposed_longs_present_in_saved_training": true,
+          "current_per_rule_errors": [
+            {
+              "rule_index": 2,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 103
+            },
+            {
+              "rule_index": 3,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 104
+            },
+            {
+              "rule_index": 4,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 110
+            },
+            {
+              "rule_index": 5,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 102
+            },
+            {
+              "rule_index": 6,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 113
+            },
+            {
+              "rule_index": 7,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 106
+            }
+          ]
+        },
+        {
+          "round": 1,
+          "saved_error": "long form must be 4..100 characters after whitespace normalization",
+          "all_proposed_longs_present_in_saved_training": true,
+          "current_per_rule_errors": [
+            {
+              "rule_index": 2,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 103
+            },
+            {
+              "rule_index": 3,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 104
+            },
+            {
+              "rule_index": 4,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 110
+            },
+            {
+              "rule_index": 5,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 102
+            },
+            {
+              "rule_index": 6,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 113
+            },
+            {
+              "rule_index": 7,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 106
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "saved_error": "long form must be 4..100 characters after whitespace normalization",
+          "all_proposed_longs_present_in_saved_training": true,
+          "current_per_rule_errors": [
+            {
+              "rule_index": 2,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 103
+            },
+            {
+              "rule_index": 3,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 104
+            },
+            {
+              "rule_index": 4,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 110
+            },
+            {
+              "rule_index": 5,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 102
+            },
+            {
+              "rule_index": 6,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 113
+            },
+            {
+              "rule_index": 7,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 106
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "saved_error": "long form must be 4..100 characters after whitespace normalization",
+          "all_proposed_longs_present_in_saved_training": true,
+          "current_per_rule_errors": [
+            {
+              "rule_index": 2,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 103
+            },
+            {
+              "rule_index": 3,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 104
+            },
+            {
+              "rule_index": 4,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 110
+            },
+            {
+              "rule_index": 5,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 102
+            },
+            {
+              "rule_index": 6,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 113
+            },
+            {
+              "rule_index": 7,
+              "current_error": "long form must be 4..100 characters after whitespace normalization",
+              "length": 106
+            }
+          ]
+        }
+      ]
     }
   ]
 }

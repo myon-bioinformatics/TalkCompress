@@ -3,8 +3,14 @@
 ## Saved evidence
 
 `Zipilogue/results/negotiation-failure-diagnosis.json` classifies the original
-four-round reports without modifying them. Qwen2.5-1.5B has one unobserved-phrase
-proposal and three unlocalized peer rejections. MiniCPM nonthinking v2 has four
+four-round reports without modifying them. Qwen2.5-1.5B records one
+"unobserved phrase" validator error and three unlocalized peer rejections.
+However, all eight proposed long forms actually occur in its saved training
+prompt. Replaying each rule through the current validator finds six length
+violations (103–113 characters), not an unobserved phrase. The saved error is
+therefore inconsistent with its prompt/proposal; historical validator behavior
+cannot be inferred from the error alone. The JSON separates saved classifications
+from current per-rule replay. MiniCPM nonthinking v2 has four
 length violations and never reaches peer review. A peer's vague claim of ambiguity
 is not evidence that a particular rule corrupts meaning. The historic reports
 cannot resolve that question. Neither original run evaluated held-out receivers.
