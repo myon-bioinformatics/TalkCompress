@@ -138,7 +138,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from shared.romance_gate import apply_outside_romance, substitute_with_romance_context  # noqa: E402
+from shared.romance_gate import apply_outside_romance, has_english_cue, substitute_with_romance_context  # noqa: E402
 from shared.unicode_boundary import mark_pattern as _mark_pattern  # noqa: E402
 
 _MARK_CLASS = _mark_pattern()
@@ -1969,20 +1969,62 @@ def strip_articles(text: str) -> str:
     es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
     chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
     """
-    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_en)
+    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_cue_aware)
 
 
-def _strip_articles_en(text: str) -> str:
+# ``a``/``A`` + capitalised word in a sentence with no English cue at all is
+# likely the Spanish / Portuguese personal ``a`` (``A Maria come.``): keep it.
+# Spanish stressed personal pronouns also occur without detector cues
+# (``Dame a mí.`` / ``Todo vuelve a ti.`` / ``Se mira a sí mismo.``).
+_A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +([^\W\d_]))")
+
+
+_A_PERSONAL_PRONOUN = _ci_compile(r"(?:mí|ti|sí)\b", re.I)
+
+
+def _strip_articles_cue_aware(text: str) -> str:
+    # Source offsets, not sentinel text: arbitrary user characters must never
+    # be interpreted as an internal placeholder during restoration.
+    preserve_a: set[int] = set()
+    for sentence in _SENT_CHUNK.finditer(text):
+        part = sentence.group(0)
+        if not has_english_cue(part):
+            for match in _A_BEFORE_NAME.finditer(part):
+                if (
+                    unicodedata.category(match.group(2)) in {"Lu", "Lt"}
+                    or _A_PERSONAL_PRONOUN.match(part, match.start(2))
+                ):
+                    preserve_a.add(sentence.start() + match.start(1))
+    return _strip_articles_en(text, preserve_a=frozenset(preserve_a))
+
+
+_SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
+
+
+def _strip_articles_en(text: str, *, preserve_a: frozenset[int] = frozenset()) -> str:
     text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
+    quote_changes: list[tuple[int, int, int]] = []
 
     def _mask(m: re.Match[str]) -> str:
         inner = m.group(2) or m.group(3)
         restores.append(inner)
-        return _ART_PLACEHOLDER.format(len(restores) - 1)
+        placeholder = _ART_PLACEHOLDER.format(len(restores) - 1)
+        quote_changes.append((m.start(), m.end(), len(placeholder) - len(m.group(0))))
+        return placeholder
 
     out = _QUOTED_ARTICLE.sub(_mask, text)
-    out = _ARTICLE_WORD.sub("", out)
+    # Quoted articles are masked before article deletion. Carry source offsets
+    # past those length changes without changing the existing quoted behavior.
+    mapped: set[int] = set()
+    change = delta = 0
+    for offset in sorted(preserve_a):
+        while change < len(quote_changes) and quote_changes[change][1] <= offset:
+            delta += quote_changes[change][2]
+            change += 1
+        if change == len(quote_changes) or offset < quote_changes[change][0]:
+            mapped.add(offset + delta)
+    out = _ARTICLE_WORD.sub(lambda m: m.group(0) if m.start() in mapped else "", out)
     for i, inner in enumerate(restores):
         out = out.replace(_ART_PLACEHOLDER.format(i), inner)
     out = re.sub(r"[ \t]{2,}", " ", out)
@@ -2292,6 +2334,7 @@ def compress(
     out = substitute_with_romance_context(
         out, _SUBS,
         lambda part, protected: part if protected else drop_3sg_after_inventory_pronoun(part),
+        skip_in_protected=_ROMANCE_PRONOUN_SUB_IDX,
     ).replace('<<YOUOBJ>>', 'you')
     out = _DIGIT_FW.sub(lambda m: chr(ord(m.group(0)) - 0xFEE0), out)
     if hex_nums:
@@ -2326,6 +2369,18 @@ _EXPAND_COUNTERS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 # Unambiguous short → longer (subset of _SUBS / UNIQUE_COMPACT). Documented lossy.
+# es/pt/fr subject pronoun pivots (yo/je/il/elle/tú…): not applied inside a
+# sentence the romance gate protects (``Il a un chat`` must not become ``he a``).
+_ROMANCE_PRONOUN_WORDS = frozenset(
+    "yo je ustedes usted tu tú ellos ellas elles ils ella elle él il".split()
+)
+_ROMANCE_PRONOUN_SUB_IDX = frozenset(
+    i for i, (pat, _r) in enumerate(_SUBS)
+    if any(re.fullmatch(pat, w) for w in _ROMANCE_PRONOUN_WORDS)
+    and not re.fullmatch(pat, "you")
+)
+
+
 _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bw/o\b", re.I), "without"),
     # CJK prep2 shorts: only expand when space/punct bounded (avoid eating JA 前後…)

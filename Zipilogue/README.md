@@ -163,3 +163,37 @@ v2で上限の明示と長さ違反理由の分離を修正し、同じMiniCPM�
 v1 runner SHA256は `4ce0a0441c1426b61cecb4e00bcf707d727da8d75f32fdbfe09e0825ebacf05f`、
 v2は `d8425e9e896ff8e093b15132e422b1b391479100ecb001f6b7833dc9df836950`。
 条件上限を維持した修正であり、既存の負の結果は置き換えていません。
+
+### Unicode パスフレーズと既存データ
+
+| 入力経路 | 鍵導出前の処理 | NFC/NFD |
+| --- | --- | --- |
+| Python API `str` | NFC → UTF-8 | 同じ鍵 |
+| CLI `--key` | NFC → UTF-8 | 同じ鍵 |
+| 環境変数 `TALKCOMPRESS_ZIP_KEY` | NFC → UTF-8 | 同じ鍵 |
+| Python API `bytes` | そのまま | 異なるバイト列は異なる鍵 |
+| `--key-file` | 末尾の CR/LF を全除去、それ以外はそのまま | 正規化しない |
+
+NFKC は使わず、互換文字（例 `ﬁ` と `fi`）を同一視しません。
+`fingerprint`、フレーム処理、鍵付き rule モードにも同じ方針が適用されます。
+
+**互換性:** #107 より前の API は文字列を正規化せず UTF-8 にしていました。
+#107 は API の `str` だけを NFC 化しました。この後続修正では CLI `--key` と
+環境変数も NFC 化するため、それらで以前 NFD などの非NFC文字列を指定した
+暗号文は、同じ文字列入力では MAC 検証に失敗します。フィンガープリントも変わります。
+ASCII・既にNFCの文字列、および bytes の鍵導出は変更ありません。
+封筒に正規化方式の識別情報はなく、自動で旧方式を再試行しません。
+
+**旧データの回復:** 元のパスフレーズの正確なコードポイントが分かっていれば、
+API で `decode(envelope, key=old_passphrase.encode("utf-8"))` と指定します。
+CLI では元の UTF-8 バイト列を鍵ファイルに保存し、
+`python Zipilogue/zipilogue.py decode --key-file old-key.bin --file envelope.txt --out recovered.bin`
+で復号します。実際の秘密鍵ファイルをコミットしないでください。
+元の末尾 CR/LF も鍵の一部だった API データは、鍵ファイルではなく API の bytes で回復します。
+元の正確な文字列が不明な場合は、見た目が同じだけでは回復を保証できません。
+
+移行する場合は元データを保持したまま旧 bytes 鍵で復号し、新しい文字列鍵で再暗号化します。
+AAD がある場合は復号時にも元と同じ値を渡してください。
+`tests/fixtures/zipilogue_legacy_keys.json` は #107 直前の commit
+`84b28be729bf3d51d3e8a054cb0ab63edecb90a4` のコードを実行して生成した、
+ASCII/NFC/NFD の固定暗号文とフィンガープリントです（公開のテスト用鍵）。
