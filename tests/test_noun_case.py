@@ -207,3 +207,16 @@ def test_standalone_rejects_word_cut_before_combining_mark():
     glued = unicodedata.normalize("NFD", "é") + "x y"
     assert not nc.standalone(glued, 2, 3)
     assert nc.standalone(glued, 4, 5)
+
+
+def test_standalone_rejects_spacing_and_enclosing_marks():
+    # Mc (U+093E) / Me (U+20DD) are combining too, not just Mn.
+    assert not nc.standalone("a dog\u093e x", 2, 5)
+    assert not nc.standalone("a dog\u20dd x", 2, 5)
+    assert not nc.standalone("a \u093edog x", 3, 6)
+
+
+def test_mark_c_sharp_s_growth_keeps_surroundings():
+    text = "der fuß ist da, the dog"
+    spans = [(4, 7), (20, 23)]
+    assert nc.mark(text, "C", spans) == "der FUSS ist da, the DOG"
