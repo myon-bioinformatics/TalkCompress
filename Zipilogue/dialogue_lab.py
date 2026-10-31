@@ -431,9 +431,17 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--rounds', type=int, default=2)
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--seed', type=int, default=42)
+    parser.add_argument('--timeout', type=int, default=120, help='Per HTTP request timeout in seconds')
+    parser.add_argument('--model-label', default='unspecified', help='Evidence label; not a server model selector')
     args = parser.parse_args(argv)
-    client = Client(args.base_url, seed=args.seed)
+    if args.timeout <= 0:
+        parser.error('--timeout must be positive')
+    client = Client(args.base_url, seed=args.seed, timeout=args.timeout)
     report = experiment(client, groups=args.groups, peers=args.peers, rounds=args.rounds)
+    report['run_config'] = {'model_label': args.model_label, 'base_url': args.base_url,
+                            'seed': args.seed, 'groups': args.groups, 'peers': args.peers,
+                            'rounds': args.rounds, 'request_timeout_seconds': args.timeout,
+                            'temperature': 0}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'groups': [{k: g.get(k) for k in ['group', 'status', 'summary', 'positive_evidence']}
