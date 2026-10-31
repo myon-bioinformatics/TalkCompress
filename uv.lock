@@ -1,9 +1,9 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform == 'emscripten'",
-    "(python_full_version >= '3.11.5' and python_full_version < '3.12') or (python_full_version >= '3.12' and sys_platform != 'emscripten')",
+    "(python_full_version >= '3.11.5' and python_full_version < '3.12') or (python_full_version >= '3.11.5' and sys_platform != 'emscripten')",
     "python_full_version < '3.11.5'",
 ]
 
@@ -600,7 +600,7 @@ version = "3.0.4"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform == 'emscripten'",
-    "(python_full_version >= '3.11.5' and python_full_version < '3.12') or (python_full_version >= '3.12' and sys_platform != 'emscripten')",
+    "(python_full_version >= '3.11.5' and python_full_version < '3.12') or (python_full_version >= '3.11.5' and sys_platform != 'emscripten')",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/19/63/0b6bae54546aed98d72f12d09df57b19a287f01c84d22047fa2e23772ab9/soupsieve-3.0.4.tar.gz", hash = "sha256:924fab84ae21604c19e175e1f39815eb6fa83ba23836e09e9de180925e5bc4c0", size = 119017, upload-time = "2026-10-22T00:45:26.362Z" }
 wheels = [
@@ -627,8 +627,8 @@ translate = [
 [package.metadata.requires-dev]
 dev = [
     { name = "pytest", specifier = ">=8" },
-    { name = "tiktoken", specifier = ">=0.14.0" },
-    { name = "tokenizers", specifier = ">=0.23.3" },
+    { name = "tiktoken" },
+    { name = "tokenizers" },
 ]
 translate = [{ name = "deep-translator", specifier = ">=1.11.4" }]
 

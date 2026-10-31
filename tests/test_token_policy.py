@@ -120,7 +120,7 @@ def collect_rule_losers(m) -> list[str]:
             if not isinstance(out, str) or "\\" in out or not out.strip():
                 continue
             out = out.strip()  # CJK 文脈では英単語を空白で区切って出力
-            for src in _alternatives(pat.pattern):
+            for src in _alternatives(m.pattern_source(pat)):
                 for ref in _refs(m, src, out):
                     if loses(ref, out):
                         bad.append(f"{name}: {src!r}->{out!r} (ref {ref!r})")

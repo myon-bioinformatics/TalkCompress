@@ -24,7 +24,7 @@ dz = load("density_zip", "DensityZip/density_zip.py")
 
 
 def _literal(pat: re.Pattern[str]) -> str:
-    return re.match(r"\\b([a-z ]+)\\b", pat.pattern).group(1)
+    return re.match(r"\\b([a-z ]+)\\b", m.pattern_source(pat)).group(1)
 
 
 def test_verb_units_measured_table_size():

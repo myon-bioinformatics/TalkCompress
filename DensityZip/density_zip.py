@@ -1430,7 +1430,13 @@ def main(argv: list[str] | None = None) -> int:
         _write_output(out, args)
         return check_quality(before_raw, out, args)
 
-    if default_layers is None and default_layer is not None:
+    # The final ZH/DE pass is compress-only; promoting to a pipeline would make
+    # run_pipeline overwrite expand/tag/pack/decode with compress/encode.
+    if (
+        default_layers is None
+        and default_layer is not None
+        and args.mode in ("compress", "encode")
+    ):
         maybe = with_final_zh_de([default_layer], args)
         if len(maybe) > 1 or (maybe and maybe[-1] == FINAL_ZH_DE_STEP and default_layer != FINAL_ZH_DE_STEP):
             default_layers = maybe

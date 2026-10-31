@@ -1,0 +1,131 @@
+name: svg-l3
+
+# Manual only: each model is a multi-gigabyte download and a long CPU run.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Model to measure; "all" runs every pinned model
+        type: choice
+        default: qwen-0.5b
+        options:
+          - qwen-0.5b
+          - qwen-1.5b
+          - minicpm5-2b
+          - lfm2.5-350m-qad
+          - lfm2.5-1.2b-qad
+          - lfm2.5-2.6b
+          - lfm3-1.7b
+          - all
+
+permissions:
+  contents: read
+
+concurrency:
+  group: svg-l3-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # Official llama.cpp b12004 (commit 3c809f4438…), pinned by OCI digest; same image as mcp-toolcall-lab.
+  LLAMA_IMAGE: ghcr.io/ggml-org/llama.cpp@sha256:b32890309c1a33a534a01b0b461e953dc2c5a6bac20213abcf48e22847a19c85
+  LLAMA_MAX_TOKENS: "2048"
+  LLAMA_TIMEOUT: "1800"
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.models.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: models
+        env:
+          MODEL_CHOICE: ${{ inputs.model || 'qwen-0.5b' }}
+        run: python scripts/fetch_l3_model.py --list "$MODEL_CHOICE" --github-output "$GITHUB_OUTPUT"
+
+  l3:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12.15"
+      - name: Restore pinned model cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: models/model.gguf
+          key: svg-l3-${{ matrix.model }}-${{ hashFiles('shared/l3_models.json') }}
+      - name: Fetch or verify pinned weights
+        env:
+          MODEL: ${{ matrix.model }}
+        run: python scripts/fetch_l3_model.py "$MODEL" models/model.gguf
+      - name: Start pinned llama.cpp (CPU, context 4096)
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          template=$(python -c 'import json, os; print(json.load(open("shared/l3_models.json"))[os.environ["MODEL"]]["template"] or "")')
+          extra=()
+          if [ -n "$template" ]; then
+            extra+=(--chat-template-file "/lab/$template")
+          fi
+          docker run --detach --name svg-l3-model --cpus=2 --memory=6g \
+            -p 127.0.0.1:8080:8080 -v "$PWD/models:/models:ro" -v "$PWD/shared:/lab/shared:ro" \
+            "$LLAMA_IMAGE" -m /models/model.gguf --host 0.0.0.0 --port 8080 \
+            -c 4096 -t 2 -tb 2 -ngl 0 --parallel 1 --jinja --reasoning-format none \
+            --reasoning off "${extra[@]}"
+          for _ in {1..90}; do
+            if curl --fail --silent http://127.0.0.1:8080/health >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs svg-l3-model
+          exit 1
+      - name: Measure the six figures (no pass or fail on the results)
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          mkdir -p out
+          set +e
+          LLAMA_URL=http://127.0.0.1:8080/v1/chat/completions \
+            python shared/svg_l3.py examples/figures/*.svg --cmd "python shared/llama_cmd.py" \
+            --model "$MODEL" -o out/l3-report.json
+          echo "svg_l3 exit status ${?} is recorded, not used as a verdict"
+          set -e
+          test -s out/l3-report.json
+          # Fail only when the measurement itself did not run: server unreachable, or an unrecorded timeout.
+          python - <<'PY'
+          import json, sys
+          reports = json.load(open("out/l3-report.json"))["reports"]
+          failed = [r["figure"] for r in reports
+                    if "run_error" in r or any("llama-server unreachable" in e for e in r.get("errors", []))]
+          if failed:
+              sys.exit("measurement did not complete for: " + ", ".join(failed))
+          PY
+      - name: Collect evidence
+        if: always()
+        run: |
+          cp models/model.gguf.provenance.json out/ 2>/dev/null || true
+          docker logs svg-l3-model > out/llama-server.log 2>&1 || true
+          docker inspect svg-l3-model > out/container.json 2>&1 || true
+      - name: Upload measured evidence (including incomplete runs)
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: svg-l3-${{ matrix.model }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: out/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Stop model server
+        if: always()
+        run: docker rm -f svg-l3-model 2>/dev/null || true
