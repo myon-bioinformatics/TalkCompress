@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import unicodedata
 from pathlib import Path
 from typing import Callable
 
@@ -47,7 +48,12 @@ def _is_word(t: str) -> bool:
 
 
 def chunks(text: str, drop_articles: bool = False) -> list[tuple[int, int, int, str]]:
-    """(prep_end, start, end, inner) for each chunk; ``inner`` may drop articles."""
+    """(prep_end, start, end, inner) for each chunk; ``inner`` may drop articles.
+
+    Offsets refer to ``unicodedata.normalize("NFC", text)`` so NFD accents stay
+    attached to their base letter (``Zu\u0308rich`` is one non-ASCII word).
+    """
+    text = unicodedata.normalize("NFC", text)
     toks = [(m.start(), m.group(0)) for m in _TOKEN_RE.finditer(text)]
     out: list[tuple[int, int, int, str]] = []
     i = 0
@@ -73,9 +79,8 @@ def chunks(text: str, drop_articles: bool = False) -> list[tuple[int, int, int, 
             end = toks[j + 1][0] + len(w)
             j += 2
         nxt = toks[j + 1][1] if j + 1 < len(toks) and toks[j][1] == " " else (toks[j][1] if j < len(toks) else "")
-        glued = j < len(toks) and toks[j][1] != " " and _is_word(toks[j][1])
         abbrev = words and end < len(text) and text[end] == "." and words[-1][:1].isupper() and len(words[-1]) <= 3
-        if words and not glued and not abbrev and not (nxt and _is_word(nxt) and nxt.lower() not in STOP and len(words) == MAX_WORDS):
+        if words and not abbrev and not (nxt and _is_word(nxt) and nxt.lower() not in STOP and len(words) == MAX_WORDS):
             out.append((prep_end, start, end, " ".join(words)))
         i = j if words else i + 1
     return out
@@ -85,6 +90,7 @@ def wrap(text: str, pair: str, form: str = "keep", drop_articles: bool = False) 
     """Bracket every chunk; ``form`` is ``keep`` (glued), ``space`` or ``none``."""
     if form not in ("keep", "space", "none"):
         raise ValueError(f"unknown form {form!r}")
+    text = unicodedata.normalize("NFC", text)
     left, right = (pair[0], pair[1]) if form != "none" else ("", "")
     parts: list[str] = []
     last = 0
