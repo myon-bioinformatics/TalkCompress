@@ -1139,7 +1139,7 @@ def test_morpho_from_arrow_and_ml_aliases():
     ja = m.compress("東京から来る", unique=False, etymon=False, counters=False)
     assert "←" in ja
     es = m.compress("desde casa con amigos para comer", unique=False, etymon=False, counters=False)
-    # ロマンス語文の con は with にしない（desde/para は従来どおり）
+    # con is never rewritten to with (desde/para unchanged)
     assert "←" in es and "for" in es and "con" in es and "with" not in es
     fr = m.compress("depuis Paris avec Marie pour toi", unique=False, etymon=False, counters=False)
     assert "←" in fr and "with" in fr and "for" in fr

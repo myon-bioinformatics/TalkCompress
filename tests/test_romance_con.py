@@ -1,4 +1,4 @@
-"""Regression: Romance ``con`` must not become ``with`` (English path unchanged)."""
+"""Regression: ``con`` is never rewritten to ``with`` (Romance or English)."""
 import pytest
 
 import morpho_zip as m
@@ -13,24 +13,24 @@ def _c(s: str) -> str:
     [
         "Vado al cinema con Marco.",  # IT
         "Io parlo con lui.",  # IT
-        "Il gatto è con la ragazza.",  # IT
+        "Esco con la mia amica.",  # IT
         "Caffè con latte.",  # ES/IT
         "Voy a la playa con mis amigos.",  # ES
-        "Ela saiu con o irmão.",  # PT-ish
+        "Ela saiu com o irmão.",  # PT (com)
     ],
 )
 def test_romance_con_kept(src):
-    out = _c(src)
-    assert "con" in out.split() and "with" not in out
+    assert _c(src) == src
 
 
-def test_english_sentence_con_still_with():
-    assert _c("I went con my friend.") == "I went with my friend."
+@pytest.mark.parametrize("src", ["pro and con", "He is a con man."])
+def test_english_con_not_with(src):
+    assert "with" not in _c(src) and "con" in _c(src).split()
 
 
-def test_mixed_text_only_english_sentence_rewritten():
-    out = _c("Vado al cinema con Marco. I went con my friend.")
-    assert out == "Vado al cinema con Marco. I went with my friend."
+def test_mixed_text_con_never_with():
+    out = _c("Vado al cinema con Marco. He is a con man.")
+    assert "with" not in out and out.startswith("Vado al cinema con Marco.")
 
 
 def test_con_word_boundary():
