@@ -138,6 +138,10 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+from shared.unicode_boundary import mark_pattern as _mark_pattern  # noqa: E402
+
+_MARK_CLASS = _mark_pattern()
+_MARK_BODY = _MARK_CLASS[1:-1]
 from shared.lex_policy import (  # noqa: E402
     apply_etymon_align,
     apply_spelled_numbers,
@@ -321,7 +325,7 @@ ARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "a": "∅",
     "an": "∅",
 }
-_ARTICLE_SURFACE_RE = _ci_compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])", re.I)
+_ARTICLE_SURFACE_RE = _ci_compile(r"\b(?:the|a|an)\b(?!" + _MARK_CLASS + r")", re.I)
 
 # --- conjunction (接続詞): high-freq logical; C owns moreover/nevertheless ----
 CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "bc", "therefore")
@@ -1885,7 +1889,7 @@ _QUOTED_ARTICLE = _ci_compile(
 )
 # Article + its trailing half-width spaces as one independent replacement
 # (no opener/quote context: ``x"the cat"`` → ``x"cat"``).
-# ``(?![\u0300-\u036f])``: a base letter followed by a combining mark (NFD
+# ``(?!_MARK_CLASS)`` (every Mn/Mc/Me): a base letter followed by a combining mark (NFD
 # ``a\u0301`` = á) is not the article ``a`` (defence in depth; callers NFC first).
 # Capital ``A`` is an article only at a sentence start (text start / after a
 # newline, ``. ! ?`` / closing ``) ]`` (optionally + closing quote) + space,
@@ -1907,7 +1911,7 @@ _A_SYMBOL_NEXT = (
     "thinks|thought|wants|wanted|\\w+ed"
 )
 _ARTICLE_WORD = _ci_compile(
-    r"(?:\b(?:the|an|(?-i:a))\b(?![\u0300-\u036f])(?!\.\w)"
+    r"(?:\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)"
     r"|(?:^|(?<=[.!?)\]] )|(?<=[.!?][\"')\]] )|(?<=[(\[{\"'\u2014\u2013]))(?-i:A)(?= +\w)(?! +(?:" + _A_SYMBOL_NEXT + r")\b))"
     r" *",
     re.I | re.M,
@@ -2644,7 +2648,7 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
 
 _PACK_SPLIT = re.compile(
     # combining marks (U+0300–U+036F, e.g. NFD é / Vietnamese tones) belong to the word
-    r"(\s+|[^\w\s\u0300-\u036f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
+    r"(\s+|[^\w\s" + _MARK_BODY + r"\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
     re.UNICODE,
 )
 
@@ -2671,7 +2675,7 @@ def pack_tokens(text: str) -> str:
         return bool(re.search(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]", s))
 
     def _is_wordish(s: str) -> bool:
-        return bool(re.match(r"^[\w\u0300-\u036f]+$", s, re.UNICODE))
+        return bool(re.match(r"^[\w" + _MARK_BODY + r"]+$", s, re.UNICODE))
 
     out: list[str] = []
     for tok in tokens:
