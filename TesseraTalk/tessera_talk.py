@@ -52,7 +52,7 @@ _SENT_SPLIT = re.compile(
     r"(?:\s+|(?=[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7afA-Za-z0-9\"'(\[]))"
 )
 
-_LATIN = re.compile(r"[A-Za-z\u00C0-\u024F]")
+_LATIN = re.compile(r"[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]")
 _HIRAGANA = re.compile(r"[\u3040-\u309F]")
 _KATAKANA = re.compile(r"[\u30A0-\u30FF]")
 _CJK = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF]")
@@ -225,6 +225,7 @@ def detect_lang(sentence: str, *, prefer_ltr: bool = False) -> str:
     toward ``en`` (or cue-winning LTR) rather than ``zh``. Pure CJK without kana
     still returns ``zh``.
     """
+    sentence = unicodedata.normalize("NFC", sentence)
     sc = _script_scores(sentence)
     total_script = sum(sc.values()) or 1
 
