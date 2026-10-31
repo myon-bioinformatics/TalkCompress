@@ -1921,7 +1921,7 @@ _ARTICLE_WORD = _ci_compile(
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
 
-# Curly quote marks → straight (o200k: same tokens, fewer bytes).  ``’`` is
+# Curly quote marks → straight by default; token effects depend on context. ``’`` is
 # only rewritten as the closer of a ``‘…’`` pair; in-word apostrophes
 # (``don’t``) and possessives (``dogs’``) stay as written.
 # Pairs never cross a newline (``‘a\nb’`` keeps ``’``); `` ’n’ `` style elisions
@@ -1932,25 +1932,22 @@ _SINGLE_PAIR = re.compile(
 )
 
 
-# o200k merges ``“`` + these words into ONE token while ``"`` + word is two
-# (generated from the o200k_base vocab; runtime has no tiktoken).  Only when
-# ``“`` is at line start.  After a space the pretokenizer splits `` “`` off,
-# and after ``(``/``[`` it merges ``("``/``(“`` so keeping curly costs +1.
+# #110 reported an o200k merge for these line-start openers (runtime has no
+# tokenizer). This finite heuristic is not a token-count guarantee for full
+# sentences, other contexts or other tokenizers. See docs/quote-normalization.md.
 _CURLY_MERGE_WORDS = frozenset(
     "All At El How One She That These To Well With Yes".split()
 )
 _CURLY_KEEP_PAIR = re.compile(
-    r"^\u201c(?:" + "|".join(sorted(_CURLY_MERGE_WORDS)) + r")(?![A-Za-z])"
+    r"^\u201c(?:" + "|".join(sorted(_CURLY_MERGE_WORDS))
+    + r")(?![\w'\u2019" + _MARK_BODY + r"])"
     r"[^\u201c\u201d\n]*\u201d",
     re.M,
 )
 
 
-def normalize_quotes(text: str) -> str:
-    """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched.
-
-    A ``“…”`` pair whose opener merges with the next word in o200k (``“Well``)
-    stays curly at line start only, so the token count never rises."""
+def _normalize_double_quotes(text: str) -> str:
+    """Keep only complete line-start pairs matching the finite opener heuristic."""
     parts: list[str] = []
     pos = 0
     for m in _CURLY_KEEP_PAIR.finditer(text):
@@ -1958,7 +1955,17 @@ def normalize_quotes(text: str) -> str:
         parts.append(m.group(0))
         pos = m.end()
     parts.append(text[pos:].replace("\u201c", '"').replace("\u201d", '"'))
-    out = "".join(parts)
+    return "".join(parts)
+
+
+def normalize_quotes(text: str) -> str:
+    """Straighten quotes, except selected whole-word line-start double openers.
+
+    The exception is a bounded heuristic, not a guarantee that token counts
+    never rise. Unicode word/mark continuations and apostrophe suffixes do not
+    count as the listed word. In-word apostrophes remain untouched.
+    """
+    out = _normalize_double_quotes(text)
     out = _SINGLE_PAIR.sub(r"'\1'", out)
     return out.replace("\u2018", "'")
 
@@ -2342,6 +2349,11 @@ def compress(
     out = re.sub(r"[ \t]{2,}", " ", out)
     out = re.sub(r" *\n *", "\n", out)
     out = out.strip()
+    # Later rewrites can remove/change a retained opener (Well→∅, One→1).
+    # Revalidate on final text while protected spans remain masked. Keep the
+    # public entry point so quote_roundtrip's explicit identity override also
+    # disables this pass in its no-normalization comparison.
+    out = normalize_quotes(out)
     return restore_protected(out, restores)
 
 
