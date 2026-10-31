@@ -2374,9 +2374,14 @@ def compress(
     User-input U+2011 (non-breaking hyphen) is normalized to ASCII ``-`` up
     front, on every path including ``keep_articles=True``: U+2011 is reserved
     as the article-protection join that ``expand`` turns back into a space.
+    This runs after ``[[keep:...]]`` / ``protect_regexes`` spans are extracted,
+    so protected spans keep U+2011 in the compressed output. Known limitation:
+    a U+2011 kept inside a protected span is still turned into a space by
+    ``expand`` when it follows a lone ``a``/``A`` (e.g. ``A‑Maria``).
     """
-    text = unicodedata.normalize("NFC", text).replace(A_JOIN, "-")
+    text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
+    out = out.replace(A_JOIN, "-")
     out = normalize_quotes(out)
     # aggressive_fillers implies strip
     do_strip = strip or aggressive_fillers

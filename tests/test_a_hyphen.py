@@ -202,3 +202,21 @@ def test_keep_articles_input_u2011_cli(capsys):
 def test_hyphen_adjacent_article_guard(src):
     want = src.replace("\u2011", "-")
     assert strip_articles(src) == want
+
+
+@pytest.mark.parametrize("keep", [False, True])
+def test_u2011_in_keep_span_preserved(keep):
+    out = compress("[[keep:A\u2011Maria]] came.", keep_articles=keep)
+    assert "A\u2011Maria" in out
+
+
+@pytest.mark.parametrize("keep", [False, True])
+def test_u2011_in_protect_regex_preserved(keep):
+    out = compress("see x\u2011y the cat now", protect_regexes=[r"x\u2011y the cat"], keep_articles=keep)
+    assert "x\u2011y the cat" in out
+
+
+@pytest.mark.parametrize("keep", [False, True])
+def test_u2011_outside_protected_still_folded(keep):
+    out = compress("[[keep:x\u2011y]] and A\u2011Maria came.", keep_articles=keep)
+    assert "x\u2011y" in out and "A-Maria" in out
