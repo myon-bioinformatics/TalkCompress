@@ -380,7 +380,9 @@ _UTTERANCE_ONLY: frozenset[str] = frozenset({"see you"})
 
 def _ascii_phrase_pattern(long: str) -> str:
     """Word-bounded pattern so 'see you' does not match inside 'see your'."""
-    pat = re.escape(long)
+    # (?a:) keeps IGNORECASE ASCII-only inside the phrase: Turkish ı/İ, ſ and
+    # the Kelvin sign must not fold onto i/s/k (opınıon ≠ opinion).
+    pat = f"(?a:{re.escape(long)})"
     if re.match(r"\w", long):
         pat = r"(?<![\w'’])" + pat
     if re.search(r"\w$", long):
@@ -392,7 +394,7 @@ def _ascii_phrase_pattern(long: str) -> str:
 
 def _word_bounded(short: str) -> str:
     """Escape *short*; word-char edges must not touch other word chars."""
-    pat = re.escape(short)
+    pat = f"(?a:{re.escape(short)})"  # ASCII-only IGNORECASE: ımo ≠ imo
     if re.match(r"\w", short):
         pat = r"(?<![\w'’])" + pat
     if re.search(r"\w$", short):
@@ -438,7 +440,12 @@ def suggest_hereafter(text: str, *, min_count: int = 2) -> list[dict[str, str | 
     words = re.findall(r"[A-Za-z0-9']+|[぀-ヿ㐀-鿿]{2,}", text)
     # Also scan raw lowercased sliding windows of 2-3 space-separated tokens
     lowered = text.lower()
-    latin_tokens = re.findall(r"(?:[^\W_\u3040-\u30ff\u3400-\u9fff]|')+", unicodedata.normalize("NFC", lowered))
+    # Combining marks stay in the token: "İ".lower() is i + U+0307, which NFC
+    # cannot recompose, so İstanbul must not split into "i stanbul".
+    latin_tokens = re.findall(
+        r"(?:[^\W_\u3040-\u30ff\u3400-\u9fff]|[\u0300-\u036f]|')+",
+        unicodedata.normalize("NFC", lowered),
+    )
     candidates: Counter[str] = Counter()
     for n in (2, 3, 4):
         for i in range(len(latin_tokens) - n + 1):

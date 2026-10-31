@@ -19,6 +19,6 @@ def test_expand_long_with_backslash():
 
 
 def test_word_bounded_edges():
-    assert s._word_bounded("ab") == r"(?<![\w'’])ab(?![\w'’])"
-    assert s._word_bounded("w/") == r"(?<![\w'’])w/"
-    assert s._word_bounded("/w") == r"/w(?![\w'’])"
+    assert s._word_bounded("ab") == r"(?<![\w'’])(?a:ab)(?![\w'’])"
+    assert s._word_bounded("w/") == r"(?<![\w'’])(?a:w/)"
+    assert s._word_bounded("/w") == r"(?a:/w)(?![\w'’])"
