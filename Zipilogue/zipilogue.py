@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import base64
 import hashlib
+import unicodedata
 import hmac
 import os
 import secrets
@@ -49,7 +50,13 @@ _SCRYPT_SALT: Final[bytes] = b"TalkCompress/Zipilogue/v1"
 
 
 def derive_key(passphrase: bytes | str) -> bytes:
-    raw = passphrase.encode("utf-8") if isinstance(passphrase, str) else passphrase
+    # NFC: the same passphrase typed as precomposed or decomposed text
+    # (café vs cafe + U+0301) must derive the same key.  bytes are used as-is.
+    raw = (
+        unicodedata.normalize("NFC", passphrase).encode("utf-8")
+        if isinstance(passphrase, str)
+        else passphrase
+    )
     if not raw:
         raise ValueError("key must be non-empty")
     return hashlib.scrypt(
