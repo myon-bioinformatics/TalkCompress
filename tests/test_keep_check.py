@@ -145,3 +145,10 @@ def test_negation_counts_curly_apostrophe():
     assert count_items("I don't agree")["negation"] == 1
     report = check("We don\u2019t ship on Friday.", "We ship on Friday.")
     assert report.count_drops == [{"kind": "negation", "source": 1, "compressed": 0}]
+
+
+def test_negation_split_token_and_variant_apostrophes():
+    from shared.keep_check import NEGATION_RE
+
+    for text in ["do n't go", "do n\u2019t go", "don\u02bct go", "don\uff07t go", "don't", "don\u2019t"]:
+        assert len(NEGATION_RE.findall(text)) == 1, text

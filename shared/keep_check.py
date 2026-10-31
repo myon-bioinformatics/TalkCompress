@@ -36,7 +36,7 @@ ISSUE_RE = re.compile(r"(?<![\w&#])#\d+\b")
 NUMBER_RE = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?!\w|\.\d)")
 
 NEGATION_RE = re.compile(
-    r"\b(?:not|no|never|cannot|without)\b|\b\w+n['\u2019]t\b|ない|ません|なし|禁止|不要",
+    r"\b(?:not|no|never|cannot|without)\b|\b\w*n['\u2019\u02bc\uff07]t\b|ない|ません|なし|禁止|不要",
     re.IGNORECASE,
 )
 CONDITION_RE = re.compile(
