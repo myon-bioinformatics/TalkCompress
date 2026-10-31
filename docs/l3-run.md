@@ -6,10 +6,44 @@ No API key is used. The model runs on a local llama.cpp server.
 
 ## 1. Start a local model
 
-Any GGUF chat model works. Record the exact file name and quantization, because
-the report stores the label you give it.
+Use the official Qwen2.5-0.5B-Instruct Q4_K_M GGUF as a small, reproducible
+candidate. This is an acquisition/startup candidate, not a claim of L3 quality.
 
-    llama-server -m /path/to/model.gguf --port 8080
+- Publisher file page: https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/blob/main/qwen2.5-0.5b-instruct-q4_k_m.gguf
+- Direct download: https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf
+- Checked publisher revision: `9217f5db79a29953eb74d5343926648285ec7e67`.
+- File: `qwen2.5-0.5b-instruct-q4_k_m.gguf` (491,400,032 bytes).
+- SHA-256: `74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db`.
+  This is the file SHA-256, not the distinct Xet storage hash.
+
+From the repository root (Linux):
+
+```sh
+mkdir -p /tmp/talkcompress-models
+MODEL=/tmp/talkcompress-models/qwen2.5-0.5b-instruct-q4_k_m.gguf
+curl --fail --location --retry 3 --connect-timeout 15 --max-time 600 \
+  --continue-at - --output "$MODEL" \
+  https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/9217f5db79a29953eb74d5343926648285ec7e67/qwen2.5-0.5b-instruct-q4_k_m.gguf
+printf '%s  %s\n' \
+  74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db \
+  "$MODEL" | sha256sum --check -
+# Continue only after sha256sum reports OK.
+llama-server -m "$MODEL" --host 127.0.0.1 --port 8080 -c 4096 -t 4 -ngl 0
+```
+
+The official page also advertises
+`llama serve -hf Qwen/Qwen2.5-0.5B-Instruct-GGUF:Q4_K_M` for the newer
+llama CLI. This still downloads from Hugging Face; it does not bypass blocked
+Hugging Face/Xet access. Prefer an explicitly verified local file for this run.
+Do not commit model weights to this repository.
+
+If Hugging Face is blocked, a real alternative publisher listing exists at
+https://modelscope.cn/models/Qwen/Qwen2.5-0.5B-Instruct-GGUF . Its existence alone
+does not establish that a downloaded artifact is byte-identical: verify the
+filename, byte count and SHA-256 above before using it. This route has not been
+used for the measurement below. An approved machine can also download the
+verified official file and transfer it offline; recheck SHA-256 after transfer.
+Do not treat an unverified GitHub mirror as the publisher.
 
 Check that it answers:
 
@@ -23,7 +57,7 @@ Check that it answers:
     LLAMA_MAX_TOKENS=1024 \
     python shared/svg_l3.py examples/figures/*.svg \
       --cmd "python shared/llama_cmd.py" \
-      --model "LFM3-1.7B Q4_K_M" \
+      --model "Qwen2.5-0.5B-Instruct Q4_K_M" \
       -o l3-report.json
 
 Notes:
@@ -43,7 +77,9 @@ Notes:
   `score`, and each question with the answer).
 - `source_sha256`: fingerprint of the input figure, so a later run can prove it used the same file.
 
-Exit status is 0 only when every figure passes DSL v0.
+Exit status is 0 only when every figure passes DSL v0. This does not guarantee
+complete probe answers or full retention: also inspect each report status and
+unscorable probes.
 
 ## 4. How to read the score
 
@@ -86,3 +122,55 @@ other logs unless a run fails before the report is written.
 ## Checks before a run
 
     python -m pytest -q tests/test_svg_l3.py tests/test_svg_dsl.py tests/test_svg_figure.py
+
+## Verified acquisition and smoke run (2026-10-31)
+
+Official Hugging Face download completed and its local SHA-256 matched the
+publisher value above (491,400,032 bytes). The first attempt hit a 30-second
+limit at 438,819,624 bytes; resuming with `curl --continue-at -` succeeded.
+No alternative mirror was needed. The repository revision checked through the
+publisher API was `9217f5db79a29953eb74d5343926648285ec7e67`; the measured download
+used `resolve/main`, while the reproducible command above pins that revision.
+
+llama.cpp `5047748f114564fcf271e6a648f60e2d2eae6264` was built locally with
+`GGML_NATIVE=OFF`, CPU inference, context 4096 and four threads. The server
+returned health OK and answered a short smoke prompt with `OK` using the
+unchanged `shared/llama_cmd.py` completion checks. On this host, cross-exec-session
+localhost connections were refused; starting the server and client in the same
+exec session worked. This was an execution-environment issue, not a weight error.
+
+The exact section-2 command ran all six existing SVG samples once, using Python
+3.12.14, temperature 0 (the adapter default), `LLAMA_MAX_TOKENS=1024`, DSL v0,
+prompt v2 and scorer v2. Runtime was about 248 seconds on Linux x86_64 / AMD EPYC
+9V74, with cgroup limits of 8 GiB memory and eight CPU equivalents. No renderer,
+scorer, prompts, completion checks or token limits were changed.
+
+| Figure | DSL passed | Status | Recorded hits/total (incomplete) |
+| --- | --- | --- | --- |
+| chart_auto.svg | no (description failed) | incomplete | 0/0 |
+| chart_line.svg | no (description failed) | incomplete | 0/0 |
+| chart_two.svg | no (description failed) | incomplete | 0/0 |
+| flow_basic.svg | yes | incomplete | 5/11 |
+| flow_center.svg | yes | incomplete | 0/9 |
+| polyline_only.svg | yes | incomplete | 1/5 |
+
+L3 exited **1**. Three generated SVGs passed DSL validation, but **no figure
+completed all probes**. Some answers wrapped JSON in Markdown fences, which the
+strict v2 array contract correctly marked unscorable. Other model-command
+failures appear in the raw report; its existing error truncation omits the tail
+of the Python traceback. These incomplete hit ratios are diagnostics, not
+completed quality scores, and the three description failures are not completed
+zero-quality measurements. Do not claim L3 acceptance or compare model quality
+from this run. Chromium rendering/pixel equivalence was not measured here.
+
+Saved evidence:
+
+- [Raw L3 report](results/svg-l3-qwen-20261031.json), including input hashes,
+  generated SVGs, answers, errors and v2 metadata.
+- [Provenance and execution conditions](results/svg-l3-qwen-20261031-provenance.json).
+- [Description-only diagnostic rerun stderr](results/svg-l3-qwen-20261031-describe-error.txt),
+  using the same model and limits; supplementary evidence, not a replacement run.
+
+Before measurement, the documented test command produced 139 passed and 1
+skipped (optional tiktoken unavailable). This test result does not establish
+model quality.
