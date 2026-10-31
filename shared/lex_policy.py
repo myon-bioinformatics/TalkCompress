@@ -17,6 +17,25 @@ import re
 from pathlib import Path
 from typing import Any
 
+
+# Word edge for non-ASCII Latin sources (für, außen, sécurité): a letter-like
+# char (not kana/CJK) or a combining mark next to the match means mid-word.
+_LATIN_EDGE_CH = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
+_COMBINING = r"[\u0300-\u036f]"
+
+
+def nonascii_word_pattern(src: str) -> str:
+    """Regex for ``src`` with word edges only where ``src`` starts/ends with a letter.
+
+    CJK/kana/symbol edges keep plain-substring semantics (no spaces in JA/ZH).
+    """
+    pat = re.escape(src)
+    if re.match(_LATIN_EDGE_CH, src):
+        pat = rf"(?<!{_LATIN_EDGE_CH}){pat}"
+    if re.search(rf"{_LATIN_EDGE_CH}$", src):
+        pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{_COMBINING})"
+    return pat
+
 # Light fillers / interjections to drop while compressing (case-insensitive for Latin).
 # Keep content words; only strip discourse grease.
 FILLERS_EN: tuple[str, ...] = (
@@ -1004,8 +1023,8 @@ def apply_etymon_align(text: str) -> str:
         if surface.isascii():
             out = re.sub(rf"(?i)\b{re.escape(surface)}\b", etymon, out)
         else:
-            out = out.replace(surface, etymon)
-            out = out.replace(surface[:1].upper() + surface[1:], etymon)
+            for form in (surface, surface[:1].upper() + surface[1:]):
+                out = re.sub(nonascii_word_pattern(form), etymon, out)
     return out
 
 
