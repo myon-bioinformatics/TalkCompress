@@ -528,6 +528,8 @@ def _fallback_cost(w: str, len_table: dict, suffixes: dict | None = None, floor:
         return max(1, len_table[k] + sx.get(w[-3:], sx.get(w[-2:], 0)))
     if k[0] == "g":  # Greek: o200k merges it poorly, ≈ ceil(len/2) beyond 3 letters
         return 1 if len(w) <= 3 else (len(w) + 1) // 2
+    if k[0] == "s":  # Czech / Polish: each Latin Extended-A letter usually splits off (+1)
+        return max(1, (len(w) + 3) // 4) + len(_LATIN_EXT_A.findall(w))
     return max(1, (len(w) + 3) // 4) + len(_LATIN_EXT_ADD.findall(w))
 
 
