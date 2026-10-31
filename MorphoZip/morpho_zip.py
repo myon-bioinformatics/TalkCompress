@@ -2503,7 +2503,8 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
 
 
 _PACK_SPLIT = re.compile(
-    r"(\s+|[^\w\s\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
+    # combining marks (U+0300–U+036F, e.g. NFD é / Vietnamese tones) belong to the word
+    r"(\s+|[^\w\s\u0300-\u036f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
     re.UNICODE,
 )
 
@@ -2529,7 +2530,7 @@ def pack_tokens(text: str) -> str:
         return bool(re.search(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]", s))
 
     def _is_wordish(s: str) -> bool:
-        return bool(re.match(r"^[\w]+$", s, re.UNICODE))
+        return bool(re.match(r"^[\w\u0300-\u036f]+$", s, re.UNICODE))
 
     out: list[str] = []
     for tok in tokens:
