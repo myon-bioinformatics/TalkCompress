@@ -18,22 +18,23 @@ from pathlib import Path
 from typing import Any
 
 
-# Word edge for non-ASCII Latin sources (für, außen, sécurité): a letter-like
-# char (not kana/CJK) or a combining mark next to the match means mid-word.
+# Also support direct CLI execution with shared/ on sys.path.
+if __package__:
+    from .unicode_boundary import mark_pattern
+else:
+    from unicode_boundary import mark_pattern
+
+# Preserve the existing kana/CJK and symbol substring policy.
 _LATIN_EDGE_CH = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
-_COMBINING = r"[\u0300-\u036f]"
 
 
 def nonascii_word_pattern(src: str) -> str:
-    """Regex for ``src`` with word edges only where ``src`` starts/ends with a letter.
-
-    CJK/kana/symbol edges keep plain-substring semantics (no spaces in JA/ZH).
-    """
+    """Bound letter-like edges by words and all Unicode mark categories."""
     pat = re.escape(src)
     if re.match(_LATIN_EDGE_CH, src):
-        pat = rf"(?<!{_LATIN_EDGE_CH}){pat}"
+        pat = rf"(?<!{_LATIN_EDGE_CH})(?<!{mark_pattern()}){pat}"
     if re.search(rf"{_LATIN_EDGE_CH}$", src):
-        pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{_COMBINING})"
+        pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{mark_pattern()})"
     return pat
 
 # Light fillers / interjections to drop while compressing (case-insensitive for Latin).
