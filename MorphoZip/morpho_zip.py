@@ -1777,17 +1777,11 @@ _QUOTED_ARTICLE = re.compile(
     r"""|[\u201c\u2018](the|a|an)[\u201d\u2019]""",
     re.I,
 )
+# Article + its trailing half-width spaces as one independent replacement
+# (no opener/quote context: ``x"the cat"`` → ``x"cat"``).
 # ``(?![\u0300-\u036f])``: a base letter followed by a combining mark (NFD
 # ``a\u0301`` = á) is not the article ``a`` (defence in depth; callers NFC first).
-_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w)", re.I)
-# Article right after an opening quote/bracket: drop its trailing space too
-# (``“the cat”`` → ``"cat"``, not ``" cat"``).
-_OPEN_BRACKETS = "([{\u300c\u300e\u3010\u00ab\u2039\u201c\u2018\uff08"
-_ARTICLE_AFTER_OPEN = re.compile(
-    rf"(?:(?<=[{_OPEN_BRACKETS}])|(?<=^[\"'])|(?<=[\s{_OPEN_BRACKETS}][\"']))"
-    r"(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w)[ \t]*",
-    re.I,
-)
+_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w) *", re.I)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
 
@@ -1820,7 +1814,6 @@ def strip_articles(text: str) -> str:
         return _ART_PLACEHOLDER.format(len(restores) - 1)
 
     out = _QUOTED_ARTICLE.sub(_mask, text)
-    out = _ARTICLE_AFTER_OPEN.sub("", out)
     out = _ARTICLE_WORD.sub("", out)
     for i, inner in enumerate(restores):
         out = out.replace(_ART_PLACEHOLDER.format(i), inner)

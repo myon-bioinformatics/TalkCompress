@@ -41,11 +41,11 @@ def test_strip_articles_combining(src, out, form):
 def test_regexes_reject_combining_mark(src, out):
     """Defence in depth: the regexes alone (no NFC) leave NFD á/à intact."""
     s = NFD(src)
-    for pat in (mz._ARTICLE_WORD, mz._ARTICLE_AFTER_OPEN, mz._ARTICLE_SURFACE_RE):
+    for pat in (mz._ARTICLE_WORD, mz._ARTICLE_SURFACE_RE):
         for m in pat.finditer(s):
-            assert not unicodedata.combining(s[m.end() : m.end() + 1] or "x") or s[m.end() - 1].isspace()
+            assert not unicodedata.combining(s[m.end() : m.end() + 1] or "x")
     assert mz._ARTICLE_WORD.sub("", NFD("a\u0301")) == NFD("a\u0301")
-    assert mz._ARTICLE_AFTER_OPEN.sub("", NFD("(a\u0300 la)")) == NFD("(a\u0300 la)")
+    assert mz._ARTICLE_WORD.sub("", NFD("(a\u0300 la)")) == NFD("(a\u0300 la)")
     assert mz._ARTICLE_SURFACE_RE.findall(NFD("à a")) == ["a"]
 
 
