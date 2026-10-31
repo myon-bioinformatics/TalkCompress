@@ -69,3 +69,25 @@ def test_personal_a_supports_unicode_capital_and_titlecase_names(name, form):
 def test_personal_a_offsets_survive_quotes_and_respect_sentence_cues(source, want):
     from MorphoZip.morpho_zip import strip_articles
     assert strip_articles(source) == want
+
+
+@pytest.mark.parametrize("source", ["Lleva a Ana.", "Dame a mí.", "Llámame a mí.", "Todo vuelve a ti.", "Se mira a sí mismo."])
+@pytest.mark.parametrize("form", ["NFC", "NFD"])
+def test_sparse_spanish_personal_a(source, form):
+    import unicodedata
+    assert compress(unicodedata.normalize(form, source)) == source
+
+
+def test_sparse_spanish_mixed_with_english():
+    assert compress("Dame a mí. I have a cat. Lleva a Ana.") == (
+        "Dame a mí. I have cat. Lleva a Ana."
+    )
+
+
+@pytest.mark.parametrize("source,want", [
+    ("Give a minute.", "provide minute."),
+    ("A mime ran.", "mime ran."),
+    ("I saw a mí label.", "I saw mí label."),
+])
+def test_personal_pronoun_guard_does_not_expand_english_scope(source, want):
+    assert compress(source) == want
