@@ -1,0 +1,24 @@
+{
+  "source_commit": "84b28be729bf3d51d3e8a054cb0ab63edecb90a4",
+  "payload": "legacy payload",
+  "rows": [
+    {
+      "label": "ascii",
+      "key": "secret",
+      "envelope": "WklQMQEQAAECAwQFBgcICQoLDA0ODwAAAA7n02_qxXHtozCNqo8mZQlaQgnG-QopFB9gbIgPixOy668snqAfoSik8FDZfDS5",
+      "fingerprint": "7678f21067c2963e"
+    },
+    {
+      "label": "nfc",
+      "key": "café",
+      "envelope": "WklQMQEQAAECAwQFBgcICQoLDA0ODwAAAA5h2SQUnT-8YEaVe7H8XpFlhnM6sKZKBl_wOvdShVcQHfbWpme8BztAqYsEIsDy",
+      "fingerprint": "2112be9a1e9b7c4b"
+    },
+    {
+      "label": "nfd",
+      "key": "café",
+      "envelope": "WklQMQEQAAECAwQFBgcICQoLDA0ODwAAAA5nHfat2IdNkLAatAZsOJdaSue5p6zCpKuiCFJCgSeZjrsETRwnGWYs7VUj6ORW",
+      "fingerprint": "67b2fc9580ea5a69"
+    }
+  ]
+}
