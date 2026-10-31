@@ -5,9 +5,9 @@ Spanish/Portuguese ``a`` (preposition/article), French ``a`` (``avoir``), French
 spelled-number pass and 3sg ``-s`` fold must not touch them.
 
 The test is deliberately conservative in the *safe* direction: a sentence is
-treated as Romance only when it has at least one unambiguous es/pt/fr function
+treated as Romance only when it has at least one es/pt/fr function
 word and more of them than English function words.  Misreading an English
-sentence as Romance only keeps an article or a number word (harmless);
+sentence as Romance keeps an article or a number word;
 misreading Romance as English changes meaning.
 """
 from __future__ import annotations
@@ -16,8 +16,9 @@ import re
 import unicodedata
 from collections.abc import Callable
 
-# Function words that are not also common English words (``a``, ``on``, ``no``,
-# ``me``, ``in``, ``son``, ``fin`` … are left out on purpose).
+# Heuristic function-word cues, not a complete language detector. Highly
+# ambiguous a/on/no/me/in/fin are omitted. Shared cues (e.g. do) count on
+# both sides rather than acquiring Romance precedence from branch order.
 _ROMANCE_CUES = frozenset(
     """
     el la los las lo una unos unas del al y que por para con es está están
@@ -51,7 +52,7 @@ def is_romance(sentence: str) -> bool:
         lw = w.lower()
         if lw in _ROMANCE_CUES:
             rom += 1
-        elif lw in _ENGLISH_CUES:
+        if lw in _ENGLISH_CUES:
             eng += 1
         elif "'" in lw or "\u2019" in lw:
             # French elisions: l'eau, d'accord, c'est, j'ai, qu'il, n'est
@@ -68,9 +69,73 @@ def apply_outside_romance(text: str, fn: Callable[[str], str]) -> str:
 
     Sentence boundaries and every character of Romance sentences are kept as is.
     """
-    if not text:
-        return fn(text)
+    return transform_with_romance_context(
+        text, lambda part, protected: part if protected else fn(part)
+    )
+
+
+def transform_with_romance_context(text: str, fn: Callable[[str, bool], str]) -> str:
+    """Carry each source sentence's decision through a multi-stage transform.
+
+    Keep the whole-text path when there are no Romance sentences, so existing
+    cross-sentence English rewrites are unchanged. The callback must not
+    reclassify its rewritten text to discard source protection.
+    """
     parts = [m.group(0) for m in _SENT.finditer(text) if m.group(0)]
-    if not any(is_romance(p) for p in parts):
-        return fn(text)
-    return "".join(p if is_romance(p) else fn(p) for p in parts)
+    classified = [(p, is_romance(p)) for p in parts]
+    if not any(protected for _, protected in classified):
+        return fn(text, False)
+    # Newlines/punctuation are detector boundaries, not transformation
+    # boundaries: retain contextual English rules across adjacent sentences.
+    runs: list[tuple[str, bool]] = []
+    for part, protected in classified:
+        if runs and runs[-1][1] == protected:
+            runs[-1] = (runs[-1][0] + part, protected)
+        else:
+            runs.append((part, protected))
+    return "".join(fn(part, protected) for part, protected in runs)
+
+
+def substitute_with_romance_context(
+    text: str,
+    substitutions: list[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]]],
+    finish: Callable[[str, bool], str],
+) -> str:
+    """Run substitutions globally, retaining pre-substitution protection.
+
+    Each replacement inherits protection from any source character it consumes.
+    Only the final English-only pass is partitioned; regex lookarounds and
+    multiline context of all substitutions remain exactly those of full text.
+    """
+    flags = bytearray()
+    for match in _SENT.finditer(text):
+        part = match.group(0)
+        flags.extend(bytes([is_romance(part)]) * len(part))
+    if not any(flags):
+        for pattern, replacement in substitutions:
+            text = pattern.sub(replacement, text)
+        return finish(text, False)
+    for pattern, replacement in substitutions:
+        pieces: list[bytearray] = []
+        cursor = 0
+
+        def replace(match: re.Match[str]) -> str:
+            nonlocal cursor
+            value = replacement(match) if callable(replacement) else match.expand(replacement)
+            pieces.append(flags[cursor:match.start()])
+            pieces.append(bytearray([any(flags[match.start():match.end()])]) * len(value))
+            cursor = match.end()
+            return value
+
+        text = pattern.sub(replace, text)
+        if pieces:
+            pieces.append(flags[cursor:])
+            flags = bytearray().join(pieces)
+    # Coalesce adjacent characters of equal origin, preserving English context.
+    result = []
+    start = 0
+    for end in range(1, len(text) + 1):
+        if end == len(text) or flags[end] != flags[start]:
+            result.append(finish(text[start:end], bool(flags[start])))
+            start = end
+    return "".join(result)
