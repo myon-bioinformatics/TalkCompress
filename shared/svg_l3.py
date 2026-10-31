@@ -60,6 +60,10 @@ Output the SVG only, in one code block."""
 _SVG_RE = re.compile(r"<svg\b[^>]*/>|<svg\b.*?</svg>", re.S)
 
 
+class ModelExecutionError(RuntimeError):
+    """The model transport failed, rather than returning a bad answer."""
+
+
 def ask(cmd: str, prompt: str, timeout: int | None = None) -> str:
     # The command's own HTTP timeout (LLAMA_TIMEOUT) is the limit; this outer one is a margin above it.
     if timeout is None:
@@ -68,7 +72,10 @@ def ask(cmd: str, prompt: str, timeout: int | None = None) -> str:
         shlex.split(cmd), input=prompt, capture_output=True, text=True, timeout=timeout, check=False,
     )
     if result.returncode != 0:
-        raise RuntimeError(f"model command failed ({result.returncode}): {result.stderr.strip()[:200]}")
+        # Only the explicit answer-validation exit is quality-only. Crashes, signals,
+        # protocol errors and other nonzero exits are failed execution.
+        error = RuntimeError if result.returncode == 3 else ModelExecutionError
+        raise error(f"model command failed ({result.returncode}): {result.stderr.strip()[:200]}")
     return result.stdout.strip()
 
 
@@ -215,6 +222,7 @@ def score_probes(probes: list[SvgProbe], generated: str, ask_fn) -> dict:
         counts[probe.field] = counts.get(probe.field, 0) + 1
     answers: dict[str, tuple[str, str, list | None, str | None]] = {}
     results = []
+    execution_errors: dict[str, str] = {}
     for probe in probes:
         if probe.field not in answers:
             raw = ""
@@ -223,6 +231,8 @@ def score_probes(probes: list[SvgProbe], generated: str, ask_fn) -> dict:
                 answer, values = _answer_values(raw, probe.field, counts[probe.field])
                 answers[probe.field] = (raw, answer, values, None)
             except (RuntimeError, subprocess.TimeoutExpired, ValueError, TypeError, DecimalException) as exc:
+                if isinstance(exc, (ModelExecutionError, subprocess.TimeoutExpired)):
+                    execution_errors[probe.field] = str(exc)
                 answers[probe.field] = (raw, _final_payload(raw) if isinstance(raw, str) else "", None, str(exc))
         raw, answer, values, error = answers[probe.field]
         ok = False
@@ -237,7 +247,8 @@ def score_probes(probes: list[SvgProbe], generated: str, ask_fn) -> dict:
     unscorable = sum(result["status"] == "unscorable" for result in results)
     return {"hits": hits, "total": len(probes), "score": round(hits / len(probes), 3) if probes else None,
             "status": ("incomplete" if unscorable else "scored") if probes else "not_applicable",
-            "results": results, "unscorable": unscorable}
+            "results": results, "unscorable": unscorable,
+            "execution_errors": execution_errors}
 
 
 def run(source_svg: str, ask_fn) -> dict:
@@ -257,6 +268,8 @@ def run(source_svg: str, ask_fn) -> dict:
         generated_src = extract_svg(raw)
     except (RuntimeError, subprocess.TimeoutExpired, ValueError, TypeError) as exc:
         report["status"] = "incomplete"
+        if isinstance(exc, (ModelExecutionError, subprocess.TimeoutExpired)):
+            report["execution_errors"] = {stage: str(exc)}
         report["errors"].append(f"{stage}: {exc}")
         return report
     report["generated"] = generated_src
@@ -290,7 +303,7 @@ def main(argv: list[str] | None = None) -> int:
         text = path.read_text(encoding="utf-8")
         try:
             report = run(text, lambda p: ask(args.cmd, p))
-        except subprocess.TimeoutExpired as exc:  # probe answers only catch RuntimeError, so this can escape run()
+        except subprocess.TimeoutExpired as exc:  # retain a fallback for failures outside a model stage
             report = {"dsl_ok": False, "score": None, "hits": 0, "total": 0, "errors": [],
                       "run_error": f"timeout after {exc.timeout}s"}
         report["figure"] = path.name
@@ -325,3 +338,4 @@ def _write(args: argparse.Namespace, reports: list[dict]) -> None:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

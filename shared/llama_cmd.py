@@ -35,17 +35,26 @@ except ImportError:
 DEFAULT_URL = "http://127.0.0.1:8080/v1/chat/completions"
 
 
+class AnswerValidationError(ValueError):
+    """A valid response carried no completed textual answer (CLI exit 3)."""
+
+
 def extract_answer(payload: dict) -> str:
     """Reject unfinished, missing or non-text answers before scoring."""
     choice = payload["choices"][0]
-    if choice.get("finish_reason") != "stop":
-        raise ValueError(f"answer did not complete: {choice.get('finish_reason')!r}")
+    reason = choice["finish_reason"]
+    if reason in ("length", "content_filter", "tool_calls", "function_call"):
+        raise AnswerValidationError(f"answer did not complete: {reason!r}")
+    if reason != "stop":
+        raise ValueError(f"unexpected finish_reason: {reason!r}")
     content = choice["message"]["content"]
+    if content is None:
+        raise AnswerValidationError("no completed final answer")
     if not isinstance(content, str):
         raise ValueError("answer content must be text")
     answer = final_answer(content)
     if not answer:
-        raise ValueError("no completed final answer")
+        raise AnswerValidationError("no completed final answer")
     return answer
 
 
@@ -70,8 +79,11 @@ def main() -> int:
     timeout = int(os.environ.get("LLAMA_TIMEOUT", "300"))  # long answers on CPU can exceed 5 minutes
     try:
         answer = ask_llama(prompt, url, timeout=timeout)
-    except urllib.error.URLError as exc:  # server not running or not reachable: a measurement failure
-        sys.stderr.write(f"llama-server unreachable: {exc.reason}\n")
+    except AnswerValidationError as exc:
+        sys.stderr.write(f"answer validation failed: {exc}\n")
+        return 3
+    except (urllib.error.URLError, TimeoutError) as exc:  # server not running or not reachable: a measurement failure
+        sys.stderr.write(f"llama-server unreachable: {getattr(exc, 'reason', str(exc))}\n")
         return 2
     sys.stdout.write(answer)
     sys.stdout.write("\n")
@@ -80,3 +92,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
