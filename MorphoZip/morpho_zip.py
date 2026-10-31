@@ -138,6 +138,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+from shared.romance_gate import apply_outside_romance  # noqa: E402
 from shared.lex_policy import (  # noqa: E402
     apply_etymon_align,
     apply_spelled_numbers,
@@ -1934,7 +1935,15 @@ def normalize_quotes(text: str) -> str:
 
 
 def strip_articles(text: str) -> str:
-    """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only."""
+    """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only.
+
+    es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
+    chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
+    """
+    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_en)
+
+
+def _strip_articles_en(text: str) -> str:
     text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
 
@@ -2195,7 +2204,8 @@ def drop_3sg_after_inventory_pronoun(text: str) -> str:
         mid = full[len(subj) : mid_end]  # includes spaces + optional adv
         return f"{subj}{mid}{_en_verb_base_from_3sg(verb)}"
 
-    return _AFTER_INV_PRON_VERB.sub(_sub, text or "")
+    # ``s'il vous plaît`` → ``s'he vous``: ``vous`` is not an EN 3sg verb.
+    return apply_outside_romance(text or "", lambda t: _AFTER_INV_PRON_VERB.sub(_sub, t))
 
 
 def restore_protected(text: str, restores: list[str]) -> str:
