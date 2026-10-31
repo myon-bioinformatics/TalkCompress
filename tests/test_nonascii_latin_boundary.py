@@ -1,6 +1,11 @@
 """Non-ASCII Latin ledger/etymon sources must not fire inside a longer word."""
 from __future__ import annotations
 
+import re
+import sys
+import unicodedata
+
+import pytest
 
 from shared import ledger as G
 from shared import lex_policy as L
@@ -57,11 +62,6 @@ def test_etymon_nonascii_word_edges():
     assert p("彼の") == "彼の" and p("°") == "°"
 
 
-import re
-import unicodedata
-import pytest
-
-
 @pytest.mark.parametrize("mark", ["\u0301", "\u1ab0", "\u1dc0", "\u20d0", "\ufe20", "\u093e", "\u20dd", "\U0001d165"])
 def test_all_mark_categories_block_latin_edges(mark):
     assert unicodedata.category(mark).startswith("M")
@@ -75,3 +75,11 @@ def test_all_mark_categories_block_latin_edges(mark):
     assert G._replace_src("für" + mark, "für", "for") == "für" + mark
     assert not G._word_present("für" + mark, "für")
     assert L.apply_etymon_align("réseau" + mark) == "réseau" + mark
+
+
+def test_mark_pattern_matches_exactly_unicode_mark_categories():
+    from shared.unicode_boundary import mark_pattern
+
+    characters = "".join(map(chr, range(sys.maxunicode + 1)))
+    expected = [c for c in characters if unicodedata.category(c).startswith("M")]
+    assert re.findall(mark_pattern(), characters) == expected
