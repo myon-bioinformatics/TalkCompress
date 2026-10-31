@@ -1928,13 +1928,13 @@ _SINGLE_PAIR = re.compile(
 
 # o200k merges ``“`` + these words into ONE token while ``"`` + word is two
 # (generated from the o200k_base vocab; runtime has no tiktoken).  Only when
-# ``“`` is not preceded by whitespace (line start, ``(“``…): after a space the
-# pretokenizer splits `` “`` off anyway.  Such pairs stay curly.
+# ``“`` is at line start.  After a space the pretokenizer splits `` “`` off,
+# and after ``(``/``[`` it merges ``("``/``(“`` so keeping curly costs +1.
 _CURLY_MERGE_WORDS = frozenset(
     "All At El How One She That These To Well With Yes".split()
 )
 _CURLY_KEEP_PAIR = re.compile(
-    r"(?:(?<=[^\s])|^)\u201c(?:" + "|".join(sorted(_CURLY_MERGE_WORDS)) + r")(?![A-Za-z])"
+    r"^\u201c(?:" + "|".join(sorted(_CURLY_MERGE_WORDS)) + r")(?![A-Za-z])"
     r"[^\u201c\u201d\n]*\u201d",
     re.M,
 )
@@ -1944,7 +1944,7 @@ def normalize_quotes(text: str) -> str:
     """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched.
 
     A ``“…”`` pair whose opener merges with the next word in o200k (``“Well``)
-    stays curly so the token count never rises."""
+    stays curly at line start only, so the token count never rises."""
     parts: list[str] = []
     pos = 0
     for m in _CURLY_KEEP_PAIR.finditer(text):

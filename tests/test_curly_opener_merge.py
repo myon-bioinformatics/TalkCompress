@@ -12,6 +12,18 @@ def test_after_space_or_other_word_goes_straight():
     assert normalize_quotes("“Wellington” x") == '"Wellington" x'
 
 
+def test_after_bracket_goes_straight():
+    assert normalize_quotes("(“Well,” he said.)") == '("Well," he said.)'
+    assert normalize_quotes("[“With it”]") == '["With it"]'
+
+
+def test_after_bracket_straight_not_more_tokens():
+    tiktoken = __import__("pytest").importorskip("tiktoken")
+    e = tiktoken.get_encoding("o200k_base")
+    for src in ("(“Well,” he said.)", "[“With it”]"):
+        assert len(e.encode(normalize_quotes(src))) <= len(e.encode(src)), src
+
+
 def test_merge_word_table_matches_o200k():
     tiktoken = __import__("pytest").importorskip("tiktoken")
     e = tiktoken.get_encoding("o200k_base")
