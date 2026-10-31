@@ -171,6 +171,7 @@ def validate_vote(vote: dict, mapping: list[dict]) -> list[dict]:
     for issue in issues:
         if (not isinstance(issue, dict) or type(issue.get('rule_index')) is not int
                 or not 0 <= issue['rule_index'] < len(mapping)
+                or not isinstance(issue.get('category'), str)
                 or issue.get('category') not in {'meaning', 'ambiguity', 'collision', 'decodability'}
                 or not isinstance(issue.get('reason'), str) or not issue['reason'].strip()):
             raise ValueError('issue needs valid rule_index, category and concrete reason')
@@ -259,8 +260,34 @@ def negotiation_cost(client: Client, start: int, end: int) -> dict:
     calls = client.calls[start:end]
     return {'negotiation_calls': len(calls), 'negotiation_content_tokens': sum(
         client.tokens(m['content']) for call in calls for m in call['request']['messages']) + sum(
-        client.tokens(call.get('response', {}).get('choices', [{}])[0].get('message', {}).get('content') or '')
+        client.tokens(completion_content(call))
         for call in calls)}
+
+
+def completion_content(call: dict) -> str:
+    """Missing/malformed response content is unknown cost, not an empty answer."""
+    response = call.get('response')
+    choices = response.get('choices') if isinstance(response, dict) else None
+    choice = choices[0] if isinstance(choices, list) and choices else None
+    message = choice.get('message') if isinstance(choice, dict) else None
+    content = message.get('content') if isinstance(message, dict) else None
+    if not isinstance(content, str):
+        raise ValueError('completion content unavailable for token accounting')
+    return content
+
+
+def account_tokens(client: Client, record: dict, key: str, *texts: str) -> None:
+    """Keep evaluation evidence even if the independent tokenizer is unavailable."""
+    try:
+        record[key] = sum(client.tokens(text) for text in texts)
+    except Exception as error:
+        record[key] = None
+        record.setdefault('token_accounting_errors', {})[key] = repr(error)
+
+
+def known_sum(values) -> int | None:
+    values = list(values)
+    return None if any(value is None for value in values) else sum(values)
 
 
 def receiver_prompt(message: str, mapping: list[dict[str, str]]) -> str:
@@ -304,15 +331,17 @@ def experiment(client: Client, *, groups: int = 2, peers: int = 2, rounds: int =
             continue
         entry['status'] = 'completed'
         entry['receiver_evaluation_status'] = 'completed'
-        entry['book_tokens'] = client.tokens(book)
+        account_tokens(client, entry, 'book_tokens', book)
         for case in heldout:
             compressed = encode(case['text'], agreement['mapping'])
             for arm, message, mapping in [('raw', case['text'], []),
                     ('shared', compressed, agreement['mapping']), ('unshared', compressed, [])]:
                 prompt = receiver_prompt(message, mapping)
                 result = {'id': case['id'], 'arm': arm, 'message': message,
-                          'message_tokens': client.tokens(message), 'prompt_tokens': client.tokens(INSTRUCTION) + client.tokens(prompt),
                           'expected': case['expected']}
+                account_tokens(client, result, 'message_tokens', message)
+                account_tokens(client, result, 'prompt_tokens', INSTRUCTION, prompt)
+                receiver_call_start = len(client.calls)
                 try:
                     prediction = client.ask(f'fresh-receiver-{arm}', prompt, 160)
                     result['prediction'] = prediction
@@ -323,30 +352,40 @@ def experiment(client: Client, *, groups: int = 2, peers: int = 2, rounds: int =
                     result['status'] = 'completed' if result['valid'] else 'unknown_or_invalid'
                 except Exception as error:
                     result.update(status='model_error', error=repr(error), valid=False, success=False, field_errors=sorted(FIELDS))
-                call = client.calls[-1]
-                completion = call.get('response', {}).get('choices', [{}])[0].get('message', {}).get('content') or ''
-                result['completion_content_tokens'] = client.tokens(completion)
+                try:
+                    if len(client.calls) != receiver_call_start + 1:
+                        raise ValueError('receiver call log unavailable for token accounting')
+                    completion = completion_content(client.calls[-1])
+                    account_tokens(client, result, 'completion_content_tokens', completion)
+                except Exception as error:
+                    result['completion_content_tokens'] = None
+                    result.setdefault('token_accounting_errors', {})['completion_content_tokens'] = repr(error)
                 entry['cases'].append(result)
         entry['summary'] = {}
         for arm in ['raw', 'shared', 'unshared']:
             values = [x for x in entry['cases'] if x['arm'] == arm]
             entry['summary'][arm] = {'successes': sum(x['success'] for x in values), 'total': len(values),
                 'invalid_or_error': sum(not x['valid'] for x in values),
-                'message_tokens': sum(x['message_tokens'] for x in values),
-                'prompt_content_tokens': sum(x['prompt_tokens'] for x in values),
-                'completion_content_tokens': sum(x['completion_content_tokens'] for x in values)}
+                'message_tokens': known_sum(x['message_tokens'] for x in values),
+                'prompt_content_tokens': known_sum(x['prompt_tokens'] for x in values),
+                'completion_content_tokens': known_sum(x['completion_content_tokens'] for x in values)}
             summary = entry['summary'][arm]
             summary['success_rate'] = summary['successes'] / summary['total']
-            summary['total_content_tokens_with_negotiation'] = (
-                summary['prompt_content_tokens'] + summary['completion_content_tokens'] + entry['negotiation_content_tokens']
-                if entry['negotiation_content_tokens'] is not None else None)
+            summary['total_content_tokens_with_negotiation'] = known_sum([
+                summary['prompt_content_tokens'], summary['completion_content_tokens'], entry['negotiation_content_tokens']])
         raw, shared = entry['summary']['raw'], entry['summary']['shared']
-        entry['wire_tokens_with_one_book'] = shared['message_tokens'] + entry['book_tokens']
-        entry['wire_tokens_with_book_and_negotiation'] = (entry['wire_tokens_with_one_book'] + entry['negotiation_content_tokens']
-            if entry['negotiation_content_tokens'] is not None else None)
+        entry['wire_tokens_with_one_book'] = known_sum([shared['message_tokens'], entry['book_tokens']])
+        entry['wire_tokens_with_book_and_negotiation'] = known_sum([
+            entry['wire_tokens_with_one_book'], entry['negotiation_content_tokens']])
         entry['negotiation_and_dictionary_net_saving'] = (raw['message_tokens'] - entry['wire_tokens_with_book_and_negotiation']
-            if entry['wire_tokens_with_book_and_negotiation'] is not None else None)
+            if entry['wire_tokens_with_book_and_negotiation'] is not None and raw['message_tokens'] is not None else None)
+        entry['token_accounting_status'] = ('incomplete' if entry.get('token_accounting_error')
+            or entry.get('token_accounting_errors')
+            or any(case.get('token_accounting_errors') for case in entry['cases']) else 'completed')
+        if entry['token_accounting_status'] == 'incomplete':
+            entry['status'] = 'incomplete_token_accounting'
         entry['positive_evidence'] = (shared['successes'] == shared['total'] and raw['successes'] == raw['total']
+            and entry['token_accounting_status'] == 'completed'
             and entry['negotiation_and_dictionary_net_saving'] is not None
             and entry['negotiation_and_dictionary_net_saving'] > 0
             and shared['successes'] > entry['summary']['unshared']['successes'])

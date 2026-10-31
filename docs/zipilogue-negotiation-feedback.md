@@ -44,6 +44,14 @@ Failed negotiations retain costs and `not_run_no_agreement`; tokenizer failure i
 explicitly recorded with null cost, never estimated. No receiver summary is created
 without agreement.
 
+Receiver response/transport failures also retain the case and raw call log. Missing
+or malformed completion content has unknown token cost (`null`), not zero. Tokenizer
+failures during book, message, prompt or completion accounting retain the evaluation
+and mark the affected costs and dependent totals unknown. These runs have
+`status=incomplete_token_accounting`, cannot be positive evidence, and exit nonzero
+after writing the report; `receiver_evaluation_status=completed` means the receiver
+cases were attempted, not that their answers or cost accounting succeeded.
+
 Successful runs retain the 20-case raw/shared/unshared comparison. Each arm reports
 success rate and total prompt + completion content tokens plus negotiation.
 Dictionary tokens are already included in each shared receiver prompt. These totals

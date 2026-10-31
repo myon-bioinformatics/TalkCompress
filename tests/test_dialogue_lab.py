@@ -235,3 +235,111 @@ def test_failed_negotiation_is_preserved_when_tokenizer_unavailable():
     assert group['negotiation_content_tokens'] is None
     assert 'token_accounting_error' in group
     assert group['cases'] == []
+
+
+@pytest.mark.parametrize('category', [[], {}, None, True, 42])
+def test_invalid_category_is_a_bounded_contract_veto(category):
+    class InvalidCategory(ScriptedClient):
+        def ask(self, role, prompt, max_tokens=256):
+            response = super().ask(role, prompt, max_tokens)
+            if 'critique' in role:
+                return {'accept': False, 'reason': 'bad', 'issues': [
+                    {'rule_index': 0, 'category': category, 'reason': 'specific'}]}
+            return response
+    report = experiment(InvalidCategory(), groups=1, rounds=2)
+    group = report['groups'][0]
+    assert group['status'] == 'no_agreement'
+    assert group['failure_counts'] == {'peer_vote_contract': 4}
+    assert len(group['transcripts']) == 2
+    assert group['negotiation_calls'] == 6
+    assert group['negotiation_content_tokens'] > 0
+    assert group['receiver_evaluation_status'] == 'not_run_no_agreement'
+
+
+class OfflineResponseClient(Client):
+    """Exercise real ask/log/error handling, with no HTTP or model calls."""
+    def __init__(self, response):
+        super().__init__('http://unused.invalid')
+        self.receiver_response = response
+
+    def tokens(self, text):
+        return len(text)
+
+    def post(self, path, payload):
+        assert path == '/v1/chat/completions'
+        if len(self.calls) == 0:
+            value = {'mapping': [{'long': 'For service', 'short': 'q1'}]}
+        elif len(self.calls) < 3:
+            value = {'accept': True, 'reason': 'fixture', 'issues': []}
+        else:
+            return self.receiver_response
+        return {'choices': [{'finish_reason': 'stop', 'message': {'content': json.dumps(value)}}]}
+
+
+@pytest.mark.parametrize('response', [
+    {'choices': []}, {'choices': None}, {'choices': [None]},
+    {'choices': [{'message': None}]}, {'choices': [{'message': {'content': None}}]},
+    {}, None,
+])
+def test_malformed_receiver_response_retains_report_and_unknown_cost(response):
+    client = OfflineResponseClient(response)
+    report = experiment(client, groups=1)
+    group = report['groups'][0]
+    assert group['status'] == 'incomplete_token_accounting'
+    assert group['receiver_evaluation_status'] == 'completed'
+    assert len(group['cases']) == 60 and len(report['calls']) == 63
+    assert all(c['status'] == 'model_error' for c in group['cases'])
+    assert all(c['completion_content_tokens'] is None for c in group['cases'])
+    assert all(s['total_content_tokens_with_negotiation'] is None for s in group['summary'].values())
+    assert group['positive_evidence'] is False
+
+
+@pytest.mark.parametrize('fail_at', ['negotiation', 'book', 'message', 'prompt', 'completion'])
+def test_successful_agreement_survives_tokenizer_failure(fail_at):
+    class TokenFailure(ScriptedClient):
+        def tokens(self, text):
+            book = '[{"long":"For service","short":"q1"}]'
+            is_target = {
+                'negotiation': len(self.calls) == 3 and text != book,
+                'book': text == book,
+                'message': text.startswith('For service alpha in staging, hold'),
+                'prompt': text.startswith('Recover the exact task'),
+                'completion': len(self.calls) > 3 and text == '{}',
+            }[fail_at]
+            if is_target:
+                raise OSError('tokenizer unavailable')
+            return super().tokens(text)
+    report = experiment(TokenFailure(), groups=1)
+    group = report['groups'][0]
+    assert group['status'] == 'incomplete_token_accounting'
+    assert group['token_accounting_status'] == 'incomplete'
+    assert group['receiver_evaluation_status'] == 'completed'
+    assert len(group['cases']) == 60 and len(report['calls']) == 63
+    assert group['positive_evidence'] is False
+    if fail_at == 'completion':
+        assert all(c['completion_content_tokens'] is None for c in group['cases'])
+        assert all(s['total_content_tokens_with_negotiation'] is None for s in group['summary'].values())
+
+
+def test_missing_receiver_log_cannot_reuse_previous_peer_completion():
+    class MissingLog(ScriptedClient):
+        def ask(self, role, prompt, max_tokens=256):
+            if role.startswith('fresh-receiver'):
+                raise OSError('failed before call log')
+            return super().ask(role, prompt, max_tokens)
+    group = experiment(MissingLog(), groups=1)['groups'][0]
+    assert all(c['completion_content_tokens'] is None for c in group['cases'])
+    assert all('receiver call log unavailable' in c['token_accounting_errors']['completion_content_tokens']
+               for c in group['cases'])
+
+
+def test_cli_writes_failed_receiver_evidence_and_returns_nonzero(monkeypatch, tmp_path):
+    from Zipilogue import dialogue_lab
+    client = OfflineResponseClient({'choices': []})
+    monkeypatch.setattr(dialogue_lab, 'Client', lambda *args, **kwargs: client)
+    output = tmp_path / 'report.json'
+    assert dialogue_lab.main(['--groups', '1', '--output', str(output)]) == 1
+    report = json.loads(output.read_text())
+    assert len(report['calls']) == 63
+    assert len(report['groups'][0]['cases']) == 60
+    assert report['groups'][0]['summary']['raw']['completion_content_tokens'] is None
