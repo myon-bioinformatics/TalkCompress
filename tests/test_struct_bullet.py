@@ -43,3 +43,9 @@ def test_first_ascii_letter_is_capitalized_after_filler_removal():
 
 def test_marker_can_be_empty_for_plain_lines():
     assert to_bullets("Deploy the build. Run the tests.", marker="") == "Deploy the build\nRun the tests"
+
+
+def test_abbreviation_does_not_split_sentence():
+    from shared.struct_bullet import to_bullets
+
+    assert to_bullets("See e.g. the file. Use i.e. this one.") == "- See e.g. the file\n- Use i.e. this one"

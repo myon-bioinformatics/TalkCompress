@@ -33,7 +33,9 @@ try:  # package import (pytest, DensityZip)
 except ImportError:  # run as a script from shared/
     from keep_check import check
 
-SENTENCE_SPLIT = re.compile(r"(?<=[。！？])|(?<=[.!?])\s+|\n+")
+SENTENCE_SPLIT = re.compile(
+    r"(?<=[。！？])|(?<!\be\.g\.)(?<!\bi\.e\.)(?<!\betc\.)(?<!\bvs\.)(?<!\bMr\.)(?<!\bDr\.)(?<=[.!?])\s+|\n+"
+)
 FILLER_PREFIX = re.compile(
     r"^(?:(?:um|uh|well|so|also|basically|actually|just|you know)[,]?\s+)+",
     re.IGNORECASE,
