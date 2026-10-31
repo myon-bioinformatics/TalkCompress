@@ -1981,19 +1981,64 @@ def _strip_articles_cue_aware(text: str) -> str:
     # Source offsets, not sentinel text: arbitrary user characters must never
     # be interpreted as an internal placeholder during restoration.
     preserve_a: set[int] = set()
+    hyphen_a: set[int] = set()
     for sentence in _SENT_CHUNK.finditer(text):
         part = sentence.group(0)
-        if not has_english_cue(part):
-            for match in _A_BEFORE_NAME.finditer(part):
-                if unicodedata.category(match.group(2)) in {"Lu", "Lt"}:
+        english = has_english_cue(part)
+        for match in _A_BEFORE_NAME.finditer(part):
+            if unicodedata.category(match.group(2)) not in {"Lu", "Lt"}:
+                continue
+            word = re.match(r"[^\W\d_]+", part[match.end(1):].lstrip(" "))
+            if word and len(word.group(0)) > 1 and word.group(0).isupper():
+                # ``a IS key`` / ``A USB``: all-caps, not a name — old behaviour.
+                if not english:
                     preserve_a.add(sentence.start() + match.start(1))
-    return _strip_articles_en(text, preserve_a=frozenset(preserve_a))
+                continue
+            offset = sentence.start() + match.start(1)
+            before = part[: match.start(1)].rstrip(" \t\"'([{\u201c\u2018")
+            at_start = before == "" or before.endswith(("\u2014", "\u2013"))
+            if match.group(1) == "A" and not at_start and before[-1:].isalnum():
+                # ``Plan A Fails`` / ``Type A Blood``: a label, not an article.
+                continue
+            if english or (at_start and match.group(1) == "A"):
+                # English ``A``/``a`` + name: join with ``-`` (``A-Maria``) so
+                # the article survives; ``restore_a_hyphen`` undoes it.
+                hyphen_a.add(offset)
+            else:
+                # es/pt/fr/it function-word ``a`` (``Veo a Juan``): keep as is.
+                preserve_a.add(offset)
+    return _strip_articles_en(text, preserve_a=frozenset(preserve_a), hyphen_a=frozenset(hyphen_a))
+
+
+# Existing single-letter hyphen forms; ``restore_a_hyphen`` never splits them.
+A_HYPHEN_WHITELIST = frozenset(
+    w.casefold()
+    for w in (
+        "A-list", "A-League", "A-Team", "A-Level", "A-Frame", "A-Bomb",
+        "e-mail", "B-boy", "C-section", "D-day", "X-ray", "T-shirt", "U-turn",
+    )
+)
+_A_HYPHEN = re.compile(r"(?<![\w'\u2019-])([aA])-([^\W\d_][\w'\u2019]*)")
+
+
+def restore_a_hyphen(text: str) -> str:
+    """Undo ``A-Maria`` → ``A Maria`` (inverse of the hyphen protection)."""
+
+    def back(m: re.Match[str]) -> str:
+        word = m.group(2)
+        if m.group(0).casefold() in A_HYPHEN_WHITELIST or unicodedata.category(word[0]) not in {"Lu", "Lt"}:
+            return m.group(0)
+        return f"{m.group(1)} {word}"
+
+    return _A_HYPHEN.sub(back, unicodedata.normalize("NFC", text))
 
 
 _SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
 
 
-def _strip_articles_en(text: str, *, preserve_a: frozenset[int] = frozenset()) -> str:
+def _strip_articles_en(
+    text: str, *, preserve_a: frozenset[int] = frozenset(), hyphen_a: frozenset[int] = frozenset()
+) -> str:
     text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
     quote_changes: list[tuple[int, int, int]] = []
@@ -2008,15 +2053,26 @@ def _strip_articles_en(text: str, *, preserve_a: frozenset[int] = frozenset()) -
     out = _QUOTED_ARTICLE.sub(_mask, text)
     # Quoted articles are masked before article deletion. Carry source offsets
     # past those length changes without changing the existing quoted behavior.
-    mapped: set[int] = set()
-    change = delta = 0
-    for offset in sorted(preserve_a):
-        while change < len(quote_changes) and quote_changes[change][1] <= offset:
-            delta += quote_changes[change][2]
-            change += 1
-        if change == len(quote_changes) or offset < quote_changes[change][0]:
-            mapped.add(offset + delta)
-    out = _ARTICLE_WORD.sub(lambda m: m.group(0) if m.start() in mapped else "", out)
+    def _map(offsets: frozenset[int]) -> set[int]:
+        mapped: set[int] = set()
+        change = delta = 0
+        for offset in sorted(offsets):
+            while change < len(quote_changes) and quote_changes[change][1] <= offset:
+                delta += quote_changes[change][2]
+                change += 1
+            if change == len(quote_changes) or offset < quote_changes[change][0]:
+                mapped.add(offset + delta)
+        return mapped
+
+    mapped = _map(preserve_a)
+    hyphened = _map(hyphen_a)
+
+    def _article(m: re.Match[str]) -> str:
+        if m.start() in hyphened:
+            return m.group(0).rstrip(" ") + "-"
+        return m.group(0) if m.start() in mapped else ""
+
+    out = _ARTICLE_WORD.sub(_article, out)
     for i, inner in enumerate(restores):
         out = out.replace(_ART_PLACEHOLDER.format(i), inner)
     out = re.sub(r"[ \t]{2,}", " ", out)
