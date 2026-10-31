@@ -23,7 +23,6 @@ _DECLARE_RE = re.compile(
     r"^(?:rule:\s*(.+?)\s*=>\s*(.+)|::\s*(.+?)\s*=\s*(.+))\s*$",
     re.IGNORECASE,
 )
-_TOKEN_RE = re.compile(r"[A-Za-z0-9_\u3040-\u30ff\u3400-\u9fff]+|[^\s]", re.UNICODE)
 _WORD_RE = re.compile(r"\w+")
 # Word chars that need a boundary (kana/CJK are written without spaces).
 _SPACED_WORD = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
