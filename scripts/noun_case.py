@@ -85,10 +85,10 @@ def noun_lexicon(mz: ModuleType) -> frozenset[str]:
     """Nouns already enumerated in MorphoZip rule tables."""
     words: set[str] = set()
     for pat, _ in mz._COUNTER_SUBS:
-        for m in _ALT_RE.finditer(pat.pattern):
+        for m in _ALT_RE.finditer(mz.pattern_source(pat)):
             words |= expand_alternation(m.group(1) or m.group(2))
     for pat, _ in determiner_rules(mz):
-        for m in _ALT_RE.finditer(pat.pattern):
+        for m in _ALT_RE.finditer(mz.pattern_source(pat)):
             body = m.group(1) or m.group(2)
             if body != "that|those":
                 words |= expand_alternation(body)
@@ -105,7 +105,7 @@ def determiner_rules(mz: ModuleType) -> list[tuple[re.Pattern[str], object]]:
                     isinstance(item, tuple)
                     and len(item) == 2
                     and isinstance(item[0], re.Pattern)
-                    and item[0].pattern.startswith(r"\b(?:that|those)\s+(")
+                    and mz.pattern_source(item[0]).startswith(r"\b(?:that|those)\s+(")
                 ):
                     found.append(item)
     return found

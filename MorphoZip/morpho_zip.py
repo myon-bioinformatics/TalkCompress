@@ -38,6 +38,101 @@ import unicodedata
 import sys
 from pathlib import Path
 
+
+# --- ASCII-only case folding --------------------------------------------------
+# Hand-written patterns are compiled with re.I. In Unicode mode that also folds
+# ASCII letters onto non-ASCII ones (i ~ İ/ı, s ~ ſ, k ~ U+212A KELVIN SIGN), so
+# Turkish "dıd" or "ſo" would be rewritten as English words. A global re.ASCII
+# would also make \w, \b and \d ASCII-only and break accented/NFD boundaries,
+# so only the ASCII letter literals (and all-ASCII character classes) are wrapped
+# in a scoped (?a:...) group; boundaries and non-ASCII literals stay Unicode.
+_FOLD_QUANT = "*+?{"
+_FOLD_CLASS_UNSAFE = re.compile(r"\\[wWdDsSuUxN]|[^\x00-\x7f]")
+_FOLD_CLASS_LETTER = re.compile(r"(?<!\\)[A-Za-z]")
+
+
+def _ascii_case(pattern: str) -> str:
+    """Wrap ASCII letter literals of *pattern* in ``(?a:...)``."""
+    out: list[str] = []
+    run = ""
+    i, n = 0, len(pattern)
+
+    def flush(nxt: str) -> None:
+        nonlocal run
+        if run:
+            if nxt and unicodedata.combining(nxt):
+                # NFD ``e\u0301``: keep the base letter next to its mark so the
+                # rewrite of an NFD pattern is the NFD form of the NFC rewrite.
+                if len(run) > 1:
+                    out.append(f"(?a:{run[:-1]})")
+                out.append(run[-1])
+            elif nxt in _FOLD_QUANT and len(run) > 1:
+                out.append(f"(?a:{run[:-1]})(?a:{run[-1]})")
+            else:
+                out.append(f"(?a:{run})")
+            run = ""
+
+    while i < n:
+        c = pattern[i]
+        if c.isascii() and c.isalpha():
+            run += c
+            i += 1
+            continue
+        flush(c)
+        if c == "\\":
+            nxt = pattern[i + 1 : i + 2]
+            if nxt == "N":
+                j = pattern.index("}", i) + 1
+            else:
+                j = i + 2 + {"u": 4, "U": 8, "x": 2}.get(nxt, 0)
+        elif pattern.startswith("(?", i):
+            j = i + 2
+            if pattern.startswith("P<", j):
+                j = pattern.index(">", j) + 1
+            elif pattern.startswith("P=", j):
+                j = pattern.index(")", j)
+            elif pattern[j] in "=!:<":  # (?= (?! (?: and (?<= (?<!
+                j += 1
+            else:  # inline flags: (?i) / (?i:
+                while pattern[j] not in ":)":
+                    j += 1
+                j += 1
+        elif c == "[":
+            j = i + 1
+            if pattern[j] == "^":
+                j += 1
+            if pattern[j] == "]":
+                j += 1
+            while pattern[j] != "]":
+                j += 2 if pattern[j] == "\\" else 1
+            j += 1
+            cls = pattern[i:j]
+            if _FOLD_CLASS_LETTER.search(cls) and not _FOLD_CLASS_UNSAFE.search(cls):
+                out.append(f"(?a:{cls})")
+                i = j
+                continue
+        else:
+            j = i + 1
+        out.append(pattern[i:j])
+        i = j
+    flush("")
+    return "".join(out)
+
+
+_CI_SOURCE: dict[re.Pattern[str], str] = {}
+
+
+def _ci_compile(pattern: str, flags: int = 0) -> re.Pattern[str]:
+    """re.compile with ASCII-only case folding for the pattern's literals."""
+    pat = re.compile(_ascii_case(pattern), flags)
+    _CI_SOURCE[pat] = pattern
+    return pat
+
+
+def pattern_source(pat: re.Pattern[str]) -> str:
+    """The hand-written source of *pat* (before the ``(?a:...)`` wrapping)."""
+    return _CI_SOURCE.get(pat, pat.pattern)
+
 _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
@@ -106,7 +201,7 @@ def _build_surface_re(surfaces: list[str]) -> re.Pattern[str]:
             parts.append(re.escape(s))
     if not parts:
         return re.compile(r"(?!)")  # never matches
-    return re.compile("|".join(parts), re.I)
+    return _ci_compile("|".join(parts), re.I)
 
 
 # --- pronoun -----------------------------------------------------------------
@@ -205,7 +300,7 @@ PRONOUN_ALIAS_TO_CANONICAL: dict[str, str] = {
     "ils": "they",
     "elles": "they",
 }
-_PRONOUN_SURFACE_RE = re.compile(
+_PRONOUN_SURFACE_RE = _ci_compile(
     r"y'all's|y'alls|y'all|君の|彼女の|彼の|她的|她の|"
     r"\btheirs\b|\btheir\b|\bthem\b|\bthey\b|\bmine\b|\bours\b|\byours\b|"
     r"\bustedes\b|\busted\b|\bellos\b|\bellas\b|\belles\b|\bils\b|\bnosotros\b|\bnous\b|\bwir\b|"
@@ -225,7 +320,7 @@ ARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "a": "∅",
     "an": "∅",
 }
-_ARTICLE_SURFACE_RE = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])", re.I)
+_ARTICLE_SURFACE_RE = _ci_compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])", re.I)
 
 # --- conjunction (接続詞): high-freq logical; C owns moreover/nevertheless ----
 CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "bc", "therefore")
@@ -254,7 +349,7 @@ CONJ_ALIAS_TO_CANONICAL: dict[str, str] = {
     "+": "+",
     "in addition": "+",
 }
-_CONJ_SURFACE_RE = re.compile(
+_CONJ_SURFACE_RE = _ci_compile(
     r"および|並びに|もしくは|若しくは|または|かつ|"
     r"\bbecause\b|\btherefore\b|\bwhereas\b|\bin addition\b|"
     r"\band\b|\bor\b|\bund\b|\bet\b|\by\b|\boder\b|\bou\b|\bbc\b|[＆&/∴∵+]",
@@ -281,7 +376,7 @@ ADVERB_ALIAS_TO_CANONICAL: dict[str, str] = {
     "oft": "oft",
     "often": "oft",
 }
-_ADVERB_SURFACE_RE = re.compile(
+_ADVERB_SURFACE_RE = _ci_compile(
     r"\bapproximately\b|\bespecially\b|\bparticularly\b|\badditionally\b|"
     r"\bhowever\b|\bthough\b|\bextremely\b|\breally\b|\bvery\b|\balways\b|\boften\b|"
     r"\besp\.|\btho\b|\balso\b|\boft\b|[~˅□]",
@@ -308,7 +403,7 @@ AUX_ALIAS_TO_CANONICAL: dict[str, str] = {
     "may": "may",
     "かもしれない": "may",
 }
-_AUX_SURFACE_RE = re.compile(
+_AUX_SURFACE_RE = _ci_compile(
     r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない|かもしれない|"
     r"できる|でしょう|だろう|"
     r"\bcould\b|\bwould\b|\bshould\b|\bmight\b|\bcan\b|\bwill\b|\bmust\b|\bmay\b",
@@ -347,7 +442,7 @@ PREP_ALIAS_TO_CANONICAL: dict[str, str] = {
     "bei": "@",  # DE at/by
     "to": "to",
 }
-_PREP_SURFACE_RE = re.compile(
+_PREP_SURFACE_RE = _ci_compile(
     r"\bwith\b|\bfrom\b|\bfor\b|\bto\b|\bat\b|"
     r"\bcon\b|\bavec\b|\bmit\b|\bpara\b|\bpour\b|\bf[uü]r\b|"
     r"\bdesde\b|\bdepuis\b|\baus\b|\bbei\b|"
@@ -389,7 +484,7 @@ PREP2_ALIAS_TO_CANONICAL: dict[str, str] = {
     "apres": "after",
     "nach": "after",  # DE after (also to — accepted alias)
 }
-_PREP2_SURFACE_RE = re.compile(
+_PREP2_SURFACE_RE = _ci_compile(
     r"\bwithout\b|\bwithin\b|\bbefore\b|\bafter\b|\bof\b|w/o|"
     r"\bsin\b|\bsans\b|\bohne\b|\bdentro\b|\binnerhalb\b|"
     r"\bantes\b|\bavant\b|\bvor\b|"
@@ -435,7 +530,7 @@ COMPARE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "moins que": "≤",
     "weniger als": "≤",
 }
-_COMPARE_SURFACE_RE = re.compile(
+_COMPARE_SURFACE_RE = _ci_compile(
     r"以上|以下|"
     r"\bat least\b|\bat most\b|\bor more\b|\bor less\b|"
     r"\band above\b|\band below\b|\bmore than\b|\bless than\b|"
@@ -554,7 +649,7 @@ DEIXIS_ALIAS_TO_CANONICAL: dict[str, str] = {
     "aquel": "あれ",
     "aquella": "あれ",
 }
-_DEIXIS_SURFACE_RE = re.compile(
+_DEIXIS_SURFACE_RE = _ci_compile(
     r"これらの|それらの|これの|それの|あれの|"
     r"これは|これが|これを|それは|それが|それを|あれは|あれが|あれを|"
     r"これ|それ|あれ|"
@@ -879,7 +974,7 @@ def protect_join(words: tuple[str, ...] | list[str], style: str = "camel") -> st
 
 def _protect_rule(ctx: str, words: tuple[str, ...], style: str) -> tuple[re.Pattern[str], Any]:
     body = r"\s+".join(re.escape(w) for w in words)
-    pat = re.compile(rf"\b({ctx}){body}\b" if ctx else rf"\b(){body}\b", re.I)
+    pat = _ci_compile(rf"\b({ctx}){body}\b" if ctx else rf"\b(){body}\b", re.I)
     joined = protect_join(words, style)
     return pat, (lambda m, j=joined: m.group(1) + j)
 
@@ -890,20 +985,20 @@ _PROTECT_SUBS = [_protect_rule(c, w, st) for c, w, st in PROTECTED_PHRASES]
 _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- pronouns (multi-word / longer first). Contractions (I'll) belong to C.
     # 2pl → y'all (same bit slot as they/them)
-    (re.compile(r"\by'all\b", re.I), "y'all"),
-    (re.compile(r"\byou all\b", re.I), "y'all"),
-    (re.compile(r"\byou guys\b", re.I), "y'all"),
-    (re.compile(r"\byou folks\b", re.I), "y'all"),
-    (re.compile(r"\byou lot\b", re.I), "y'all"),
+    (_ci_compile(r"\by'all\b", re.I), "y'all"),
+    (_ci_compile(r"\byou all\b", re.I), "y'all"),
+    (_ci_compile(r"\byou guys\b", re.I), "y'all"),
+    (_ci_compile(r"\byou folks\b", re.I), "y'all"),
+    (_ci_compile(r"\byou lot\b", re.I), "y'all"),
     (re.compile(r"皆さん|みなさん|みんな|お前ら|あなたたち|君たち"), "y'all"),
     (re.compile(r"你们"), "y'all"),
     # Gender-pair phrases: keep both EN surfaces; do NOT collapse to they
-    (re.compile(r"\bhe or she\b", re.I), "he/she"),
-    (re.compile(r"\bshe or he\b", re.I), "she/he"),
-    (re.compile(r"\bhim or her\b", re.I), "him/her"),
-    (re.compile(r"\bher or him\b", re.I), "her/him"),
-    (re.compile(r"\bhis or her\b", re.I), "his/her"),
-    (re.compile(r"\bher or his\b", re.I), "her/his"),
+    (_ci_compile(r"\bhe or she\b", re.I), "he/she"),
+    (_ci_compile(r"\bshe or he\b", re.I), "she/he"),
+    (_ci_compile(r"\bhim or her\b", re.I), "him/her"),
+    (_ci_compile(r"\bher or him\b", re.I), "her/him"),
+    (_ci_compile(r"\bhis or her\b", re.I), "his/her"),
+    (_ci_compile(r"\bher or his\b", re.I), "her/his"),
     # 3pl before bare 彼/他 (彼ら / 他们)
     (re.compile(r"彼らを|かれらを"), "them"),
     (re.compile(r"彼らの|かれらの"), "their"),
@@ -920,22 +1015,22 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"私を|僕を|俺を|わたしを"), "me"),
     (re.compile(r"我"), "I"),
     # ES/FR/DE subject-side (same bit slots; skip ambiguous el/er/sie/vous)
-    (re.compile(r"\byo\b", re.I), "I"),
-    (re.compile(r"\bje\b", re.I), "I"),
-    (re.compile(r"\bich\b", re.I), "I"),
-    (re.compile(r"\bustedes\b", re.I), "y'all"),
-    (re.compile(r"\busted\b", re.I), "U"),
-    (re.compile(r"\bt[uú]\b", re.I), "U"),
+    (_ci_compile(r"\byo\b", re.I), "I"),
+    (_ci_compile(r"\bje\b", re.I), "I"),
+    (_ci_compile(r"\bich\b", re.I), "I"),
+    (_ci_compile(r"\bustedes\b", re.I), "y'all"),
+    (_ci_compile(r"\busted\b", re.I), "U"),
+    (_ci_compile(r"\bt[uú]\b", re.I), "U"),
     # DE du: alias-only (FR du = de+le false friend)
-    (re.compile(r"\bellos\b", re.I), "they"),
-    (re.compile(r"\bellas\b", re.I), "they"),
-    (re.compile(r"\belles\b", re.I), "they"),
-    (re.compile(r"\bils\b", re.I), "they"),
+    (_ci_compile(r"\bellos\b", re.I), "they"),
+    (_ci_compile(r"\bellas\b", re.I), "they"),
+    (_ci_compile(r"\belles\b", re.I), "they"),
+    (_ci_compile(r"\bils\b", re.I), "they"),
     # 3sg Romance → he/she (EN surface; utf8+token over 彼/她)
-    (re.compile(r"\bella\b", re.I), "she"),
-    (re.compile(r"\belle\b", re.I), "she"),
-    (re.compile(r"\bél\b", re.I), "he"),  # accented only (el = article)
-    (re.compile(r"\bil\b", re.I), "he"),
+    (_ci_compile(r"\bella\b", re.I), "she"),
+    (_ci_compile(r"\belle\b", re.I), "she"),
+    (_ci_compile(r"\bél\b", re.I), "he"),  # accented only (el = article)
+    (_ci_compile(r"\bil\b", re.I), "he"),
     # JA/ZH 3sg — case-split (do not emit 彼/她; do not collapse を into nom)
     (re.compile(r"彼女の"), "her"),
     (re.compile(r"彼女を"), "her"),
@@ -953,17 +1048,17 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"你"), "U"),
     # EN your/yours stay (poss); yourself → you (obj-ish)
     # obj you after common verb/prep — sentinel so later nom you→U cannot re-eat
-    (re.compile(
+    (_ci_compile(
         r"\b(see|saw|seen|meet|met|tell|told|give|gave|given|ask|asked|"
         r"for|to|with|from|at|on|about|of|near|call|called|show|showed|shown)\s+you\b",
         re.I,
     ), r"\1 U"),  # obj you → U too (2sg consistency; U 1tok/2B)
-    (re.compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "U"),
+    (_ci_compile(r"\byou\b(?!\s+(?:know|see)\b)", re.I), "U"),
     # Complementizer that-deletion (o200k: " that" = 1 tok → 0; a comma at the
     # deletion point would re-add 1 tok, so none is inserted). Relative that → que
     # (#23 classifier) and demonstratives are untouched.
     # (a) non-NP-object verbs: drop when a clause subject follows.
-    (re.compile(
+    (_ci_compile(
         r"\b(think|thinks|thought|hope|hopes|hoped|say|says|said|believe|believes|"
         r"believed|feel|feels|felt|guess|guesses|guessed|suppose|supposes|supposed)"
         r"\s+that\s+(?=(?:I|U|you|he|she|it|we|they|there|the|a|an|my|your|his|"
@@ -972,7 +1067,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     ), r"\1 "),
     # (b) NP-object verbs: drop only before pronoun subject + verb
     # ("I know that people…" keeps that: dropping it reads as NP object).
-    (re.compile(
+    (_ci_compile(
         r"\b(know|knows|knew|known|see|sees|saw|seen|tell|tells|told|show|shows|"
         r"showed|shown|find|finds|found|hear|hears|heard|realize|realizes|realized|"
         r"realise|realises|realised)\s+that\s+"
@@ -994,27 +1089,27 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"那些"), "those"),
     (re.compile(r"这个|这"), "ça"),
     (re.compile(r"那个|那"), "eso"),
-    (re.compile(r"\bthese\b", re.I), "these"),
-    (re.compile(r"\bthose\b", re.I), "those"),
-    (re.compile(r"\bthis\b", re.I), "ça"),
+    (_ci_compile(r"\bthese\b", re.I), "these"),
+    (_ci_compile(r"\bthose\b", re.I), "those"),
+    (_ci_compile(r"\bthis\b", re.I), "ça"),
     # EN that: demonstrative only — skip complementizer/relative
     # ("I think that…", "the book that…"). Keep bare that when ambiguous.
     # Fixed phrases where that/those must stay → protect_join (see PROTECTED_PHRASES).
     *_PROTECT_SUBS,
     # Demonstrative determiner that/those + NOUN → the (#37; o200k tie 1=1, utf8 fewer).
     # Pronoun-use that/those (that is…, I said that., those who…) untouched.
-    (re.compile(r"\b(?:that|those)\s+(one|ones|thing|things|stuff|guy|guys|girl|girls|man|men|woman|women|person|people|day|days|time|times|book|books|idea|ideas|problem|problems|issue|issues|point|points|part|parts|side|sides|end|ends|car|cars|house|houses|place|places|year|years|room|rooms|file|files|case|cases|kind|kinds|sort|sorts)\b", re.I), lambda m: ("The " if m.group(0)[0].isupper() else "the ") + m.group(1)),
+    (_ci_compile(r"\b(?:that|those)\s+(one|ones|thing|things|stuff|guy|guys|girl|girls|man|men|woman|women|person|people|day|days|time|times|book|books|idea|ideas|problem|problems|issue|issues|point|points|part|parts|side|sides|end|ends|car|cars|house|houses|place|places|year|years|room|rooms|file|files|case|cases|kind|kinds|sort|sorts)\b", re.I), lambda m: ("The " if m.group(0)[0].isupper() else "the ") + m.group(1)),
     # bare that+(is|was|…) → eso REMOVED: eats relative `N that BE` after which→that.
     # Demonstrative "that is" → i.e. in _PHRASE_GRAMMAR; ^that / post-punct that /
     # that's / that one|thing|… still cover deixis.
-    (re.compile(r"\besto\b", re.I), "ça"),
-    (re.compile(r"\b(?:eso|esa)\b", re.I), "eso"),
-    (re.compile(r"\bestos\b|\bestas\b", re.I), "these"),
-    (re.compile(r"\besos\b|\besas\b", re.I), "those"),
-    (re.compile(r"\bceci\b", re.I), "ça"),
-    (re.compile(r"\bcela\b", re.I), "eso"),
-    (re.compile(r"\b(?:ça|ça)\b", re.I), "ça"),
-    (re.compile(r"\baquel(?:la)?\b", re.I), "あれ"),
+    (_ci_compile(r"\besto\b", re.I), "ça"),
+    (_ci_compile(r"\b(?:eso|esa)\b", re.I), "eso"),
+    (_ci_compile(r"\bestos\b|\bestas\b", re.I), "these"),
+    (_ci_compile(r"\besos\b|\besas\b", re.I), "those"),
+    (_ci_compile(r"\bceci\b", re.I), "ça"),
+    (_ci_compile(r"\bcela\b", re.I), "eso"),
+    (_ci_compile(r"\b(?:ça|ça)\b", re.I), "ça"),
+    (_ci_compile(r"\baquel(?:la)?\b", re.I), "あれ"),
     # Neuter it/its = things/objects (no 物 slot). ZH 它 = neuter → it (not deixis).
     (re.compile(r"它的"), "its"),
     (re.compile(r"它"), "it"),
@@ -1024,76 +1119,76 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"为了"), " for "),  # 4→for: token loser
     # EN multi-word → compact symbols (not I'll-family contractions)
     # within before with (prefix); without→无 preferred (w/o remains alias in prep2)
-    (re.compile(r"\bwithin\b", re.I), "内"),
-    (re.compile(r"\bwithout\b", re.I), "无"),
-    (re.compile(r"\bw/o\b", re.I), "无"),
+    (_ci_compile(r"\bwithin\b", re.I), "内"),
+    (_ci_compile(r"\bwithout\b", re.I), "无"),
+    (_ci_compile(r"\bw/o\b", re.I), "无"),
     # throughout / therewith before with→w/ (prefix / compound)
-    (re.compile(r"\bthroughout\b", re.I), "通"),
-    (re.compile(r"\bpartout\b", re.I), "通"),  # FR
+    (_ci_compile(r"\bthroughout\b", re.I), "通"),
+    (_ci_compile(r"\bpartout\b", re.I), "通"),  # FR
     # --- finite high-freq prep / prep-like adv (not closed-inventory N growth) ---
     # multiword BEFORE of→de / from→← (else "out of"→"out de", "far from"→"far ←")
     # cycle2 multiword prep (before of→de / from→← / with→w/)
-    (re.compile(r"\bin favou?r of\b", re.I), "pro"),
-    (re.compile(r"\bon behalf of\b", re.I), "代表"),
-    (re.compile(r"\bby means of\b", re.I), "手段"),
-    (re.compile(r"\bin terms of\b", re.I), "観点"),
-    (re.compile(r"\bin accordance with\b", re.I), "準"),
-    (re.compile(r"\bas for\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"(?<!\bso )\bas to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bup to(?=\s*[$€£¥]?\d)", re.I), "≤"),
-    (re.compile(r"\bdown to\b", re.I), "至"),
-    (re.compile(r"\bin between\b", re.I), "between"),  # 間→between (token loser)
-    (re.compile(r"\boff of\b", re.I), "外"),
-    (re.compile(r"\bout from\b", re.I), "出"),
-    (re.compile(r"\bin light of\b", re.I), "鑑"),
-    (re.compile(r"\bin view of\b", re.I), "鑑"),
-    (re.compile(r"\bin case of\b", re.I), "場合"),
-    (re.compile(r"\bregardless of\b", re.I), "不問"),
-    (re.compile(r"\birrespective of\b", re.I), "不問"),
-    (re.compile(r"\baside from\b", re.I), "他"),
-    (re.compile(r"\bapart from\b", re.I), "他"),
-    (re.compile(r"\bother than\b", re.I), "他"),
-    (re.compile(r"\balong with\b", re.I), "共"),
-    (re.compile(r"\btogether with\b", re.I), "共"),
-    (re.compile(r"\bas opposed to\b", re.I), "vs"),
-    (re.compile(r"\brather than\b", re.I), "vs"),
-    (re.compile(r"\bin spite of\b", re.I), "despite"),  # 雖→despite (token loser)
-    (re.compile(r"\bin front of\b", re.I), "前"),
-    (re.compile(r"\bin back of\b", re.I), "behind"),  # 後→behind (token loser)
-    (re.compile(r"\baccording to\b", re.I), "依"),
-    (re.compile(r"\bowing to\b", re.I), "因"),
-    (re.compile(r"\bdue to\b", re.I), "因"),
-    (re.compile(r"\bprior to\b", re.I), "前"),
-    (re.compile(r"\bsubsequent to\b", re.I), "after"),  # 後→after (token loser)
-    (re.compile(r"\bnext to\b", re.I), "beside"),  # 傍→beside (token loser)
-    (re.compile(r"\bclose to\b", re.I), "near"),  # 近→near (token loser)
-    (re.compile(r"\bfar from\b", re.I), "遠"),
-    (re.compile(r"\baway from\b", re.I), "離"),
-    (re.compile(r"\bout of\b", re.I), "外"),
-    (re.compile(r"\bamong(?:st)?\b", re.I), "中"),
-    (re.compile(r"\bamid(?:st)?\b", re.I), "中"),
-    (re.compile(r"\bbesides\b", re.I), "他"),
-    (re.compile(r"\baround\b", re.I), "○"),
-    (re.compile(r"\bduring\b", re.I), "中"),
-    (re.compile(r"\binside\b", re.I), "内"),
-    (re.compile(r"\boutside\b", re.I), "外"),
-    (re.compile(r"\bthrough\b", re.I), "通"),
-    (re.compile(r"\bthru\b", re.I), "通"),
-    (re.compile(r"\bunderneath\b", re.I), "下"),  # pairs C spatial-under
-    (re.compile(r"\btogether\b", re.I), "共"),
-    (re.compile(r"\bbeneath\b", re.I), "下"),  # pairs C spatial-under
-    (re.compile(r"\binto\b", re.I), "入"),
+    (_ci_compile(r"\bin favou?r of\b", re.I), "pro"),
+    (_ci_compile(r"\bon behalf of\b", re.I), "代表"),
+    (_ci_compile(r"\bby means of\b", re.I), "手段"),
+    (_ci_compile(r"\bin terms of\b", re.I), "観点"),
+    (_ci_compile(r"\bin accordance with\b", re.I), "準"),
+    (_ci_compile(r"\bas for\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"(?<!\bso )\bas to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bup to(?=\s*[$€£¥]?\d)", re.I), "≤"),
+    (_ci_compile(r"\bdown to\b", re.I), "至"),
+    (_ci_compile(r"\bin between\b", re.I), "between"),  # 間→between (token loser)
+    (_ci_compile(r"\boff of\b", re.I), "外"),
+    (_ci_compile(r"\bout from\b", re.I), "出"),
+    (_ci_compile(r"\bin light of\b", re.I), "鑑"),
+    (_ci_compile(r"\bin view of\b", re.I), "鑑"),
+    (_ci_compile(r"\bin case of\b", re.I), "場合"),
+    (_ci_compile(r"\bregardless of\b", re.I), "不問"),
+    (_ci_compile(r"\birrespective of\b", re.I), "不問"),
+    (_ci_compile(r"\baside from\b", re.I), "他"),
+    (_ci_compile(r"\bapart from\b", re.I), "他"),
+    (_ci_compile(r"\bother than\b", re.I), "他"),
+    (_ci_compile(r"\balong with\b", re.I), "共"),
+    (_ci_compile(r"\btogether with\b", re.I), "共"),
+    (_ci_compile(r"\bas opposed to\b", re.I), "vs"),
+    (_ci_compile(r"\brather than\b", re.I), "vs"),
+    (_ci_compile(r"\bin spite of\b", re.I), "despite"),  # 雖→despite (token loser)
+    (_ci_compile(r"\bin front of\b", re.I), "前"),
+    (_ci_compile(r"\bin back of\b", re.I), "behind"),  # 後→behind (token loser)
+    (_ci_compile(r"\baccording to\b", re.I), "依"),
+    (_ci_compile(r"\bowing to\b", re.I), "因"),
+    (_ci_compile(r"\bdue to\b", re.I), "因"),
+    (_ci_compile(r"\bprior to\b", re.I), "前"),
+    (_ci_compile(r"\bsubsequent to\b", re.I), "after"),  # 後→after (token loser)
+    (_ci_compile(r"\bnext to\b", re.I), "beside"),  # 傍→beside (token loser)
+    (_ci_compile(r"\bclose to\b", re.I), "near"),  # 近→near (token loser)
+    (_ci_compile(r"\bfar from\b", re.I), "遠"),
+    (_ci_compile(r"\baway from\b", re.I), "離"),
+    (_ci_compile(r"\bout of\b", re.I), "外"),
+    (_ci_compile(r"\bamong(?:st)?\b", re.I), "中"),
+    (_ci_compile(r"\bamid(?:st)?\b", re.I), "中"),
+    (_ci_compile(r"\bbesides\b", re.I), "他"),
+    (_ci_compile(r"\baround\b", re.I), "○"),
+    (_ci_compile(r"\bduring\b", re.I), "中"),
+    (_ci_compile(r"\binside\b", re.I), "内"),
+    (_ci_compile(r"\boutside\b", re.I), "外"),
+    (_ci_compile(r"\bthrough\b", re.I), "通"),
+    (_ci_compile(r"\bthru\b", re.I), "通"),
+    (_ci_compile(r"\bunderneath\b", re.I), "下"),  # pairs C spatial-under
+    (_ci_compile(r"\btogether\b", re.I), "共"),
+    (_ci_compile(r"\bbeneath\b", re.I), "下"),  # pairs C spatial-under
+    (_ci_compile(r"\binto\b", re.I), "入"),
     # cycle2 spatial / time prep-like
-    (re.compile(r"\bround\b", re.I), "○"),
-    (re.compile(r"\bfollowing\b", re.I), "次"),
-    (re.compile(r"\band\b", re.I), "&"),
-    (re.compile(r"\bund\b", re.I), "&"),  # DE
+    (_ci_compile(r"\bround\b", re.I), "○"),
+    (_ci_compile(r"\bfollowing\b", re.I), "次"),
+    (_ci_compile(r"\band\b", re.I), "&"),
+    (_ci_compile(r"\bund\b", re.I), "&"),  # DE
     # FR et / ES y: alias-only (et al.; EN "x and y")
-    (re.compile(r"\bor\b", re.I), "/"),
-    (re.compile(r"\boder\b", re.I), "/"),  # DE
-    (re.compile(r"\bou\b", re.I), "/"),  # FR
+    (_ci_compile(r"\bor\b", re.I), "/"),
+    (_ci_compile(r"\boder\b", re.I), "/"),  # DE
+    (_ci_compile(r"\bou\b", re.I), "/"),  # FR
 
-    (re.compile(r"\bbecause\b", re.I), "bc"),
+    (_ci_compile(r"\bbecause\b", re.I), "bc"),
     # Resultatives share ∴ (cheaper than so). thereby stays: by-that-means ≠ therefore,
     # and ∴by is whereby.
     # Contrastive however → though (general EN synonym). Skip concessive/degree
@@ -1101,7 +1196,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # Separate rule below: though → tho (informal EN clip). Two general rules,
     # not a special-cased however→tho exception.
     (
-        re.compile(
+        _ci_compile(
             r"\bhowever\b(?!\s+(?:"
             r"hard|difficult|easy|much|many|long|far|often|well|bad|good|"
             r"late|early|fast|slow|strong|weak|big|small|high|low|"
@@ -1115,34 +1210,34 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
         "though",
     ),
     # Informal EN clipping: though → tho (not a foreign-language form).
-    (re.compile(r"\bthough\b", re.I), "tho"),
+    (_ci_compile(r"\bthough\b", re.I), "tho"),
     # Formal concessives (not contrastive however). even though is phrase-grammar.
-    (re.compile(r"\balthough\b", re.I), "tho"),
-    (re.compile(r"\balbeit\b", re.I), "tho"),
-    (re.compile(r"\bapproximately\b", re.I), "~"),
-    (re.compile(r"\broughly\b(?!\s+equal\b)", re.I), "~"),
+    (_ci_compile(r"\balthough\b", re.I), "tho"),
+    (_ci_compile(r"\balbeit\b", re.I), "tho"),
+    (_ci_compile(r"\bapproximately\b", re.I), "~"),
+    (_ci_compile(r"\broughly\b(?!\s+equal\b)", re.I), "~"),
     # equal to / more|less than handled in _PHRASE_GRAMMAR (＝/≥/≤).
     # greater than stays > (strict); less than → ≤ via phrase grammar.
-    (re.compile(r"\bgreater than\b", re.I), ">"),
+    (_ci_compile(r"\bgreater than\b", re.I), ">"),
     # --- adverbs (closed inventory): degree + polarity-adjacent frequency
     # always→□ (∀ kept for whatever); never→¬; often→oft; bare not→! (after may not etc.)
-    (re.compile(r"\balways\b", re.I), "□"),
+    (_ci_compile(r"\balways\b", re.I), "□"),
     # never→¬ REMOVED: o200k ' never' 1 tok vs ' ¬' 2 tok (token loser).
-    (re.compile(r"\boften\b", re.I), "oft"),
+    (_ci_compile(r"\boften\b", re.I), "oft"),
     # --- auxiliaries (closed inventory); I'll stays C — do not contract I will
     # Negation / affirmation: polarity ``!`` is +1 bit flag (see polarity_bit_cost).
     # Longer neg forms before positives. should→must slot ⇒ shouldn't→!must.
-    (re.compile(r"\bcan'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!can"),
-    (re.compile(r"\bwon'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!will"),
-    (re.compile(r"\bmust not\b", re.I), "!must"),
-    (re.compile(r"\bmustn'?t\b", re.I), "!must"),
-    (re.compile(r"\bmay not\b", re.I), "!may"),
-    (re.compile(r"\bdo not\b", re.I), "!"),
-    (re.compile(r"\bdoes not\b", re.I), "!"),
-    (re.compile(r"\bdid not\b", re.I), "!"),
-    (re.compile(r"\bdon'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
-    (re.compile(r"\bdoesn'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
-    (re.compile(r"\bdidn'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
+    (_ci_compile(r"\bcan'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!can"),
+    (_ci_compile(r"\bwon'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!will"),
+    (_ci_compile(r"\bmust not\b", re.I), "!must"),
+    (_ci_compile(r"\bmustn'?t\b", re.I), "!must"),
+    (_ci_compile(r"\bmay not\b", re.I), "!may"),
+    (_ci_compile(r"\bdo not\b", re.I), "!"),
+    (_ci_compile(r"\bdoes not\b", re.I), "!"),
+    (_ci_compile(r"\bdid not\b", re.I), "!"),
+    (_ci_compile(r"\bdon'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
+    (_ci_compile(r"\bdoesn'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
+    (_ci_compile(r"\bdidn'?t\b(?!\s+(?:I|you|he|she|it|we|they|U|there)\s*[?”\x22])", re.I), "!"),
     (re.compile(r"できない|出来ない"), " cannot "),  # !can→cannot: token loser
     (re.compile(r"ではない|じゃない|じゃありません|ではありません"), "!"),
     (re.compile(r"しなければならない|しなくてはならない|しねばならない|なければならない|なくてはならない|ねばならない"), "must"),
@@ -1151,7 +1246,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"でしょう|だろう"), "will"),
     # Bare not (after may not / do not phrases above)
     # bare not→! only mid-clause before a word; "Not, as I said" / "not." stay.
-    (re.compile(r"(?<=\w\s)not\b(?=\s+\w)", re.I), "!"),
+    (_ci_compile(r"(?<=\w\s)not\b(?=\s+\w)", re.I), "!"),
     # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
     # Compounds before singles. Avoid で in できる/です/である/でも…
     (re.compile(r"からは"), "←"),
@@ -1167,9 +1262,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), " in "),  # ∈→in: token loser
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
     # After you→U / 彼→he, JA と/も may follow ASCII pronoun surfaces
-    (re.compile(r"\b(he|she|I|U|they|we|it)と(?!し|ころ|り|りあえず)", re.I), r"\1&"),
+    (_ci_compile(r"\b(he|she|I|U|they|we|it)と(?!し|ころ|り|りあえず)", re.I), r"\1&"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])も"), "+"),
-    (re.compile(r"\b(he|she|I|U|they|we|it)も", re.I), r"\1+"),
+    (_ci_compile(r"\b(he|she|I|U|they|we|it)も", re.I), r"\1+"),
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])を"), ""),
     # は/が: drop after CJK; skip は in はい/はあ discourse; が in known starts rare
     (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
@@ -1178,34 +1273,34 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"[ねよさ]+(?=[。．.!！？?]|$)"), ""),
     # --- prepositions pack1; C owns under/above/below/beneath — skip
     # from/から → ← (LTR-minimal; pairs with →). fr not emitted (for-real 揺らぎ); fr alias in inventory only.
-    (re.compile(r"\bdesde\b", re.I), "←"),  # ES
-    (re.compile(r"\bdepuis\b", re.I), "←"),  # FR
-    (re.compile(r"\baus\b", re.I), "←"),  # DE
-    (re.compile(r"\bfrom\b", re.I), "←"),
+    (_ci_compile(r"\bdesde\b", re.I), "←"),  # ES
+    (_ci_compile(r"\bdepuis\b", re.I), "←"),  # FR
+    (_ci_compile(r"\baus\b", re.I), "←"),  # DE
+    (_ci_compile(r"\bfrom\b", re.I), "←"),
     # toward(s) → → (pairs with ← from; same surface as particle に/へ)
-    (re.compile(r"\btowards?\b", re.I), "→"),
-    (re.compile(r"\bhacia\b", re.I), "toward"),  # ES  # →→toward (token loser)
-    (re.compile(r"\bvers\b", re.I), "toward"),  # FR  # →→toward (token loser)
-    (re.compile(r"\bpara\b", re.I), "for"),  # ES purpose-for
-    (re.compile(r"\bpour\b", re.I), "for"),  # FR
-    (re.compile(r"\bf[uü]r\b", re.I), "for"),  # DE (4 removed: token loser)
-    (re.compile(r"\bcon\b", re.I), "with"),  # ES
-    (re.compile(r"\bavec\b", re.I), "with"),  # FR
-    (re.compile(r"\bmit\b", re.I), "with"),  # DE
-    (re.compile(r"\bbei\b", re.I), "@"),  # DE at/by
-    (re.compile(r"\bat\b", re.I), "@"),
+    (_ci_compile(r"\btowards?\b", re.I), "→"),
+    (_ci_compile(r"\bhacia\b", re.I), "toward"),  # ES  # →→toward (token loser)
+    (_ci_compile(r"\bvers\b", re.I), "toward"),  # FR  # →→toward (token loser)
+    (_ci_compile(r"\bpara\b", re.I), "for"),  # ES purpose-for
+    (_ci_compile(r"\bpour\b", re.I), "for"),  # FR
+    (_ci_compile(r"\bf[uü]r\b", re.I), "for"),  # DE (4 removed: token loser)
+    (_ci_compile(r"\bcon\b", re.I), "with"),  # ES
+    (_ci_compile(r"\bavec\b", re.I), "with"),  # FR
+    (_ci_compile(r"\bmit\b", re.I), "with"),  # DE
+    (_ci_compile(r"\bbei\b", re.I), "@"),  # DE at/by
+    (_ci_compile(r"\bat\b", re.I), "@"),
     # --- prep2: before→前 (within/without already above; of→de / after→後 removed)
-    (re.compile(r"\binnerhalb\b", re.I), "内"),
-    (re.compile(r"\bdentro\b", re.I), "内"),
+    (_ci_compile(r"\binnerhalb\b", re.I), "内"),
+    (_ci_compile(r"\bdentro\b", re.I), "内"),
     # sin/sans: alias-only (EN false friends); ohne rare enough to rewrite
-    (re.compile(r"\bohne\b", re.I), "无"),
-    (re.compile(r"\bantes\b", re.I), "前"),
-    (re.compile(r"\bavant\b", re.I), "前"),
-    (re.compile(r"\bvor\b", re.I), "前"),
-    (re.compile(r"\bbefore\b", re.I), "前"),
-    (re.compile(r"\bdespu[eé]s\b", re.I), "後"),
-    (re.compile(r"\bapr[eè]s\b", re.I), "後"),
-    (re.compile(r"\bnach\b", re.I), "after"),
+    (_ci_compile(r"\bohne\b", re.I), "无"),
+    (_ci_compile(r"\bantes\b", re.I), "前"),
+    (_ci_compile(r"\bavant\b", re.I), "前"),
+    (_ci_compile(r"\bvor\b", re.I), "前"),
+    (_ci_compile(r"\bbefore\b", re.I), "前"),
+    (_ci_compile(r"\bdespu[eé]s\b", re.I), "後"),
+    (_ci_compile(r"\bapr[eè]s\b", re.I), "後"),
+    (_ci_compile(r"\bnach\b", re.I), "after"),
     # --- compare: 以上/以下 → ≥/≤ (JA priority). EN multi-word in _PHRASE_GRAMMAR.
     # Do not rewrite bare under/below/above (C ledger).
     (re.compile(r"以上"), "≥"),
@@ -1213,15 +1308,15 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r">="), "≥"),
     (re.compile(r"<="), "≤"),
     # whatever-compounds → compact signals
-    (re.compile(r"\bhereinafter referred to as\b", re.I), "∴="),
-    (re.compile(r"\bhereinafter\b", re.I), "∴↓"),
+    (_ci_compile(r"\bhereinafter referred to as\b", re.I), "∴="),
+    (_ci_compile(r"\bhereinafter\b", re.I), "∴↓"),
     # ∈there loses utf8; ∈it is the dual-metric win (in that). Not herein's bare ∈.
     # Prepositional concessive. tho/but lose "notwithstanding §5".
     # despite itself is already →雖 (prep tranche); emit that terminal directly.
-    (re.compile(r"\bnamely\b", re.I), "viz"),
+    (_ci_compile(r"\bnamely\b", re.I), "viz"),
     (re.compile(r"\bviz\."), "viz"),
-    (re.compile(r"\baforementioned\b", re.I), "said"),
-    (re.compile(r"\baforesaid\b", re.I), "said"),
+    (_ci_compile(r"\baforementioned\b", re.I), "said"),
+    (_ci_compile(r"\baforesaid\b", re.I), "said"),
     # JA polite endings → low-ambiguity
     (re.compile(r"です。|ます。|でした。|ました。"), "。"),
     (re.compile(r"ですね|ますね"), "ね"),
@@ -1234,24 +1329,24 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
 # EN quantity phrases → JA counters (unambiguous layer-4 experiments).
 # Order: more specific animal/people phrases before generic pieces.
 _COUNTER_SUBS: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\b(\d+)\s+(?:animals?|cats?|dogs?|birds?|fish|pets?)\b", re.I), r"\1匹"),
-    (re.compile(r"\b(\d+)\s+(?:people|persons?|humans?|users?|members?)\b", re.I), r"\1人"),
-    (re.compile(r"\b(\d+)\s+(?:times|occasions?)\b", re.I), r"\1回"),
-    (re.compile(r"\b(\d+)\s+(?:pieces?|items?|things?|objects?)\b", re.I), r"\1個"),
-    (re.compile(r"\b(\d+)\s+(?:days?)\b", re.I), r"\1日"),
-    (re.compile(r"\b(\d+)\s+(?:hours?)\b", re.I), r"\1時間"),
-    (re.compile(r"\b(\d+)\s+(?:minutes?|mins?)\b", re.I), r"\1分"),
-    (re.compile(r"\b(\d+)\s+(?:seconds?|secs?)\b", re.I), r"\1秒"),
-    (re.compile(r"\b(\d+)\s+(?:books?|volumes?)\b", re.I), r"\1冊"),
-    (re.compile(r"\b(\d+)\s+(?:sheets?|pages?|papers?)\b", re.I), r"\1枚"),
-    (re.compile(r"\b(\d+)\s+(?:cars?|vehicles?|trucks?|buses|taxis?)\b", re.I), r"\1台"),
-    (re.compile(r"\b(\d+)\s+(?:machines?|devices?|units?)\b", re.I), r"\1機"),
-    (re.compile(r"\b(\d+)\s+(?:buildings?|houses?|homes?)\b", re.I), r"\1棟"),
-    (re.compile(r"\b(\d+)\s+(?:floors?|storeys?|stories)\b", re.I), r"\1階"),
-    (re.compile(r"\b(\d+)\s+(?:cups?|glasses|bowls?)\b", re.I), r"\1杯"),
-    (re.compile(r"\b(\d+)\s+(?:pairs?|sets?)\b", re.I), r"\1組"),
-    (re.compile(r"\b(\d+)\s+(?:companies?|firms?|corporations?)\b", re.I), r"\1社"),
-    (re.compile(r"\b(\d+)\s+(?:letters?|emails?|messages?)\b", re.I), r"\1通"),
+    (_ci_compile(r"\b(\d+)\s+(?:animals?|cats?|dogs?|birds?|fish|pets?)\b", re.I), r"\1匹"),
+    (_ci_compile(r"\b(\d+)\s+(?:people|persons?|humans?|users?|members?)\b", re.I), r"\1人"),
+    (_ci_compile(r"\b(\d+)\s+(?:times|occasions?)\b", re.I), r"\1回"),
+    (_ci_compile(r"\b(\d+)\s+(?:pieces?|items?|things?|objects?)\b", re.I), r"\1個"),
+    (_ci_compile(r"\b(\d+)\s+(?:days?)\b", re.I), r"\1日"),
+    (_ci_compile(r"\b(\d+)\s+(?:hours?)\b", re.I), r"\1時間"),
+    (_ci_compile(r"\b(\d+)\s+(?:minutes?|mins?)\b", re.I), r"\1分"),
+    (_ci_compile(r"\b(\d+)\s+(?:seconds?|secs?)\b", re.I), r"\1秒"),
+    (_ci_compile(r"\b(\d+)\s+(?:books?|volumes?)\b", re.I), r"\1冊"),
+    (_ci_compile(r"\b(\d+)\s+(?:sheets?|pages?|papers?)\b", re.I), r"\1枚"),
+    (_ci_compile(r"\b(\d+)\s+(?:cars?|vehicles?|trucks?|buses|taxis?)\b", re.I), r"\1台"),
+    (_ci_compile(r"\b(\d+)\s+(?:machines?|devices?|units?)\b", re.I), r"\1機"),
+    (_ci_compile(r"\b(\d+)\s+(?:buildings?|houses?|homes?)\b", re.I), r"\1棟"),
+    (_ci_compile(r"\b(\d+)\s+(?:floors?|storeys?|stories)\b", re.I), r"\1階"),
+    (_ci_compile(r"\b(\d+)\s+(?:cups?|glasses|bowls?)\b", re.I), r"\1杯"),
+    (_ci_compile(r"\b(\d+)\s+(?:pairs?|sets?)\b", re.I), r"\1組"),
+    (_ci_compile(r"\b(\d+)\s+(?:companies?|firms?|corporations?)\b", re.I), r"\1社"),
+    (_ci_compile(r"\b(\d+)\s+(?:letters?|emails?|messages?)\b", re.I), r"\1通"),
 ]
 
 # Multi-word grammar-min applied *before* etymon so "for example" → e.g.
@@ -1287,445 +1382,445 @@ _VERB_UNITS: tuple[tuple[str, tuple[tuple[str, str], ...], str], ...] = (
                ("gone", "failed"), ("going", "failing")), ""),
 )
 GET_PHRASES: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\b" + verb + " " + tail + r"\b" + guard, re.I), repl)
+    (_ci_compile(r"\b" + verb + " " + tail + r"\b" + guard, re.I), repl)
     for tail, forms, guard in _VERB_UNITS
     for verb, repl in forms
 ]
 
 _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\bthat is to say\b", re.I), "that is"),  # i.e.→that is (token loser)
+    (_ci_compile(r"\bthat is to say\b", re.I), "that is"),  # i.e.→that is (token loser)
     # of course → sure (o200k 2→1 tok, 10→5 B); must precede word-level of→de.
     (re.compile(r"\bOf course\b"), "Sure"),
-    (re.compile(r"\bof course\b", re.I), "sure"),
+    (_ci_compile(r"\bof course\b", re.I), "sure"),
     *GET_PHRASES,
-    (re.compile(r"\bin particular\b", re.I), "特"),
-    (re.compile(r"\bin addition to\b", re.I), "+"),
-    (re.compile(r"\bin addition\b", re.I), "+"),
-    (re.compile(r"\binstead of\b", re.I), "vs"),
+    (_ci_compile(r"\bin particular\b", re.I), "特"),
+    (_ci_compile(r"\bin addition to\b", re.I), "+"),
+    (_ci_compile(r"\bin addition\b", re.I), "+"),
+    (_ci_compile(r"\binstead of\b", re.I), "vs"),
     # cycle3 multiword prep (phrase-grammar: before article strip / for→4 / of→de)
-    (re.compile(r"\bat the expense of\b", re.I), "犠牲"),
-    (re.compile(r"\bat the risk of\b", re.I), "危"),
-    (re.compile(r"\bin the event of\b", re.I), "場合"),
-    (re.compile(r"\bin the middle of\b", re.I), "最中"),
-    (re.compile(r"\bin the midst of\b", re.I), "最中"),
-    (re.compile(r"\bon the verge of\b", re.I), "瀕"),
-    (re.compile(r"\bas a consequence of\b", re.I), "due to"),  # ∴→due to (token loser)
-    (re.compile(r"\bas a result of\b", re.I), "due to"),  # ∴→due to (token loser)
-    (re.compile(r"\bin the course of\b", re.I), "過程"),
-    (re.compile(r"\bover the course of\b", re.I), "通"),
-    (re.compile(r"\bin the face of\b", re.I), "面前"),
-    (re.compile(r"\bby virtue of\b", re.I), "力"),
-    (re.compile(r"\bby way of\b", re.I), "経"),
-    (re.compile(r"\bby reason of\b", re.I), "因"),
-    (re.compile(r"\bon account of\b", re.I), "因"),
-    (re.compile(r"\bfor fear of\b", re.I), "恐"),
-    (re.compile(r"\bfor lack of\b", re.I), "欠"),
-    (re.compile(r"\bfor want of\b", re.I), "欠"),
-    (re.compile(r"\bin exchange for\b", re.I), "⇔"),
-    (re.compile(r"\bin return for\b", re.I), "⇔"),
-    (re.compile(r"\bin regard to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bon top of\b", re.I), "且"),
-    (re.compile(r"\bin excess of\b", re.I), "超"),
-    (re.compile(r"\bin contrast to\b", re.I), "対比"),
-    (re.compile(r"\bin contrast with\b", re.I), "対比"),
-    (re.compile(r"\bby courtesy of\b", re.I), "経"),
-    (re.compile(r"\bcourtesy of\b", re.I), "経"),
-    (re.compile(r"\bfor the sake of\b", re.I), "為"),
+    (_ci_compile(r"\bat the expense of\b", re.I), "犠牲"),
+    (_ci_compile(r"\bat the risk of\b", re.I), "危"),
+    (_ci_compile(r"\bin the event of\b", re.I), "場合"),
+    (_ci_compile(r"\bin the middle of\b", re.I), "最中"),
+    (_ci_compile(r"\bin the midst of\b", re.I), "最中"),
+    (_ci_compile(r"\bon the verge of\b", re.I), "瀕"),
+    (_ci_compile(r"\bas a consequence of\b", re.I), "due to"),  # ∴→due to (token loser)
+    (_ci_compile(r"\bas a result of\b", re.I), "due to"),  # ∴→due to (token loser)
+    (_ci_compile(r"\bin the course of\b", re.I), "過程"),
+    (_ci_compile(r"\bover the course of\b", re.I), "通"),
+    (_ci_compile(r"\bin the face of\b", re.I), "面前"),
+    (_ci_compile(r"\bby virtue of\b", re.I), "力"),
+    (_ci_compile(r"\bby way of\b", re.I), "経"),
+    (_ci_compile(r"\bby reason of\b", re.I), "因"),
+    (_ci_compile(r"\bon account of\b", re.I), "因"),
+    (_ci_compile(r"\bfor fear of\b", re.I), "恐"),
+    (_ci_compile(r"\bfor lack of\b", re.I), "欠"),
+    (_ci_compile(r"\bfor want of\b", re.I), "欠"),
+    (_ci_compile(r"\bin exchange for\b", re.I), "⇔"),
+    (_ci_compile(r"\bin return for\b", re.I), "⇔"),
+    (_ci_compile(r"\bin regard to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bon top of\b", re.I), "且"),
+    (_ci_compile(r"\bin excess of\b", re.I), "超"),
+    (_ci_compile(r"\bin contrast to\b", re.I), "対比"),
+    (_ci_compile(r"\bin contrast with\b", re.I), "対比"),
+    (_ci_compile(r"\bby courtesy of\b", re.I), "経"),
+    (_ci_compile(r"\bcourtesy of\b", re.I), "経"),
+    (_ci_compile(r"\bfor the sake of\b", re.I), "為"),
     # cycle4 multiword prep (phrase-grammar: before article strip / for→4 / of→de)
-    (re.compile(r"\bfor the purpose of\b", re.I), "目的"),
-    (re.compile(r"\bfor purposes of\b", re.I), "目的"),
-    (re.compile(r"\bfor the benefit of\b", re.I), "益"),
-    (re.compile(r"\bin the interests? of\b", re.I), "利"),
-    (re.compile(r"\bto the detriment of\b", re.I), "害"),
-    (re.compile(r"\bin support of\b", re.I), "援"),
-    (re.compile(r"\bin charge of\b", re.I), "責"),
-    (re.compile(r"\bin control of\b", re.I), "制"),
-    (re.compile(r"\bin search of\b", re.I), "求"),
-    (re.compile(r"\bin need of\b", re.I), "要"),
-    (re.compile(r"\bin hopes of\b", re.I), "希"),
-    (re.compile(r"\bin hope of\b", re.I), "希"),
-    (re.compile(r"\bin the wake of\b", re.I), "跡"),
-    (re.compile(r"\bin the name of\b", re.I), "名"),
-    (re.compile(r"\bat the hands of\b", re.I), "手"),
-    (re.compile(r"\bat the mercy of\b", re.I), "弄"),
-    (re.compile(r"\bin advance of\b", re.I), "before"),  # 先→before (token loser)
-    (re.compile(r"\bahead of time\b", re.I), "早"),
-    (re.compile(r"\bahead of(?!\s+time\b)", re.I), "before"),  # 先→before (token loser)
-    (re.compile(r"\bin association with\b", re.I), "連携"),
-    (re.compile(r"\bin comparison with\b", re.I), "比"),
-    (re.compile(r"\bin comparison to\b", re.I), "比"),
-    (re.compile(r"\bin common with\b", re.I), "共通"),
-    (re.compile(r"\bsubject to\b", re.I), "条件"),
-    (re.compile(r"\badjacent to\b", re.I), "隣"),
-    (re.compile(r"\bin defiance of\b", re.I), "反"),
-    (re.compile(r"\bby order of\b", re.I), "命"),
-    (re.compile(r"\bunder cover of\b", re.I), "覆"),
-    (re.compile(r"\bat odds with\b", re.I), "対立"),
-    (re.compile(r"\bwith a view to\b", re.I), "狙"),
-    (re.compile(r"\bwith an eye to\b", re.I), "狙"),
-    (re.compile(r"\bon the basis of\b", re.I), "基"),
-    (re.compile(r"\bin the presence of\b", re.I), "在"),
-    (re.compile(r"\bat the price of\b", re.I), "代価"),
-    (re.compile(r"\bunder the auspices of\b", re.I), "傘"),
-    (re.compile(r"\bin parallel with\b", re.I), "alongside"),  # ∥→alongside (token loser)
-    (re.compile(r"\bin tandem with\b", re.I), "alongside"),  # ∥→alongside (token loser)
+    (_ci_compile(r"\bfor the purpose of\b", re.I), "目的"),
+    (_ci_compile(r"\bfor purposes of\b", re.I), "目的"),
+    (_ci_compile(r"\bfor the benefit of\b", re.I), "益"),
+    (_ci_compile(r"\bin the interests? of\b", re.I), "利"),
+    (_ci_compile(r"\bto the detriment of\b", re.I), "害"),
+    (_ci_compile(r"\bin support of\b", re.I), "援"),
+    (_ci_compile(r"\bin charge of\b", re.I), "責"),
+    (_ci_compile(r"\bin control of\b", re.I), "制"),
+    (_ci_compile(r"\bin search of\b", re.I), "求"),
+    (_ci_compile(r"\bin need of\b", re.I), "要"),
+    (_ci_compile(r"\bin hopes of\b", re.I), "希"),
+    (_ci_compile(r"\bin hope of\b", re.I), "希"),
+    (_ci_compile(r"\bin the wake of\b", re.I), "跡"),
+    (_ci_compile(r"\bin the name of\b", re.I), "名"),
+    (_ci_compile(r"\bat the hands of\b", re.I), "手"),
+    (_ci_compile(r"\bat the mercy of\b", re.I), "弄"),
+    (_ci_compile(r"\bin advance of\b", re.I), "before"),  # 先→before (token loser)
+    (_ci_compile(r"\bahead of time\b", re.I), "早"),
+    (_ci_compile(r"\bahead of(?!\s+time\b)", re.I), "before"),  # 先→before (token loser)
+    (_ci_compile(r"\bin association with\b", re.I), "連携"),
+    (_ci_compile(r"\bin comparison with\b", re.I), "比"),
+    (_ci_compile(r"\bin comparison to\b", re.I), "比"),
+    (_ci_compile(r"\bin common with\b", re.I), "共通"),
+    (_ci_compile(r"\bsubject to\b", re.I), "条件"),
+    (_ci_compile(r"\badjacent to\b", re.I), "隣"),
+    (_ci_compile(r"\bin defiance of\b", re.I), "反"),
+    (_ci_compile(r"\bby order of\b", re.I), "命"),
+    (_ci_compile(r"\bunder cover of\b", re.I), "覆"),
+    (_ci_compile(r"\bat odds with\b", re.I), "対立"),
+    (_ci_compile(r"\bwith a view to\b", re.I), "狙"),
+    (_ci_compile(r"\bwith an eye to\b", re.I), "狙"),
+    (_ci_compile(r"\bon the basis of\b", re.I), "基"),
+    (_ci_compile(r"\bin the presence of\b", re.I), "在"),
+    (_ci_compile(r"\bat the price of\b", re.I), "代価"),
+    (_ci_compile(r"\bunder the auspices of\b", re.I), "傘"),
+    (_ci_compile(r"\bin parallel with\b", re.I), "alongside"),  # ∥→alongside (token loser)
+    (_ci_compile(r"\bin tandem with\b", re.I), "alongside"),  # ∥→alongside (token loser)
     # cycle4 folds (aliases → existing terminals)
-    (re.compile(r"\bby dint of\b", re.I), "力"),
-    (re.compile(r"\bby force of\b", re.I), "力"),
-    (re.compile(r"\bon the brink of\b", re.I), "瀕"),
-    (re.compile(r"\bon the point of\b", re.I), "瀕"),
-    (re.compile(r"\bwith the exception of\b", re.I), "except"),  # 除→except (token loser)
-    (re.compile(r"\bexclusive of\b", re.I), "except"),  # 除→except (token loser)
-    (re.compile(r"\bsave for\b", re.I), "except"),  # 除→except (token loser)
-    (re.compile(r"\binclusive of\b", re.I), "including"),  # 含→including (token loser)
-    (re.compile(r"\bshort of\b", re.I), "欠"),
-    (re.compile(r"\bin default of\b", re.I), "欠"),
-    (re.compile(r"\bthanks to\b", re.I), "因"),
-    (re.compile(r"\bon the grounds of\b", re.I), "因"),
-    (re.compile(r"\bon grounds of\b", re.I), "因"),
-    (re.compile(r"\bat the cost of\b", re.I), "犠牲"),
-    (re.compile(r"\bin the process of\b", re.I), "過程"),
-    (re.compile(r"\bin conjunction with\b", re.I), "共"),
-    (re.compile(r"\bin connection with\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\brelative to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bin respect of\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bas regards\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bapropos of\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bvis-à-vis\b", re.I), "vs"),
-    (re.compile(r"\bvis-a-vis\b", re.I), "vs"),
+    (_ci_compile(r"\bby dint of\b", re.I), "力"),
+    (_ci_compile(r"\bby force of\b", re.I), "力"),
+    (_ci_compile(r"\bon the brink of\b", re.I), "瀕"),
+    (_ci_compile(r"\bon the point of\b", re.I), "瀕"),
+    (_ci_compile(r"\bwith the exception of\b", re.I), "except"),  # 除→except (token loser)
+    (_ci_compile(r"\bexclusive of\b", re.I), "except"),  # 除→except (token loser)
+    (_ci_compile(r"\bsave for\b", re.I), "except"),  # 除→except (token loser)
+    (_ci_compile(r"\binclusive of\b", re.I), "including"),  # 含→including (token loser)
+    (_ci_compile(r"\bshort of\b", re.I), "欠"),
+    (_ci_compile(r"\bin default of\b", re.I), "欠"),
+    (_ci_compile(r"\bthanks to\b", re.I), "因"),
+    (_ci_compile(r"\bon the grounds of\b", re.I), "因"),
+    (_ci_compile(r"\bon grounds of\b", re.I), "因"),
+    (_ci_compile(r"\bat the cost of\b", re.I), "犠牲"),
+    (_ci_compile(r"\bin the process of\b", re.I), "過程"),
+    (_ci_compile(r"\bin conjunction with\b", re.I), "共"),
+    (_ci_compile(r"\bin connection with\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\brelative to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bin respect of\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bas regards\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bapropos of\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bvis-à-vis\b", re.I), "vs"),
+    (_ci_compile(r"\bvis-a-vis\b", re.I), "vs"),
     # cycle11 spaced deferred (as of / latin / loc-time)
-    (re.compile(r"\bmutatis mutandis\b", re.I), "準変"),
-    (re.compile(r"\bceteris paribus\b", re.I), "他同"),
-    (re.compile(r"\bsui generis\b", re.I), "独自"),
-    (re.compile(r"\bpari passu\b", re.I), "同率"),
-    (re.compile(r"\bprima facie\b", re.I), "一応"),
-    (re.compile(r"\bipso facto\b", re.I), "当然"),
-    (re.compile(r"\bad hoc\b", re.I), "adhoc"),
-    (re.compile(r"\bunder age\b", re.I), "年少"),
-    (re.compile(r"\bby and by\b", re.I), "稍後"),
-    (re.compile(r"\bfor once\b", re.I), "一度"),
-    (re.compile(r"\bas of\b(?! yet\b)", re.I), "起"),
-    (re.compile(r"\bfor good\b", re.I), "∞"),
-    (re.compile(r"\bhitherto\b", re.I), "従来"),
-    (re.compile(r"\bunderage\b", re.I), "年少"),
-    (re.compile(r"\bclear of\b", re.I), "離"),
-    (re.compile(r"\bfree of\b", re.I), "无"),
-    (re.compile(r"\bfree from\b", re.I), "无"),
-    (re.compile(r"\bdevoid of\b", re.I), "无"),
-    (re.compile(r"\bin the absence of\b", re.I), "无"),
-    (re.compile(r"\boutside of\b", re.I), "外"),
-    (re.compile(r"\binside of\b", re.I), "内"),
+    (_ci_compile(r"\bmutatis mutandis\b", re.I), "準変"),
+    (_ci_compile(r"\bceteris paribus\b", re.I), "他同"),
+    (_ci_compile(r"\bsui generis\b", re.I), "独自"),
+    (_ci_compile(r"\bpari passu\b", re.I), "同率"),
+    (_ci_compile(r"\bprima facie\b", re.I), "一応"),
+    (_ci_compile(r"\bipso facto\b", re.I), "当然"),
+    (_ci_compile(r"\bad hoc\b", re.I), "adhoc"),
+    (_ci_compile(r"\bunder age\b", re.I), "年少"),
+    (_ci_compile(r"\bby and by\b", re.I), "稍後"),
+    (_ci_compile(r"\bfor once\b", re.I), "一度"),
+    (_ci_compile(r"\bas of\b(?! yet\b)", re.I), "起"),
+    (_ci_compile(r"\bfor good\b", re.I), "∞"),
+    (_ci_compile(r"\bhitherto\b", re.I), "従来"),
+    (_ci_compile(r"\bunderage\b", re.I), "年少"),
+    (_ci_compile(r"\bclear of\b", re.I), "離"),
+    (_ci_compile(r"\bfree of\b", re.I), "无"),
+    (_ci_compile(r"\bfree from\b", re.I), "无"),
+    (_ci_compile(r"\bdevoid of\b", re.I), "无"),
+    (_ci_compile(r"\bin the absence of\b", re.I), "无"),
+    (_ci_compile(r"\boutside of\b", re.I), "外"),
+    (_ci_compile(r"\binside of\b", re.I), "内"),
     # cycle5 multiword prep + prep-like adv
-    (re.compile(r"\bin response to\b", re.I), "応"),
-    (re.compile(r"\bin reaction to\b", re.I), "応"),
-    (re.compile(r"\bin reply to\b", re.I), "応"),
-    (re.compile(r"\bin answer to\b", re.I), "答"),
-    (re.compile(r"\bin agreement with\b", re.I), "合"),
-    (re.compile(r"\bin keeping with\b", re.I), "合"),
-    (re.compile(r"\bdepending upon\b", re.I), "依"),
-    (re.compile(r"\bdepending on\b", re.I), "依"),
-    (re.compile(r"\bas well as\b", re.I), "+"),
-    (re.compile(r"\bto say nothing of\b", re.I), "況"),
-    (re.compile(r"\bnot to mention\b", re.I), "況"),
-    (re.compile(r"\blet alone\b", re.I), "況"),
-    (re.compile(r"\bmuch less\b", re.I), "況"),
-    (re.compile(r"\bstill less\b", re.I), "況"),
-    (re.compile(r"\bpertaining to\b", re.I), "関"),
-    (re.compile(r"\brelating to\b", re.I), "関"),
-    (re.compile(r"\bcomparable to\b", re.I), "≒"),
-    (re.compile(r"\bsimilar to\b", re.I), "≒"),
-    (re.compile(r"\bakin to\b", re.I), "≒"),
-    (re.compile(r"\bequivalent to\b", re.I), "≡"),
-    (re.compile(r"\bconfined to\b", re.I), "限"),
-    (re.compile(r"\brestricted to\b", re.I), "限"),
-    (re.compile(r"\blimited to\b", re.I), "限"),
-    (re.compile(r"\battributable to\b", re.I), "帰"),
-    (re.compile(r"\bascribable to\b", re.I), "帰"),
-    (re.compile(r"\bfor the time being\b", re.I), "暫"),
-    (re.compile(r"\bfor now\b", re.I), "暫"),
-    (re.compile(r"\bright away\b", re.I), "即"),
-    (re.compile(r"\bstraight away\b", re.I), "即"),
-    (re.compile(r"\bat once\b", re.I), "即"),
-    (re.compile(r"\ball of a sudden\b", re.I), "突"),
-    (re.compile(r"\bfrom time to time\b", re.I), "偶"),
-    (re.compile(r"\bonce in a while\b", re.I), "偶"),
-    (re.compile(r"\bevery now and then\b", re.I), "偶"),
-    (re.compile(r"\bevery so often\b", re.I), "偶"),
-    (re.compile(r"\bnow and again\b", re.I), "偶"),
-    (re.compile(r"\bnow and then\b", re.I), "偶"),
-    (re.compile(r"\bby chance\b", re.I), "偶"),
-    (re.compile(r"\bby accident\b", re.I), "偶"),
-    (re.compile(r"\bat last\b", re.I), "遂"),
-    (re.compile(r"\bat first\b", re.I), "初"),
-    (re.compile(r"\bin brief\b", re.I), "略"),
-    (re.compile(r"\bin short\b", re.I), "略"),
-    (re.compile(r"\bin fact\b", re.I), "実"),
-    (re.compile(r"\bin theory\b", re.I), "理"),
-    (re.compile(r"\bin general\b", re.I), "一般"),
-    (re.compile(r"\bin vain\b", re.I), "徒"),
-    (re.compile(r"\bat the moment\b", re.I), "今"),
-    (re.compile(r"\bat present\b", re.I), "今"),
+    (_ci_compile(r"\bin response to\b", re.I), "応"),
+    (_ci_compile(r"\bin reaction to\b", re.I), "応"),
+    (_ci_compile(r"\bin reply to\b", re.I), "応"),
+    (_ci_compile(r"\bin answer to\b", re.I), "答"),
+    (_ci_compile(r"\bin agreement with\b", re.I), "合"),
+    (_ci_compile(r"\bin keeping with\b", re.I), "合"),
+    (_ci_compile(r"\bdepending upon\b", re.I), "依"),
+    (_ci_compile(r"\bdepending on\b", re.I), "依"),
+    (_ci_compile(r"\bas well as\b", re.I), "+"),
+    (_ci_compile(r"\bto say nothing of\b", re.I), "況"),
+    (_ci_compile(r"\bnot to mention\b", re.I), "況"),
+    (_ci_compile(r"\blet alone\b", re.I), "況"),
+    (_ci_compile(r"\bmuch less\b", re.I), "況"),
+    (_ci_compile(r"\bstill less\b", re.I), "況"),
+    (_ci_compile(r"\bpertaining to\b", re.I), "関"),
+    (_ci_compile(r"\brelating to\b", re.I), "関"),
+    (_ci_compile(r"\bcomparable to\b", re.I), "≒"),
+    (_ci_compile(r"\bsimilar to\b", re.I), "≒"),
+    (_ci_compile(r"\bakin to\b", re.I), "≒"),
+    (_ci_compile(r"\bequivalent to\b", re.I), "≡"),
+    (_ci_compile(r"\bconfined to\b", re.I), "限"),
+    (_ci_compile(r"\brestricted to\b", re.I), "限"),
+    (_ci_compile(r"\blimited to\b", re.I), "限"),
+    (_ci_compile(r"\battributable to\b", re.I), "帰"),
+    (_ci_compile(r"\bascribable to\b", re.I), "帰"),
+    (_ci_compile(r"\bfor the time being\b", re.I), "暫"),
+    (_ci_compile(r"\bfor now\b", re.I), "暫"),
+    (_ci_compile(r"\bright away\b", re.I), "即"),
+    (_ci_compile(r"\bstraight away\b", re.I), "即"),
+    (_ci_compile(r"\bat once\b", re.I), "即"),
+    (_ci_compile(r"\ball of a sudden\b", re.I), "突"),
+    (_ci_compile(r"\bfrom time to time\b", re.I), "偶"),
+    (_ci_compile(r"\bonce in a while\b", re.I), "偶"),
+    (_ci_compile(r"\bevery now and then\b", re.I), "偶"),
+    (_ci_compile(r"\bevery so often\b", re.I), "偶"),
+    (_ci_compile(r"\bnow and again\b", re.I), "偶"),
+    (_ci_compile(r"\bnow and then\b", re.I), "偶"),
+    (_ci_compile(r"\bby chance\b", re.I), "偶"),
+    (_ci_compile(r"\bby accident\b", re.I), "偶"),
+    (_ci_compile(r"\bat last\b", re.I), "遂"),
+    (_ci_compile(r"\bat first\b", re.I), "初"),
+    (_ci_compile(r"\bin brief\b", re.I), "略"),
+    (_ci_compile(r"\bin short\b", re.I), "略"),
+    (_ci_compile(r"\bin fact\b", re.I), "実"),
+    (_ci_compile(r"\bin theory\b", re.I), "理"),
+    (_ci_compile(r"\bin general\b", re.I), "一般"),
+    (_ci_compile(r"\bin vain\b", re.I), "徒"),
+    (_ci_compile(r"\bat the moment\b", re.I), "今"),
+    (_ci_compile(r"\bat present\b", re.I), "今"),
     # cycle5 folds
-    (re.compile(r"\bin the meantime\b", re.I), "meanwhile"),  # ∥→meanwhile (token loser)
-    (re.compile(r"\bin the interim\b", re.I), "meanwhile"),  # ∥→meanwhile (token loser)
-    (re.compile(r"\bover and above\b", re.I), "超"),
-    (re.compile(r"\babove and beyond\b", re.I), "超"),
-    (re.compile(r"\bbased upon\b", re.I), "基"),
-    (re.compile(r"\bbased on\b", re.I), "基"),
-    (re.compile(r"\bexcept for\b", re.I), "except"),  # 除→except (token loser)
-    (re.compile(r"\bbut for\b", re.I), "except"),  # 除→except (token loser)
-    (re.compile(r"\bnext door to\b", re.I), "隣"),
-    (re.compile(r"\bin conflict with\b", re.I), "対立"),
-    (re.compile(r"\bat variance with\b", re.I), "対立"),
-    (re.compile(r"\bin compliance with\b", re.I), "準"),
-    (re.compile(r"\bin conformity with\b", re.I), "準"),
-    (re.compile(r"\bfrom now on\b", re.I), "henceforth"),  # ∴→→henceforth (token loser)
-    (re.compile(r"\bwith reference to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bin reference to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bin relation to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bwith relation to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bin the meantime\b", re.I), "meanwhile"),  # ∥→meanwhile (token loser)
+    (_ci_compile(r"\bin the interim\b", re.I), "meanwhile"),  # ∥→meanwhile (token loser)
+    (_ci_compile(r"\bover and above\b", re.I), "超"),
+    (_ci_compile(r"\babove and beyond\b", re.I), "超"),
+    (_ci_compile(r"\bbased upon\b", re.I), "基"),
+    (_ci_compile(r"\bbased on\b", re.I), "基"),
+    (_ci_compile(r"\bexcept for\b", re.I), "except"),  # 除→except (token loser)
+    (_ci_compile(r"\bbut for\b", re.I), "except"),  # 除→except (token loser)
+    (_ci_compile(r"\bnext door to\b", re.I), "隣"),
+    (_ci_compile(r"\bin conflict with\b", re.I), "対立"),
+    (_ci_compile(r"\bat variance with\b", re.I), "対立"),
+    (_ci_compile(r"\bin compliance with\b", re.I), "準"),
+    (_ci_compile(r"\bin conformity with\b", re.I), "準"),
+    (_ci_compile(r"\bfrom now on\b", re.I), "henceforth"),  # ∴→→henceforth (token loser)
+    (_ci_compile(r"\bwith reference to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bin reference to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bin relation to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bwith relation to\b", re.I), "about"),  # re:→about (token loser)
     # cycle6 prep + prep-like adv / discourse
-    (re.compile(r"\bcontrary to\b", re.I), "逆"),
-    (re.compile(r"\bcounter to\b", re.I), "逆"),
-    (re.compile(r"\bproportional to\b", re.I), "比例"),
-    (re.compile(r"\bin pursuit of\b", re.I), "追"),
-    (re.compile(r"\bwith regard to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\bwith respect to\b", re.I), "about"),  # re:→about (token loser)
-    (re.compile(r"\babove all\b", re.I), "最"),
-    (re.compile(r"\ball in all\b", re.I), "総"),
-    (re.compile(r"\ball the same\b", re.I), "猶"),
-    (re.compile(r"\bby and large\b", re.I), "概"),
-    (re.compile(r"\bon the whole\b", re.I), "概"),
-    (re.compile(r"\bby far\b", re.I), "遥"),
-    (re.compile(r"\bin any case\b", re.I), "何れ"),
-    (re.compile(r"\bin any event\b", re.I), "何れ"),
-    (re.compile(r"\bat any rate\b", re.I), "何れ"),
-    (re.compile(r"\bin the end\b", re.I), "最終"),
-    (re.compile(r"\bin the long run\b", re.I), "長期"),
-    (re.compile(r"\bon the contrary\b", re.I), "反対"),
-    (re.compile(r"\bon the other hand\b", re.I), "他方"),
-    (re.compile(r"\bto some extent\b", re.I), "或程"),
-    (re.compile(r"\bto a certain extent\b", re.I), "或程"),
-    (re.compile(r"\bas usual\b", re.I), "常"),
-    (re.compile(r"\bas always\b", re.I), "常"),
-    (re.compile(r"\blittle by little\b", re.I), "徐"),
-    (re.compile(r"\bbit by bit\b", re.I), "徐"),
-    (re.compile(r"\bstep by step\b", re.I), "逐"),
-    (re.compile(r"\bone by one\b", re.I), "逐一"),
-    (re.compile(r"\bside by side\b", re.I), "並列"),
-    (re.compile(r"\bagain and again\b", re.I), "繰"),
-    (re.compile(r"\bover and over again\b", re.I), "繰"),
-    (re.compile(r"\bover and over\b", re.I), "繰"),
-    (re.compile(r"\btime after time\b", re.I), "繰"),
-    (re.compile(r"\bas a result\b", re.I), "結果"),
-    (re.compile(r"\bin advance\b", re.I), "予"),
-    (re.compile(r"\bby all means\b", re.I), "是非"),
-    (re.compile(r"\bin essence\b", re.I), "本質"),
-    (re.compile(r"\bin detail\b", re.I), "詳"),
-    (re.compile(r"\bwithout fail\b", re.I), "必ず"),
-    (re.compile(r"\bonce again\b", re.I), "again"),  # 再→again (token loser)
-    (re.compile(r"\bonce more\b", re.I), "again"),  # 再→again (token loser)
-    (re.compile(r"\bright now\b", re.I), "今"),
+    (_ci_compile(r"\bcontrary to\b", re.I), "逆"),
+    (_ci_compile(r"\bcounter to\b", re.I), "逆"),
+    (_ci_compile(r"\bproportional to\b", re.I), "比例"),
+    (_ci_compile(r"\bin pursuit of\b", re.I), "追"),
+    (_ci_compile(r"\bwith regard to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\bwith respect to\b", re.I), "about"),  # re:→about (token loser)
+    (_ci_compile(r"\babove all\b", re.I), "最"),
+    (_ci_compile(r"\ball in all\b", re.I), "総"),
+    (_ci_compile(r"\ball the same\b", re.I), "猶"),
+    (_ci_compile(r"\bby and large\b", re.I), "概"),
+    (_ci_compile(r"\bon the whole\b", re.I), "概"),
+    (_ci_compile(r"\bby far\b", re.I), "遥"),
+    (_ci_compile(r"\bin any case\b", re.I), "何れ"),
+    (_ci_compile(r"\bin any event\b", re.I), "何れ"),
+    (_ci_compile(r"\bat any rate\b", re.I), "何れ"),
+    (_ci_compile(r"\bin the end\b", re.I), "最終"),
+    (_ci_compile(r"\bin the long run\b", re.I), "長期"),
+    (_ci_compile(r"\bon the contrary\b", re.I), "反対"),
+    (_ci_compile(r"\bon the other hand\b", re.I), "他方"),
+    (_ci_compile(r"\bto some extent\b", re.I), "或程"),
+    (_ci_compile(r"\bto a certain extent\b", re.I), "或程"),
+    (_ci_compile(r"\bas usual\b", re.I), "常"),
+    (_ci_compile(r"\bas always\b", re.I), "常"),
+    (_ci_compile(r"\blittle by little\b", re.I), "徐"),
+    (_ci_compile(r"\bbit by bit\b", re.I), "徐"),
+    (_ci_compile(r"\bstep by step\b", re.I), "逐"),
+    (_ci_compile(r"\bone by one\b", re.I), "逐一"),
+    (_ci_compile(r"\bside by side\b", re.I), "並列"),
+    (_ci_compile(r"\bagain and again\b", re.I), "繰"),
+    (_ci_compile(r"\bover and over again\b", re.I), "繰"),
+    (_ci_compile(r"\bover and over\b", re.I), "繰"),
+    (_ci_compile(r"\btime after time\b", re.I), "繰"),
+    (_ci_compile(r"\bas a result\b", re.I), "結果"),
+    (_ci_compile(r"\bin advance\b", re.I), "予"),
+    (_ci_compile(r"\bby all means\b", re.I), "是非"),
+    (_ci_compile(r"\bin essence\b", re.I), "本質"),
+    (_ci_compile(r"\bin detail\b", re.I), "詳"),
+    (_ci_compile(r"\bwithout fail\b", re.I), "必ず"),
+    (_ci_compile(r"\bonce again\b", re.I), "again"),  # 再→again (token loser)
+    (_ci_compile(r"\bonce more\b", re.I), "again"),  # 再→again (token loser)
+    (_ci_compile(r"\bright now\b", re.I), "今"),
     # cycle7 spatial / state prep + prep-like adv
-    (re.compile(r"\bnorth of\b", re.I), "北"),
-    (re.compile(r"\bsouth of\b", re.I), "南"),
-    (re.compile(r"\beast of\b", re.I), "東"),
-    (re.compile(r"\bwest of\b", re.I), "西"),
-    (re.compile(r"\bto the left of\b", re.I), "左"),
-    (re.compile(r"\bto the right of\b", re.I), "右"),
-    (re.compile(r"\bon the part of\b", re.I), "側"),
-    (re.compile(r"\bin disregard of\b", re.I), "無視"),
-    (re.compile(r"\bout of control\b", re.I), "暴走"),
-    (re.compile(r"\bout of date\b", re.I), "廃"),
-    (re.compile(r"\bout of order\b", re.I), "故障"),
-    (re.compile(r"\bunder pressure\b", re.I), "圧"),
-    (re.compile(r"\bunder control\b", re.I), "制御"),
-    (re.compile(r"\bliable to\b", re.I), "負"),
-    (re.compile(r"\bresistant to\b", re.I), "耐"),
-    (re.compile(r"\bsensitive to\b", re.I), "敏"),
-    (re.compile(r"\binferior to\b", re.I), "劣"),
-    (re.compile(r"\bpreferable to\b", re.I), "優"),
-    (re.compile(r"\bsuperior to\b", re.I), "優"),
-    (re.compile(r"\bno longer\b", re.I), "最早"),
-    (re.compile(r"\bany longer\b", re.I), "最早"),
-    (re.compile(r"\bnot anymore\b", re.I), "最早"),
-    (re.compile(r"\bas yet\b", re.I), "未"),
-    (re.compile(r"\bon the one hand\b", re.I), "一方"),
-    (re.compile(r"\bon one hand\b", re.I), "一方"),
-    (re.compile(r"\bin the short run\b", re.I), "短期"),
-    (re.compile(r"\bto a large extent\b", re.I), "大程"),
-    (re.compile(r"\bday by day\b", re.I), "日々"),
-    (re.compile(r"\byear by year\b", re.I), "年々"),
-    (re.compile(r"\bface to face\b", re.I), "対面"),
+    (_ci_compile(r"\bnorth of\b", re.I), "北"),
+    (_ci_compile(r"\bsouth of\b", re.I), "南"),
+    (_ci_compile(r"\beast of\b", re.I), "東"),
+    (_ci_compile(r"\bwest of\b", re.I), "西"),
+    (_ci_compile(r"\bto the left of\b", re.I), "左"),
+    (_ci_compile(r"\bto the right of\b", re.I), "右"),
+    (_ci_compile(r"\bon the part of\b", re.I), "側"),
+    (_ci_compile(r"\bin disregard of\b", re.I), "無視"),
+    (_ci_compile(r"\bout of control\b", re.I), "暴走"),
+    (_ci_compile(r"\bout of date\b", re.I), "廃"),
+    (_ci_compile(r"\bout of order\b", re.I), "故障"),
+    (_ci_compile(r"\bunder pressure\b", re.I), "圧"),
+    (_ci_compile(r"\bunder control\b", re.I), "制御"),
+    (_ci_compile(r"\bliable to\b", re.I), "負"),
+    (_ci_compile(r"\bresistant to\b", re.I), "耐"),
+    (_ci_compile(r"\bsensitive to\b", re.I), "敏"),
+    (_ci_compile(r"\binferior to\b", re.I), "劣"),
+    (_ci_compile(r"\bpreferable to\b", re.I), "優"),
+    (_ci_compile(r"\bsuperior to\b", re.I), "優"),
+    (_ci_compile(r"\bno longer\b", re.I), "最早"),
+    (_ci_compile(r"\bany longer\b", re.I), "最早"),
+    (_ci_compile(r"\bnot anymore\b", re.I), "最早"),
+    (_ci_compile(r"\bas yet\b", re.I), "未"),
+    (_ci_compile(r"\bon the one hand\b", re.I), "一方"),
+    (_ci_compile(r"\bon one hand\b", re.I), "一方"),
+    (_ci_compile(r"\bin the short run\b", re.I), "短期"),
+    (_ci_compile(r"\bto a large extent\b", re.I), "大程"),
+    (_ci_compile(r"\bday by day\b", re.I), "日々"),
+    (_ci_compile(r"\byear by year\b", re.I), "年々"),
+    (_ci_compile(r"\bface to face\b", re.I), "対面"),
     # cycle7 folds
-    (re.compile(r"\bcontiguous to\b", re.I), "隣"),
-    (re.compile(r"\bprevious to\b", re.I), "前"),
-    (re.compile(r"\bnear to\b", re.I), "near"),  # 近→near (token loser)
-    (re.compile(r"\bas a matter of fact\b", re.I), "実"),
+    (_ci_compile(r"\bcontiguous to\b", re.I), "隣"),
+    (_ci_compile(r"\bprevious to\b", re.I), "前"),
+    (_ci_compile(r"\bnear to\b", re.I), "near"),  # 近→near (token loser)
+    (_ci_compile(r"\bas a matter of fact\b", re.I), "実"),
     # cycle8 prep + prep-like adv
-    (re.compile(r"\bupstream of\b", re.I), "上流"),
-    (re.compile(r"\bupstream from\b", re.I), "上流"),
-    (re.compile(r"\bdownstream of\b", re.I), "下流"),
-    (re.compile(r"\bdownstream from\b", re.I), "下流"),
-    (re.compile(r"\bout of place\b", re.I), "不所"),
-    (re.compile(r"\bout of reach\b", re.I), "届外"),
-    (re.compile(r"\bout of nowhere\b", re.I), "突"),
-    (re.compile(r"\bout of the blue\b", re.I), "突"),
-    (re.compile(r"\bin praise of\b", re.I), "賛"),
-    (re.compile(r"\bsuch as\b", re.I), "如"),
-    (re.compile(r"\bfor real\b", re.I), "真"),
-    (re.compile(r"\bin turn\b", re.I), "順"),
-    (re.compile(r"\bin full\b", re.I), "全"),
-    (re.compile(r"\bhand in hand\b", re.I), "携"),
-    (re.compile(r"\bhead to head\b", re.I), "直接"),
-    (re.compile(r"\blong since\b", re.I), "久"),
-    (re.compile(r"\ben route\b", re.I), "途中"),
-    (re.compile(r"\bby no means\b", re.I), "決して"),
-    (re.compile(r"\bin some way\b", re.I), "或様"),
-    (re.compile(r"\bin many ways\b", re.I), "多様"),
-    (re.compile(r"\bat all times\b", re.I), "常時"),
-    (re.compile(r"\bat times\b", re.I), "時々"),
-    (re.compile(r"\bat random\b", re.I), "乱"),
+    (_ci_compile(r"\bupstream of\b", re.I), "上流"),
+    (_ci_compile(r"\bupstream from\b", re.I), "上流"),
+    (_ci_compile(r"\bdownstream of\b", re.I), "下流"),
+    (_ci_compile(r"\bdownstream from\b", re.I), "下流"),
+    (_ci_compile(r"\bout of place\b", re.I), "不所"),
+    (_ci_compile(r"\bout of reach\b", re.I), "届外"),
+    (_ci_compile(r"\bout of nowhere\b", re.I), "突"),
+    (_ci_compile(r"\bout of the blue\b", re.I), "突"),
+    (_ci_compile(r"\bin praise of\b", re.I), "賛"),
+    (_ci_compile(r"\bsuch as\b", re.I), "如"),
+    (_ci_compile(r"\bfor real\b", re.I), "真"),
+    (_ci_compile(r"\bin turn\b", re.I), "順"),
+    (_ci_compile(r"\bin full\b", re.I), "全"),
+    (_ci_compile(r"\bhand in hand\b", re.I), "携"),
+    (_ci_compile(r"\bhead to head\b", re.I), "直接"),
+    (_ci_compile(r"\blong since\b", re.I), "久"),
+    (_ci_compile(r"\ben route\b", re.I), "途中"),
+    (_ci_compile(r"\bby no means\b", re.I), "決して"),
+    (_ci_compile(r"\bin some way\b", re.I), "或様"),
+    (_ci_compile(r"\bin many ways\b", re.I), "多様"),
+    (_ci_compile(r"\bat all times\b", re.I), "常時"),
+    (_ci_compile(r"\bat times\b", re.I), "時々"),
+    (_ci_compile(r"\bat random\b", re.I), "乱"),
     # cycle9 prep + prep-like adv
-    (re.compile(r"\bfor the duration of\b", re.I), "期間"),
-    (re.compile(r"\bonce and for all\b", re.I), "断"),
-    (re.compile(r"\bas such\b", re.I), "斯"),
-    (re.compile(r"\bever since\b", re.I), "以来"),
-    (re.compile(r"\bcharacteristic of\b", re.I), "特質"),
-    (re.compile(r"\bindicative of\b", re.I), "示"),
-    (re.compile(r"\bsuggestive of\b", re.I), "示唆"),
-    (re.compile(r"\bcognizant of\b", re.I), "知"),
-    (re.compile(r"\bcognisant of\b", re.I), "知"),
-    (re.compile(r"\bmindful of\b", re.I), "念"),
-    (re.compile(r"\bcapable of\b", re.I), "能"),
-    (re.compile(r"\bincapable of\b", re.I), "不能"),
-    (re.compile(r"\bworthy of\b", re.I), "値"),
-    (re.compile(r"\bfond of\b", re.I), "好"),
-    (re.compile(r"\bproud of\b", re.I), "誇"),
-    (re.compile(r"\brid of\b", re.I), "撤"),
-    (re.compile(r"\bbereft of\b", re.I), "欠"),
-    (re.compile(r"\bafraid of\b", re.I), "恐"),
-    (re.compile(r"\bscared of\b", re.I), "恐"),
-    (re.compile(r"\babreast of\b", re.I), "並"),
-    (re.compile(r"\bconversely\b", re.I), "逆"),
+    (_ci_compile(r"\bfor the duration of\b", re.I), "期間"),
+    (_ci_compile(r"\bonce and for all\b", re.I), "断"),
+    (_ci_compile(r"\bas such\b", re.I), "斯"),
+    (_ci_compile(r"\bever since\b", re.I), "以来"),
+    (_ci_compile(r"\bcharacteristic of\b", re.I), "特質"),
+    (_ci_compile(r"\bindicative of\b", re.I), "示"),
+    (_ci_compile(r"\bsuggestive of\b", re.I), "示唆"),
+    (_ci_compile(r"\bcognizant of\b", re.I), "知"),
+    (_ci_compile(r"\bcognisant of\b", re.I), "知"),
+    (_ci_compile(r"\bmindful of\b", re.I), "念"),
+    (_ci_compile(r"\bcapable of\b", re.I), "能"),
+    (_ci_compile(r"\bincapable of\b", re.I), "不能"),
+    (_ci_compile(r"\bworthy of\b", re.I), "値"),
+    (_ci_compile(r"\bfond of\b", re.I), "好"),
+    (_ci_compile(r"\bproud of\b", re.I), "誇"),
+    (_ci_compile(r"\brid of\b", re.I), "撤"),
+    (_ci_compile(r"\bbereft of\b", re.I), "欠"),
+    (_ci_compile(r"\bafraid of\b", re.I), "恐"),
+    (_ci_compile(r"\bscared of\b", re.I), "恐"),
+    (_ci_compile(r"\babreast of\b", re.I), "並"),
+    (_ci_compile(r"\bconversely\b", re.I), "逆"),
     # cycle10 prep + prep-like adv (final of ~10)
-    (re.compile(r"\bmore often than not\b", re.I), "大抵"),
-    (re.compile(r"\bthrough and through\b", re.I), "徹底"),
-    (re.compile(r"\bout of stock\b", re.I), "品切"),
-    (re.compile(r"\bat first glance\b", re.I), "一見"),
-    (re.compile(r"\bat first sight\b", re.I), "一見"),
-    (re.compile(r"\bat a glance\b", re.I), "一見"),
-    (re.compile(r"\bat stake\b", re.I), "賭"),
-    (re.compile(r"\bat length\b", re.I), "遂"),
-    (re.compile(r"\bfor keeps\b", re.I), "永久"),
-    (re.compile(r"\bfor the most part\b", re.I), "概"),
-    (re.compile(r"\bfirst and foremost\b", re.I), "最"),
-    (re.compile(r"\bin a nutshell\b", re.I), "略"),
-    (re.compile(r"\bin earnest\b", re.I), "本気"),
-    (re.compile(r"\bin the main\b", re.I), "概"),
-    (re.compile(r"\bas a whole\b", re.I), "総"),
-    (re.compile(r"\bas a rule\b", re.I), "概"),
-    (re.compile(r"\bas of yet\b", re.I), "未"),
-    (re.compile(r"\boff and on\b", re.I), "断続"),
-    (re.compile(r"\bon and off\b", re.I), "断続"),
-    (re.compile(r"\ball along\b", re.I), "当初"),
-    (re.compile(r"\bad infinitum\b", re.I), "∞"),
-    (re.compile(r"\bweary of\b", re.I), "厭"),
-    (re.compile(r"\bashamed of\b", re.I), "恥"),
-    (re.compile(r"\bempty of\b", re.I), "空"),
-    (re.compile(r"\bmade of\b", re.I), "製"),
-    (re.compile(r"\bmade from\b", re.I), "製"),
-    (re.compile(r"\bcounterclockwise\b", re.I), "反時計"),
-    (re.compile(r"\banticlockwise\b", re.I), "反時計"),
-    (re.compile(r"\bclockwise\b", re.I), "時計"),
-    (re.compile(r"\bnationwide\b", re.I), "全国"),
-    (re.compile(r"\bworldwide\b", re.I), "世界"),
-    (re.compile(r"\bglobally\b", re.I), "世界"),
-    (re.compile(r"\bashore\b", re.I), "岸"),
-    (re.compile(r"\bsideways\b", re.I), "横"),
-    (re.compile(r"\bvis-a-vis\b", re.I), "vs"),
-    (re.compile(r"\badditionally\b", re.I), "+"),
-    (re.compile(r"\balso\b", re.I), "+"),
+    (_ci_compile(r"\bmore often than not\b", re.I), "大抵"),
+    (_ci_compile(r"\bthrough and through\b", re.I), "徹底"),
+    (_ci_compile(r"\bout of stock\b", re.I), "品切"),
+    (_ci_compile(r"\bat first glance\b", re.I), "一見"),
+    (_ci_compile(r"\bat first sight\b", re.I), "一見"),
+    (_ci_compile(r"\bat a glance\b", re.I), "一見"),
+    (_ci_compile(r"\bat stake\b", re.I), "賭"),
+    (_ci_compile(r"\bat length\b", re.I), "遂"),
+    (_ci_compile(r"\bfor keeps\b", re.I), "永久"),
+    (_ci_compile(r"\bfor the most part\b", re.I), "概"),
+    (_ci_compile(r"\bfirst and foremost\b", re.I), "最"),
+    (_ci_compile(r"\bin a nutshell\b", re.I), "略"),
+    (_ci_compile(r"\bin earnest\b", re.I), "本気"),
+    (_ci_compile(r"\bin the main\b", re.I), "概"),
+    (_ci_compile(r"\bas a whole\b", re.I), "総"),
+    (_ci_compile(r"\bas a rule\b", re.I), "概"),
+    (_ci_compile(r"\bas of yet\b", re.I), "未"),
+    (_ci_compile(r"\boff and on\b", re.I), "断続"),
+    (_ci_compile(r"\bon and off\b", re.I), "断続"),
+    (_ci_compile(r"\ball along\b", re.I), "当初"),
+    (_ci_compile(r"\bad infinitum\b", re.I), "∞"),
+    (_ci_compile(r"\bweary of\b", re.I), "厭"),
+    (_ci_compile(r"\bashamed of\b", re.I), "恥"),
+    (_ci_compile(r"\bempty of\b", re.I), "空"),
+    (_ci_compile(r"\bmade of\b", re.I), "製"),
+    (_ci_compile(r"\bmade from\b", re.I), "製"),
+    (_ci_compile(r"\bcounterclockwise\b", re.I), "反時計"),
+    (_ci_compile(r"\banticlockwise\b", re.I), "反時計"),
+    (_ci_compile(r"\bclockwise\b", re.I), "時計"),
+    (_ci_compile(r"\bnationwide\b", re.I), "全国"),
+    (_ci_compile(r"\bworldwide\b", re.I), "世界"),
+    (_ci_compile(r"\bglobally\b", re.I), "世界"),
+    (_ci_compile(r"\bashore\b", re.I), "岸"),
+    (_ci_compile(r"\bsideways\b", re.I), "横"),
+    (_ci_compile(r"\bvis-a-vis\b", re.I), "vs"),
+    (_ci_compile(r"\badditionally\b", re.I), "+"),
+    (_ci_compile(r"\balso\b", re.I), "+"),
     # appositive only (", that is," / "(that is"); "Oh, that is nonsense" is a clause
-    (re.compile(r"\bversus\b", re.I), "vs"),
+    (_ci_compile(r"\bversus\b", re.I), "vs"),
     # Formal/legal phrases before for→4 / that-deixis / and→& eat a piece.
-    (re.compile(r"\bprovided, however, that\b", re.I), "if"),
-    (re.compile(r"\bprovided that\b", re.I), "if"),
-    (re.compile(r"\bin the event that\b", re.I), "if"),
-    (re.compile(r"\bto the extent that\b", re.I), "insofar"),
-    (re.compile(r"\bin so far as\b", re.I), "insofar"),
-    (re.compile(r"\binsofar as\b", re.I), "insofar"),
+    (_ci_compile(r"\bprovided, however, that\b", re.I), "if"),
+    (_ci_compile(r"\bprovided that\b", re.I), "if"),
+    (_ci_compile(r"\bin the event that\b", re.I), "if"),
+    (_ci_compile(r"\bto the extent that\b", re.I), "insofar"),
+    (_ci_compile(r"\bin so far as\b", re.I), "insofar"),
+    (_ci_compile(r"\binsofar as\b", re.I), "insofar"),
     # pursuant to / in accordance with → 準, in lieu of → 代,
     # as opposed to / rather than → vs are prep cycle2 (_SUBS)
-    (re.compile(r"\bgiven that\b", re.I), "bc"),
-    (re.compile(r"\binasmuch as\b", re.I), "bc"),
-    (re.compile(r"\beven though\b", re.I), "tho"),
-    (re.compile(r"\bnow therefore\b", re.I), "therefore"),  # ∴→therefore (token loser)
-    (re.compile(r"\bfor this reason\b", re.I), "therefore"),  # ∴→therefore (token loser)
-    (re.compile(r"\bas a consequence\b", re.I), "therefore"),  # ∴→therefore (token loser)
-    (re.compile(r"\bnull and void\b", re.I), "void"),
-    (re.compile(r"\bterms and conditions\b", re.I), "T&C"),
-    (re.compile(r"\band others\b", re.I), "etal"),
+    (_ci_compile(r"\bgiven that\b", re.I), "bc"),
+    (_ci_compile(r"\binasmuch as\b", re.I), "bc"),
+    (_ci_compile(r"\beven though\b", re.I), "tho"),
+    (_ci_compile(r"\bnow therefore\b", re.I), "therefore"),  # ∴→therefore (token loser)
+    (_ci_compile(r"\bfor this reason\b", re.I), "therefore"),  # ∴→therefore (token loser)
+    (_ci_compile(r"\bas a consequence\b", re.I), "therefore"),  # ∴→therefore (token loser)
+    (_ci_compile(r"\bnull and void\b", re.I), "void"),
+    (_ci_compile(r"\bterms and conditions\b", re.I), "T&C"),
+    (_ci_compile(r"\band others\b", re.I), "etal"),
     # Consume the optional period; \b after "." never matches.
-    (re.compile(r"\bet al\.?(?!\w)", re.I), "etal"),
-    (re.compile(r"\bthe foregoing\b", re.I), "supra"),
-    (re.compile(r"\bvice versa\b", re.I), "⇄"),  # o200k tie 2=2, utf8 11→4
+    (_ci_compile(r"\bet al\.?(?!\w)", re.I), "etal"),
+    (_ci_compile(r"\bthe foregoing\b", re.I), "supra"),
+    (_ci_compile(r"\bvice versa\b", re.I), "⇄"),  # o200k tie 2=2, utf8 11→4
     # compare / equality — language-agnostic → ≥/≤/= /≒ (BEFORE and/or/at/_SUBS)
-    (re.compile(r"\bapproximately equal(?: to)?\b", re.I), "≒"),
-    (re.compile(r"\babout equal(?: to)?\b", re.I), "≒"),
-    (re.compile(r"\broughly equal(?: to)?\b", re.I), "≒"),
-    (re.compile(r"\bequal to\b", re.I), "="),
-    (re.compile(r"\bat least\b", re.I), "≥"),
-    (re.compile(r"\bat most\b", re.I), "≤"),
-    (re.compile(r"\bor more\b", re.I), "≥"),
-    (re.compile(r"\bmore or less\b", re.I), "殆"),
-    (re.compile(r"\bor less\b", re.I), "≤"),
-    (re.compile(r"\band above\b", re.I), "≥"),
-    (re.compile(r"\band below\b", re.I), "≤"),
-    (re.compile(r"\bmore than\b", re.I), "≥"),
-    (re.compile(r"\bless than\b", re.I), "≤"),
+    (_ci_compile(r"\bapproximately equal(?: to)?\b", re.I), "≒"),
+    (_ci_compile(r"\babout equal(?: to)?\b", re.I), "≒"),
+    (_ci_compile(r"\broughly equal(?: to)?\b", re.I), "≒"),
+    (_ci_compile(r"\bequal to\b", re.I), "="),
+    (_ci_compile(r"\bat least\b", re.I), "≥"),
+    (_ci_compile(r"\bat most\b", re.I), "≤"),
+    (_ci_compile(r"\bor more\b", re.I), "≥"),
+    (_ci_compile(r"\bmore or less\b", re.I), "殆"),
+    (_ci_compile(r"\bor less\b", re.I), "≤"),
+    (_ci_compile(r"\band above\b", re.I), "≥"),
+    (_ci_compile(r"\band below\b", re.I), "≤"),
+    (_ci_compile(r"\bmore than\b", re.I), "≥"),
+    (_ci_compile(r"\bless than\b", re.I), "≤"),
     # ES
-    (re.compile(r"\bm[aá]s de\b", re.I), "≥"),
-    (re.compile(r"\bm[aá]s que\b", re.I), "≥"),
-    (re.compile(r"\bmenos de\b", re.I), "≤"),
-    (re.compile(r"\bmenos que\b", re.I), "≤"),
-    (re.compile(r"\bal menos\b", re.I), "≥"),
-    (re.compile(r"\bcomo m[aá]ximo\b", re.I), "≤"),
+    (_ci_compile(r"\bm[aá]s de\b", re.I), "≥"),
+    (_ci_compile(r"\bm[aá]s que\b", re.I), "≥"),
+    (_ci_compile(r"\bmenos de\b", re.I), "≤"),
+    (_ci_compile(r"\bmenos que\b", re.I), "≤"),
+    (_ci_compile(r"\bal menos\b", re.I), "≥"),
+    (_ci_compile(r"\bcomo m[aá]ximo\b", re.I), "≤"),
     # FR
-    (re.compile(r"\bplus de\b", re.I), "≥"),
-    (re.compile(r"\bplus que\b", re.I), "≥"),
-    (re.compile(r"\bmoins de\b", re.I), "≤"),
-    (re.compile(r"\bmoins que\b", re.I), "≤"),
+    (_ci_compile(r"\bplus de\b", re.I), "≥"),
+    (_ci_compile(r"\bplus que\b", re.I), "≥"),
+    (_ci_compile(r"\bmoins de\b", re.I), "≤"),
+    (_ci_compile(r"\bmoins que\b", re.I), "≤"),
     # DE
-    (re.compile(r"\bmehr als\b", re.I), "≥"),
-    (re.compile(r"\bweniger als\b", re.I), "≤"),
+    (_ci_compile(r"\bmehr als\b", re.I), "≥"),
+    (_ci_compile(r"\bweniger als\b", re.I), "≤"),
     # --- objective gap-fill: thin closed-class (det/quant/conj/reciprocal/hedge/aux) ---
     # Protect noun "a while" before while→∥; multiword before article strip / bare dets.
-    (re.compile(r"\ba while\b", re.I), "awhile"),
-    (re.compile(r"\beach other\b", re.I), "互"),
-    (re.compile(r"\bone another\b", re.I), "互"),
-    (re.compile(r"\ba lot of\b", re.I), "多"),
-    (re.compile(r"\blots of\b", re.I), "多"),
-    (re.compile(r"\ba few\b", re.I), "few"),
-    (re.compile(r"\ba little\b", re.I), "少"),
-    (re.compile(r"\bin order to\b", re.I), "to"),
-    (re.compile(r"\bso that\b", re.I), "so"),
-    (re.compile(r"\bwant to\b", re.I), "wanna"),
-    (re.compile(r"\bkind of\b", re.I), "kinda"),
-    (re.compile(r"\bsort of\b", re.I), "sorta"),
-    (re.compile(r"\bwhether\b", re.I), "if"),
-    (re.compile(r"\bmaybe\b", re.I), "或"),
-    (re.compile(r"\bperhaps\b", re.I), "或"),
-    (re.compile(r"\busually\b", re.I), "常"),
-    (re.compile(r"\bstill\b", re.I), "尚"),
+    (_ci_compile(r"\ba while\b", re.I), "awhile"),
+    (_ci_compile(r"\beach other\b", re.I), "互"),
+    (_ci_compile(r"\bone another\b", re.I), "互"),
+    (_ci_compile(r"\ba lot of\b", re.I), "多"),
+    (_ci_compile(r"\blots of\b", re.I), "多"),
+    (_ci_compile(r"\ba few\b", re.I), "few"),
+    (_ci_compile(r"\ba little\b", re.I), "少"),
+    (_ci_compile(r"\bin order to\b", re.I), "to"),
+    (_ci_compile(r"\bso that\b", re.I), "so"),
+    (_ci_compile(r"\bwant to\b", re.I), "wanna"),
+    (_ci_compile(r"\bkind of\b", re.I), "kinda"),
+    (_ci_compile(r"\bsort of\b", re.I), "sorta"),
+    (_ci_compile(r"\bwhether\b", re.I), "if"),
+    (_ci_compile(r"\bmaybe\b", re.I), "或"),
+    (_ci_compile(r"\bperhaps\b", re.I), "或"),
+    (_ci_compile(r"\busually\b", re.I), "常"),
+    (_ci_compile(r"\bstill\b", re.I), "尚"),
     # gap-fill bare dets/quants (AFTER multiword some/every/each phrases)
-    (re.compile(r"\bseveral\b", re.I), "数"),
-    (re.compile(r"\bnumerous\b", re.I), "多"),
+    (_ci_compile(r"\bseveral\b", re.I), "数"),
+    (_ci_compile(r"\bnumerous\b", re.I), "多"),
     # --- relative pronouns / 関係代名詞 (after that is→i.e.; not deixis/interrogative) ---
     # EN: which→that (post-nominal / non-restrictive); whom→who. Prefer EN-internal that over que.
     # Do NOT emit bare q. Keep deixis that→eso gate; complementizer that untouched.
-    (re.compile(r",\s*which\b", re.I), ", that"),
-    (re.compile(
+    (_ci_compile(r",\s*which\b", re.I), ", that"),
+    (_ci_compile(
         r"\b(?!(?:in|of|for|to|with|on|at|by|from|about|into|onto|upon|through|"
         r"under|over|during|as|after|before|since|until|than|and|or|but|if|"
         r"when|while|where|who|whom|whose|that|this|these|those)\b)"
@@ -1738,22 +1833,22 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\bWhom\b"), "Who"),
     (re.compile(r"\bwhom\b"), "who"),
     # Romance/DE long relatives → que (shared pivot; dual-metric win)
-    (re.compile(r"\blesquelles\b", re.I), "que"),
-    (re.compile(r"\blesquels\b", re.I), "que"),
-    (re.compile(r"\blaquelle\b", re.I), "que"),
-    (re.compile(r"\blequel\b", re.I), "que"),
+    (_ci_compile(r"\blesquelles\b", re.I), "que"),
+    (_ci_compile(r"\blesquels\b", re.I), "que"),
+    (_ci_compile(r"\blaquelle\b", re.I), "que"),
+    (_ci_compile(r"\blequel\b", re.I), "que"),
     # DE welcher*: post-nominal relative only (bare Welche? = interrogative)
-    (re.compile(
+    (_ci_compile(
         r"\b([A-Za-zÄÖÜäöüß][A-Za-zÄÖÜäöüß0-9\-]*)\s+welch(?:er|e|es)\b"
         r"(?=\s+(?:ist|sind|war|waren|hat|haben|hatte|hatten|wird|werden|"
         r"kann|können|muss|müssen|soll|sollen|darf|dürfen|will|wollen|"
         r"ich|du|er|sie|es|wir|ihr|Sie|mein|dein|sein|unser|euer|ihr)\b)",
         re.I,
     ), r"\1 que"),
-    (re.compile(r"\blos que\b", re.I), "que"),
-    (re.compile(r"\blas que\b", re.I), "que"),
-    (re.compile(r"\bel que\b", re.I), "que"),
-    (re.compile(r"\bla que\b", re.I), "que"),
+    (_ci_compile(r"\blos que\b", re.I), "que"),
+    (_ci_compile(r"\blas que\b", re.I), "que"),
+    (_ci_compile(r"\bel que\b", re.I), "que"),
+    (_ci_compile(r"\bla que\b", re.I), "que"),
 ]
 
 
@@ -1772,7 +1867,7 @@ _INT_RE = re.compile(r"\b(\d+)\b")
 
 # Unquoted EN articles. Quoted ``"the"`` / ``'the'`` keep the inner word (quotes dropped).
 # Straight quotes: "the" / 'the'. Smart quotes: “the” / ‘the’.
-_QUOTED_ARTICLE = re.compile(
+_QUOTED_ARTICLE = _ci_compile(
     r"""(['"])(the|a|an)\1"""
     r"""|[\u201c\u2018](the|a|an)[\u201d\u2019]""",
     re.I,
@@ -1781,7 +1876,7 @@ _QUOTED_ARTICLE = re.compile(
 # (no opener/quote context: ``x"the cat"`` → ``x"cat"``).
 # ``(?![\u0300-\u036f])``: a base letter followed by a combining mark (NFD
 # ``a\u0301`` = á) is not the article ``a`` (defence in depth; callers NFC first).
-_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w) *", re.I)
+_ARTICLE_WORD = _ci_compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w) *", re.I)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
 
@@ -2156,10 +2251,10 @@ _EXPAND_COUNTERS: list[tuple[re.Pattern[str], str]] = [
 
 # Unambiguous short → longer (subset of _SUBS / UNIQUE_COMPACT). Documented lossy.
 _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\bw/o\b", re.I), "without"),
+    (_ci_compile(r"\bw/o\b", re.I), "without"),
     # CJK prep2 shorts: only expand when space/punct bounded (avoid eating JA 前後…)
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])无(?![\w\u3040-\u30ff\u3400-\u9fff])"), "without"),
-    (re.compile(r"\bde\b", re.I), "of"),
+    (_ci_compile(r"\bde\b", re.I), "of"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])内(?![\w\u3040-\u30ff\u3400-\u9fff])"), "within"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])前(?![\w\u3040-\u30ff\u3400-\u9fff])"), "before"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])(?:后|後)(?![\w\u3040-\u30ff\u3400-\u9fff])"), "after"),
@@ -2169,18 +2264,18 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"!may\b"), "may not"),
     (re.compile(r"□"), "always"),
     (re.compile(r"¬"), "never"),
-    (re.compile(r"\boft\b", re.I), "often"),
+    (_ci_compile(r"\boft\b", re.I), "often"),
     (re.compile(r"[≥≧]"), "以上"),
     (re.compile(r"[≤≦]"), "以下"),
     (re.compile(r"≒"), "approximately equal"),
     (re.compile(r"←"), "from"),
-    (re.compile(r"\bfr\b", re.I), "from"),  # legacy alias short
-    (re.compile(r"\bw/\b", re.I), "with"),
+    (_ci_compile(r"\bfr\b", re.I), "from"),  # legacy alias short
+    (_ci_compile(r"\bw/\b", re.I), "with"),
     (re.compile(r"\bU\b"), "you"),  # capital U pronoun surface
-    (re.compile(r"\bu r\b", re.I), "you are"),
-    (re.compile(r"\bbc\b", re.I), "because"),
+    (_ci_compile(r"\bu r\b", re.I), "you are"),
+    (_ci_compile(r"\bbc\b", re.I), "because"),
     (re.compile(r"\btho∴\b"), "nonetheless"),
-    (re.compile(r"\btho\b", re.I), "though"),  # informal EN clip inverse
+    (_ci_compile(r"\btho\b", re.I), "though"),  # informal EN clip inverse
     (re.compile(r"∴↓"), "hereinafter"),
     (re.compile(r"∴→"), "hereafter"),
     (re.compile(r"∴="), "hereinafter referred to as"),
@@ -2216,7 +2311,7 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])某处(?![\w\u3040-\u30ff\u3400-\u9fff])"), "somewhere"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])别处(?![\w\u3040-\u30ff\u3400-\u9fff])"), "elsewhere"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])再(?![\w\u3040-\u30ff\u3400-\u9fff])"), "anew"),
-    (re.compile(r"\bpro\b", re.I), "in favor of"),
+    (_ci_compile(r"\bpro\b", re.I), "in favor of"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])代表(?![\w\u3040-\u30ff\u3400-\u9fff])"), "on behalf of"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])手段(?![\w\u3040-\u30ff\u3400-\u9fff])"), "by means of"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])観点(?![\w\u3040-\u30ff\u3400-\u9fff])"), "in terms of"),
@@ -2462,8 +2557,8 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])先験(?![\w\u3040-\u30ff\u3400-\u9fff])"), "a priori"),
     (re.compile(r"(?<![\w\u3040-\u30ff\u3400-\u9fff])現場(?![\w\u3040-\u30ff\u3400-\u9fff])"), "in situ"),
     (re.compile(r"(?<![\w:])1:1(?![\w:])"), "one-on-one"),
-    (re.compile(r"(?<![\w])d\.f\.(?![\w])", re.I), "de facto"),
-    (re.compile(r"(?<![\w])adhoc(?![\w])", re.I), "ad hoc"),
+    (_ci_compile(r"(?<![\w])d\.f\.(?![\w])", re.I), "de facto"),
+    (_ci_compile(r"(?<![\w])adhoc(?![\w])", re.I), "ad hoc"),
     (re.compile(r"∈there"), "therein"),  # legacy; compress now emits ∈it
     (re.compile(r"∈it"), "therein"),
     (re.compile(r"⇄"), "vice versa"),
@@ -2505,7 +2600,7 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
             if short not in inv:
                 inv[short] = long
         for short, long in sorted(inv.items(), key=lambda kv: len(kv[0]), reverse=True):
-            out = re.sub(rf"(?i)\b{re.escape(short)}\b", long, out)
+            out = _ci_compile(rf"\b{re.escape(short)}\b", re.I).sub(long, out)
     for pat, repl in _EXPAND_SUBS:
         out = pat.sub(repl, out)
     out = re.sub(r"[ \t]{2,}", " ", out)
