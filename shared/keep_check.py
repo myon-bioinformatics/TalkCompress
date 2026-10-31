@@ -25,6 +25,7 @@ import argparse
 import json
 import re
 import sys
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -95,6 +96,8 @@ def contains_exact(text: str, item: str, kind: str = "id") -> bool:
 
 def count_items(text: str) -> dict[str, int]:
     """Count negation and condition occurrences in ``text``."""
+    # NFD の結合文字は \w ではないため、no\u0301 が "no" と数えられないよう NFC にそろえる
+    text = unicodedata.normalize("NFC", text)
     return {
         "negation": len(NEGATION_RE.findall(text)),
         "condition": len(CONDITION_RE.findall(text)),

@@ -152,3 +152,15 @@ def test_negation_split_token_and_variant_apostrophes():
 
     for text in ["do n't go", "do n\u2019t go", "don\u02bct go", "don\uff07t go", "don't", "don\u2019t"]:
         assert len(NEGATION_RE.findall(text)) == 1, text
+
+
+def test_negation_is_stable_under_nfd_and_accents():
+    import unicodedata
+
+    from shared.keep_check import count_items
+
+    for text in ["Él dijo nó.", "Zoë don\u2019t go", "naïve café not"]:
+        nfc = count_items(unicodedata.normalize("NFC", text))["negation"]
+        nfd = count_items(unicodedata.normalize("NFD", text))["negation"]
+        assert nfc == nfd, text
+    assert count_items(unicodedata.normalize("NFD", "Él dijo nó."))["negation"] == 0
