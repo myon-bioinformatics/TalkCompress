@@ -31,7 +31,7 @@ def test_incomplete_never_passes(monkeypatch, responses, lang):
     assert rec['timeouts']==sum(x is None for x in responses)
     assert rec['restored']==sum(x is True for x in responses)
     assert rec['failures']==['Ik at.']*sum(x is False for x in responses)
-    assert rec['accounting_version']==2
+    assert rec['accounting_version']==4
     assert rt.rate(rec) is None
     assert rt.status(d,lang,'ik at')=='unverified'
     assert not rt.gate_for(d,'all')('ik at',lang)
@@ -53,8 +53,10 @@ def test_append_keeps_old_counts_and_failure(monkeypatch):
     assert (rec['attempted'],rec['completed'],rec['restored'],rec['timeouts'])==(15,13,11,2)
     assert rec['failures']==['past failure']
     # the legacy timeouts stay counted, but this run completed every attempt
-    assert rec['pending_timeouts']==0
-    assert rt.rate(rec)==11/13
+    assert rec['legacy_snapshot']['timeouts']==2
+    assert rec['cohorts'][-1]['timeouts']==0
+    assert rec['cohorts'][-1]['restored']==3
+    assert rt.rate(rec)==1.0  # latest 3/3, not cumulative 11/13
 
 @pytest.mark.parametrize('timeout',[0,-1,float('nan'),float('inf')])
 def test_invalid_timeout_rejected_before_mutation(timeout):
@@ -74,3 +76,4 @@ def test_cli_saves_incomplete_before_failure(monkeypatch,tmp_path,capsys):
     assert rt.main(['--run','--cmd','fake'])==1
     assert json.loads(target.read_text())==d
     assert 'unverified' in capsys.readouterr().err
+
