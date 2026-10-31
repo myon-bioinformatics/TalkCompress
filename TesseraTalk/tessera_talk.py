@@ -50,6 +50,9 @@ from typing import Any
 _SENT_SPLIT = re.compile(
     r"(?<=[.!?。？！…])"  # after terminator
     r"(?:\s+|(?=[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7afA-Za-z0-9\"'(\[]))"
+    # ASCII . ! ? glued to an ASCII letter/digit is not a sentence end
+    # (1.2.3, $3.50, example.com, ?q=); expand would rejoin it with a space.
+    r"(?<![.!?](?=[A-Za-z0-9]))"
 )
 
 _LATIN = re.compile(r"[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]")
