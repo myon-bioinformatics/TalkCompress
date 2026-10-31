@@ -425,7 +425,8 @@ def _write_output(text: str, args: argparse.Namespace) -> None:
             text if text.endswith("\n") else text + "\n", encoding="utf-8"
         )
     else:
-        print(text)
+        # Match --out: preserve existing trailing newlines without adding another.
+        print(text, end="" if text.endswith("\n") else "\n")
 
 
 def _resolve_zip_key(args: argparse.Namespace) -> str | None:
@@ -1430,7 +1431,13 @@ def main(argv: list[str] | None = None) -> int:
         _write_output(out, args)
         return check_quality(before_raw, out, args)
 
-    if default_layers is None and default_layer is not None:
+    # The final ZH/DE pass is compress-only; promoting to a pipeline would make
+    # run_pipeline overwrite expand/tag/pack/decode with compress/encode.
+    if (
+        default_layers is None
+        and default_layer is not None
+        and args.mode in ("compress", "encode")
+    ):
         maybe = with_final_zh_de([default_layer], args)
         if len(maybe) > 1 or (maybe and maybe[-1] == FINAL_ZH_DE_STEP and default_layer != FINAL_ZH_DE_STEP):
             default_layers = maybe
