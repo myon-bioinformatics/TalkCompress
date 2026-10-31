@@ -125,7 +125,7 @@ def test_multiword_subs_not_shadowed_by_earlier_word_rules():
     lit = re.compile(r"^(?:\(\?[a-z]+\))?\\b([A-Za-z' ]+)\\b$")
     bad = []
     for i, (p, _) in enumerate(m._SUBS):
-        mm = lit.match(p.pattern)
+        mm = lit.match(m.pattern_source(p))
         if not mm or " " not in mm.group(1):
             continue
         ph = mm.group(1)
