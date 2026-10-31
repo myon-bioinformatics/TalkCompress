@@ -492,6 +492,10 @@ _PRETOKEN = re.compile(
 )
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
 _LATIN_EXT_A = re.compile(r"[\u0100-\u024F]")
+# Latin Extended letters that o200k merges well (Turkish ı ğ ş İ, Vietnamese đ):
+# no +1 for these in the class-s fallback.
+_O200K_MERGED_EXT = "\u0131\u0130\u011f\u011e\u015f\u015e\u0111\u0110"
+_LATIN_EXT_SPLIT = re.compile(r"[^\W\d_" + _O200K_MERGED_EXT + r"]")
 _COMBINING_RE = re.compile(r"[\u0300-\u036F]")
 _CALIB: dict | None = None
 
@@ -528,6 +532,10 @@ def _fallback_cost(w: str, len_table: dict, suffixes: dict | None = None, floor:
         return max(1, len_table[k] + sx.get(w[-3:], sx.get(w[-2:], 0)))
     if k[0] == "g":  # Greek: o200k merges it poorly, ≈ ceil(len/2) beyond 3 letters
         return 1 if len(w) <= 3 else (len(w) + 1) // 2
+    if k[0] == "s":  # Czech / Polish: Latin Extended-A letters o200k merges poorly split off (+1)
+        return max(1, (len(w) + 3) // 4) + sum(
+            1 for c in _LATIN_EXT_A.findall(w) if _LATIN_EXT_SPLIT.match(c)
+        )
     return max(1, (len(w) + 3) // 4) + len(_LATIN_EXT_ADD.findall(w))
 
 
