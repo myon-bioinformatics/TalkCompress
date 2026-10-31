@@ -197,3 +197,36 @@ AAD がある場合は復号時にも元と同じ値を渡してください。
 `tests/fixtures/zipilogue_legacy_keys.json` は #107 直前の commit
 `84b28be729bf3d51d3e8a054cb0ab63edecb90a4` のコードを実行して生成した、
 ASCII/NFC/NFD の固定暗号文とフィンガープリントです（公開のテスト用鍵）。
+
+
+## GitHub Actions からの交渉・往復実測
+
+Actions の **dialogue-lab → Run workflow** でモデルを選ぶと、固定重みの取得・
+SHA-256 検証、CPU llama.cpp の起動、共有表現の交渉、合意できた場合の未見20件の
+raw/shared/unshared比較、証跡アップロードまで実行します。モデル候補と固定コンテナは
+SVG L3 と共通です。既定は Qwen2.5-0.5B、`all` は全候補を最大3並列で試します。
+モデルの構築・学習ではなく、既存GGUFを起動する推論実験です。
+
+1群・2 peer・4 round・seed 42・temperature 0、HTTP要求ごとの待ち時間600秒、
+CPU 2・メモリ6GiB・context 4096で実行します。ジョブ上限は240分です。
+台帳合意なし・不完全な計数などではCLIの終了コード1を維持するため、ワークフローは
+失敗表示になります。artifact の `dialogue-report.json` の各 `status` と
+`positive_evidence` を確認してください。緑表示だけで意味保持・費用削減の成功とは判定しません。
+モデル起動失敗やジョブ打切りではレポートがない場合もあり、サーバーログで切り分けます。
+
+artifactにはレポート（生の要求・応答を含む）、実験ログ、終了コード、重みの来歴、
+モデルカタログ、ソースコミット、コンテナ設定・ログを30日保存します。
+専用の依存インストールを行わずPython標準ライブラリで実験側を動かしますが、
+このワークフローは既存Docker起動方式です。別途進行中のナノ環境・Docker非依存起動の
+完成を意味しません。まず比較用の実行基準として使います。
+
+ローカルでも起動済みの llama-server に対して同じ入口を使えます。
+
+```bash
+python -m Zipilogue.dialogue_lab --base-url http://127.0.0.1:8080 \
+  --groups 1 --peers 2 --rounds 4 --timeout 600 --seed 42 \
+  --model-label qwen-0.5b --output out/dialogue-report.json
+```
+
+`--model-label` は証跡用の名称であり、サーバーのモデルを変更しません。
+実際のモデルは起動設定と重みのハッシュで確認します。

@@ -1,0 +1,136 @@
+name: dialogue-lab
+
+# Manual only: each model is a multi-gigabyte download and a long CPU run.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Model to measure; "all" runs every pinned model
+        type: choice
+        default: qwen-0.5b
+        options:
+          - qwen-0.5b
+          - qwen-1.5b
+          - minicpm5-2b
+          - lfm2.5-350m-qad
+          - lfm2.5-1.2b-qad
+          - lfm2.5-2.6b
+          - lfm3-1.7b
+          - all
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dialogue-lab-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # Official llama.cpp b12004 (commit 3c809f4438…), pinned by OCI digest; same image as mcp-toolcall-lab.
+  LLAMA_IMAGE: ghcr.io/ggml-org/llama.cpp@sha256:b32890309c1a33a534a01b0b461e953dc2c5a6bac20213abcf48e22847a19c85
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.models.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "latest"
+          python-version: "3.12.15"
+          activate-environment: true
+          enable-cache: false
+      - id: models
+        env:
+          MODEL_CHOICE: ${{ inputs.model || 'qwen-0.5b' }}
+        run: python scripts/fetch_l3_model.py --list "$MODEL_CHOICE" --github-output "$GITHUB_OUTPUT"
+
+  measure:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "latest"
+          python-version: "3.12.15"
+          activate-environment: true
+          enable-cache: false
+      - name: Prepare evidence directory
+        run: mkdir -p out
+      - name: Restore pinned model cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: models/model.gguf
+          key: dialogue-lab-${{ matrix.model }}-${{ hashFiles('shared/l3_models.json') }}
+      - name: Fetch or verify pinned weights
+        env:
+          MODEL: ${{ matrix.model }}
+        run: python scripts/fetch_l3_model.py "$MODEL" models/model.gguf
+      - name: Start pinned llama.cpp (CPU, context 4096)
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          template=$(python -c 'import json, os; print(json.load(open("shared/l3_models.json"))[os.environ["MODEL"]]["template"] or "")')
+          extra=()
+          if [ -n "$template" ]; then
+            extra+=(--chat-template-file "/lab/$template")
+          fi
+          docker run --detach --name dialogue-lab-model --cpus=2 --memory=6g \
+            -p 127.0.0.1:8080:8080 -v "$PWD/models:/models:ro" -v "$PWD/shared:/lab/shared:ro" \
+            "$LLAMA_IMAGE" -m /models/model.gguf --host 0.0.0.0 --port 8080 \
+            -c 4096 -t 2 -tb 2 -ngl 0 --parallel 1 --jinja --reasoning-format none \
+            --reasoning off "${extra[@]}"
+          for _ in {1..90}; do
+            if curl --fail --silent http://127.0.0.1:8080/health >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs dialogue-lab-model
+          exit 1
+      - name: Negotiate and evaluate held-out receivers
+        env:
+          MODEL: ${{ matrix.model }}
+        run: |
+          # Exit 1 means no agreement or incomplete accounting, never positive evidence.
+          # Preserve that exit code while the always() steps upload negative results too.
+          set +e
+          python -m Zipilogue.dialogue_lab --groups 1 --peers 2 --rounds 4 \
+            --timeout 600 --seed 42 --model-label "$MODEL" --output out/dialogue-report.json \
+            > out/experiment.log 2>&1
+          result=$?
+          printf '%s\n' "$result" > out/experiment-exit-code.txt
+          exit "$result"
+      - name: Collect evidence
+        if: always()
+        run: |
+          mkdir -p out
+          git rev-parse HEAD > out/source-commit.txt
+          cp shared/l3_models.json out/model-catalog.json
+          cp models/model.gguf.provenance.json out/ 2>/dev/null || true
+          docker logs dialogue-lab-model > out/llama-server.log 2>&1 || true
+          docker inspect dialogue-lab-model > out/container.json 2>&1 || true
+      - name: Upload measured evidence (including incomplete runs)
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dialogue-lab-${{ matrix.model }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: out/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Stop model server
+        if: always()
+        run: docker rm -f dialogue-lab-model 2>/dev/null || true
+
