@@ -49,3 +49,27 @@ def test_abbreviation_does_not_split_sentence():
     from shared.struct_bullet import to_bullets
 
     assert to_bullets("See e.g. the file. Use i.e. this one.") == "- See e.g. the file\n- Use i.e. this one"
+
+
+import pytest
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Use e.g. this.", "Use E.g. this.", "Use i.e. this.", "Use I.e. this.",
+        "See cf. that.", "See Cf. that.", "Red vs. blue.", "Red Vs. blue.",
+        "Ask Mr. Smith.", "Ask Mrs. Smith.", "Ask Ms. Smith.", "Ask Dr. Smith.",
+        "Pack A, B, etc. and go.",
+    ],
+)
+def test_each_abbreviation_guard_keeps_one_sentence(text):
+    from shared.struct_bullet import to_bullets
+
+    assert "\n" not in to_bullets(text), text
+
+
+def test_etc_followed_by_capital_still_splits():
+    from shared.struct_bullet import to_bullets
+
+    assert to_bullets("A, B, etc. Then go.") == "- A, B, etc\n- Then go"

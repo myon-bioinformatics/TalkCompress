@@ -33,8 +33,10 @@ try:  # package import (pytest, DensityZip)
 except ImportError:  # run as a script from shared/
     from keep_check import check
 
+_ABBREV_GUARDS = r"(?<!\b[eE]\.g\.)(?<!\b[iI]\.e\.)(?<!\b[cC]f\.)(?<!\b[vV]s\.)(?<!\bMr\.)(?<!\bMrs\.)(?<!\bMs\.)(?<!\bDr\.)(?<!\betc\.)"
+# etc. は文末にもなるので、後ろが大文字なら分割する
 SENTENCE_SPLIT = re.compile(
-    r"(?<=[。！？])|(?<!\be\.g\.)(?<!\bi\.e\.)(?<!\betc\.)(?<!\bvs\.)(?<!\bMr\.)(?<!\bDr\.)(?<=[.!?])\s+|\n+"
+    r"(?<=[。！？])|" + _ABBREV_GUARDS + r"(?<=[.!?])\s+|(?<=\betc\.)\s+(?=[A-Z])|\n+"
 )
 FILLER_PREFIX = re.compile(
     r"^(?:(?:um|uh|well|so|also|basically|actually|just|you know)[,]?\s+)+",
