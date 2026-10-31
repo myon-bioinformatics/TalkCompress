@@ -37,3 +37,8 @@ def test_mark_word_before_bracket():
 def test_noncomposable_mark_word_before_bracket():
     # NFC 後も結合文字が残る語でも、括弧の前の空白は保たれる
     assert pack_tokens("x\u0301 (ok)") == "x\u0301 (ok)"
+
+
+def test_noncomposable_interior_mark_word_before_bracket():
+    # Preserve the #63 interior-mark boundary regression alongside #90.
+    assert pack_tokens("x\u0301y (ok)") == "x\u0301y (ok)"
