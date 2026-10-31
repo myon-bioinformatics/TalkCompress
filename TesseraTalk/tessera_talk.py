@@ -1799,13 +1799,15 @@ def apply_relative_que(text: str) -> str:
 # aux/verb keeps tense/number, so no person collapse. Excluded: your / yours /
 # yourself (word boundary) and contractions you'd / you're / you've / you'll
 # ('d/'s type detection keeps the EN contraction).
-_YOU_RE = re.compile(r"(?<![A-Za-z0-9'’])you(?![A-Za-z0-9'’])", re.IGNORECASE)
+_YOU_RE = re.compile(
+    r"(?<![^\W\u3040-\u30ff\u3400-\u9fff]|['’])you(?![^\W\u3040-\u30ff\u3400-\u9fff]|['’])", re.IGNORECASE
+)
 YOU_FORM = "U"
 
 
 def apply_you_u(text: str) -> str:
     """``you`` → ``U`` when cheaper (token → utf8); your/yours/yourself/you'X stay."""
-    src = text or ""
+    src = unicodedata.normalize("NFC", text or "")
     if estimate_tokens(YOU_FORM) > estimate_tokens("you") or _utf8_len(YOU_FORM) >= _utf8_len("you"):
         return src
     return _YOU_RE.sub(YOU_FORM, src)

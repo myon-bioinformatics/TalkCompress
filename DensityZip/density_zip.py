@@ -772,7 +772,7 @@ def choose_auto_layers(text: str, args: argparse.Namespace) -> list[str]:
     n = len(text)
     ascii_letters = sum(1 for ch in text if ch.isascii() and ch.isalpha())
     cjk = len(re.findall(r"[\u3040-\u30ff\u3400-\u9fff]", text))
-    latin = len(re.findall(r"[A-Za-z]", text))
+    latin = len(re.findall(r"[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]", text))
     scripts = 0
     if latin:
         scripts += 1
