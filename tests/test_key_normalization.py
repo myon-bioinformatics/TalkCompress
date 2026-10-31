@@ -185,3 +185,19 @@ def test_cli_rule_wrap_and_unwrap_forward_mode(mode, tmp_path):
     d = cli("rule-decode", "--state", str(state), "--text", r.stdout.decode().strip(),
             "--key", NFD, "--aad", AAD, "--key-normalization", mode)
     assert d.returncode == 0 and d.stdout.strip() == b"ready and waiting", d.stderr
+
+
+@pytest.mark.parametrize("source", ["argument", "environment"])
+@pytest.mark.parametrize("mode", [None, "none", "NFC"])
+def test_read_key_preserves_legacy_bytes_unless_nfc_is_explicit(monkeypatch, source, mode):
+    monkeypatch.delenv("TALKCOMPRESS_ZIP_KEY", raising=False)
+    if source == "environment":
+        monkeypatch.setenv("TALKCOMPRESS_ZIP_KEY", NFD)
+    args = z.argparse.Namespace(key=NFD if source == "argument" else None, key_file=None)
+    if mode is not None:
+        args.key_normalization = mode
+    key = z._read_key(args)
+    assert key == (NFD if mode == "NFC" else NFD.encode("utf-8"))
+    assert type(key) is (str if mode == "NFC" else bytes)
+    selected = "none" if mode is None else mode
+    assert z.key_fingerprint(key, key_normalization=selected) == z.key_fingerprint(NFD, key_normalization=selected)

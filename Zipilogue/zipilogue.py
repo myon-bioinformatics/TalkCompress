@@ -241,11 +241,14 @@ def _read_key(args: argparse.Namespace) -> bytes | str:
             raise SystemExit("--key-normalization NFC cannot be used with raw --key-file bytes")
         data = Path(args.key_file).read_bytes()
         return data.rstrip(b"\r\n")
+    # Preserve the legacy helper's UTF-8 bytes contract unless text NFC is
+    # explicitly requested; normalization itself remains centralized in APIs.
+    mode = getattr(args, "key_normalization", "none")
     if args.key is not None:
-        return args.key
+        return args.key.encode("utf-8") if mode == "none" else args.key
     env = os.environ.get("TALKCOMPRESS_ZIP_KEY")
     if env:
-        return env
+        return env.encode("utf-8") if mode == "none" else env
     raise SystemExit("provide --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
 
 
