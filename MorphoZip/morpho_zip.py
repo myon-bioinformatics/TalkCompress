@@ -13,6 +13,8 @@ Shared lexeme policy (``shared.lex_policy``) usage:
 - ETYMON_ALIGN (comm / cfg / doc…; information→ℹ️ is C family=emoji)
 - EN quantity phrases → short JA counters (experimental; needs digits already present)
 - strip unquoted articles ``the`` / ``a`` / ``an`` (quoted forms keep the word)
+- U+2011 is reserved as the article-protection join (``A‑Maria``); any U+2011
+  already in the input is normalized to ASCII ``-`` by ``compress``.
 - optional integer → hex rewrite (``hex_nums``)
 - protected spans ``[[keep:...]]`` / `` `keep:...` `` (wrappers stripped)
 
@@ -1913,7 +1915,8 @@ _A_SYMBOL_NEXT = (
     "thinks|thought|wants|wanted|\\w+ed"
 )
 _ARTICLE_WORD = _ci_compile(
-    r"(?:\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)"
+    # ``a-priori`` / ``a-La Paz`` / ``x-a``: part of a hyphenated word, keep.
+    r"(?:(?<![-\u2011])\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)(?![-\u2011]\w)"
     r"|(?:^|(?<=[.!?)\]] )|(?<=[.!?][\"')\]] )|(?<=[(\[{\"'\u2014\u2013]))(?-i:A)(?= +\w)(?! +(?:" + _A_SYMBOL_NEXT + r")\b))"
     r" *",
     re.I | re.M,
@@ -1976,7 +1979,8 @@ def strip_articles(text: str) -> str:
     es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
     chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
     """
-    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_cue_aware)
+    text = unicodedata.normalize("NFC", text).replace(A_JOIN, "-")
+    return apply_outside_romance(text, _strip_articles_cue_aware)
 
 
 # ``a``/``A`` + capitalised word in a sentence with no English cue at all is
@@ -1993,22 +1997,60 @@ def _strip_articles_cue_aware(text: str) -> str:
     # Source offsets, not sentinel text: arbitrary user characters must never
     # be interpreted as an internal placeholder during restoration.
     preserve_a: set[int] = set()
+    hyphen_a: set[int] = set()
     for sentence in _SENT_CHUNK.finditer(text):
         part = sentence.group(0)
-        if not has_english_cue(part):
-            for match in _A_BEFORE_NAME.finditer(part):
-                if (
-                    unicodedata.category(match.group(2)) in {"Lu", "Lt"}
-                    or _A_PERSONAL_PRONOUN.match(part, match.start(2))
-                ):
+        english = has_english_cue(part)
+        for match in _A_BEFORE_NAME.finditer(part):
+            if unicodedata.category(match.group(2)) not in {"Lu", "Lt"}:
+                if not english and _A_PERSONAL_PRONOUN.match(part, match.start(2)):
                     preserve_a.add(sentence.start() + match.start(1))
-    return _strip_articles_en(text, preserve_a=frozenset(preserve_a))
+                continue
+            word = re.match(r"[^\W\d_]+", part[match.end(1):].lstrip(" "))
+            if word and len(word.group(0)) > 1 and word.group(0).isupper():
+                # ``a IS key`` / ``A USB``: all-caps, not a name — old behaviour.
+                if not english:
+                    preserve_a.add(sentence.start() + match.start(1))
+                continue
+            offset = sentence.start() + match.start(1)
+            before = part[: match.start(1)].rstrip(" \t\"'([{\u201c\u2018")
+            at_start = before == "" or before.endswith(("\u2014", "\u2013"))
+            # (``Plan A Fails``: ``_ARTICLE_WORD`` never matches a mid-sentence
+            # capital ``A`` after a word, so labels are untouched there.)
+            if english or (at_start and match.group(1) == "A"):
+                # English ``A``/``a`` + name: join with ``-`` (``A-Maria``) so
+                # the article survives; ``restore_a_hyphen`` undoes it.
+                hyphen_a.add(offset)
+            else:
+                # es/pt/fr/it function-word ``a`` (``Veo a Juan``): keep as is.
+                preserve_a.add(offset)
+    return _strip_articles_en(text, preserve_a=frozenset(preserve_a), hyphen_a=frozenset(hyphen_a))
+
+
+# compress joins the protected article with U+2011 NON-BREAKING HYPHEN
+# (``A\u2011Maria``) so user-written ASCII hyphens (``A-Class``, ``A-Maria``,
+# ``a-priori``) are never confused with it. U+2011 already present in the
+# input is folded to ASCII ``-`` by ``strip_articles`` (same reading, and the
+# marker stays unambiguous); no NFKC is applied anywhere in the repo, so the
+# marker survives every path (NFKC would turn it into U+2010).
+A_JOIN = "\u2011"
+_A_HYPHEN = re.compile(r"(?<![\w'\u2019\u2011-])([aA])\u2011(?=[^\W\d_])")
+
+
+def restore_a_hyphen(text: str) -> str:
+    """Undo ``A\u2011Maria`` → ``A Maria`` (inverse of the article protection).
+
+    Only U+2011 is converted; ASCII ``A-Class`` / ``A-Maria`` stay untouched.
+    """
+    return _A_HYPHEN.sub(r"\1 ", unicodedata.normalize("NFC", text))
 
 
 _SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
 
 
-def _strip_articles_en(text: str, *, preserve_a: frozenset[int] = frozenset()) -> str:
+def _strip_articles_en(
+    text: str, *, preserve_a: frozenset[int] = frozenset(), hyphen_a: frozenset[int] = frozenset()
+) -> str:
     text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
     quote_changes: list[tuple[int, int, int]] = []
@@ -2023,15 +2065,26 @@ def _strip_articles_en(text: str, *, preserve_a: frozenset[int] = frozenset()) -
     out = _QUOTED_ARTICLE.sub(_mask, text)
     # Quoted articles are masked before article deletion. Carry source offsets
     # past those length changes without changing the existing quoted behavior.
-    mapped: set[int] = set()
-    change = delta = 0
-    for offset in sorted(preserve_a):
-        while change < len(quote_changes) and quote_changes[change][1] <= offset:
-            delta += quote_changes[change][2]
-            change += 1
-        if change == len(quote_changes) or offset < quote_changes[change][0]:
-            mapped.add(offset + delta)
-    out = _ARTICLE_WORD.sub(lambda m: m.group(0) if m.start() in mapped else "", out)
+    def _map(offsets: frozenset[int]) -> set[int]:
+        mapped: set[int] = set()
+        change = delta = 0
+        for offset in sorted(offsets):
+            while change < len(quote_changes) and quote_changes[change][1] <= offset:
+                delta += quote_changes[change][2]
+                change += 1
+            if change == len(quote_changes) or offset < quote_changes[change][0]:
+                mapped.add(offset + delta)
+        return mapped
+
+    mapped = _map(preserve_a)
+    hyphened = _map(hyphen_a)
+
+    def _article(m: re.Match[str]) -> str:
+        if m.start() in hyphened:
+            return m.group(0).rstrip(" ") + A_JOIN
+        return m.group(0) if m.start() in mapped else ""
+
+    out = _ARTICLE_WORD.sub(_article, out)
     for i, inner in enumerate(restores):
         out = out.replace(_ART_PLACEHOLDER.format(i), inner)
     out = re.sub(r"[ \t]{2,}", " ", out)
@@ -2317,9 +2370,18 @@ def compress(
     stripped unless ``keep_articles``. Quoted articles keep the inner word
     (quotes dropped). Counters map digit+noun phrases (``3 animals``→``3匹``);
     digitization of spelled words is C's job (or ``spelled_nums=True``).
+
+    User-input U+2011 (non-breaking hyphen) is normalized to ASCII ``-`` up
+    front, on every path including ``keep_articles=True``: U+2011 is reserved
+    as the article-protection join that ``expand`` turns back into a space.
+    This runs after ``[[keep:...]]`` / ``protect_regexes`` spans are extracted,
+    so protected spans keep U+2011 in the compressed output. Known limitation:
+    a U+2011 kept inside a protected span is still turned into a space by
+    ``expand`` when it follows a lone ``a``/``A`` (e.g. ``A‑Maria``).
     """
     text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
+    out = out.replace(A_JOIN, "-")
     out = normalize_quotes(out)
     # aggressive_fillers implies strip
     do_strip = strip or aggressive_fillers
@@ -2727,7 +2789,8 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     text = unicodedata.normalize("NFC", text)
     from shared.lex_policy import UNIQUE_COMPACT
 
-    out = text
+    # Undo compress's ``A-Maria`` article protection first (exact inverse).
+    out = restore_a_hyphen(text)
     if counters:
         for pat, repl in _EXPAND_COUNTERS:
             out = pat.sub(repl, out)
