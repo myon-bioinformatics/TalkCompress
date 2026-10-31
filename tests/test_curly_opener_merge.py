@@ -76,7 +76,7 @@ def test_regex_protected_quotes_remain_verbatim():
 
 def test_quoted_a_and_romance_guards_survive():
     assert compress('Mark it “A” now.') == 'Mark it "A" now.'
-    assert compress('“Il a un chat.”') == '"he a un chat."'
+    assert compress('“Il a un chat.”') == '"Il a un chat."'
 
 
 def test_quote_audit_can_still_disable_both_normalization_passes():
