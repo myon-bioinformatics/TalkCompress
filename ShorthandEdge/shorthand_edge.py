@@ -28,6 +28,7 @@ from shared.lex_policy import (  # noqa: E402
     apply_spelled_numbers,
     apply_unique_readings,
     emoji_default_map,
+    nonascii_word_pattern,
     strip_fillers,
 )
 
@@ -415,7 +416,8 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
         if not short:
             continue
         if re.search(r"[^\x00-\x7f]", short) or not short.isascii():
-            out = out.replace(short, long)
+            # Latin edges are word-bounded (séc ∌ sécheresse); kana/CJK stay substrings.
+            out = re.sub(nonascii_word_pattern(short), lambda _m, _l=long: _l, out)
         else:
             pat = _word_bounded(short)
             out = re.sub(pat, lambda _m, _l=long: _l, out)
