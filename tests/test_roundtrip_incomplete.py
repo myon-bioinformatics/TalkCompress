@@ -52,7 +52,9 @@ def test_append_keeps_old_counts_and_failure(monkeypatch):
     rec=d['records']['nl:ik at']
     assert (rec['attempted'],rec['completed'],rec['restored'],rec['timeouts'])==(15,13,11,2)
     assert rec['failures']==['past failure']
-    assert rt.rate(rec) is None
+    # the legacy timeouts stay counted, but this run completed every attempt
+    assert rec['pending_timeouts']==0
+    assert rt.rate(rec)==11/13
 
 @pytest.mark.parametrize('timeout',[0,-1,float('nan'),float('inf')])
 def test_invalid_timeout_rejected_before_mutation(timeout):
