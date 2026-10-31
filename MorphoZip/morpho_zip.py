@@ -985,6 +985,9 @@ def _protect_rule(ctx: str, words: tuple[str, ...], style: str) -> tuple[re.Patt
     return pat, (lambda m, j=joined: m.group(1) + j)
 
 
+# ES/IT/PT con: English-only alias; never rewritten inside a Romance sentence.
+_CON_TO_WITH = _ci_compile(r"\bcon\b", re.I)
+
 _PROTECT_SUBS = [_protect_rule(c, w, st) for c, w, st in PROTECTED_PHRASES]
 
 
@@ -1300,7 +1303,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bpara\b", re.I), "for"),  # ES purpose-for
     (_ci_compile(r"\bpour\b", re.I), "for"),  # FR
     (_ci_compile(r"\bf[uü]r\b", re.I), "for"),  # DE (4 removed: token loser)
-    (_ci_compile(r"\bcon\b", re.I), "with"),  # ES
+    # ES con→with は _CON_TO_WITH で英語文だけに適用（ロマンス語文では con のまま）
     (_ci_compile(r"\bavec\b", re.I), "with"),  # FR
     (_ci_compile(r"\bmit\b", re.I), "with"),  # DE
     (_ci_compile(r"\bbei\b", re.I), "@"),  # DE at/by
@@ -2291,7 +2294,9 @@ def compress(
     # Romance protection forward to the English-only 3sg fold.
     out = substitute_with_romance_context(
         out, _SUBS,
-        lambda part, protected: part if protected else drop_3sg_after_inventory_pronoun(part),
+        lambda part, protected: part if protected else drop_3sg_after_inventory_pronoun(
+            _CON_TO_WITH.sub("with", part)
+        ),
     ).replace('<<YOUOBJ>>', 'you')
     out = _DIGIT_FW.sub(lambda m: chr(ord(m.group(0)) - 0xFEE0), out)
     if hex_nums:
