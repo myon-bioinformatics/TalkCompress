@@ -60,8 +60,9 @@ def to_bullets(text: str, marker: str = "- ") -> str:
         if not sentence:
             continue
         sentence = sentence.rstrip(".。")
-        if sentence and sentence[0].isascii() and sentence[0].islower():
-            sentence = sentence[0].upper() + sentence[1:]
+        # 非 ASCII の先頭（é→É）も大文字にする。ß→Ss のように長さが変わる字はそのまま
+        if sentence and sentence[0].islower() and len(sentence[0].title()) == 1:
+            sentence = sentence[0].title() + sentence[1:]
         if sentence:
             lines.append(f"{marker}{sentence}")
     return "\n".join(lines)
