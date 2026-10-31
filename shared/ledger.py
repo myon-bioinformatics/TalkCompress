@@ -64,6 +64,12 @@ def nonascii_word_pattern(src: str) -> str:
         pat = rf"{pat}(?!{_LATIN_EDGE_CH}|[\u0300-\u036f])"
     return pat
 
+
+def _ascii_ci(word: str) -> str:
+    """Escape *word*; for ASCII words keep IGNORECASE ASCII-only (ı/İ/ſ/K ≠ i/s/k)."""
+    return f"(?a:{re.escape(word)})" if word.isascii() else re.escape(word)
+
+
 _ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_LEDGER_PATH = _ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
 
@@ -888,7 +894,7 @@ def _word_present(text: str, word: str) -> bool:
     if not word:
         return False
     if word.isascii() and all(ch.isascii() for ch in word):
-        return re.search(rf"(?i)\b{re.escape(word)}\b", text) is not None
+        return re.search(rf"(?i)\b{_ascii_ci(word)}\b", text) is not None
     return re.search(nonascii_word_pattern(word), text) is not None
 
 
@@ -970,7 +976,7 @@ def _skip_convention(text: str, convention: dict[str, Any]) -> bool:
 def _replace_src(text: str, src: str, dst: str) -> str:
     """ASCII word-boundary replace; non-ASCII Latin edges bounded, CJK plain."""
     if src.isascii() and all(ch.isascii() for ch in src):
-        return re.sub(rf"(?i)\b{re.escape(src)}\b", dst, text)
+        return re.sub(rf"(?i)\b{_ascii_ci(src)}\b", dst, text)
     return re.sub(nonascii_word_pattern(src), lambda _m: dst, text)
 
 
