@@ -185,6 +185,8 @@ def mark(text: str, scheme: str, spans: list[tuple[int, int]]) -> str:
     for s, e in spans:
         word = text[s:e]
         parts.append(text[last:s])
+        # word.upper() may grow (ß→SS); harmless: parts are rebuilt from the
+        # original text and spans are never reused against the output.
         parts.append(word[:1].upper() + word[1:] if scheme == "B" else word.upper())
         last = e
     parts.append(text[last:])
