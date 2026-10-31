@@ -24,6 +24,7 @@ import argparse
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,7 +34,11 @@ try:  # package import (pytest, DensityZip)
 except ImportError:  # run as a script from shared/
     from keep_check import check
 
-SENTENCE_SPLIT = re.compile(r"(?<=[。！？])|(?<=[.!?])\s+|\n+")
+_ABBREV_GUARDS = r"(?<!\b[eE]\.g\.)(?<!\b[iI]\.e\.)(?<!\b[cC]f\.)(?<!\b[vV]s\.)(?<!\bMr\.)(?<!\bMrs\.)(?<!\bMs\.)(?<!\bDr\.)(?<!\betc\.)"
+# etc. は文末にもなるので、後ろが大文字なら分割する
+SENTENCE_SPLIT = re.compile(
+    r"(?<=[。！？])|" + _ABBREV_GUARDS + r"(?<=[.!?])\s+|(?<=\betc\.)\s+(?=[A-Z])|\n+"
+)
 FILLER_PREFIX = re.compile(
     r"^(?:(?:um|uh|well|so|also|basically|actually|just|you know)[,]?\s+)+",
     re.IGNORECASE,
@@ -48,13 +53,17 @@ def to_bullets(text: str, marker: str = "- ") -> str:
     """One sentence per line with ``marker`` (default ``- ``), fillers removed,
     trailing full stop dropped. ``marker=""`` gives plain lines with no dash."""
     lines: list[str] = []
+    # NFD の結合文字で \b がずれないよう NFC にそろえる
+    text = unicodedata.normalize("NFC", text)
     for part in SENTENCE_SPLIT.split(text):
         sentence = strip_fillers(part.strip())
         if not sentence:
             continue
         sentence = sentence.rstrip(".。")
-        if sentence and sentence[0].isascii() and sentence[0].islower():
-            sentence = sentence[0].upper() + sentence[1:]
+        # 非 ASCII の先頭（é→É）も大文字にする。ß→Ss のように長さが変わる字はそのまま
+        # （合字 ﬁ→Fi も同じ理由で小文字のまま残す）
+        if sentence and sentence[0].islower() and len(sentence[0].title()) == 1:
+            sentence = sentence[0].title() + sentence[1:]
         if sentence:
             lines.append(f"{marker}{sentence}")
     return "\n".join(lines)

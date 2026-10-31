@@ -1,16 +1,13 @@
 # Workflow patches
 
-GitHub OAuth トークンに `workflow` スコープがないと `.github/workflows/**` を push できません。
+CI workflow は `.github/workflows/ci.yml` に適用済みです。以前ここにあった `ci.yml` のコピーは実際の workflow とずれていたため削除しました。CI を変えるときは `.github/workflows/ci.yml` を直接編集してください。
 
-適用（workflow スコープ付きトークン、または GitHub UI）:
+`.github/dependabot.yml` はまだ適用していない提案です。適用する場合（`workflow` スコープ付きトークン、または GitHub UI）:
 
 ```bash
-mkdir -p .github/workflows
-cp docs/patches/.github/workflows/ci.yml .github/workflows/ci.yml
+mkdir -p .github
 cp docs/patches/.github/dependabot.yml .github/dependabot.yml
-git add .github
-git commit -m "ci: enable TalkCompress CI workflow"
+git add .github/dependabot.yml
+git commit -m "ci: enable Dependabot"
 git push
 ```
-
-親 reusable のピン: `myon-bioinformatics/myon-bioinformatics@8ec3402011d74eddc163c44218937e742b21ce4f`

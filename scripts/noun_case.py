@@ -27,6 +27,7 @@ import importlib.util
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 from types import ModuleType
 from typing import Callable
@@ -119,12 +120,19 @@ def closed_surfaces(mz: ModuleType) -> frozenset[str]:
 
 
 def standalone(text: str, start: int, end: int) -> bool:
-    """ASCII word not glued to a symbol / non-ASCII substitution."""
+    """ASCII word not glued to a symbol / non-ASCII substitution.
+
+    A combining mark on either edge (NFD ``cafe`` + U+0301) belongs to the
+    neighbouring letter, so the span is a cut word, not a standalone one.
+    """
     if not text[start:end].isascii():
         return False
     before = text[start - 1] if start else " "
     after = text[end] if end < len(text) else " "
-    return all(c not in _GLUE and (c.isascii() or not c.isalnum()) for c in (before, after))
+    return all(
+        c not in _GLUE and (c.isascii() or not c.isalnum()) and not unicodedata.category(c).startswith("M")
+        for c in (before, after)
+    )
 
 
 def noun_spans(text: str, lexicon: frozenset[str], closed: frozenset[str]) -> list[tuple[int, int]]:
@@ -177,6 +185,8 @@ def mark(text: str, scheme: str, spans: list[tuple[int, int]]) -> str:
     for s, e in spans:
         word = text[s:e]
         parts.append(text[last:s])
+        # word.upper() may grow (ß→SS); harmless: parts are rebuilt from the
+        # original text and spans are never reused against the output.
         parts.append(word[:1].upper() + word[1:] if scheme == "B" else word.upper())
         last = e
     parts.append(text[last:])

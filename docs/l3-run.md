@@ -85,4 +85,4 @@ other logs unless a run fails before the report is written.
 
 ## Checks before a run
 
-    python -m pytest -q tests/test_svg_l3.py tests/test_svg_dsl.py tests/test_svg_figure.py
+    uv run pytest -q tests/test_svg_l3.py tests/test_svg_dsl.py tests/test_svg_figure.py

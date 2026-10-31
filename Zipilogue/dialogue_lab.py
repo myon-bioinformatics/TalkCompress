@@ -45,6 +45,22 @@ def corpus() -> tuple[list[dict], list[dict]]:
     return cases[:8], cases[8:]
 
 
+def _fold_alt(phrase: str) -> str:
+    """Escape *phrase*; ASCII phrases get ASCII-only IGNORECASE.
+
+    Unicode re.I folds Turkish İ/ı, long s ſ and the Kelvin sign K onto
+    i/s/k, so ``kiss`` would match ``KİSS`` / ``kıss`` (and the casefold
+    lookup then misses).  Non-ASCII phrases keep Unicode case folding.
+    """
+    esc = re.escape(phrase)
+    return f'(?a:{esc})' if phrase.isascii() else esc
+
+
+def _code_pattern(code: str) -> str:
+    """Word-bounded (Unicode \\w edges) ASCII-only case-insensitive code match."""
+    return r'(?<!\w)' + _fold_alt(code) + r'(?!\w)'
+
+
 def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]]:
     """Reject collisions, unobserved phrases and cascading codes."""
     values = payload.get('mapping')
@@ -69,12 +85,12 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
             raise ValueError('short form must be a shorter 1..6 character code')
         if long.casefold() in longs or short.casefold() in shorts:
             raise ValueError('duplicate rule')
-        if re.search(r'(?<!\w)' + re.escape(short) + r'(?!\w)', observed, re.I):
+        if re.search(_code_pattern(short), observed, re.I):
             raise ValueError('code collides with observed vocabulary')
         longs.add(long.casefold()); shorts.add(short.casefold())
         result.append({'long': long, 'short': short})
     for rule in result:
-        if any(re.search(r'(?<!\w)' + re.escape(code) + r'(?!\w)', rule['long'], re.I) for code in shorts):
+        if any(re.search(_code_pattern(code), rule['long'], re.I) for code in shorts):
             raise ValueError('code appears inside a long form')
     return result
 
@@ -90,8 +106,10 @@ def encode(text: str, mapping: list[dict[str, str]]) -> str:
     if not mapping:
         return text
     lookup = {unicodedata.normalize('NFC', r['long']).casefold(): r['short'] for r in mapping}
-    pattern = r'(?<!\w)(?:' + '|'.join(re.escape(x) for x in sorted(lookup, key=len, reverse=True)) + r')(?!\w)'
-    return re.sub(pattern, lambda m: lookup[m.group().casefold()], text, flags=re.I)
+    pattern = r'(?<!\w)(?:' + '|'.join(_fold_alt(x) for x in sorted(lookup, key=len, reverse=True)) + r')(?!\w)'
+    # İ/ı/ſ/K never fold onto an ASCII long form (see _fold_alt); the .get
+    # fallback keeps any other re.I-vs-casefold mismatch from raising KeyError.
+    return re.sub(pattern, lambda m: lookup.get(m.group().casefold(), m.group()), text, flags=re.I)
 
 
 def valid_task(value: object) -> bool:

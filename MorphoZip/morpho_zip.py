@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import math
 import re
+import unicodedata
 import sys
 from pathlib import Path
 
@@ -1777,7 +1778,33 @@ _QUOTED_ARTICLE = re.compile(
     re.I,
 )
 _ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?!\.\w)", re.I)
+# Article right after an opening quote/bracket: drop its trailing space too
+# (``“the cat”`` → ``"cat"``, not ``" cat"``).
+_OPEN_BRACKETS = "([{\u300c\u300e\u3010\u00ab\u2039\u201c\u2018\uff08"
+_ARTICLE_AFTER_OPEN = re.compile(
+    rf"(?:(?<=[{_OPEN_BRACKETS}])|(?<=^[\"'])|(?<=[\s{_OPEN_BRACKETS}][\"']))"
+    r"(?:the|a|an)\b(?!\.\w)[ \t]*",
+    re.I,
+)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
+
+
+# Curly quote marks → straight (o200k: same tokens, fewer bytes).  ``’`` is
+# only rewritten as the closer of a ``‘…’`` pair; in-word apostrophes
+# (``don’t``) and possessives (``dogs’``) stay as written.
+# Pairs never cross a newline (``‘a\nb’`` keeps ``’``); `` ’n’ `` style elisions
+# after a space stay inside the pair; an ambiguous ``‘the dogs’ bones’`` closes
+# at the first word-final ``’`` (shortest pair, documented in tests).
+_SINGLE_PAIR = re.compile(
+    r"\u2018((?:(?<=\s)\u2019\w+\u2019|[^\u2018\u2019\n]|\u2019(?=\w))*)\u2019(?!\w)"
+)
+
+
+def normalize_quotes(text: str) -> str:
+    """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched."""
+    out = text.replace("\u201c", '"').replace("\u201d", '"')
+    out = _SINGLE_PAIR.sub(r"'\1'", out)
+    return out.replace("\u2018", "'")
 
 
 def strip_articles(text: str) -> str:
@@ -1790,6 +1817,7 @@ def strip_articles(text: str) -> str:
         return _ART_PLACEHOLDER.format(len(restores) - 1)
 
     out = _QUOTED_ARTICLE.sub(_mask, text)
+    out = _ARTICLE_AFTER_OPEN.sub("", out)
     out = _ARTICLE_WORD.sub("", out)
     for i, inner in enumerate(restores):
         out = out.replace(_ART_PLACEHOLDER.format(i), inner)
@@ -2076,7 +2104,9 @@ def compress(
     (quotes dropped). Counters map digit+noun phrases (``3 animals``→``3匹``);
     digitization of spelled words is C's job (or ``spelled_nums=True``).
     """
+    text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
+    out = normalize_quotes(out)
     # aggressive_fillers implies strip
     do_strip = strip or aggressive_fillers
     if do_strip:
@@ -2460,6 +2490,7 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     Lossy: pronoun remaps, optional filler drops, unique-readings, and many _SUBS have no
     unique inverse. Only unambiguous counter and short-token mappings are reversed.
     """
+    text = unicodedata.normalize("NFC", text)
     from shared.lex_policy import UNIQUE_COMPACT
 
     out = text

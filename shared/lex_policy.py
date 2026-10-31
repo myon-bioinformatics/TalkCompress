@@ -17,6 +17,32 @@ import re
 from pathlib import Path
 from typing import Any
 
+
+# Also support direct CLI execution with shared/ on sys.path.
+if __package__:
+    from .unicode_boundary import mark_pattern
+else:
+    from unicode_boundary import mark_pattern
+
+# Preserve the existing kana/CJK and symbol substring policy.
+_LATIN_EDGE_CH = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
+
+
+def nonascii_word_pattern(src: str) -> str:
+    """Bound letter-like edges by words and all Unicode mark categories."""
+    pat = re.escape(src)
+    if re.match(_LATIN_EDGE_CH, src):
+        pat = rf"(?<!{_LATIN_EDGE_CH})(?<!{mark_pattern()}){pat}"
+    if re.search(rf"{_LATIN_EDGE_CH}$", src):
+        pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{mark_pattern()})"
+    return pat
+
+
+def _ascii_ci(word: str) -> str:
+    """Escape *word*; for ASCII words keep IGNORECASE ASCII-only (ı/İ/ſ/K ≠ i/s/k)."""
+    return f"(?a:{re.escape(word)})" if word.isascii() else re.escape(word)
+
+
 # Light fillers / interjections to drop while compressing (case-insensitive for Latin).
 # Keep content words; only strip discourse grease.
 FILLERS_EN: tuple[str, ...] = (
@@ -380,7 +406,7 @@ def apply_spelled_numbers(text: str) -> str:
 
     out = _COMPOUND_NUM.sub(_comp, out)
     for word, num in sorted(_ALL_NUM_WORDS.items(), key=lambda kv: len(kv[0]), reverse=True):
-        out = re.sub(rf"(?i)\b{re.escape(word)}\b", str(num), out)
+        out = re.sub(rf"(?i)\b{_ascii_ci(word)}\b", str(num), out)
     return out
 
 
@@ -427,7 +453,7 @@ EN_CONTRACTION_SPEC: tuple[tuple[str, str, str], ...] = (
 )
 
 _EN_CONTRACTIONS: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(rf"\b{re.escape(src)}\b", re.I), dst)
+    (re.compile(rf"\b{_ascii_ci(src)}\b", re.I), dst)
     for _sid, src, dst in EN_CONTRACTION_SPEC
 ]
 
@@ -945,7 +971,7 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     for f in en:
         if f in _INTERJECTION_ONLY:
             continue
-        e = re.escape(f)
+        e = _ascii_ci(f)
         # "Oh, X" / "Well, X": drop the filler together with its comma.
         out = re.sub(rf"(?i)(?:(?<=^)|(?<=[\s“\"(\[—])){e}\s*,\s*", "", out)
         # "..., I suppose, ..." / "..., you know." : drop with the leading comma.
@@ -981,7 +1007,7 @@ def apply_unique_readings(text: str, *, compact: bool = False) -> str:
             # Only main-verb do + object. Aux/pro-verb do ("I do.", "Do you?") untouched.
             out = re.sub(_DO_MAIN_VERB, tight, out)
             continue
-        out = re.sub(rf"(?i)\b{re.escape(long)}\b", tight, out)
+        out = re.sub(rf"(?i)\b{_ascii_ci(long)}\b", tight, out)
     if compact:
         out = apply_unique_compact(out)
     return out
@@ -993,7 +1019,7 @@ def apply_unique_compact(text: str) -> str:
     for long, short in sorted(UNIQUE_COMPACT.items(), key=lambda kv: len(kv[0]), reverse=True):
         if long == short:
             continue
-        out = re.sub(rf"(?i)\b{re.escape(long)}\b", short, out)
+        out = re.sub(rf"(?i)\b{_ascii_ci(long)}\b", short, out)
     return out
 
 
@@ -1002,10 +1028,10 @@ def apply_etymon_align(text: str) -> str:
     out = text
     for surface, etymon in sorted(ETYMON_ALIGN.items(), key=lambda kv: len(kv[0]), reverse=True):
         if surface.isascii():
-            out = re.sub(rf"(?i)\b{re.escape(surface)}\b", etymon, out)
+            out = re.sub(rf"(?i)\b{_ascii_ci(surface)}\b", etymon, out)
         else:
-            out = out.replace(surface, etymon)
-            out = out.replace(surface[:1].upper() + surface[1:], etymon)
+            for form in (surface, surface[:1].upper() + surface[1:]):
+                out = re.sub(nonascii_word_pattern(form), etymon, out)
     return out
 
 
