@@ -24,6 +24,7 @@ import os
 import re
 import subprocess
 import sys
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -47,7 +48,8 @@ def key(lang: str, form: str) -> str:
 
 
 def norm(s: str) -> str:
-    s = s.strip().strip('"').lower()
+    # NFC first: an NFD reply (e + U+0301) would otherwise lose its accent below
+    s = unicodedata.normalize("NFC", s).strip().strip('"').lower()
     s = re.sub(r"[^\w\s']", "", s)
     return " ".join(s.split())
 
