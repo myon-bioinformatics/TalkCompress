@@ -982,11 +982,12 @@ def _skip_convention(text: str, convention: dict[str, Any]) -> bool:
 def _replace_src(text: str, src: str, dst: str) -> str:
     """ASCII word-boundary replace; non-ASCII Latin edges bounded, CJK plain."""
     if src.isascii() and all(ch.isascii() for ch in src):
-        return re.sub(rf"(?i)\b{_ascii_ci(src)}\b", dst, text)
+        # literal dst: a backslash in a convention value is not a template
+        return re.sub(rf"(?i)\b{_ascii_ci(src)}\b", lambda _m: dst, text)
     return re.sub(nonascii_word_pattern(src), lambda _m: dst, text)
 
 
-_THAT_IS_APPOSITIVE = re.compile(r"(?:(?<=[,(;—] )|(?<=[(—]))that is(?=[,:])", re.I)
+_THAT_IS_APPOSITIVE = re.compile(r"(?:(?<=[,(;—] )|(?<=[(—]))(?a:that is)(?=[,:])", re.I)
 
 
 def apply_ledger_lex(
@@ -1055,7 +1056,7 @@ def apply_ledger_lex(
                 continue
             if src.lower() == "that is":
                 # appositive gloss only; "that is the plan" is a clause
-                buf = _THAT_IS_APPOSITIVE.sub(dst, buf)
+                buf = _THAT_IS_APPOSITIVE.sub(lambda _m, _d=dst: _d, buf)
                 continue
             buf = _replace_src(buf, src, dst)
         return buf
