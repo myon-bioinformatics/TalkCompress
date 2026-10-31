@@ -1979,6 +1979,9 @@ def strip_articles(text: str) -> str:
 _A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +([^\W\d_]))")
 
 
+_A_PERSONAL_PRONOUN = _ci_compile(r"(?:mí|ti|sí)\b", re.I)
+
+
 def _strip_articles_cue_aware(text: str) -> str:
     # Source offsets, not sentinel text: arbitrary user characters must never
     # be interpreted as an internal placeholder during restoration.
@@ -1989,7 +1992,7 @@ def _strip_articles_cue_aware(text: str) -> str:
             for match in _A_BEFORE_NAME.finditer(part):
                 if (
                     unicodedata.category(match.group(2)) in {"Lu", "Lt"}
-                    or re.match(r"(?:mí|ti|sí)\b", part[match.start(2):], re.I)
+                    or _A_PERSONAL_PRONOUN.match(part, match.start(2))
                 ):
                     preserve_a.add(sentence.start() + match.start(1))
     return _strip_articles_en(text, preserve_a=frozenset(preserve_a))
