@@ -58,7 +58,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--github-output", type=Path)
     args = parser.parse_args(argv)
     if args.list:
-        matrix = json.dumps({"model": list(load())}, separators=(",", ":"))
+        choice = args.model or "all"
+        if choice != "all" and choice not in load():
+            parser.error(f"unknown model {choice!r}; choose all or one of {', '.join(load())}")
+        keys = list(load()) if choice == "all" else [choice]
+        matrix = json.dumps({"model": keys}, separators=(",", ":"))
         if args.github_output:
             with args.github_output.open("a", encoding="utf-8") as stream:
                 stream.write(f"matrix={matrix}\n")

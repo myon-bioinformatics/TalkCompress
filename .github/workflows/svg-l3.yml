@@ -3,6 +3,20 @@ name: svg-l3
 # Manual only: each model is a multi-gigabyte download and a long CPU run.
 on:
   workflow_dispatch:
+    inputs:
+      model:
+        description: Model to measure; "all" runs every pinned model
+        type: choice
+        default: qwen-0.5b
+        options:
+          - qwen-0.5b
+          - qwen-1.5b
+          - minicpm5-2b
+          - lfm2.5-350m-qad
+          - lfm2.5-1.2b-qad
+          - lfm2.5-2.6b
+          - lfm3-1.7b
+          - all
 
 permissions:
   contents: read
@@ -27,7 +41,9 @@ jobs:
         with:
           persist-credentials: false
       - id: models
-        run: python scripts/fetch_l3_model.py --list --github-output "$GITHUB_OUTPUT"
+        env:
+          MODEL_CHOICE: ${{ inputs.model || 'qwen-0.5b' }}
+        run: python scripts/fetch_l3_model.py --list "$MODEL_CHOICE" --github-output "$GITHUB_OUTPUT"
 
   l3:
     needs: plan
