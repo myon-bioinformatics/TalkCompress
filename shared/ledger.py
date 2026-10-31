@@ -51,17 +51,23 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-# Same edge rule as ``lex_policy.nonascii_word_pattern`` (kept local so the
-# ledger CLI runs standalone): Latin edges bounded, kana/CJK/symbol edges plain.
+# Also support direct CLI execution with shared/ on sys.path.
+if __package__:
+    from .unicode_boundary import mark_pattern
+else:
+    from unicode_boundary import mark_pattern
+
+# Preserve the existing kana/CJK and symbol substring policy.
 _LATIN_EDGE_CH = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
 
 
 def nonascii_word_pattern(src: str) -> str:
+    """Bound letter-like edges by words and all Unicode mark categories."""
     pat = re.escape(src)
     if re.match(_LATIN_EDGE_CH, src):
-        pat = rf"(?<!{_LATIN_EDGE_CH}){pat}"
+        pat = rf"(?<!{_LATIN_EDGE_CH})(?<!{mark_pattern()}){pat}"
     if re.search(rf"{_LATIN_EDGE_CH}$", src):
-        pat = rf"{pat}(?!{_LATIN_EDGE_CH}|[\u0300-\u036f])"
+        pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{mark_pattern()})"
     return pat
 
 _ROOT = Path(__file__).resolve().parents[1]

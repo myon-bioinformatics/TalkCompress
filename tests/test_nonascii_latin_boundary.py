@@ -55,3 +55,23 @@ def test_etymon_nonascii_word_edges():
     assert L.apply_etymon_align(nfd_tail) == nfd_tail
     p = L.nonascii_word_pattern
     assert p("彼の") == "彼の" and p("°") == "°"
+
+
+import re
+import unicodedata
+import pytest
+
+
+@pytest.mark.parametrize("mark", ["\u0301", "\u1ab0", "\u1dc0", "\u20d0", "\ufe20", "\u093e", "\u20dd", "\U0001d165"])
+def test_all_mark_categories_block_latin_edges(mark):
+    assert unicodedata.category(mark).startswith("M")
+    for module in (G, L):
+        for text in ("für" + mark, mark + "für"):
+            assert re.search(module.nonascii_word_pattern("für"), text) is None
+        assert re.search(module.nonascii_word_pattern("für"), "「für」")
+        assert re.search(module.nonascii_word_pattern("彼の"), "彼の本")
+        assert re.search(module.nonascii_word_pattern("外"), "在外面")
+    assert _e("für" + mark) == "für" + mark
+    assert G._replace_src("für" + mark, "für", "for") == "für" + mark
+    assert not G._word_present("für" + mark, "für")
+    assert L.apply_etymon_align("réseau" + mark) == "réseau" + mark
