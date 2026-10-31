@@ -37,6 +37,7 @@ import re
 import unicodedata
 import sys
 from pathlib import Path
+from typing import Any
 
 
 # --- ASCII-only case folding --------------------------------------------------
@@ -1184,9 +1185,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\band\b", re.I), "&"),
     (_ci_compile(r"\bund\b", re.I), "&"),  # DE
     # FR et / ES y: alias-only (et al.; EN "x and y")
-    (_ci_compile(r"\bor\b", re.I), "/"),
-    (_ci_compile(r"\boder\b", re.I), "/"),  # DE
-    (_ci_compile(r"\bou\b", re.I), "/"),  # FR
+    # Keep the word between two numbers: "3 or 4" → "3 / 4" would read as a fraction.
+    (_ci_compile(r"(?<!\d\s)\bor\b|\bor\b(?!\s\d)", re.I), "/"),
+    (_ci_compile(r"(?<!\d\s)\boder\b|\boder\b(?!\s\d)", re.I), "/"),  # DE
+    (_ci_compile(r"(?<!\d\s)\bou\b|\bou\b(?!\s\d)", re.I), "/"),  # FR
 
     (_ci_compile(r"\bbecause\b", re.I), "bc"),
     # Resultatives share ∴ (cheaper than so). thereby stays: by-that-means ≠ therefore,
