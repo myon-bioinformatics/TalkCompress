@@ -39,3 +39,27 @@ def test_extract_phrases_keeps_accented_words():
     assert "ça va" in got and "très bien" in got
     assert "a va" not in got and "tr s" not in got
     assert "Привет мир" in _extract_phrases("Привет мир")
+
+
+def test_corpus_rules_do_not_overlap_and_roundtrip():
+    """規則どうしの重なり検出: 実コーパスで学習した全規則の組で往復できること。"""
+    import itertools
+    import re
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent
+    lines = []
+    for f in sorted((root / "fixtures" / "pd_corpus").glob("*.txt")):
+        lines += [ln for ln in f.read_text(encoding="utf-8").splitlines() if ln.strip()]
+    book = RuleBook(threshold=3)
+    for ln in lines:
+        book.observe(ln)
+    rules = book.rules
+    assert len(rules) >= 20
+    for a, c in itertools.permutations(rules, 2):
+        assert not re.search(_bounded(c.long), a.short, re.I)
+        assert not re.search(_bounded(c.short), a.long)
+        t = f"{a.long} {c.long}"
+        assert book.decode_with_rules(book.encode_with_rules(t)).lower() == t.lower()
+    for ln in lines:
+        assert book.decode_with_rules(book.encode_with_rules(ln)).lower() == ln.lower()

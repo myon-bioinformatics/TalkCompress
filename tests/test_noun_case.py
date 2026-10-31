@@ -194,3 +194,16 @@ def test_standalone_digit_and_unicode_punct_neighbours():
     assert nc.standalone("3dog", 1, 4)
     assert nc.standalone("—dog—", 1, 4)
     assert not nc.standalone("édog", 1, 4)
+
+
+def test_standalone_rejects_word_cut_before_combining_mark():
+    import unicodedata
+
+    nfd = unicodedata.normalize("NFD", "the café is")
+    assert nfd[4:8] == "cafe"
+    assert not nc.standalone(nfd, 4, 8)
+    assert nc.standalone("the cafe is", 4, 8)
+    # 結合文字が左側にある場合（é の直後に続く語）も切れた語として扱う
+    glued = unicodedata.normalize("NFD", "é") + "x y"
+    assert not nc.standalone(glued, 2, 3)
+    assert nc.standalone(glued, 4, 5)

@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import unicodedata
 import sys
 from pathlib import Path
 
@@ -388,6 +389,16 @@ def _ascii_phrase_pattern(long: str) -> str:
     return pat
 
 
+def _word_bounded(short: str) -> str:
+    """Escape *short*; word-char edges must not touch other word chars."""
+    pat = re.escape(short)
+    if re.match(r"\w", short):
+        pat = r"(?<![\w'’])" + pat
+    if re.search(r"\w$", short):
+        pat = pat + r"(?![\w'’])"
+    return pat
+
+
 def expand(text: str, mapping: dict[str, str] | None = None, session: Session | None = None) -> str:
     sess = session or Session()
     if mapping is not None:
@@ -404,9 +415,10 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
         if re.search(r"[^\x00-\x7f]", short) or not short.isascii():
             out = out.replace(short, long)
         else:
-            out = out.replace(short, long)
+            pat = _word_bounded(short)
+            out = re.sub(pat, lambda _m, _l=long: _l, out)
             if short.lower() != short:
-                out = re.sub(re.escape(short), long, out, flags=re.IGNORECASE)
+                out = re.sub(pat, lambda _m, _l=long: _l, out, flags=re.IGNORECASE)
     return out
 
 
@@ -424,7 +436,7 @@ def suggest_hereafter(text: str, *, min_count: int = 2) -> list[dict[str, str | 
     words = re.findall(r"[A-Za-z0-9']+|[぀-ヿ㐀-鿿]{2,}", text)
     # Also scan raw lowercased sliding windows of 2-3 space-separated tokens
     lowered = text.lower()
-    latin_tokens = re.findall(r"[a-z0-9']+", lowered)
+    latin_tokens = re.findall(r"(?:[^\W_\u3040-\u30ff\u3400-\u9fff]|')+", unicodedata.normalize("NFC", lowered))
     candidates: Counter[str] = Counter()
     for n in (2, 3, 4):
         for i in range(len(latin_tokens) - n + 1):
