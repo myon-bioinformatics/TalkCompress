@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import math
 import re
+import unicodedata
 import sys
 from pathlib import Path
 
@@ -224,7 +225,7 @@ ARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "a": "∅",
     "an": "∅",
 }
-_ARTICLE_SURFACE_RE = re.compile(r"\b(?:the|a|an)\b", re.I)
+_ARTICLE_SURFACE_RE = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])", re.I)
 
 # --- conjunction (接続詞): high-freq logical; C owns moreover/nevertheless ----
 CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "bc", "therefore")
@@ -1776,12 +1777,35 @@ _QUOTED_ARTICLE = re.compile(
     r"""|[\u201c\u2018](the|a|an)[\u201d\u2019]""",
     re.I,
 )
-_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?!\.\w)", re.I)
+# Article + its trailing half-width spaces as one independent replacement
+# (no opener/quote context: ``x"the cat"`` → ``x"cat"``).
+# ``(?![\u0300-\u036f])``: a base letter followed by a combining mark (NFD
+# ``a\u0301`` = á) is not the article ``a`` (defence in depth; callers NFC first).
+_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w) *", re.I)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
+
+
+# Curly quote marks → straight (o200k: same tokens, fewer bytes).  ``’`` is
+# only rewritten as the closer of a ``‘…’`` pair; in-word apostrophes
+# (``don’t``) and possessives (``dogs’``) stay as written.
+# Pairs never cross a newline (``‘a\nb’`` keeps ``’``); `` ’n’ `` style elisions
+# after a space stay inside the pair; an ambiguous ``‘the dogs’ bones’`` closes
+# at the first word-final ``’`` (shortest pair, documented in tests).
+_SINGLE_PAIR = re.compile(
+    r"\u2018((?:(?<=\s)\u2019\w+\u2019|[^\u2018\u2019\n]|\u2019(?=\w))*)\u2019(?!\w)"
+)
+
+
+def normalize_quotes(text: str) -> str:
+    """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched."""
+    out = text.replace("\u201c", '"').replace("\u201d", '"')
+    out = _SINGLE_PAIR.sub(r"'\1'", out)
+    return out.replace("\u2018", "'")
 
 
 def strip_articles(text: str) -> str:
     """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only."""
+    text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
 
     def _mask(m: re.Match[str]) -> str:
@@ -2076,7 +2100,9 @@ def compress(
     (quotes dropped). Counters map digit+noun phrases (``3 animals``→``3匹``);
     digitization of spelled words is C's job (or ``spelled_nums=True``).
     """
+    text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
+    out = normalize_quotes(out)
     # aggressive_fillers implies strip
     do_strip = strip or aggressive_fillers
     if do_strip:
@@ -2460,6 +2486,7 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     Lossy: pronoun remaps, optional filler drops, unique-readings, and many _SUBS have no
     unique inverse. Only unambiguous counter and short-token mappings are reversed.
     """
+    text = unicodedata.normalize("NFC", text)
     from shared.lex_policy import UNIQUE_COMPACT
 
     out = text
@@ -2486,7 +2513,8 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
 
 
 _PACK_SPLIT = re.compile(
-    r"(\s+|[^\w\s\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
+    # combining marks (U+0300–U+036F, e.g. NFD é / Vietnamese tones) belong to the word
+    r"(\s+|[^\w\s\u0300-\u036f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
     re.UNICODE,
 )
 
@@ -2500,6 +2528,7 @@ def pack_tokens(text: str) -> str:
     """
     if not text:
         return ""
+    text = unicodedata.normalize("NFC", text)
     parts = [p for p in _PACK_SPLIT.split(text) if p is not None and p != ""]
     # Drop pure whitespace tokens; keep punct as their own tokens
     tokens: list[str] = []
@@ -2512,7 +2541,7 @@ def pack_tokens(text: str) -> str:
         return bool(re.search(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]", s))
 
     def _is_wordish(s: str) -> bool:
-        return bool(re.match(r"^[\w]+$", s, re.UNICODE))
+        return bool(re.match(r"^[\w\u0300-\u036f]+$", s, re.UNICODE))
 
     out: list[str] = []
     for tok in tokens:

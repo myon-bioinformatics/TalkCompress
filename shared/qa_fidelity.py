@@ -27,6 +27,7 @@ import json
 import re
 import shlex
 import subprocess
+import unicodedata
 import sys
 from dataclasses import dataclass
 from datetime import date
@@ -109,8 +110,11 @@ def _dates(text: str) -> set[date]:
 
 def matches(probe: Probe, answer: str) -> bool:
     """Match complete protected values, with calendar normalization for dates."""
+    # NFD (分解形) の回答でもアクセント付きラテン文字を同じ値として扱う。
+    expected_value = unicodedata.normalize("NFC", probe.expected)
+    answer = unicodedata.normalize("NFC", answer)
     if probe.kind == "date":
-        expected = _dates(probe.expected)
+        expected = _dates(expected_value)
         return bool(expected and expected.intersection(_dates(answer)))
     # Do not accept #400 for #40, a longer hash, or a child path/URL. Terminal
     # sentence punctuation is allowed. Keep URI/path suffix characters strict.
@@ -124,7 +128,7 @@ def matches(probe: Probe, answer: str) -> bool:
     if probe.kind == "number":
         start = r"(?<![\w/#.,+\-])"
     flags = 0 if probe.kind in {"url", "path", "id"} else re.I
-    return re.search(start + re.escape(probe.expected) + end, answer, flags) is not None
+    return re.search(start + re.escape(expected_value) + end, answer, flags) is not None
 
 
 def make_prompt(compressed: str, question: str) -> str:

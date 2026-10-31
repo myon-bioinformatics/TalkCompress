@@ -136,3 +136,31 @@ def test_custom_identifier_boundaries():
 def test_number_followed_by_sentence_period_is_preserved():
     assert check('Budget 42', 'Budget 42.').ok
     assert extract_exact('Budget 42.')['number'] == {'42'}
+
+
+def test_negation_counts_curly_apostrophe():
+    from shared.keep_check import check, count_items
+
+    assert count_items("I don\u2019t agree. I can\u2019t go.")["negation"] == 2
+    assert count_items("I don't agree")["negation"] == 1
+    report = check("We don\u2019t ship on Friday.", "We ship on Friday.")
+    assert report.count_drops == [{"kind": "negation", "source": 1, "compressed": 0}]
+
+
+def test_negation_split_token_and_variant_apostrophes():
+    from shared.keep_check import NEGATION_RE
+
+    for text in ["do n't go", "do n\u2019t go", "don\u02bct go", "don\uff07t go", "don't", "don\u2019t"]:
+        assert len(NEGATION_RE.findall(text)) == 1, text
+
+
+def test_negation_is_stable_under_nfd_and_accents():
+    import unicodedata
+
+    from shared.keep_check import count_items
+
+    for text in ["Él dijo nó.", "Zoë don\u2019t go", "naïve café not"]:
+        nfc = count_items(unicodedata.normalize("NFC", text))["negation"]
+        nfd = count_items(unicodedata.normalize("NFD", text))["negation"]
+        assert nfc == nfd, text
+    assert count_items(unicodedata.normalize("NFD", "Él dijo nó."))["negation"] == 0
