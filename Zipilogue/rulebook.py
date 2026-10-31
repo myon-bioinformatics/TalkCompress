@@ -28,6 +28,21 @@ _WORD_RE = re.compile(r"\w+")
 _SPACED_WORD = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
 
 
+def _ascii_case_match(found: str, phrase: str) -> bool:
+    """True when *found* equals *phrase* under ASCII-only case folding for ASCII letters.
+
+    Unicode ``re.IGNORECASE`` also folds Turkish ı/İ, long s ſ and the Kelvin
+    sign onto i/s/k (``opınıon`` ≠ ``opinion``); non-ASCII letters keep their
+    Unicode case pairs (É = é).
+    """
+    if len(found) != len(phrase):
+        return False
+    for a, b in zip(found, phrase, strict=True):
+        if a.isascii() != b.isascii():
+            return False
+    return True
+
+
 def _bounded(phrase: str) -> str:
     """Escape *phrase*, guarding edges that are spaced-script word chars."""
     body = re.escape(phrase)
@@ -400,7 +415,10 @@ class RuleBook:
         for rule in ordered:
             # case-insensitive replace of the long phrase as a whole span
             pattern = re.compile(_bounded(rule.long), re.IGNORECASE)
-            out = pattern.sub(rule.short, out)
+            out = pattern.sub(
+                lambda m, _r=rule: _r.short if _ascii_case_match(m.group(), _r.long) else m.group(),
+                out,
+            )
         return out
 
     def decode_with_rules(self, text: str) -> str:
@@ -412,7 +430,7 @@ class RuleBook:
         for rule in ordered:
             # word-boundary-ish: short as whole token
             pattern = re.compile(_bounded(rule.short))
-            out = pattern.sub(rule.long, out)
+            out = pattern.sub(lambda _m, _l=rule.long: _l, out)
         return out
 
 
