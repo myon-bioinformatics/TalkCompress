@@ -491,9 +491,11 @@ _PRETOKEN = re.compile(
     re.IGNORECASE,
 )
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
+# Historical name: this range covers Latin Extended-A AND Extended-B, not a
+# Polish/Czech language detector. Other languages and transliterations can match.
 _LATIN_EXT_A = re.compile(r"[\u0100-\u024F]")
-# Latin Extended letters that o200k merges well (Turkish ı ğ ş İ, Vietnamese đ):
-# no +1 for these in the class-s fallback.
+# Author-reported #108 exceptions (Turkish ı ğ ş İ, Vietnamese đ): no +1 in
+# the class-s heuristic. These are not a general accuracy guarantee; see README.
 _O200K_MERGED_EXT = "\u0131\u0130\u011f\u011e\u015f\u015e\u0111\u0110"
 _LATIN_EXT_SPLIT = re.compile(r"[^\W\d_" + _O200K_MERGED_EXT + r"]")
 _COMBINING_RE = re.compile(r"[\u0300-\u036F]")
@@ -505,8 +507,9 @@ def _pretokens(s: str) -> list[tuple[str, str]]:
 
 
 def _wclass(w: str) -> str:
-    """Script class of a Latin word: ``v`` Vietnamese (U+1E00–U+1EFF), ``s`` Latin Extended-A
-    (Czech / Polish ě ř ů ł ś …, poorly merged), ``x`` other accents, ``a`` ASCII."""
+    """Character-range class, not language ID: ``v`` Latin Extended Additional
+    (U+1E00–U+1EFF, takes priority), ``s`` Latin Extended-A/B (U+0100–U+024F),
+    ``x`` other accents, ``a`` ASCII. The cost rules are approximate."""
     if _GREEK.search(w):
         return "g"
     if _OTHER_WORD.search(w):
@@ -532,7 +535,7 @@ def _fallback_cost(w: str, len_table: dict, suffixes: dict | None = None, floor:
         return max(1, len_table[k] + sx.get(w[-3:], sx.get(w[-2:], 0)))
     if k[0] == "g":  # Greek: o200k merges it poorly, ≈ ceil(len/2) beyond 3 letters
         return 1 if len(w) <= 3 else (len(w) + 1) // 2
-    if k[0] == "s":  # Czech / Polish: Latin Extended-A letters o200k merges poorly split off (+1)
+    if k[0] == "s":  # Broad Latin Extended-A/B heuristic, excluding the #108 exceptions.
         return max(1, (len(w) + 3) // 4) + sum(
             1 for c in _LATIN_EXT_A.findall(w) if _LATIN_EXT_SPLIT.match(c)
         )
@@ -599,7 +602,9 @@ def estimate_tokens(text: str) -> int:
     - Latin word (+ English contraction suffix): committed o200k table lookup
       (``fixtures/o200k_calib.json``: English wordlist costs, contractions,
       training-split exceptions), else a calibrated per-(class, length) fallback,
-      else the legacy ``max(1, ceil(len/4))`` (+1 per U+1E00–U+1EFF char)
+      else ``max(1, ceil(len/4))`` plus the character-range heuristic: class-s
+      Latin Extended-A/B letters excluding the #108 exceptions, or U+1E00–U+1EFF
+      characters for the other Latin fallback. This is not an exact token count.
     - CJK / kana / Hangul runs: greedy longest match against the committed o200k
       multi-char token list (``cjk_vocab``), else 1 per character; Thai = 1 per char
     - other-script runs (Greek, Cyrillic, Arabic, Devanagari) go through the same
