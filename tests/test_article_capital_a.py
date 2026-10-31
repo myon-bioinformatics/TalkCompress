@@ -66,3 +66,21 @@ def test_compress_keeps_label_a(label):
 )
 def test_sentence_initial_a_before_predicate_is_symbol(src, want):
     assert strip_articles(src) == want
+
+@pytest.mark.parametrize('predicate', ['is', 'wins', 'said', 'and', 'furnished'])
+@pytest.mark.parametrize('case', [str.title, str.upper, lambda s: s[:1]+s[1:].upper()])
+def test_symbol_predicate_case_preserved(predicate, case):
+    text = 'A ' + case(predicate) + ' B.'
+    assert strip_articles(text) == text
+
+@pytest.mark.parametrize('src,want', [
+    ('a IS key.', 'IS key.'),
+    ('Plan A failed.', 'Plan A failed.'),
+    ('A cat sat.', 'cat sat.'),
+    ('THE END', 'END'),
+    ('An owl.', 'owl.'),
+    ('A ıs key.', 'ıs key.'),  # dotless i is not the ASCII predicate is
+    ('A İS key.', 'İS key.'),
+])
+def test_article_casefold_is_scoped(src, want):
+    assert strip_articles(src) == want
