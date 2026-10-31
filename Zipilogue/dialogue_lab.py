@@ -80,11 +80,15 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
 
 
 def encode(text: str, mapping: list[dict[str, str]]) -> str:
-    """One-pass longest replacement, never re-encode newly inserted codes."""
-    if not mapping:
-        return text
+    """One-pass longest replacement, never re-encode newly inserted codes.
+
+    The result is always NFC-normalized, even when ``mapping`` is empty or no
+    rule matches, so NFD input never leaks out undecomposed.
+    """
     # NFD の入力で「cafe」が「café」の基底文字だけに当たらないよう NFC に揃える。
     text = unicodedata.normalize('NFC', text)
+    if not mapping:
+        return text
     lookup = {unicodedata.normalize('NFC', r['long']).casefold(): r['short'] for r in mapping}
     pattern = r'(?<!\w)(?:' + '|'.join(re.escape(x) for x in sorted(lookup, key=len, reverse=True)) + r')(?!\w)'
     return re.sub(pattern, lambda m: lookup[m.group().casefold()], text, flags=re.I)
