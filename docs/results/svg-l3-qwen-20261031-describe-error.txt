@@ -1,0 +1,15 @@
+Diagnostic rerun: chart_auto.svg describe stage only; same model/server settings and LLAMA_MAX_TOKENS=1024; not a replacement L3 run.
+Exit: 1
+Traceback (most recent call last):
+  File "/workspace/scratch/534315da1709/TalkCompress/shared/llama_cmd.py", line 75, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/workspace/scratch/534315da1709/TalkCompress/shared/llama_cmd.py", line 69, in main
+    sys.stdout.write(ask_llama(prompt, url))
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/534315da1709/TalkCompress/shared/llama_cmd.py", line 63, in ask_llama
+    return extract_answer(payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/534315da1709/TalkCompress/shared/llama_cmd.py", line 41, in extract_answer
+    raise ValueError(f"answer did not complete: {choice.get('finish_reason')!r}")
+ValueError: answer did not complete: 'length'
