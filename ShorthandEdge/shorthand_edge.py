@@ -23,6 +23,8 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from shared.ledger import apply_ledger_lex  # noqa: E402
+from shared.unicode_boundary import mark_pattern as _mark_pattern  # noqa: E402
+_MARK_CLASS = _mark_pattern()
 from shared.lex_policy import (  # noqa: E402
     apply_en_contractions,
     apply_spelled_numbers,
@@ -448,7 +450,7 @@ def suggest_hereafter(text: str, *, min_count: int = 2) -> list[dict[str, str | 
     # Combining marks stay in the token: "İ".lower() is i + U+0307, which NFC
     # cannot recompose, so İstanbul must not split into "i stanbul".
     latin_tokens = re.findall(
-        r"(?:[^\W_\u3040-\u30ff\u3400-\u9fff]|[\u0300-\u036f]|')+",
+        r"(?:[^\W_\u3040-\u30ff\u3400-\u9fff]|" + _MARK_CLASS + r"|')+",
         unicodedata.normalize("NFC", lowered),
     )
     candidates: Counter[str] = Counter()

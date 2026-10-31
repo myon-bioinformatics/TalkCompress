@@ -139,6 +139,10 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from shared.romance_gate import apply_outside_romance, has_english_cue, substitute_with_romance_context  # noqa: E402
+from shared.unicode_boundary import mark_pattern as _mark_pattern  # noqa: E402
+
+_MARK_CLASS = _mark_pattern()
+_MARK_BODY = _MARK_CLASS[1:-1]
 from shared.lex_policy import (  # noqa: E402
     apply_etymon_align,
     apply_spelled_numbers,
@@ -322,7 +326,7 @@ ARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "a": "∅",
     "an": "∅",
 }
-_ARTICLE_SURFACE_RE = _ci_compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])", re.I)
+_ARTICLE_SURFACE_RE = _ci_compile(r"\b(?:the|a|an)\b(?!" + _MARK_CLASS + r")", re.I)
 
 # --- conjunction (接続詞): high-freq logical; C owns moreover/nevertheless ----
 CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "bc", "therefore")
@@ -1887,7 +1891,7 @@ _QUOTED_ARTICLE = _ci_compile(
 )
 # Article + its trailing half-width spaces as one independent replacement
 # (no opener/quote context: ``x"the cat"`` → ``x"cat"``).
-# ``(?![\u0300-\u036f])``: a base letter followed by a combining mark (NFD
+# ``(?!_MARK_CLASS)`` (every Mn/Mc/Me): a base letter followed by a combining mark (NFD
 # ``a\u0301`` = á) is not the article ``a`` (defence in depth; callers NFC first).
 # Capital ``A`` is an article only at a sentence start (text start / after a
 # newline, ``. ! ?`` / closing ``) ]`` (optionally + closing quote) + space,
@@ -1909,7 +1913,7 @@ _A_SYMBOL_NEXT = (
     "thinks|thought|wants|wanted|\\w+ed"
 )
 _ARTICLE_WORD = _ci_compile(
-    r"(?:\b(?:the|an|(?-i:a))\b(?![\u0300-\u036f])(?!\.\w)"
+    r"(?:\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)"
     r"|(?:^|(?<=[.!?)\]] )|(?<=[.!?][\"')\]] )|(?<=[(\[{\"'\u2014\u2013]))(?-i:A)(?= +\w)(?! +(?:" + _A_SYMBOL_NEXT + r")\b))"
     r" *",
     re.I | re.M,
@@ -1928,9 +1932,33 @@ _SINGLE_PAIR = re.compile(
 )
 
 
+# o200k merges ``“`` + these words into ONE token while ``"`` + word is two
+# (generated from the o200k_base vocab; runtime has no tiktoken).  Only when
+# ``“`` is at line start.  After a space the pretokenizer splits `` “`` off,
+# and after ``(``/``[`` it merges ``("``/``(“`` so keeping curly costs +1.
+_CURLY_MERGE_WORDS = frozenset(
+    "All At El How One She That These To Well With Yes".split()
+)
+_CURLY_KEEP_PAIR = re.compile(
+    r"^\u201c(?:" + "|".join(sorted(_CURLY_MERGE_WORDS)) + r")(?![A-Za-z])"
+    r"[^\u201c\u201d\n]*\u201d",
+    re.M,
+)
+
+
 def normalize_quotes(text: str) -> str:
-    """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched."""
-    out = text.replace("\u201c", '"').replace("\u201d", '"')
+    """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched.
+
+    A ``“…”`` pair whose opener merges with the next word in o200k (``“Well``)
+    stays curly at line start only, so the token count never rises."""
+    parts: list[str] = []
+    pos = 0
+    for m in _CURLY_KEEP_PAIR.finditer(text):
+        parts.append(text[pos : m.start()].replace("\u201c", '"').replace("\u201d", '"'))
+        parts.append(m.group(0))
+        pos = m.end()
+    parts.append(text[pos:].replace("\u201c", '"').replace("\u201d", '"'))
+    out = "".join(parts)
     out = _SINGLE_PAIR.sub(r"'\1'", out)
     return out.replace("\u2018", "'")
 
@@ -1946,37 +1974,49 @@ def strip_articles(text: str) -> str:
 
 # ``a``/``A`` + capitalised word in a sentence with no English cue at all is
 # likely the Spanish / Portuguese personal ``a`` (``A Maria come.``): keep it.
-_A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +[A-ZÀ-ÖØ-Þ])")
-_A_NAME_HOLD = "\uE0A1"
+_A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +([^\W\d_]))")
 
 
 def _strip_articles_cue_aware(text: str) -> str:
-    parts = [m.group(0) for m in _SENT_CHUNK.finditer(text) if m.group(0)]
-    held = [
-        _A_BEFORE_NAME.sub(lambda m: _A_NAME_HOLD + ("1" if m.group(1) == "A" else "0"), p)
-        if not has_english_cue(p) else p
-        for p in parts
-    ]
-    if held == parts:
-        return _strip_articles_en(text)
-    out = _strip_articles_en("".join(held))
-    return out.replace(_A_NAME_HOLD + "1", "A").replace(_A_NAME_HOLD + "0", "a")
+    # Source offsets, not sentinel text: arbitrary user characters must never
+    # be interpreted as an internal placeholder during restoration.
+    preserve_a: set[int] = set()
+    for sentence in _SENT_CHUNK.finditer(text):
+        part = sentence.group(0)
+        if not has_english_cue(part):
+            for match in _A_BEFORE_NAME.finditer(part):
+                if unicodedata.category(match.group(2)) in {"Lu", "Lt"}:
+                    preserve_a.add(sentence.start() + match.start(1))
+    return _strip_articles_en(text, preserve_a=frozenset(preserve_a))
 
 
 _SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
 
 
-def _strip_articles_en(text: str) -> str:
+def _strip_articles_en(text: str, *, preserve_a: frozenset[int] = frozenset()) -> str:
     text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
+    quote_changes: list[tuple[int, int, int]] = []
 
     def _mask(m: re.Match[str]) -> str:
         inner = m.group(2) or m.group(3)
         restores.append(inner)
-        return _ART_PLACEHOLDER.format(len(restores) - 1)
+        placeholder = _ART_PLACEHOLDER.format(len(restores) - 1)
+        quote_changes.append((m.start(), m.end(), len(placeholder) - len(m.group(0))))
+        return placeholder
 
     out = _QUOTED_ARTICLE.sub(_mask, text)
-    out = _ARTICLE_WORD.sub("", out)
+    # Quoted articles are masked before article deletion. Carry source offsets
+    # past those length changes without changing the existing quoted behavior.
+    mapped: set[int] = set()
+    change = delta = 0
+    for offset in sorted(preserve_a):
+        while change < len(quote_changes) and quote_changes[change][1] <= offset:
+            delta += quote_changes[change][2]
+            change += 1
+        if change == len(quote_changes) or offset < quote_changes[change][0]:
+            mapped.add(offset + delta)
+    out = _ARTICLE_WORD.sub(lambda m: m.group(0) if m.start() in mapped else "", out)
     for i, inner in enumerate(restores):
         out = out.replace(_ART_PLACEHOLDER.format(i), inner)
     out = re.sub(r"[ \t]{2,}", " ", out)
@@ -2692,7 +2732,7 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
 
 _PACK_SPLIT = re.compile(
     # combining marks (U+0300–U+036F, e.g. NFD é / Vietnamese tones) belong to the word
-    r"(\s+|[^\w\s\u0300-\u036f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
+    r"(\s+|[^\w\s" + _MARK_BODY + r"\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]+)",
     re.UNICODE,
 )
 
@@ -2719,7 +2759,7 @@ def pack_tokens(text: str) -> str:
         return bool(re.search(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]", s))
 
     def _is_wordish(s: str) -> bool:
-        return bool(re.match(r"^[\w\u0300-\u036f]+$", s, re.UNICODE))
+        return bool(re.match(r"^[\w" + _MARK_BODY + r"]+$", s, re.UNICODE))
 
     out: list[str] = []
     for tok in tokens:
