@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import math
 import re
+import unicodedata
 import sys
 from pathlib import Path
 
@@ -2076,6 +2077,7 @@ def compress(
     (quotes dropped). Counters map digit+noun phrases (``3 animals``→``3匹``);
     digitization of spelled words is C's job (or ``spelled_nums=True``).
     """
+    text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
     # aggressive_fillers implies strip
     do_strip = strip or aggressive_fillers
@@ -2460,6 +2462,7 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     Lossy: pronoun remaps, optional filler drops, unique-readings, and many _SUBS have no
     unique inverse. Only unambiguous counter and short-token mappings are reversed.
     """
+    text = unicodedata.normalize("NFC", text)
     from shared.lex_policy import UNIQUE_COMPACT
 
     out = text

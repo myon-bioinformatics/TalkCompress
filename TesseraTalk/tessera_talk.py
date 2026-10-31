@@ -1443,6 +1443,8 @@ _MODAL_TAIL_RE = re.compile(
     r"wouldn't|couldn't|shouldn't|mustn't|mightn't|shan't)|'ll|'d)$",
     re.IGNORECASE,
 )
+# Latin letters incl. accented and combining marks (NFD) for word edges.
+_LATIN_CH = "A-Za-z0-9\u00C0-\u024F\u1E00-\u1EFF\u0300-\u036F"
 _NEXT_WORD_LOOKAHEAD = r"(?!\s+[A-Za-z])"
 # Common English bare verbs. A have-ending possession row (I had → tive) must
 # not fire before "to <verb>" (obligation: I had to go) nor before a bare verb
@@ -1565,7 +1567,7 @@ def _apply_phrase_pairs(
             if _MODAL_TAIL_RE.search(phrase):
                 aux_guard += _NEXT_WORD_LOOKAHEAD
             pat = re.compile(
-                rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9]){going_guard}{aux_guard}",
+                rf"(?<![{_LATIN_CH}]){re.escape(phrase)}(?![{_LATIN_CH}]){going_guard}{aux_guard}",
                 re.IGNORECASE,
             )
 
@@ -1799,13 +1801,15 @@ def apply_relative_que(text: str) -> str:
 # aux/verb keeps tense/number, so no person collapse. Excluded: your / yours /
 # yourself (word boundary) and contractions you'd / you're / you've / you'll
 # ('d/'s type detection keeps the EN contraction).
-_YOU_RE = re.compile(r"(?<![A-Za-z0-9'’])you(?![A-Za-z0-9'’])", re.IGNORECASE)
+_YOU_RE = re.compile(
+    r"(?<![^\W\u3040-\u30ff\u3400-\u9fff]|['’])you(?![^\W\u3040-\u30ff\u3400-\u9fff]|['’])", re.IGNORECASE
+)
 YOU_FORM = "U"
 
 
 def apply_you_u(text: str) -> str:
     """``you`` → ``U`` when cheaper (token → utf8); your/yours/yourself/you'X stay."""
-    src = text or ""
+    src = unicodedata.normalize("NFC", text or "")
     if estimate_tokens(YOU_FORM) > estimate_tokens("you") or _utf8_len(YOU_FORM) >= _utf8_len("you"):
         return src
     return _YOU_RE.sub(YOU_FORM, src)
