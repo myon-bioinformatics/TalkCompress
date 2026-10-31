@@ -50,6 +50,7 @@ _SCRYPT_SALT: Final[bytes] = b"TalkCompress/Zipilogue/v1"
 
 
 def derive_key(passphrase: bytes | str) -> bytes:
+    """Derive from NFC text or exact bytes; legacy text uses text.encode("utf-8")."""
     # NFC: the same passphrase typed as precomposed or decomposed text
     # (café vs cafe + U+0301) must derive the same key.  bytes are used as-is.
     raw = (
@@ -212,15 +213,15 @@ def decode_frames(
     return out
 
 
-def _read_key(args: argparse.Namespace) -> bytes:
+def _read_key(args: argparse.Namespace) -> bytes | str:
     if args.key_file:
         data = Path(args.key_file).read_bytes()
         return data.rstrip(b"\r\n")
     if args.key is not None:
-        return args.key.encode("utf-8")
+        return args.key
     env = os.environ.get("TALKCOMPRESS_ZIP_KEY")
     if env:
-        return env.encode("utf-8")
+        return env
     raise SystemExit("provide --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
 
 
@@ -288,8 +289,8 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     g = p.add_mutually_exclusive_group(required=False)
-    g.add_argument("--key", help="shared passphrase (do not commit real keys)")
-    g.add_argument("--key-file", help="read passphrase from file (trailing newline stripped)")
+    g.add_argument("--key", help="NFC-normalized text passphrase (do not commit real keys)")
+    g.add_argument("--key-file", help="raw key bytes, no Unicode normalization (trailing CR/LF stripped)")
     p.add_argument("--text", help="UTF-8 text; otherwise stdin (encode: text/bytes, decode: envelope)")
     p.add_argument("--file", help="read input from PATH")
     p.add_argument("--out", help="write output to PATH instead of stdout")

@@ -1300,7 +1300,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bpara\b", re.I), "for"),  # ES purpose-for
     (_ci_compile(r"\bpour\b", re.I), "for"),  # FR
     (_ci_compile(r"\bf[uü]r\b", re.I), "for"),  # DE (4 removed: token loser)
-    (_ci_compile(r"\bcon\b", re.I), "with"),  # ES
+    # ES con→with removed: Romance con must stay; English con is never a preposition.
     (_ci_compile(r"\bavec\b", re.I), "with"),  # FR
     (_ci_compile(r"\bmit\b", re.I), "with"),  # DE
     (_ci_compile(r"\bbei\b", re.I), "@"),  # DE at/by
@@ -1981,7 +1981,12 @@ def strip_articles(text: str) -> str:
 
 # ``a``/``A`` + capitalised word in a sentence with no English cue at all is
 # likely the Spanish / Portuguese personal ``a`` (``A Maria come.``): keep it.
+# Spanish stressed personal pronouns also occur without detector cues
+# (``Dame a mí.`` / ``Todo vuelve a ti.`` / ``Se mira a sí mismo.``).
 _A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +([^\W\d_]))")
+
+
+_A_PERSONAL_PRONOUN = _ci_compile(r"(?:mí|ti|sí)\b", re.I)
 
 
 def _strip_articles_cue_aware(text: str) -> str:
@@ -1992,7 +1997,10 @@ def _strip_articles_cue_aware(text: str) -> str:
         part = sentence.group(0)
         if not has_english_cue(part):
             for match in _A_BEFORE_NAME.finditer(part):
-                if unicodedata.category(match.group(2)) in {"Lu", "Lt"}:
+                if (
+                    unicodedata.category(match.group(2)) in {"Lu", "Lt"}
+                    or _A_PERSONAL_PRONOUN.match(part, match.start(2))
+                ):
                     preserve_a.add(sentence.start() + match.start(1))
     return _strip_articles_en(text, preserve_a=frozenset(preserve_a))
 
