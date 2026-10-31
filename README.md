@@ -35,7 +35,7 @@ Python 中心。stdlib 専用かどうかは未決定（厳しい制約は課し
 ## 開発・CI
 
 - Python は `uv` 管理（`uv.lock` をコミット）。`uv sync` のあと `uv run pytest`。
-- CI は Aoi 寄り: `setup-uv`、pytest の JUnit を `build/test-results/`、親リポの reusable junit-identity。
+- CI は Aoi 寄り: `setup-uv`（Python もここで用意。`actions/setup-python` は使わない）、pytest の JUnit を `build/test-results/`、親リポの reusable junit-identity。
 - A–E の親は本リポ。真親 myon-bioinformatics への child 登録はしない。[docs/subprojects.md](docs/subprojects.md)
 
 ## 使い方
