@@ -2004,9 +2004,8 @@ def _strip_articles_cue_aware(text: str) -> str:
             offset = sentence.start() + match.start(1)
             before = part[: match.start(1)].rstrip(" \t\"'([{\u201c\u2018")
             at_start = before == "" or before.endswith(("\u2014", "\u2013"))
-            if match.group(1) == "A" and not at_start and before[-1:].isalnum():
-                # ``Plan A Fails`` / ``Type A Blood``: a label, not an article.
-                continue
+            # (``Plan A Fails``: ``_ARTICLE_WORD`` never matches a mid-sentence
+            # capital ``A`` after a word, so labels are untouched there.)
             if english or (at_start and match.group(1) == "A"):
                 # English ``A``/``a`` + name: join with ``-`` (``A-Maria``) so
                 # the article survives; ``restore_a_hyphen`` undoes it.
@@ -2017,15 +2016,18 @@ def _strip_articles_cue_aware(text: str) -> str:
     return _strip_articles_en(text, preserve_a=frozenset(preserve_a), hyphen_a=frozenset(hyphen_a))
 
 
-# Existing single-letter hyphen forms; ``restore_a_hyphen`` never splits them.
+# Existing ``A-`` + capital forms that ``restore_a_hyphen`` never splits.
+# Matched on the casefolded stem with an optional plural ``s`` (``A-Levels``).
+# Other letters (``e-mail``, ``X-ray``, ``B-boy`` …) never match ``_A_HYPHEN``.
 A_HYPHEN_WHITELIST = frozenset(
-    w.casefold()
-    for w in (
-        "A-list", "A-League", "A-Team", "A-Level", "A-Frame", "A-Bomb",
-        "e-mail", "B-boy", "C-section", "D-day", "X-ray", "T-shirt", "U-turn",
-    )
+    {"list", "league", "team", "level", "frame", "bomb", "ok", "z", "rod", "side", "wing"}
 )
 _A_HYPHEN = re.compile(r"(?<![\w'\u2019-])([aA])-([^\W\d_][\w'\u2019]*)")
+
+
+def _a_hyphen_whitelisted(word: str) -> bool:
+    w = word.casefold()
+    return w in A_HYPHEN_WHITELIST or (w.endswith("s") and w[:-1] in A_HYPHEN_WHITELIST)
 
 
 def restore_a_hyphen(text: str) -> str:
@@ -2033,7 +2035,7 @@ def restore_a_hyphen(text: str) -> str:
 
     def back(m: re.Match[str]) -> str:
         word = m.group(2)
-        if m.group(0).casefold() in A_HYPHEN_WHITELIST or unicodedata.category(word[0]) not in {"Lu", "Lt"}:
+        if _a_hyphen_whitelisted(word) or unicodedata.category(word[0]) not in {"Lu", "Lt"}:
             return m.group(0)
         return f"{m.group(1)} {word}"
 
@@ -2770,7 +2772,8 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     text = unicodedata.normalize("NFC", text)
     from shared.lex_policy import UNIQUE_COMPACT
 
-    out = text
+    # Undo compress's ``A-Maria`` article protection first (exact inverse).
+    out = restore_a_hyphen(text)
     if counters:
         for pat, repl in _EXPAND_COUNTERS:
             out = pat.sub(repl, out)

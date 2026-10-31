@@ -3,7 +3,7 @@ import unicodedata
 
 import pytest
 
-from MorphoZip.morpho_zip import compress, restore_a_hyphen, strip_articles
+from MorphoZip.morpho_zip import compress, expand, restore_a_hyphen, strip_articles
 
 HYPHEN = [
     ("A Maria come.", "A-Maria come."),  # 文頭
@@ -28,7 +28,12 @@ KEEP = [
     "A, B, and C.",  # 列挙
 ]
 
-WHITELIST = ["A-list", "A-League", "e-mail", "B-boy", "C-section", "D-day", "X-ray", "T-shirt", "U-turn", "F-15"]
+# A- の既存形（大文字始まりも含む・複数形も）は復元で分割しない。
+A_FORMS = ["A-list", "A-League", "A-Team", "A-Teams", "A-Level", "A-Levels", "A-Bombs",
+           "A-OK", "A-Z", "A-Rod", "A-Side", "A-Wing", "A-ha"]
+# A 以外の単一文字＋ハイフンの既存形は、そもそも規則の対象外で不変。
+OTHER_FORMS = ["e-mail", "E-mail", "B-boy", "C-section", "D-day", "X-ray", "T-shirt", "U-turn", "F-15"]
+WHITELIST = A_FORMS + OTHER_FORMS
 
 
 @pytest.mark.parametrize(("src", "want"), HYPHEN)
@@ -62,3 +67,43 @@ def test_nfd_rerun(src, want):
     nfd = unicodedata.normalize("NFD", src)
     assert strip_articles(nfd) == unicodedata.normalize("NFC", want)
     assert restore_a_hyphen(strip_articles(nfd)) == unicodedata.normalize("NFC", src)
+
+
+@pytest.mark.parametrize(("src", "want"), HYPHEN)
+def test_end_to_end_expand(src, want):
+    # 実際の復元経路: compress → expand
+    out = compress(src)
+    assert "-" in out
+    assert expand(out) == src
+
+
+def test_quoted_article_offset():
+    # 引用符付き "a" のマスクで offset がずれても、正しい a にハイフンが付く。
+    assert strip_articles('"a" I met a Canadian.') == "a I met a-Canadian."
+    assert strip_articles('"the" and "a" so I met a Canadian.') == "the and a so I met a-Canadian."
+
+
+def test_all_caps_word_branch():
+    # 全大文字語は名前ではないので従来どおり（英語文は削除、それ以外は保持）。
+    assert strip_articles("A USB funciona.") == "A USB funciona."
+    assert strip_articles("I have a USB.") == "I have USB."
+
+
+def test_dash_counts_as_sentence_start():
+    # 英語の手がかり語がない文で、ダッシュ直後の大文字 A は文頭扱い。
+    assert strip_articles("x\u2014A Maria come.") == "x\u2014A-Maria come."
+    assert strip_articles("x\u2013A Maria come.") == "x\u2013A-Maria come."
+
+
+def test_restore_lookbehind():
+    for s in ["l'A-Maria", "l\u2019A-Maria", "x-A-Maria", "xA-Maria"]:
+        assert restore_a_hyphen(s) == s
+
+
+def test_restore_normalizes_nfd():
+    assert restore_a_hyphen(unicodedata.normalize("NFD", "A-\u00c9mile")) == "A \u00c9mile"
+
+
+def test_whitelist_case_insensitive_stem_plural():
+    assert restore_a_hyphen("the A-LIST and a-teams") == "the A-LIST and a-teams"
+    assert restore_a_hyphen("A-Sides A-Maria") == "A-Sides A Maria"

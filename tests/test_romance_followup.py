@@ -26,8 +26,9 @@ def test_mixed_text_only_romance_sentence_protected():
 
 @pytest.mark.parametrize("src", ["A Maria come.", "Veo a Juan.", "A Pedro le gusta."])
 def test_spanish_personal_a_without_cues_kept(src):
-    from MorphoZip.morpho_zip import restore_a_hyphen
-    assert restore_a_hyphen(compress(src)) == src
+    # #122: 文頭 A＋名前は A-Maria で保護され、実際の復元経路 expand で元に戻る。
+    from MorphoZip.morpho_zip import expand
+    assert expand(compress(src)) == src
 
 
 @pytest.mark.parametrize(
@@ -35,7 +36,7 @@ def test_spanish_personal_a_without_cues_kept(src):
     [
         ("A dog ran.", "dog ran."),
         ("The dog ran. A dog ran.", "dog ran. dog ran."),
-        ("A Ford is fast.", "A-Ford is fast."),
+        ("A Ford is fast.", "A-Ford is fast."),  # #122: 英語 A＋大文字語はハイフン保護
         ("I have a cat.", "I have cat."),
     ],
 )
@@ -47,10 +48,9 @@ def test_english_article_drop_unchanged(src, want):
 def test_personal_a_does_not_decode_user_placeholder_text(literal):
     from MorphoZip.morpho_zip import strip_articles
     source = f'A Maria {literal}.'
-    want = source.replace('A Maria', 'A-Maria', 1)
-    # 私用領域の文字は内部記号として復号されないこと（ハイフン化の有無は問わない）。
-    assert strip_articles(source) in {source, want}
-    assert compress(source) in {source, want}
+    from MorphoZip.morpho_zip import expand, restore_a_hyphen
+    assert restore_a_hyphen(strip_articles(source)) == source
+    assert expand(compress(source)) == source
 
 
 @pytest.mark.parametrize('name', ['Łukasz', 'Žan', 'İpek', 'ǅuro', 'Στέφανος', 'Дмитрий', '𐐀name', 'Álvaro'])
