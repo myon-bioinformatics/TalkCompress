@@ -2,8 +2,9 @@
 
 Each adopted bank entry (``from`` → ``to``) is embedded in several template
 sentences; the converted sentence is handed to an AI restore command several
-times in parallel with different seeds, and the restore rate is
-``restored / trials`` over every (sentence × seed) trial.
+times in parallel with different seeds. For complete records the restore rate
+is ``restored / trials``. ``trials`` counts completed attempts; timed-out
+attempts remain explicitly unverified, never silently omitted from a pass.
 
 Usage::
 
@@ -20,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import re
 import subprocess
@@ -65,7 +67,7 @@ def sentences(data: dict, src: str, to: str) -> list[tuple[str, str]]:
 
 
 def rate(rec: dict | None) -> float | None:
-    if not rec or not rec.get("trials"):
+    if not rec or not rec.get("trials") or rec.get("timeouts", 0):
         return None
     return rec["restored"] / rec["trials"]
 
@@ -86,6 +88,8 @@ def gate_for(data: dict, scope: str):
     """Candidate gate for tense_matrix.build: scope 'lt100m' or 'all'."""
 
     def gate(form: str, lang: str) -> bool:
+        if data["records"].get(key(lang, form), {}).get("timeouts", 0):
+            return False
         st = status(data, lang, form)
         if st == "never":
             return False
@@ -123,7 +127,9 @@ def impact(data: dict, scope: str) -> list[tuple[str, str, tuple | None, tuple |
 
 
 def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
-        entries: list[dict] | None = None) -> dict:
+        entries: list[dict] | None = None, timeout: float = 120) -> dict:
+    if not math.isfinite(timeout) or timeout <= 0:
+        raise ValueError("timeout must be finite and positive")
     if entries is None:
         import tense_matrix as tm
 
@@ -139,15 +145,27 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
     def one(j):
         lang, to, en, cv, seed = j
         env = dict(os.environ, ROUNDTRIP_SEED=str(seed))
-        p = subprocess.run(cmd, shell=True, input=PROMPT.format(c=cv), capture_output=True,
-                           text=True, env=env, timeout=120)
+        try:
+            p = subprocess.run(cmd, shell=True, input=PROMPT.format(c=cv), capture_output=True,
+                               text=True, env=env, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            # one hung trial must not discard every other result; recorded, not scored
+            return lang, to, en, cv, seed, None
         return lang, to, en, cv, seed, norm(p.stdout) == norm(en)
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(one, jobs))
     for lang, to, en, cv, _seed, ok in results:
         rec = data["records"].setdefault(key(lang, to), {"lang": lang, "form": to, "trials": 0, "restored": 0, "failures": []})
+        rec["accounting_version"] = 2
+        if ok is None:
+            rec["timeouts"] = rec.get("timeouts", 0) + 1
+            rec["completed"] = rec["trials"]
+            rec["attempted"] = rec["trials"] + rec["timeouts"]
+            continue
         rec["trials"] += 1
+        rec["completed"] = rec["trials"]
+        rec["attempted"] = rec["trials"] + rec.get("timeouts", 0)
         rec["restored"] += int(ok)
         if not ok and len(rec["failures"]) < 5:
             rec["failures"].append(cv)
@@ -186,11 +204,15 @@ def main(argv: list[str] | None = None) -> int:
                     help="rewrite data['required'] from the current bank")
     a = ap.parse_args(argv)
     data = load()
+    incomplete = False
     if a.run:
         if not a.cmd:
             ap.error("--run needs --cmd")
         DATA_PATH.write_text(json.dumps(run(data, a.cmd, only_lang=a.lang), ensure_ascii=False, indent=2) + "\n",
                              encoding="utf-8")
+        incomplete = any(rec.get("timeouts", 0) for rec in data["records"].values())
+        if incomplete:
+            print("Round-trip results saved; timed-out attempts remain unverified.", file=sys.stderr)
     if a.sync_required:
         import tense_matrix as tm
 
@@ -208,8 +230,9 @@ def main(argv: list[str] | None = None) -> int:
     if a.impact:
         for k, src, old, new in impact(data, a.impact):
             print(f"{k}\t{src}\t{old}\t->\t{new}")
-    return 0
+    return 1 if incomplete else 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
