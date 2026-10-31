@@ -64,7 +64,7 @@ def _assert_svg_python_setup(steps):
     setup = steps[setup_index]
     for setting in (
         'uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3',
-        'version: "0.13.3"', 'python-version: "3.12.15"',
+        'version: "latest"', 'python-version: "3.12.15"',
         'activate-environment: true', 'enable-cache: false',
     ):
         assert setting in setup
