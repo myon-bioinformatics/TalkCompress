@@ -637,7 +637,26 @@ def estimate_tokens(text: str) -> int:
             n += 1 + sum(1 for ch in p if ord(ch) > 127 and ch not in cal["sym"])
         else:
             n += 1
+    if s != text:
+        n += _nfd_extra(text, cal)
     return n
+
+
+def _nfd_extra(text: str, cal: dict) -> int:
+    """o200k sees the raw (non-NFC) bytes: a decomposed accent is its own token and splits
+    the word at the mark. For each raw Latin word that NFC would change, add the gap between
+    the split cost (pieces + 1 per mark) and the NFC-word cost already counted."""
+    extra = 0
+    for m in _PRETOKEN.finditer(text):
+        w = m.group()
+        if m.lastgroup != "w" or not _COMBINING_RE.search(w):
+            continue
+        c = unicodedata.normalize("NFC", w)
+        if c == w:
+            continue
+        split = sum(_word_cost(q, cal) for q in _COMBINING_RE.split(w) if q) + len(_COMBINING_RE.findall(w))
+        extra += max(0, split - (_word_cost(c, cal) + len(_COMBINING_RE.findall(c))))
+    return extra
 
 
 # zh stative verbs: 在 + V is the progressive marker, but statives (have / know /
