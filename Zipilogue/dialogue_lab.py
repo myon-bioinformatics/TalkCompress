@@ -11,6 +11,7 @@ import hashlib
 import json
 import re
 import time
+import unicodedata
 import urllib.request
 from pathlib import Path
 
@@ -65,7 +66,7 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
     values = payload.get('mapping')
     if not isinstance(values, list) or not 1 <= len(values) <= 8:
         raise ValueError('mapping must contain 1..8 entries')
-    observed = '\n'.join(x['text'] for x in training).casefold()
+    observed = unicodedata.normalize('NFC', '\n'.join(x['text'] for x in training)).casefold()
     result = []
     longs: set[str] = set()
     shorts: set[str] = set()
@@ -75,7 +76,7 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
         long, short = item['long'], item['short']
         if not isinstance(long, str) or not isinstance(short, str):
             raise ValueError('rules must be strings')
-        long = ' '.join(long.split())
+        long = ' '.join(unicodedata.normalize('NFC', long).split())
         if not 4 <= len(long) <= 100:
             raise ValueError('long form must be 4..100 characters after whitespace normalization')
         if long.casefold() not in observed:
@@ -95,10 +96,16 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
 
 
 def encode(text: str, mapping: list[dict[str, str]]) -> str:
-    """One-pass longest replacement, never re-encode newly inserted codes."""
+    """One-pass longest replacement, never re-encode newly inserted codes.
+
+    The result is always NFC-normalized, even when ``mapping`` is empty or no
+    rule matches, so NFD input never leaks out undecomposed.
+    """
+    # NFD の入力で「cafe」が「café」の基底文字だけに当たらないよう NFC に揃える。
+    text = unicodedata.normalize('NFC', text)
     if not mapping:
         return text
-    lookup = {r['long'].casefold(): r['short'] for r in mapping}
+    lookup = {unicodedata.normalize('NFC', r['long']).casefold(): r['short'] for r in mapping}
     pattern = r'(?<!\w)(?:' + '|'.join(_fold_alt(x) for x in sorted(lookup, key=len, reverse=True)) + r')(?!\w)'
     # İ/ı/ſ/K never fold onto an ASCII long form (see _fold_alt); the .get
     # fallback keeps any other re.I-vs-casefold mismatch from raising KeyError.

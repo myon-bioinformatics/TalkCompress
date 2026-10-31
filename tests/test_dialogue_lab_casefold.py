@@ -7,9 +7,15 @@ from Zipilogue.dialogue_lab import encode, validate_mapping
 RULE = [{"long": "kiss", "short": "k"}]
 
 
-@pytest.mark.parametrize("text", ["KİSS", "kıss", "kiſs", "\u212aISS"])
+@pytest.mark.parametrize("text", ["KİSS", "kıss", "kiſs"])
 def test_encode_leaves_non_ascii_lookalikes(text):
     assert encode(text, RULE) == text
+
+
+def test_encode_kelvin_sign_is_nfc_k():
+    # NFC は U+212A（ケルビン記号）を正準等価な ASCII の K に置き換えるので、
+    # encode の NFC 正規化後は普通の KISS として扱われる。
+    assert encode("\u212aISS", RULE) == "k"
 
 
 def test_encode_keeps_ascii_and_unicode_case_insensitivity():
