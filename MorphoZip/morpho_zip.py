@@ -37,6 +37,7 @@ import re
 import unicodedata
 import sys
 from pathlib import Path
+from typing import Any
 
 
 # --- ASCII-only case folding --------------------------------------------------
@@ -982,6 +983,15 @@ def _protect_rule(ctx: str, words: tuple[str, ...], style: str) -> tuple[re.Patt
 _PROTECT_SUBS = [_protect_rule(c, w, st) for c, w, st in PROTECTED_PHRASES]
 
 
+def _numeric_or(match: re.Match[str]) -> str:
+    """Retain a numeric alternative, including signed values and line breaks."""
+    before = match.string[:match.start()]
+    after = match.string[match.end():]
+    if re.search(r"\d\s+$", before) and re.match(r"\s+[+\-−]?(?:\d|\.\d)", after):
+        return match.group()
+    return "/"
+
+
 _SUBS: list[tuple[re.Pattern[str], str]] = [
     # --- pronouns (multi-word / longer first). Contractions (I'll) belong to C.
     # 2pl → y'all (same bit slot as they/them)
@@ -1184,9 +1194,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\band\b", re.I), "&"),
     (_ci_compile(r"\bund\b", re.I), "&"),  # DE
     # FR et / ES y: alias-only (et al.; EN "x and y")
-    (_ci_compile(r"\bor\b", re.I), "/"),
-    (_ci_compile(r"\boder\b", re.I), "/"),  # DE
-    (_ci_compile(r"\bou\b", re.I), "/"),  # FR
+    # Keep the word between two numbers: "3 or 4" → "3 / 4" would read as a fraction.
+    (_ci_compile(r"\bor\b", re.I), lambda m: _numeric_or(m)),
+    (_ci_compile(r"\boder\b", re.I), lambda m: _numeric_or(m)),  # DE
+    (_ci_compile(r"\bou\b", re.I), lambda m: _numeric_or(m)),  # FR
 
     (_ci_compile(r"\bbecause\b", re.I), "bc"),
     # Resultatives share ∴ (cheaper than so). thereby stays: by-that-means ≠ therefore,
@@ -2808,3 +2819,4 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
