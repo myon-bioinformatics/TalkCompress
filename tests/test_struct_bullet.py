@@ -73,3 +73,17 @@ def test_etc_followed_by_capital_still_splits():
     from shared.struct_bullet import to_bullets
 
     assert to_bullets("A, B, etc. Then go.") == "- A, B, etc\n- Then go"
+
+
+@pytest.mark.parametrize(
+    "text",
+    ["Café e.g. crème. Then go.", "Señor vs. José. Then go.", "Ask Dr. Müller. Then go.", "Zoë, Chloé, etc. Then go."],
+)
+def test_nfd_and_accented_input_splits_like_nfc(text):
+    import unicodedata
+
+    from shared.struct_bullet import to_bullets
+
+    nfc = to_bullets(unicodedata.normalize("NFC", text))
+    assert to_bullets(unicodedata.normalize("NFD", text)) == nfc
+    assert nfc.count("\n") == 1, nfc

@@ -24,6 +24,7 @@ import argparse
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -52,6 +53,8 @@ def to_bullets(text: str, marker: str = "- ") -> str:
     """One sentence per line with ``marker`` (default ``- ``), fillers removed,
     trailing full stop dropped. ``marker=""`` gives plain lines with no dash."""
     lines: list[str] = []
+    # NFD の結合文字で \b がずれないよう NFC にそろえる
+    text = unicodedata.normalize("NFC", text)
     for part in SENTENCE_SPLIT.split(text):
         sentence = strip_fillers(part.strip())
         if not sentence:
