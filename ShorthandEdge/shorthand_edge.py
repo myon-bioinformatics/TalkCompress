@@ -337,9 +337,12 @@ def compress(
     else:
         sess = Session()
 
-    lines = text.splitlines() or [text]
+    # keepends: CRLF, U+2028 and a trailing newline survive as written
+    lines = text.splitlines(keepends=True) or [text]
     kept: list[str] = []
-    for line in lines:
+    for raw in lines:
+        line = raw.rstrip("\r\n\x0b\x0c\x1c\x1d\x1e\x85\u2028\u2029")
+        end = raw[len(line) :]
         if sess.ingest_line(line):
             continue
         # Same-lang abbrev: 私は will → I'll (before lexicon map)
@@ -354,10 +357,8 @@ def compress(
             line_out = apply_ledger_lex(
                 line_out, apply_layer="C", prefer_precision=prefer_precision
             )
-        kept.append(line_out)
-    if len(lines) == 1 and "\n" not in text:
-        return kept[0] if kept else ""
-    return "\n".join(kept)
+        kept.append(line_out + end)
+    return "".join(kept)
 
 
 def _apply_map(text: str, m: dict[str, str]) -> str:
@@ -370,7 +371,8 @@ def _apply_map(text: str, m: dict[str, str]) -> str:
             out = out.replace(long, short)
             continue
         pat = re.compile(_ascii_phrase_pattern(long), re.IGNORECASE)
-        out = pat.sub(short, out)
+        # literal replacement: a short such as ``C:\new`` or ``\g<0>`` is not a template
+        out = pat.sub(lambda _m, _s=short: _s, out)
     return out
 
 
@@ -556,7 +558,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         if args.state:
             sess.save(args.state)
-        print(out)
+        # compress now keeps the input's trailing newline; do not double it
+        print(out, end="" if out.endswith("\n") else "\n")
     else:
         print(expand(text, session=sess))
     if args.export_lexicon:
