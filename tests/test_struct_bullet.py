@@ -87,3 +87,19 @@ def test_nfd_and_accented_input_splits_like_nfc(text):
     nfc = to_bullets(unicodedata.normalize("NFC", text))
     assert to_bullets(unicodedata.normalize("NFD", text)) == nfc
     assert nfc.count("\n") == 1, nfc
+
+
+def test_to_bullets_capitalizes_non_ascii_initial():
+    import unicodedata
+
+    assert to_bullets("élan is key. elan is key.") == "- Élan is key\n- Elan is key"
+    assert to_bullets(unicodedata.normalize("NFD", "élan is key.")) == "- Élan is key"
+    assert to_bullets("øre. ñu.") == "- Øre\n- Ñu"
+    # 1 文字で表せない大文字（ß→SS）は変えない
+    assert to_bullets("ßtraße ist hier.") == "- ßtraße ist hier"
+    # ǆ は文頭用のタイトルケース ǅ にする（大文字の Ǆ ではない）
+    assert to_bullets("ǆungla.") == "- ǅungla"
+    # すでに大文字の Ǆ はタイトルケースに変えない
+    assert to_bullets("Ǆungla.") == "- Ǆungla"
+    # ᾀ は大文字だと 2 文字（ἈΙ）だが、タイトルケースは 1 文字（ᾈ）
+    assert to_bullets("ᾀ x.") == "- ᾈ x"
