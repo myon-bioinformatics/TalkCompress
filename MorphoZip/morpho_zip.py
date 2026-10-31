@@ -1781,6 +1781,19 @@ _ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?!\.\w)", re.I)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
 
+# Curly quote marks → straight (o200k: same tokens, fewer bytes).  ``’`` is
+# only rewritten as the closer of a ``‘…’`` pair; in-word apostrophes
+# (``don’t``) and possessives (``dogs’``) stay as written.
+_SINGLE_PAIR = re.compile(r"\u2018((?:[^\u2018\u2019\n]|\u2019(?=\w))*)\u2019(?!\w)")
+
+
+def normalize_quotes(text: str) -> str:
+    """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched."""
+    out = text.replace("\u201c", '"').replace("\u201d", '"')
+    out = _SINGLE_PAIR.sub(r"'\1'", out)
+    return out.replace("\u2018", "'")
+
+
 def strip_articles(text: str) -> str:
     """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only."""
     restores: list[str] = []
@@ -2079,6 +2092,7 @@ def compress(
     """
     text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
+    out = normalize_quotes(out)
     # aggressive_fillers implies strip
     do_strip = strip or aggressive_fillers
     if do_strip:
