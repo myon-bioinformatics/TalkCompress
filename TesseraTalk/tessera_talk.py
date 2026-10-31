@@ -472,16 +472,24 @@ DEFAULT_O200K_CALIB = _FIXTURES_DIR / "o200k_calib.json"
 # suffix, which o200k keeps in the same pre-token: ``we've`` = 1), digit groups
 # of <= 3, one CJK/kana/Hangul/Thai char, an other-script run, a punctuation run.
 _PRETOKEN = re.compile(
-    r"(?P<w>[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]+(?:['\u2019](?:s|t|re|ve|m|ll|d)(?![A-Za-z]))?)"
+    # Combining marks that survive NFC (x + U+0301, i + U+0307) stay inside the word.
+    r"(?P<w>[A-Za-z\u00C0-\u024F\u1E00-\u1EFF][A-Za-z\u00C0-\u024F\u1E00-\u1EFF\u0300-\u036F]*"
+    r"(?:['\u2019](?:s|t|re|ve|m|ll|d)(?![A-Za-z]))?)"
     r"|(?P<d>\d{1,3})"
     r"|(?P<k>[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]+)"
     r"|(?P<c>[\u0E00-\u0E7F])"
     r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
+    # Letters of any other script (Hebrew, Armenian, Georgian, …) must not cost 0.
+    # Indic / SE-Asian blocks keep the main-branch path: ceil(len/4) split at every vowel
+    # sign drifts further from o200k there. Fixed ranges, not unicodedata, so the result
+    # does not depend on the Python version.
+    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF])[^\W\d_])+)"
     r"|(?P<p>[^\w\s]+)",
     re.IGNORECASE,
 )
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
 _LATIN_EXT_A = re.compile(r"[\u0100-\u024F]")
+_COMBINING_RE = re.compile(r"[\u0300-\u036F]")
 _CALIB: dict | None = None
 
 
@@ -596,7 +604,8 @@ def estimate_tokens(text: str) -> int:
     for m in _PRETOKEN.finditer(s):
         kind, p = m.lastgroup, m.group()
         if kind in ("w", "o"):
-            n += _word_cost(p, cal)
+            # a combining mark left after NFC is its own byte-level token in o200k
+            n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
         elif kind == "k":
             if m.start() == 0 or s[m.start() - 1] == " ":
                 # o200k merges the preceding space only into some CJK tokens
@@ -609,6 +618,8 @@ def estimate_tokens(text: str) -> int:
                     n += 1 + _cjk_cost(p, cal["cjk"])
             else:
                 n += _cjk_cost(p, cal["cjk"])
+        elif kind == "x":  # uncalibrated script: legacy ceil(len/4)
+            n += (len(p) + 3) // 4  # len >= 1, so always >= 1
         elif kind == "p":
             # a punctuation run is one token; non-ASCII symbols outside o200k's
             # single-token set (e.g. "∴") cost one extra byte-level token each
