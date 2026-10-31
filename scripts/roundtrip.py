@@ -66,8 +66,14 @@ def sentences(data: dict, src: str, to: str) -> list[tuple[str, str]]:
     return out
 
 
+def incomplete(rec: dict) -> bool:
+    if rec.get("accounting_version", 0) >= 3:
+        return bool(rec.get("pending_trials") or rec.get("legacy_pending"))
+    return bool(rec.get("timeouts", 0))
+
+
 def rate(rec: dict | None) -> float | None:
-    if not rec or not rec.get("trials") or rec.get("timeouts", 0):
+    if not rec or not rec.get("trials") or incomplete(rec):
         return None
     return rec["restored"] / rec["trials"]
 
@@ -88,7 +94,7 @@ def gate_for(data: dict, scope: str):
     """Candidate gate for tense_matrix.build: scope 'lt100m' or 'all'."""
 
     def gate(form: str, lang: str) -> bool:
-        if data["records"].get(key(lang, form), {}).get("timeouts", 0):
+        if incomplete(data["records"].get(key(lang, form), {})):
             return False
         st = status(data, lang, form)
         if st == "never":
@@ -127,7 +133,7 @@ def impact(data: dict, scope: str) -> list[tuple[str, str, tuple | None, tuple |
 
 
 def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
-        entries: list[dict] | None = None, timeout: float = 120) -> dict:
+        entries: list[dict] | None = None, timeout: float = 120, revalidate_legacy: bool = False) -> dict:
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout must be finite and positive")
     if entries is None:
@@ -155,20 +161,44 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(one, jobs))
-    for lang, to, en, cv, _seed, ok in results:
-        rec = data["records"].setdefault(key(lang, to), {"lang": lang, "form": to, "trials": 0, "restored": 0, "failures": []})
-        rec["accounting_version"] = 2
-        if ok is None:
-            rec["timeouts"] = rec.get("timeouts", 0) + 1
-            rec["completed"] = rec["trials"]
-            rec["attempted"] = rec["trials"] + rec["timeouts"]
-            continue
-        rec["trials"] += 1
+    grouped = {}
+    for lang, to, en, cv, seed, ok in results:
+        grouped.setdefault(key(lang, to), []).append((en, cv, seed, ok))
+    for k, group in grouped.items():
+        rec = data["records"].setdefault(k, {"lang": k.split(":", 1)[0],
+            "form": k.split(":", 1)[1], "trials": 0, "restored": 0, "failures": []})
+        def identity(en, cv, seed):
+            return json.dumps([en, cv, seed], ensure_ascii=False)
+        if rec.get("accounting_version", 0) < 3:
+            # Legacy counts lack identities: explicitly revalidate this matrix.
+            rec["legacy_unknown"] = bool(rec.get("timeouts", 0))
+            rec["legacy_required"] = []
+        if revalidate_legacy and rec.get("legacy_unknown"):
+            rec["legacy_unknown"] = False
+            rec["legacy_required"] = sorted({identity(en, cv, seed)
+                for en, cv, seed, _ in group}) if rec.get("timeouts", 0) else []
+        pending = set(rec.get("pending_trials", []))
+        required = set(rec.get("legacy_required", []))
+        done = set(rec.get("legacy_completed", []))
+        for en, cv, seed, ok in group:
+            slot = identity(en, cv, seed)
+            if ok is None:
+                rec["timeouts"] = rec.get("timeouts", 0) + 1
+                pending.add(slot)
+                done.discard(slot)
+                continue
+            pending.discard(slot)
+            done.add(slot)
+            rec["trials"] += 1
+            rec["restored"] += int(ok)
+            if not ok and len(rec["failures"]) < 5:
+                rec["failures"].append(cv)
+        rec["accounting_version"] = 3
+        rec["pending_trials"] = sorted(pending)
+        rec["legacy_completed"] = sorted(done & required)
+        rec["legacy_pending"] = bool(rec.get("legacy_unknown") or required - done)
         rec["completed"] = rec["trials"]
         rec["attempted"] = rec["trials"] + rec.get("timeouts", 0)
-        rec["restored"] += int(ok)
-        if not ok and len(rec["failures"]) < 5:
-            rec["failures"].append(cv)
     return data
 
 
@@ -199,19 +229,21 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--cmd")
     ap.add_argument("--lang")
+    ap.add_argument("--revalidate-legacy", action="store_true",
+                    help="explicitly establish current matrix as baseline for unidentified legacy timeouts")
     ap.add_argument("--write-doc", action="store_true")
     ap.add_argument("--sync-required", action="store_true",
                     help="rewrite data['required'] from the current bank")
     a = ap.parse_args(argv)
     data = load()
-    incomplete = False
+    has_incomplete = False
     if a.run:
         if not a.cmd:
             ap.error("--run needs --cmd")
-        DATA_PATH.write_text(json.dumps(run(data, a.cmd, only_lang=a.lang), ensure_ascii=False, indent=2) + "\n",
+        DATA_PATH.write_text(json.dumps(run(data, a.cmd, only_lang=a.lang, revalidate_legacy=a.revalidate_legacy), ensure_ascii=False, indent=2) + "\n",
                              encoding="utf-8")
-        incomplete = any(rec.get("timeouts", 0) for rec in data["records"].values())
-        if incomplete:
+        has_incomplete = any(incomplete(rec) for rec in data["records"].values())
+        if has_incomplete:
             print("Round-trip results saved; timed-out attempts remain unverified.", file=sys.stderr)
     if a.sync_required:
         import tense_matrix as tm
@@ -230,9 +262,8 @@ def main(argv: list[str] | None = None) -> int:
     if a.impact:
         for k, src, old, new in impact(data, a.impact):
             print(f"{k}\t{src}\t{old}\t->\t{new}")
-    return 1 if incomplete else 0
+    return 1 if has_incomplete else 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
