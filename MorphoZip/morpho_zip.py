@@ -138,7 +138,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from shared.romance_gate import apply_outside_romance, substitute_with_romance_context  # noqa: E402
+from shared.romance_gate import apply_outside_romance, has_english_cue, substitute_with_romance_context  # noqa: E402
 from shared.lex_policy import (  # noqa: E402
     apply_etymon_align,
     apply_spelled_numbers,
@@ -1941,7 +1941,29 @@ def strip_articles(text: str) -> str:
     es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
     chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
     """
-    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_en)
+    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_cue_aware)
+
+
+# ``a``/``A`` + capitalised word in a sentence with no English cue at all is
+# likely the Spanish / Portuguese personal ``a`` (``A Maria come.``): keep it.
+_A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +[A-ZÀ-ÖØ-Þ])")
+_A_NAME_HOLD = "\uE0A1"
+
+
+def _strip_articles_cue_aware(text: str) -> str:
+    parts = [m.group(0) for m in _SENT_CHUNK.finditer(text) if m.group(0)]
+    held = [
+        _A_BEFORE_NAME.sub(lambda m: _A_NAME_HOLD + ("1" if m.group(1) == "A" else "0"), p)
+        if not has_english_cue(p) else p
+        for p in parts
+    ]
+    if held == parts:
+        return _strip_articles_en(text)
+    out = _strip_articles_en("".join(held))
+    return out.replace(_A_NAME_HOLD + "1", "A").replace(_A_NAME_HOLD + "0", "a")
+
+
+_SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
 
 
 def _strip_articles_en(text: str) -> str:
@@ -2264,6 +2286,7 @@ def compress(
     out = substitute_with_romance_context(
         out, _SUBS,
         lambda part, protected: part if protected else drop_3sg_after_inventory_pronoun(part),
+        skip_in_protected=_ROMANCE_PRONOUN_SUB_IDX,
     ).replace('<<YOUOBJ>>', 'you')
     out = _DIGIT_FW.sub(lambda m: chr(ord(m.group(0)) - 0xFEE0), out)
     if hex_nums:
@@ -2298,6 +2321,18 @@ _EXPAND_COUNTERS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 # Unambiguous short → longer (subset of _SUBS / UNIQUE_COMPACT). Documented lossy.
+# es/pt/fr subject pronoun pivots (yo/je/il/elle/tú…): not applied inside a
+# sentence the romance gate protects (``Il a un chat`` must not become ``he a``).
+_ROMANCE_PRONOUN_WORDS = frozenset(
+    "yo je ustedes usted tu tú ellos ellas elles ils ella elle él il".split()
+)
+_ROMANCE_PRONOUN_SUB_IDX = frozenset(
+    i for i, (pat, _r) in enumerate(_SUBS)
+    if any(re.fullmatch(pat, w) for w in _ROMANCE_PRONOUN_WORDS)
+    and not re.fullmatch(pat, "you")
+)
+
+
 _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bw/o\b", re.I), "without"),
     # CJK prep2 shorts: only expand when space/punct bounded (avoid eating JA 前後…)
