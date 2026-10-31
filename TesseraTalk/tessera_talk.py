@@ -480,7 +480,10 @@ _PRETOKEN = re.compile(
     r"|(?P<c>[\u0E00-\u0E7F])"
     r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
     # Letters of any other script (Hebrew, Armenian, Georgian, …) must not cost 0.
-    r"|(?P<x>[^\W\d_]+)"
+    # Indic / SE-Asian blocks keep the main-branch path: ceil(len/4) split at every vowel
+    # sign drifts further from o200k there. Fixed ranges, not unicodedata, so the result
+    # does not depend on the Python version.
+    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF])[^\W\d_])+)"
     r"|(?P<p>[^\w\s]+)",
     re.IGNORECASE,
 )
