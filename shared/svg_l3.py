@@ -60,7 +60,10 @@ Output the SVG only, in one code block."""
 _SVG_RE = re.compile(r"<svg\b[^>]*/>|<svg\b.*?</svg>", re.S)
 
 
-def ask(cmd: str, prompt: str, timeout: int = 300) -> str:
+def ask(cmd: str, prompt: str, timeout: int | None = None) -> str:
+    # The command's own HTTP timeout (LLAMA_TIMEOUT) is the limit; this outer one is a margin above it.
+    if timeout is None:
+        timeout = int(os.environ.get("LLAMA_TIMEOUT", "300")) + 60
     result = subprocess.run(
         shlex.split(cmd), input=prompt, capture_output=True, text=True, timeout=timeout, check=False,
     )
@@ -285,10 +288,22 @@ def main(argv: list[str] | None = None) -> int:
     reports = []
     for path in args.files:
         text = path.read_text(encoding="utf-8")
-        report = run(text, lambda p: ask(args.cmd, p))
+        try:
+            report = run(text, lambda p: ask(args.cmd, p))
+        except subprocess.TimeoutExpired as exc:  # probe answers only catch RuntimeError, so this can escape run()
+            report = {"dsl_ok": False, "score": None, "hits": 0, "total": 0, "errors": [],
+                      "run_error": f"timeout after {exc.timeout}s"}
         report["figure"] = path.name
         report["source_sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
         reports.append(report)
+        if args.output:  # keep finished figures if a later one fails
+            _write(args, reports)
+    if not args.output:
+        _write(args, reports)
+    return 0 if all(r["dsl_ok"] for r in reports) else 1
+
+
+def _write(args: argparse.Namespace, reports: list[dict]) -> None:
     meta = {
         "stage": "L3",
         "model": args.model,
@@ -306,7 +321,6 @@ def main(argv: list[str] | None = None) -> int:
         args.output.write_text(text, encoding="utf-8")
     else:
         sys.stdout.write(text)
-    return 0 if all(r["dsl_ok"] for r in reports) else 1
 
 
 if __name__ == "__main__":
