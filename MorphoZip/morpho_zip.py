@@ -225,7 +225,7 @@ ARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
     "a": "∅",
     "an": "∅",
 }
-_ARTICLE_SURFACE_RE = re.compile(r"\b(?:the|a|an)\b", re.I)
+_ARTICLE_SURFACE_RE = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])", re.I)
 
 # --- conjunction (接続詞): high-freq logical; C owns moreover/nevertheless ----
 CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "bc", "therefore")
@@ -1777,13 +1777,15 @@ _QUOTED_ARTICLE = re.compile(
     r"""|[\u201c\u2018](the|a|an)[\u201d\u2019]""",
     re.I,
 )
-_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?!\.\w)", re.I)
+# ``(?![\u0300-\u036f])``: a base letter followed by a combining mark (NFD
+# ``a\u0301`` = á) is not the article ``a`` (defence in depth; callers NFC first).
+_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w)", re.I)
 # Article right after an opening quote/bracket: drop its trailing space too
 # (``“the cat”`` → ``"cat"``, not ``" cat"``).
 _OPEN_BRACKETS = "([{\u300c\u300e\u3010\u00ab\u2039\u201c\u2018\uff08"
 _ARTICLE_AFTER_OPEN = re.compile(
     rf"(?:(?<=[{_OPEN_BRACKETS}])|(?<=^[\"'])|(?<=[\s{_OPEN_BRACKETS}][\"']))"
-    r"(?:the|a|an)\b(?!\.\w)[ \t]*",
+    r"(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w)[ \t]*",
     re.I,
 )
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
@@ -1809,6 +1811,7 @@ def normalize_quotes(text: str) -> str:
 
 def strip_articles(text: str) -> str:
     """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only."""
+    text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
 
     def _mask(m: re.Match[str]) -> str:
@@ -2531,6 +2534,7 @@ def pack_tokens(text: str) -> str:
     """
     if not text:
         return ""
+    text = unicodedata.normalize("NFC", text)
     parts = [p for p in _PACK_SPLIT.split(text) if p is not None and p != ""]
     # Drop pure whitespace tokens; keep punct as their own tokens
     tokens: list[str] = []
