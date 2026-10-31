@@ -158,7 +158,11 @@ L3 exited **1**. Three generated SVGs passed DSL validation, but **no figure
 completed all probes**. Some answers wrapped JSON in Markdown fences, which the
 strict v2 array contract correctly marked unscorable. Other model-command
 failures appear in the raw report; its existing error truncation omits the tail
-of the Python traceback. These incomplete hit ratios are diagnostics, not
+of the Python traceback. A description-only diagnostic rerun of chart_auto.svg
+with the same settings confirmed `ValueError: answer did not complete: 'length'`;
+the 1024-token cap was retained and the unfinished answer was rejected. This
+diagnostic does not establish the exact exception for every other failed call.
+These incomplete hit ratios are diagnostics, not
 completed quality scores, and the three description failures are not completed
 zero-quality measurements. Do not claim L3 acceptance or compare model quality
 from this run. Chromium rendering/pixel equivalence was not measured here.
