@@ -1781,7 +1781,28 @@ _QUOTED_ARTICLE = re.compile(
 # (no opener/quote context: ``x"the cat"`` → ``x"cat"``).
 # ``(?![\u0300-\u036f])``: a base letter followed by a combining mark (NFD
 # ``a\u0301`` = á) is not the article ``a`` (defence in depth; callers NFC first).
-_ARTICLE_WORD = re.compile(r"\b(?:the|a|an)\b(?![\u0300-\u036f])(?!\.\w) *", re.I)
+# Capital ``A`` is an article only at a sentence start (text start / after a
+# newline, ``. ! ?`` / closing ``) ]`` (optionally + closing quote) + space,
+# an opening bracket/quote, or an em/en dash) and only before
+# ``space + word``.  A label right after a word (``Plan A`` / ``vitamin A`` /
+# ``Type A``) and ``A4`` / ``A/B`` / initials ``J. A. Smith`` are kept.
+# Lowercase ``a`` and ``the`` / ``an`` (any case) are unchanged.
+# Next word that makes a sentence-initial ``A`` a symbol, not an article
+# (``A is the key`` / ``A and B`` / ``"A or B"``): copulas, auxiliaries,
+# conjunctions, common verbs, ``-ed`` forms (``A said`` / ``A tired man`` both
+# keep ``A``: keeping an article is harmless, dropping a symbol is not).
+_A_SYMBOL_NEXT = (
+    "is|was|are|were|be|been|has|had|have|will|would|can|could|shall|should|"
+    "may|might|must|does|did|do|and|or|nor|but|vs|versus|then|than|to|of|in|on|"
+    "said|says|told|tells|asked|asks|wins|won|gets|got|goes|went|knows|knew|"
+    "thinks|thought|wants|wanted|\\w+ed"
+)
+_ARTICLE_WORD = re.compile(
+    r"(?:\b(?:(?i:the|an)|a)\b(?![\u0300-\u036f])(?!\.\w)"
+    r"|(?:^|(?<=[.!?)\]] )|(?<=[.!?][\"')\]] )|(?<=[(\[{\"'\u2014\u2013]))A(?= +\w)(?! +(?:" + _A_SYMBOL_NEXT + r")\b))"
+    r" *",
+    re.M,
+)
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
 
