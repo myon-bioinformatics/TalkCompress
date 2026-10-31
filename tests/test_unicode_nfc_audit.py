@@ -48,3 +48,18 @@ def test_shorthand_suggest_keeps_accented_words():
     longs2 = {d["long"] for d in S.suggest_hereafter(_nfd("café latte now. café latte again."))}
     assert "café latte" in longs2
     assert not any("_" in x for x in {d["long"] for d in S.suggest_hereafter("a_b c_d. a_b c_d.")})
+
+
+def test_zh_de_phrase_latin_word_edges():
+    assert T.apply_zh_de_phrases("thank you very much") == "多谢"
+    for t in ("éthank you very much", "thank you very muché", "thank you very muchñ", _nfd("thank you very muché")):
+        assert T.apply_zh_de_phrases(t) == unicodedata.normalize("NFC", t)
+    assert T.apply_zh_de_phrases("thank you very much́") == "thank you very much́"
+    assert T.apply_zh_de_phrases("ḁthank you very much") == "ḁthank you very much"
+
+
+def test_relative_que_accented_left_edge():
+    assert T.apply_relative_que("the book which eats") == "the book que eats"
+    assert T.apply_relative_que("the bookéwhich eats") == "the bookéwhich eats"
+    assert T.apply_relative_que("the bookḁwhich eats") == "the bookḁwhich eats"
+    assert T.apply_relative_que(_nfd("the booké") + "which eats") == _nfd("the booké") + "which eats"

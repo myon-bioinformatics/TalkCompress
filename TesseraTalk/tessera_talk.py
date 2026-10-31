@@ -1443,6 +1443,8 @@ _MODAL_TAIL_RE = re.compile(
     r"wouldn't|couldn't|shouldn't|mustn't|mightn't|shan't)|'ll|'d)$",
     re.IGNORECASE,
 )
+# Latin letters incl. accented and combining marks (NFD) for word edges.
+_LATIN_CH = "A-Za-z0-9\u00C0-\u024F\u1E00-\u1EFF\u0300-\u036F"
 _NEXT_WORD_LOOKAHEAD = r"(?!\s+[A-Za-z])"
 # Common English bare verbs. A have-ending possession row (I had → tive) must
 # not fire before "to <verb>" (obligation: I had to go) nor before a bare verb
@@ -1565,7 +1567,7 @@ def _apply_phrase_pairs(
             if _MODAL_TAIL_RE.search(phrase):
                 aux_guard += _NEXT_WORD_LOOKAHEAD
             pat = re.compile(
-                rf"(?<![A-Za-z0-9]){re.escape(phrase)}(?![A-Za-z0-9]){going_guard}{aux_guard}",
+                rf"(?<![{_LATIN_CH}]){re.escape(phrase)}(?![{_LATIN_CH}]){going_guard}{aux_guard}",
                 re.IGNORECASE,
             )
 
