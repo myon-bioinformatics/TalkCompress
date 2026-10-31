@@ -138,6 +138,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
+from shared.romance_gate import apply_outside_romance, substitute_with_romance_context  # noqa: E402
 from shared.lex_policy import (  # noqa: E402
     apply_etymon_align,
     apply_spelled_numbers,
@@ -1934,7 +1935,15 @@ def normalize_quotes(text: str) -> str:
 
 
 def strip_articles(text: str) -> str:
-    """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only."""
+    """Drop unquoted ``the`` / ``a`` / ``an``; quoted forms keep the inner word only.
+
+    es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
+    chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
+    """
+    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_en)
+
+
+def _strip_articles_en(text: str) -> str:
     text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
 
@@ -2195,7 +2204,8 @@ def drop_3sg_after_inventory_pronoun(text: str) -> str:
         mid = full[len(subj) : mid_end]  # includes spaces + optional adv
         return f"{subj}{mid}{_en_verb_base_from_3sg(verb)}"
 
-    return _AFTER_INV_PRON_VERB.sub(_sub, text or "")
+    # ``s'il vous plaît`` → ``s'he vous``: ``vous`` is not an EN 3sg verb.
+    return apply_outside_romance(text or "", lambda t: _AFTER_INV_PRON_VERB.sub(_sub, t))
 
 
 def restore_protected(text: str, restores: list[str]) -> str:
@@ -2248,10 +2258,12 @@ def compress(
         out = apply_counters(out)
     if not keep_articles:
         out = strip_articles(out)
-    for pat, repl in _SUBS:
-        out = pat.sub(repl, out)
-    # Pronoun inventory already folded → drop redundant EN 3sg -s (原型)
-    out = drop_3sg_after_inventory_pronoun(out).replace('<<YOUOBJ>>', 'you')
+    # Keep every pivot's full-text regex context, while carrying pre-pivot
+    # Romance protection forward to the English-only 3sg fold.
+    out = substitute_with_romance_context(
+        out, _SUBS,
+        lambda part, protected: part if protected else drop_3sg_after_inventory_pronoun(part),
+    ).replace('<<YOUOBJ>>', 'you')
     out = _DIGIT_FW.sub(lambda m: chr(ord(m.group(0)) - 0xFEE0), out)
     if hex_nums:
         out = apply_hex_nums(out, prefix=hex_prefix)

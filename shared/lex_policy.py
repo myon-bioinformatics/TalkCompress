@@ -20,8 +20,10 @@ from typing import Any
 
 # Also support direct CLI execution with shared/ on sys.path.
 if __package__:
+    from .romance_gate import apply_outside_romance
     from .unicode_boundary import mark_pattern
 else:
+    from romance_gate import apply_outside_romance
     from unicode_boundary import mark_pattern
 
 # Preserve the existing kana/CJK and symbol substring policy.
@@ -392,7 +394,12 @@ def apply_spelled_numbers(text: str) -> str:
 
     C (ShorthandEdge) owns this pass. Handles ``three``→``3``,
     ``twenty-one`` / ``twenty one``→``21``, ``a hundred`` / ``one hundred``→``100``.
+    es / pt / fr sentences are skipped (French ``four`` = oven, not 4).
     """
+    return apply_outside_romance(text, _spelled_numbers_en)
+
+
+def _spelled_numbers_en(text: str) -> str:
     out = text
     out = _A_ONE_HUNDRED.sub("100", out)
     out = _A_ONE_THOUSAND.sub("1000", out)

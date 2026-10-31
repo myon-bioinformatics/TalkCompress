@@ -135,10 +135,18 @@ def test_multiword_subs_not_shadowed_by_earlier_word_rules():
                 break
     assert not bad, bad
     # every phrase-grammar literal must survive to its own rewrite (not pre-eaten by _SUBS)
+    import ast
     import inspect
 
-    src = inspect.getsource(m.compress)
-    assert src.index("apply_phrase_grammar") < src.index("for pat, repl in _SUBS")
+    calls = [node for node in ast.walk(ast.parse(inspect.getsource(m.compress)))
+             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name)]
+    phrase_calls = [node for node in calls if node.func.id == "apply_phrase_grammar"]
+    pivot_calls = [node for node in calls if node.func.id == "substitute_with_romance_context"]
+    assert len(phrase_calls) == len(pivot_calls) == 1
+    pivot = pivot_calls[0]
+    assert len(pivot.args) >= 2 and isinstance(pivot.args[1], ast.Name)
+    assert pivot.args[1].id == "_SUBS"
+    assert phrase_calls[0].lineno < pivot.lineno
 
 
 def test_protect_join_cheapest():
