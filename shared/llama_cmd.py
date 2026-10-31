@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 
 try:
@@ -66,7 +67,13 @@ def ask_llama(prompt: str, url: str = DEFAULT_URL, timeout: int = 300) -> str:
 def main() -> int:
     prompt = sys.stdin.read()
     url = os.environ.get("LLAMA_URL", DEFAULT_URL)
-    sys.stdout.write(ask_llama(prompt, url))
+    timeout = int(os.environ.get("LLAMA_TIMEOUT", "300"))  # long answers on CPU can exceed 5 minutes
+    try:
+        answer = ask_llama(prompt, url, timeout=timeout)
+    except urllib.error.URLError as exc:  # server not running or not reachable: a measurement failure
+        sys.stderr.write(f"llama-server unreachable: {exc.reason}\n")
+        return 2
+    sys.stdout.write(answer)
     sys.stdout.write("\n")
     return 0
 
