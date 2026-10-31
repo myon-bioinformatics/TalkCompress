@@ -37,7 +37,7 @@ _spec.loader.exec_module(mz)
         ('line\n"the cat"', 'line\n"cat"'),
         ('he said "the cat"', 'he said "cat"'),
         ('I said "x" the end', 'I said "x" end'),
-        ('x"the cat"', 'x" cat"'),  # glued straight quote: open/close ambiguous, left as is
+        ('x"the cat"', 'x"cat"'),  # article+space dropped independently of the opener
         ('"a" b', "a b"),  # quoted article keeps inner word
         ("(the.x)", "(the.x)"),
         ("(theory)", "(theory)"),
