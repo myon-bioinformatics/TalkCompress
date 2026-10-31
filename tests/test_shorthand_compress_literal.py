@@ -65,3 +65,30 @@ def test_main_in_process_keeps_single_newline(monkeypatch, capsys) -> None:
     assert capsys.readouterr().out == "hello\n"
     assert main(["compress", "--no-ledger", "--text", "hello"]) == 0
     assert capsys.readouterr().out == "hello\n"
+
+
+def test_nonascii_key_is_word_bounded() -> None:
+    sess = Session({"señor": "Sr", "確認します": "確"})
+    out = compress("señor y señora, señores; 確認しますね", session=sess, ledger=False)
+    assert out == "Sr y señora, señores; 確ね"
+    # NFD mark after the key must not expose a bare match
+    assert compress("señore\u0301", session=sess, ledger=False) == "señore\u0301"
+
+
+def test_nonascii_short_is_literal() -> None:
+    sess = Session({"café": r"\1é"})
+    assert compress("un café", session=sess, ledger=False) == r"un \1é"
+
+
+def test_main_expand_keeps_single_newline(monkeypatch, capsys) -> None:
+    import io
+
+    from shorthand_edge import main
+
+    monkeypatch.setattr(sys, "stdin", io.StringIO("brb\n"))
+    assert main(["expand"]) == 0
+    out = capsys.readouterr().out
+    assert out.endswith("\n") and not out.endswith("\n\n")
+    assert main(["expand", "--text", "brb"]) == 0
+    out = capsys.readouterr().out
+    assert out.endswith("\n") and not out.endswith("\n\n")

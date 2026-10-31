@@ -368,7 +368,8 @@ def _apply_map(text: str, m: dict[str, str]) -> str:
         if not long:
             continue
         if re.search(r"[^\x00-\x7f]", long) or not long.isascii():
-            out = out.replace(long, short)
+            # Latin edges word-bounded like expand (señor ∌ señora); kana/CJK stay substrings.
+            out = re.sub(nonascii_word_pattern(long), lambda _m, _s=short: _s, out)
             continue
         pat = re.compile(_ascii_phrase_pattern(long), re.IGNORECASE)
         # literal replacement: a short such as ``C:\new`` or ``\g<0>`` is not a template
@@ -561,7 +562,8 @@ def main(argv: list[str] | None = None) -> int:
         # compress now keeps the input's trailing newline; do not double it
         print(out, end="" if out.endswith("\n") else "\n")
     else:
-        print(expand(text, session=sess))
+        out = expand(text, session=sess)
+        print(out, end="" if out.endswith("\n") else "\n")
     if args.export_lexicon:
         sess.export_lexicon_to(args.export_lexicon)
     return 0
