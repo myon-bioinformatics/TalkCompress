@@ -496,6 +496,9 @@ _LATIN_EXT_A = re.compile(r"[\u0100-\u024F]")
 # no +1 for these in the class-s fallback.
 _O200K_MERGED_EXT = "\u0131\u0130\u011f\u011e\u015f\u015e\u0111\u0110"
 _LATIN_EXT_SPLIT = re.compile(r"[^\W\d_" + _O200K_MERGED_EXT + r"]")
+# Vietnamese syllable: tone letters U+1EA0–U+1EF9 only (not transliteration ḥ ṣ ẓ / ā ī),
+# plus ASCII and the Vietnamese-only Latin letters đ ă ơ ư ĩ ũ and Latin-1 accents.
+_VI_SYLLABLE = re.compile(r"[a-z\u00C0-\u00FF\u0111\u0103\u01A1\u01B0\u0129\u0169]*[\u1EA0-\u1EF9][a-z\u00C0-\u00FF\u0111\u0103\u01A1\u01B0\u0129\u0169\u1EA0-\u1EF9]*", re.IGNORECASE)
 _COMBINING_RE = re.compile(r"[\u0300-\u036F]")
 _CALIB: dict | None = None
 
@@ -522,6 +525,10 @@ def _fallback_cost(w: str, len_table: dict, suffixes: dict | None = None, floor:
     """Cost of a word in no table: calibrated per (class, length) plus a suffix delta
     (e.g. Romance futures ``-rei``/``-ré`` split off), else the legacy ceil(len/4) rule."""
     k = f"{_wclass(w)}{len(w)}"
+    if k[0] == "v" and _VI_SYLLABLE.fullmatch(w):
+        # Vietnamese syllables (tones in U+1E00–U+1EFF) are mostly a single o200k token
+        # (" tiếng" " Việt" " người" = 1): the old per-char +1 overestimated them.
+        return max(1, (len(w) + 5) // 6)
     if k in len_table:
         if len(w) < 5:
             return len_table[k]
@@ -617,6 +624,9 @@ def estimate_tokens(text: str) -> int:
         if kind in ("w", "o"):
             # a combining mark left after NFC is its own byte-level token in o200k
             n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
+            if (m.start() == 0 or s[m.start() - 1] != " ") and _VI_SYLLABLE.fullmatch(p):
+                # without a leading space o200k splits a Vietnamese syllable ("biết" = 2, " biết" = 1)
+                n += 1
         elif kind == "k":
             if m.start() == 0 or s[m.start() - 1] == " ":
                 # o200k merges the preceding space only into some CJK tokens
