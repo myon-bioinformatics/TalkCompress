@@ -15,6 +15,7 @@ import json
 import re
 import unicodedata
 import sys
+import unicodedata
 from pathlib import Path
 
 _ROOT = Path(__file__).resolve().parents[1]
@@ -408,7 +409,8 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
     inv: dict[str, str] = {}
     for long, short in sorted(m.items(), key=lambda kv: len(kv[0])):
         inv[short] = long
-    out = text
+    # NFC: an NFD accent (Př = P + r + U+030C) must not expose a bare short (Pr).
+    out = unicodedata.normalize("NFC", text)
     for short, long in sorted(inv.items(), key=lambda kv: len(kv[0]), reverse=True):
         if not short:
             continue
