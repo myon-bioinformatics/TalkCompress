@@ -1880,8 +1880,9 @@ _INT_RE = re.compile(r"\b(\d+)\b")
 # Unquoted EN articles. Quoted ``"the"`` / ``'the'`` keep the inner word (quotes dropped).
 # Straight quotes: "the" / 'the'. Smart quotes: “the” / ‘the’.
 _QUOTED_ARTICLE = _ci_compile(
-    r"""(['"])(the|a|an)\1"""
-    r"""|[\u201c\u2018](the|a|an)[\u201d\u2019]""",
+    # Capital ``"A"`` stays quoted: a letter/grade label like ``"B"`` (not the article).
+    r"""(['"])(the|an|(?-i:a))\1"""
+    r"""|[\u201c\u2018](the|an|(?-i:a))[\u201d\u2019]""",
     re.I,
 )
 # Article + its trailing half-width spaces as one independent replacement
