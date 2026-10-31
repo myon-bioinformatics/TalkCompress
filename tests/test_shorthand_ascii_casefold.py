@@ -17,3 +17,11 @@ def test_apply_map_keeps_ascii_case_insensitivity():
 def test_expand_ignores_turkish_i_variants():
     assert expand("ımo, İMO") == "ımo, İMO"
     assert expand("IMO, imo") == "in my opinion, in my opinion"
+
+
+def test_suggest_hereafter_keeps_dotted_capital_i_word_whole():
+    from ShorthandEdge.shorthand_edge import suggest_hereafter
+
+    longs = [d["long"] for d in suggest_hereafter("İstanbul güzel. İstanbul güzel.")]
+    assert "i\u0307stanbul güzel" in longs
+    assert not any(p.startswith("i stanbul") or "stanbul i" in p for p in longs)
