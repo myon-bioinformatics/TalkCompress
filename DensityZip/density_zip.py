@@ -425,7 +425,8 @@ def _write_output(text: str, args: argparse.Namespace) -> None:
             text if text.endswith("\n") else text + "\n", encoding="utf-8"
         )
     else:
-        print(text)
+        # Match --out: preserve existing trailing newlines without adding another.
+        print(text, end="" if text.endswith("\n") else "\n")
 
 
 def _resolve_zip_key(args: argparse.Namespace) -> str | None:
