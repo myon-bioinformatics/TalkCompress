@@ -379,7 +379,9 @@ _UTTERANCE_ONLY: frozenset[str] = frozenset({"see you"})
 
 def _ascii_phrase_pattern(long: str) -> str:
     """Word-bounded pattern so 'see you' does not match inside 'see your'."""
-    pat = re.escape(long)
+    # (?a:) keeps IGNORECASE ASCII-only inside the phrase: Turkish ı/İ, ſ and
+    # the Kelvin sign must not fold onto i/s/k (opınıon ≠ opinion).
+    pat = f"(?a:{re.escape(long)})"
     if re.match(r"\w", long):
         pat = r"(?<![\w'’])" + pat
     if re.search(r"\w$", long):
@@ -391,7 +393,7 @@ def _ascii_phrase_pattern(long: str) -> str:
 
 def _word_bounded(short: str) -> str:
     """Escape *short*; word-char edges must not touch other word chars."""
-    pat = re.escape(short)
+    pat = f"(?a:{re.escape(short)})"  # ASCII-only IGNORECASE: ımo ≠ imo
     if re.match(r"\w", short):
         pat = r"(?<![\w'’])" + pat
     if re.search(r"\w$", short):
