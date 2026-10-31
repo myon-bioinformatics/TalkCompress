@@ -1,0 +1,18 @@
+{
+  "model_metadata_name": "qwen2.5-0.5b-instruct",
+  "model_sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db",
+  "gguf_file_type": 15,
+  "quantization": "Q4_K_M",
+  "llama_cpp_commit": "5047748f114564fcf271e6a648f60e2d2eae6264",
+  "server_settings": {
+    "context": 8192,
+    "threads": 4
+  },
+  "groups": 1,
+  "peers": 2,
+  "rounds": 4,
+  "seed": 42,
+  "report_sha256": "0f7c048a6613b1b2f1212ce3fbfa0af0c49543f9370c80791ab417ddf57e5aec",
+  "meaning_restoration": "not_run_no_agreement",
+  "weight_origin": "Pre-existing local file; remote download provenance not independently established."
+}

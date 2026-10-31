@@ -140,10 +140,48 @@ class Client:
             self.calls.append(log)
 
 
+def phrase_candidates(training: list[dict]) -> list[str]:
+    """Training-only repeated word spans; no held-out values or automatic adoption."""
+    counts: dict[str, int] = {}
+    for case in training:
+        words = case['text'].split()
+        seen = set()
+        for start in range(len(words)):
+            for size in range(1, 6):
+                phrase = ' '.join(words[start:start + size]).strip('.,;')
+                if 4 <= len(phrase) <= 100 and phrase.casefold() in case['text'].casefold():
+                    seen.add(phrase)
+        for phrase in seen:
+            counts[phrase] = counts.get(phrase, 0) + 1
+    return sorted((p for p, n in counts.items() if n >= 2),
+                  key=lambda p: (-counts[p], -len(p), p))[:40]
+
+
+def validate_vote(vote: dict, mapping: list[dict]) -> list[dict]:
+    """A malformed or vague veto never becomes approval. Rule indices are zero-based."""
+    if type(vote.get('accept')) is not bool or not isinstance(vote.get('reason'), str) or not vote['reason'].strip():
+        raise ValueError('vote needs boolean accept and nonempty reason')
+    issues = vote.get('issues')
+    if not isinstance(issues, list):
+        raise ValueError('vote needs issues array')
+    if vote['accept'] and issues:
+        raise ValueError('approval must have no issues')
+    if not vote['accept'] and not issues:
+        raise ValueError('rejection must identify a rule and concrete reason')
+    for issue in issues:
+        if (not isinstance(issue, dict) or type(issue.get('rule_index')) is not int
+                or not 0 <= issue['rule_index'] < len(mapping)
+                or issue.get('category') not in {'meaning', 'ambiguity', 'collision', 'decodability'}
+                or not isinstance(issue.get('reason'), str) or not issue['reason'].strip()):
+            raise ValueError('issue needs valid rule_index, category and concrete reason')
+    return issues
+
+
 def negotiate(client: Client, training: list[dict], peers: int, rounds: int, group_id: int = 0) -> dict:
     """The proposer sees training only; critics can veto the frozen mapping."""
     feedback = []
     transcripts = []
+    candidates = phrase_candidates(training)
     for round_no in range(rounds):
         prompt = (f'Negotiation group {group_id}. You are the sender. Invent 1 to 8 short opaque codes for repeated phrases '
                   'in the training messages. Each long form must be 4..100 characters after whitespace normalization, '
@@ -151,34 +189,78 @@ def negotiate(client: Client, training: list[dict], peers: int, rounds: int, gro
                   'Preserve exact meanings, including negation and conditions. '
                   'Codes must be 1..6 ASCII letters/digits, start with a letter, and not existing words. '
                   'Return {"mapping":[{"long":"observed phrase","short":"code"}]}. '
-                  'Do not invent or change task values.\nTraining messages:\n' +
+                  'Do not invent or change task values. You may select exact long forms from these training-only candidates; '
+                  'you still choose the codes and peers may reject any proposal.\nCandidates:\n' +
+                  json.dumps(candidates) + '\nTraining messages:\n' +
                   '\n'.join(x['text'] for x in training) + '\nPeer feedback:\n' + json.dumps(feedback))
-        proposal = client.ask('sender-proposal', prompt, 512)
+        try:
+            proposal = client.ask('sender-proposal', prompt, 512)
+        except Exception as error:
+            feedback = [{'stage': 'proposal_output', 'reason': str(error)}]
+            transcripts.append({'round': round_no, 'failure_stage': 'proposal_output', 'error': repr(error)})
+            continue
         try:
             mapping = validate_mapping(proposal, training)
         except ValueError as error:
-            feedback = [str(error)]; transcripts.append({'round': round_no, 'proposal': proposal, 'validation_error': str(error)})
+            feedback = [{'stage': 'proposal_validation', 'proposal': proposal, 'reason': str(error)}]
+            transcripts.append({'round': round_no, 'failure_stage': 'proposal_validation', 'proposal': proposal, 'validation_error': str(error)})
             continue
         feedback = []
         votes = []
         for peer in range(peers):
             focus = ['negation and condition meaning', 'code collisions, ambiguity and decodability',
                      'action and service identity', 'numeric counts and retry limits'][peer % 4]
-            vote = client.ask(f'peer-{peer}-critique',
+            try:
+                vote = client.ask(f'peer-{peer}-critique',
                 f'Negotiation group {group_id}, receiver peer {peer}. Audit focus: {focus}. '
                 'You are an independent receiver negotiating a shared codebook. '
                 'Check whether the proposed codes preserve exact phrase meaning and avoid ambiguity. '
-                'Return {"accept":true or false,"reason":"brief critique"}. '
+                'Codes are opaque labels: their spelling need not resemble the phrase. '
+                'Decode by exact lookup in the shared book, preserving surrounding words. '
+                'Return {"accept":true or false,"reason":"overall explanation","issues":[]}. '
+                'For rejection, issues must be nonempty, each with zero-based rule_index, '
+                'category (meaning, ambiguity, collision, decodability), and reason describing '
+                'the specific misreading or collision for that rule. Approval requires issues=[]. '
                 'Approve only if you can decode every code using this proposal.\nProposal:\n' +
-                json.dumps(mapping) + '\nTraining messages:\n' + '\n'.join(x['text'] for x in training), 160)
-            accepted = vote.get('accept') is True and isinstance(vote.get('reason'), str)
-            votes.append({'peer': peer, 'accepted': accepted, 'vote': vote})
-            if not accepted:
-                feedback.append(str(vote.get('reason', 'invalid vote'))[:500])
+                json.dumps(mapping) + '\nTraining messages:\n' + '\n'.join(x['text'] for x in training), 384)
+            except Exception as error:
+                votes.append({'peer': peer, 'accepted': False, 'failure_stage': 'peer_output', 'error': repr(error)})
+                feedback.append({'stage': 'peer_output', 'peer': peer, 'mapping': mapping, 'reason': str(error)})
+                continue
+            try:
+                issues = validate_vote(vote, mapping)
+                accepted = vote['accept']
+                stage = None if accepted else 'peer_semantic_rejection'
+            except ValueError as error:
+                accepted, issues, stage = False, [], 'peer_vote_contract'
+                feedback.append({'stage': stage, 'peer': peer, 'mapping': mapping,
+                                 'vote': vote, 'reason': str(error)})
+            votes.append({'peer': peer, 'accepted': accepted, 'vote': vote, 'failure_stage': stage})
+            if stage == 'peer_semantic_rejection':
+                feedback.append({'stage': stage, 'peer': peer, 'mapping': mapping, 'issues': issues})
         transcripts.append({'round': round_no, 'mapping': mapping, 'votes': votes})
         if all(x['accepted'] for x in votes):
             return {'agreed': True, 'mapping': mapping, 'transcripts': transcripts}
-    return {'agreed': False, 'mapping': [], 'transcripts': transcripts}
+    return {'agreed': False, 'mapping': [], 'transcripts': transcripts,
+            'failure_counts': failure_counts(transcripts)}
+
+
+def failure_counts(transcripts: list[dict]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for turn in transcripts:
+        for item in [turn, *turn.get('votes', [])]:
+            stage = item.get('failure_stage')
+            if stage:
+                counts[stage] = counts.get(stage, 0) + 1
+    return counts
+
+
+def negotiation_cost(client: Client, start: int, end: int) -> dict:
+    calls = client.calls[start:end]
+    return {'negotiation_calls': len(calls), 'negotiation_content_tokens': sum(
+        client.tokens(m['content']) for call in calls for m in call['request']['messages']) + sum(
+        client.tokens(call.get('response', {}).get('choices', [{}])[0].get('message', {}).get('content') or '')
+        for call in calls)}
 
 
 def receiver_prompt(message: str, mapping: list[dict[str, str]]) -> str:
@@ -211,11 +293,17 @@ def experiment(client: Client, *, groups: int = 2, peers: int = 2, rounds: int =
             ledger.declare(rule['long'], rule['short'])
         entry = {'group': group, 'rulebook': ledger.export_rules(), **agreement, 'book_sha256': hashlib.sha256(book.encode()).hexdigest(), 'cases': []}
         report['groups'].append(entry)
+        entry['receiver_evaluation_status'] = 'not_run_no_agreement'
+        try:
+            entry.update(negotiation_cost(client, call_start, len(client.calls)))
+        except Exception as error:
+            entry.update(negotiation_calls=len(client.calls) - call_start,
+                         negotiation_content_tokens=None, token_accounting_error=repr(error))
         if not agreement['agreed']:
             entry['status'] = 'no_agreement'
             continue
-        negotiation_end = len(client.calls)
         entry['status'] = 'completed'
+        entry['receiver_evaluation_status'] = 'completed'
         entry['book_tokens'] = client.tokens(book)
         for case in heldout:
             compressed = encode(case['text'], agreement['mapping'])
@@ -235,25 +323,31 @@ def experiment(client: Client, *, groups: int = 2, peers: int = 2, rounds: int =
                     result['status'] = 'completed' if result['valid'] else 'unknown_or_invalid'
                 except Exception as error:
                     result.update(status='model_error', error=repr(error), valid=False, success=False, field_errors=sorted(FIELDS))
+                call = client.calls[-1]
+                completion = call.get('response', {}).get('choices', [{}])[0].get('message', {}).get('content') or ''
+                result['completion_content_tokens'] = client.tokens(completion)
                 entry['cases'].append(result)
-        entry['negotiation_calls'] = negotiation_end - call_start
-        entry['negotiation_content_tokens'] = sum(
-            client.tokens(m['content']) for call in client.calls[call_start:negotiation_end]
-            for m in call['request']['messages']) + sum(
-            client.tokens(call.get('response', {}).get('choices', [{}])[0].get('message', {}).get('content') or '')
-            for call in client.calls[call_start:negotiation_end])
         entry['summary'] = {}
         for arm in ['raw', 'shared', 'unshared']:
             values = [x for x in entry['cases'] if x['arm'] == arm]
             entry['summary'][arm] = {'successes': sum(x['success'] for x in values), 'total': len(values),
                 'invalid_or_error': sum(not x['valid'] for x in values),
                 'message_tokens': sum(x['message_tokens'] for x in values),
-                'prompt_content_tokens': sum(x['prompt_tokens'] for x in values)}
+                'prompt_content_tokens': sum(x['prompt_tokens'] for x in values),
+                'completion_content_tokens': sum(x['completion_content_tokens'] for x in values)}
+            summary = entry['summary'][arm]
+            summary['success_rate'] = summary['successes'] / summary['total']
+            summary['total_content_tokens_with_negotiation'] = (
+                summary['prompt_content_tokens'] + summary['completion_content_tokens'] + entry['negotiation_content_tokens']
+                if entry['negotiation_content_tokens'] is not None else None)
         raw, shared = entry['summary']['raw'], entry['summary']['shared']
         entry['wire_tokens_with_one_book'] = shared['message_tokens'] + entry['book_tokens']
-        entry['wire_tokens_with_book_and_negotiation'] = entry['wire_tokens_with_one_book'] + entry['negotiation_content_tokens']
-        entry['negotiation_and_dictionary_net_saving'] = raw['message_tokens'] - entry['wire_tokens_with_book_and_negotiation']
+        entry['wire_tokens_with_book_and_negotiation'] = (entry['wire_tokens_with_one_book'] + entry['negotiation_content_tokens']
+            if entry['negotiation_content_tokens'] is not None else None)
+        entry['negotiation_and_dictionary_net_saving'] = (raw['message_tokens'] - entry['wire_tokens_with_book_and_negotiation']
+            if entry['wire_tokens_with_book_and_negotiation'] is not None else None)
         entry['positive_evidence'] = (shared['successes'] == shared['total'] and raw['successes'] == raw['total']
+            and entry['negotiation_and_dictionary_net_saving'] is not None
             and entry['negotiation_and_dictionary_net_saving'] > 0
             and shared['successes'] > entry['summary']['unshared']['successes'])
     report['calls'] = client.calls

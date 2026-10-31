@@ -64,7 +64,7 @@ class ScriptedClient:
         if role == 'sender-proposal':
             return {'mapping': [{'long': 'For service', 'short': 'q1'}]}
         if 'critique' in role:
-            return {'accept': not self.reject, 'reason': 'fixture vote'}
+            return {'accept': not self.reject, 'reason': 'fixture vote', 'issues': ([{'rule_index': 0, 'category': 'ambiguity', 'reason': 'fixture specific misreading'}] if self.reject else [])}
         self.receiver_prompts.append(prompt)
         return {'unknown': True}
 
@@ -93,6 +93,10 @@ def test_control_arms_frozen_rulebook_and_cost_accounting():
     assert group['wire_tokens_with_book_and_negotiation'] > group['summary']['shared']['message_tokens']
     assert group['negotiation_and_dictionary_net_saving'] < 0
     assert group['positive_evidence'] is False
+    for summary in group['summary'].values():
+        assert summary['total_content_tokens_with_negotiation'] == (
+            summary['prompt_content_tokens'] + summary['completion_content_tokens'] + group['negotiation_content_tokens'])
+        assert summary['success_rate'] == 0
     assert result['emergent_language_claim'] is False
     for case, prompt in zip(group['cases'], client.receiver_prompts):
         if case['arm'] == 'unshared':
@@ -104,7 +108,9 @@ def test_negotiation_errors_are_not_reported_as_success():
         def ask(self, *args, **kwargs):
             raise ValueError('incomplete model output')
     result = experiment(Broken(), groups=1)
-    assert result['groups'][0]['status'] == 'negotiation_error'
+    assert result['groups'][0]['status'] == 'no_agreement'
+    assert result['groups'][0]['failure_counts'] == {'proposal_output': 2}
+    assert result['groups'][0]['receiver_evaluation_status'] == 'not_run_no_agreement'
     assert result['calls'] == []
 
 
@@ -147,3 +153,85 @@ def test_proposer_gets_same_length_limit_as_validator_and_precise_feedback():
         validate_mapping({'mapping': [{'long': 'x' * 101, 'short': 'q1'}]}, corpus()[0])
     with pytest.raises(ValueError, match='must occur in training'):
         validate_mapping({'mapping': [{'long': 'unseen phrase', 'short': 'q1'}]}, corpus()[0])
+
+
+def test_candidates_are_repeated_training_only_spans():
+    from Zipilogue.dialogue_lab import phrase_candidates
+    training, _ = corpus()
+    candidates = phrase_candidates(training)
+    assert candidates == phrase_candidates(training)
+    assert candidates and len(candidates) <= 40
+    for phrase in candidates:
+        assert sum(phrase.casefold() in c['text'].casefold() for c in training) >= 2
+        validate_mapping({'mapping': [{'long': phrase, 'short': 'z99'}]}, training)
+
+
+@pytest.mark.parametrize('vote', [
+    {'accept': False, 'reason': 'ambiguous', 'issues': []},
+    {'accept': True, 'reason': 'yes'},
+    {'accept': 'true', 'reason': 'yes', 'issues': []},
+    {'accept': False, 'reason': 'bad', 'issues': [{'rule_index': True, 'category': 'meaning', 'reason': 'x'}]},
+    {'accept': False, 'reason': 'bad', 'issues': [{'rule_index': 1, 'category': 'meaning', 'reason': 'x'}]},
+    {'accept': True, 'reason': 'yes', 'issues': [{'rule_index': 0, 'category': 'meaning', 'reason': 'x'}]},
+])
+def test_vote_contract_rejects_unlocalized_or_contradictory_feedback(vote):
+    from Zipilogue.dialogue_lab import validate_vote
+    with pytest.raises(ValueError):
+        validate_vote(vote, [{'long': 'For service', 'short': 'q1'}])
+
+
+def test_formal_failure_does_not_call_peers_and_correction_gets_context():
+    class Repair(ScriptedClient):
+        def ask(self, role, prompt, max_tokens=256):
+            result = super().ask(role, prompt, max_tokens)
+            if len(self.calls) == 1:
+                return {'mapping': [{'long': 'invented phrase', 'short': 'q1'}]}
+            return result
+    client = Repair()
+    result = negotiate(client, corpus()[0], peers=2, rounds=2)
+    assert result['agreed']
+    assert [c['role'] for c in client.calls] == ['sender-proposal', 'sender-proposal', 'peer-0-critique', 'peer-1-critique']
+    prompt = client.calls[1]['request']['messages'][0]['content']
+    assert 'proposal_validation' in prompt and 'invented phrase' in prompt
+
+
+def test_vague_veto_stays_rejected_and_retains_book_in_feedback():
+    class Vague(ScriptedClient):
+        def ask(self, role, prompt, max_tokens=256):
+            result = super().ask(role, prompt, max_tokens)
+            if 'critique' in role:
+                return {'accept': False, 'reason': 'Some codes ambiguous'}
+            return result
+    client = Vague()
+    report = experiment(client, groups=1, peers=2, rounds=2)
+    group = report['groups'][0]
+    assert group['failure_counts'] == {'peer_vote_contract': 4}
+    assert group['cases'] == [] and 'summary' not in group
+    assert group['negotiation_calls'] == 6 and group['negotiation_content_tokens'] > 0
+    assert group['receiver_evaluation_status'] == 'not_run_no_agreement'
+    prompt = client.calls[3]['request']['messages'][0]['content']
+    assert 'peer_vote_contract' in prompt and 'For service' in prompt
+
+
+def test_specific_veto_feedback_identifies_rule_and_can_be_revised():
+    client = ScriptedClient(reject=True)
+    result = negotiate(client, corpus()[0], peers=1, rounds=2)
+    assert not result['agreed']
+    assert result['failure_counts'] == {'peer_semantic_rejection': 2}
+    prompt = client.calls[2]['request']['messages'][0]['content']
+    assert 'rule_index' in prompt and 'fixture specific misreading' in prompt
+
+
+def test_failed_negotiation_is_preserved_when_tokenizer_unavailable():
+    class Offline(ScriptedClient):
+        def ask(self, *args, **kwargs):
+            self.calls.append({'request': {'messages': [{'content': 'request'}]}})
+            raise OSError('offline')
+        def tokens(self, text):
+            raise OSError('tokenizer offline')
+    group = experiment(Offline(), groups=1)['groups'][0]
+    assert group['status'] == 'no_agreement'
+    assert group['failure_counts'] == {'proposal_output': 2}
+    assert group['negotiation_content_tokens'] is None
+    assert 'token_accounting_error' in group
+    assert group['cases'] == []

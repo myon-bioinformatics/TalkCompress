@@ -1,0 +1,23 @@
+{
+  "kind": "saved_transcript_diagnosis",
+  "live_evidence": false,
+  "sources": [
+    {
+      "path": "qwen25-1p5b-rounds4.json",
+      "classification_counts": {
+        "proposal_unobserved_phrase": 1,
+        "peer_unlocalized_rejection": 3
+      },
+      "receiver_evaluation": "not_run_no_agreement",
+      "verified_semantic_defects": null
+    },
+    {
+      "path": "minicpm5-nonthinking-v2-rounds4.json",
+      "classification_counts": {
+        "proposal_length": 4
+      },
+      "receiver_evaluation": "not_run_no_agreement",
+      "verified_semantic_defects": null
+    }
+  ]
+}
