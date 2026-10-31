@@ -11,6 +11,7 @@ import hashlib
 import json
 import re
 import time
+import unicodedata
 import urllib.request
 from pathlib import Path
 
@@ -44,12 +45,28 @@ def corpus() -> tuple[list[dict], list[dict]]:
     return cases[:8], cases[8:]
 
 
+def _fold_alt(phrase: str) -> str:
+    """Escape *phrase*; ASCII phrases get ASCII-only IGNORECASE.
+
+    Unicode re.I folds Turkish İ/ı, long s ſ and the Kelvin sign K onto
+    i/s/k, so ``kiss`` would match ``KİSS`` / ``kıss`` (and the casefold
+    lookup then misses).  Non-ASCII phrases keep Unicode case folding.
+    """
+    esc = re.escape(phrase)
+    return f'(?a:{esc})' if phrase.isascii() else esc
+
+
+def _code_pattern(code: str) -> str:
+    """Word-bounded (Unicode \\w edges) ASCII-only case-insensitive code match."""
+    return r'(?<!\w)' + _fold_alt(code) + r'(?!\w)'
+
+
 def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]]:
     """Reject collisions, unobserved phrases and cascading codes."""
     values = payload.get('mapping')
     if not isinstance(values, list) or not 1 <= len(values) <= 8:
         raise ValueError('mapping must contain 1..8 entries')
-    observed = '\n'.join(x['text'] for x in training).casefold()
+    observed = unicodedata.normalize('NFC', '\n'.join(x['text'] for x in training)).casefold()
     result = []
     longs: set[str] = set()
     shorts: set[str] = set()
@@ -59,7 +76,7 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
         long, short = item['long'], item['short']
         if not isinstance(long, str) or not isinstance(short, str):
             raise ValueError('rules must be strings')
-        long = ' '.join(long.split())
+        long = ' '.join(unicodedata.normalize('NFC', long).split())
         if not 4 <= len(long) <= 100:
             raise ValueError('long form must be 4..100 characters after whitespace normalization')
         if long.casefold() not in observed:
@@ -68,23 +85,31 @@ def validate_mapping(payload: dict, training: list[dict]) -> list[dict[str, str]
             raise ValueError('short form must be a shorter 1..6 character code')
         if long.casefold() in longs or short.casefold() in shorts:
             raise ValueError('duplicate rule')
-        if re.search(r'(?<!\w)' + re.escape(short) + r'(?!\w)', observed, re.I):
+        if re.search(_code_pattern(short), observed, re.I):
             raise ValueError('code collides with observed vocabulary')
         longs.add(long.casefold()); shorts.add(short.casefold())
         result.append({'long': long, 'short': short})
     for rule in result:
-        if any(re.search(r'(?<!\w)' + re.escape(code) + r'(?!\w)', rule['long'], re.I) for code in shorts):
+        if any(re.search(_code_pattern(code), rule['long'], re.I) for code in shorts):
             raise ValueError('code appears inside a long form')
     return result
 
 
 def encode(text: str, mapping: list[dict[str, str]]) -> str:
-    """One-pass longest replacement, never re-encode newly inserted codes."""
+    """One-pass longest replacement, never re-encode newly inserted codes.
+
+    The result is always NFC-normalized, even when ``mapping`` is empty or no
+    rule matches, so NFD input never leaks out undecomposed.
+    """
+    # NFD の入力で「cafe」が「café」の基底文字だけに当たらないよう NFC に揃える。
+    text = unicodedata.normalize('NFC', text)
     if not mapping:
         return text
-    lookup = {r['long'].casefold(): r['short'] for r in mapping}
-    pattern = r'(?<!\w)(?:' + '|'.join(re.escape(x) for x in sorted(lookup, key=len, reverse=True)) + r')(?!\w)'
-    return re.sub(pattern, lambda m: lookup[m.group().casefold()], text, flags=re.I)
+    lookup = {unicodedata.normalize('NFC', r['long']).casefold(): r['short'] for r in mapping}
+    pattern = r'(?<!\w)(?:' + '|'.join(_fold_alt(x) for x in sorted(lookup, key=len, reverse=True)) + r')(?!\w)'
+    # İ/ı/ſ/K never fold onto an ASCII long form (see _fold_alt); the .get
+    # fallback keeps any other re.I-vs-casefold mismatch from raising KeyError.
+    return re.sub(pattern, lambda m: lookup.get(m.group().casefold(), m.group()), text, flags=re.I)
 
 
 def valid_task(value: object) -> bool:

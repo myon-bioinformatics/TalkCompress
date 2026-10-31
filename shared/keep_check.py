@@ -25,6 +25,7 @@ import argparse
 import json
 import re
 import sys
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -36,7 +37,7 @@ ISSUE_RE = re.compile(r"(?<![\w&#])#\d+\b")
 NUMBER_RE = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?!\w|\.\d)")
 
 NEGATION_RE = re.compile(
-    r"\b(?:not|no|never|cannot|without|n't)\b|\b\w+n't\b|ない|ません|なし|禁止|不要",
+    r"\b(?:not|no|never|cannot|without)\b|\b\w*n['\u2019\u02bc\uff07]t\b|ない|ません|なし|禁止|不要",
     re.IGNORECASE,
 )
 CONDITION_RE = re.compile(
@@ -95,6 +96,8 @@ def contains_exact(text: str, item: str, kind: str = "id") -> bool:
 
 def count_items(text: str) -> dict[str, int]:
     """Count negation and condition occurrences in ``text``."""
+    # NFD の結合文字は \w ではないため、no\u0301 が "no" と数えられないよう NFC にそろえる
+    text = unicodedata.normalize("NFC", text)
     return {
         "negation": len(NEGATION_RE.findall(text)),
         "condition": len(CONDITION_RE.findall(text)),

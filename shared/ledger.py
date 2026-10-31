@@ -51,6 +51,31 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+# Also support direct CLI execution with shared/ on sys.path.
+if __package__:
+    from .unicode_boundary import mark_pattern
+else:
+    from unicode_boundary import mark_pattern
+
+# Preserve the existing kana/CJK and symbol substring policy.
+_LATIN_EDGE_CH = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
+
+
+def nonascii_word_pattern(src: str) -> str:
+    """Bound letter-like edges by words and all Unicode mark categories."""
+    pat = re.escape(src)
+    if re.match(_LATIN_EDGE_CH, src):
+        pat = rf"(?<!{_LATIN_EDGE_CH})(?<!{mark_pattern()}){pat}"
+    if re.search(rf"{_LATIN_EDGE_CH}$", src):
+        pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{mark_pattern()})"
+    return pat
+
+
+def _ascii_ci(word: str) -> str:
+    """Escape *word*; for ASCII words keep IGNORECASE ASCII-only (ı/İ/ſ/K ≠ i/s/k)."""
+    return f"(?a:{re.escape(word)})" if word.isascii() else re.escape(word)
+
+
 _ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_LEDGER_PATH = _ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
 
@@ -875,8 +900,8 @@ def _word_present(text: str, word: str) -> bool:
     if not word:
         return False
     if word.isascii() and all(ch.isascii() for ch in word):
-        return re.search(rf"(?i)\b{re.escape(word)}\b", text) is not None
-    return word in text
+        return re.search(rf"(?i)\b{_ascii_ci(word)}\b", text) is not None
+    return re.search(nonascii_word_pattern(word), text) is not None
 
 
 def sql_tech_context(text: str, *, extra_near: list[str] | None = None) -> bool:
@@ -928,7 +953,7 @@ def _ambiguity_skip(
     if src.isascii() and all(ch.isascii() for ch in src):
         tmp = re.sub(rf"(?i)\b{re.escape(src)}\b", " ", tmp, count=1)
     else:
-        tmp = tmp.replace(src, " ", 1)
+        tmp = re.sub(nonascii_word_pattern(src), " ", tmp, count=1)
     if _word_present(tmp, dst):
         return True
     return False
@@ -955,10 +980,10 @@ def _skip_convention(text: str, convention: dict[str, Any]) -> bool:
 
 
 def _replace_src(text: str, src: str, dst: str) -> str:
-    """ASCII word-boundary replace; non-ASCII plain replace."""
+    """ASCII word-boundary replace; non-ASCII Latin edges bounded, CJK plain."""
     if src.isascii() and all(ch.isascii() for ch in src):
-        return re.sub(rf"(?i)\b{re.escape(src)}\b", dst, text)
-    return text.replace(src, dst)
+        return re.sub(rf"(?i)\b{_ascii_ci(src)}\b", dst, text)
+    return re.sub(nonascii_word_pattern(src), lambda _m: dst, text)
 
 
 _THAT_IS_APPOSITIVE = re.compile(r"(?:(?<=[,(;—] )|(?<=[(—]))that is(?=[,:])", re.I)

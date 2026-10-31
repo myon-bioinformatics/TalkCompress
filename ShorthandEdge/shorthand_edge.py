@@ -13,7 +13,9 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import unicodedata
 import sys
+import unicodedata
 from pathlib import Path
 
 _ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +28,7 @@ from shared.lex_policy import (  # noqa: E402
     apply_spelled_numbers,
     apply_unique_readings,
     emoji_default_map,
+    nonascii_word_pattern,
     strip_fillers,
 )
 
@@ -378,13 +381,25 @@ _UTTERANCE_ONLY: frozenset[str] = frozenset({"see you"})
 
 def _ascii_phrase_pattern(long: str) -> str:
     """Word-bounded pattern so 'see you' does not match inside 'see your'."""
-    pat = re.escape(long)
+    # (?a:) keeps IGNORECASE ASCII-only inside the phrase: Turkish ı/İ, ſ and
+    # the Kelvin sign must not fold onto i/s/k (opınıon ≠ opinion).
+    pat = f"(?a:{re.escape(long)})"
     if re.match(r"\w", long):
         pat = r"(?<![\w'’])" + pat
     if re.search(r"\w$", long):
         pat = pat + r"(?![\w'’])"
     if long.lower() in _UTTERANCE_ONLY:
         pat = r"(?<![\w'’] )" + pat
+    return pat
+
+
+def _word_bounded(short: str) -> str:
+    """Escape *short*; word-char edges must not touch other word chars."""
+    pat = f"(?a:{re.escape(short)})"  # ASCII-only IGNORECASE: ımo ≠ imo
+    if re.match(r"\w", short):
+        pat = r"(?<![\w'’])" + pat
+    if re.search(r"\w$", short):
+        pat = pat + r"(?![\w'’])"
     return pat
 
 
@@ -397,16 +412,19 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
     inv: dict[str, str] = {}
     for long, short in sorted(m.items(), key=lambda kv: len(kv[0])):
         inv[short] = long
-    out = text
+    # NFC: an NFD accent (Př = P + r + U+030C) must not expose a bare short (Pr).
+    out = unicodedata.normalize("NFC", text)
     for short, long in sorted(inv.items(), key=lambda kv: len(kv[0]), reverse=True):
         if not short:
             continue
         if re.search(r"[^\x00-\x7f]", short) or not short.isascii():
-            out = out.replace(short, long)
+            # Latin edges are word-bounded (séc ∌ sécheresse); kana/CJK stay substrings.
+            out = re.sub(nonascii_word_pattern(short), lambda _m, _l=long: _l, out)
         else:
-            out = out.replace(short, long)
+            pat = _word_bounded(short)
+            out = re.sub(pat, lambda _m, _l=long: _l, out)
             if short.lower() != short:
-                out = re.sub(re.escape(short), long, out, flags=re.IGNORECASE)
+                out = re.sub(pat, lambda _m, _l=long: _l, out, flags=re.IGNORECASE)
     return out
 
 
@@ -424,7 +442,12 @@ def suggest_hereafter(text: str, *, min_count: int = 2) -> list[dict[str, str | 
     words = re.findall(r"[A-Za-z0-9']+|[぀-ヿ㐀-鿿]{2,}", text)
     # Also scan raw lowercased sliding windows of 2-3 space-separated tokens
     lowered = text.lower()
-    latin_tokens = re.findall(r"[a-z0-9']+", lowered)
+    # Combining marks stay in the token: "İ".lower() is i + U+0307, which NFC
+    # cannot recompose, so İstanbul must not split into "i stanbul".
+    latin_tokens = re.findall(
+        r"(?:[^\W_\u3040-\u30ff\u3400-\u9fff]|[\u0300-\u036f]|')+",
+        unicodedata.normalize("NFC", lowered),
+    )
     candidates: Counter[str] = Counter()
     for n in (2, 3, 4):
         for i in range(len(latin_tokens) - n + 1):

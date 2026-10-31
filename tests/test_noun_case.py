@@ -194,3 +194,29 @@ def test_standalone_digit_and_unicode_punct_neighbours():
     assert nc.standalone("3dog", 1, 4)
     assert nc.standalone("—dog—", 1, 4)
     assert not nc.standalone("édog", 1, 4)
+
+
+def test_standalone_rejects_word_cut_before_combining_mark():
+    import unicodedata
+
+    nfd = unicodedata.normalize("NFD", "the café is")
+    assert nfd[4:8] == "cafe"
+    assert not nc.standalone(nfd, 4, 8)
+    assert nc.standalone("the cafe is", 4, 8)
+    # 結合文字が左側にある場合（é の直後に続く語）も切れた語として扱う
+    glued = unicodedata.normalize("NFD", "é") + "x y"
+    assert not nc.standalone(glued, 2, 3)
+    assert nc.standalone(glued, 4, 5)
+
+
+def test_standalone_rejects_spacing_and_enclosing_marks():
+    # Mc (U+093E) / Me (U+20DD) are combining too, not just Mn.
+    assert not nc.standalone("a dog\u093e x", 2, 5)
+    assert not nc.standalone("a dog\u20dd x", 2, 5)
+    assert not nc.standalone("a \u093edog x", 3, 6)
+
+
+def test_mark_c_sharp_s_growth_keeps_surroundings():
+    text = "der fuß ist da, the dog"
+    spans = [(4, 7), (20, 23)]
+    assert nc.mark(text, "C", spans) == "der FUSS ist da, the DOG"

@@ -23,8 +23,19 @@ _DECLARE_RE = re.compile(
     r"^(?:rule:\s*(.+?)\s*=>\s*(.+)|::\s*(.+?)\s*=\s*(.+))\s*$",
     re.IGNORECASE,
 )
-_TOKEN_RE = re.compile(r"[A-Za-z0-9_\u3040-\u30ff\u3400-\u9fff]+|[^\s]", re.UNICODE)
-_WORD_RE = re.compile(r"[A-Za-z0-9_\u3040-\u30ff\u3400-\u9fff]+", re.UNICODE)
+_WORD_RE = re.compile(r"\w+")
+# Word chars that need a boundary (kana/CJK are written without spaces).
+_SPACED_WORD = r"[^\W\u3040-\u30ff\u3400-\u9fff]"
+
+
+def _bounded(phrase: str) -> str:
+    """Escape *phrase*, guarding edges that are spaced-script word chars."""
+    body = re.escape(phrase)
+    if re.match(_SPACED_WORD, phrase):
+        body = rf"(?<!{_SPACED_WORD})" + body
+    if re.match(_SPACED_WORD, phrase[-1:]):
+        body += rf"(?!{_SPACED_WORD})"
+    return body
 
 
 @dataclass
@@ -388,7 +399,7 @@ class RuleBook:
         out = text
         for rule in ordered:
             # case-insensitive replace of the long phrase as a whole span
-            pattern = re.compile(re.escape(rule.long), re.IGNORECASE)
+            pattern = re.compile(_bounded(rule.long), re.IGNORECASE)
             out = pattern.sub(rule.short, out)
         return out
 
@@ -400,7 +411,7 @@ class RuleBook:
         out = text
         for rule in ordered:
             # word-boundary-ish: short as whole token
-            pattern = re.compile(rf"(?<!\w){re.escape(rule.short)}(?!\w)")
+            pattern = re.compile(_bounded(rule.short))
             out = pattern.sub(rule.long, out)
         return out
 
