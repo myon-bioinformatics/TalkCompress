@@ -26,7 +26,7 @@ def test_mixed_text_only_romance_sentence_protected():
 
 @pytest.mark.parametrize("src", ["A Maria come.", "Veo a Juan.", "A Pedro le gusta."])
 def test_spanish_personal_a_without_cues_kept(src):
-    # #122: 文頭 A＋名前は A-Maria で保護され、実際の復元経路 expand で元に戻る。
+    # #122: 文頭 A＋名前は A\u2011Maria（U+2011）で保護され、実際の復元経路 expand で元に戻る。
     from MorphoZip.morpho_zip import expand
     assert expand(compress(src)) == src
 
@@ -36,7 +36,7 @@ def test_spanish_personal_a_without_cues_kept(src):
     [
         ("A dog ran.", "dog ran."),
         ("The dog ran. A dog ran.", "dog ran. dog ran."),
-        ("A Ford is fast.", "A-Ford is fast."),  # #122: 英語 A＋大文字語はハイフン保護
+        ("A Ford is fast.", "A\u2011Ford is fast."),  # #122: 英語 A＋大文字語はハイフン保護
         ("I have a cat.", "I have cat."),
     ],
 )
@@ -65,9 +65,9 @@ def test_personal_a_supports_unicode_capital_and_titlecase_names(name, form):
     ('"a" Veo a Łukasz.', 'a Veo a Łukasz.'),
     ('"a" "a" Veo a ǅuro.', 'a a Veo a ǅuro.'),
     ('Veo a Łukasz. "a" A Maria come.', 'Veo a Łukasz. a A Maria come.'),
-    ('I met a Łukasz.', 'I met a-Łukasz.'),
+    ('I met a Łukasz.', 'I met a\u2011Łukasz.'),
     ('Veo a łukasz.', 'Veo łukasz.'),
-    ('A Maria come. I have a cat.', 'A-Maria come. I have cat.'),
+    ('A Maria come. I have a cat.', 'A\u2011Maria come. I have cat.'),
 ])
 def test_personal_a_offsets_survive_quotes_and_respect_sentence_cues(source, want):
     from MorphoZip.morpho_zip import strip_articles

@@ -6,15 +6,15 @@ import pytest
 from MorphoZip.morpho_zip import compress, expand, restore_a_hyphen, strip_articles
 
 HYPHEN = [
-    ("A Maria come.", "A-Maria come."),  # 文頭
-    ("She said hi. A Maria came.", "She said hi. A-Maria came."),  # 文中の文頭
-    ("I met a John yesterday.", "I met a-John yesterday."),  # 文中（英語）
-    ("It was a Tesla.", "It was a-Tesla."),  # 文末
-    ("A Boy Named Sue.", "A-Boy Named Sue."),
-    ("(A Maria come.)", "(A-Maria come.)"),  # 括弧
-    ("[A Maria come.]", "[A-Maria come.]"),
-    ('"A Maria" come.', '"A-Maria" come.'),  # straight 引用符
-    ("I met a Émile there.", "I met a-Émile there."),  # 非 ASCII 大文字
+    ("A Maria come.", "A\u2011Maria come."),  # 文頭
+    ("She said hi. A Maria came.", "She said hi. A\u2011Maria came."),  # 文中の文頭
+    ("I met a John yesterday.", "I met a\u2011John yesterday."),  # 文中（英語）
+    ("It was a Tesla.", "It was a\u2011Tesla."),  # 文末
+    ("A Boy Named Sue.", "A\u2011Boy Named Sue."),
+    ("(A Maria come.)", "(A\u2011Maria come.)"),  # 括弧
+    ("[A Maria come.]", "[A\u2011Maria come.]"),
+    ('"A Maria" come.', '"A\u2011Maria" come.'),  # straight 引用符
+    ("I met a Émile there.", "I met a\u2011Émile there."),  # 非 ASCII 大文字
 ]
 
 KEEP = [
@@ -28,10 +28,10 @@ KEEP = [
     "A, B, and C.",  # 列挙
 ]
 
-# A- の既存形（大文字始まりも含む・複数形も）は復元で分割しない。
+# 利用者が書いた ASCII ハイフンの A-/a- 形は、compress でも expand でも変わらない。
 A_FORMS = ["A-list", "A-League", "A-Team", "A-Teams", "A-Level", "A-Levels", "A-Bombs",
-           "A-OK", "A-Z", "A-Rod", "A-Side", "A-Wing", "A-ha"]
-# A 以外の単一文字＋ハイフンの既存形は、そもそも規則の対象外で不変。
+           "A-OK", "A-Z", "A-Rod", "A-Side", "A-Wing", "A-ha", "A-Class", "A-Train",
+           "A-Line", "A-Plus", "A-Maria", "a-priori", "a-La"]
 OTHER_FORMS = ["e-mail", "E-mail", "B-boy", "C-section", "D-day", "X-ray", "T-shirt", "U-turn", "F-15"]
 WHITELIST = A_FORMS + OTHER_FORMS
 
@@ -44,14 +44,14 @@ def test_hyphen_and_roundtrip(src, want):
 
 def test_curly_quotes_via_compress():
     out = compress("\u201cA Maria\u201d come.")
-    assert "A-Maria" in out
+    assert "A\u2011Maria" in out
     assert "A Maria" in restore_a_hyphen(out)
 
 
 @pytest.mark.parametrize("src", KEEP)
 def test_out_of_scope_untouched(src):
     out = strip_articles(src)
-    assert "-" not in out.replace(src, "") or out == src
+    assert "\u2011" not in out
     assert restore_a_hyphen(out) == out
 
 
@@ -60,6 +60,8 @@ def test_whitelist_not_split(form):
     s = f"See the {form} now."
     assert restore_a_hyphen(s) == s
     assert form in compress(s)
+    if form in A_FORMS:  # expand の既存の短縮語展開（U→you 等）は本 PR の対象外
+        assert expand(compress(s)) == compress(s)
 
 
 @pytest.mark.parametrize(("src", "want"), HYPHEN)
@@ -73,14 +75,14 @@ def test_nfd_rerun(src, want):
 def test_end_to_end_expand(src, want):
     # 実際の復元経路: compress → expand
     out = compress(src)
-    assert "-" in out
+    assert "\u2011" in out
     assert expand(out) == src
 
 
 def test_quoted_article_offset():
     # 引用符付き "a" のマスクで offset がずれても、正しい a にハイフンが付く。
-    assert strip_articles('"a" I met a Canadian.') == "a I met a-Canadian."
-    assert strip_articles('"the" and "a" so I met a Canadian.') == "the and a so I met a-Canadian."
+    assert strip_articles('"a" I met a Canadian.') == "a I met a\u2011Canadian."
+    assert strip_articles('"the" and "a" so I met a Canadian.') == "the and a so I met a\u2011Canadian."
 
 
 def test_all_caps_word_branch():
@@ -91,19 +93,73 @@ def test_all_caps_word_branch():
 
 def test_dash_counts_as_sentence_start():
     # 英語の手がかり語がない文で、ダッシュ直後の大文字 A は文頭扱い。
-    assert strip_articles("x\u2014A Maria come.") == "x\u2014A-Maria come."
-    assert strip_articles("x\u2013A Maria come.") == "x\u2013A-Maria come."
+    assert strip_articles("x\u2014A Maria come.") == "x\u2014A\u2011Maria come."
+    assert strip_articles("x\u2013A Maria come.") == "x\u2013A\u2011Maria come."
 
 
 def test_restore_lookbehind():
-    for s in ["l'A-Maria", "l\u2019A-Maria", "x-A-Maria", "xA-Maria"]:
-        assert restore_a_hyphen(s) == s
+    for t in ["l'A\u2011Maria", "l\u2019A\u2011Maria", "x-A\u2011Maria", "xA\u2011Maria", "x\u2011A\u2011Maria"]:
+        assert restore_a_hyphen(t) == t
 
 
 def test_restore_normalizes_nfd():
-    assert restore_a_hyphen(unicodedata.normalize("NFD", "A-\u00c9mile")) == "A \u00c9mile"
+    assert restore_a_hyphen(unicodedata.normalize("NFD", "A\u2011\u00c9mile")) == "A \u00c9mile"
 
 
-def test_whitelist_case_insensitive_stem_plural():
-    assert restore_a_hyphen("the A-LIST and a-teams") == "the A-LIST and a-teams"
-    assert restore_a_hyphen("A-Sides A-Maria") == "A-Sides A Maria"
+def test_restore_only_u2011():
+    # ASCII ハイフンは利用者の文字として扱い、分割しない。
+    assert restore_a_hyphen("I drive an A-Class car. A-Maria came.") == "I drive an A-Class car. A-Maria came."
+    assert restore_a_hyphen("A\u2011Sides") == "A Sides"
+
+
+@pytest.mark.parametrize(
+    ("src", "want"),
+    [
+        ("I drive an A-Class car.", "I drive A-Class car."),
+        ("A-Maria came.", "A-Maria came."),
+        ("We met a-La Paz.", "We met a-La Paz."),
+        ("It was a-priori known.", "It was a-priori known."),
+    ],
+)
+def test_user_hyphen_roundtrip(src, want):
+    assert compress(src) == want
+    assert expand(compress(src)) == want
+
+
+def test_input_u2011_folded_to_ascii():
+    # 入力に元からある U+2011 は ASCII - に畳み、復元で空白にならない（仕様）。
+    src = "A\u2011Maria came. Use the A\u2011Class."
+    out = compress(src)
+    assert out.count("\u2011") == 0
+    assert expand(out) == out
+
+
+def test_u2011_survives_densityzip():
+    import argparse
+    import importlib.util
+    from pathlib import Path
+
+    src = "I met a John. A Maria come."
+    out = compress(src)
+    # DensityZip 経由（engine e）
+    spec = importlib.util.spec_from_file_location("dz", Path(__file__).resolve().parents[1] / "DensityZip/density_zip.py")
+    dz = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(dz)
+    assert "\u2011" in dz._run_e(src, argparse.Namespace(mode="compress"))
+    assert dz._run_e(out, argparse.Namespace(mode="expand")) == src
+
+
+def test_u2011_estimate_tokens():
+    from TesseraTalk.tessera_talk import estimate_tokens
+
+    assert estimate_tokens("A\u2011Maria come.") >= estimate_tokens("A Maria come.")
+
+
+def test_u2011_survives_morphozip_cli(capsys):
+    from MorphoZip import morpho_zip
+
+    morpho_zip.main(["--text", "I met a John. A Maria come."])
+    out = capsys.readouterr().out.strip()
+    assert "a\u2011John" in out and "A\u2011Maria" in out
+    morpho_zip.main(["--mode", "expand", "--text", out])
+    assert capsys.readouterr().out.strip() == "I met a John. A Maria come."

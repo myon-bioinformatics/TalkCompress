@@ -1913,7 +1913,8 @@ _A_SYMBOL_NEXT = (
     "thinks|thought|wants|wanted|\\w+ed"
 )
 _ARTICLE_WORD = _ci_compile(
-    r"(?:\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)"
+    # ``a-priori`` / ``a-La Paz`` / ``x-a``: part of a hyphenated word, keep.
+    r"(?:(?<![-\u2011])\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)(?![-\u2011]\w)"
     r"|(?:^|(?<=[.!?)\]] )|(?<=[.!?][\"')\]] )|(?<=[(\[{\"'\u2014\u2013]))(?-i:A)(?= +\w)(?! +(?:" + _A_SYMBOL_NEXT + r")\b))"
     r" *",
     re.I | re.M,
@@ -1976,7 +1977,8 @@ def strip_articles(text: str) -> str:
     es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
     chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
     """
-    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_cue_aware)
+    text = unicodedata.normalize("NFC", text).replace(A_JOIN, "-")
+    return apply_outside_romance(text, _strip_articles_cue_aware)
 
 
 # ``a``/``A`` + capitalised word in a sentence with no English cue at all is
@@ -2023,30 +2025,22 @@ def _strip_articles_cue_aware(text: str) -> str:
     return _strip_articles_en(text, preserve_a=frozenset(preserve_a), hyphen_a=frozenset(hyphen_a))
 
 
-# Existing ``A-`` + capital forms that ``restore_a_hyphen`` never splits.
-# Matched on the casefolded stem with an optional plural ``s`` (``A-Levels``).
-# Other letters (``e-mail``, ``X-ray``, ``B-boy`` …) never match ``_A_HYPHEN``.
-A_HYPHEN_WHITELIST = frozenset(
-    {"list", "league", "team", "level", "frame", "bomb", "ok", "z", "rod", "side", "wing"}
-)
-_A_HYPHEN = re.compile(r"(?<![\w'\u2019-])([aA])-([^\W\d_][\w'\u2019]*)")
-
-
-def _a_hyphen_whitelisted(word: str) -> bool:
-    w = word.casefold()
-    return w in A_HYPHEN_WHITELIST or (w.endswith("s") and w[:-1] in A_HYPHEN_WHITELIST)
+# compress joins the protected article with U+2011 NON-BREAKING HYPHEN
+# (``A\u2011Maria``) so user-written ASCII hyphens (``A-Class``, ``A-Maria``,
+# ``a-priori``) are never confused with it. U+2011 already present in the
+# input is folded to ASCII ``-`` by ``strip_articles`` (same reading, and the
+# marker stays unambiguous); no NFKC is applied anywhere in the repo, so the
+# marker survives every path (NFKC would turn it into U+2010).
+A_JOIN = "\u2011"
+_A_HYPHEN = re.compile(r"(?<![\w'\u2019\u2011-])([aA])\u2011(?=[^\W\d_])")
 
 
 def restore_a_hyphen(text: str) -> str:
-    """Undo ``A-Maria`` → ``A Maria`` (inverse of the hyphen protection)."""
+    """Undo ``A\u2011Maria`` → ``A Maria`` (inverse of the article protection).
 
-    def back(m: re.Match[str]) -> str:
-        word = m.group(2)
-        if _a_hyphen_whitelisted(word) or unicodedata.category(word[0]) not in {"Lu", "Lt"}:
-            return m.group(0)
-        return f"{m.group(1)} {word}"
-
-    return _A_HYPHEN.sub(back, unicodedata.normalize("NFC", text))
+    Only U+2011 is converted; ASCII ``A-Class`` / ``A-Maria`` stay untouched.
+    """
+    return _A_HYPHEN.sub(r"\1 ", unicodedata.normalize("NFC", text))
 
 
 _SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
@@ -2085,7 +2079,7 @@ def _strip_articles_en(
 
     def _article(m: re.Match[str]) -> str:
         if m.start() in hyphened:
-            return m.group(0).rstrip(" ") + "-"
+            return m.group(0).rstrip(" ") + A_JOIN
         return m.group(0) if m.start() in mapped else ""
 
     out = _ARTICLE_WORD.sub(_article, out)
