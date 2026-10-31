@@ -138,7 +138,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from shared.romance_gate import apply_outside_romance, has_english_cue, substitute_with_romance_context  # noqa: E402
+from shared.romance_gate import apply_outside_romance, substitute_with_romance_context  # noqa: E402
 from shared.unicode_boundary import mark_pattern as _mark_pattern  # noqa: E402
 
 _MARK_CLASS = _mark_pattern()
@@ -1969,29 +1969,34 @@ def strip_articles(text: str) -> str:
     es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
     chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
     """
-    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_cue_aware)
+    return _protect_one_letter_words(unicodedata.normalize("NFC", text))
 
 
-# ``a``/``A`` + capitalised word in a sentence with no English cue at all is
-# likely the Spanish / Portuguese personal ``a`` (``A Maria come.``): keep it.
-_A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +[A-ZÀ-ÖØ-Þ])")
-_A_NAME_HOLD = "\uE0A1"
+# Every one-letter word (A-Z, a-z and accented letters such as é à è) is
+# protected by replacing the following half-width space with a hyphen
+# (``Veo a Juan.`` -> ``Veo a-Juan.``, ``I saw a cat`` -> ``I-saw a-cat``).
+# One language-independent rule with no per-letter exceptions (myon decision on
+# #111); the extra tokens are accepted.
+_ONE_LETTER_WORD = re.compile(r"(?<![\w'\u2019\-])([^\W\d_]) (?=\w)")
+_ONE_LETTER_HOLD = "\uE0A1"
+_HOLD_BACK = re.compile(_ONE_LETTER_HOLD + "([\uE100-\uE17F])")
 
 
-def _strip_articles_cue_aware(text: str) -> str:
-    parts = [m.group(0) for m in _SENT_CHUNK.finditer(text) if m.group(0)]
-    held = [
-        _A_BEFORE_NAME.sub(lambda m: _A_NAME_HOLD + ("1" if m.group(1) == "A" else "0"), p)
-        if not has_english_cue(p) else p
-        for p in parts
-    ]
-    if held == parts:
-        return _strip_articles_en(text)
-    out = _strip_articles_en("".join(held))
-    return out.replace(_A_NAME_HOLD + "1", "A").replace(_A_NAME_HOLD + "0", "a")
+def _protect_one_letter_words(text: str) -> str:
+    # ASCII 文字は英語用の規則（冠詞除去・大文字1文字の規則など）に食われないよう
+    # 私用領域文字で退避し、最後にハイフン付きで戻す。アクセント付き文字は英語規則の
+    # 対象外で、romance gate の判定にも使うので、その場でハイフン化する。
+    def _hold(m: re.Match[str]) -> str:
+        ch = m.group(1)
+        if ch.isascii():
+            return _ONE_LETTER_HOLD + chr(0xE100 + ord(ch) - 0x40)
+        return ch + "-"
+
+    held = _ONE_LETTER_WORD.sub(_hold, text)
+    out = apply_outside_romance(held, _strip_articles_en)
+    return _HOLD_BACK.sub(lambda m: chr(ord(m.group(1)) - 0xE100 + 0x40) + "-", out)
 
 
-_SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
 
 
 def _strip_articles_en(text: str) -> str:
