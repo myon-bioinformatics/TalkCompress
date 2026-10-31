@@ -2,9 +2,26 @@
 
 Each adopted bank entry (``from`` → ``to``) is embedded in several template
 sentences; the converted sentence is handed to an AI restore command several
-times in parallel with different seeds. For complete records the restore rate
-is ``restored / trials``. ``trials`` counts completed attempts; timed-out
-attempts remain explicitly unverified, never silently omitted from a pass.
+times in parallel with different seeds. Version 4 scores only the latest
+cohort's ``restored / completed``. Complete legacy records without known
+execution uncertainty retain their historical aggregate rate. Timed-out
+attempts remain recorded, never silently omitted from a historical result.
+
+Record accounting version 4 keeps cumulative counters as historical evidence,
+not the scoring denominator. Each form has ``cohorts`` appended by each run; only the
+latest cohort's distinct targets, completed count and restored count determine
+its rate and minimum-trial gate. A complete later cohort may pass without
+claiming that earlier timeouts were resolved. Legacy records are snapshotted
+before their first v4 cohort; existing fixtures are not rewritten by reading.
+
+Each invocation records target identities (language, form, source, converted
+prompt and seed), configuration, a command digest (not potentially secret
+command text), selected forms and duplicate target count. Zero-work cohorts
+are unverified. Unselected forms retain their previous cohort. ``--run`` saves
+results before returning nonzero for an incomplete or empty invocation.
+Record-only callers may omit evaluation policy, but such cohorts cannot receive
+a verified rate or gate result. Status applies the current requested policy;
+the creation-time policy snapshot remains available for historical replay.
 
 Usage::
 
@@ -20,6 +37,9 @@ committed bank is never gated by this script.
 from __future__ import annotations
 
 import argparse
+import copy
+import hashlib
+import uuid
 import json
 import math
 import os
@@ -66,23 +86,117 @@ def sentences(data: dict, src: str, to: str) -> list[tuple[str, str]]:
     return out
 
 
-def incomplete(rec: dict) -> bool:
-    if rec.get("accounting_version", 0) >= 3:
-        return bool(rec.get("pending_trials") or rec.get("legacy_pending"))
-    return bool(rec.get("timeouts", 0))
+def _valid_cohort(current) -> bool:
+    if not isinstance(current, dict) or current.get("accounting_version") != 4 or current.get("evaluation_scope") != "latest_cohort":
+        return False
+    if not isinstance(current.get("run_id"), str) or not current["run_id"] or not isinstance(current.get("config"), dict):
+        return False
+    config = current["config"]
+    if any(not isinstance(config.get(k), str) or not re.fullmatch(r"[0-9a-f]{64}", config[k])
+           for k in ("command_sha256", "prompt_sha256")):
+        return False
+    policy = config.get("evaluation_policy")
+    if (not isinstance(policy, dict) or not {"min_trials", "thresholds", "ge100m_langs"} <= policy.keys()
+            or not _valid_policy(policy, required=True)):
+        return False
+    if config.get("normalization") != "norm-nfc-v1":
+        return False
+    targets = current.get("targets")
+    if not isinstance(targets, list):
+        return False
+    expected = current.get("expected_target_ids")
+    if (not isinstance(expected, list) or any(not isinstance(t, str) or not re.fullmatch(r"[0-9a-f]{64}", t) for t in expected)
+            or len(set(expected)) != len(expected)):
+        return False
+    ids = set()
+    counts = {"attempted": len(targets), "completed": 0, "timeouts": 0, "execution_errors": 0, "restored": 0}
+    identity_fields = ("lang", "form", "source", "converted", "seed", "prompt_sha256")
+    for target in targets:
+        if not isinstance(target, dict) or any(not isinstance(target.get(k), str) for k in identity_fields):
+            return False
+        if not re.fullmatch(r"[0-9a-f]{64}", target["prompt_sha256"]):
+            return False
+        target_id = _identity({k: target[k] for k in identity_fields})
+        if target.get("target_id") != target_id or target_id in ids:
+            return False
+        ids.add(target_id)
+        outcome = target.get("status")
+        if outcome == "completed":
+            if type(target.get("restored")) is not bool:
+                return False
+            counts["completed"] += 1
+            counts["restored"] += int(target["restored"])
+        elif outcome == "timeout":
+            counts["timeouts"] += 1
+        elif outcome == "execution_error":
+            counts["execution_errors"] += 1
+        else:
+            return False
+    if ids != set(expected):
+        return False
+    if any(type(current.get(k)) is not int or current[k] != v for k, v in counts.items()):
+        return False
+    complete = bool(targets) and counts["completed"] == len(targets)
+    return type(current.get("complete")) is bool and current["complete"] == complete
+
+
+def latest_cohort(rec: dict | None) -> dict | None:
+    if rec and rec.get("accounting_version") == 4:
+        history = rec.get("cohorts")
+        if (isinstance(history, list) and history and _valid_cohort(history[-1])
+                and all(t["lang"] == rec.get("lang") and t["form"] == rec.get("form") for t in history[-1]["targets"])):
+            return history[-1]
+    return None
+
+
+def unresolved_timeouts(rec: dict | None) -> int:
+    """Current cohort timeouts; historical counts are never cleared."""
+    current = latest_cohort(rec)
+    if current is not None:
+        return current["timeouts"]
+    if not rec:
+        return 0
+    if rec.get("accounting_version") == 4:
+        return 1  # malformed or missing current cohort is never verified
+    historical = [rec.get("timeouts", 0), rec.get("execution_errors", 0)]
+    if any(type(n) is not int or n < 0 for n in historical):
+        return 1
+    if any(historical):
+        return sum(historical)  # clearing a legacy flag is not cohort evidence
+    if (rec.get("accounting_version") == 3
+            and isinstance(rec.get("pending_trials"), list)
+            and type(rec.get("legacy_pending")) is bool):
+        return len(rec.get("pending_trials", [])) + int(bool(rec.get("legacy_pending")))
+    if rec.get("accounting_version") == 3:
+        return 1  # unknown v3 layout must not silently become a verified record
+    pending = rec.get("pending_timeouts", 0)
+    return pending if type(pending) is int and pending >= 0 else 1
 
 
 def rate(rec: dict | None) -> float | None:
-    if not rec or not rec.get("trials") or incomplete(rec):
+    current = latest_cohort(rec)
+    if rec and rec.get("accounting_version") == 4:
+        if not current or not current["complete"]:
+            return None
+        return current["restored"] / current["completed"]
+    if not rec or not rec.get("trials") or unresolved_timeouts(rec):
         return None
     return rec["restored"] / rec["trials"]
 
 
 def status(data: dict, lang: str, form: str) -> str:
-    """pass / fail / never / unverified for one (lang, form)."""
+    """pass / fail / never / unverified for this form's latest cohort."""
+    if not _valid_policy(data, required=True):
+        return "unverified"
     rec = data["records"].get(key(lang, form))
+    if rec and rec.get("accounting_version") == 4 and (rec.get("lang") != lang or rec.get("form") != form):
+        return "unverified"
+    current = latest_cohort(rec)
     r = rate(rec)
-    if r is None or rec["trials"] < data["min_trials"]:
+    trials = current["completed"] if current else (rec or {}).get("trials", 0)
+    if rec and rec.get("accounting_version") == 4 and (r is None or trials < data["min_trials"]):
+        return "unverified"
+    if r is None or trials < data["min_trials"]:
         return "never" if r == 0 else "unverified"
     if r == 0:
         return "never"
@@ -94,7 +208,12 @@ def gate_for(data: dict, scope: str):
     """Candidate gate for tense_matrix.build: scope 'lt100m' or 'all'."""
 
     def gate(form: str, lang: str) -> bool:
-        if incomplete(data["records"].get(key(lang, form), {})):
+        if not _valid_policy(data, required=True):
+            return False
+        rec = data["records"].get(key(lang, form))
+        if unresolved_timeouts(rec):
+            return False
+        if rec and rec.get("accounting_version") == 4 and status(data, lang, form) == "unverified":
             return False
         st = status(data, lang, form)
         if st == "never":
@@ -132,73 +251,127 @@ def impact(data: dict, scope: str) -> list[tuple[str, str, tuple | None, tuple |
     return out
 
 
+def _identity(value) -> str:
+    encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()
+
+
+def _valid_policy(data: dict, *, required: bool = False) -> bool:
+    minimum = data.get("min_trials")
+    if required or "min_trials" in data:
+        if type(minimum) is not int or minimum <= 0:
+            return False
+    thresholds = data.get("thresholds")
+    if required or "thresholds" in data:
+        if not isinstance(thresholds, dict) or not {"lt100m", "ge100m"} <= thresholds.keys():
+            return False
+        if any(type(x) not in (int, float) or not math.isfinite(x) or not 0 <= x <= 1
+               for x in thresholds.values()):
+            return False
+    languages = data.get("ge100m_langs")
+    if required or "ge100m_langs" in data:
+        if not isinstance(languages, list) or any(not isinstance(lang, str) for lang in languages):
+            return False
+    return True
+
+
 def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
-        entries: list[dict] | None = None, timeout: float = 120, revalidate_legacy: bool = False) -> dict:
+        entries: list[dict] | None = None, timeout: float = 120) -> dict:
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout must be finite and positive")
+    if not _valid_policy(data):
+        raise ValueError("invalid evaluation policy")
+    if not isinstance(data["templates"], list) or any(not isinstance(t, str) for t in data["templates"]):
+        raise ValueError("templates must be strings")
+    if not isinstance(data["seeds"], list) or any(type(s) not in (int, str) for s in data["seeds"]):
+        raise ValueError("seeds must be integers or strings")
     if entries is None:
         import tense_matrix as tm
-
         entries = tm.build()[0]["entries"]
-    jobs = []
+    prompt_template = PROMPT
+    config = {"only_lang": only_lang, "timeout": timeout, "workers": workers,
+              "templates": copy.deepcopy(data["templates"]), "seeds": copy.deepcopy(data["seeds"]),
+              "command_sha256": hashlib.sha256(cmd.encode("utf-8")).hexdigest(),
+              "prompt_sha256": hashlib.sha256(prompt_template.encode("utf-8")).hexdigest(),
+              "evaluation_policy": copy.deepcopy({k: data.get(k) for k in ("min_trials", "thresholds", "ge100m_langs")}),
+              "normalization": "norm-nfc-v1"}
+    run_id = str(uuid.uuid4())
+    selected = {}
+    targets = {}
+    duplicate_targets = 0
     for e in entries:
         if only_lang and e["lang"] != only_lang:
             continue
+        k = key(e["lang"], e["to"])
+        selected[k] = {"lang": e["lang"], "form": e["to"]}
         for en, cv in sentences(data, e["from"][0], e["to"]):
             for seed in data["seeds"]:
-                jobs.append((e["lang"], e["to"], en, cv, seed))
+                target = {"lang": e["lang"], "form": e["to"], "source": en,
+                          "converted": cv, "seed": str(seed),
+                          "prompt_sha256": hashlib.sha256(prompt_template.format(c=cv).encode("utf-8")).hexdigest()}
+                target_id = _identity(target)
+                if target_id in targets:
+                    duplicate_targets += 1
+                else:
+                    targets[target_id] = target
 
-    def one(j):
-        lang, to, en, cv, seed = j
-        env = dict(os.environ, ROUNDTRIP_SEED=str(seed))
+    def one(item):
+        target_id, target = item
+        env = dict(os.environ, ROUNDTRIP_SEED=str(target["seed"]))
+        result = {"target_id": target_id, **target}
         try:
-            p = subprocess.run(cmd, shell=True, input=PROMPT.format(c=cv), capture_output=True,
-                               text=True, env=env, timeout=timeout)
+            p = subprocess.run(cmd, shell=True, input=prompt_template.format(c=target["converted"]),
+                               capture_output=True, text=True, env=env, timeout=timeout)
         except subprocess.TimeoutExpired:
-            # one hung trial must not discard every other result; recorded, not scored
-            return lang, to, en, cv, seed, None
-        return lang, to, en, cv, seed, norm(p.stdout) == norm(en)
+            return {**result, "status": "timeout"}
+        except (OSError, UnicodeError) as exc:
+            return {**result, "status": "execution_error", "error_type": type(exc).__name__}
+        if p.returncode != 0:
+            return {**result, "status": "execution_error", "returncode": p.returncode}
+        return {**result, "status": "completed", "restored": norm(p.stdout) == norm(target["source"])}
 
+    expected_targets = {k: [target_id for target_id, t in targets.items() if key(t["lang"], t["form"]) == k] for k in selected}
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        results = list(ex.map(one, jobs))
-    grouped = {}
-    for lang, to, en, cv, seed, ok in results:
-        grouped.setdefault(key(lang, to), []).append((en, cv, seed, ok))
-    for k, group in grouped.items():
-        rec = data["records"].setdefault(k, {"lang": k.split(":", 1)[0],
-            "form": k.split(":", 1)[1], "trials": 0, "restored": 0, "failures": []})
-        def identity(en, cv, seed):
-            return json.dumps([en, cv, seed], ensure_ascii=False)
-        if rec.get("accounting_version", 0) < 3:
-            # Legacy counts lack identities: explicitly revalidate this matrix.
-            rec["legacy_unknown"] = bool(rec.get("timeouts", 0))
-            rec["legacy_required"] = []
-        if revalidate_legacy and rec.get("legacy_unknown"):
-            rec["legacy_unknown"] = False
-            rec["legacy_required"] = sorted({identity(en, cv, seed)
-                for en, cv, seed, _ in group}) if rec.get("timeouts", 0) else []
-        pending = set(rec.get("pending_trials", []))
-        required = set(rec.get("legacy_required", []))
-        done = set(rec.get("legacy_completed", []))
-        for en, cv, seed, ok in group:
-            slot = identity(en, cv, seed)
-            if ok is None:
-                rec["timeouts"] = rec.get("timeouts", 0) + 1
-                pending.add(slot)
-                done.discard(slot)
-                continue
-            pending.discard(slot)
-            done.add(slot)
-            rec["trials"] += 1
-            rec["restored"] += int(ok)
-            if not ok and len(rec["failures"]) < 5:
-                rec["failures"].append(cv)
-        rec["accounting_version"] = 3
-        rec["pending_trials"] = sorted(pending)
-        rec["legacy_completed"] = sorted(done & required)
-        rec["legacy_pending"] = bool(rec.get("legacy_unknown") or required - done)
+        results = list(ex.map(one, targets.items()))
+    invocation = {"accounting_version": 4, "evaluation_scope": "latest_cohort", "run_id": run_id, "config": config,
+                  "selected_forms": list(selected), "duplicate_targets": duplicate_targets,
+                  "requested": len(results) + duplicate_targets, "scheduled": len(results),
+                  "attempted": len(results), "completed": 0, "timeouts": 0, "execution_errors": 0}
+    for k, form in selected.items():
+        rec = data["records"].setdefault(k, {**form, "trials": 0, "restored": 0, "failures": []})
+        prior_attempted = rec.get("attempted", rec["trials"] + rec.get("timeouts", 0) + rec.get("execution_errors", 0))
+        if rec.get("accounting_version") != 4:
+            rec["legacy_snapshot"] = copy.deepcopy(rec)
+            rec["cohorts"] = []
+        rec["lang"] = form["lang"]
+        rec["form"] = form["form"]
+        attempts = [x for x in results if key(x["lang"], x["form"]) == k]
+        completed = sum(x["status"] == "completed" for x in attempts)
+        timeouts = sum(x["status"] == "timeout" for x in attempts)
+        errors = sum(x["status"] == "execution_error" for x in attempts)
+        restored = sum(x.get("restored", False) for x in attempts)
+        cohort = {"accounting_version": 4, "evaluation_scope": "latest_cohort", "run_id": run_id, "config": copy.deepcopy(config),
+                  "targets": attempts, "attempted": len(attempts), "completed": completed,
+                  "expected_target_ids": expected_targets[k],
+                  "timeouts": timeouts, "execution_errors": errors, "restored": restored,
+                  "complete": bool(attempts) and completed == len(attempts)}
+        rec["cohorts"].append(cohort)
+        rec["accounting_version"] = 4
+        rec["trials"] += completed
         rec["completed"] = rec["trials"]
-        rec["attempted"] = rec["trials"] + rec.get("timeouts", 0)
+        rec["restored"] += restored
+        rec["timeouts"] = rec.get("timeouts", 0) + timeouts
+        rec["execution_errors"] = rec.get("execution_errors", 0) + errors
+        rec["attempted"] = prior_attempted + len(attempts)
+        for attempt in attempts:
+            if attempt["status"] == "completed" and not attempt["restored"] and len(rec["failures"]) < 5:
+                rec["failures"].append(attempt["converted"])
+        invocation["completed"] += completed
+        invocation["timeouts"] += timeouts
+        invocation["execution_errors"] += errors
+    invocation["complete"] = bool(results) and invocation["completed"] == len(results)
+    invocation["verifiable"] = bool(selected) and all(status(data, f["lang"], f["form"]) != "unverified" for f in selected.values())
+    data.setdefault("run_history", []).append(invocation)
     return data
 
 
@@ -229,22 +402,21 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--cmd")
     ap.add_argument("--lang")
-    ap.add_argument("--revalidate-legacy", action="store_true",
-                    help="explicitly establish current matrix as baseline for unidentified legacy timeouts")
     ap.add_argument("--write-doc", action="store_true")
     ap.add_argument("--sync-required", action="store_true",
                     help="rewrite data['required'] from the current bank")
     a = ap.parse_args(argv)
     data = load()
-    has_incomplete = False
+    incomplete = False
     if a.run:
         if not a.cmd:
             ap.error("--run needs --cmd")
-        DATA_PATH.write_text(json.dumps(run(data, a.cmd, only_lang=a.lang, revalidate_legacy=a.revalidate_legacy), ensure_ascii=False, indent=2) + "\n",
+        DATA_PATH.write_text(json.dumps(run(data, a.cmd, only_lang=a.lang), ensure_ascii=False, indent=2) + "\n",
                              encoding="utf-8")
-        has_incomplete = any(incomplete(rec) for rec in data["records"].values())
-        if has_incomplete:
-            print("Round-trip results saved; timed-out attempts remain unverified.", file=sys.stderr)
+        latest = data.get("run_history", [{}])[-1]
+        incomplete = not (latest.get("complete", False) and latest.get("verifiable", False))
+        if incomplete:
+            print("Round-trip results saved; the current invocation is incomplete or empty and remains unverified.", file=sys.stderr)
     if a.sync_required:
         import tense_matrix as tm
 
@@ -262,8 +434,9 @@ def main(argv: list[str] | None = None) -> int:
     if a.impact:
         for k, src, old, new in impact(data, a.impact):
             print(f"{k}\t{src}\t{old}\t->\t{new}")
-    return 1 if has_incomplete else 0
+    return 1 if incomplete else 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
