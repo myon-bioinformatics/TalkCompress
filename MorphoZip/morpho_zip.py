@@ -1300,7 +1300,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bpara\b", re.I), "for"),  # ES purpose-for
     (_ci_compile(r"\bpour\b", re.I), "for"),  # FR
     (_ci_compile(r"\bf[uü]r\b", re.I), "for"),  # DE (4 removed: token loser)
-    (_ci_compile(r"\bcon\b", re.I), "with"),  # ES
+    # ES con→with removed: Romance con must stay; English con is never a preposition.
     (_ci_compile(r"\bavec\b", re.I), "with"),  # FR
     (_ci_compile(r"\bmit\b", re.I), "with"),  # DE
     (_ci_compile(r"\bbei\b", re.I), "@"),  # DE at/by
