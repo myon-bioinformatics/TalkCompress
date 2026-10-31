@@ -123,7 +123,7 @@ def impact(data: dict, scope: str) -> list[tuple[str, str, tuple | None, tuple |
 
 
 def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
-        entries: list[dict] | None = None) -> dict:
+        entries: list[dict] | None = None, timeout: float = 120) -> dict:
     if entries is None:
         import tense_matrix as tm
 
@@ -139,14 +139,21 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
     def one(j):
         lang, to, en, cv, seed = j
         env = dict(os.environ, ROUNDTRIP_SEED=str(seed))
-        p = subprocess.run(cmd, shell=True, input=PROMPT.format(c=cv), capture_output=True,
-                           text=True, env=env, timeout=120)
+        try:
+            p = subprocess.run(cmd, shell=True, input=PROMPT.format(c=cv), capture_output=True,
+                               text=True, env=env, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            # one hung trial must not discard every other result; recorded, not scored
+            return lang, to, en, cv, seed, None
         return lang, to, en, cv, seed, norm(p.stdout) == norm(en)
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(one, jobs))
     for lang, to, en, cv, _seed, ok in results:
         rec = data["records"].setdefault(key(lang, to), {"lang": lang, "form": to, "trials": 0, "restored": 0, "failures": []})
+        if ok is None:
+            rec["timeouts"] = rec.get("timeouts", 0) + 1
+            continue
         rec["trials"] += 1
         rec["restored"] += int(ok)
         if not ok and len(rec["failures"]) < 5:
