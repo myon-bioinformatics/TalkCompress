@@ -6,6 +6,21 @@ times in parallel with different seeds. For complete records the restore rate
 is ``restored / trials``. ``trials`` counts completed attempts; timed-out
 attempts remain explicitly unverified, never silently omitted from a pass.
 
+Record accounting (``accounting_version`` 2):
+
+* ``trials`` (= ``completed``) / ``restored`` / ``failures``: cumulative over
+  completed attempts; ``timeouts``: cumulative timed-out attempts;
+  ``attempted`` = ``completed`` + ``timeouts``.
+* ``pending_timeouts``: timed-out attempts in the *latest* ``--run`` that
+  included the form.  It is reset on each such run, so a later run whose
+  attempts all complete makes the form verifiable again (timeouts are not
+  sticky).  Legacy records without it fall back to ``timeouts``.
+
+While unresolved timeouts remain (``unresolved_timeouts(rec) > 0``) the form
+is unverified: ``rate()`` is ``None`` and ``gate_for`` rejects it.  ``--run``
+always saves results first, then exits 1 when a record touched by that run
+still has unresolved timeouts, otherwise 0.
+
 Usage::
 
     uv run python scripts/roundtrip.py --status               # per-form status counts
@@ -66,8 +81,15 @@ def sentences(data: dict, src: str, to: str) -> list[tuple[str, str]]:
     return out
 
 
+def unresolved_timeouts(rec: dict | None) -> int:
+    """Timed-out attempts of the latest run (legacy records: all timeouts)."""
+    if not rec:
+        return 0
+    return rec.get("pending_timeouts", rec.get("timeouts", 0))
+
+
 def rate(rec: dict | None) -> float | None:
-    if not rec or not rec.get("trials") or rec.get("timeouts", 0):
+    if not rec or not rec.get("trials") or unresolved_timeouts(rec):
         return None
     return rec["restored"] / rec["trials"]
 
@@ -88,7 +110,7 @@ def gate_for(data: dict, scope: str):
     """Candidate gate for tense_matrix.build: scope 'lt100m' or 'all'."""
 
     def gate(form: str, lang: str) -> bool:
-        if data["records"].get(key(lang, form), {}).get("timeouts", 0):
+        if unresolved_timeouts(data["records"].get(key(lang, form))):
             return False
         st = status(data, lang, form)
         if st == "never":
@@ -155,10 +177,16 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(one, jobs))
+    seen: set[str] = set()
     for lang, to, en, cv, _seed, ok in results:
-        rec = data["records"].setdefault(key(lang, to), {"lang": lang, "form": to, "trials": 0, "restored": 0, "failures": []})
+        k = key(lang, to)
+        rec = data["records"].setdefault(k, {"lang": lang, "form": to, "trials": 0, "restored": 0, "failures": []})
+        if k not in seen:  # pending_timeouts describes this run only
+            seen.add(k)
+            rec["pending_timeouts"] = 0
         rec["accounting_version"] = 2
         if ok is None:
+            rec["pending_timeouts"] += 1
             rec["timeouts"] = rec.get("timeouts", 0) + 1
             rec["completed"] = rec["trials"]
             rec["attempted"] = rec["trials"] + rec["timeouts"]
@@ -208,9 +236,11 @@ def main(argv: list[str] | None = None) -> int:
     if a.run:
         if not a.cmd:
             ap.error("--run needs --cmd")
+        before = json.loads(json.dumps(data["records"]))
         DATA_PATH.write_text(json.dumps(run(data, a.cmd, only_lang=a.lang), ensure_ascii=False, indent=2) + "\n",
                              encoding="utf-8")
-        incomplete = any(rec.get("timeouts", 0) for rec in data["records"].values())
+        # only records touched by this run decide the exit code
+        incomplete = any(unresolved_timeouts(rec) for k, rec in data["records"].items() if before.get(k) != rec)
         if incomplete:
             print("Round-trip results saved; timed-out attempts remain unverified.", file=sys.stderr)
     if a.sync_required:
@@ -235,4 +265,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
