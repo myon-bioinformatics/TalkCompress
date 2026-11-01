@@ -66,3 +66,20 @@ def test_emoji_cost_byte_fallback():
 
     assert _emoji_cost("\U000E0040", {}) == 4
     assert _emoji_cost("\U000E0040\U000E0041", {}) == 8
+
+
+def test_thai_window_follows_table():
+    # 一致の窓幅は表の最長語から決まる: 最長語より長い語を表に足しても 1 トークンで一致する
+    from TesseraTalk.tessera_talk import _load_calib, _thai_cost
+
+    cal = _load_calib()
+    assert cal["th_max"] == max(map(len, cal["th"])) and cal["th_sp_max"] == max(map(len, cal["th_sp"]))
+    long_word = "ก" * (cal["th_sp_max"] + 5)
+    assert _thai_cost(long_word, cal["th"] | {long_word}, False, cal["th_sp"]) == 1
+    assert _thai_cost(long_word, cal["th"], True, cal["th_sp"] | {long_word}) == 1
+    assert _thai_cost(long_word + "ไป", cal["th"] | {long_word}, False, cal["th_sp"]) == 2
+
+
+@pytest.mark.parametrize("text, o200k", [("#️⃣", 2), ("*️⃣", 2), ("a #️⃣ b", 4)])
+def test_keycap_symbol_exact(text, o200k):  # tiktoken o200k_base 実測
+    assert estimate_tokens(text) == o200k

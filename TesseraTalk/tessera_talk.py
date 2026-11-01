@@ -493,7 +493,8 @@ _PRETOKEN = re.compile(
     # sign drifts further from o200k there. Fixed ranges, not unicodedata, so the result
     # does not depend on the Python version.
     r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF\U00020000-\U000323AF])[^\W\d_])+)"
-    r"|(?P<p>[^\w\s]+)",
+    # a keycap tail (U+FE0F U+20E3) is not swallowed by the symbol run: "#️⃣" = "#" + "️⃣" = 2
+    r"|(?P<p>(?:(?!\ufe0f?\u20e3)[^\w\s])+)",
     re.IGNORECASE,
 )
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
@@ -584,6 +585,9 @@ def _load_calib() -> dict:
             c["cjk"] = frozenset(d.get("cjk_vocab", "").split())
             c["th"] = frozenset(d.get("thai_vocab", "").split())
             c["th_sp"] = frozenset(d.get("thai_space_vocab", "").split())
+            # longest-match windows follow the table, so adding a longer word just works
+            c["th_max"] = max(map(len, c["th"]), default=1)
+            c["th_sp_max"] = max(map(len, c["th_sp"]), default=1)
             c["vi_sp"] = frozenset(d.get("vi_space_vocab", "").split())
             c["emoji"] = _unpack_emoji(d.get("emoji_costs", {}))
         _CALIB = c
@@ -630,21 +634,27 @@ def _emoji_cost(run: str, table: dict) -> int:
     return n
 
 
-def _thai_cost(run: str, vocab: frozenset, space: bool, sp_vocab: frozenset) -> int:
-    """Greedy longest match against o200k's Thai tokens (≤ 17 chars; ≤ 20 with a leading space); else 1 per char.
+def _thai_cost(run: str, vocab: frozenset, space: bool, sp_vocab: frozenset,
+               max_len: int | None = None, sp_max_len: int | None = None) -> int:
+    """Greedy longest match against o200k's Thai tokens; else 1 per char. The match window is
+    the longest table entry (``max_len`` / ``sp_max_len``, computed from the table if omitted).
     After a space, a leading word o200k merges with the space is one token; otherwise
     the bare space costs its own token."""
     n = 0
     i = 0
+    if max_len is None:
+        max_len = max(map(len, vocab), default=1)
+    if sp_max_len is None:
+        sp_max_len = max(map(len, sp_vocab), default=1)
     if space:
-        for L in range(min(20, len(run)), 0, -1):
+        for L in range(min(sp_max_len, len(run)), 0, -1):
             if run[:L] in sp_vocab:
                 n, i = 1, L
                 break
         else:
             n = 1
     while i < len(run):
-        for L in range(min(17, len(run) - i), 1, -1):
+        for L in range(min(max_len, len(run) - i), 1, -1):
             if run[i:i + L] in vocab:
                 i += L
                 break
@@ -727,7 +737,7 @@ def estimate_tokens(text: str) -> int:
                 n += _cjk_cost(p, cal["cjk"])
         elif kind == "c":
             n += _thai_cost(p, cal.get("th", frozenset()), m.start() > 0 and s[m.start() - 1] == " ",
-                            cal.get("th_sp", frozenset()))
+                            cal.get("th_sp", frozenset()), cal.get("th_max"), cal.get("th_sp_max"))
         elif kind == "b":  # no vocabulary token: raw UTF-8 bytes
             n += len(p.encode("utf-8"))
         elif kind == "e":
