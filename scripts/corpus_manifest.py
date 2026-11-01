@@ -70,6 +70,10 @@ def validate_entry(e: object, idx: int = 0) -> list[str]:
         return errs
     if e["license"] not in ALLOWED_LICENSES:
         errs.append(f"{p}: license {e['license']!r} は許可リスト外（NC/ND/不明は不可）")
+    if "BY" in e["license"]:
+        a = e.get("attribution")
+        if not isinstance(a, str) or not a.strip():
+            errs.append(f"{p}: license {e['license']!r} は BY 系なので attribution（空でない文字列）が必要")
     if not CAT_RE.match(e["category"]):
         errs.append(f"{p}: category は小文字英数・_・-")
     if not LANG_RE.match(e["lang"]):
