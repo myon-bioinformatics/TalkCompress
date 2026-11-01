@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -29,10 +30,34 @@ def test_long_joiner_per_language():
     assert [r["text"] for r in en[:2]] == ["A. B.", "C."]
 
 
-def test_repo_ja_zh_long_have_no_inserted_space():
+def test_repo_long_equals_joined_medium_sentences():
+    """同梱サンプルで、medium（1文）を元記事 url ごとに言語別区切りで連結したものが long と一致する。"""
     base = cm.MANIFEST.parent / "flores200"
-    for lang in ("ja", "zh"):
-        for line in (base / f"{lang}.jsonl").read_text(encoding="utf-8").splitlines():
-            r = json.loads(line)
-            if r["tier"] == "long":
-                assert "。 " not in r["text"], r["id"]
+    for lang in fm.LANGS:
+        rows = [json.loads(x) for x in (base / f"{lang}.jsonl").read_text(encoding="utf-8").splitlines()]
+        medium = [r for r in rows if r["tier"] == "medium"]
+        long = [r for r in rows if r["tier"] == "long"]
+        groups: list[tuple[str, list[str]]] = []
+        for r in medium:
+            if groups and groups[-1][0] == r["url"]:
+                groups[-1][1].append(r["text"])
+            else:
+                groups.append((r["url"], [r["text"]]))
+        complete = groups[:-1]  # 最後の記事はサンプル末尾で切れている可能性がある
+        assert len(complete) >= 2, lang
+        sep = "" if lang in ("ja", "zh") else " "
+        for k, (url, sents) in enumerate(complete):
+            assert long[k]["url"] == url, (lang, k)
+            assert long[k]["text"] == sep.join(sents), (lang, k)
+
+
+def _license_table():
+    text = (cm.MANIFEST.parent / "LICENSES-major.md").read_text(encoding="utf-8")
+    return set(re.findall(r"^\| [^|]+ \| (https://\S+) \| ([0-9a-f]{64}) \|$", text, re.M))
+
+
+def test_license_table_matches_fetch_constants():
+    want = {(fm.FLORES_URL, fm.FLORES_SHA256)}
+    want |= {(fm.TATOEBA_URL.format(code=c), h) for c, h in fm.TATOEBA.values()}
+    assert len(want) == 1 + len(fm.LANGS)
+    assert _license_table() == want
