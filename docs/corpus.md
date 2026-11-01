@@ -101,17 +101,6 @@ uv run python scripts/corpus_fetch.py [--id X]    # 外部取得 + sha256 照合
 
 数値は必ず `update` で実測したものを入れる。手書きの数値は `check` で落ちる。
 
-### manifest.json が衝突したとき
-
-複数の PR がそれぞれ `manifest.json` にエントリを足すと、後からマージする側で衝突する。
-`update` は既存エントリの数値を書き直すだけで、**新しいエントリは足さない**（足し忘れると孤児 jsonl のエラーになる）。
-次の手順で解く（rebase・force push はしない）。
-
-1. main（または相手のブランチ）を通常のマージで取り込む。
-2. `manifest.json` の `entries` を、両方のエントリを `id` の重複なしに並べた形に手で合わせる。
-3. `uv run python scripts/corpus_manifest.py update` で数値を作り直す。
-4. `uv run python scripts/corpus_manifest.py check` が OK になるのを確かめてからコミットする。
-
 ## 6. シード（このPR）
 
 Tatoeba API（2026-11-01 取得）から ja / en / fr の短文を 11〜12 件ずつ（`sentence/<lang>.jsonl`、tier=short）。
