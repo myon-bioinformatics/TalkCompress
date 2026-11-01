@@ -6,15 +6,17 @@
 
 | カテゴリ | 内容 | 出典 / ライセンス |
 |---|---|---|
-| colloquial/{ja,en,vi,th} | Common Voice の読み上げ用文 | CC0-1.0 |
-| colloquial-tatoeba/ja | Tatoeba の日本語文（文末が口語の終助詞など） | CC BY 2.0 FR |
+| colloquial/{ja,en,vi,th} | Common Voice の読み上げ用文（各 400 件、`register: "read"`）。ja には Tatoeba の口語文 300 件（`register: "colloquial"`）も同居し、行の `source` で区別 | CC0-1.0 / CC BY 2.0 FR |
 | mojibake/{ja,vi} | Common Voice 文を latin-1/cp1252/SJIS/EUC-JP で誤読させた文と原文の対 | CC0-1.0（原文）|
-| mixed/{ja,en} | 自作テンプレート＋Unicode 絵文字＋Common Voice 文 | CC0-1.0 / Unicode License v3 / CC0-1.0 |
+| mixed/{ja,en} | 自作テンプレート＋コードポイント範囲から自作で組み立てた絵文字＋一部に Common Voice 文（`embedded_id`） | CC0-1.0 |
 
 ## 表示（Attribution）
 - Tatoeba: Sentences from Tatoeba (https://tatoeba.org), licensed under CC BY 2.0 FR (https://creativecommons.org/licenses/by/2.0/fr/). 各行の `id` は Tatoeba の文 ID で、`https://tatoeba.org/sentences/show/<id>` の寄稿者に帰属する。
-- Unicode emoji: Copyright (c) Unicode, Inc. Unicode License v3 (https://www.unicode.org/license.txt)。
 - Common Voice: CC0-1.0（表示不要）。
+
+## レコード形式
+各行は #134 の `{id,text,lang,tier,source,license,author,url}` に加え、実測の `o200k`・`bytes` と補助欄（`register`、mojibake の `orig`/`orig_id`/`kind`/`ftfy_*`、mixed の `embedded_id`）。Common Voice 行の `url` は取得元ファイル、`id` は `cv-<lang>-<本文 sha1 先頭 12 桁>`。
+カテゴリ名 `colloquial` には読み上げ文も含まれる（`register` 欄で区別）。
 
 ## 注意
 - AI が元の文に戻せるかは **未測定**。mojibake の `ftfy_exact` / `ftfy_o200k` は ftfy による機械復元の実測値。

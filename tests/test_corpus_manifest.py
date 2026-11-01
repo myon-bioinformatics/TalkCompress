@@ -11,7 +11,8 @@ import pytest
 CORPUS = pathlib.Path(__file__).parent / "fixtures" / "corpus"
 MANIFEST = json.loads((CORPUS / "manifest.json").read_text(encoding="utf-8"))
 FILES = MANIFEST["files"]
-FREE = {"CC0-1.0", "CC-BY-2.0-FR", "Unicode-3.0"}
+FREE = {"CC0-1.0", "CC-BY-2.0-FR"}
+FIELDS = {"id", "text", "lang", "tier", "source", "license", "author", "url"}
 
 
 def _rows(entry):
@@ -28,7 +29,8 @@ def test_sha_count_bytes(entry):
     p = CORPUS / entry["path"]
     assert hashlib.sha256(p.read_bytes()).hexdigest() == entry["sha256"]
     rows = _rows(entry)
-    assert len(rows) == entry["count"] >= 300
+    assert len(rows) == entry["count"]
+    assert entry["count"] >= 300
     assert all(r["bytes"] == len(r["text"].encode("utf-8")) for r in rows)
     assert sum(r["bytes"] for r in rows) == entry["bytes_total"]
     assert sum(r["o200k"] for r in rows) == entry["o200k_total"]
@@ -55,3 +57,30 @@ def test_o200k_recount(entry):
     tiktoken = pytest.importorskip("tiktoken")
     enc = tiktoken.get_encoding("o200k_base")
     assert all(len(enc.encode(r["text"])) == r["o200k"] for r in _rows(entry))
+
+
+def test_no_duplicate_entries():
+    paths = [e["path"] for e in FILES]
+    assert len(paths) == len(set(paths))
+    keys = [(e["category"], e["lang"], tuple(s["name"] for s in e["sources"])) for e in FILES]
+    assert len(keys) == len(set(keys))
+
+
+@pytest.mark.parametrize("entry", FILES, ids=lambda e: e["path"])
+def test_record_fields(entry):
+    assert entry["path"] == f"{entry['category']}/{entry['lang']}.jsonl"
+    rows = _rows(entry)
+    assert len({r["id"] for r in rows}) == len(rows)
+    for r in rows:
+        assert FIELDS <= r.keys()
+        assert r["lang"] == entry["lang"]
+        assert r["tier"] in {"short", "medium", "long"}
+        assert r["license"] in FREE
+        assert r["source"]
+        if r["source"].startswith(("common-voice:", "tatoeba:")):
+            assert r["url"]
+
+
+def test_ids_unique_across_files():
+    ids = [r["id"] for e in FILES for r in _rows(e)]
+    assert len(ids) == len(set(ids))

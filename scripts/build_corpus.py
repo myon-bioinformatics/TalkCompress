@@ -18,6 +18,7 @@ RAW = ROOT / ".cache" / "corpus_raw"
 OUT = ROOT / "tests" / "fixtures" / "corpus"
 SEED = 20261101
 N = 400
+N_TATOEBA = 300  # colloquial/ja を #134 の 1 ファイル 256KB 上限に収めるため
 enc = tiktoken.get_encoding("o200k_base")
 
 CV_BASE = "https://raw.githubusercontent.com/common-voice/common-voice/main/server/data"
@@ -25,7 +26,6 @@ SRC = {
     "cv": {"name": "Common Voice sentence-collector", "url": "https://github.com/common-voice/common-voice/tree/main/server/data", "license": "CC0-1.0", "attribution": None},
     "tatoeba": {"name": "Tatoeba jpn_sentences", "url": "https://downloads.tatoeba.org/exports/per_language/jpn/jpn_sentences.tsv.bz2", "license": "CC-BY-2.0-FR",
                 "attribution": "Sentences from Tatoeba (https://tatoeba.org), licensed under CC BY 2.0 FR. 各行の id が Tatoeba の文 ID（https://tatoeba.org/sentences/show/<id>）で、寄稿者に帰属。"},
-    "emoji": {"name": "Unicode emoji-test.txt", "url": "https://www.unicode.org/Public/emoji/latest/emoji-test.txt", "license": "Unicode-3.0", "attribution": "Copyright (c) Unicode, Inc. Unicode License v3"},
     "own": {"name": "GitHubヘルプ5bot 作成のテンプレート（scripts/build_corpus.py）", "url": None, "license": "CC0-1.0", "attribution": None},
 }
 
@@ -43,11 +43,37 @@ def m(s: str) -> dict:
     return {"o200k": len(enc.encode(s)), "bytes": len(s.encode("utf-8"))}
 
 
+def cv_row(lang: str, t: str) -> dict:
+    f = f"server/data/{lang}/sentence-collector.txt"
+    return {"id": f"cv-{lang}-{hashlib.sha1(t.encode()).hexdigest()[:12]}", "text": t, "lang": lang, "tier": "short",
+            "source": f"common-voice:{f}", "license": "CC0-1.0", "author": None,
+            "url": f"https://github.com/common-voice/common-voice/blob/main/{f}", "register": "read"}
+
+
+# 絵文字はデータファイルを使わず、コードポイントの範囲から自作で組み立てる（CC0、Unicode 由来データ不使用）
+_BASE = [chr(c) for c in list(range(0x1F600, 0x1F64F)) + list(range(0x1F680, 0x1F6C5))]
+_HANDS = [chr(c) for c in range(0x1F44A, 0x1F451)]
+_SKIN = [chr(c) for c in range(0x1F3FB, 0x1F400)]
+_ZWJ = ["\U0001F469\u200D\U0001F4BB", "\U0001F468\u200D\U0001F373", "\U0001F469\u200D\U0001F680",
+        "\U0001F468\u200D\U0001F469\u200D\U0001F467\u200D\U0001F466", "\U0001F3F3\uFE0F\u200D\U0001F308"]
+
+
+def emoji(rng: random.Random) -> str:
+    k = rng.randrange(3)
+    if k == 0:
+        return rng.choice(_BASE)
+    if k == 1:
+        return rng.choice(_HANDS) + rng.choice(_SKIN)
+    return rng.choice(_ZWJ)
+
+
 def lines(p: pathlib.Path) -> list[str]:
     return sorted({l.strip() for l in p.read_text(encoding="utf-8").splitlines() if l.strip()})
 
 
 def write(cat: str, lang: str, rows: list[dict], sources: list[str]) -> dict:
+    assert all(r["lang"] == lang for r in rows)
+    assert len({r["id"] for r in rows}) == len(rows)
     d = OUT / cat
     d.mkdir(parents=True, exist_ok=True)
     p = d / f"{lang}.jsonl"
@@ -90,15 +116,18 @@ def main() -> None:
     rng = random.Random(SEED)
     entries = []
     pools = {}
+    colloquial = {}
     for lang in ["ja", "en", "vi", "th"]:
         pools[lang] = lines(fetch(f"{CV_BASE}/{lang}/sentence-collector.txt", f"cv_{lang}.txt"))
-        rows = [{"text": s, **m(s)} for s in rng.sample(pools[lang], N)]
-        entries.append(write("colloquial", lang, rows, ["cv"]))
+        colloquial[lang] = [{**cv_row(lang, s), **m(s)} for s in rng.sample(pools[lang], N)]
     tat = bz2.decompress(fetch(SRC["tatoeba"]["url"], "jpn_sentences.tsv.bz2").read_bytes()).decode("utf-8")
     coll = re.compile(r"(よ|ね|な|ぜ|わ|さ|じゃん|っけ|ってば|かな|でしょ|だろ)[。！？!?]?$")
     tl = sorted((int(i), s) for i, _, s in (l.split("\t") for l in tat.split("\n") if l.count("\t") == 2) if coll.search(s))
-    rows = [{"id": i, "text": s, **m(s)} for i, s in rng.sample(tl, N)]
-    entries.append(write("colloquial-tatoeba", "ja", rows, ["tatoeba"]))
+    colloquial["ja"] += [{"id": f"tatoeba-{i}", "text": s, "lang": "ja", "tier": "short", "source": "tatoeba:jpn_sentences",
+                          "license": "CC-BY-2.0-FR", "author": None, "url": f"https://tatoeba.org/sentences/show/{i}",
+                          "register": "colloquial", **m(s)} for i, s in rng.sample(tl, N_TATOEBA)]
+    for lang, rows in colloquial.items():
+        entries.append(write("colloquial", lang, rows, ["cv", "tatoeba"] if lang == "ja" else ["cv"]))
     for lang in ["ja", "vi"]:
         rows = []
         for t in rng.sample(pools[lang], N):
@@ -106,20 +135,25 @@ def main() -> None:
             k = rng.choice(sorted(kinds))
             g = kinds[k]
             fx = ftfy.fix_text(g)
-            rows.append({"orig": t, "kind": k, "text": g, **m(g), "orig_o200k": len(enc.encode(t)),
+            rows.append({**cv_row(lang, t), "id": f"moji-{lang}-{len(rows):04d}", "text": g, "register": None, "orig": t, "orig_id": cv_row(lang, t)["id"], "kind": k, **m(g), "orig_o200k": len(enc.encode(t)),
                          "ftfy_exact": fx == t, "ftfy_o200k": len(enc.encode(fx))})
         entries.append(write("mojibake", lang, rows, ["cv"]))
-    em = [l.split("#")[1].strip().split(" ")[0] for l in fetch(SRC["emoji"]["url"], "emoji-test.txt").read_text(encoding="utf-8").splitlines()
-          if "; fully-qualified" in l]
     for lang, tm in TEMPLATES.items():
         rows, seen = [], set()
         while len(rows) < N:
-            s = rng.choice(tm).format(e=rng.choice(em), e2=rng.choice(em), n=rng.randint(1, 9), h=rng.randint(9, 23),
-                                      mi=f"{rng.randrange(0, 60, 5):02d}", s=rng.choice(pools[lang]))
+            base = rng.choice(pools[lang])
+            t = rng.choice(tm)
+            s = t.format(e=emoji(rng), e2=emoji(rng), n=rng.randint(1, 9), h=rng.randint(9, 23),
+                                      mi=f"{rng.randrange(0, 60, 5):02d}", s=base)
             if s not in seen:
                 seen.add(s)
-                rows.append({"text": s, **m(s)})
-        entries.append(write("mixed", lang, rows, ["own", "emoji", "cv"]))
+                own = {"id": f"mixed-{lang}-{len(rows):04d}", "text": s, "lang": lang, "tier": "short", "source": "own-template",
+                       "license": "CC0-1.0", "author": "GitHubヘルプ5bot", "url": None, "register": None, "embedded_id": None}
+                if "{s}" in t:
+                    cv = cv_row(lang, base)
+                    own |= {"source": "own-template+" + cv["source"], "url": cv["url"], "author": None, "embedded_id": cv["id"]}
+                rows.append({**own, **m(s)})
+        entries.append(write("mixed", lang, rows, ["own", "cv"]))
     man = {"generator": "scripts/build_corpus.py", "seed": SEED, "tokenizer": "o200k_base",
            "note": "AI が元の文に戻せるかは未測定。mojibake の ftfy_* は ftfy による機械復元の実測。", "files": entries}
     (OUT / "manifest.json").write_text(json.dumps(man, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
