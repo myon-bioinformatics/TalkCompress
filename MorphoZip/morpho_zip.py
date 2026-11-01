@@ -2377,7 +2377,8 @@ def compress(
     This runs after ``[[keep:...]]`` / ``protect_regexes`` spans are extracted,
     so protected spans keep U+2011 in the compressed output. Known limitation:
     a U+2011 kept inside a protected span is still turned into a space by
-    ``expand`` when it follows a lone ``a``/``A`` (e.g. ``A‑Maria``).
+    ``expand`` when it follows a lone ``a``/``A`` (e.g. ``A‑Maria``;
+    lowercase too: ``[[keep:a‑b]]`` compresses to ``a‑b`` and expands to ``a b``).
     """
     text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
