@@ -1,170 +1,208 @@
 {
-  "generator": "scripts/build_corpus.py",
-  "seed": 20261101,
-  "tokenizer": "o200k_base",
-  "note": "AI が元の文に戻せるかは未測定。mojibake の ftfy_* は ftfy による機械復元の実測。",
-  "files": [
+  "schema_version": 1,
+  "entries": [
     {
-      "path": "colloquial/ja.jsonl",
+      "id": "sentence-ja-tatoeba",
+      "category": "sentence",
+      "lang": "ja",
+      "source": "Tatoeba",
+      "url": "https://tatoeba.org/",
+      "license": "CC BY 2.0 FR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/fr/",
+      "path": "sentence/ja.jsonl",
+      "count": 311,
+      "bytes": 14910,
+      "o200k_tokens": 4082,
+      "sha256": "bf0ef5b7f3bbcb92709b5b864d27347e86a0102bce32cef8ae1f669debff8f62",
+      "retrieved_at": "2026-11-02",
+      "ai_roundtrip": "未測定",
+      "attribution": "各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと。register=colloquial の行は scripts/build_corpus.py が jpn_sentences_detailed から口語文末で抽出"
+    },
+    {
+      "id": "sentence-en-tatoeba",
+      "category": "sentence",
+      "lang": "en",
+      "source": "Tatoeba",
+      "url": "https://tatoeba.org/",
+      "license": "CC BY 2.0 FR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/fr/",
+      "path": "sentence/en.jsonl",
+      "count": 12,
+      "bytes": 547,
+      "o200k_tokens": 127,
+      "sha256": "1e02c73071ad720812df6757f837a185832b60363f0e499e4adab125f3025214",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと"
+    },
+    {
+      "id": "sentence-fr-tatoeba",
+      "category": "sentence",
+      "lang": "fr",
+      "source": "Tatoeba",
+      "url": "https://tatoeba.org/",
+      "license": "CC BY 2.0 FR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/fr/",
+      "path": "sentence/fr.jsonl",
+      "count": 11,
+      "bytes": 503,
+      "o200k_tokens": 131,
+      "sha256": "f185aabc0e0005461b9b3e81b5733b6d6d7b35fecf49f59272073474580624d5",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと"
+    },
+    {
+      "id": "colloquial-ja-common-voice",
       "category": "colloquial",
       "lang": "ja",
-      "count": 700,
-      "sha256": "4a8a54f343aaeb58e369fd213e95124ab5404e5848c38feee700e4ffc0bdc5b5",
-      "o200k_total": 10738,
-      "bytes_total": 39791,
-      "sources": [
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        },
-        {
-          "name": "Tatoeba jpn_sentences",
-          "url": "https://downloads.tatoeba.org/exports/per_language/jpn/jpn_sentences.tsv.bz2",
-          "license": "CC-BY-2.0-FR",
-          "attribution": "Sentences from Tatoeba (https://tatoeba.org), licensed under CC BY 2.0 FR. 各行の id が Tatoeba の文 ID（https://tatoeba.org/sentences/show/<id>）で、寄稿者に帰属。"
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "source": "common-voice",
+      "url": "https://github.com/common-voice/common-voice/blob/main/server/data/ja/sentence-collector.txt",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "colloquial/ja.jsonl",
+      "count": 400,
+      "bytes": 24945,
+      "o200k_tokens": 6664,
+      "sha256": "61a851942a18e355d48b400fe2e89bdff3801810769e63b98c9c7ae68378110f",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "Common Voice sentence-collector（CC0、表示不要）。読み上げ用の文で自発発話ではない（register=read）",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     },
     {
-      "path": "colloquial/en.jsonl",
+      "id": "colloquial-en-common-voice",
       "category": "colloquial",
       "lang": "en",
+      "source": "common-voice",
+      "url": "https://github.com/common-voice/common-voice/blob/main/server/data/en/sentence-collector.txt",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "colloquial/en.jsonl",
       "count": 400,
-      "sha256": "8c151798e9e11b3604fc275eb3cda01c34264bc4879e1363ce9a6ea224cd22e6",
-      "o200k_total": 4079,
-      "bytes_total": 17725,
-      "sources": [
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "bytes": 17725,
+      "o200k_tokens": 4079,
+      "sha256": "4a37fe24ad2ede57c3e90f70c887bcf94ecbf4b689b1055ad149eff86fa5ce58",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "Common Voice sentence-collector（CC0、表示不要）。読み上げ用の文で自発発話ではない（register=read）",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     },
     {
-      "path": "colloquial/vi.jsonl",
+      "id": "colloquial-vi-common-voice",
       "category": "colloquial",
       "lang": "vi",
+      "source": "common-voice",
+      "url": "https://github.com/common-voice/common-voice/blob/main/server/data/vi/sentence-collector.txt",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "colloquial/vi.jsonl",
       "count": 400,
-      "sha256": "61ff0c9350cbee8199941c9f2993b750abdad7a1e022afd0d0b80502f9bf7a45",
-      "o200k_total": 4013,
-      "bytes_total": 16638,
-      "sources": [
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "bytes": 16638,
+      "o200k_tokens": 4013,
+      "sha256": "1b44254cabb0232bfc4bf60d4ac61b7bd075458bccc1775e0bc618e636d095ef",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "Common Voice sentence-collector（CC0、表示不要）。読み上げ用の文で自発発話ではない（register=read）",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     },
     {
-      "path": "colloquial/th.jsonl",
+      "id": "colloquial-th-common-voice",
       "category": "colloquial",
       "lang": "th",
+      "source": "common-voice",
+      "url": "https://github.com/common-voice/common-voice/blob/main/server/data/th/sentence-collector.txt",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "colloquial/th.jsonl",
       "count": 400,
-      "sha256": "023b5901a4792a17b48290c33c6ac999a62eee27806e2850efe5ef4a109b7111",
-      "o200k_total": 5847,
-      "bytes_total": 39597,
-      "sources": [
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "bytes": 39597,
+      "o200k_tokens": 5847,
+      "sha256": "021f7de4c2bc4dc3b48da845002600359a42eac0dd7fc62795fcbfd4a8705343",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "Common Voice sentence-collector（CC0、表示不要）。読み上げ用の文で自発発話ではない（register=read）",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     },
     {
-      "path": "mojibake/ja.jsonl",
+      "id": "mojibake-ja-common-voice",
       "category": "mojibake",
       "lang": "ja",
+      "source": "common-voice",
+      "url": "https://github.com/common-voice/common-voice/blob/main/server/data/ja/sentence-collector.txt",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "mojibake/ja.jsonl",
       "count": 400,
-      "sha256": "14e1891c988586555c6992b774e58cc314296c5a556154c8b1d544b8dd667c71",
-      "o200k_total": 24654,
-      "bytes_total": 53367,
-      "sources": [
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "bytes": 51664,
+      "o200k_tokens": 22399,
+      "sha256": "24ab76728f66cd5af4a7066c049d6df8d7af6388fa974dc8fd17ff392dba278c",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "Common Voice の文（CC0）を latin-1/cp1252/SJIS/EUC-JP で誤読させて生成。orig が原文。AI が元の文に戻せるかは未測定",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     },
     {
-      "path": "mojibake/vi.jsonl",
+      "id": "mojibake-vi-common-voice",
       "category": "mojibake",
       "lang": "vi",
+      "source": "common-voice",
+      "url": "https://github.com/common-voice/common-voice/blob/main/server/data/vi/sentence-collector.txt",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "mojibake/vi.jsonl",
       "count": 400,
-      "sha256": "2b576dd8425362f75894521c2a1a3ed48b5debaa18bcb2351eba9cba8c0aad31",
-      "o200k_total": 14428,
-      "bytes_total": 28506,
-      "sources": [
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "bytes": 28572,
+      "o200k_tokens": 14420,
+      "sha256": "ffb7c4f579b1c6f063738fbb20d432f9bdd8b827508f1b695ff9b26dbb2cba70",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "Common Voice の文（CC0）を latin-1/cp1252/SJIS/EUC-JP で誤読させて生成。orig が原文。AI が元の文に戻せるかは未測定",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     },
     {
-      "path": "mixed/ja.jsonl",
+      "id": "mixed-ja-talkcompress-own",
       "category": "mixed",
       "lang": "ja",
+      "source": "talkcompress-own",
+      "url": "https://github.com/myon-bioinformatics/TalkCompress/blob/main/scripts/build_corpus.py",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "mixed/ja.jsonl",
       "count": 400,
-      "sha256": "ea335abfacc03cd9ce4293bf83c58dcc08fed550869587840c198f93c1357b4d",
-      "o200k_total": 9906,
-      "bytes_total": 26378,
-      "sources": [
-        {
-          "name": "GitHubヘルプ5bot 作成のテンプレート（scripts/build_corpus.py）",
-          "url": null,
-          "license": "CC0-1.0",
-          "attribution": null
-        },
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "bytes": 26451,
+      "o200k_tokens": 9945,
+      "sha256": "030d9b22de9f36544cfbfd31d2202863415508e4d6d9595cd813a1e3f772e680",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "自作テンプレート（CC0）。絵文字はコードポイント範囲から自作で組み立て。一部に Common Voice の文（CC0、embedded_id）を埋め込む",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     },
     {
-      "path": "mixed/en.jsonl",
+      "id": "mixed-en-talkcompress-own",
       "category": "mixed",
       "lang": "en",
+      "source": "talkcompress-own",
+      "url": "https://github.com/myon-bioinformatics/TalkCompress/blob/main/scripts/build_corpus.py",
+      "license": "CC0 1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "path": "mixed/en.jsonl",
       "count": 400,
-      "sha256": "270e6e384104fec892c9246af4616b96a2d0b8371f7867685de2f1f8c13528e9",
-      "o200k_total": 8750,
-      "bytes_total": 22545,
-      "sources": [
-        {
-          "name": "GitHubヘルプ5bot 作成のテンプレート（scripts/build_corpus.py）",
-          "url": null,
-          "license": "CC0-1.0",
-          "attribution": null
-        },
-        {
-          "name": "Common Voice sentence-collector",
-          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
-          "license": "CC0-1.0",
-          "attribution": null
-        }
-      ],
-      "ai_roundtrip": "未測定"
+      "bytes": 22561,
+      "o200k_tokens": 8735,
+      "sha256": "d4fc30a25f2603d5b14b263491fbd89b34a26c856a45f31e347db836d0cc0e9d",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "自作テンプレート（CC0）。絵文字はコードポイント範囲から自作で組み立て。一部に Common Voice の文（CC0、embedded_id）を埋め込む",
+      "generator": "scripts/build_corpus.py",
+      "seed": 20261101
     }
   ]
 }
