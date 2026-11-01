@@ -67,3 +67,23 @@ def test_moto_words_kept(src):
 def test_mo_word_starts_kept(src):
     # 既知の限界: 猫もうれしい のような「も+う…」も置換しない
     assert m.compress(src) == src
+
+
+@pytest.mark.parametrize("src", ["山もと", "山もと。", "山もと、川沿い", "「山もと」", "山もと 太郎"])
+def test_moto_at_end_or_before_punct_kept(src):
+    assert m.compress(src) == src
+    assert m.compress(src, aggressive_fillers=True) == src
+
+
+@pytest.mark.parametrize("src,out", [
+    ("田中もともに行く", "田中+ともに行く"),  # ともに = 一緒に。「も」+「ともに」
+    ("彼もともに", "he+ともに"),
+    ("猫もとても", "猫+とても"),
+])
+def test_tomoni_pivots(src, out):
+    assert m.compress(src) == out
+
+
+@pytest.mark.parametrize("src", ["猫もともと好き", "データもとに戻す", "本人もとより"])
+def test_moto_words_still_kept(src):
+    assert m.compress(src) == src

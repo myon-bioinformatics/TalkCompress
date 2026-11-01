@@ -124,6 +124,15 @@ def _fix_latin_run(run: str) -> str:
         # 文字を含むときだけ採用する（café…– の「é…–」→「酖」を防ぐ）。
         if len(fixed) == 1 and run[0] not in _COMMON_LEADS and not re.search("[\x80-\x9f]", run):
             continue
+        # 1 文字の結果が稀な字なら、元の 2 文字（Ç… / Ä€ など）のほうがもっともらしいので戻さない:
+        # 字形合字の titlecase（ǅ ǈ ǋ ǲ）と、記号（€ … „ ˜ など）から作られる拡張ラテンの大文字（Ā Ą Ę）。
+        # 小文字（Ä… → ą, Å¡ → š, Å‚ → ł）は戻す。
+        if len(fixed) == 1 and len(run) == 2 and (
+            unicodedata.category(fixed) == "Lt"
+            or (0x100 <= ord(fixed) < 0x250 and unicodedata.category(fixed) == "Lu"
+                and not unicodedata.category(run[1]).startswith("L"))
+        ):
+            continue
         if score < best_score:
             best, best_score = fixed, score
     return best
@@ -177,5 +186,9 @@ def clean_mojibake(text: str) -> str:
 
 
 def normalize_asr(text: str) -> str:
-    """文字化け復元 → 復元不能部の集約 → 不確実表記の統一。"""
+    """文字化け復元 → 復元不能部の集約 → 不確実表記の統一。
+
+    ASR の書き起こし（自然文）専用。コード・ログ・数式には適用しないこと
+    （`[i?]` や記号列、ラテン 2 文字の並びを書き換えるおそれがある）。
+    """
     return normalize_uncertain(clean_mojibake(text))

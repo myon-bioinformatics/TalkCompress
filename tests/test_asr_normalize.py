@@ -124,3 +124,23 @@ def test_nul_and_private_use_preserved(s):
 def test_normalize_asr_pipeline():
     bad = "[Talk Compress?] " + "café".encode().decode("cp1252") + " \ufffd\ufffd"
     assert a.normalize_asr(bad) == "TalkCompress(?) café \ufffd"
+
+
+@pytest.mark.parametrize("s", ["Ç…", "Ä€", "xÇ… y", "price Ä€5"])
+def test_rare_single_char_restores_skipped(s):
+    # ǅ（titlecase 合字）や Ā（記号から作られる拡張ラテン大文字）より元の 2 文字のほうがもっともらしい
+    assert a.repair_mojibake(s) == s
+
+
+@pytest.mark.parametrize("src,out", [("Ä…", "ą"), ("Å‚", "ł"), ("Å¡", "š"), ("ÅšlÄ…sk", "Śląsk")])
+def test_lowercase_latin_ext_still_restored(src, out):
+    assert a.repair_mojibake(src) == out
+
+
+def test_cp932_byte_loss_limit():
+    # 既知の限界: cp932 で読めずに失われたバイトは戻せない。失われた文字は U+FFFD 1 個に集約される
+    g = "このファイルは文字化けしています。".encode().decode("cp932", "replace")
+    assert a.clean_mojibake(g) == "こ\ufffdファイルは\ufffd字化けして\ufffdます\ufffd"
+    # バイトが失われていなければ完全に戻る
+    s = "会議の議事録をまとめてください"
+    assert a.clean_mojibake(s.encode().decode("cp932")) == s
