@@ -43,3 +43,26 @@ def test_corpus_abs_error(key, total, max_abs):
     xs = CORPUS[key]
     assert sum(len(enc.encode(s)) for s in xs) == total
     assert sum(abs(estimate_tokens(s) - len(enc.encode(s))) for s in xs) <= max_abs
+
+
+# #128 レビュー対応: 新しい分岐を実測値で固定（値はすべて tiktoken o200k_base 実測）
+@pytest.mark.parametrize("text, o200k", [
+    ("go ไป", 2),                        # 空白の後、thai_space_vocab にある語
+    ("a ภาษาไทย", 3),                    # 空白の後に語彙内の語 + 残り
+    ("a ฯ", 3),                          # 空白の後、thai_space_vocab にない字 (裸の空白 1 + ฯ)
+    ("a ฯก", 4),
+    ("a สำนักเลขานุการองค์กร", 2),        # thai_space_vocab の 20 字の語 (上限 20)
+    ("a วิเคราะห์บอลวันนี้", 2),           # 18 字
+    ("1️⃣2️⃣", 4),                        # keycap: U+FE0F U+20E3 は 1 トークン
+    ("Việt πολύ", 3),                    # ベトナム語文中でもベトナム文字だけの語でなければ従来規則
+])
+def test_review_branches_exact(text, o200k):
+    assert estimate_tokens(text) == o200k
+
+
+def test_emoji_cost_byte_fallback():
+    # 表にないコードポイントは UTF-8 バイト数。タグ文字 U+E0040 は o200k でも 4 (= 4 バイト)
+    from TesseraTalk.tessera_talk import _emoji_cost
+
+    assert _emoji_cost("\U000E0040", {}) == 4
+    assert _emoji_cost("\U000E0040\U000E0041", {}) == 8

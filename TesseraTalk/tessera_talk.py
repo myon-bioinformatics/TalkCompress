@@ -484,8 +484,8 @@ _PRETOKEN = re.compile(
     # Non-BMP chars outside o200k's vocabulary (CJK Ext B–H, Supplementary PUA-A/B):
     # o200k falls back to raw UTF-8 bytes, so each costs ≈ its 4 bytes.
     r"|(?P<b>[\U00020000-\U000323AF\U000F0000-\U0010FFFF])"
-    # Emoji runs (skin-tone modifiers, ZWJ sequences, VS16): costed from a measured table.
-    r"|(?P<e>[\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*"
+    # Emoji runs (skin-tone modifiers, ZWJ sequences, VS16, keycap U+20E3): costed from a measured table.
+    r"|(?P<e>\ufe0f?\u20e3|[\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*"
     r"[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)"
     r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
     # Letters of any other script (Hebrew, Armenian, Georgian, …) must not cost 0.
@@ -611,6 +611,8 @@ def _unpack_emoji(d: dict) -> dict:
             out[chr(start + i)] = int(ch)
     for ch in d.get("vs16", ""):
         out[ch + "\ufe0f"] = 1  # e.g. "❤️" (U+2764 U+FE0F) is a single o200k token
+    # keycap: "\ufe0f\u20e3" and a bare U+20E3 are each one o200k token ("1️⃣2️⃣" = 4)
+    out["\ufe0f\u20e3"] = out["\u20e3"] = 1
     return out
 
 
@@ -629,13 +631,13 @@ def _emoji_cost(run: str, table: dict) -> int:
 
 
 def _thai_cost(run: str, vocab: frozenset, space: bool, sp_vocab: frozenset) -> int:
-    """Greedy longest match against o200k's Thai tokens (≤ 17 chars); else 1 per char.
+    """Greedy longest match against o200k's Thai tokens (≤ 17 chars; ≤ 20 with a leading space); else 1 per char.
     After a space, a leading word o200k merges with the space is one token; otherwise
     the bare space costs its own token."""
     n = 0
     i = 0
     if space:
-        for L in range(min(17, len(run)), 0, -1):
+        for L in range(min(20, len(run)), 0, -1):
             if run[:L] in sp_vocab:
                 n, i = 1, L
                 break
