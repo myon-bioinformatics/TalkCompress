@@ -397,6 +397,14 @@ def test_cc0_pd_attribution_optional(lic):
 
 def test_repo_seed_layout_is_dataset_named():
     m = json.loads(cm.MANIFEST.read_text(encoding="utf-8"))
+    # 全エントリ共通：category は CAT_RE、path は <category>/<lang>.jsonl、BY 系は attribution 必須。
+    # 特定データセット（tatoeba 等）や attribution の URL 表記には依存しない（#136/#137 等の追加でも通る）。
     for e in m["entries"]:
-        assert e["category"] == "tatoeba" and e["path"] == f"tatoeba/{e['lang']}.jsonl"
-        assert "tatoeba.org/terms_of_use" in e["attribution"]
+        assert cm.CAT_RE.match(e["category"]), e["id"]
+        if "path" in e:
+            assert e["path"] == f"{e['category']}/{e['lang']}.jsonl", e["id"]
+        if "BY" in e["license"]:
+            a = e.get("attribution")
+            assert isinstance(a, str) and a.strip(), e["id"]
+    # 旧 sentence/ category が残っていないこと
+    assert all(e["category"] != "sentence" for e in m["entries"])

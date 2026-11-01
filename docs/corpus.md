@@ -53,10 +53,12 @@ tests/fixtures/corpus/
   <category>/<lang>.jsonl    # 小さいサンプルのみ
 ```
 
-- **`<category>` は出典データセット名**にする（例：`tatoeba/<lang>.jsonl`、`flores200/<lang>.jsonl`、
-  `wikipedia/<lang>.jsonl`、`commonvoice/<lang>.jsonl`）。小文字英数と `_` `-`。
-  内容の種類（口語・文字化け・記号混在など）や長さでは分けない。長さは各レコードの `tier`
-  （short / medium / long）で表す。1 つのデータセットから複数の tier を同じファイルに入れてよい。
+- **`<category>` の命名規則**（小文字英数と `_` `-`、`CAT_RE` = `^[a-z][a-z0-9_-]*$`）：
+  - **上流の生データ**（そのまま切り出したもの）は**出典データセット名**にする
+    （例：`tatoeba/<lang>.jsonl`、`flores200/<lang>.jsonl`、`wikipedia/<lang>.jsonl`、`commonvoice/<lang>.jsonl`）。
+  - **加工したデータや自作データ**は**用途名**にする（例：`colloquial/`（口語）、`mojibake/`（文字化け）、`mixed/`（記号・言語混在））。
+  - 長さでは分けない。長さは各レコードの `tier`（short / medium / long）で表し、複数の tier を同じファイルに入れてよい。
+  - テストが見るのは `CAT_RE` と path の形（`<category>/<lang>.jsonl`）、BY 系の attribution が空でないことだけ。特定データセット名や URL 表記は要求しない。
 - `<lang>` は ISO 639-1（無ければ 639-3）。文字種の区別が要るなら `sr-Latn` のような BCP 47 副タグ。
 - JSONL 1 行 = `{"id","text","lang","tier","source","license","author","url"}`。
   **tier（`short` 1 文 / `medium` 数文の段落 / `long` 記事・章の抜粋）は行ごとの欄**で、パスには入れない。
@@ -147,6 +149,16 @@ $ uv run python scripts/corpus_manifest.py check
 OK
 $ git add tests/fixtures/corpus/manifest.json && git commit --no-edit && git push
 ```
+
+### 6.1 両方の PR が同じ jsonl を追加したとき（add/add 衝突）
+
+例：#135 と #137 がどちらも `tatoeba/ja.jsonl` を足した場合。`git merge origin/main` で jsonl も manifest も衝突する。
+
+1. **jsonl は両側のレコードを連結して1ファイルにする。** 衝突マーカーを消し、1行1レコードの JSONL に戻す。
+2. **重複を除く。** 同じ `id` が両側にあれば片方を消すか、後から入る側の id を振り直す（`check` はファイル内・ファイル間の id 重複、(category, lang) 内の text 重複を検出する）。
+3. **`source` 表記をそろえる。** 同じファイルの全レコードが同じ `source` 文字列になるようにする（例：`Tatoeba (OPUS-Tatoeba v2023-04-12 mono)`）。`license` も1つにそろうこと（違うなら同じファイルにまとめない）。
+4. **manifest のエントリは1つにまとめる。** 同じ `path` のエントリが2つあると `check` が path 重複で落とす。`id`・`source`・`license`・`attribution` を1つに統一し、attribution には両側の出典 URL を残す。
+5. `uv run python scripts/corpus_manifest.py update` → `check` で `OK` を確認し、コミットして push する（rebase / force-push しない）。
 
 ## 7. シード（このPR）
 
