@@ -23,6 +23,12 @@ GOOD = {
 }
 
 
+def R(i="r1", **kw):
+    """manifest GOOD（ja / CC BY 2.0 FR）と整合する完全なレコード。"""
+    return {"id": i, "text": "あ", "lang": "ja", "tier": "short", "source": "tatoeba",
+            "license": "CC BY 2.0 FR", "author": "a", "url": "https://tatoeba.org/s/1", **kw}
+
+
 def _m(*entries):
     return {"schema_version": 1, "entries": list(entries)}
 
@@ -80,7 +86,8 @@ def test_top_level_and_duplicates():
     assert cm.validate_manifest(_m("x")) == ["entries[0]: object ではない"]
     assert any("重複" in e for e in cm.validate_manifest(_m(GOOD, GOOD)))
     errs = cm.validate_manifest(_m(GOOD, {**GOOD, "id": "y"}))
-    assert errs == ["entries[1]: (category, lang, source) ('sentence', 'ja', 'Tatoeba') が重複"]
+    assert errs == ["entries[1]: (category, lang, source) ('sentence', 'ja', 'Tatoeba') が重複",
+                    "entries[1]: path 'sentence/ja.jsonl' が重複"]
 
 
 
@@ -109,27 +116,27 @@ def _write(tmp_path, recs, entry_patch=None):
 
 
 def test_measure_and_check(tmp_path):
-    recs = [{"text": "あい", "license": "CC0 1.0", "tier": "short"}, {"text": "ab", "license": "CC BY 4.0", "tier": "long"}]
+    recs = [R("a", text="あい"), R("b", text="ab", tier="long")]
     f, mp = _write(tmp_path, recs)
     got = cm.measure(f, _Enc())
     assert got["count"] == 2 and got["bytes"] == 8 and got["o200k_tokens"] == 4
     assert got["sha256"] == hashlib.sha256(f.read_bytes()).hexdigest()
     assert cm.check(mp, _Enc()) == []
-    f.write_text(f.read_text(encoding="utf-8") + json.dumps({"text": "c", "license": "CC0 1.0", "tier": "short"}) + "\n", encoding="utf-8")
+    f.write_text(f.read_text(encoding="utf-8") + json.dumps(R("c", text="c")) + "\n", encoding="utf-8")
     errs = cm.check(mp, _Enc())
     assert {e.split(":")[1].split()[0] for e in errs} == {"count", "bytes", "o200k_tokens", "sha256"}
 
 
 def test_check_missing_file_and_bad_record(tmp_path):
-    _, mp = _write(tmp_path, [{"text": "a", "license": "CC0 1.0", "tier": "short"}])
-    (tmp_path / "sentence/ja.jsonl").write_text('{"text": "a", "license": "CC BY-NC 4.0", "tier": "short"}\n', encoding="utf-8")
-    assert any("許可リスト外" in e for e in cm.check(mp, _Enc()))
-    (tmp_path / "sentence/ja.jsonl").write_text('{"license": "CC0 1.0", "tier": "short"}\n', encoding="utf-8")
-    assert any("text がない" in e for e in cm.check(mp, _Enc()))
-    (tmp_path / "sentence/ja.jsonl").write_text('{"text": "a", "license": "CC0 1.0", "tier": "huge"}\n', encoding="utf-8")
-    assert any("tier" in e for e in cm.check(mp, _Enc()))
-    (tmp_path / "sentence/ja.jsonl").write_text('{"license": "CC0 1.0", "tier": "short"}\n', encoding="utf-8")
-    assert any("text がない" in e for e in cm.check(mp, _Enc()))
+    f, mp = _write(tmp_path, [R()])
+
+    def put(*lines):
+        f.write_text("".join(x + "\n" for x in lines), encoding="utf-8")
+        return cm.check(mp, _Enc())
+
+    assert any("許可リスト外" in e for e in put(json.dumps(R(license="CC BY-NC 4.0"))))
+    assert any("text がない" in e for e in put(json.dumps({k: v for k, v in R().items() if k != "text"})))
+    assert any("tier" in e for e in put(json.dumps(R(tier="huge"))))
     (tmp_path / "sentence/ja.jsonl").unlink()
     assert any("がない" in e for e in cm.check(mp, _Enc()))
 
@@ -147,7 +154,8 @@ def test_fetch_verifies_sha(tmp_path):
     e = {**GOOD, "fetch_url": "https://example.invalid/x", "sha256": hashlib.sha256(data).hexdigest()}
     calls = []
 
-    def opener(url):
+    def opener(url, timeout=None):
+        assert timeout == cf.TIMEOUT
         calls.append(url)
         return io.BytesIO(data)
 
@@ -165,8 +173,152 @@ def test_fetch_verifies_sha(tmp_path):
 
 
 def test_orphan_jsonl_detected(tmp_path):
-    _, mp = _write(tmp_path, [{"text": "a", "license": "CC0 1.0", "tier": "short"}])
+    _, mp = _write(tmp_path, [R()])
     assert cm.check(mp, _Enc()) == []
     (tmp_path / "asr").mkdir()
     (tmp_path / "asr" / "ja.jsonl").write_text("", encoding="utf-8")
     assert cm.check(mp, _Enc()) == ["asr/ja.jsonl: manifest に無い jsonl（孤児）"]
+
+
+# ---- #134 レビュー対応 ----
+
+@pytest.mark.parametrize("key", ["id", "text", "lang", "tier", "source", "license", "author", "url"])
+@pytest.mark.parametrize("bad", ["missing", 1, None, ""])
+def test_record_required_keys(tmp_path, key, bad):
+    rec = R()
+    if bad == "missing":
+        del rec[key]
+    else:
+        rec[key] = bad
+    f = tmp_path / "x.jsonl"
+    f.write_text(json.dumps(rec) + "\n", encoding="utf-8")
+    errs, texts = cm.validate_records(f)
+    assert errs == [f"x.jsonl:1: {key} がない（空でない文字列が必要）"] and texts == []
+
+
+@pytest.mark.parametrize("line", ['"str"', "1", "[1]", "null", "{bad json"])
+def test_record_non_object_is_error_not_crash(tmp_path, line):
+    f = tmp_path / "x.jsonl"
+    f.write_text(line + "\n" + json.dumps(R()) + "\n", encoding="utf-8")
+    errs, texts = cm.validate_records(f)
+    assert len(errs) == 1 and errs[0].startswith("x.jsonl:1: ") and texts == ["あ"]
+    with pytest.raises(ValueError):
+        cm.measure(f, _Enc())
+
+
+def test_record_lang_license_must_match_entry(tmp_path):
+    f = tmp_path / "x.jsonl"
+    f.write_text(json.dumps(R(lang="en")) + "\n" + json.dumps(R("r2", license="CC0 1.0")) + "\n", encoding="utf-8")
+    assert cm.validate_records(f)[0] == []
+    errs, _ = cm.validate_records(f, GOOD)
+    assert errs == [
+        "x.jsonl:1: lang 'en' が manifest（'ja'）と不一致",
+        "x.jsonl:2: license 'CC0 1.0' が manifest（'CC BY 2.0 FR'）と不一致",
+    ]
+    _, mp = _write(tmp_path, [R()])
+    (tmp_path / "sentence/ja.jsonl").write_text(json.dumps(R(lang="en")) + "\n", encoding="utf-8")
+    assert any("manifest（'ja'）と不一致" in e for e in cm.check(mp, _Enc()))
+
+
+def test_record_duplicate_id(tmp_path):
+    f = tmp_path / "x.jsonl"
+    f.write_text(json.dumps(R("a")) + "\n" + json.dumps(R("b")) + "\n" + json.dumps(R("a")) + "\n", encoding="utf-8")
+    assert cm.validate_records(f)[0] == ["x.jsonl:3: id 'a' がファイル内で重複"]
+    _, mp = _write(tmp_path, [R("a"), R("b")])
+    (tmp_path / "sentence/ja.jsonl").write_text(json.dumps(R("a")) + "\n" + json.dumps(R("a")) + "\n", encoding="utf-8")
+    assert any("重複" in e for e in cm.check(mp, _Enc()))
+
+
+def test_duplicate_path_rejected():
+    errs = cm.validate_manifest(_m(GOOD, {**GOOD, "id": "y", "source": "Other"}))
+    assert errs == ["entries[1]: path 'sentence/ja.jsonl' が重複"]
+
+
+def test_size_limits(tmp_path):
+    (tmp_path / "a").write_bytes(b"x" * 10)
+    (tmp_path / "b").write_bytes(b"x" * 10)
+    assert cm.check_sizes(tmp_path, 10, 20) == []
+    assert cm.check_sizes(tmp_path, 9, 20) == ["a: 10 バイトで 1 ファイル上限 9 を超過", "b: 10 バイトで 1 ファイル上限 9 を超過"]
+    assert cm.check_sizes(tmp_path, 10, 19) == ["corpus 合計 20 バイトで上限 19 を超過"]
+    assert cm.MAX_FILE_BYTES == 256 * 1024 and cm.MAX_TOTAL_BYTES == 5 * 1024 * 1024
+
+
+def test_size_limits_enforced_by_check(tmp_path, monkeypatch):
+    _, mp = _write(tmp_path, [R()])
+    assert cm.check(mp, _Enc()) == []
+    size = (tmp_path / "sentence/ja.jsonl").stat().st_size
+    monkeypatch.setattr(cm, "MAX_FILE_BYTES", size - 1)
+    assert any("1 ファイル上限" in e for e in cm.check(mp, _Enc()))
+    monkeypatch.setattr(cm, "MAX_FILE_BYTES", 10**9)
+    monkeypatch.setattr(cm, "MAX_TOTAL_BYTES", size)
+    assert any("corpus 合計" in e for e in cm.check(mp, _Enc()))
+
+
+def test_repo_corpus_within_limits():
+    assert cm.check_sizes(cm.CORPUS_DIR) == []
+
+
+def test_manifest_main_exit_codes(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(cm, "_encoder", lambda: _Enc())
+    f, mp = _write(tmp_path, [R()])
+    assert cm.main(["check", "--manifest", str(mp)]) == 0
+    assert capsys.readouterr().out.strip() == "OK"
+    f.write_text(json.dumps(R(text="ちがう")) + "\n", encoding="utf-8")
+    assert cm.main(["check", "--manifest", str(mp)]) == 1
+    assert "NG" in capsys.readouterr().out
+    assert cm.main(["measure", str(f)]) == 0
+    assert json.loads(capsys.readouterr().out)["count"] == 1
+
+
+def test_update_writes_back(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(cm, "_encoder", lambda: _Enc())
+    f, mp = _write(tmp_path, [R()])
+    f.write_text(json.dumps(R(text="あいう")) + "\n" + json.dumps(R("r2", text="xy")) + "\n", encoding="utf-8")
+    assert cm.main(["update", "--manifest", str(mp)]) == 0
+    e = json.loads(mp.read_text(encoding="utf-8"))["entries"][0]
+    assert (e["count"], e["bytes"], e["o200k_tokens"]) == (2, 11, 5)
+    assert e["sha256"] == hashlib.sha256(f.read_bytes()).hexdigest()
+    assert cm.check(mp, _Enc()) == []
+
+
+@pytest.mark.parametrize("bad", ["../x", "a/b", "..", ".hidden", "", "a\\b", 3])
+def test_fetch_rejects_bad_id(tmp_path, bad):
+    with pytest.raises(ValueError, match="^id .*保存先"):
+        cf.cache_path({**GOOD, "id": bad}, tmp_path)
+    with pytest.raises(ValueError):
+        cf.fetch_entry({**GOOD, "id": bad, "fetch_url": "https://x"}, tmp_path, lambda *a, **k: 1 / 0)
+
+
+def test_fetch_cache_path_inside(tmp_path):
+    assert cf.cache_path({**GOOD, "id": "tatoeba:1.v2"}, tmp_path) == (tmp_path / "ja" / "tatoeba:1.v2").resolve()
+    with pytest.raises(ValueError, match="^lang "):
+        cf.cache_path({**GOOD, "lang": "../x"}, tmp_path)
+    # 正規表現をすり抜けても resolve 後の包含チェックで止まる
+    import re
+    orig = cf.ID_RE
+    try:
+        cf.ID_RE = re.compile(r".*")
+        with pytest.raises(ValueError, match="cache の外"):
+            cf.cache_path({**GOOD, "id": "../../x"}, tmp_path)
+    finally:
+        cf.ID_RE = orig
+
+
+def test_fetch_main_exit_codes(tmp_path, monkeypatch, capsys):
+    data = b"ok\n"
+    base = {k: v for k, v in GOOD.items() if k != "path"}
+    e1 = {**base, "id": "e1", "fetch_url": "https://x/1", "sha256": hashlib.sha256(data).hexdigest()}
+    mp = tmp_path / "m.json"
+    mp.write_text(json.dumps(_m(e1)), encoding="utf-8")
+    monkeypatch.setattr(cf.urllib.request, "urlopen", lambda url, timeout=None: io.BytesIO(data))
+    monkeypatch.setattr(cf.fetch_entry, "__defaults__", (cf.CACHE, lambda url, timeout=None: io.BytesIO(data)))
+    cache = tmp_path / "c"
+    assert cf.main(["--manifest", str(mp), "--cache", str(cache)]) == 0
+    assert (cache / "ja" / "e1").read_bytes() == data
+    mp.write_text(json.dumps(_m({**e1, "sha256": "0" * 64})), encoding="utf-8")
+    (cache / "ja" / "e1").unlink()
+    assert cf.main(["--manifest", str(mp), "--cache", str(cache)]) == 1
+    assert cf.main(["--manifest", str(mp), "--cache", str(cache), "--id", "other"]) == 0
+    mp.write_text(json.dumps(_m({**e1, "license": "CC BY-NC 4.0"})), encoding="utf-8")
+    assert cf.main(["--manifest", str(mp), "--cache", str(cache)]) == 1
+    assert "許可リスト外" in capsys.readouterr().err

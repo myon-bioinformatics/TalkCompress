@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """manifest の外部取得エントリ（fetch_url あり）を取ってきて sha256 を照合する（stdlib のみ）。
 
+urlopen には TIMEOUT 秒のタイムアウトを付け、id は ID_RE で検証して
+保存先が cache ディレクトリの外に出ないことを確認する。
+
   uv run python scripts/corpus_fetch.py            # 全外部エントリを取得
   uv run python scripts/corpus_fetch.py --id X     # 1 件だけ
 
@@ -12,6 +15,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 import urllib.request
 from pathlib import Path
@@ -20,6 +24,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from corpus_manifest import MANIFEST, ROOT, validate_manifest  # noqa: E402
 
 CACHE = ROOT / ".cache" / "corpus"
+TIMEOUT = 60  # 秒。urlopen が無期限に固まらないように
+ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]*$")
+
+
+def cache_path(e: dict, cache: Path) -> Path:
+    """id / lang を検証し、cache 配下に収まる保存先を返す（パストラバーサル防止）。"""
+    for k in ("id", "lang"):
+        v = e.get(k)
+        if not isinstance(v, str) or not ID_RE.match(v):
+            raise ValueError(f"{k} {v!r} は保存先に使えない（英数・._:- のみ、先頭は英数）")
+    root = cache.resolve()
+    dest = (root / e["lang"] / e["id"]).resolve()
+    if not dest.is_relative_to(root):
+        raise ValueError(f"保存先 {dest} が cache の外")
+    return dest
 
 
 def verify_bytes(data: bytes, expected: str) -> None:
@@ -29,11 +48,11 @@ def verify_bytes(data: bytes, expected: str) -> None:
 
 
 def fetch_entry(e: dict, cache: Path = CACHE, opener=urllib.request.urlopen) -> Path:
-    dest = cache / e["lang"] / e["id"]
+    dest = cache_path(e, cache)
     if dest.is_file():
         verify_bytes(dest.read_bytes(), e["sha256"])
         return dest
-    with opener(e["fetch_url"]) as r:
+    with opener(e["fetch_url"], timeout=TIMEOUT) as r:
         data = r.read()
     verify_bytes(data, e["sha256"])
     dest.parent.mkdir(parents=True, exist_ok=True)
