@@ -41,7 +41,7 @@ def test_mojibake_pairs(path):
 
 
 def test_tatoeba_colloquial_rows():
-    rows = [r for r in _rows("sentence/ja.jsonl") if r.get("register") == "colloquial"]
+    rows = [r for r in _rows("tatoeba/ja.jsonl") if r.get("register") == "colloquial"]
     assert len(rows) >= 300
     assert all(r["url"] == f"https://tatoeba.org/sentences/show/{r['id'].split(':')[1]}" and r["author"] for r in rows)
 

@@ -178,7 +178,7 @@ def main() -> None:
         entries.append(entry("colloquial", lang, "common-voice", f"{CV_BLOB}/{lang}/sentence-collector.txt", CC0, cv_day[lang],
                              "Common Voice sentence-collector（CC0、表示不要）。読み上げ用の文で自発発話ではない（register=read）"))
 
-    # Tatoeba の口語文は #134 の 1 ファイル 1 source に合わせ、既存の sentence/ja.jsonl（source=tatoeba）に追記する
+    # Tatoeba の口語文は #134 の 1 ファイル 1 source に合わせ、既存の tatoeba/ja.jsonl（source=tatoeba）に追記する
     tp = fetch(TATOEBA_DETAILED, "jpn_sentences_detailed.tsv.bz2")
     coll = re.compile(r"(よ|ね|な|ぜ|わ|さ|じゃん|っけ|ってば|かな|でしょ|だろ)[。！？!?]?$")
     tl = []
@@ -187,7 +187,7 @@ def main() -> None:
         if len(f) >= 4 and f[3] not in ("", "\\N") and coll.search(f[2]):
             tl.append((int(f[0]), f[2], f[3]))
     tl.sort()
-    sj = OUT / "sentence" / "ja.jsonl"
+    sj = OUT / "tatoeba" / "ja.jsonl"
     keep = [json.loads(x) for x in sj.read_text(encoding="utf-8").splitlines() if x.strip()]
     keep = [r for r in keep if "register" not in r]  # #134 の手選び分は残す
     have = {r["text"] for r in keep} | {r["id"] for r in keep}
@@ -234,7 +234,7 @@ def main() -> None:
     mine = {e["path"] for e in entries}
     man["entries"] = [e for e in man["entries"] if e.get("path") not in mine] + entries
     for e in man["entries"]:
-        if e.get("path") == "sentence/ja.jsonl":
+        if e.get("path") == "tatoeba/ja.jsonl":
             e["retrieved_at"] = max(e["retrieved_at"], day(tp))
             e["attribution"] = ("各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと。register=colloquial の行は "
                                 "scripts/build_corpus.py が jpn_sentences_detailed から口語文末で抽出")

@@ -17,8 +17,8 @@ import corpus_manifest as cm  # noqa: E402
 
 GOOD = {
     "id": "x", "source": "Tatoeba", "url": "https://tatoeba.org/", "license": "CC BY 2.0 FR",
-    "license_url": "https://creativecommons.org/licenses/by/2.0/fr/", "lang": "ja", "category": "sentence",
-    "path": "sentence/ja.jsonl", "count": 1, "bytes": 3, "o200k_tokens": 1, "sha256": "a" * 64,
+    "license_url": "https://creativecommons.org/licenses/by/2.0/fr/", "lang": "ja", "category": "tatoeba",
+    "path": "tatoeba/ja.jsonl", "count": 1, "bytes": 3, "o200k_tokens": 1, "sha256": "a" * 64,
     "retrieved_at": "2026-11-01", "ai_roundtrip": "未測定", "attribution": "各行の author / url",
 }
 
@@ -63,8 +63,8 @@ def test_missing_required(key):
     ({"retrieved_at": "2026/11/01"}, "retrieved_at"),
     ({"ai_roundtrip": ""}, "ai_roundtrip"),
     ({"path": "/abs/short.jsonl"}, "path"),
-    ({"path": "../sentence/ja.jsonl"}, "path"),
-    ({"path": "sentence/en.jsonl"}, "path"),
+    ({"path": "../tatoeba/ja.jsonl"}, "path"),
+    ({"path": "tatoeba/en.jsonl"}, "path"),
     ({"path": "asr/ja.jsonl"}, "path"),
 ])
 def test_bad_fields(patch, needle):
@@ -86,8 +86,8 @@ def test_top_level_and_duplicates():
     assert cm.validate_manifest(_m("x")) == ["entries[0]: object ではない"]
     assert any("重複" in e for e in cm.validate_manifest(_m(GOOD, GOOD)))
     errs = cm.validate_manifest(_m(GOOD, {**GOOD, "id": "y"}))
-    assert errs == ["entries[1]: (category, lang, source) ('sentence', 'ja', 'tatoeba') が重複",
-                    "entries[1]: path 'sentence/ja.jsonl' が重複"]
+    assert errs == ["entries[1]: (category, lang, source) ('tatoeba', 'ja', 'tatoeba') が重複",
+                    "entries[1]: path 'tatoeba/ja.jsonl' が重複"]
 
 
 
@@ -105,7 +105,7 @@ class _Enc:
 
 
 def _write(tmp_path, recs, entry_patch=None):
-    d = tmp_path / "sentence"
+    d = tmp_path / "tatoeba"
     d.mkdir()
     f = d / "ja.jsonl"
     f.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in recs) + "\n", encoding="utf-8")
@@ -137,7 +137,7 @@ def test_check_missing_file_and_bad_record(tmp_path):
     assert any("許可リスト外" in e for e in put(json.dumps(R(license="CC BY-NC 4.0"))))
     assert any("text がない" in e for e in put(json.dumps({k: v for k, v in R().items() if k != "text"})))
     assert any("tier" in e for e in put(json.dumps(R(tier="huge"))))
-    (tmp_path / "sentence/ja.jsonl").unlink()
+    (tmp_path / "tatoeba/ja.jsonl").unlink()
     assert any("がない" in e for e in cm.check(mp, _Enc()))
 
 
@@ -216,7 +216,7 @@ def test_record_lang_license_must_match_entry(tmp_path):
         "x.jsonl:2: license 'CC0 1.0' が manifest（'CC BY 2.0 FR'）と不一致",
     ]
     _, mp = _write(tmp_path, [R()])
-    (tmp_path / "sentence/ja.jsonl").write_text(json.dumps(R(lang="en")) + "\n", encoding="utf-8")
+    (tmp_path / "tatoeba/ja.jsonl").write_text(json.dumps(R(lang="en")) + "\n", encoding="utf-8")
     assert any("manifest（'ja'）と不一致" in e for e in cm.check(mp, _Enc()))
 
 
@@ -225,13 +225,13 @@ def test_record_duplicate_id(tmp_path):
     f.write_text(json.dumps(R("a")) + "\n" + json.dumps(R("b", text="い")) + "\n" + json.dumps(R("a", text="う")) + "\n", encoding="utf-8")
     assert cm.validate_records(f)[0] == ["x.jsonl:3: id 'a' がファイル内で重複"]
     _, mp = _write(tmp_path, [R("a"), R("b", text="い")])
-    (tmp_path / "sentence/ja.jsonl").write_text(json.dumps(R("a")) + "\n" + json.dumps(R("a", text="い")) + "\n", encoding="utf-8")
+    (tmp_path / "tatoeba/ja.jsonl").write_text(json.dumps(R("a")) + "\n" + json.dumps(R("a", text="い")) + "\n", encoding="utf-8")
     assert any("重複" in e for e in cm.check(mp, _Enc()))
 
 
 def test_duplicate_path_rejected():
     errs = cm.validate_manifest(_m(GOOD, {**GOOD, "id": "y", "source": "Other"}))
-    assert errs == ["entries[1]: path 'sentence/ja.jsonl' が重複"]
+    assert errs == ["entries[1]: path 'tatoeba/ja.jsonl' が重複"]
 
 
 def test_size_limits(tmp_path):
@@ -246,7 +246,7 @@ def test_size_limits(tmp_path):
 def test_size_limits_enforced_by_check(tmp_path, monkeypatch):
     _, mp = _write(tmp_path, [R()])
     assert cm.check(mp, _Enc()) == []
-    size = (tmp_path / "sentence/ja.jsonl").stat().st_size
+    size = (tmp_path / "tatoeba/ja.jsonl").stat().st_size
     monkeypatch.setattr(cm, "MAX_FILE_BYTES", size - 1)
     assert any("1 ファイル上限" in e for e in cm.check(mp, _Enc()))
     monkeypatch.setattr(cm, "MAX_FILE_BYTES", 10**9)
@@ -336,11 +336,11 @@ def _two_files(tmp_path, ja_recs, en_recs):
     base = {k: v for k, v in GOOD.items()}
     entries = []
     for lang, recs in (("ja", ja_recs), ("en", en_recs)):
-        d = tmp_path / "sentence"
+        d = tmp_path / "tatoeba"
         d.mkdir(exist_ok=True)
         f = d / f"{lang}.jsonl"
         f.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in recs), encoding="utf-8")
-        e = {**base, "id": lang, "lang": lang, "path": f"sentence/{lang}.jsonl"}
+        e = {**base, "id": lang, "lang": lang, "path": f"tatoeba/{lang}.jsonl"}
         entries.append({**e, **cm.measure(f, _Enc(), e)})
     mp = tmp_path / "manifest.json"
     mp.write_text(json.dumps(_m(*entries)), encoding="utf-8")
@@ -351,7 +351,7 @@ def test_record_id_duplicate_across_files(tmp_path):
     mp = _two_files(tmp_path, [R("a"), R("b", text="い")], [R("z", lang="en", text="x")])
     assert cm.check(mp, _Enc()) == []
     mp = _two_files(tmp_path, [R("a"), R("b", text="い")], [R("b", lang="en", text="x")])
-    assert cm.check(mp, _Enc()) == ["entries[1]: sentence/en.jsonl: レコード id 'b' が sentence/ja.jsonl と重複（ファイル間）"]
+    assert cm.check(mp, _Enc()) == ["entries[1]: tatoeba/en.jsonl: レコード id 'b' が tatoeba/ja.jsonl と重複（ファイル間）"]
 
 
 def test_same_text_across_langs_allowed(tmp_path):
@@ -366,7 +366,7 @@ def test_duplicate_manifest_id_only():
 
 def test_source_dup_key_casefold():
     errs = cm.validate_manifest(_m(GOOD, {**GOOD, "id": "y", "source": "TATOEBA", "fetch_url": "https://x"} | {}))
-    assert "entries[1]: (category, lang, source) ('sentence', 'ja', 'tatoeba') が重複" in errs
+    assert "entries[1]: (category, lang, source) ('tatoeba', 'ja', 'tatoeba') が重複" in errs
 
 
 def test_record_source_matches_entry_casefold(tmp_path):

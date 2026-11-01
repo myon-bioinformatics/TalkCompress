@@ -53,8 +53,7 @@ tests/fixtures/corpus/
   <category>/<lang>.jsonl    # 小さいサンプルのみ
 ```
 
-- `<category>` は内容の種類（例：`sentence` 一般文・対訳、`wiki` 百科、`asr` 書き起こし・口語、
-  `mojibake` 文字化け、`mixed` 絵文字/記号/数式/コード混在）。小文字英数と `_` `-`。
+- `<category>` はデータセット名（例：`tatoeba`）を基本とする（2bot 決定。既存の `colloquial` / `mojibake` / `mixed` は未移行）。小文字英数と `_` `-`。
 - `<lang>` は ISO 639-1（無ければ 639-3）。文字種の区別が要るなら `sr-Latn` のような BCP 47 副タグ。
 - JSONL 1 行 = `{"id","text","lang","tier","source","license","author","url"}`。
   **tier（`short` 1 文 / `medium` 数文の段落 / `long` 記事・章の抜粋）は行ごとの欄**で、パスには入れない。
@@ -94,7 +93,7 @@ o200k トークン数を数えるためだけに `tiktoken`（dev 依存）を�
 保存先が `.cache/corpus/` の外に出ないことを確認）。
 
 ```
-uv run python scripts/corpus_manifest.py measure tests/fixtures/corpus/sentence/ja.jsonl
+uv run python scripts/corpus_manifest.py measure tests/fixtures/corpus/tatoeba/ja.jsonl
 uv run python scripts/corpus_manifest.py update   # 同梱ファイルの数値を再計算して書き戻す
 uv run python scripts/corpus_manifest.py check    # 検証
 uv run python scripts/corpus_fetch.py [--id X]    # 外部取得 + sha256 照合
@@ -104,5 +103,5 @@ uv run python scripts/corpus_fetch.py [--id X]    # 外部取得 + sha256 照合
 
 ## 6. シード（このPR）
 
-Tatoeba API（2026-11-01 取得）から ja / en / fr の短文を 11〜12 件ずつ（`sentence/<lang>.jsonl`、tier=short）。
+Tatoeba API（2026-11-01 取得）から ja / en / fr の短文を 11〜12 件ずつ（`tatoeba/<lang>.jsonl`、tier=short）。
 孤児文・未承認文は除外。数値は manifest.json を参照（実測）。AI 往復は未測定。

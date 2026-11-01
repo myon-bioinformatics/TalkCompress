@@ -7,7 +7,7 @@
 | カテゴリ | 内容 | 出典 / ライセンス |
 |---|---|---|
 | colloquial/{ja,en,vi,th} | Common Voice の読み上げ用文（各 400 件、`register: "read"`） | CC0 1.0 |
-| sentence/ja（追記分） | Tatoeba の口語文 300 件（`register: "colloquial"`、#134 の 11 件はそのまま） | CC BY 2.0 FR |
+| tatoeba/ja（追記分） | Tatoeba の口語文 300 件（`register: "colloquial"`、#134 の 11 件はそのまま） | CC BY 2.0 FR |
 | mojibake/{ja,vi} | Common Voice 文を latin-1/cp1252/SJIS/EUC-JP で誤読させた文と原文の対 | CC0 1.0（原文）|
 | mixed/{ja,en} | 自作テンプレート＋コードポイント範囲から自作で組み立てた絵文字＋一部に Common Voice 文（`embedded_id`） | CC0 1.0 |
 
@@ -17,7 +17,7 @@
 
 ## レコード形式
 各行は #134 の `{id,text,lang,tier,source,license,author,url}` に加え、実測の `o200k`・`bytes` と補助欄（`register`、mojibake の `orig`/`orig_id`/`kind`/`ftfy_*`、mixed の `embedded_id`）。Common Voice 行の `url` は取得元ファイル、`author` は "Common Voice contributors"、`id` は `cv-<lang>-<本文 sha1 先頭 12 桁>`。
-#134 の規則（1 ファイル = 1 source）のため、Tatoeba の口語文は colloquial/ja ではなく sentence/ja に入れている。`colloquial` の中身は読み上げ文（`register: "read"`）。
+#134 の規則（1 ファイル = 1 source）のため、Tatoeba の口語文は colloquial/ja ではなく tatoeba/ja に入れている。`colloquial` の中身は読み上げ文（`register: "read"`）。
 
 ## tier と件数
 - tier は `scripts/build_corpus.py` の `tier()` で判定: 1 文かつ 200 コードポイント以下 → short、5 文以下かつ 1000 コードポイント以下 → medium、それ以外 → long（文末記号 。！？.!? で数える）。mojibake は原文 `orig` で判定。
