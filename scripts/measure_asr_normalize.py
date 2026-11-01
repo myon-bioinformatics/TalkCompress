@@ -21,7 +21,7 @@ cases = [
 ]
 print("| ケース | 入力 tok/B | 出力 tok/B | 出力 |\n|---|---|---|---|")
 for name, s in cases:
-    o = a.normalize_asr(s)
+    o = a.normalize_uncertain(a.clean_mojibake(s), paren=True, alternatives=True)
     if name == "分かち書き":
         o = s.replace("mini match", a.keep_unknown("mini match")).replace("depend a bot", a.keep_unknown("depend a bot"))
     print(f"| {name} | {t(s)}/{b(s)} | {t(o)}/{b(o)} | `{o}` |")

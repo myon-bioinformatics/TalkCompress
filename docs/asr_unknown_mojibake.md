@@ -7,9 +7,9 @@ o200k_base のトークン数（第一）とバイト数（第二）が増えな
 1. 発音が似ている語・未知語は **元のつづり**（つづりが分からなければローマ字）で、**空白を詰めて 1 語** にする。括弧では包まない。
    - 例: `mini match` → `minimatch`、`Talk Compress` → `TalkCompress`。大文字小文字は元のまま（CamelCase 化はしない）。
    - カタカナ・ハングル・デーヴァナーガリー・タイ文字・IPA への書き換えや括弧付けは、27 語の実測で原つづりより同数か多かった（audio-tok/script_test.md）。
-2. **不確実な語だけ** `<?語?>` で包む（+2 tok）。ASR が出す `[語?]` `(語?)` `{a|b|c}`（先頭候補を採用）`語{0.42}`（信頼度が 0.6 未満なら包み、以上なら外す）はこの形にそろえる。
+2. **不確実な語だけ** 後ろに `(?)` を付けて `語(?)` にする（+1 tok。XML PI と衝突する `<?語?>` は +2〜3 tok）。既定では ASR 固有の `[語?]` と `語{0.42}`（0.6 未満なら付け、以上なら外す）だけをそろえる。`(語?)` と `{a|b|c}` は普通の文にも出るので `paren=True` / `alternatives=True` の opt-in。
 3. 文字化けは **まず復元**する。UTF-8 を cp1252 / latin-1 で読んだもの（二重化けも 2 回まで）、UTF-8 を cp932 で読んだもの（縺・繧 系）を戻す。cp1252 で未定義のバイト（0x81 など）が U+FFFD になっていても候補を総当たりして戻す。
-4. 復元できない部分（U+FFFD・私用領域・制御文字の連続。間の空白も含む）は **U+FFFD 1 文字** にまとめる。
+4. 復元できない U+FFFD の連続（間の空白も含む）は **U+FFFD 1 文字** にまとめる。NUL などの制御文字・私用領域は意味を持ちうるので残す。半角カナは普通の日本語なので化けと判定しない。
 
 `normalize_asr(text)` は 3 → 4 → 2 の順に適用する。圧縮器（ShorthandEdge / MorphoZip など）の前段で使う想定で、既存の圧縮器の出力は変えない。
 
@@ -18,14 +18,14 @@ o200k_base のトークン数（第一）とバイト数（第二）が増えな
 
 | ケース | 入力 tok/B | 出力 tok/B | 出力 |
 |---|---|---|---|
-| 不確実 [語?] | 10/41 | 9/41 | `I pushed it to <?talkcompress?> yesterday` |
-| 候補 {a|b} | 15/69 | 9/41 | `I pushed it to <?TalkCompress?> yesterday` |
-| 信頼度 | 12/43 | 9/41 | `I pushed it to <?TalkCompress?> yesterday` |
+| 不確実 [語?] | 10/41 | 8/40 | `I pushed it to talkcompress(?) yesterday` |
+| 候補 {a|b} | 15/69 | 8/40 | `I pushed it to TalkCompress(?) yesterday` |
+| 信頼度 | 12/43 | 8/40 | `I pushed it to TalkCompress(?) yesterday` |
 | 分かち書き | 9/38 | 8/35 | `we use minimatch and dependabot now` |
 | 化け cp1252 | 77/197 | 17/87 | `日本語のテキストです。ありがとうございます。café — “hi” ok` |
 | 化け latin-1 | 112/164 | 17/87 | `日本語のテキストです。ありがとうございます。café — “hi” ok` |
 | 化け cp932 | 86/150 | 21/84 | `日本語�キストです。ありがと�ござ�ます。café � “hi� ok` |
-| 復元不能 | 7/24 | 3/10 | `ok � end` |
+| 復元不能 | 7/24 | 5/14 | `ok �� end` |
 
 原文 J: 17/87
 talk compress: 分割 2 / join_word talkcompress 2 / lower talkcompress 2
@@ -36,10 +36,12 @@ play wright: 分割 3 / join_word playwright 1 / lower playwright 1
 
 U+FFFD 連続: {1: 1, 3: 1, 8: 1} / 空白まじり 3 個: 3
 
+（表は paren=True, alternatives=True で測定。既定では `[語?]` と `語{0.42}` だけを変換）
+
 - U+FFFD の連続は o200k では何個でも 1 tok なので、まとめる効果はトークンでは「間の空白・制御文字が消える分」、バイトでは 3 B/個。
 - cp932 化けは元のバイトが一部失われているため完全には戻らない（失われた文字は U+FFFD 1 個になる）。それでも 86 → 21 tok。
 
 ## AI 可読性・往復
 - 復元（cp1252 / latin-1）はテストの例で原文と完全一致（バイト単位の往復）。
-- `<?語?>` を LLM が「不確実語」と解釈できるか: **未測定**。
+- `語(?)` を LLM が「不確実語」と解釈できるか: **未測定**。
 - 1 語に詰めた未知語（`dependabot` など）を LLM が元の固有名詞と同一視できるか: **未測定**。

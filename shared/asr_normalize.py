@@ -2,9 +2,9 @@
 
 規則（docs/asr_unknown_mojibake.md に実測あり）:
 1. 発音が似ている語・未知語は元のつづり（不明ならローマ字）で 1 語につなげて残す。括弧で包まない。
-2. 不確実な語だけ ``<?語?>`` で包む。``[語?]`` ``(語?)`` ``{a|b}`` などの ASR 表記はこの形にそろえる。
+2. 不確実な語だけ ``語(?)`` にする（XML PI の ``<?…?>`` は避ける）。ASR の ``[語?]`` ``語{0.42}`` をこの形にそろえる。
 3. 文字化けはまず復元を試み（UTF-8 を cp1252/latin-1 や cp932 で読んだもの）、
-   復元できない連続は U+FFFD 1 文字にまとめる。
+   復元できない U+FFFD の連続は 1 文字にまとめる（制御文字・私用領域は残す）。
 """
 from __future__ import annotations
 
@@ -12,8 +12,7 @@ import re
 from itertools import product
 import unicodedata
 
-UNCERTAIN_OPEN = "<?"
-UNCERTAIN_CLOSE = "?>"
+UNCERTAIN_MARK = "(?)"  # 語(?) — XML PI の <?…?> と衝突しない。o200k +1 tok（<?…?> は +2〜3）
 FFFD = "\ufffd"
 
 
@@ -30,30 +29,41 @@ def join_word(phrase: str) -> str:
 
 
 def keep_unknown(phrase: str, uncertain: bool = False) -> str:
-    """未知語を 1 語に。不確実なときだけ ``<?…?>``。"""
+    """未知語を 1 語に。不確実なときだけ ``語(?)``。"""
     w = join_word(phrase)
     if not w:
         return w
-    return f"{UNCERTAIN_OPEN}{w}{UNCERTAIN_CLOSE}" if uncertain else w
+    return f"{w}{UNCERTAIN_MARK}" if uncertain else w
 
 
-_ALT = re.compile(r"\{([^{}|]+)(?:\|[^{}]*)\}")  # {a|b|c} -> 先頭候補
-_Q_BRACKET = re.compile(r"[\[(（［]\s*([^\[\]()（）［］?？]+?)\s*[?？]\s*[\])）］]")  # [語?] (語?)
-_CONF = re.compile(r"(\S+?)\{0?\.\d+\}")  # 語{0.42}
-_EXISTING = re.compile(r"<\?\s*([^<>?]+?)\s*\?>")
+_ALT = re.compile(r"\{([^{}|\s][^{}|]*)(?:\|[^{}|]+)+\}")  # {a|b|c} -> 先頭候補（opt-in）
+_Q_SQUARE = re.compile(r"\[\s*([^\[\]?？]+?)\s*[?？]\s*\]")  # ASR 形式 [語?]
+_Q_PAREN = re.compile(r"[(（]\s*([^()（）?？]+?)\s*[?？]\s*[)）]")  # (語?)（opt-in: 普通の文と衝突）
+_CONF = re.compile(r"(?<![\w{])([^\s{}]+?)\{(0?\.\d+|1(?:\.0+)?)\}")  # 語{0.42}
 
 
-def normalize_uncertain(text: str, conf_threshold: float = 0.6) -> str:
-    """ASR の不確実表記を ``<?語?>`` に統一する（語内の空白は 1 語につなぐ）。"""
-    text = _EXISTING.sub(lambda m: keep_unknown(m.group(1), True), text)
-    text = _ALT.sub(lambda m: keep_unknown(m.group(1), True), text)
-    text = _Q_BRACKET.sub(lambda m: keep_unknown(m.group(1), True), text)
+def normalize_uncertain(
+    text: str,
+    conf_threshold: float = 0.6,
+    *,
+    paren: bool = False,
+    alternatives: bool = False,
+) -> str:
+    """ASR の不確実表記を ``語(?)`` に統一する（語内の空白は 1 語につなぐ）。
+
+    既定で変換するのは ASR 固有の ``[語?]`` と ``語{0.42}`` だけ。``(語?)`` と
+    ``{a|b}`` は普通の文（``(really?)``、コードの ``{a|b}``）にも出るので opt-in。
+    """
+    text = _Q_SQUARE.sub(lambda m: keep_unknown(m.group(1), True), text)
+    if paren:
+        text = _Q_PAREN.sub(lambda m: keep_unknown(m.group(1), True), text)
+    if alternatives:
+        text = _ALT.sub(lambda m: keep_unknown(m.group(1), True), text)
 
     def conf(m: re.Match) -> str:
-        val = float(m.group(0)[m.group(0).index("{") + 1 : -1])
-        return keep_unknown(m.group(1), True) if val < conf_threshold else m.group(1)
+        return keep_unknown(m.group(1), True) if float(m.group(2)) < conf_threshold else m.group(1)
 
-    return re.sub(r"(\S+?)\{(0?\.\d+|1(?:\.0+)?)\}", conf, text)
+    return _CONF.sub(conf, text)
 
 
 # ---------------------------------------------------------------- mojibake
@@ -97,20 +107,27 @@ def _fix_latin_run(run: str) -> str:
         b = _mixed_bytes("".join(next(it) if c == FFFD else c for c in run))
         if b is None:
             continue
-        fixed = b.decode("utf-8", "replace")
+        try:
+            fixed = b.decode("utf-8")  # 厳密: café… の「é…」は UTF-8 にならないので不採用
+        except UnicodeDecodeError:
+            continue
         score = _badness(fixed) + sum(
             1 for c in fixed if (unicodedata.category(c) in ("Zs", "Cf") and c != " ") or c == "\u2010"
         )
+        # 2 文字だけの短い連続（Ü™ など）は曖昧。ラテン文字・一般句読点に戻るときだけ採用。
+        if len(run) <= 2 and not all("\u00a0" <= c <= "\u024f" or "\u2000" <= c <= "\u206f" for c in fixed):
+            continue
         if score < best_score:
             best, best_score = fixed, score
     return best
 
 
-_CP932_MOJI = re.compile(r"[\uff61-\uff9f\u7e3a\u7e67\u90e2\u8b5b\u8373\u8c3a\u9adc\u9a5b\u9a3e\u8b1a\u8708\u873b\u8dfe\u96b1\u8475\u7e5d\u86fb\u9695\u9b06]")
+_CP932_MOJI = re.compile(r"[\u7e3a\u7e67\u90e2\u8b5b\u8373\u8c3a\u9adc\u9a5b\u9a3e\u8b1a\u8708\u873b\u8dfe\u96b1\u8475\u7e5d\u86fb\u9695\u9b06]")
 
 
 def _fix_cp932(text: str) -> str:
     """UTF-8 を cp932 で読んだ典型（縺ゅ… / 繧ｳ…）を全体単位で戻す。"""
+    # 半角カナ（U+FF61-FF9F）は普通の日本語にも出るので検出には使わない。
     if len(_CP932_MOJI.findall(text)) < 2:
         return text
     out = bytearray()
@@ -120,6 +137,8 @@ def _fix_cp932(text: str) -> str:
         except UnicodeEncodeError:
             out += "\ufffd".encode("utf-8") if c == FFFD else c.encode("utf-8")
     fixed = out.decode("utf-8", "replace")
+    if fixed.count(FFFD) > text.count(FFFD) + len(_CP932_MOJI.findall(text)) // 2:
+        return text
     return fixed if len(_CP932_MOJI.findall(fixed)) < len(_CP932_MOJI.findall(text)) else text
 
 
@@ -135,11 +154,14 @@ def repair_mojibake(text: str) -> str:
     return text
 
 
-_UNRECOV = re.compile(r"(?:[\ufffd\ue000-\uf8ff]|[\x00-\x08\x0b\x0c\x0e-\x1f\x7f])+(?:\s*(?:[\ufffd\ue000-\uf8ff]|[\x00-\x08\x0b\x0c\x0e-\x1f\x7f])+)*")
+_UNRECOV = re.compile(r"\ufffd(?:[ \t]*\ufffd)*")
 
 
 def collapse_unrecoverable(text: str) -> str:
-    """U+FFFD・私用領域・制御文字の連続（間の空白も含む）を U+FFFD 1 文字に。"""
+    """U+FFFD の連続（間の空白も含む）を U+FFFD 1 文字に。
+
+    NUL などの制御文字や私用領域（絵文字フォント・外字）は意味を持ちうるので残す。
+    """
     return _UNRECOV.sub(FFFD, text)
 
 

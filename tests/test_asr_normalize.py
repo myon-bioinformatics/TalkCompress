@@ -15,20 +15,43 @@ def test_join_word(phrase, out):
 
 def test_keep_unknown_brackets_only_when_uncertain():
     assert a.keep_unknown("iron mate") == "ironmate"
-    assert a.keep_unknown("iron mate", uncertain=True) == "<?ironmate?>"
+    assert a.keep_unknown("iron mate", uncertain=True) == "ironmate(?)"
 
 
 @pytest.mark.parametrize("src,out", [
-    ("to [Talk Compress?] now", "to <?TalkCompress?> now"),
-    ("to (Shibuya？) now", "to <?Shibuya?> now"),
-    ("to {Ironmate|Iron mate} now", "to <?Ironmate?> now"),
-    ("to Shibuya{0.42} now", "to <?Shibuya?> now"),
+    ("to [Talk Compress?] now", "to TalkCompress(?) now"),
+    ("to [Shibuya？] now", "to Shibuya(?) now"),
+    ("to Shibuya{0.42} now", "to Shibuya(?) now"),
     ("to Shibuya{0.9} now", "to Shibuya now"),
-    ("to <? mini match ?> now", "to <?minimatch?> now"),
-    ("is it (really)? yes [note] {x}", "is it (really)? yes [note] {x}"),
 ])
 def test_normalize_uncertain(src, out):
     assert a.normalize_uncertain(src) == out
+
+
+@pytest.mark.parametrize("s", [
+    "is it (really?) yes", "use {a|b} here", "(Shibuya？)", "x = {ok}", "[note] fine",
+    "<?xml version='1.0'?><svg/>",
+])
+def test_ordinary_text_untouched_by_default(s):
+    assert a.normalize_uncertain(s) == s
+
+
+def test_opt_in_paren_and_alternatives():
+    assert a.normalize_uncertain("to (Shibuya？) now", paren=True) == "to Shibuya(?) now"
+    assert a.normalize_uncertain("to {Ironmate|Iron mate} now", alternatives=True) == "to Ironmate(?) now"
+
+
+def test_marker_not_xml_pi():
+    assert "<?" not in a.keep_unknown("x", True) and "?>" not in a.keep_unknown("x", True)
+
+
+def test_marker_token_cost():
+    tiktoken = pytest.importorskip("tiktoken")
+    e = tiktoken.get_encoding("o200k_base")
+    for w in ("TalkCompress", "minimatch", "Shibuya"):
+        plain = len(e.encode(f"to {w} now"))
+        assert len(e.encode(f"to {a.keep_unknown(w, True)} now")) - plain == 1
+        assert len(e.encode(f"to <?{w}?> now")) - plain >= 2
 
 
 @pytest.mark.parametrize("enc", ["cp1252", "latin-1"])
@@ -52,16 +75,24 @@ def test_cp932_strict_roundtrip():
     assert "キストで" in out
 
 
-@pytest.mark.parametrize("s", ["Ã la carte", "naïve café", "Straße", "日本語のまま", "ÂŁ", "x ≥ 3 — ok"])
+@pytest.mark.parametrize("s", [
+    "Ã la carte", "naïve café", "Straße", "日本語のまま", "ÂŁ", "x ≥ 3 — ok",
+    "ｶﾀｶﾅとｷｬﾗ", "半角ｶﾅのﾃｽﾄです", "café…", "naïve–ok", "é©", "à‰", "Ü™", "é„x",
+])
 def test_clean_text_unchanged(s):
     assert a.clean_mojibake(s) == s
 
 
 def test_collapse_unrecoverable():
-    assert a.collapse_unrecoverable("ok \ufffd\ufffd \ufffd\x01\ue000 end") == "ok \ufffd end"
+    assert a.collapse_unrecoverable("ok \ufffd\ufffd \ufffd end") == "ok \ufffd end"
+
+
+@pytest.mark.parametrize("s", ["a\x00b", "x\ue000y", "\ufffd\x00\ufffd", "\U000f0000"])
+def test_nul_and_private_use_preserved(s):
+    assert a.clean_mojibake(s) == s
     assert a.collapse_unrecoverable("a\tb\nc") == "a\tb\nc"
 
 
 def test_normalize_asr_pipeline():
     bad = "[Talk Compress?] " + "café".encode().decode("cp1252") + " \ufffd\ufffd"
-    assert a.normalize_asr(bad) == "<?TalkCompress?> café \ufffd"
+    assert a.normalize_asr(bad) == "TalkCompress(?) café \ufffd"
