@@ -128,6 +128,10 @@ KEYS = ("id", "text", "lang", "tier", "source", "license", "author", "url")
 
 
 def write(path: Path, rows: list[dict]) -> None:
+    if path.is_file() and path.parent.name == "tatoeba":
+        existing = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        if any(r.get("acquisition_source") for r in existing):
+            raise ValueError("統合済み Tatoeba の取得経路を上書きできません。--out で別ディレクトリに生成し、重複検査後に統合してください")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("".join(json.dumps({k: r[k] for k in KEYS}, ensure_ascii=False) + "\n" for r in rows),
                     encoding="utf-8")

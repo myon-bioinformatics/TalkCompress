@@ -8,7 +8,9 @@
   （https://creativecommons.org/licenses/by-sa/4.0/）。long は同じ元記事の文を空白で連結した改変物で、CC BY-SA 4.0 で配布する。
   行の url は FLORES メタデータにある元記事（Wikinews / Wikivoyage / Wikibooks）。
 
-同梱は tier ごと先頭 20 件のサンプルのみ。全件は `python scripts/fetch_corpus_major.py`
+OPUS / FLORES 同梱分は tier ごと先頭20件。Tatoeba en/fr/ja は別途 API seed を含み、ja は公式詳細配布からの口語文も含む。source=Tatoeba の行では acquisition_source に取得経路、author/url に著者と出典を保持する。公式配布・API 分も CC BY 2.0 FR だが OPUS 由来ではない。
+
+全件は `python scripts/fetch_corpus_major.py`
 （stdlib のみ、取得元 sha256 固定）で `.cache/corpus/major/` に生成する。
 
 ## 全件の取得元（sha256 固定）

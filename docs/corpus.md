@@ -156,7 +156,7 @@ $ git add tests/fixtures/corpus/manifest.json && git commit --no-edit && git pus
 
 1. **jsonl は両側のレコードを連結して1ファイルにする。** 衝突マーカーを消し、1行1レコードの JSONL に戻す。
 2. **重複を除く。** 同じ `id` が両側にあれば片方を消すか、後から入る側の id を振り直す（`check` はファイル内・ファイル間の id 重複、(category, lang) 内の text 重複を検出する）。
-3. **`source` 表記をそろえる。** 同じファイルの全レコードが同じ `source` 文字列になるようにする（例：`Tatoeba (OPUS-Tatoeba v2023-04-12 mono)`）。`license` も1つにそろうこと（違うなら同じファイルにまとめない）。
+3. **`source` 表記をそろえる。** 同じファイルの全レコードが同じ `source` 文字列になるようにする（例：複数経路の Tatoeba は `Tatoeba`）。取得経路を偽ってそろえてはいけない。`acquisition_source` に API / OPUS / 公式配布を残し、各行の author / url を保持する。`license` も1つにそろうこと（違うなら同じファイルにまとめない）。
 4. **manifest のエントリは1つにまとめる。** 同じ `path` のエントリが2つあると `check` が path 重複で落とす。`id`・`source`・`license`・`attribution` を1つに統一し、attribution には両側の出典 URL を残す。
 5. `uv run python scripts/corpus_manifest.py update` → `check` で `OK` を確認し、コミットして push する（rebase / force-push しない）。
 
@@ -164,3 +164,13 @@ $ git add tests/fixtures/corpus/manifest.json && git commit --no-edit && git pus
 
 Tatoeba API（2026-11-01 取得）から ja / en / fr の短文を 11〜12 件ずつ（`tatoeba/<lang>.jsonl`、tier=short）。
 孤児文・未承認文は除外。数値は manifest.json を参照（実測）。AI 往復は未測定。
+
+## 統合コーパスの取得経路と評価
+
+Tatoeba の en/fr/ja は OPUS の20文と API seed（en 12 / fr 11 / ja 11）を保持し、ja は公式詳細配布の口語文300件を追加した。source はデータセット名 Tatoeba、acquisition_source は取得経路。公式配布分は OPUS 由来とは表記しない。文ごとの author / url と CC BY 2.0 FR を保持する。
+
+`fetch_corpus_major.py` は統合済みファイルの上書きを拒否する。再取得は既定の .cache/corpus/major/ 等に生成し、id・text を検査して統合する。`build_corpus.py` は OPUS / API の既存文を保持し、公式配布分だけを再生成する。
+
+#135 の tier は1文かつ200コードポイント以下=short、5文以下かつ1000以下=medium、それ以外=long。mojibake は orig で判定。#137/#136 の medium は1文、long は同じ記事の文の連結であり、カテゴリ間で tier の意味は完全には一致しない。
+
+全カテゴリの AI 意味保持・往復評価は未測定。ftfy の完全一致は機械復元の指標であり LLM の成功ではない。Common Voice は読み上げ用文で、自発発話データではない。FLORES の medium と long は同じ元文を共有するため、学習用と評価用に分ける場合は記事 URL 単位で分割する。

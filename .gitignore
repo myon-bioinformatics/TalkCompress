@@ -15,4 +15,4 @@ build/
 *.egg-info/
 .DS_Store
 .venv/
-.cache/corpus/
+.cache/
