@@ -1271,7 +1271,8 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # them broke JA text and raised o200k (237→239 on a 324-char sample).
     # も also skips word starts (もらう, もう, もし, もの, もっと, もちろん, もどる).
     # Known limit: 猫もう行った / 猫もし… keep も (lookahead can't tell 猫も+うれしい from もう).
-    # もと is not skipped (元/下 are usually kanji), so 猫もとても → 猫+とても.
+    # もと is skipped only as もとも/もとに/もとで/もとの/もとより (もともと, データもとに戻す);
+    # 猫もとても → 猫+とても still pivots.
     # Compounds before singles. Avoid で in できる/です/である/でも…
     (re.compile(r"からは"), "←"),
     (re.compile(r"について"), " about "),  # re:→about: token loser  (before に/へ: 猫について≠猫に)
@@ -1287,7 +1288,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
     # After you→U / 彼→he, JA と/も may follow ASCII pronoun surfaces
     (_ci_compile(r"\b(he|she|I|U|they|we|it)と(?!し|ころ|り|りあえず)", re.I), r"\1&"),
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])も(?!ら|う|し|の|っ|ち|ど)"), "+"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])も(?!ら|う|し|の|っ|ち|ど|と(?:も|に|で|の|より))"), "+"),
     (_ci_compile(r"\b(he|she|I|U|they|we|it)も", re.I), r"\1+"),
     (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])を"), ""),
     # は/が: drop after CJK; skip は in はい/はあ discourse; が in known starts rare

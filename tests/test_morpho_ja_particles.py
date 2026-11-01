@@ -51,9 +51,16 @@ def test_each_particle_after_kanji_katakana_pivots(src, out):
     assert m.compress(src) == out
 
 
-def test_mo_before_to_word_still_pivots():
-    # もと は除外しない（元/下 はふつう漢字）。猫もとても → 猫+とても
-    assert m.compress("猫もとても") == "猫+とても"
+@pytest.mark.parametrize("src,out", [("猫もとても", "猫+とても"), ("犬もとうとう", "犬+とうとう")])
+def test_mo_before_to_word_still_pivots(src, out):
+    assert m.compress(src) == out
+
+
+@pytest.mark.parametrize("src", [
+    "猫もともと好き", "データもとに戻す", "法律もとで", "計画もとの形", "本人もとより",
+])
+def test_moto_words_kept(src):
+    assert m.compress(src) == src
 
 
 @pytest.mark.parametrize("src", ["猫もらう", "猫もう", "猫もし", "猫もの", "猫もっと", "猫もちろん", "猫もどる"])
