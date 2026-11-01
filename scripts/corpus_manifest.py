@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""多言語テストコーパスの manifest を計測・検証する（stdlib のみ。o200k 計測だけ tiktoken を使う）。
+"""多言語テストコーパスの manifest を計測・検証する。
+
+依存: 共有ツールは stdlib のみが原則だが、本スクリプトは o200k トークン数の計測のためだけに
+tiktoken（dev 依存）を使う明示的な例外とする（docs/corpus.md 参照）。tiktoken は
+measure/update/check で o200k を数えるときにだけ遅延 import し、それ以外は stdlib のみ。
 
 使い方:
   uv run python scripts/corpus_manifest.py measure tests/fixtures/corpus/ja/short.jsonl
@@ -45,6 +49,9 @@ LANG_RE = re.compile(r"^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$")
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 CAT_RE = re.compile(r"^[a-z][a-z0-9_-]*$")
+MAX_FILE_BYTES = 256 * 1024  # 同梱 1 ファイルの上限
+MAX_TOTAL_BYTES = 5 * 1024 * 1024  # corpus/ 全体の上限
+RECORD_KEYS = ("id", "text", "lang", "tier", "source", "license", "author", "url")
 
 
 def validate_entry(e: object, idx: int = 0) -> list[str]:
@@ -95,6 +102,7 @@ def validate_manifest(m: object) -> list[str]:
         return errs + ["entries は配列"]
     seen: set = set()
     keys: set = set()
+    paths: set = set()
     for i, e in enumerate(entries):
         errs += validate_entry(e, i)
         if not isinstance(e, dict):
@@ -108,6 +116,10 @@ def validate_manifest(m: object) -> list[str]:
             if key in keys:
                 errs.append(f"entries[{i}]: (category, lang, source) {key} が重複")
             keys.add(key)
+        if isinstance(e.get("path"), str):
+            if e["path"] in paths:
+                errs.append(f"entries[{i}]: path {e['path']!r} が重複")
+            paths.add(e["path"])
     return errs
 
 
@@ -117,28 +129,68 @@ def _encoder():
     return tiktoken.get_encoding("o200k_base")
 
 
-def measure(path: Path, enc=None) -> dict:
-    raw = path.read_bytes()
-    texts = []
-    for n, line in enumerate(raw.decode("utf-8").splitlines(), 1):
+def validate_records(path: Path, entry: dict | None = None) -> tuple[list[str], list[str]]:
+    """JSONL を 1 行ずつ検証し (errs, texts) を返す。entry があれば lang/license の一致も見る。"""
+    errs: list[str] = []
+    texts: list[str] = []
+    ids: set = set()
+    for n, line in enumerate(path.read_bytes().decode("utf-8").splitlines(), 1):
         if not line.strip():
             continue
-        rec = json.loads(line)
-        if not isinstance(rec.get("text"), str) or not rec["text"]:
-            raise ValueError(f"{path}:{n}: text がない")
-        if rec.get("tier") not in TIERS:
-            raise ValueError(f"{path}:{n}: tier は short/medium/long")
-        lic = rec.get("license")
-        if lic not in ALLOWED_LICENSES:
-            raise ValueError(f"{path}:{n}: license {lic!r} は許可リスト外")
+        p = f"{path.name}:{n}"
+        try:
+            rec = json.loads(line)
+        except json.JSONDecodeError as ex:
+            errs.append(f"{p}: JSON として読めない（{ex.msg}）")
+            continue
+        if not isinstance(rec, dict):
+            errs.append(f"{p}: レコードが JSON object ではない")
+            continue
+        bad = [k for k in RECORD_KEYS if not isinstance(rec.get(k), str) or not rec[k]]
+        if bad:
+            errs.append(f"{p}: {', '.join(bad)} がない（空でない文字列が必要）")
+            continue
+        if rec["tier"] not in TIERS:
+            errs.append(f"{p}: tier は short/medium/long")
+        if rec["license"] not in ALLOWED_LICENSES:
+            errs.append(f"{p}: license {rec['license']!r} は許可リスト外")
+        if entry is not None:
+            for k in ("lang", "license"):
+                if rec[k] != entry.get(k):
+                    errs.append(f"{p}: {k} {rec[k]!r} が manifest（{entry.get(k)!r}）と不一致")
+        if rec["id"] in ids:
+            errs.append(f"{p}: id {rec['id']!r} がファイル内で重複")
+        ids.add(rec["id"])
         texts.append(rec["text"])
+    return errs, texts
+
+
+def measure(path: Path, enc=None, entry: dict | None = None) -> dict:
+    errs, texts = validate_records(path, entry)
+    if errs:
+        raise ValueError("; ".join(errs))
     enc = enc or _encoder()
     return {
         "count": len(texts),
         "bytes": sum(len(t.encode("utf-8")) for t in texts),
         "o200k_tokens": sum(len(enc.encode(t)) for t in texts),
-        "sha256": hashlib.sha256(raw).hexdigest(),
+        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
     }
+
+
+def check_sizes(base: Path, max_file: int | None = None, max_total: int | None = None) -> list[str]:
+    max_file = MAX_FILE_BYTES if max_file is None else max_file
+    max_total = MAX_TOTAL_BYTES if max_total is None else max_total
+    errs: list[str] = []
+    total = 0
+    for f in sorted(x for x in base.rglob("*") if x.is_file()):
+        size = f.stat().st_size
+        total += size
+        if size > max_file:
+            errs.append(f"{f.relative_to(base).as_posix()}: {size} バイトで 1 ファイル上限 {max_file} を超過")
+    if total > max_total:
+        errs.append(f"corpus 合計 {total} バイトで上限 {max_total} を超過")
+    return errs
 
 
 def check(manifest_path: Path = MANIFEST, enc=None) -> list[str]:
@@ -147,6 +199,7 @@ def check(manifest_path: Path = MANIFEST, enc=None) -> list[str]:
     if errs:
         return errs
     base = manifest_path.parent
+    errs += check_sizes(base)
     listed = {e["path"] for e in m["entries"] if "path" in e}
     for f in sorted(base.rglob("*.jsonl")):
         rel = f.relative_to(base).as_posix()
@@ -160,7 +213,7 @@ def check(manifest_path: Path = MANIFEST, enc=None) -> list[str]:
             errs.append(f"entries[{i}]: {e['path']} がない")
             continue
         try:
-            got = measure(f, enc)
+            got = measure(f, enc, e)
         except ValueError as ex:
             errs.append(f"entries[{i}]: {ex}")
             continue
@@ -175,7 +228,7 @@ def update(manifest_path: Path = MANIFEST) -> None:
     enc = _encoder()
     for e in m["entries"]:
         if "path" in e:
-            e.update(measure(manifest_path.parent / e["path"], enc))
+            e.update(measure(manifest_path.parent / e["path"], enc, e))
     manifest_path.write_text(json.dumps(m, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
