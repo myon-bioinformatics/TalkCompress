@@ -1266,6 +1266,10 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # bare not→! only mid-clause before a word; "Not, as I said" / "not." stay.
     (_ci_compile(r"(?<=\w\s)not\b(?=\s+\w)", re.I), "!"),
     # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
+    # Single particles only after kanji/katakana (noun-like). After hiragana they
+    # are usually word-internal (ちょっと, あと, まとめて, ので, かなと) and pivoting
+    # them broke JA text and raised o200k (237→239 on a 324-char sample).
+    # も also skips verb/word starts (もらう, もし, もの, もっと, もちろん, もど, もと).
     # Compounds before singles. Avoid で in できる/です/である/でも…
     (re.compile(r"からは"), "←"),
     (re.compile(r"について"), " about "),  # re:→about: token loser  (before に/へ: 猫について≠猫に)
@@ -1273,20 +1277,20 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"には"), " to "),  # →→to: token loser
     (re.compile(r"では(?!ない)"), " in "),  # ∈→in: token loser
     (re.compile(r"とは"), "&"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])まで"), " until "),  # 〜→until: token loser
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])まで"), " until "),  # 〜→until: token loser
     # から: particle-from → ← (pairs with に/へ→→; fr is alias only — for-real 揺らぎ)
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])から"), "←"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])(?:に|へ)"), " to "),  # → tie w/o byte saving vs to
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), " in "),  # ∈→in: token loser
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])から"), "←"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?:に|へ)"), " to "),  # → tie w/o byte saving vs to
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), " in "),  # ∈→in: token loser
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
     # After you→U / 彼→he, JA と/も may follow ASCII pronoun surfaces
     (_ci_compile(r"\b(he|she|I|U|they|we|it)と(?!し|ころ|り|りあえず)", re.I), r"\1&"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])も"), "+"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])も(?!ら|う|し|の|っ|ち|ど|と)"), "+"),
     (_ci_compile(r"\b(he|she|I|U|they|we|it)も", re.I), r"\1+"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])を"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])を"), ""),
     # は/が: drop after CJK; skip は in はい/はあ discourse; が in known starts rare
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])が(?!る|ん|っ|ち|く|くせい)"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])が(?!る|ん|っ|ち|く|くせい)"), ""),
     # sentence-final modality particles
     (re.compile(r"[ねよさ]+(?=[。．.!！？?]|$)"), ""),
     # --- prepositions pack1; C owns under/above/below/beneath — skip
@@ -1336,7 +1340,8 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\baforementioned\b", re.I), "said"),
     (_ci_compile(r"\baforesaid\b", re.I), "said"),
     # JA polite endings → low-ambiguity
-    (re.compile(r"です。|ます。|でした。|ました。"), "。"),
+    # ます/ました are verb endings (思っています→思ってい, 行きました loses past): keep them.
+    (re.compile(r"です。"), "。"),
     (re.compile(r"ですね|ますね"), "ね"),
     (re.compile(r"でしょうか"), "?"),
     (re.compile(r"および|並びに|かつ"), "&"),
