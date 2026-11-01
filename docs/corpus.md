@@ -70,7 +70,7 @@ tests/fixtures/corpus/
 
 必須項目：`id, category, source, url, license, license_url, lang, count, bytes, o200k_tokens,
 sha256, retrieved_at, ai_roundtrip`、それに `path`（同梱。`<category>/<lang>.jsonl`）か
-`fetch_url`（外部）のどちらか一方。`attribution` は任意だが、license が CC BY / CC BY-SA のときは必須（表示の場所を書く。check が検査）。
+`fetch_url`（外部）のどちらか一方。任意で `attribution`。
 
 - `count` 件数、`bytes` 各 text の UTF-8 バイト合計、`o200k_tokens` 各 text を o200k_base で個別に
   エンコードしたトークン数の合計、`sha256` ファイル全体のハッシュ。
