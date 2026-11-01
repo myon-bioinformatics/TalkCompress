@@ -351,7 +351,7 @@ def test_record_id_duplicate_across_files(tmp_path):
     mp = _two_files(tmp_path, [R("a"), R("b", text="い")], [R("z", lang="en", text="x")])
     assert cm.check(mp, _Enc()) == []
     mp = _two_files(tmp_path, [R("a"), R("b", text="い")], [R("b", lang="en", text="x")])
-    assert cm.check(mp, _Enc()) == ["entries[1]: レコード id 'b' が sentence/ja.jsonl と重複（ファイル間）"]
+    assert cm.check(mp, _Enc()) == ["entries[1]: sentence/en.jsonl: レコード id 'b' が sentence/ja.jsonl と重複（ファイル間）"]
 
 
 def test_same_text_across_langs_allowed(tmp_path):
