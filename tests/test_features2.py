@@ -81,6 +81,7 @@ def test_zip_env_key(monkeypatch):
     monkeypatch.setenv("TALKCOMPRESS_ZIP_KEY", "from-env")
     ns = z.argparse.Namespace(key=None, key_file=None)
     key = z._read_key(ns)
+    # Default key_normalization="none": env text is passed as raw UTF-8 bytes.
     assert key == b"from-env"
     env = z.encode(b"hi", key=key)
     assert z.decode(env, key="from-env") == b"hi"

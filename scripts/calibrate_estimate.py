@@ -112,6 +112,55 @@ def cjk_vocab() -> list[str]:
     return sorted(out)
 
 
+def _vocab_strings():
+    import tiktoken
+
+    enc = tiktoken.get_encoding("o200k_base")
+    for i in range(enc.n_vocab):
+        try:
+            yield enc.decode_single_token_bytes(i).decode("utf-8")
+        except (KeyError, UnicodeDecodeError):
+            continue
+
+
+def thai_vocab() -> tuple[list[str], list[str]]:
+    """o200k tokens that are 2+ Thai chars, and Thai strings o200k merges with a leading space."""
+    import re
+
+    pat = re.compile("^( ?)([\u0E00-\u0E7F]+)$")
+    plain, sp = set(), set()
+    for t in _vocab_strings():
+        m = pat.match(t)
+        if m:
+            if m.group(1):
+                sp.add(m.group(2))
+            elif len(m.group(2)) >= 2:
+                plain.add(m.group(2))
+    return sorted(plain), sorted(sp)
+
+
+def vi_space_vocab() -> list[str]:
+    """Non-ASCII words of Vietnamese letters only that are one " word" token in o200k (case-sensitive)."""
+    mod = _est_mod()
+    return sorted(t[1:] for t in _vocab_strings()
+                  if t[:1] == " " and not t[1:].isascii() and mod._VI_WORD.fullmatch(t[1:]))
+
+
+# Emoji code points costed one by one (measured: a ZWJ / skin-tone sequence costs the sum
+# of its parts). Digits are o200k costs of each isolated code point, per range.
+EMOJI_RANGES = ((0x2190, 0x2BFF), (0x200D, 0x200D), (0xFE0F, 0xFE0F), (0x1F000, 0x1FAFF), (0xE0020, 0xE007F))
+
+
+def emoji_costs() -> dict:
+    import tiktoken
+
+    enc = tiktoken.get_encoding("o200k_base")
+    ranges = [[a, "".join(str(min(len(enc.encode(chr(c))), 9)) for c in range(a, b + 1))] for a, b in EMOJI_RANGES]
+    vs16 = "".join(chr(c) for a, b in EMOJI_RANGES for c in range(a, b + 1)
+                   if c not in (0x200D, 0xFE0F) and len(enc.encode(chr(c) + "\ufe0f")) == 1)
+    return {"ranges": ranges, "vs16": vs16}
+
+
 def heldout(src: str) -> bool:
     return int(hashlib.sha1(src.encode("utf-8")).hexdigest(), 16) % 5 == 0
 
@@ -216,7 +265,9 @@ def build() -> dict:
     suffixes = {k: d for k, d in suffixes.items() if d or (len(k) == 3 and suffixes.get(k[1:], 0))}
     calib = {"len_table": len_table, "contractions": contractions, "suffixes": suffixes,
              "suffix_floor": SUFFIX_FLOOR, "cjk_vocab": " ".join(cjk_vocab()),
-             "cjk_space_vocab": " ".join(cjk_space_vocab()), "symbol_vocab": symbol_vocab()}
+             "cjk_space_vocab": " ".join(cjk_space_vocab()), "symbol_vocab": symbol_vocab(),
+             "thai_vocab": " ".join(thai_vocab()[0]), "thai_space_vocab": " ".join(thai_vocab()[1]),
+             "vi_space_vocab": " ".join(vi_space_vocab()), "emoji_costs": emoji_costs()}
     exc = {}
     for p, c in sorted(cost.items()):
         if p in en or p in contractions:

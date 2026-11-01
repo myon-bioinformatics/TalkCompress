@@ -87,10 +87,10 @@ def test_apply_outside_romance_preserves_every_char():
 
 @pytest.mark.parametrize('form', ['NFC', 'NFD'])
 @pytest.mark.parametrize(('src', 'want'), [
-    ('Il vous aide.', 'he vous aide.'),
-    ('Elle vous aide.', 'she vous aide.'),
-    ('Il nous aide.', 'he nous aide.'),
-    ('S il vous plaît.', 'S he vous plaît.'),
+    ('Il vous aide.', 'Il vous aide.'),
+    ('Elle vous aide.', 'Elle vous aide.'),
+    ('Il nous aide.', 'Il nous aide.'),
+    ('S il vous plaît.', 'S il vous plaît.'),
 ])
 def test_source_guard_survives_pronoun_pivot(form, src, want):
     assert compress(unicodedata.normalize(form, src)) == want
@@ -99,7 +99,7 @@ def test_source_guard_survives_pronoun_pivot(form, src, want):
 @pytest.mark.parametrize('boundary', ['. ', '!\n', '? ', '.\" '])
 def test_source_guard_is_local_to_sentence(boundary):
     source = 'Il vous aide' + boundary + 'He chooses four chairs.'
-    assert compress(source, spelled_nums=True) == 'he vous aide' + boundary + 'He choose 4 chairs.'
+    assert compress(source, spelled_nums=True) == 'Il vous aide' + boundary + 'He choose 4 chairs.'
 
 
 def test_english_do_is_not_a_romance_only_cue():
@@ -113,7 +113,7 @@ def test_english_do_is_not_a_romance_only_cue():
 
 
 def test_source_context_keeps_protected_spans_and_english_path():
-    assert compress('Il vous aide. [[keep:He chooses four.]]', spelled_nums=True) == 'he vous aide. He chooses four.'
+    assert compress('Il vous aide. [[keep:He chooses four.]]', spelled_nums=True) == 'Il vous aide. He chooses four.'
     from shared.romance_gate import transform_with_romance_context
     calls = []
     def record(text, protected):
@@ -140,7 +140,7 @@ def test_source_context_keeps_protected_spans_and_english_path():
 def test_romance_neighbor_keeps_english_multiline_context(english):
     prefix = 'Il vous aide. '
     assert compress(prefix + english, spelled_nums=True) == (
-        'he vous aide. ' + compress(english, spelled_nums=True)
+        'Il vous aide. ' + compress(english, spelled_nums=True)
     )
 
 
@@ -170,6 +170,10 @@ def test_pivot_tracking_preserves_global_context_and_replacement_origins():
         seen.append((text, protected))
         return text if protected else drop_3sg_after_inventory_pronoun(text)
     assert substitute_with_romance_context(source, substitutions, finish) == 'he vous aide. He always choose.'
+    # skip_in_protected: 保護文に触れる置換は適用しない（#106 フォローアップ）
+    assert substitute_with_romance_context(
+        source, substitutions, lambda t, p: t, skip_in_protected=frozenset({0})
+    ) == 'Il vous aide. He always chooses.'
     assert seen == [('he vous aide.', True), (' He always chooses.', False)]
     # Callable replacements and full-text lookbehind across language boundaries.
     substitutions = [(re.compile(r'(?<=aide\.) He'), lambda m: ' She')]

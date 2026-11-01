@@ -13,6 +13,8 @@ Shared lexeme policy (``shared.lex_policy``) usage:
 - ETYMON_ALIGN (comm / cfg / doc…; information→ℹ️ is C family=emoji)
 - EN quantity phrases → short JA counters (experimental; needs digits already present)
 - strip unquoted articles ``the`` / ``a`` / ``an`` (quoted forms keep the word)
+- U+2011 is reserved as the article-protection join (``A‑Maria``); any U+2011
+  already in the input is normalized to ASCII ``-`` by ``compress``.
 - optional integer → hex rewrite (``hex_nums``)
 - protected spans ``[[keep:...]]`` / `` `keep:...` `` (wrappers stripped)
 
@@ -138,7 +140,7 @@ _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from shared.romance_gate import apply_outside_romance, substitute_with_romance_context  # noqa: E402
+from shared.romance_gate import apply_outside_romance, has_english_cue, substitute_with_romance_context  # noqa: E402
 from shared.unicode_boundary import mark_pattern as _mark_pattern  # noqa: E402
 
 _MARK_CLASS = _mark_pattern()
@@ -596,6 +598,12 @@ POLARITY_MARKERS: tuple[str, ...] = ("!", "¬")
 # NOT folded into it. Canonical = cheapest surface per slot (token → utf8).
 # Slots: proximal/distal × sg/pl + JA far-distal あれ.
 # FR/ES compact (ça/eso) and ZH 这/那 win when cheaper than EN/JA.
+# Bare これ/それ/あれ are the pronoun only when not the head of a conjunction /
+# adverb (それから, それぞれ, これから, それでは, それでも, これまで, それなり, それほど)
+# and not inside a word (おそれ). Shared by the inventory regex and the rewrite rules.
+_JA_DEIXIS_GUARD = r"(?!から|ぞれ|では|でも|で[、,，]|まで|なり|ほど|ゆえ|とも|に[、,，]|と[、,，])"
+_JA_DEIXIS_LB = r"(?<!お)"
+
 DEIXIS_CANONICAL: tuple[str, ...] = (
     "ça",    # proximal sg (this/これ/esto/ceci/这 → ça)
     "eso",   # distal sg   (that/それ/cela/那 → eso)
@@ -658,7 +666,9 @@ DEIXIS_ALIAS_TO_CANONICAL: dict[str, str] = {
 _DEIXIS_SURFACE_RE = _ci_compile(
     r"これらの|それらの|これの|それの|あれの|"
     r"これは|これが|これを|それは|それが|それを|あれは|あれが|あれを|"
-    r"これ|それ|あれ|"
+    # Bare これ/それ/あれ only as the pronoun: not inside conjunctions/adverbs
+    # (それから, それぞれ, これから, それでは, それでも, これまで, それなり, それほど).
+    rf"(?:これ|それ|あれ){_JA_DEIXIS_GUARD}|"
     r"这些|那些|这个|那个|[这那]|"
     r"ceux-là|ceux-la|ceux-ci|"
     r"\bthese\b|\bthose\b|\bthis\b|\bthat\b|"
@@ -1097,9 +1107,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # proximal sg → ça; distal sg → eso; pl → these/those; far → あれ.
     (re.compile(r"これらの|これら"), "these"),
     (re.compile(r"それらの|それら"), "those"),
-    (re.compile(r"これの|これは|これが|これを|これ"), "ça"),
-    (re.compile(r"それの|それは|それが|それを|それ"), "eso"),
-    (re.compile(r"あれの|あれは|あれが|あれを|あれ"), "あれ"),
+    (re.compile(_JA_DEIXIS_LB + r"(?:これの|これは|これが|これを|これ" + _JA_DEIXIS_GUARD + ")"), "ça"),
+    (re.compile(_JA_DEIXIS_LB + r"(?:それの|それは|それが|それを|それ" + _JA_DEIXIS_GUARD + ")"), "eso"),
+    (re.compile(_JA_DEIXIS_LB + r"(?:あれの|あれは|あれが|あれを|あれ" + _JA_DEIXIS_GUARD + ")"), "あれ"),
     (re.compile(r"这些"), "these"),
     (re.compile(r"那些"), "those"),
     (re.compile(r"这个|这"), "ça"),
@@ -1264,27 +1274,35 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # bare not→! only mid-clause before a word; "Not, as I said" / "not." stay.
     (_ci_compile(r"(?<=\w\s)not\b(?=\s+\w)", re.I), "!"),
     # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
+    # Single particles only after kanji/katakana (noun-like). After hiragana they
+    # are usually word-internal (ちょっと, あと, まとめて, ので, かなと) and pivoting
+    # them broke JA text and raised o200k (237→239 on a 324-char sample).
+    # も also skips word starts (もらう, もう, もし, もの, もっと, もちろん, もどる).
+    # Known limit: 猫もう行った / 猫もし… keep も (lookahead can't tell 猫も+うれしい from もう).
+    # もと is skipped as もともと/もとに/もとで/もとの/もとより and before 。、」 or end
+    # (もともと, データもとに戻す, 山もと。). 猫もとても → 猫+とても, 彼もともに → 彼+ともに
+    # (ともに = together; 素直に「も」+「ともに」と読む).
     # Compounds before singles. Avoid で in できる/です/である/でも…
     (re.compile(r"からは"), "←"),
     (re.compile(r"について"), " about "),  # re:→about: token loser  (before に/へ: 猫について≠猫に)
     (re.compile(r"までは"), " until "),  # 〜→until: token loser
     (re.compile(r"には"), " to "),  # →→to: token loser
-    (re.compile(r"では(?!ない)"), " in "),  # ∈→in: token loser
+    (re.compile(r"(?<!それ)(?<!これ)(?<!あれ)(?<![\s、。，．!?！？「（(])(?<!^)では(?!ない)"), " in "),  # それでは / 文頭の では は接続詞  # ∈→in: token loser
     (re.compile(r"とは"), "&"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])まで"), " until "),  # 〜→until: token loser
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])まで"), " until "),  # 〜→until: token loser
     # から: particle-from → ← (pairs with に/へ→→; fr is alias only — for-real 揺らぎ)
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])から"), "←"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])(?:に|へ)"), " to "),  # → tie w/o byte saving vs to
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), " in "),  # ∈→in: token loser
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])から"), "←"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?:に|へ)"), " to "),  # → tie w/o byte saving vs to
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), " in "),  # ∈→in: token loser
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
     # After you→U / 彼→he, JA と/も may follow ASCII pronoun surfaces
     (_ci_compile(r"\b(he|she|I|U|they|we|it)と(?!し|ころ|り|りあえず)", re.I), r"\1&"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])も"), "+"),
-    (_ci_compile(r"\b(he|she|I|U|they|we|it)も", re.I), r"\1+"),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])を"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])も(?!ら|う|し|の|っ|ち|ど|と(?:もと|に|で|の|より|$|[。、．，.,!?！？」』）)\s]))"), "+"),
+    (_ci_compile(r"\b(he|she|I|U|they|we|it)も(?!と(?:もと|に|で|の|より|$|[。、．，.,!?！？」』）)\s]))", re.I), r"\1+"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])を"), ""),
     # は/が: drop after CJK; skip は in はい/はあ discourse; が in known starts rare
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
-    (re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff])が(?!る|ん|っ|ち|く|くせい)"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])が(?!る|ん|っ|ち|く|くせい)"), ""),
     # sentence-final modality particles
     (re.compile(r"[ねよさ]+(?=[。．.!！？?]|$)"), ""),
     # --- prepositions pack1; C owns under/above/below/beneath — skip
@@ -1300,7 +1318,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bpara\b", re.I), "for"),  # ES purpose-for
     (_ci_compile(r"\bpour\b", re.I), "for"),  # FR
     (_ci_compile(r"\bf[uü]r\b", re.I), "for"),  # DE (4 removed: token loser)
-    (_ci_compile(r"\bcon\b", re.I), "with"),  # ES
+    # ES con→with removed: Romance con must stay; English con is never a preposition.
     (_ci_compile(r"\bavec\b", re.I), "with"),  # FR
     (_ci_compile(r"\bmit\b", re.I), "with"),  # DE
     (_ci_compile(r"\bbei\b", re.I), "@"),  # DE at/by
@@ -1334,7 +1352,8 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\baforementioned\b", re.I), "said"),
     (_ci_compile(r"\baforesaid\b", re.I), "said"),
     # JA polite endings → low-ambiguity
-    (re.compile(r"です。|ます。|でした。|ました。"), "。"),
+    # ます/ました are verb endings (思っています→思ってい, 行きました loses past): keep them.
+    (re.compile(r"です。"), "。"),
     (re.compile(r"ですね|ますね"), "ね"),
     (re.compile(r"でしょうか"), "?"),
     (re.compile(r"および|並びに|かつ"), "&"),
@@ -1913,7 +1932,8 @@ _A_SYMBOL_NEXT = (
     "thinks|thought|wants|wanted|\\w+ed"
 )
 _ARTICLE_WORD = _ci_compile(
-    r"(?:\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)"
+    # ``a-priori`` / ``a-La Paz`` / ``x-a``: part of a hyphenated word, keep.
+    r"(?:(?<![-\u2011])\b(?:the|an|(?-i:a))\b(?!" + _MARK_CLASS + r")(?!\.\w)(?![-\u2011]\w)"
     r"|(?:^|(?<=[.!?)\]] )|(?<=[.!?][\"')\]] )|(?<=[(\[{\"'\u2014\u2013]))(?-i:A)(?= +\w)(?! +(?:" + _A_SYMBOL_NEXT + r")\b))"
     r" *",
     re.I | re.M,
@@ -1921,7 +1941,7 @@ _ARTICLE_WORD = _ci_compile(
 _ART_PLACEHOLDER = "⟦ART{0}⟧"
 
 
-# Curly quote marks → straight (o200k: same tokens, fewer bytes).  ``’`` is
+# Curly quote marks → straight by default; token effects depend on context. ``’`` is
 # only rewritten as the closer of a ``‘…’`` pair; in-word apostrophes
 # (``don’t``) and possessives (``dogs’``) stay as written.
 # Pairs never cross a newline (``‘a\nb’`` keeps ``’``); `` ’n’ `` style elisions
@@ -1932,25 +1952,22 @@ _SINGLE_PAIR = re.compile(
 )
 
 
-# o200k merges ``“`` + these words into ONE token while ``"`` + word is two
-# (generated from the o200k_base vocab; runtime has no tiktoken).  Only when
-# ``“`` is at line start.  After a space the pretokenizer splits `` “`` off,
-# and after ``(``/``[`` it merges ``("``/``(“`` so keeping curly costs +1.
+# #110 reported an o200k merge for these line-start openers (runtime has no
+# tokenizer). This finite heuristic is not a token-count guarantee for full
+# sentences, other contexts or other tokenizers. See docs/quote-normalization.md.
 _CURLY_MERGE_WORDS = frozenset(
     "All At El How One She That These To Well With Yes".split()
 )
 _CURLY_KEEP_PAIR = re.compile(
-    r"^\u201c(?:" + "|".join(sorted(_CURLY_MERGE_WORDS)) + r")(?![A-Za-z])"
+    r"^\u201c(?:" + "|".join(sorted(_CURLY_MERGE_WORDS))
+    + r")(?![\w'\u2019" + _MARK_BODY + r"])"
     r"[^\u201c\u201d\n]*\u201d",
     re.M,
 )
 
 
-def normalize_quotes(text: str) -> str:
-    """``“…”`` → ``"…"``, ``‘…’`` → ``'…'``; apostrophes untouched.
-
-    A ``“…”`` pair whose opener merges with the next word in o200k (``“Well``)
-    stays curly at line start only, so the token count never rises."""
+def _normalize_double_quotes(text: str) -> str:
+    """Keep only complete line-start pairs matching the finite opener heuristic."""
     parts: list[str] = []
     pos = 0
     for m in _CURLY_KEEP_PAIR.finditer(text):
@@ -1958,7 +1975,17 @@ def normalize_quotes(text: str) -> str:
         parts.append(m.group(0))
         pos = m.end()
     parts.append(text[pos:].replace("\u201c", '"').replace("\u201d", '"'))
-    out = "".join(parts)
+    return "".join(parts)
+
+
+def normalize_quotes(text: str) -> str:
+    """Straighten quotes, except selected whole-word line-start double openers.
+
+    The exception is a bounded heuristic, not a guarantee that token counts
+    never rise. Unicode word/mark continuations and apostrophe suffixes do not
+    count as the listed word. In-word apostrophes remain untouched.
+    """
+    out = _normalize_double_quotes(text)
     out = _SINGLE_PAIR.sub(r"'\1'", out)
     return out.replace("\u2018", "'")
 
@@ -1969,20 +1996,112 @@ def strip_articles(text: str) -> str:
     es / pt / fr sentences are left untouched (``Voy a Madrid`` / ``Il a un
     chat``: ``a`` is a preposition or a verb there, see ``shared.romance_gate``).
     """
-    return apply_outside_romance(unicodedata.normalize("NFC", text), _strip_articles_en)
+    text = unicodedata.normalize("NFC", text).replace(A_JOIN, "-")
+    return apply_outside_romance(text, _strip_articles_cue_aware)
 
 
-def _strip_articles_en(text: str) -> str:
+# ``a``/``A`` + capitalised word in a sentence with no English cue at all is
+# likely the Spanish / Portuguese personal ``a`` (``A Maria come.``): keep it.
+# Spanish stressed personal pronouns also occur without detector cues
+# (``Dame a mí.`` / ``Todo vuelve a ti.`` / ``Se mira a sí mismo.``).
+_A_BEFORE_NAME = re.compile(r"(?<![\w'\u2019])([aA])(?= +([^\W\d_]))")
+
+
+_A_PERSONAL_PRONOUN = _ci_compile(r"(?:mí|ti|sí)\b", re.I)
+
+
+def _strip_articles_cue_aware(text: str) -> str:
+    # Source offsets, not sentinel text: arbitrary user characters must never
+    # be interpreted as an internal placeholder during restoration.
+    preserve_a: set[int] = set()
+    hyphen_a: set[int] = set()
+    for sentence in _SENT_CHUNK.finditer(text):
+        part = sentence.group(0)
+        english = has_english_cue(part)
+        for match in _A_BEFORE_NAME.finditer(part):
+            if unicodedata.category(match.group(2)) not in {"Lu", "Lt"}:
+                if not english and _A_PERSONAL_PRONOUN.match(part, match.start(2)):
+                    preserve_a.add(sentence.start() + match.start(1))
+                continue
+            word = re.match(r"[^\W\d_]+", part[match.end(1):].lstrip(" "))
+            if word and len(word.group(0)) > 1 and word.group(0).isupper():
+                # ``a IS key`` / ``A USB``: all-caps, not a name — old behaviour.
+                if not english:
+                    preserve_a.add(sentence.start() + match.start(1))
+                continue
+            offset = sentence.start() + match.start(1)
+            before = part[: match.start(1)].rstrip(" \t\"'([{\u201c\u2018")
+            at_start = before == "" or before.endswith(("\u2014", "\u2013"))
+            # (``Plan A Fails``: ``_ARTICLE_WORD`` never matches a mid-sentence
+            # capital ``A`` after a word, so labels are untouched there.)
+            if english or (at_start and match.group(1) == "A"):
+                # English ``A``/``a`` + name: join with ``-`` (``A-Maria``) so
+                # the article survives; ``restore_a_hyphen`` undoes it.
+                hyphen_a.add(offset)
+            else:
+                # es/pt/fr/it function-word ``a`` (``Veo a Juan``): keep as is.
+                preserve_a.add(offset)
+    return _strip_articles_en(text, preserve_a=frozenset(preserve_a), hyphen_a=frozenset(hyphen_a))
+
+
+# compress joins the protected article with U+2011 NON-BREAKING HYPHEN
+# (``A\u2011Maria``) so user-written ASCII hyphens (``A-Class``, ``A-Maria``,
+# ``a-priori``) are never confused with it. U+2011 already present in the
+# input is folded to ASCII ``-`` by ``strip_articles`` (same reading, and the
+# marker stays unambiguous); no NFKC is applied anywhere in the repo, so the
+# marker survives every path (NFKC would turn it into U+2010).
+A_JOIN = "\u2011"
+_A_HYPHEN = re.compile(r"(?<![\w'\u2019\u2011-])([aA])\u2011(?=[^\W\d_])")
+
+
+def restore_a_hyphen(text: str) -> str:
+    """Undo ``A\u2011Maria`` → ``A Maria`` (inverse of the article protection).
+
+    Only U+2011 is converted; ASCII ``A-Class`` / ``A-Maria`` stay untouched.
+    """
+    return _A_HYPHEN.sub(r"\1 ", unicodedata.normalize("NFC", text))
+
+
+_SENT_CHUNK = re.compile(r"[^.!?\n]*(?:[.!?]+[\"'\u201d\u2019)\]]*|\n|$)")
+
+
+def _strip_articles_en(
+    text: str, *, preserve_a: frozenset[int] = frozenset(), hyphen_a: frozenset[int] = frozenset()
+) -> str:
     text = unicodedata.normalize("NFC", text)
     restores: list[str] = []
+    quote_changes: list[tuple[int, int, int]] = []
 
     def _mask(m: re.Match[str]) -> str:
         inner = m.group(2) or m.group(3)
         restores.append(inner)
-        return _ART_PLACEHOLDER.format(len(restores) - 1)
+        placeholder = _ART_PLACEHOLDER.format(len(restores) - 1)
+        quote_changes.append((m.start(), m.end(), len(placeholder) - len(m.group(0))))
+        return placeholder
 
     out = _QUOTED_ARTICLE.sub(_mask, text)
-    out = _ARTICLE_WORD.sub("", out)
+    # Quoted articles are masked before article deletion. Carry source offsets
+    # past those length changes without changing the existing quoted behavior.
+    def _map(offsets: frozenset[int]) -> set[int]:
+        mapped: set[int] = set()
+        change = delta = 0
+        for offset in sorted(offsets):
+            while change < len(quote_changes) and quote_changes[change][1] <= offset:
+                delta += quote_changes[change][2]
+                change += 1
+            if change == len(quote_changes) or offset < quote_changes[change][0]:
+                mapped.add(offset + delta)
+        return mapped
+
+    mapped = _map(preserve_a)
+    hyphened = _map(hyphen_a)
+
+    def _article(m: re.Match[str]) -> str:
+        if m.start() in hyphened:
+            return m.group(0).rstrip(" ") + A_JOIN
+        return m.group(0) if m.start() in mapped else ""
+
+    out = _ARTICLE_WORD.sub(_article, out)
     for i, inner in enumerate(restores):
         out = out.replace(_ART_PLACEHOLDER.format(i), inner)
     out = re.sub(r"[ \t]{2,}", " ", out)
@@ -2268,9 +2387,18 @@ def compress(
     stripped unless ``keep_articles``. Quoted articles keep the inner word
     (quotes dropped). Counters map digit+noun phrases (``3 animals``→``3匹``);
     digitization of spelled words is C's job (or ``spelled_nums=True``).
+
+    User-input U+2011 (non-breaking hyphen) is normalized to ASCII ``-`` up
+    front, on every path including ``keep_articles=True``: U+2011 is reserved
+    as the article-protection join that ``expand`` turns back into a space.
+    This runs after ``[[keep:...]]`` / ``protect_regexes`` spans are extracted,
+    so protected spans keep U+2011 in the compressed output. Known limitation:
+    a U+2011 kept inside a protected span is still turned into a space by
+    ``expand`` when it follows a lone ``a``/``A`` (e.g. ``A‑Maria``).
     """
     text = unicodedata.normalize("NFC", text)
     out, restores = extract_protected(text, protect_regexes)
+    out = out.replace(A_JOIN, "-")
     out = normalize_quotes(out)
     # aggressive_fillers implies strip
     do_strip = strip or aggressive_fillers
@@ -2292,6 +2420,7 @@ def compress(
     out = substitute_with_romance_context(
         out, _SUBS,
         lambda part, protected: part if protected else drop_3sg_after_inventory_pronoun(part),
+        skip_in_protected=_ROMANCE_PRONOUN_SUB_IDX,
     ).replace('<<YOUOBJ>>', 'you')
     out = _DIGIT_FW.sub(lambda m: chr(ord(m.group(0)) - 0xFEE0), out)
     if hex_nums:
@@ -2299,6 +2428,11 @@ def compress(
     out = re.sub(r"[ \t]{2,}", " ", out)
     out = re.sub(r" *\n *", "\n", out)
     out = out.strip()
+    # Later rewrites can remove/change a retained opener (Well→∅, One→1).
+    # Revalidate on final text while protected spans remain masked. Keep the
+    # public entry point so quote_roundtrip's explicit identity override also
+    # disables this pass in its no-normalization comparison.
+    out = normalize_quotes(out)
     return restore_protected(out, restores)
 
 
@@ -2326,6 +2460,18 @@ _EXPAND_COUNTERS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 # Unambiguous short → longer (subset of _SUBS / UNIQUE_COMPACT). Documented lossy.
+# es/pt/fr subject pronoun pivots (yo/je/il/elle/tú…): not applied inside a
+# sentence the romance gate protects (``Il a un chat`` must not become ``he a``).
+_ROMANCE_PRONOUN_WORDS = frozenset(
+    "yo je ustedes usted tu tú ellos ellas elles ils ella elle él il".split()
+)
+_ROMANCE_PRONOUN_SUB_IDX = frozenset(
+    i for i, (pat, _r) in enumerate(_SUBS)
+    if any(re.fullmatch(pat, w) for w in _ROMANCE_PRONOUN_WORDS)
+    and not re.fullmatch(pat, "you")
+)
+
+
 _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bw/o\b", re.I), "without"),
     # CJK prep2 shorts: only expand when space/punct bounded (avoid eating JA 前後…)
@@ -2660,7 +2806,8 @@ def expand(text: str, *, counters: bool = True, compact: bool = True) -> str:
     text = unicodedata.normalize("NFC", text)
     from shared.lex_policy import UNIQUE_COMPACT
 
-    out = text
+    # Undo compress's ``A-Maria`` article protection first (exact inverse).
+    out = restore_a_hyphen(text)
     if counters:
         for pat, repl in _EXPAND_COUNTERS:
             out = pat.sub(repl, out)

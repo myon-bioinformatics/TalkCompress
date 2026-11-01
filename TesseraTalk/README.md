@@ -49,6 +49,28 @@ uv run python TesseraTalk/tessera_talk.py compress --translate-min --allow-langs
 
 `--prefer-ltr` biases Latin+CJK mixes without kana toward `en` rather than `zh`. `script_mix(text)` returns script counts/ratios; included in `--stats` JSON.
 
+## `estimate_tokens` の範囲と検証状態
+
+`estimate_tokens` はコミット済みの校正表と文字範囲に基づく **stdlib の推定器**であり、実 tokenizer の計測値ではありません。翻訳候補の順位にも使うため、推定の変更は選択される表現を変える可能性があります。
+
+[#108](https://github.com/myon-bioinformatics/TalkCompress/pull/108) の補正は、ポーランド語・チェコ語だけを検出して適用するものではありません。歴史的な定数名 `_LATIN_EXT_A` の範囲は **U+0100–U+024F（Latin Extended-A と Extended-B）**です。対応する長さの校正表がない class `s` の語で、`ceil(len/4)` に該当文字数を加算します。たとえば `œuvre`、マクロンやピンインの文字も対象になり得ます。校正表・登録済み例外・既存 suffix 規則が優先されます。
+
+- #108 で追加された `ı İ ğ Ğ ş Ş đ Đ` は、この加算から除外します。既存のトルコ語・ベトナム語の例を保つための限定的な例外であり、それらの言語全般の精度を保証しません。
+- U+1E00–U+1EFF を含む混合語は既存の class `v` が優先され、class `s` の補正は重ねません。これは文字範囲による分類であって、言語判定ではありません。
+
+### #108 の報告をどう扱うか
+
+52 語での調整、誤差の偏り −65 → +8、train 2464/2464、heldout 593/600、順位逆転 0、natural 誤差合計 55 → 54 は **元 PR 本文の著者報告・独立未検証の履歴**です。この調整の全入力・生の tokenizer 出力・実行条件の検証記録は追加されていません。これらの数値を、例外追加後の現行コードを再検証した結果とは扱いません。`tests/test_estimate_pl_cs.py` の参照値も著者報告を残したもので、許容幅を満たすことは一般的な精度の証明ではありません。この修正のローカル検証では再調整、実 tokenizer 計測、辞書取得を行っていません。
+
+`tests/test_estimate_pl_cs.py` の既定テストは推定式・例外・表の優先順位をオフラインで検査します。同ファイル内の実 tokenizer と照合する参考テストは、明示的に `TALKCOMPRESS_RUN_TOKENIZER_CHECKS=1` を指定した場合だけ動きます（tiktoken がインストール済みでも既定は skip）。この手動照合はキャッシュがなければ辞書を取得し得るため、今回のオフライン検証とは分けます。このフラグは、このテストに対する opt-in であり、リポジトリ内の他の計測経路を制御するものではありません。
+
+リポジトリ全体の pytest には実 tokenizer を使う既存の検査があり、`tests/conftest.py` の token-agreement 集計も含めて辞書取得が起こり得ます。上記フラグは全体をオフライン化する設定ではありません。
+
+```bash
+# 任意の実 tokenizer 照合。辞書取得が起こり得るため、必要なときだけ明示実行。
+TALKCOMPRESS_RUN_TOKENIZER_CHECKS=1 uv run python -m pytest tests/test_estimate_pl_cs.py::test_tr_vi_match_o200k
+```
+
 ## C との境界
 
 | | B TesseraTalk | C ShorthandEdge |

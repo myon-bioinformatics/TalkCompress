@@ -1139,7 +1139,8 @@ def test_morpho_from_arrow_and_ml_aliases():
     ja = m.compress("東京から来る", unique=False, etymon=False, counters=False)
     assert "←" in ja
     es = m.compress("desde casa con amigos para comer", unique=False, etymon=False, counters=False)
-    assert "←" in es and "with" in es and "for" in es
+    # con is never rewritten to with (desde/para unchanged)
+    assert "←" in es and "for" in es and "con" in es and "with" not in es
     fr = m.compress("depuis Paris avec Marie pour toi", unique=False, etymon=False, counters=False)
     assert "←" in fr and "with" in fr and "for" in fr
     de = m.compress("aus Berlin mit Anna für dich bei uns", unique=False, etymon=False, counters=False)
@@ -1151,8 +1152,9 @@ def test_morpho_from_arrow_and_ml_aliases():
     assert m.canonicalize_closed("pronoun", "ellos") == "they"
     assert m.canonicalize_closed("pronoun", "je") == "I"
     assert m.canonicalize_closed("pronoun", "ich") == "I"
+    # es/pt/fr と判定された文では主語代名詞を置換しない（#106 フォローアップ）
     subj = m.compress("yo voy y ella queda", unique=False, etymon=False, counters=False)
-    assert "I" in subj and "she" in subj
+    assert subj.split()[0] == "yo" and "ella" in subj
     # と → & kept
     assert "&" in m.compress("猫と犬", unique=False, etymon=False, counters=False)
     # expand ←
