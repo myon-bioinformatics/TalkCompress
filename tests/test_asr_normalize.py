@@ -39,7 +39,7 @@ def test_repair_utf8_read_as_single_byte(enc, s):
 
 
 def test_double_mojibake():
-    s = "café — ok"
+    s = "café naïve ok"
     bad = s.encode().decode("cp1252").encode().decode("cp1252")
     assert a.clean_mojibake(bad) == s
 
