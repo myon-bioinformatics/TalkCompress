@@ -80,5 +80,20 @@ def test_short_filters_length_and_duplicates(tmp_path, monkeypatch):
     monkeypatch.setattr(MOD, "fetch", lambda url, sha, cache: blob)
     rows = MOD.build_short("ko", tmp_path)
     assert [r["text"] for r in rows] == ["안녕", "고마워"]
+    assert {r["tier"] for r in rows} == {"short"}
     assert rows[0]["id"] == "lowres-tatoeba-ko-0000" and rows[0]["license"] == "CC BY 2.0 FR"
     assert list(MOD.to_jsonl(rows).decode().splitlines()[0].split('"')[1::4]) == list(MOD.KEYS)
+
+
+# FLORES-200 file codes (ISO 639-3 + ISO 15924), as shipped in flores200_dataset.tar.gz.
+EXPECTED_FLORES = {
+    "ko": "kor_Hang", "vi": "vie_Latn", "th": "tha_Thai", "id": "ind_Latn", "tr": "tur_Latn",
+    "he": "heb_Hebr", "fa": "pes_Arab", "sw": "swh_Latn", "bn": "ben_Beng", "ta": "tam_Taml",
+}
+
+
+def test_flores_code_table_is_exact():
+    assert MOD.FLORES == EXPECTED_FLORES
+    text = LICENSES.read_text(encoding="utf-8")
+    listed = dict(re.findall(r"([a-z]{2})=([a-z]{3}_[A-Z][a-z]{3})", text))
+    assert listed == MOD.FLORES
