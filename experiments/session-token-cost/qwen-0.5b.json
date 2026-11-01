@@ -1,0 +1,1047 @@
+{
+  "schema_version": 1,
+  "dataset_origin": "synthetic fixed messages; real tokenizer counts only",
+  "implementation_sha256": {
+    "Zipilogue/session_tokens.py": "86f44e5dc9df1058d9837e7a733dfd9b4564bd89b7cd56f54bcfdde33e87b560",
+    "Zipilogue/session_cost.py": "e57fca969e53bfb73bd417520bd9fb0ce31a7307003c3c2624cbf236a45c4b65",
+    "Zipilogue/rulebook.py": "09e3c99059dfbb98f295a43e5928d06f6e121625ff87a009cbe3475a19152226",
+    "shared/l3_models.json": "108b5769b90f67d70b1b4cb1a8d24981dd09b1dd74846c4270ff7788a8abc3ea"
+  },
+  "status": "measured",
+  "fixture_sha256": "b7aa78570bb417c24f2e0256730c0361c808844d4b66abd8295d8566f882f670",
+  "fixture": {
+    "rules": [
+      [
+        "please run the regression tests before merging",
+        "r1"
+      ]
+    ],
+    "messages": [
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging",
+      "please run the regression tests before merging"
+    ]
+  },
+  "model_id": "qwen-0.5b",
+  "runtime_id": "3c809f44383bcebc318b8cddd8c6d11aaa861e9b",
+  "endpoint": "http://127.0.0.1:8080/tokenize",
+  "policy": {
+    "add_special": false,
+    "parse_special": false,
+    "boundaries": "dictionary and each message/retransmission tokenized separately",
+    "excludes": [
+      "chat template",
+      "history replay",
+      "transport headers",
+      "generation"
+    ]
+  },
+  "semantic_understanding": {
+    "status": "unmeasured",
+    "success_rate": null
+  },
+  "task_success": {
+    "status": "unmeasured",
+    "success_rate": null
+  },
+  "costs": {
+    "utf8_bytes": {
+      "one_turn": {
+        "unit": "utf8_bytes",
+        "setup": 191,
+        "turns": [
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          }
+        ],
+        "original_total": 46,
+        "compressed_total": 193,
+        "net_saved": -147,
+        "first_saving_turn": null,
+        "exact_roundtrip": true,
+        "beneficial": false,
+        "encoded_total": 2,
+        "recovery_total": 0
+      },
+      "repeated": {
+        "unit": "utf8_bytes",
+        "setup": 191,
+        "turns": [
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          }
+        ],
+        "original_total": 1472,
+        "compressed_total": 255,
+        "net_saved": 1217,
+        "first_saving_turn": 5,
+        "exact_roundtrip": true,
+        "beneficial": true,
+        "encoded_total": 64,
+        "recovery_total": 0
+      },
+      "full_resend": {
+        "unit": "utf8_bytes",
+        "setup": 191,
+        "turns": [
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 46,
+            "encoded": 2,
+            "recovery": 46,
+            "exact_roundtrip": true
+          }
+        ],
+        "original_total": 1472,
+        "compressed_total": 1727,
+        "net_saved": -255,
+        "first_saving_turn": null,
+        "exact_roundtrip": true,
+        "beneficial": false,
+        "encoded_total": 64,
+        "recovery_total": 1472
+      }
+    },
+    "tokens": {
+      "one_turn": {
+        "unit": "tokens",
+        "setup": 57,
+        "turns": [
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          }
+        ],
+        "original_total": 7,
+        "compressed_total": 59,
+        "net_saved": -52,
+        "first_saving_turn": null,
+        "exact_roundtrip": true,
+        "beneficial": false,
+        "encoded_total": 2,
+        "recovery_total": 0
+      },
+      "repeated": {
+        "unit": "tokens",
+        "setup": 57,
+        "turns": [
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 0,
+            "exact_roundtrip": true
+          }
+        ],
+        "original_total": 224,
+        "compressed_total": 121,
+        "net_saved": 103,
+        "first_saving_turn": 12,
+        "exact_roundtrip": true,
+        "beneficial": true,
+        "encoded_total": 64,
+        "recovery_total": 0
+      },
+      "full_resend": {
+        "unit": "tokens",
+        "setup": 57,
+        "turns": [
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          },
+          {
+            "original": 7,
+            "encoded": 2,
+            "recovery": 7,
+            "exact_roundtrip": true
+          }
+        ],
+        "original_total": 224,
+        "compressed_total": 345,
+        "net_saved": -121,
+        "first_saving_turn": null,
+        "exact_roundtrip": true,
+        "beneficial": false,
+        "encoded_total": 64,
+        "recovery_total": 224
+      }
+    }
+  },
+  "model_provenance": {
+    "repository": "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+    "revision": "9217f5db79a29953eb74d5343926648285ec7e67",
+    "filename": "qwen2.5-0.5b-instruct-q4_k_m.gguf",
+    "bytes": 491400032,
+    "sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db",
+    "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/9217f5db79a29953eb74d5343926648285ec7e67/qwen2.5-0.5b-instruct-q4_k_m.gguf",
+    "template": null,
+    "quality_gate": false,
+    "model_id": "qwen-0.5b",
+    "sha256_verified": true,
+    "template_sha256": null,
+    "reasoning": "off"
+  },
+  "tokenizations": [
+    {
+      "text": "{\"version\":1,\"threshold\":3,\"auto_adopt\":false,\"next_id\":1,\"rules\":[{\"id\":\"r1\",\"long\":\"please run the regression tests before merging\",\"short\":\"r1\",\"count\":1,\"created_turn\":0}],\"proposals\":[]}",
+      "ids": [
+        4913,
+        4366,
+        788,
+        16,
+        1335,
+        28902,
+        788,
+        18,
+        1335,
+        3902,
+        62,
+        98238,
+        788,
+        3849,
+        1335,
+        3600,
+        842,
+        788,
+        16,
+        1335,
+        21977,
+        66582,
+        307,
+        3252,
+        81,
+        16,
+        2198,
+        4825,
+        3252,
+        30021,
+        1598,
+        279,
+        30549,
+        7032,
+        1573,
+        53377,
+        2198,
+        8676,
+        3252,
+        81,
+        16,
+        2198,
+        1830,
+        788,
+        16,
+        1335,
+        7120,
+        37274,
+        788,
+        15,
+        92,
+        28503,
+        776,
+        966,
+        1127,
+        788,
+        66277
+      ]
+    },
+    {
+      "text": "please run the regression tests before merging",
+      "ids": [
+        30021,
+        1598,
+        279,
+        30549,
+        7032,
+        1573,
+        53377
+      ]
+    },
+    {
+      "text": "r1",
+      "ids": [
+        81,
+        16
+      ]
+    },
+    {
+      "text": "",
+      "ids": []
+    }
+  ]
+}
