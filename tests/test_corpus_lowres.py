@@ -1,65 +1,41 @@
-"""Consistency checks for the ko/vi/th/id/tr/he/fa/sw/bn/ta corpus samples."""
+"""Script-specific checks for scripts/fetch_corpus_lowres.py.
+
+File/manifest consistency (sha256, counts, bytes, o200k, licences, sizes) is
+covered by tests/test_corpus_manifest.py; this file only checks what that
+generic validator cannot see.
+"""
 from __future__ import annotations
 
-import hashlib
 import importlib.util
-import json
 import re
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-CORPUS = ROOT / "tests" / "fixtures" / "corpus"
 SCRIPT = ROOT / "scripts" / "fetch_corpus_lowres.py"
-ALLOWED = {"CC0-1.0", "CC-BY-2.0-FR", "CC-BY-4.0", "CC-BY-SA-4.0"}
+LICENSES = ROOT / "tests" / "fixtures" / "corpus" / "LICENSES-lowres.md"
+
+_spec = importlib.util.spec_from_file_location("fetch_corpus_lowres", SCRIPT)
+MOD = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(MOD)
 
 
-def _load_script():
-    spec = importlib.util.spec_from_file_location("fetch_corpus_lowres", SCRIPT)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+def _license_table() -> dict[str, str]:
+    """Parse the 取得元 table of LICENSES-lowres.md into {url: sha256}."""
+    rows = {}
+    for line in LICENSES.read_text(encoding="utf-8").splitlines():
+        m = re.fullmatch(r"\| [^|]+ \| (https://\S+) \| `([0-9a-f]{64})` \|", line)
+        if m:
+            rows[m.group(1)] = m.group(2)
+    return rows
 
 
-MOD = _load_script()
-MINE = {f"{c}/{l}.jsonl" for c in MOD.CATEGORIES for l in MOD.LANGS}
-
-
-def _entries():
-    doc = json.loads((CORPUS / "manifest.json").read_text(encoding="utf-8"))
-    return {e["path"]: e for e in doc["entries"] if e["path"] in MINE}
-
-
-def test_manifest_covers_every_lang_and_category():
-    assert set(_entries()) == MINE
-
-
-@pytest.mark.parametrize("path", sorted(MINE))
-def test_sample_matches_manifest(path):
-    entry = _entries()[path]
-    blob = (CORPUS / path).read_bytes()
-    assert hashlib.sha256(blob).hexdigest() == entry["sha256"]
-    rows = [json.loads(line) for line in blob.decode("utf-8").splitlines()]
-    assert len(rows) == entry["count"] > 0
-    assert sum(len(r["text"].encode("utf-8")) for r in rows) == entry["text_bytes"]
-    cat, lang = path[:-len(".jsonl")].split("/")
-    assert entry["license"] in ALLOWED
-    assert entry["full_count"] >= 400 or (cat, lang) == ("short", "ta")
-    assert entry["full_count"] >= entry["count"]
-    for r in rows:
-        assert (r["lang"], r["category"]) == (lang, cat)
-        assert r["license"] == entry["license"] and r["text"].strip() == r["text"] != ""
-        if cat == "short":
-            assert len(r["text"]) <= MOD.SHORT_MAX_CHARS
-    assert len({r["id"] for r in rows}) == len(rows)
-
-
-def test_upstreams_are_sha256_pinned_https():
-    pins = [MOD.FLORES_SHA256] + [sha for _, sha in MOD.TATOEBA.values()]
-    assert all(re.fullmatch(r"[0-9a-f]{64}", p) for p in pins)
+def test_license_table_matches_script_pins_exactly():
+    expected = {MOD.FLORES_URL: MOD.FLORES_SHA256}
+    expected.update({MOD.TATOEBA_URL.format(code=c): sha for c, sha in MOD.TATOEBA.values()})
+    assert _license_table() == expected
     assert set(MOD.TATOEBA) == set(MOD.FLORES) == set(MOD.LANGS)
-    assert MOD.FLORES_URL.startswith("https://") and MOD.TATOEBA_URL.startswith("https://")
 
 
 def test_fetch_rejects_sha256_mismatch(tmp_path):
@@ -68,9 +44,41 @@ def test_fetch_rejects_sha256_mismatch(tmp_path):
         MOD.fetch("https://example.invalid/x", "0" * 64, tmp_path)
 
 
-def test_jsonl_is_stable_and_key_ordered():
-    rows = [{"text": "สวัสดี", "source": "s", "license": "CC-BY-SA-4.0",
-             "id": "short-th-0000", "lang": "th", "category": "short", "extra": 1}]
-    out = MOD.to_jsonl(rows).decode("utf-8")
-    assert out == ('{"id": "short-th-0000", "lang": "th", "category": "short", '
-                   '"text": "สวัสดี", "source": "s", "license": "CC-BY-SA-4.0"}\n')
+def test_opus_codes_are_registered_as_iso639_1():
+    assert MOD.tatoeba_source("fa").endswith(", pes)")
+    assert MOD.tatoeba_source("sw").endswith(", swh)")
+
+
+def _fake_flores(lang: str, sents: list[str], urls: list[str]) -> dict[str, bytes]:
+    code = MOD.FLORES[lang]
+    meta = "URL\tdomain\n" + "".join(f"{u}\tx\n" for u in urls)
+    out = {}
+    for split in ("dev", "devtest"):
+        out[f"flores200_dataset/{split}/{code}.{split}"] = "\n".join(sents).encode()
+        out[f"flores200_dataset/metadata_{split}.tsv"] = meta.encode()
+    return out
+
+
+def test_long_join_adds_exactly_one_space_per_boundary():
+    sents = ["ประโยคแรก ", "ประโยคสอง", "อีกเรื่อง"]
+    medium, long = MOD.build_flores("th", _fake_flores("th", sents, ["u1", "u1", "u2"]))
+    assert [r["text"] for r in long[:2]] == ["ประโยคแรก ประโยคสอง", "อีกเรื่อง"]
+    assert [r["url"] for r in long[:2]] == ["u1", "u2"]
+    assert {r["tier"] for r in medium} == {"medium"} and {r["tier"] for r in long} == {"long"}
+    assert len({r["id"] for r in medium + long}) == len(medium + long)
+
+
+def test_metadata_length_mismatch_stops():
+    with pytest.raises(SystemExit, match="metadata"):
+        MOD.build_flores("ko", _fake_flores("ko", ["a", "b"], ["u1"]))
+
+
+def test_short_filters_length_and_duplicates(tmp_path, monkeypatch):
+    import gzip
+    long_line = "x" * (MOD.SHORT_MAX_CHARS + 1)
+    blob = gzip.compress(f"안녕\n\n안녕\n{long_line}\n고마워\n".encode())
+    monkeypatch.setattr(MOD, "fetch", lambda url, sha, cache: blob)
+    rows = MOD.build_short("ko", tmp_path)
+    assert [r["text"] for r in rows] == ["안녕", "고마워"]
+    assert rows[0]["id"] == "lowres-tatoeba-ko-0000" and rows[0]["license"] == "CC BY 2.0 FR"
+    assert list(MOD.to_jsonl(rows).decode().splitlines()[0].split('"')[1::4]) == list(MOD.KEYS)

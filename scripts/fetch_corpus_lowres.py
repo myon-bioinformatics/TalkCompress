@@ -4,15 +4,19 @@
 Single file, stdlib only.  Every upstream archive is pinned by sha256 and the
 script refuses to continue when a download does not match.
 
-Buckets (``<category>``):
-  short  -- Tatoeba sentences (OPUS-Tatoeba v2023-04-12 mono, CC BY 2.0 FR)
-  medium -- FLORES-200 dev+devtest single sentences (CC BY-SA 4.0)
-  long   -- FLORES-200 sentences joined per source article (CC BY-SA 4.0)
+Layout follows docs/corpus.md (#134): ``<category>/<lang>.jsonl`` with one
+``{id,text,lang,tier,source,license,author,url}`` record per line.
+  tatoeba/<lang>.jsonl   tier=short   OPUS-Tatoeba v2023-04-12 mono (CC BY 2.0 FR)
+  flores200/<lang>.jsonl tier=medium  FLORES-200 dev+devtest single sentences
+                         tier=long    FLORES-200 sentences of one source article joined
+                                      with a single space (CC BY-SA 4.0)
+fa and sw are stored as ``fa``/``sw``; the OPUS file codes ``pes``/``swh`` are kept
+in ``source``.
 
 Usage:
-  python scripts/fetch_corpus_lowres.py                 # full set -> build/corpus/
+  python scripts/fetch_corpus_lowres.py                       # full set -> .cache/corpus/lowres
   python scripts/fetch_corpus_lowres.py --sample 20 --out tests/fixtures/corpus
-  uv run python scripts/fetch_corpus_lowres.py --tokens  # add o200k counts (tiktoken)
+  uv run python scripts/corpus_manifest.py update && uv run python scripts/corpus_manifest.py check
 """
 from __future__ import annotations
 
@@ -27,11 +31,9 @@ import urllib.request
 from pathlib import Path
 
 LANGS = ("ko", "vi", "th", "id", "tr", "he", "fa", "sw", "bn", "ta")
-CATEGORIES = ("short", "medium", "long")
 
 TATOEBA_URL = "https://object.pouta.csc.fi/OPUS-Tatoeba/v2023-04-12/mono/{code}.txt.gz"
-TATOEBA_LICENSE = "CC-BY-2.0-FR"
-TATOEBA_SOURCE = "Tatoeba (OPUS-Tatoeba v2023-04-12 mono)"
+TATOEBA_LICENSE = "CC BY 2.0 FR"
 # ISO 639-1 -> OPUS file code, sha256 of the .txt.gz
 TATOEBA = {
     "ko": ("ko", "72e21497f261ba7d174dfa4f191410e95fb3ec0b9f219c643672eace6df5f310"),
@@ -48,7 +50,7 @@ TATOEBA = {
 
 FLORES_URL = "https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz"
 FLORES_SHA256 = "b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6"
-FLORES_LICENSE = "CC-BY-SA-4.0"
+FLORES_LICENSE = "CC BY-SA 4.0"
 FLORES_SOURCE = "FLORES-200 (dev+devtest)"
 FLORES = {
     "ko": "kor_Hang", "vi": "vie_Latn", "th": "tha_Thai", "id": "ind_Latn",
@@ -59,6 +61,14 @@ FLORES = {
 SHORT_MAX_CHARS = 60
 SHORT_LIMIT = 500
 MEDIUM_LIMIT = 500
+ROOT = Path(__file__).resolve().parents[1]
+OPUS_TATOEBA_PAGE = "https://opus.nlpl.eu/Tatoeba/"
+FLORES_AUTHOR = "FLORES-200 (NLLB Team, Meta AI)"
+KEYS = ("id", "text", "lang", "tier", "source", "license", "author", "url")
+
+
+def tatoeba_source(lang: str) -> str:
+    return f"Tatoeba (OPUS-Tatoeba v2023-04-12 mono, {TATOEBA[lang][0]})"
 
 
 def _sha256(data: bytes) -> str:
@@ -91,13 +101,15 @@ def build_short(lang: str, cache: Path) -> list[dict]:
         if not text or len(text) > SHORT_MAX_CHARS or text in seen:
             continue
         seen.add(text)
-        out.append({"text": text, "source": TATOEBA_SOURCE, "license": TATOEBA_LICENSE})
+        out.append({"id": f"lowres-tatoeba-{lang}-{len(out):04d}", "text": text, "lang": lang,
+                    "tier": "short", "source": tatoeba_source(lang), "license": TATOEBA_LICENSE,
+                    "author": "Tatoeba contributors", "url": OPUS_TATOEBA_PAGE})
         if len(out) >= SHORT_LIMIT:
             break
     return out
 
 
-def _flores_members(cache: Path) -> dict[str, bytes]:
+def flores_members(cache: Path) -> dict[str, bytes]:
     data = fetch(FLORES_URL, FLORES_SHA256, cache)
     members: dict[str, bytes] = {}
     with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as tar:
@@ -111,6 +123,7 @@ def _flores_members(cache: Path) -> dict[str, bytes]:
 
 def build_flores(lang: str, members: dict[str, bytes]) -> tuple[list[dict], list[dict]]:
     code = FLORES[lang]
+    base = {"lang": lang, "source": FLORES_SOURCE, "license": FLORES_LICENSE, "author": FLORES_AUTHOR}
     medium: list[dict] = []
     long: list[dict] = []
     for split in ("dev", "devtest"):
@@ -121,81 +134,42 @@ def build_flores(lang: str, members: dict[str, bytes]) -> tuple[list[dict], list
             raise SystemExit(f"FLORES {split}/{code}: {len(sents)} sentences vs {len(urls)} metadata rows")
         doc: list[str] = []
         for i, (url, sent) in enumerate(zip(urls, sents)):
-            medium.append({"text": sent.strip(), "source": f"{FLORES_SOURCE} {split}#{i}",
-                           "license": FLORES_LICENSE})
+            medium.append({**base, "tier": "medium", "text": sent.strip(), "url": url})
             doc.append(sent.strip())
             if i + 1 == len(urls) or urls[i + 1] != url:
-                long.append({"text": " ".join(doc), "source": f"{FLORES_SOURCE} {split} {url}",
-                             "license": FLORES_LICENSE})
+                # All ten languages separate sentences with one space, so joining adds
+                # nothing the original script does not use (Thai included).
+                long.append({**base, "tier": "long", "text": " ".join(doc), "url": url})
                 doc = []
-    return medium[:MEDIUM_LIMIT], long
-
-
-def build_all(cache: Path) -> dict[tuple[str, str], list[dict]]:
-    members = _flores_members(cache)
-    result: dict[tuple[str, str], list[dict]] = {}
-    for lang in LANGS:
-        medium, long = build_flores(lang, members)
-        result[("short", lang)] = build_short(lang, cache)
-        result[("medium", lang)] = medium
-        result[("long", lang)] = long
-    for (cat, lang), rows in result.items():
-        for n, row in enumerate(rows):
-            row.update({"id": f"{cat}-{lang}-{n:04d}", "lang": lang, "category": cat})
-    return result
+    medium = medium[:MEDIUM_LIMIT]
+    for n, r in enumerate(medium):
+        r["id"] = f"lowres-flores200-{lang}-m{n:04d}"
+    for n, r in enumerate(long):
+        r["id"] = f"lowres-flores200-{lang}-l{n:04d}"
+    return medium, long
 
 
 def to_jsonl(rows: list[dict]) -> bytes:
-    keys = ("id", "lang", "category", "text", "source", "license")
-    return "".join(json.dumps({k: r[k] for k in keys}, ensure_ascii=False) + "\n"
+    return "".join(json.dumps({k: r[k] for k in KEYS}, ensure_ascii=False) + "\n"
                    for r in rows).encode("utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--out", type=Path, default=Path("build/corpus"))
-    ap.add_argument("--cache", type=Path, default=Path("build/corpus-cache"))
-    ap.add_argument("--sample", type=int, default=0, help="keep only the first N rows per file")
-    ap.add_argument("--tokens", action="store_true", help="count o200k_base tokens (needs tiktoken)")
-    ap.add_argument("--manifest", type=Path, help="write/merge entries into this manifest.json")
+    ap.add_argument("--out", type=Path, default=ROOT / ".cache" / "corpus" / "lowres")
+    ap.add_argument("--cache", type=Path, default=ROOT / ".cache" / "corpus" / "downloads")
+    ap.add_argument("--sample", type=int, default=0, help="keep the first N rows per tier (0 = all)")
     args = ap.parse_args(argv)
-
-    enc = None
-    if args.tokens:
-        import tiktoken  # dev dependency; not needed for fetching
-
-        enc = tiktoken.get_encoding("o200k_base")
-
-    entries = []
-    for (cat, lang), rows in sorted(build_all(args.cache).items()):
-        full_bytes = sum(len(r["text"].encode("utf-8")) for r in rows)
-        full_tokens = sum(len(enc.encode(r["text"])) for r in rows) if enc else None
-        kept = rows[: args.sample] if args.sample else rows
-        blob = to_jsonl(kept)
-        path = args.out / cat / f"{lang}.jsonl"
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(blob)
-        entry = {
-            "path": f"{cat}/{lang}.jsonl", "lang": lang, "category": cat,
-            "source": kept[0]["source"].split(" dev")[0] if kept else "",
-            "license": kept[0]["license"] if kept else "",
-            "count": len(kept), "sha256": _sha256(blob),
-            "text_bytes": sum(len(r["text"].encode("utf-8")) for r in kept),
-            "o200k_tokens": sum(len(enc.encode(r["text"])) for r in kept) if enc else None,
-            "full_count": len(rows), "full_text_bytes": full_bytes, "full_o200k_tokens": full_tokens,
-            "fetch": "scripts/fetch_corpus_lowres.py",
-        }
-        entries.append(entry)
-        print(f"{cat:6} {lang} rows={len(rows)} bytes={full_bytes} o200k={full_tokens}")
-
-    if args.manifest:
-        doc = {"schema": 1, "entries": []}
-        if args.manifest.is_file():
-            doc = json.loads(args.manifest.read_text(encoding="utf-8"))
-        mine = {e["path"] for e in entries}
-        doc["entries"] = sorted([e for e in doc.get("entries", []) if e.get("path") not in mine] + entries,
-                                key=lambda e: e["path"])
-        args.manifest.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    cut = (lambda rows: rows[: args.sample]) if args.sample else (lambda rows: rows)
+    members = flores_members(args.cache)
+    for lang in LANGS:
+        short = build_short(lang, args.cache)
+        medium, long = build_flores(lang, members)
+        for cat, rows in (("tatoeba", cut(short)), ("flores200", cut(medium) + cut(long))):
+            path = args.out / cat / f"{lang}.jsonl"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(to_jsonl(rows))
+        print(f"{lang}: short={len(short)} medium={len(medium)} long={len(long)}")
     return 0
 
 
