@@ -84,7 +84,7 @@
       "sha256": "a64a76036c826bcca117d18ffe7aa511e33eed8465a12e9ab501b7e28419f662",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード kor_Hang、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード kor_Hang、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-vi-lowres",
@@ -118,7 +118,7 @@
       "sha256": "d1f3973f6e99c528173741a80e3bf027fcc30982a862855311399890406caf3f",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード vie_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード vie_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-th-lowres",
@@ -152,7 +152,7 @@
       "sha256": "49c121923963ab7c681ea0fec197917111b4640fcfa31f966fccd17d33514aa0",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード tha_Thai、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード tha_Thai、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-id-lowres",
@@ -186,7 +186,7 @@
       "sha256": "c706a53b4e6e884ad1c2b314006e8d7f4c42dd0658afb1e80db5198c1270cac0",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード ind_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード ind_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-tr-lowres",
@@ -220,7 +220,7 @@
       "sha256": "b3989a0953c5a90158c1fff2ed53e3d0107550e9a18aac7e5ec813d83d012c6e",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード tur_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード tur_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-he-lowres",
@@ -254,7 +254,7 @@
       "sha256": "5be305ca68b75c01c16db2bc4ab890a6a987fb63978f9dd4f8f87d4c7a287970",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード heb_Hebr、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード heb_Hebr、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-fa-lowres",
@@ -288,7 +288,7 @@
       "sha256": "8a94d515cbb1e69aa23267cdab7a1d10240212616e44cbaae16fcbcca1f79223",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード pes_Arab、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード pes_Arab、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-sw-lowres",
@@ -322,7 +322,7 @@
       "sha256": "eb4e0c3479354e804b33e83cfda256cb89cf60ac5c78983a6a8aa066b484c12a",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード swh_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード swh_Latn、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-bn-lowres",
@@ -356,7 +356,7 @@
       "sha256": "b1ac127c6a9d6fb25fe1489b681b85838be18d39f77ed2ac65df7972173f1047",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード ben_Beng、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード ben_Beng、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     },
     {
       "id": "tatoeba-ta-lowres",
@@ -390,7 +390,7 @@
       "sha256": "91f39a1263c4a209b8d1bfa2c53023ec8addaebb4255db7b3e80eaa5a54921e4",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "NLLB Team et al. 2022 / FLORES-200（FLORES コード tam_Taml、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
+      "attribution": "NLLB Team et al. 2022, \"No Language Left Behind: Scaling Human-Centered Machine Translation\"（論文 https://arxiv.org/abs/2207.04672 ）/ FLORES-200（公式リポジトリ https://github.com/facebookresearch/flores/tree/main/flores200 、FLORES コード tam_Taml、取得元 https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz sha256 b8b0b76783024b85797e5cc75064eb83fc5288b41e9654dabc7be6ae944011f6）。各行 url は元記事。tier=medium は単文、tier=long は同一記事の連続文を半角空白 1 つで連結した改変物（CC BY-SA 4.0 で継承）"
     }
   ]
 }
