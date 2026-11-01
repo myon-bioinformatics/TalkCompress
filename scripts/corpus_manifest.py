@@ -111,7 +111,8 @@ def validate_manifest(m: object) -> list[str]:
             if e["id"] in seen:
                 errs.append(f"entries[{i}]: id {e['id']!r} が重複")
             seen.add(e["id"])
-        key = (e.get("category"), e.get("lang"), e.get("source"))
+        src = e.get("source")
+        key = (e.get("category"), e.get("lang"), src.casefold() if isinstance(src, str) else src)
         if all(isinstance(x, str) for x in key):
             if key in keys:
                 errs.append(f"entries[{i}]: (category, lang, source) {key} が重複")
@@ -134,6 +135,7 @@ def validate_records(path: Path, entry: dict | None = None) -> tuple[list[str], 
     errs: list[str] = []
     texts: list[str] = []
     ids: set = set()
+    seen_text: dict = {}
     for n, line in enumerate(path.read_bytes().decode("utf-8").splitlines(), 1):
         if not line.strip():
             continue
@@ -158,11 +160,21 @@ def validate_records(path: Path, entry: dict | None = None) -> tuple[list[str], 
             for k in ("lang", "license"):
                 if rec[k] != entry.get(k):
                     errs.append(f"{p}: {k} {rec[k]!r} が manifest（{entry.get(k)!r}）と不一致")
+            if rec["source"].casefold() != str(entry.get("source", "")).casefold():
+                errs.append(f"{p}: source {rec['source']!r} が manifest（{entry.get('source')!r}）と不一致")
         if rec["id"] in ids:
             errs.append(f"{p}: id {rec['id']!r} がファイル内で重複")
         ids.add(rec["id"])
+        if rec["text"] in seen_text:
+            errs.append(f"{p}: text が {seen_text[rec['text']]} 行目と重複")
+        seen_text.setdefault(rec["text"], n)
         texts.append(rec["text"])
     return errs, texts
+
+
+def _record_ids(path: Path) -> list[str]:
+    """検証済みファイルのレコード id 一覧。"""
+    return [json.loads(x)["id"] for x in path.read_text(encoding="utf-8").splitlines() if x.strip()]
 
 
 def measure(path: Path, enc=None, entry: dict | None = None) -> dict:
@@ -205,6 +217,7 @@ def check(manifest_path: Path = MANIFEST, enc=None) -> list[str]:
         rel = f.relative_to(base).as_posix()
         if rel not in listed:
             errs.append(f"{rel}: manifest に無い jsonl（孤児）")
+    id_owner: dict = {}
     for i, e in enumerate(m["entries"]):
         if "path" not in e:
             continue
@@ -217,6 +230,10 @@ def check(manifest_path: Path = MANIFEST, enc=None) -> list[str]:
         except ValueError as ex:
             errs.append(f"entries[{i}]: {ex}")
             continue
+        for rid in _record_ids(f):
+            other = id_owner.setdefault(rid, e["path"])
+            if other != e["path"]:
+                errs.append(f"entries[{i}]: レコード id {rid!r} が {other} と重複（ファイル間）")
         for k, v in got.items():
             if e[k] != v:
                 errs.append(f"entries[{i}]: {k} が実測と不一致（manifest={e[k]} 実測={v}）")

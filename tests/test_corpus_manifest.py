@@ -86,7 +86,7 @@ def test_top_level_and_duplicates():
     assert cm.validate_manifest(_m("x")) == ["entries[0]: object ではない"]
     assert any("重複" in e for e in cm.validate_manifest(_m(GOOD, GOOD)))
     errs = cm.validate_manifest(_m(GOOD, {**GOOD, "id": "y"}))
-    assert errs == ["entries[1]: (category, lang, source) ('sentence', 'ja', 'Tatoeba') が重複",
+    assert errs == ["entries[1]: (category, lang, source) ('sentence', 'ja', 'tatoeba') が重複",
                     "entries[1]: path 'sentence/ja.jsonl' が重複"]
 
 
@@ -208,7 +208,7 @@ def test_record_non_object_is_error_not_crash(tmp_path, line):
 
 def test_record_lang_license_must_match_entry(tmp_path):
     f = tmp_path / "x.jsonl"
-    f.write_text(json.dumps(R(lang="en")) + "\n" + json.dumps(R("r2", license="CC0 1.0")) + "\n", encoding="utf-8")
+    f.write_text(json.dumps(R(lang="en")) + "\n" + json.dumps(R("r2", text="い", license="CC0 1.0")) + "\n", encoding="utf-8")
     assert cm.validate_records(f)[0] == []
     errs, _ = cm.validate_records(f, GOOD)
     assert errs == [
@@ -222,10 +222,10 @@ def test_record_lang_license_must_match_entry(tmp_path):
 
 def test_record_duplicate_id(tmp_path):
     f = tmp_path / "x.jsonl"
-    f.write_text(json.dumps(R("a")) + "\n" + json.dumps(R("b")) + "\n" + json.dumps(R("a")) + "\n", encoding="utf-8")
+    f.write_text(json.dumps(R("a")) + "\n" + json.dumps(R("b", text="い")) + "\n" + json.dumps(R("a", text="う")) + "\n", encoding="utf-8")
     assert cm.validate_records(f)[0] == ["x.jsonl:3: id 'a' がファイル内で重複"]
-    _, mp = _write(tmp_path, [R("a"), R("b")])
-    (tmp_path / "sentence/ja.jsonl").write_text(json.dumps(R("a")) + "\n" + json.dumps(R("a")) + "\n", encoding="utf-8")
+    _, mp = _write(tmp_path, [R("a"), R("b", text="い")])
+    (tmp_path / "sentence/ja.jsonl").write_text(json.dumps(R("a")) + "\n" + json.dumps(R("a", text="い")) + "\n", encoding="utf-8")
     assert any("重複" in e for e in cm.check(mp, _Enc()))
 
 
@@ -322,3 +322,54 @@ def test_fetch_main_exit_codes(tmp_path, monkeypatch, capsys):
     mp.write_text(json.dumps(_m({**e1, "license": "CC BY-NC 4.0"})), encoding="utf-8")
     assert cf.main(["--manifest", str(mp), "--cache", str(cache)]) == 1
     assert "許可リスト外" in capsys.readouterr().err
+
+
+def test_record_duplicate_text_within_file(tmp_path):
+    f = tmp_path / "x.jsonl"
+    # JSON エスケープ違いでも読んだ後の text が同じなら重複
+    f.write_text(json.dumps(R("a", text="あ")) + "\n" + json.dumps(R("b", text="い")) + "\n"
+                 + json.dumps(R("c", text="あ"), ensure_ascii=False) + "\n" + json.dumps(R("d", text="あ")) + "\n", encoding="utf-8")
+    assert cm.validate_records(f)[0] == ["x.jsonl:3: text が 1 行目と重複", "x.jsonl:4: text が 1 行目と重複"]
+
+
+def _two_files(tmp_path, ja_recs, en_recs):
+    base = {k: v for k, v in GOOD.items()}
+    entries = []
+    for lang, recs in (("ja", ja_recs), ("en", en_recs)):
+        d = tmp_path / "sentence"
+        d.mkdir(exist_ok=True)
+        f = d / f"{lang}.jsonl"
+        f.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in recs), encoding="utf-8")
+        e = {**base, "id": lang, "lang": lang, "path": f"sentence/{lang}.jsonl"}
+        entries.append({**e, **cm.measure(f, _Enc(), e)})
+    mp = tmp_path / "manifest.json"
+    mp.write_text(json.dumps(_m(*entries)), encoding="utf-8")
+    return mp
+
+
+def test_record_id_duplicate_across_files(tmp_path):
+    mp = _two_files(tmp_path, [R("a"), R("b", text="い")], [R("z", lang="en", text="x")])
+    assert cm.check(mp, _Enc()) == []
+    mp = _two_files(tmp_path, [R("a"), R("b", text="い")], [R("b", lang="en", text="x")])
+    assert cm.check(mp, _Enc()) == ["entries[1]: レコード id 'b' が sentence/ja.jsonl と重複（ファイル間）"]
+
+
+def test_same_text_across_langs_allowed(tmp_path):
+    mp = _two_files(tmp_path, [R("a", text="OK")], [R("b", lang="en", text="OK")])
+    assert cm.check(mp, _Enc()) == []
+
+
+def test_duplicate_manifest_id_only():
+    other = {**GOOD, "category": "wiki", "lang": "en", "source": "Wikipedia", "path": "wiki/en.jsonl"}
+    assert cm.validate_manifest(_m(GOOD, other)) == ["entries[1]: id 'x' が重複"]
+
+
+def test_source_dup_key_casefold():
+    errs = cm.validate_manifest(_m(GOOD, {**GOOD, "id": "y", "source": "TATOEBA", "fetch_url": "https://x"} | {}))
+    assert "entries[1]: (category, lang, source) ('sentence', 'ja', 'tatoeba') が重複" in errs
+
+
+def test_record_source_matches_entry_casefold(tmp_path):
+    f = tmp_path / "x.jsonl"
+    f.write_text(json.dumps(R(source="TaToEbA")) + "\n" + json.dumps(R("r2", text="い", source="Wikipedia")) + "\n", encoding="utf-8")
+    assert cm.validate_records(f, GOOD)[0] == ["x.jsonl:2: source 'Wikipedia' が manifest（'Tatoeba'）と不一致"]
