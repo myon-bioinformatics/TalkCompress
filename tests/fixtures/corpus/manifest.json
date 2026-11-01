@@ -84,7 +84,7 @@
       "sha256": "860a9996b56068212a82bb0a235cb7b3b50051ce7e420bfe39c652e59b6d8fd1",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-zh-opus",
@@ -118,7 +118,7 @@
       "sha256": "b5a911c707955e95683c8d7c512a96ad46928c1db77e20e7141029d0dbd232a1",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-es-opus",
@@ -152,7 +152,7 @@
       "sha256": "289f167e56eb23e2080cfc3078c5a545d9927936a9aa6df1767adbf9cb9f7d36",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-hi-opus",
@@ -186,7 +186,7 @@
       "sha256": "53057cad434f2c5736083df86b361d19f9b89a41cf7f6a7af5026bccffb3e884",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-ar-opus",
@@ -220,7 +220,7 @@
       "sha256": "6651215487f34e4432d5150fe68cc33bf3ef14f59a7d227b0284f9583d2e5170",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-pt-opus",
@@ -254,7 +254,7 @@
       "sha256": "377a31dd8f4be11c485438b940aff7ab2281d2aae3fecd6bfbb76be9b5bbe0f2",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-fr-opus",
@@ -288,7 +288,7 @@
       "sha256": "f4e2aed3078c426b4f2c503fe3c0445a7640cf3109ec46f8aecfe58031beaa46",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-ru-opus",
@@ -322,7 +322,7 @@
       "sha256": "5a9fe52cced6257f72b12b0c8418586b0e642de1f6cf6be473ebe02da438da9a",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-ja-opus",
@@ -356,7 +356,7 @@
       "sha256": "f1cb76b41d8f07268a12a0664799124dea8d749dc68cad7f94f6022ce8610381",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     },
     {
       "id": "tatoeba-de-opus",
@@ -390,7 +390,7 @@
       "sha256": "b418325d7254f07a80b18f13fbacff75fea52f2d4f0d1ed1456fea23bbbde4f5",
       "retrieved_at": "2026-11-01",
       "ai_roundtrip": "未測定",
-      "attribution": "各行の url は元記事。tier=medium（1文）/long（記事連結）。全件は scripts/fetch_corpus_major.py"
+      "attribution": "FLORES-200 © Meta AI（NLLB Team）、CC BY-SA 4.0（https://creativecommons.org/licenses/by-sa/4.0/ ）。出典: https://github.com/facebookresearch/flores/tree/main/flores200 。各行の url は元記事（Wikinews / Wikivoyage / Wikibooks）。tier=medium（1文）/long（記事単位で連結、ja/zh は区切りなし、他は半角スペース。改変あり）。全件は scripts/fetch_corpus_major.py"
     }
   ]
 }
