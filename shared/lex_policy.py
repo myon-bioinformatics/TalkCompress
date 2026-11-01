@@ -964,11 +964,40 @@ _PUNCT_BOUNDED_ONLY: frozenset[str] = frozenset({
 })
 
 
+# JA fillers that end a sentence (そうですよね): strip as a suffix, as before.
+_JA_SUFFIX_FILLERS: frozenset[str] = frozenset({"ですねー", "ですよね"})
+# Long-vowel / unmistakable fillers may be followed directly by content (えーと今日は).
+_JA_FREE_FILLERS: frozenset[str] = frozenset({"えーと", "えっと", "あのー", "そのー", "うーん"})
+
+
+def _strip_fillers_ja(text: str) -> str:
+    """Drop JA fillers only as whole words, with their trailing 、.
+
+    A plain ``replace`` broke words: してから→しら (てか), あの人→人, まあまあ.
+    Left edge must not be a word char; except for _JA_FREE_FILLERS the filler must
+    be followed by 、/space/sentence end. Leftover 、 next to 。 or at a sentence
+    start is removed (今日は、えーと、雨。 → 今日は、雨。, えーと、ちょっと → ちょっと).
+    """
+    out = text
+    for f in sorted(FILLERS_JA, key=len, reverse=True):
+        if f in _JA_SUFFIX_FILLERS:
+            out = out.replace(f, "")
+            continue
+        e = re.escape(f)
+        if f in _JA_FREE_FILLERS:
+            pat = rf"(?<![\w]){e}(?:[、,，]\s*|\s+)?"
+        else:
+            pat = rf"(?<![\w]){e}(?:[、,，]\s*|\s+|(?=[。．.!?！？」』）)]|$))"
+        out = re.sub(pat, "", out)
+    out = re.sub(r"[、,，]\s*(?=[、。．!?！？])", "", out)
+    out = re.sub(r"(?:(?<=^)|(?<=[。．!?！？\n]))\s*[、，]\s*", "", out)
+    return out
+
+
 def strip_fillers(text: str, *, aggressive: bool = False) -> str:
     """Remove light fillers / interjections. ``aggressive`` enables hedge words like just/like."""
     out = text
-    for f in sorted(FILLERS_JA, key=len, reverse=True):
-        out = out.replace(f, "")
+    out = _strip_fillers_ja(out)
 
     en = list(FILLERS_EN)
     if not aggressive:
