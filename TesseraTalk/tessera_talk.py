@@ -498,6 +498,11 @@ _LATIN_EXT_A = re.compile(r"[\u0100-\u024F]")
 # the class-s heuristic. These are not a general accuracy guarantee; see README.
 _O200K_MERGED_EXT = "\u0131\u0130\u011f\u011e\u015f\u015e\u0111\u0110"
 _LATIN_EXT_SPLIT = re.compile(r"[^\W\d_" + _O200K_MERGED_EXT + r"]")
+# Vietnamese syllable: tone letters U+1EA0–U+1EF9 only (not transliteration ḥ ṣ ẓ / ā ī),
+# plus ASCII and the Vietnamese-only Latin letters đ ă ơ ư ĩ ũ and Latin-1 accents.
+_VI_SYLLABLE = re.compile(r"[a-z\u00C0-\u00FF\u0111\u0103\u01A1\u01B0\u0129\u0169]*[\u1EA0-\u1EF9][a-z\u00C0-\u00FF\u0111\u0103\u01A1\u01B0\u0129\u0169\u1EA0-\u1EF9]*", re.IGNORECASE)
+_VI_LETTER = re.compile(r"[\u1EA0-\u1EF9]")
+_VI_RARE = re.compile("[\u1EB4\u1EB5\u1EB2\u1EB3\u1EAA\u1EAB\u1EBC\u1EBD\u1EF8\u1EF9\u1EF6\u1EF7\u1EF4\u1EF5]")  # ẵ ẳ ẫ ẽ ỹ ỷ ỵ
 _COMBINING_RE = re.compile(r"[\u0300-\u036F]")
 _CALIB: dict | None = None
 
@@ -525,6 +530,11 @@ def _fallback_cost(w: str, len_table: dict, suffixes: dict | None = None, floor:
     """Cost of a word in no table: calibrated per (class, length) plus a suffix delta
     (e.g. Romance futures ``-rei``/``-ré`` split off), else the legacy ceil(len/4) rule."""
     k = f"{_wclass(w)}{len(w)}"
+    if k[0] == "v" and _VI_SYLLABLE.fullmatch(w):
+        # Vietnamese syllables (tones in U+1E00–U+1EFF) are mostly a single o200k token
+        # (" tiếng" " Việt" " người" = 1): the old per-char +1 overestimated them.
+        # tone letters that are rare in o200k's training data split off (" Nẵng" = 3, " Huế" = 2)
+        return max(1, (len(w) + 5) // 6) + (1 if _VI_RARE.search(w) else 0)
     if k in len_table:
         if len(w) < 5:
             return len_table[k]
@@ -616,12 +626,19 @@ def estimate_tokens(text: str) -> int:
         return 0
     s = unicodedata.normalize("NFC", text)
     cal = _load_calib()
+    vi_text = _VI_LETTER.search(s) is not None
     n = 0
     for m in _PRETOKEN.finditer(s):
         kind, p = m.lastgroup, m.group()
         if kind in ("w", "o"):
             # a combining mark left after NFC is its own byte-level token in o200k
             n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
+            if (m.start() == 0 or s[m.start() - 1] != " ") and (
+                _VI_SYLLABLE.fullmatch(p) or (vi_text and not p.isascii())
+            ):
+                # without a leading space o200k splits a Vietnamese syllable ("biết" = 2,
+                # " biết" = 1); in Vietnamese text this also holds for "Hà" / "Đà" (2 vs " Hà" = 1)
+                n += 1
         elif kind == "k":
             if m.start() == 0 or s[m.start() - 1] == " ":
                 # o200k merges the preceding space only into some CJK tokens
