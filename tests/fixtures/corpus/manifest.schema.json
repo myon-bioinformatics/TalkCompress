@@ -108,7 +108,9 @@
             "default": "未測定"
           },
           "attribution": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "description": "license に BY を含む場合は必須（check が強制）"
           },
           "category": {
             "type": "string",
