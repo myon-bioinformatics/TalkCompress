@@ -19,7 +19,7 @@ GOOD = {
     "id": "x", "source": "Tatoeba", "url": "https://tatoeba.org/", "license": "CC BY 2.0 FR",
     "license_url": "https://creativecommons.org/licenses/by/2.0/fr/", "lang": "ja", "category": "tatoeba",
     "path": "tatoeba/ja.jsonl", "count": 1, "bytes": 3, "o200k_tokens": 1, "sha256": "a" * 64,
-    "retrieved_at": "2026-11-01", "ai_roundtrip": "未測定",
+    "retrieved_at": "2026-11-01", "ai_roundtrip": "未測定", "attribution": "Tatoeba, CC BY 2.0 FR",
 }
 
 
@@ -373,3 +373,38 @@ def test_record_source_matches_entry_casefold(tmp_path):
     f = tmp_path / "x.jsonl"
     f.write_text(json.dumps(R(source="TaToEbA")) + "\n" + json.dumps(R("r2", text="い", source="Wikipedia")) + "\n", encoding="utf-8")
     assert cm.validate_records(f, GOOD)[0] == ["x.jsonl:2: source 'Wikipedia' が manifest（'Tatoeba'）と不一致"]
+
+
+ATTR_MSG = "entries[0]: license {!r} は BY 系なので attribution（空でない文字列）が必要"
+
+
+@pytest.mark.parametrize("lic", ["CC BY 2.0 FR", "CC BY 4.0", "CC BY-SA 4.0", "CC BY-SA 3.0"])
+@pytest.mark.parametrize("attr", ["missing", None, "", "   ", 3])
+def test_by_license_requires_attribution(lic, attr):
+    e = {**GOOD, "license": lic}
+    if attr == "missing":
+        del e["attribution"]
+    else:
+        e["attribution"] = attr
+    assert cm.validate_manifest(_m(e)) == [ATTR_MSG.format(lic)]
+
+
+@pytest.mark.parametrize("lic", ["CC0 1.0", "Public domain"])
+def test_cc0_pd_attribution_optional(lic):
+    e = {k: v for k, v in GOOD.items() if k != "attribution"}
+    assert cm.validate_manifest(_m({**e, "license": lic})) == []
+
+
+def test_repo_seed_layout_is_dataset_named():
+    m = json.loads(cm.MANIFEST.read_text(encoding="utf-8"))
+    # 全エントリ共通：category は CAT_RE、path は <category>/<lang>.jsonl、BY 系は attribution 必須。
+    # 特定データセット（tatoeba 等）や attribution の URL 表記には依存しない（#136/#137 等の追加でも通る）。
+    for e in m["entries"]:
+        assert cm.CAT_RE.match(e["category"]), e["id"]
+        if "path" in e:
+            assert e["path"] == f"{e['category']}/{e['lang']}.jsonl", e["id"]
+        if "BY" in e["license"]:
+            a = e.get("attribution")
+            assert isinstance(a, str) and a.strip(), e["id"]
+    # 旧 sentence/ category が残っていないこと
+    assert all(e["category"] != "sentence" for e in m["entries"])

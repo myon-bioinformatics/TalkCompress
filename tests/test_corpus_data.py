@@ -46,6 +46,29 @@ def test_tatoeba_colloquial_rows():
     assert all(r["url"] == f"https://tatoeba.org/sentences/show/{r['id'].split(':')[1]}" and r["author"] for r in rows)
 
 
+def test_tatoeba_acquisition_and_attribution_survive_integration():
+    for lang, seeds in (("en", 12), ("fr", 11), ("ja", 11)):
+        rows = _rows(f"tatoeba/{lang}.jsonl")
+        assert sum(r["acquisition_source"] == "OPUS-Tatoeba v2023-04-12 mono" for r in rows) == 20
+        assert sum(r["acquisition_source"] == "Tatoeba API" for r in rows) == seeds
+        official = [r for r in rows if r["acquisition_source"] == "Tatoeba official detailed export"]
+        assert len(official) == (300 if lang == "ja" else 0)
+        assert all(r["source"] == "Tatoeba" and r["license"] == "CC BY 2.0 FR" for r in rows)
+        assert all(r["author"] != "Tatoeba contributors" and "/sentences/show/" in r["url"] for r in official)
+        assert len({r["id"] for r in rows}) == len({r["text"] for r in rows}) == len(rows)
+
+
+def test_opus_regeneration_does_not_destroy_other_acquisitions(tmp_path):
+    import fetch_corpus_major as fm
+    p = tmp_path / "tatoeba" / "ja.jsonl"
+    p.parent.mkdir()
+    data = json.dumps(_rows("tatoeba/ja.jsonl")[0]) + "\n"
+    p.write_text(data, encoding="utf-8")
+    with pytest.raises(ValueError, match="--out"):
+        fm.write(p, [])
+    assert p.read_text(encoding="utf-8") == data
+
+
 def test_tier_thresholds():
     import build_corpus as bc
     assert bc.tier("短い文です。") == "short"

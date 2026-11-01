@@ -178,7 +178,7 @@ def main() -> None:
         entries.append(entry("colloquial", lang, "common-voice", f"{CV_BLOB}/{lang}/sentence-collector.txt", CC0, cv_day[lang],
                              "Common Voice sentence-collector（CC0、表示不要）。読み上げ用の文で自発発話ではない（register=read）"))
 
-    # Tatoeba の口語文は #134 の 1 ファイル 1 source に合わせ、既存の tatoeba/ja.jsonl（source=tatoeba）に追記する
+    # source はデータセット名。OPUS / API / 公式配布の取得経路は acquisition_source で区別する。
     tp = fetch(TATOEBA_DETAILED, "jpn_sentences_detailed.tsv.bz2")
     coll = re.compile(r"(よ|ね|な|ぜ|わ|さ|じゃん|っけ|ってば|かな|でしょ|だろ)[。！？!?]?$")
     tl = []
@@ -191,7 +191,8 @@ def main() -> None:
     keep = [json.loads(x) for x in sj.read_text(encoding="utf-8").splitlines() if x.strip()]
     keep = [r for r in keep if "register" not in r]  # #134 の手選び分は残す
     have = {r["text"] for r in keep} | {r["id"] for r in keep}
-    add = [{"id": f"tatoeba:{i}", "text": s, "lang": "ja", "source": "tatoeba", "license": CCBY[0], "author": a,
+    add = [{"id": f"tatoeba:{i}", "text": s, "lang": "ja", "source": "Tatoeba", "license": CCBY[0], "author": a,
+            "acquisition_source": "Tatoeba official detailed export", "acquisition_url": TATOEBA_DETAILED,
             "url": f"https://tatoeba.org/sentences/show/{i}", "tier": tier(s), "register": "colloquial", **m(s)}
            for i, s, a in rng.sample(tl, N_TATOEBA + 20) if s not in have and f"tatoeba:{i}" not in have][:N_TATOEBA]
     sj.write_text("".join(dumps(r) + "\n" for r in keep + add), encoding="utf-8")
@@ -236,8 +237,10 @@ def main() -> None:
     for e in man["entries"]:
         if e.get("path") == "tatoeba/ja.jsonl":
             e["retrieved_at"] = max(e["retrieved_at"], day(tp))
-            e["attribution"] = ("各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと。register=colloquial の行は "
-                                "scripts/build_corpus.py が jpn_sentences_detailed から口語文末で抽出")
+            note = (" register=colloquial の行は Tatoeba 公式 jpn_sentences_detailed "
+                    f"({TATOEBA_DETAILED}) から抽出。OPUS 由来ではない。著者と文 URL は各行の author / url。")
+            if note not in e["attribution"]:
+                e["attribution"] += note
     mp.write_text(json.dumps(man, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     cm.update(mp)
     for e in man["entries"]:

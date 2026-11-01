@@ -53,11 +53,15 @@ tests/fixtures/corpus/
   <category>/<lang>.jsonl    # 小さいサンプルのみ
 ```
 
-- `<category>` はデータセット名（例：`tatoeba`）を基本とする（2bot 決定。既存の `colloquial` / `mojibake` / `mixed` は未移行）。小文字英数と `_` `-`。
+- **`<category>` の命名規則**（小文字英数と `_` `-`、`CAT_RE` = `^[a-z][a-z0-9_-]*$`）：
+  - **上流の生データ**（そのまま切り出したもの）は**出典データセット名**にする
+    （例：`tatoeba/<lang>.jsonl`、`flores200/<lang>.jsonl`、`wikipedia/<lang>.jsonl`、`commonvoice/<lang>.jsonl`）。
+  - **加工したデータや自作データ**は**用途名**にする（例：`colloquial/`（口語）、`mojibake/`（文字化け）、`mixed/`（記号・言語混在））。
+  - 長さでは分けない。長さは各レコードの `tier`（short / medium / long）で表し、複数の tier を同じファイルに入れてよい。
+  - テストが見るのは `CAT_RE` と path の形（`<category>/<lang>.jsonl`）、BY 系の attribution が空でないことだけ。特定データセット名や URL 表記は要求しない。
 - `<lang>` は ISO 639-1（無ければ 639-3）。文字種の区別が要るなら `sr-Latn` のような BCP 47 副タグ。
 - JSONL 1 行 = `{"id","text","lang","tier","source","license","author","url"}`。
   **tier（`short` 1 文 / `medium` 数文の段落 / `long` 記事・章の抜粋）は行ごとの欄**で、パスには入れない。
-  機械的に決める場合のしきい値（`scripts/build_corpus.py` の `tier()`）: 文末記号（。！？.!?）で数えて 1 文かつ 200 コードポイント以下は short、5 文以下かつ 1000 コードポイント以下は medium、それ以外は long。文字化けの行は原文（`orig`）で判定する。
 - **生の元データはコミットしない。** コミットするのは取得スクリプト、小さいサンプル、ライセンス表示だけ。
   同梱サンプルは 1 ファイル 256 KB（262144 バイト）以下・`tests/fixtures/corpus/` 全体 5 MB（5242880 バイト）以下。`check` が強制する。
   上限は corpus/ 配下の全ファイルが対象で、jsonl だけでなく manifest.json と manifest.schema.json も数える。
@@ -70,7 +74,9 @@ tests/fixtures/corpus/
 
 必須項目：`id, category, source, url, license, license_url, lang, count, bytes, o200k_tokens,
 sha256, retrieved_at, ai_roundtrip`、それに `path`（同梱。`<category>/<lang>.jsonl`）か
-`fetch_url`（外部）のどちらか一方。任意で `attribution`。
+`fetch_url`（外部）のどちらか一方。
+`license` に `BY` を含むエントリ（CC BY*・CC BY-SA*）は `attribution`（空でない文字列）が必須。CC0・Public domain は任意。
+attribution には出典名、利用条件ページ、ライセンス URL と、個々の著者がどこに書いてあるかを書く。
 
 - `count` 件数、`bytes` 各 text の UTF-8 バイト合計、`o200k_tokens` 各 text を o200k_base で個別に
   エンコードしたトークン数の合計、`sha256` ファイル全体のハッシュ。
@@ -101,7 +107,70 @@ uv run python scripts/corpus_fetch.py [--id X]    # 外部取得 + sha256 照合
 
 数値は必ず `update` で実測したものを入れる。手書きの数値は `check` で落ちる。
 
-## 6. シード（このPR）
+## 6. 複数のデータ PR で manifest.json が衝突したとき
+
+データ PR はどれも `tests/fixtures/corpus/manifest.json` の `entries` 配列に追記するので、先に別の PR が main に入ると衝突しやすい。次の手順で直す。
+
+1. **main を通常どおりマージする（rebase しない）。**
+   `git fetch origin && git merge origin/main`
+2. **manifest.json の衝突は手で直し、両側のエントリを残す。**
+   `<<<<<<<` / `=======` / `>>>>>>>` を消し、main 側と自分の側の `entries` を両方入れた正しい JSON にする。
+   数値（count / bytes / o200k_tokens / sha256）はどちらの値でもよい。次の `update` で再計算される。
+3. **`uv run python scripts/corpus_manifest.py update` を実行する。**
+   `update` は**新しいエントリを追加しない**。manifest に既にある `path` 付きエントリについて、
+   `count`・`bytes`・`o200k_tokens`・`sha256` を実ファイルから再計算して書き戻すだけ（`fetch_url` のエントリは触らない）。
+   したがって手順 2 でエントリを消してしまうと復活しない。消えたエントリの jsonl は `check` で「manifest に無い jsonl（孤児）」になる。
+   衝突マーカーが残っていると JSON として読めずに失敗する。レコードが不正な場合は `measure` が ValueError を出して止まる。
+   `update` は書き戻したあとに `check` も実行し、問題があれば終了コード 1 を返す。
+4. **`uv run python scripts/corpus_manifest.py check` を実行して、`OK` を確認する。**
+   id・path・(category, lang, source) の重複、ファイル間のレコード id 重複、サイズ上限もここで検出される。
+5. 解決をコミットして push する（force-push はしない）。
+
+例：main に `tatoeba/ko.jsonl`（4bot）が入ったあと、自分の PR で `tatoeba/de.jsonl` を追加していた場合。
+
+```
+$ git merge origin/main
+CONFLICT (content): Merge conflict in tests/fixtures/corpus/manifest.json
+```
+
+```jsonc
+// 衝突を解いたあとの entries（両方を残す。数値は仮でよい）
+"entries": [
+  { "id": "tatoeba-ja", ... },
+  { "id": "tatoeba-ko", "path": "tatoeba/ko.jsonl", ... },  // main 側
+  { "id": "tatoeba-de", "path": "tatoeba/de.jsonl", ... }   // 自分の側
+]
+```
+
+```
+$ uv run python scripts/corpus_manifest.py update   # 数値を実測で書き戻し、check も走る
+OK
+$ uv run python scripts/corpus_manifest.py check
+OK
+$ git add tests/fixtures/corpus/manifest.json && git commit --no-edit && git push
+```
+
+### 6.1 両方の PR が同じ jsonl を追加したとき（add/add 衝突）
+
+例：#135 と #137 がどちらも `tatoeba/ja.jsonl` を足した場合。`git merge origin/main` で jsonl も manifest も衝突する。
+
+1. **jsonl は両側のレコードを連結して1ファイルにする。** 衝突マーカーを消し、1行1レコードの JSONL に戻す。
+2. **重複を除く。** 同じ `id` が両側にあれば片方を消すか、後から入る側の id を振り直す（`check` はファイル内・ファイル間の id 重複、(category, lang) 内の text 重複を検出する）。
+3. **`source` 表記をそろえる。** 同じファイルの全レコードが同じ `source` 文字列になるようにする（例：複数経路の Tatoeba は `Tatoeba`）。取得経路を偽ってそろえてはいけない。`acquisition_source` に API / OPUS / 公式配布を残し、各行の author / url を保持する。`license` も1つにそろうこと（違うなら同じファイルにまとめない）。
+4. **manifest のエントリは1つにまとめる。** 同じ `path` のエントリが2つあると `check` が path 重複で落とす。`id`・`source`・`license`・`attribution` を1つに統一し、attribution には両側の出典 URL を残す。
+5. `uv run python scripts/corpus_manifest.py update` → `check` で `OK` を確認し、コミットして push する（rebase / force-push しない）。
+
+## 7. シード（このPR）
 
 Tatoeba API（2026-11-01 取得）から ja / en / fr の短文を 11〜12 件ずつ（`tatoeba/<lang>.jsonl`、tier=short）。
 孤児文・未承認文は除外。数値は manifest.json を参照（実測）。AI 往復は未測定。
+
+## 統合コーパスの取得経路と評価
+
+Tatoeba の en/fr/ja は OPUS の20文と API seed（en 12 / fr 11 / ja 11）を保持し、ja は公式詳細配布の口語文300件を追加した。source はデータセット名 Tatoeba、acquisition_source は取得経路。公式配布分は OPUS 由来とは表記しない。文ごとの author / url と CC BY 2.0 FR を保持する。
+
+`fetch_corpus_major.py` は統合済みファイルの上書きを拒否する。再取得は既定の .cache/corpus/major/ 等に生成し、id・text を検査して統合する。`build_corpus.py` は OPUS / API の既存文を保持し、公式配布分だけを再生成する。
+
+#135 の tier は1文かつ200コードポイント以下=short、5文以下かつ1000以下=medium、それ以外=long。mojibake は orig で判定。#137/#136 の medium は1文、long は同じ記事の文の連結であり、カテゴリ間で tier の意味は完全には一致しない。
+
+全カテゴリの AI 意味保持・往復評価は未測定。ftfy の完全一致は機械復元の指標であり LLM の成功ではない。Common Voice は読み上げ用文で、自発発話データではない。FLORES の medium と long は同じ元文を共有するため、学習用と評価用に分ける場合は記事 URL 単位で分割する。

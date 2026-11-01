@@ -12,8 +12,8 @@
 | mixed/{ja,en} | 自作テンプレート＋コードポイント範囲から自作で組み立てた絵文字＋一部に Common Voice 文（`embedded_id`） | CC0 1.0 |
 
 ## 表示（Attribution）
-- Tatoeba: Sentences from Tatoeba (https://tatoeba.org), licensed under CC BY 2.0 FR (https://creativecommons.org/licenses/by/2.0/fr/). 各行の `id` は Tatoeba の文 ID で、`https://tatoeba.org/sentences/show/<id>` の寄稿者に帰属する。
-- Common Voice: CC0-1.0（表示不要）。
+- Tatoeba: Sentences from Tatoeba (https://tatoeba.org), licensed under CC BY 2.0 FR (https://creativecommons.org/licenses/by/2.0/fr/). 公式配布/API の行は author と文ごとの url に帰属する。OPUS の行は文 ID・投稿者名が上流に無いため author=Tatoeba contributors。取得経路は acquisition_source を参照し、公式配布分を OPUS 由来とは扱わない。
+- Common Voice: sentence-collector の文は CC0-1.0（表示不要）。データ用ライセンスは https://github.com/common-voice/common-voice/blob/main/server/data/LICENSE 。リポジトリ直下の MPL-2.0 はソフトウェア用であり、文データとは区別する。
 
 ## レコード形式
 各行は #134 の `{id,text,lang,tier,source,license,author,url}` に加え、実測の `o200k`・`bytes` と補助欄（`register`、mojibake の `orig`/`orig_id`/`kind`/`ftfy_*`、mixed の `embedded_id`）。Common Voice 行の `url` は取得元ファイル、`author` は "Common Voice contributors"、`id` は `cv-<lang>-<本文 sha1 先頭 12 桁>`。
