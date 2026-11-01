@@ -46,6 +46,8 @@ FLORES = {
     "ar": "arb_Arab", "pt": "por_Latn", "fr": "fra_Latn", "ru": "rus_Cyrl",
     "ja": "jpn_Jpan", "de": "deu_Latn",
 }
+# long の文連結: 分かち書きしない言語は空文字、それ以外は半角スペース
+JOINER = {"ja": "", "zh": ""}
 SHORT_MAX_CHARS = 60
 SHORT_LIMIT = 500
 MEDIUM_LIMIT = 500
@@ -78,7 +80,7 @@ def build_short(lang: str, cache: Path) -> list[dict]:
         seen.add(t)
         out.append({"id": f"tatoeba-{lang}-{len(out):04d}", "text": t, "lang": lang, "tier": "short",
                     "source": "Tatoeba (OPUS-Tatoeba v2023-04-12 mono)", "license": "CC BY 2.0 FR",
-                    "author": "Tatoeba contributors", "url": "https://opus.nlpl.eu/Tatoeba/"})
+                    "author": "Tatoeba contributors", "url": "https://tatoeba.org/"})
         if len(out) >= SHORT_LIMIT:
             break
     return out
@@ -112,7 +114,7 @@ def build_flores(lang: str, members: dict[str, bytes]) -> tuple[list[dict], list
             medium.append({**base, "tier": "medium", "text": s.strip(), "url": url})
             doc.append(s.strip())
             if i + 1 == len(urls) or urls[i + 1] != url:
-                long.append({**base, "tier": "long", "text": " ".join(doc), "url": url})
+                long.append({**base, "tier": "long", "text": JOINER.get(lang, " ").join(doc), "url": url})
                 doc = []
     medium = medium[:MEDIUM_LIMIT]
     for n, r in enumerate(medium):
