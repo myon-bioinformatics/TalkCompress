@@ -978,6 +978,7 @@ def _strip_fillers_ja(text: str) -> str:
     be followed by 、/space/sentence end. Leftover 、 next to 。 or at a sentence
     start is removed (今日は、えーと、雨。 → 今日は、雨。, えーと、ちょっと → ちょっと).
     """
+    # 「えーと」のように引用されたフィラーは言及なので残す（左が 「『"“ なら消さない）。
     out = text
     for f in sorted(FILLERS_JA, key=len, reverse=True):
         if f in _JA_SUFFIX_FILLERS:
@@ -985,11 +986,11 @@ def _strip_fillers_ja(text: str) -> str:
             continue
         e = re.escape(f)
         if f in _JA_FREE_FILLERS:
-            pat = rf"(?<![\w]){e}(?:[、,，]\s*|\s+)?"
+            pat = rf"(?<![\w「『\"“]){e}(?:[、,，]\s*|\s+)?"
         else:
-            pat = rf"(?<![\w]){e}(?:[、,，]\s*|\s+|(?=[。．.!?！？」』）)]|$))"
+            pat = rf"(?<![\w「『\"“]){e}(?:[、,，]\s*|\s+|(?=[。．.!?！？」』）)]|$))"
         out = re.sub(pat, "", out)
-    out = re.sub(r"[、,，]\s*(?=[、。．!?！？])", "", out)
+    out = re.sub(r"[、,，]\s*(?=[、。．!?！？]|$)", "", out)
     out = re.sub(r"(?:(?<=^)|(?<=[。．!?！？\n]))\s*[、，]\s*", "", out)
     return out
 
