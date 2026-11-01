@@ -598,6 +598,12 @@ POLARITY_MARKERS: tuple[str, ...] = ("!", "¬")
 # NOT folded into it. Canonical = cheapest surface per slot (token → utf8).
 # Slots: proximal/distal × sg/pl + JA far-distal あれ.
 # FR/ES compact (ça/eso) and ZH 这/那 win when cheaper than EN/JA.
+# Bare これ/それ/あれ are the pronoun only when not the head of a conjunction /
+# adverb (それから, それぞれ, これから, それでは, それでも, これまで, それなり, それほど)
+# and not inside a word (おそれ). Shared by the inventory regex and the rewrite rules.
+_JA_DEIXIS_GUARD = r"(?!から|ぞれ|では|でも|で[、,，]|まで|なり|ほど|ゆえ|とも|に[、,，]|と[、,，])"
+_JA_DEIXIS_LB = r"(?<!お)"
+
 DEIXIS_CANONICAL: tuple[str, ...] = (
     "ça",    # proximal sg (this/これ/esto/ceci/这 → ça)
     "eso",   # distal sg   (that/それ/cela/那 → eso)
@@ -660,7 +666,9 @@ DEIXIS_ALIAS_TO_CANONICAL: dict[str, str] = {
 _DEIXIS_SURFACE_RE = _ci_compile(
     r"これらの|それらの|これの|それの|あれの|"
     r"これは|これが|これを|それは|それが|それを|あれは|あれが|あれを|"
-    r"これ|それ|あれ|"
+    # Bare これ/それ/あれ only as the pronoun: not inside conjunctions/adverbs
+    # (それから, それぞれ, これから, それでは, それでも, これまで, それなり, それほど).
+    rf"(?:これ|それ|あれ){_JA_DEIXIS_GUARD}|"
     r"这些|那些|这个|那个|[这那]|"
     r"ceux-là|ceux-la|ceux-ci|"
     r"\bthese\b|\bthose\b|\bthis\b|\bthat\b|"
@@ -1099,9 +1107,9 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # proximal sg → ça; distal sg → eso; pl → these/those; far → あれ.
     (re.compile(r"これらの|これら"), "these"),
     (re.compile(r"それらの|それら"), "those"),
-    (re.compile(r"これの|これは|これが|これを|これ"), "ça"),
-    (re.compile(r"それの|それは|それが|それを|それ"), "eso"),
-    (re.compile(r"あれの|あれは|あれが|あれを|あれ"), "あれ"),
+    (re.compile(_JA_DEIXIS_LB + r"(?:これの|これは|これが|これを|これ" + _JA_DEIXIS_GUARD + ")"), "ça"),
+    (re.compile(_JA_DEIXIS_LB + r"(?:それの|それは|それが|それを|それ" + _JA_DEIXIS_GUARD + ")"), "eso"),
+    (re.compile(_JA_DEIXIS_LB + r"(?:あれの|あれは|あれが|あれを|あれ" + _JA_DEIXIS_GUARD + ")"), "あれ"),
     (re.compile(r"这些"), "these"),
     (re.compile(r"那些"), "those"),
     (re.compile(r"这个|这"), "ça"),
@@ -1279,7 +1287,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"について"), " about "),  # re:→about: token loser  (before に/へ: 猫について≠猫に)
     (re.compile(r"までは"), " until "),  # 〜→until: token loser
     (re.compile(r"には"), " to "),  # →→to: token loser
-    (re.compile(r"では(?!ない)"), " in "),  # ∈→in: token loser
+    (re.compile(r"(?<!それ)(?<!これ)(?<!あれ)(?<![\s、。，．!?！？「（(])(?<!^)では(?!ない)"), " in "),  # それでは / 文頭の では は接続詞  # ∈→in: token loser
     (re.compile(r"とは"), "&"),
     (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])まで"), " until "),  # 〜→until: token loser
     # から: particle-from → ← (pairs with に/へ→→; fr is alias only — for-real 揺らぎ)
