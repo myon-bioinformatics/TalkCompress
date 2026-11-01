@@ -480,13 +480,19 @@ _PRETOKEN = re.compile(
     r"(?:['\u2019](?:s|t|re|ve|m|ll|d)(?![A-Za-z]))?)"
     r"|(?P<d>\d{1,3})"
     r"|(?P<k>[\u3400-\u9FFF\uF900-\uFAFF\u3040-\u30FF\uAC00-\uD7AF]+)"
-    r"|(?P<c>[\u0E00-\u0E7F])"
+    r"|(?P<c>[\u0E00-\u0E7F]+)"
+    # Non-BMP chars outside o200k's vocabulary (CJK Ext B–H, Supplementary PUA-A/B):
+    # o200k falls back to raw UTF-8 bytes, so each costs ≈ its 4 bytes.
+    r"|(?P<b>[\U00020000-\U000323AF\U000F0000-\U0010FFFF])"
+    # Emoji runs (skin-tone modifiers, ZWJ sequences, VS16): costed from a measured table.
+    r"|(?P<e>[\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*"
+    r"[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)"
     r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
     # Letters of any other script (Hebrew, Armenian, Georgian, …) must not cost 0.
     # Indic / SE-Asian blocks keep the main-branch path: ceil(len/4) split at every vowel
     # sign drifts further from o200k there. Fixed ranges, not unicodedata, so the result
     # does not depend on the Python version.
-    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF])[^\W\d_])+)"
+    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF\U00020000-\U000323AF])[^\W\d_])+)"
     r"|(?P<p>[^\w\s]+)",
     re.IGNORECASE,
 )
@@ -504,6 +510,8 @@ _VI_SYLLABLE = re.compile(r"[a-z\u00C0-\u00FF\u0111\u0103\u01A1\u01B0\u0129\u016
 _VI_LETTER = re.compile(r"[\u1EA0-\u1EF9]")
 _VI_RARE = re.compile("[\u1EB4\u1EB5\u1EB2\u1EB3\u1EAA\u1EAB\u1EBC\u1EBD\u1EF8\u1EF9\u1EF6\u1EF7\u1EF4\u1EF5]")  # ẵ ẳ ẫ ẽ ỹ ỷ ỵ
 _COMBINING_RE = re.compile(r"[\u0300-\u036F]")
+# A word spelled only with Vietnamese letters (ASCII + Latin-1 accents + đ ă ơ ư ĩ ũ + tone letters).
+_VI_WORD = re.compile(r"[a-z\u00C0-\u00FF\u0111\u0103\u01A1\u01B0\u0129\u0169\u1EA0-\u1EF9]+", re.IGNORECASE)
 _CALIB: dict | None = None
 
 
@@ -574,6 +582,10 @@ def _load_calib() -> dict:
             c["cjk_sp"] = frozenset(d.get("cjk_space_vocab", "").split())
             c["sym"] = frozenset(d.get("symbol_vocab", ""))
             c["cjk"] = frozenset(d.get("cjk_vocab", "").split())
+            c["th"] = frozenset(d.get("thai_vocab", "").split())
+            c["th_sp"] = frozenset(d.get("thai_space_vocab", "").split())
+            c["vi_sp"] = frozenset(d.get("vi_space_vocab", "").split())
+            c["emoji"] = _unpack_emoji(d.get("emoji_costs", {}))
         _CALIB = c
     return _CALIB
 
@@ -589,6 +601,55 @@ def _word_cost(w: str, cal: dict) -> int:
         stem, _, _ = lw.partition("'")
         return _word_cost(stem, cal) + 1
     return _fallback_cost(lw, cal["len_table"], cal["suffixes"], cal["suffix_floor"])
+
+
+def _unpack_emoji(d: dict) -> dict:
+    """``{"ranges": [[start, "digits"], ...], "vs16": "chars"}`` -> {str: o200k cost}."""
+    out: dict = {}
+    for start, digits in d.get("ranges", []):
+        for i, ch in enumerate(digits):
+            out[chr(start + i)] = int(ch)
+    for ch in d.get("vs16", ""):
+        out[ch + "\ufe0f"] = 1  # e.g. "❤️" (U+2764 U+FE0F) is a single o200k token
+    return out
+
+
+def _emoji_cost(run: str, table: dict) -> int:
+    """Sum of per-codepoint o200k costs (measured: a ZWJ / skin-tone sequence costs the sum
+    of its parts, 👨‍👩‍👧‍👦 = 2+1+2+1+2+1+2 = 11); a base + VS16 pair can merge to 1."""
+    n = i = 0
+    while i < len(run):
+        if run[i:i + 2] in table:
+            n += table[run[i:i + 2]]
+            i += 2
+            continue
+        n += table.get(run[i], len(run[i].encode("utf-8")))
+        i += 1
+    return n
+
+
+def _thai_cost(run: str, vocab: frozenset, space: bool, sp_vocab: frozenset) -> int:
+    """Greedy longest match against o200k's Thai tokens (≤ 17 chars); else 1 per char.
+    After a space, a leading word o200k merges with the space is one token; otherwise
+    the bare space costs its own token."""
+    n = 0
+    i = 0
+    if space:
+        for L in range(min(17, len(run)), 0, -1):
+            if run[:L] in sp_vocab:
+                n, i = 1, L
+                break
+        else:
+            n = 1
+    while i < len(run):
+        for L in range(min(17, len(run) - i), 1, -1):
+            if run[i:i + L] in vocab:
+                i += L
+                break
+        else:
+            i += 1
+        n += 1
+    return n
 
 
 def _cjk_cost(run: str, vocab: frozenset) -> int:
@@ -616,7 +677,11 @@ def estimate_tokens(text: str) -> int:
       Latin Extended-A/B letters excluding the #108 exceptions, or U+1E00–U+1EFF
       characters for the other Latin fallback. This is not an exact token count.
     - CJK / kana / Hangul runs: greedy longest match against the committed o200k
-      multi-char token list (``cjk_vocab``), else 1 per character; Thai = 1 per char
+      multi-char token list (``cjk_vocab``), else 1 per character
+    - Thai runs: greedy longest match against o200k's Thai tokens (``thai_vocab``)
+    - Vietnamese words after a space: 1 if o200k has " word" (``vi_space_vocab``), else >= 2
+    - emoji runs (skin tone, ZWJ, VS16): sum of measured per-code-point costs (``emoji_costs``)
+    - CJK Ext B–H / Supplementary PUA chars (no vocab token): UTF-8 bytes (4 each)
     - other-script runs (Greek, Cyrillic, Arabic, Devanagari) go through the same
       tables (own classes in the fallback)
     - digit groups of <= 3 = 1; each punctuation run = 1
@@ -632,7 +697,14 @@ def estimate_tokens(text: str) -> int:
         kind, p = m.lastgroup, m.group()
         if kind in ("w", "o"):
             # a combining mark left after NFC is its own byte-level token in o200k
-            n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
+            spaced = m.start() > 0 and s[m.start() - 1] == " "
+            if spaced and not p.isascii() and (vi_text or _VI_SYLLABLE.fullmatch(p)) and _VI_WORD.fullmatch(p):
+                # Vietnamese: o200k has many syllables as one " syllable" token (case-sensitive,
+                # " tiếng" = 1 but " Tiếng" = 2); one it lacks splits into >= 2 (" phê" " Huế" = 2).
+                # Unspaced words keep the #120 rule below (word cost + 1).
+                n += 1 if p in cal.get("vi_sp", ()) else max(2, _word_cost(p, cal))
+            else:
+                n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
             if (m.start() == 0 or s[m.start() - 1] != " ") and (
                 _VI_SYLLABLE.fullmatch(p) or (vi_text and not p.isascii())
             ):
@@ -651,6 +723,13 @@ def estimate_tokens(text: str) -> int:
                     n += 1 + _cjk_cost(p, cal["cjk"])
             else:
                 n += _cjk_cost(p, cal["cjk"])
+        elif kind == "c":
+            n += _thai_cost(p, cal.get("th", frozenset()), m.start() > 0 and s[m.start() - 1] == " ",
+                            cal.get("th_sp", frozenset()))
+        elif kind == "b":  # no vocabulary token: raw UTF-8 bytes
+            n += len(p.encode("utf-8"))
+        elif kind == "e":
+            n += _emoji_cost(p, cal.get("emoji", {}))
         elif kind == "x":  # uncalibrated script: legacy ceil(len/4)
             n += (len(p) + 3) // 4  # len >= 1, so always >= 1
         elif kind == "p":
