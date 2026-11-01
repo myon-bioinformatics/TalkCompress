@@ -233,7 +233,7 @@ def check(manifest_path: Path = MANIFEST, enc=None) -> list[str]:
         for rid in _record_ids(f):
             other = id_owner.setdefault(rid, e["path"])
             if other != e["path"]:
-                errs.append(f"entries[{i}]: レコード id {rid!r} が {other} と重複（ファイル間）")
+                errs.append(f"entries[{i}]: {e['path']}: レコード id {rid!r} が {other} と重複（ファイル間）")
         for k, v in got.items():
             if e[k] != v:
                 errs.append(f"entries[{i}]: {k} が実測と不一致（manifest={e[k]} 実測={v}）")
