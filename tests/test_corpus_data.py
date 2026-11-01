@@ -4,7 +4,11 @@ from __future__ import annotations
 import json
 import pathlib
 
+import sys
+
 import pytest
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "scripts"))
 
 CORPUS = pathlib.Path(__file__).parent / "fixtures" / "corpus"
 ENTRIES = [e for e in json.loads((CORPUS / "manifest.json").read_text(encoding="utf-8"))["entries"]
@@ -40,3 +44,27 @@ def test_tatoeba_colloquial_rows():
     rows = [r for r in _rows("sentence/ja.jsonl") if r.get("register") == "colloquial"]
     assert len(rows) >= 300
     assert all(r["url"] == f"https://tatoeba.org/sentences/show/{r['id'].split(':')[1]}" and r["author"] for r in rows)
+
+
+def test_tier_thresholds():
+    import build_corpus as bc
+    assert bc.tier("短い文です。") == "short"
+    assert bc.tier("あ" * 200) == "short"
+    assert bc.tier("あ" * 201) == "medium"
+    assert bc.tier("一文目です。二文目です。") == "medium"
+    assert bc.tier("文。" * 6) == "long"
+    assert bc.tier("a" * 1001) == "long"
+    assert bc.tier("Version 3.14 is out.") == "short"
+
+
+@pytest.mark.parametrize("entry", ENTRIES, ids=lambda e: e["path"])
+def test_rows_use_tier_function(entry):
+    import build_corpus as bc
+    for r in _rows(entry["path"]):
+        assert r["tier"] == bc.tier(r.get("orig", r["text"]))
+
+
+def test_mojibake_ja_size_and_count():
+    p = CORPUS / "mojibake" / "ja.jsonl"
+    assert len(_rows("mojibake/ja.jsonl")) == 400
+    assert p.stat().st_size <= 256 * 1024

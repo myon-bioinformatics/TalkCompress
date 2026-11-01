@@ -19,6 +19,10 @@
 各行は #134 の `{id,text,lang,tier,source,license,author,url}` に加え、実測の `o200k`・`bytes` と補助欄（`register`、mojibake の `orig`/`orig_id`/`kind`/`ftfy_*`、mixed の `embedded_id`）。Common Voice 行の `url` は取得元ファイル、`author` は "Common Voice contributors"、`id` は `cv-<lang>-<本文 sha1 先頭 12 桁>`。
 #134 の規則（1 ファイル = 1 source）のため、Tatoeba の口語文は colloquial/ja ではなく sentence/ja に入れている。`colloquial` の中身は読み上げ文（`register: "read"`）。
 
+## tier と件数
+- tier は `scripts/build_corpus.py` の `tier()` で判定: 1 文かつ 200 コードポイント以下 → short、5 文以下かつ 1000 コードポイント以下 → medium、それ以外 → long（文末記号 。！？.!? で数える）。mojibake は原文 `orig` で判定。
+- 件数は各ファイル 400 件で固定（Tatoeba 追記分は 300 件）。mojibake/ja は 1 ファイル上限 256KB に近いため、増やす場合はファイルを分ける。
+
 ## 注意
 - AI が元の文に戻せるかは **未測定**。mojibake の `ftfy_exact` / `ftfy_o200k` は ftfy による機械復元の実測値。
 - Common Voice は読み上げ用の文で、自発発話の書き起こしではない。自由ライセンスの日本語話し言葉コーパス（CSJ 等は非自由）は見つからず不採用。

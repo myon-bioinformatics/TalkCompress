@@ -19,7 +19,7 @@ GOOD = {
     "id": "x", "source": "Tatoeba", "url": "https://tatoeba.org/", "license": "CC BY 2.0 FR",
     "license_url": "https://creativecommons.org/licenses/by/2.0/fr/", "lang": "ja", "category": "sentence",
     "path": "sentence/ja.jsonl", "count": 1, "bytes": 3, "o200k_tokens": 1, "sha256": "a" * 64,
-    "retrieved_at": "2026-11-01", "ai_roundtrip": "未測定",
+    "retrieved_at": "2026-11-01", "ai_roundtrip": "未測定", "attribution": "各行の author / url",
 }
 
 
@@ -373,3 +373,16 @@ def test_record_source_matches_entry_casefold(tmp_path):
     f = tmp_path / "x.jsonl"
     f.write_text(json.dumps(R(source="TaToEbA")) + "\n" + json.dumps(R("r2", text="い", source="Wikipedia")) + "\n", encoding="utf-8")
     assert cm.validate_records(f, GOOD)[0] == ["x.jsonl:2: source 'Wikipedia' が manifest（'Tatoeba'）と不一致"]
+
+
+@pytest.mark.parametrize("val", [None, "", "  "])
+def test_cc_by_requires_attribution(val):
+    errs = cm.validate_manifest(_m({**GOOD, "attribution": val}))
+    assert any("attribution" in x for x in errs)
+    e = {k: v for k, v in GOOD.items() if k != "attribution"}
+    assert any("attribution" in x for x in cm.validate_manifest(_m(e)))
+
+
+def test_cc0_attribution_optional():
+    e = {k: v for k, v in GOOD.items() if k != "attribution"}
+    assert cm.validate_manifest(_m({**e, "license": "CC0 1.0"})) == []

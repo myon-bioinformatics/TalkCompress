@@ -70,6 +70,8 @@ def validate_entry(e: object, idx: int = 0) -> list[str]:
         return errs
     if e["license"] not in ALLOWED_LICENSES:
         errs.append(f"{p}: license {e['license']!r} は許可リスト外（NC/ND/不明は不可）")
+    if e["license"].startswith("CC BY") and (not isinstance(e.get("attribution"), str) or not e["attribution"].strip()):
+        errs.append(f"{p}: CC BY / CC BY-SA は attribution（表示の場所）が必要")
     if not CAT_RE.match(e["category"]):
         errs.append(f"{p}: category は小文字英数・_・-")
     if not LANG_RE.match(e["lang"]):

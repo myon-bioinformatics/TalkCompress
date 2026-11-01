@@ -58,6 +58,7 @@ tests/fixtures/corpus/
 - `<lang>` は ISO 639-1（無ければ 639-3）。文字種の区別が要るなら `sr-Latn` のような BCP 47 副タグ。
 - JSONL 1 行 = `{"id","text","lang","tier","source","license","author","url"}`。
   **tier（`short` 1 文 / `medium` 数文の段落 / `long` 記事・章の抜粋）は行ごとの欄**で、パスには入れない。
+  機械的に決める場合のしきい値（`scripts/build_corpus.py` の `tier()`）: 文末記号（。！？.!?）で数えて 1 文かつ 200 コードポイント以下は short、5 文以下かつ 1000 コードポイント以下は medium、それ以外は long。文字化けの行は原文（`orig`）で判定する。
 - **生の元データはコミットしない。** コミットするのは取得スクリプト、小さいサンプル、ライセンス表示だけ。
   同梱サンプルは 1 ファイル 256 KB（262144 バイト）以下・`tests/fixtures/corpus/` 全体 5 MB（5242880 バイト）以下。`check` が強制する。
   上限は corpus/ 配下の全ファイルが対象で、jsonl だけでなく manifest.json と manifest.schema.json も数える。
@@ -70,7 +71,7 @@ tests/fixtures/corpus/
 
 必須項目：`id, category, source, url, license, license_url, lang, count, bytes, o200k_tokens,
 sha256, retrieved_at, ai_roundtrip`、それに `path`（同梱。`<category>/<lang>.jsonl`）か
-`fetch_url`（外部）のどちらか一方。任意で `attribution`。
+`fetch_url`（外部）のどちらか一方。`attribution` は任意だが、license が CC BY / CC BY-SA のときは必須（表示の場所を書く。check が検査）。
 
 - `count` 件数、`bytes` 各 text の UTF-8 バイト合計、`o200k_tokens` 各 text を o200k_base で個別に
   エンコードしたトークン数の合計、`sha256` ファイル全体のハッシュ。

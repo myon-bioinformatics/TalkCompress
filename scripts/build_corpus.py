@@ -21,8 +21,6 @@ import re
 import sys
 import urllib.request
 
-import ftfy
-import tiktoken
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -31,10 +29,31 @@ import corpus_manifest as cm  # noqa: E402
 RAW = ROOT / ".cache" / "corpus_raw"
 OUT = cm.CORPUS_DIR
 SEED = 20261101
-N = 400
+N = 400  # 各ファイルの件数。mojibake/ja は約 247KB で 1 ファイル上限 256KB に近いので 400 件で固定（増やすならファイルを分ける）
 N_TATOEBA = 300
+# tier は docs/corpus.md の定義（short 1 文 / medium 数文の段落 / long 記事・章の抜粋）を、文の数と長さで機械的に判定する。
+# 文の数は 。！？.!? の連続を 1 つの区切りとして数える。mojibake は原文（orig）で判定する（化けた後の長さは使わない）。
+SHORT_MAX_CHARS = 200  # 1 文かつ 200 コードポイント以下 → short
+MEDIUM_MAX_CHARS = 1000  # 5 文以下かつ 1000 コードポイント以下 → medium、それを超えれば long
+MEDIUM_MAX_SENTENCES = 5
+_SENT_END = re.compile(r"[。！？.!?]+(?=\s|$|[^。！？.!?0-9])")
 JST = dt.timezone(dt.timedelta(hours=9))
-enc = tiktoken.get_encoding("o200k_base")
+_ENC = None
+
+
+class _LazyEnc:
+    """tiktoken / ftfy は生成時だけ使う（tier() などをテストから import できるように遅延させる）。"""
+
+    def encode(self, s: str):
+        global _ENC
+        if _ENC is None:
+            import tiktoken
+
+            _ENC = tiktoken.get_encoding("o200k_base")
+        return _ENC.encode(s)
+
+
+enc = _LazyEnc()
 
 CV_BASE = "https://raw.githubusercontent.com/common-voice/common-voice/main/server/data"
 CV_BLOB = "https://github.com/common-voice/common-voice/blob/main/server/data"
@@ -74,8 +93,17 @@ def dumps(r: dict) -> str:
     return s
 
 
+def tier(t: str) -> str:
+    n = max(1, len(_SENT_END.findall(t.strip())))
+    if n == 1 and len(t) <= SHORT_MAX_CHARS:
+        return "short"
+    if n <= MEDIUM_MAX_SENTENCES and len(t) <= MEDIUM_MAX_CHARS:
+        return "medium"
+    return "long"
+
+
 def cv_row(lang: str, t: str) -> dict:
-    return {"id": f"cv-{lang}-{hashlib.sha1(t.encode()).hexdigest()[:12]}", "text": t, "lang": lang, "tier": "short",
+    return {"id": f"cv-{lang}-{hashlib.sha1(t.encode()).hexdigest()[:12]}", "text": t, "lang": lang, "tier": tier(t),
             "source": "common-voice", "license": CC0[0], "author": "Common Voice contributors",
             "url": f"{CV_BLOB}/{lang}/sentence-collector.txt", "register": "read"}
 
@@ -139,6 +167,8 @@ def entry(cat, lang, source, url, lic, retrieved, attribution) -> dict:
 
 
 def main() -> None:
+    import ftfy
+
     rng = random.Random(SEED)
     entries, pools, cv_day = [], {}, {}
     for lang in ["ja", "en", "vi", "th"]:
@@ -162,7 +192,7 @@ def main() -> None:
     keep = [r for r in keep if "register" not in r]  # #134 の手選び分は残す
     have = {r["text"] for r in keep} | {r["id"] for r in keep}
     add = [{"id": f"tatoeba:{i}", "text": s, "lang": "ja", "source": "tatoeba", "license": CCBY[0], "author": a,
-            "url": f"https://tatoeba.org/sentences/show/{i}", "tier": "short", "register": "colloquial", **m(s)}
+            "url": f"https://tatoeba.org/sentences/show/{i}", "tier": tier(s), "register": "colloquial", **m(s)}
            for i, s, a in rng.sample(tl, N_TATOEBA + 20) if s not in have and f"tatoeba:{i}" not in have][:N_TATOEBA]
     sj.write_text("".join(dumps(r) + "\n" for r in keep + add), encoding="utf-8")
 
@@ -190,7 +220,7 @@ def main() -> None:
             if s in seen:
                 continue
             seen.add(s)
-            r = {"id": f"mixed-{lang}-{len(rows):04d}", "text": s, "lang": lang, "tier": "short", "source": "talkcompress-own",
+            r = {"id": f"mixed-{lang}-{len(rows):04d}", "text": s, "lang": lang, "tier": tier(s), "source": "talkcompress-own",
                  "license": CC0[0], "author": "GitHubヘルプ5bot", "url": SELF_URL, "register": None, "embedded_id": None}
             if "{s}" in t:
                 r |= {"embedded_id": cv_row(lang, base)["id"], "embedded_url": cv_row(lang, base)["url"]}
