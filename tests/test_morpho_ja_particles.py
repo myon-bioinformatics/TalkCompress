@@ -31,3 +31,32 @@ def test_ja_sample_does_not_grow():
     assert len(enc.encode(out)) <= len(enc.encode(s))
     for w in ("ちょっと", "かなと", "まとめて", "もらえれば", "思っています"):
         assert w in out
+
+
+# 実値テスト: 各助詞について「ひらがな直後は不変」「漢字/カタカナ直後は置換」を固定する。
+@pytest.mark.parametrize("src", [
+    "のに行く", "のへ行く", "そこで", "のは", "のを", "のが", "あとから", "ほどまで",
+    "かなと", "なにも",
+])
+def test_each_particle_after_hiragana_unchanged(src):
+    assert m.compress(src) == src
+
+
+@pytest.mark.parametrize("src,out", [
+    ("学校に行く", "学校 to 行く"), ("駅へ行く", "駅 to 行く"), ("家で", "家 in"),
+    ("家から", "家←"), ("駅まで", "駅 until"), ("友と", "友&"), ("猫も行く", "猫+行く"),
+    ("猫を", "猫"), ("猫が", "猫"), ("猫は", "猫"), ("テストも", "テスト+"),
+])
+def test_each_particle_after_kanji_katakana_pivots(src, out):
+    assert m.compress(src) == out
+
+
+def test_mo_before_to_word_still_pivots():
+    # もと は除外しない（元/下 はふつう漢字）。猫もとても → 猫+とても
+    assert m.compress("猫もとても") == "猫+とても"
+
+
+@pytest.mark.parametrize("src", ["猫もらう", "猫もう", "猫もし", "猫もの", "猫もっと", "猫もちろん", "猫もどる"])
+def test_mo_word_starts_kept(src):
+    # 既知の限界: 猫もうれしい のような「も+う…」も置換しない
+    assert m.compress(src) == src
