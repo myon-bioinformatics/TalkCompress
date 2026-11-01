@@ -1,0 +1,194 @@
+{
+  "generator": "scripts/build_corpus.py",
+  "seed": 20261101,
+  "tokenizer": "o200k_base",
+  "note": "AI が元の文に戻せるかは未測定。mojibake の ftfy_* は ftfy による機械復元の実測。",
+  "files": [
+    {
+      "path": "colloquial/ja.jsonl",
+      "category": "colloquial",
+      "lang": "ja",
+      "count": 400,
+      "sha256": "458880fcf7284d79c5f5835e9256d2479073188e8eb9909b465cbf53b57b3069",
+      "o200k_total": 6664,
+      "bytes_total": 24945,
+      "sources": [
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "colloquial/en.jsonl",
+      "category": "colloquial",
+      "lang": "en",
+      "count": 400,
+      "sha256": "5eae5248dfe21955fe9053e0913c25f323b9f8b9fcf34dce7376fa98ab5ab51b",
+      "o200k_total": 4079,
+      "bytes_total": 17725,
+      "sources": [
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "colloquial/vi.jsonl",
+      "category": "colloquial",
+      "lang": "vi",
+      "count": 400,
+      "sha256": "f9fbff69c6541eed0b9a27591ae905059feb11412015faa3763360cab128c6f5",
+      "o200k_total": 4013,
+      "bytes_total": 16638,
+      "sources": [
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "colloquial/th.jsonl",
+      "category": "colloquial",
+      "lang": "th",
+      "count": 400,
+      "sha256": "edf975e948777026dfad3efe5abbf48bcf10f817ae81b9fba746a8caf0d41c41",
+      "o200k_total": 5847,
+      "bytes_total": 39597,
+      "sources": [
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "colloquial-tatoeba/ja.jsonl",
+      "category": "colloquial-tatoeba",
+      "lang": "ja",
+      "count": 400,
+      "sha256": "9a1f7f5a8d2bc4d89c8fabb84735c97c8a4a18d502a66bdecb5b9438e669881d",
+      "o200k_total": 5532,
+      "bytes_total": 20151,
+      "sources": [
+        {
+          "name": "Tatoeba jpn_sentences",
+          "url": "https://downloads.tatoeba.org/exports/per_language/jpn/jpn_sentences.tsv.bz2",
+          "license": "CC-BY-2.0-FR",
+          "attribution": "Sentences from Tatoeba (https://tatoeba.org), licensed under CC BY 2.0 FR. 各行の id が Tatoeba の文 ID（https://tatoeba.org/sentences/show/<id>）で、寄稿者に帰属。"
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "mojibake/ja.jsonl",
+      "category": "mojibake",
+      "lang": "ja",
+      "count": 400,
+      "sha256": "99522640e90d575a32ad2ddb2a6c5e90fc114fb23c8d4bb59c1b1208b3e79292",
+      "o200k_total": 23449,
+      "bytes_total": 52940,
+      "sources": [
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "mojibake/vi.jsonl",
+      "category": "mojibake",
+      "lang": "vi",
+      "count": 400,
+      "sha256": "2cad102277b3e1a3ecaba77b28cd2f08c5b52878093626fe328fe3db904decab",
+      "o200k_total": 14591,
+      "bytes_total": 28857,
+      "sources": [
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "mixed/ja.jsonl",
+      "category": "mixed",
+      "lang": "ja",
+      "count": 400,
+      "sha256": "1cc9b61e59b813e5de12090f06bf58b58f351d3b8baaca19d375044f6dcb3121",
+      "o200k_total": 10545,
+      "bytes_total": 27352,
+      "sources": [
+        {
+          "name": "GitHubヘルプ5bot 作成のテンプレート（scripts/build_corpus.py）",
+          "url": null,
+          "license": "CC0-1.0",
+          "attribution": null
+        },
+        {
+          "name": "Unicode emoji-test.txt",
+          "url": "https://www.unicode.org/Public/emoji/latest/emoji-test.txt",
+          "license": "Unicode-3.0",
+          "attribution": "Copyright (c) Unicode, Inc. Unicode License v3"
+        },
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    },
+    {
+      "path": "mixed/en.jsonl",
+      "category": "mixed",
+      "lang": "en",
+      "count": 400,
+      "sha256": "bfbf627f7d9094cde3b78067f59b03a31b9b1a71d22f5702f5b93ccbe0820453",
+      "o200k_total": 9698,
+      "bytes_total": 24002,
+      "sources": [
+        {
+          "name": "GitHubヘルプ5bot 作成のテンプレート（scripts/build_corpus.py）",
+          "url": null,
+          "license": "CC0-1.0",
+          "attribution": null
+        },
+        {
+          "name": "Unicode emoji-test.txt",
+          "url": "https://www.unicode.org/Public/emoji/latest/emoji-test.txt",
+          "license": "Unicode-3.0",
+          "attribution": "Copyright (c) Unicode, Inc. Unicode License v3"
+        },
+        {
+          "name": "Common Voice sentence-collector",
+          "url": "https://github.com/common-voice/common-voice/tree/main/server/data",
+          "license": "CC0-1.0",
+          "attribution": null
+        }
+      ],
+      "ai_roundtrip": "未測定"
+    }
+  ]
+}
