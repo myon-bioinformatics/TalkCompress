@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "id": "sentence-ja-tatoeba",
+      "category": "sentence",
+      "lang": "ja",
+      "source": "Tatoeba",
+      "url": "https://tatoeba.org/",
+      "license": "CC BY 2.0 FR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/fr/",
+      "path": "sentence/ja.jsonl",
+      "count": 11,
+      "bytes": 423,
+      "o200k_tokens": 109,
+      "sha256": "17d42e2968676c874cae28bcc7eabd5169358ae2d21bf4326b2ed912b95e6f63",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと"
+    },
+    {
+      "id": "sentence-en-tatoeba",
+      "category": "sentence",
+      "lang": "en",
+      "source": "Tatoeba",
+      "url": "https://tatoeba.org/",
+      "license": "CC BY 2.0 FR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/fr/",
+      "path": "sentence/en.jsonl",
+      "count": 12,
+      "bytes": 547,
+      "o200k_tokens": 127,
+      "sha256": "1e02c73071ad720812df6757f837a185832b60363f0e499e4adab125f3025214",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと"
+    },
+    {
+      "id": "sentence-fr-tatoeba",
+      "category": "sentence",
+      "lang": "fr",
+      "source": "Tatoeba",
+      "url": "https://tatoeba.org/",
+      "license": "CC BY 2.0 FR",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/fr/",
+      "path": "sentence/fr.jsonl",
+      "count": 11,
+      "bytes": 503,
+      "o200k_tokens": 131,
+      "sha256": "f185aabc0e0005461b9b3e81b5733b6d6d7b35fecf49f59272073474580624d5",
+      "retrieved_at": "2026-11-01",
+      "ai_roundtrip": "未測定",
+      "attribution": "各行の author / url を参照（Tatoeba 投稿者）。tier は行ごと"
+    }
+  ]
+}
