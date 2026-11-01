@@ -60,6 +60,7 @@ tests/fixtures/corpus/
   **tier（`short` 1 文 / `medium` 数文の段落 / `long` 記事・章の抜粋）は行ごとの欄**で、パスには入れない。
 - **生の元データはコミットしない。** コミットするのは取得スクリプト、小さいサンプル、ライセンス表示だけ。
   同梱サンプルは 1 ファイル 256 KB（262144 バイト）以下・`tests/fixtures/corpus/` 全体 5 MB（5242880 バイト）以下。`check` が強制する。
+  上限は corpus/ 配下の全ファイルが対象で、jsonl だけでなく manifest.json と manifest.schema.json も数える。
   それ以上（FLORES-200 全体、Common Voice 全文、Wikipedia 抜粋の大量分など）は manifest に
   `fetch_url` と `sha256` を書き、`scripts/corpus_fetch.py` で `.cache/corpus/`（git 管理外）に取る。
   sha256 が合わなければ保存しない。CI はネットワークを使わず同梱分だけで回す。
@@ -80,7 +81,11 @@ sha256, retrieved_at, ai_roundtrip`、それに `path`（同梱。`<category>/<l
 `id`・`(category, lang, source)`・`path` の manifest 内重複なし、manifest に載っていない孤児 jsonl なし、
 1 ファイル 256 KB／全体 5 MB の上限。
 各行は JSON object で、`id,text,lang,tier,source,license,author,url` が空でない文字列、
-tier が short/medium/long、行の `lang`・`license` が manifest エントリと一致、ファイル内 `id` 重複なし。
+tier が short/medium/long、行の `lang`・`license` が manifest エントリと一致（`source` も大文字小文字を無視して一致。`(category, lang, source)` の重複判定も source を casefold して比較）、ファイル内 `id` 重複なし。
+レコード `id` は corpus 全体（ファイル間）でも一意でなければならない（エラー）。
+同じ `text`（JSON を読んだ後の文字列で比較）の重複は (category, lang) の範囲でエラーにする。
+path は `<category>/<lang>.jsonl` で一意なので、この範囲は 1 ファイル内と同じになる。
+言語やカテゴリをまたぐ同一 text（固有名詞・数字・記号だけの行、対訳で表記が同じ文など）は正当にありうるので検査しない。
 
 **依存の例外：** 共有 Python ツールは単一ファイル・stdlib のみが原則だが、`scripts/corpus_manifest.py` は
 o200k トークン数を数えるためだけに `tiktoken`（dev 依存）を使う明示的な例外とする（遅延 import）。
