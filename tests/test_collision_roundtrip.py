@@ -104,8 +104,9 @@ def test_runtime_drops_collided(s, bad):
 
 def test_estimate_tokens_thai_counted():
     t = _t()
-    assert t.estimate_tokens("ฉันไป") == 5
-    assert t.estimate_tokens("ไป go") == 3
+    # タイ語は o200k の語彙で最長一致（旧: 1 字 1 トークン）。値は o200k_base 実測
+    assert t.estimate_tokens("ฉันไป") == 3
+    assert t.estimate_tokens("ไป go") == 2
 
 
 def test_estimate_tokens_vietnamese_extra_cost():
