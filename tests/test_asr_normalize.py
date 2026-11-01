@@ -21,8 +21,6 @@ def test_keep_unknown_brackets_only_when_uncertain():
 @pytest.mark.parametrize("src,out", [
     ("to [Talk Compress?] now", "to TalkCompress(?) now"),
     ("to [Shibuya？] now", "to Shibuya(?) now"),
-    ("to Shibuya{0.42} now", "to Shibuya(?) now"),
-    ("to Shibuya{0.9} now", "to Shibuya now"),
 ])
 def test_normalize_uncertain(src, out):
     assert a.normalize_uncertain(src) == out
@@ -30,7 +28,7 @@ def test_normalize_uncertain(src, out):
 
 @pytest.mark.parametrize("s", [
     "is it (really?) yes", "use {a|b} here", "(Shibuya？)", "x = {ok}", "[note] fine",
-    "<?xml version='1.0'?><svg/>",
+    "<?xml version='1.0'?><svg/>", "array[i?]", "a[ i? ]b", "x{0.5}", "f(x){0.25}", "m[k?](0)",
 ])
 def test_ordinary_text_untouched_by_default(s):
     assert a.normalize_uncertain(s) == s
@@ -39,6 +37,36 @@ def test_ordinary_text_untouched_by_default(s):
 def test_opt_in_paren_and_alternatives():
     assert a.normalize_uncertain("to (Shibuya？) now", paren=True) == "to Shibuya(?) now"
     assert a.normalize_uncertain("to {Ironmate|Iron mate} now", alternatives=True) == "to Ironmate(?) now"
+
+
+def test_opt_in_confidence():
+    assert a.normalize_uncertain("to Shibuya{0.42} now", confidence=True) == "to Shibuya(?) now"
+    assert a.normalize_uncertain("to Shibuya{0.9} now", confidence=True) == "to Shibuya now"
+
+
+@pytest.mark.parametrize("s", ["縺れた糸と繧繝彩色", "縺れ縺れて"])
+def test_real_cp932_signal_kanji_unchanged(s):
+    # 縺・繧 は実在の漢字。cp932 として戻すと U+FFFD だらけになるので採用しない
+    assert a.clean_mojibake(s) == s
+
+
+def test_short_cyrillic_run_restored():
+    assert a.clean_mojibake("Ð¿") == "п"
+
+
+def test_halfwidth_kana_not_a_cp932_signal():
+    assert not a._CP932_MOJI.search("ｶﾀｶﾅとｷｬﾗﾒﾙ")
+    assert a._fix_cp932("ｶﾀｶﾅとｷｬﾗ") == "ｶﾀｶﾅとｷｬﾗ"
+
+
+@pytest.mark.parametrize("run", ["é…–", "é…", "ï–o", "é©®", "à‰…"])
+def test_strict_decode_rejects_non_utf8_runs(run):
+    assert a._fix_latin_run(run) == run
+
+
+@pytest.mark.parametrize("s", ["café…– ok", "naïve–ok…", "à‰… x", "résumé©®"])
+def test_accented_punct_unchanged(s):
+    assert a.clean_mojibake(s) == s
 
 
 def test_marker_not_xml_pi():

@@ -37,7 +37,7 @@ def keep_unknown(phrase: str, uncertain: bool = False) -> str:
 
 
 _ALT = re.compile(r"\{([^{}|\s][^{}|]*)(?:\|[^{}|]+)+\}")  # {a|b|c} -> 先頭候補（opt-in）
-_Q_SQUARE = re.compile(r"\[\s*([^\[\]?？]+?)\s*[?？]\s*\]")  # ASR 形式 [語?]
+_Q_SQUARE = re.compile(r"(?<![\w\])])\[\s*([^\[\]?？]+?)\s*[?？]\s*\](?![\w(\[{])")  # ASR 形式 [語?]（array[i?] のような添字は除外）
 _Q_PAREN = re.compile(r"[(（]\s*([^()（）?？]+?)\s*[?？]\s*[)）]")  # (語?)（opt-in: 普通の文と衝突）
 _CONF = re.compile(r"(?<![\w{])([^\s{}]+?)\{(0?\.\d+|1(?:\.0+)?)\}")  # 語{0.42}
 
@@ -48,11 +48,13 @@ def normalize_uncertain(
     *,
     paren: bool = False,
     alternatives: bool = False,
+    confidence: bool = False,
 ) -> str:
     """ASR の不確実表記を ``語(?)`` に統一する（語内の空白は 1 語につなぐ）。
 
-    既定で変換するのは ASR 固有の ``[語?]`` と ``語{0.42}`` だけ。``(語?)`` と
-    ``{a|b}`` は普通の文（``(really?)``、コードの ``{a|b}``）にも出るので opt-in。
+    既定で変換するのは、前後が語でない ``[語?]`` だけ（``array[i?]`` は残す）。
+    ``語{0.42}``（数式 ``x{0.5}`` と衝突）、``(語?)``（``(really?)``）、``{a|b}``
+    （コード）は opt-in。
     """
     text = _Q_SQUARE.sub(lambda m: keep_unknown(m.group(1), True), text)
     if paren:
@@ -63,7 +65,7 @@ def normalize_uncertain(
     def conf(m: re.Match) -> str:
         return keep_unknown(m.group(1), True) if float(m.group(2)) < conf_threshold else m.group(1)
 
-    return _CONF.sub(conf, text)
+    return _CONF.sub(conf, text) if confidence else text
 
 
 # ---------------------------------------------------------------- mojibake
@@ -94,6 +96,9 @@ def _mixed_bytes(s: str) -> bytes | None:
 _CP1252_HOLES = ("\x81", "\x8d", "\x8f", "\x90", "\x9d")
 
 
+_COMMON_LEADS = frozenset("ÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚâã")
+
+
 def _fix_latin_run(run: str) -> str:
     # U+FFFD は cp1252 で未定義のバイト（0x81 0x8D 0x8F 0x90 0x9D）が置換された跡。
     # 穴が 3 個以下なら候補を総当たりし、いちばん自然な復元を選ぶ。
@@ -114,8 +119,10 @@ def _fix_latin_run(run: str) -> str:
         score = _badness(fixed) + sum(
             1 for c in fixed if (unicodedata.category(c) in ("Zs", "Cf") and c != " ") or c == "\u2010"
         )
-        # 2 文字だけの短い連続（Ü™ など）は曖昧。ラテン文字・一般句読点に戻るときだけ採用。
-        if len(run) <= 2 and not all("\u00a0" <= c <= "\u024f" or "\u2000" <= c <= "\u206f" for c in fixed):
+        # 1 文字にしか戻らない連続は、よく出る先頭バイト（Â Ã â ã Ð Ñ Î Ï Ø Ù = U+0080-07FF の
+        # ラテン補助・キリル・ギリシャ・ヘブライ、U+2000 台の句読点、U+3000 台の仮名）か、C1 制御
+        # 文字を含むときだけ採用する（café…– の「é…–」→「酖」を防ぐ）。
+        if len(fixed) == 1 and run[0] not in _COMMON_LEADS and not re.search("[\x80-\x9f]", run):
             continue
         if score < best_score:
             best, best_score = fixed, score
