@@ -53,8 +53,10 @@ tests/fixtures/corpus/
   <category>/<lang>.jsonl    # 小さいサンプルのみ
 ```
 
-- `<category>` は内容の種類（例：`sentence` 一般文・対訳、`wiki` 百科、`asr` 書き起こし・口語、
-  `mojibake` 文字化け、`mixed` 絵文字/記号/数式/コード混在）。小文字英数と `_` `-`。
+- **`<category>` は出典データセット名**にする（例：`tatoeba/<lang>.jsonl`、`flores200/<lang>.jsonl`、
+  `wikipedia/<lang>.jsonl`、`commonvoice/<lang>.jsonl`）。小文字英数と `_` `-`。
+  内容の種類（口語・文字化け・記号混在など）や長さでは分けない。長さは各レコードの `tier`
+  （short / medium / long）で表す。1 つのデータセットから複数の tier を同じファイルに入れてよい。
 - `<lang>` は ISO 639-1（無ければ 639-3）。文字種の区別が要るなら `sr-Latn` のような BCP 47 副タグ。
 - JSONL 1 行 = `{"id","text","lang","tier","source","license","author","url"}`。
   **tier（`short` 1 文 / `medium` 数文の段落 / `long` 記事・章の抜粋）は行ごとの欄**で、パスには入れない。
@@ -70,7 +72,9 @@ tests/fixtures/corpus/
 
 必須項目：`id, category, source, url, license, license_url, lang, count, bytes, o200k_tokens,
 sha256, retrieved_at, ai_roundtrip`、それに `path`（同梱。`<category>/<lang>.jsonl`）か
-`fetch_url`（外部）のどちらか一方。任意で `attribution`。
+`fetch_url`（外部）のどちらか一方。
+`license` に `BY` を含むエントリ（CC BY*・CC BY-SA*）は `attribution`（空でない文字列）が必須。CC0・Public domain は任意。
+attribution には出典名、利用条件ページ、ライセンス URL と、個々の著者がどこに書いてあるかを書く。
 
 - `count` 件数、`bytes` 各 text の UTF-8 バイト合計、`o200k_tokens` 各 text を o200k_base で個別に
   エンコードしたトークン数の合計、`sha256` ファイル全体のハッシュ。
@@ -93,7 +97,7 @@ o200k トークン数を数えるためだけに `tiktoken`（dev 依存）を�
 保存先が `.cache/corpus/` の外に出ないことを確認）。
 
 ```
-uv run python scripts/corpus_manifest.py measure tests/fixtures/corpus/sentence/ja.jsonl
+uv run python scripts/corpus_manifest.py measure tests/fixtures/corpus/tatoeba/ja.jsonl
 uv run python scripts/corpus_manifest.py update   # 同梱ファイルの数値を再計算して書き戻す
 uv run python scripts/corpus_manifest.py check    # 検証
 uv run python scripts/corpus_fetch.py [--id X]    # 外部取得 + sha256 照合
@@ -101,7 +105,50 @@ uv run python scripts/corpus_fetch.py [--id X]    # 外部取得 + sha256 照合
 
 数値は必ず `update` で実測したものを入れる。手書きの数値は `check` で落ちる。
 
-## 6. シード（このPR）
+## 6. 複数のデータ PR で manifest.json が衝突したとき
 
-Tatoeba API（2026-11-01 取得）から ja / en / fr の短文を 11〜12 件ずつ（`sentence/<lang>.jsonl`、tier=short）。
+データ PR はどれも `tests/fixtures/corpus/manifest.json` の `entries` 配列に追記するので、先に別の PR が main に入ると衝突しやすい。次の手順で直す。
+
+1. **main を通常どおりマージする（rebase しない）。**
+   `git fetch origin && git merge origin/main`
+2. **manifest.json の衝突は手で直し、両側のエントリを残す。**
+   `<<<<<<<` / `=======` / `>>>>>>>` を消し、main 側と自分の側の `entries` を両方入れた正しい JSON にする。
+   数値（count / bytes / o200k_tokens / sha256）はどちらの値でもよい。次の `update` で再計算される。
+3. **`uv run python scripts/corpus_manifest.py update` を実行する。**
+   `update` は**新しいエントリを追加しない**。manifest に既にある `path` 付きエントリについて、
+   `count`・`bytes`・`o200k_tokens`・`sha256` を実ファイルから再計算して書き戻すだけ（`fetch_url` のエントリは触らない）。
+   したがって手順 2 でエントリを消してしまうと復活しない。消えたエントリの jsonl は `check` で「manifest に無い jsonl（孤児）」になる。
+   衝突マーカーが残っていると JSON として読めずに失敗する。レコードが不正な場合は `measure` が ValueError を出して止まる。
+   `update` は書き戻したあとに `check` も実行し、問題があれば終了コード 1 を返す。
+4. **`uv run python scripts/corpus_manifest.py check` を実行して、`OK` を確認する。**
+   id・path・(category, lang, source) の重複、ファイル間のレコード id 重複、サイズ上限もここで検出される。
+5. 解決をコミットして push する（force-push はしない）。
+
+例：main に `tatoeba/ko.jsonl`（4bot）が入ったあと、自分の PR で `tatoeba/de.jsonl` を追加していた場合。
+
+```
+$ git merge origin/main
+CONFLICT (content): Merge conflict in tests/fixtures/corpus/manifest.json
+```
+
+```jsonc
+// 衝突を解いたあとの entries（両方を残す。数値は仮でよい）
+"entries": [
+  { "id": "tatoeba-ja", ... },
+  { "id": "tatoeba-ko", "path": "tatoeba/ko.jsonl", ... },  // main 側
+  { "id": "tatoeba-de", "path": "tatoeba/de.jsonl", ... }   // 自分の側
+]
+```
+
+```
+$ uv run python scripts/corpus_manifest.py update   # 数値を実測で書き戻し、check も走る
+OK
+$ uv run python scripts/corpus_manifest.py check
+OK
+$ git add tests/fixtures/corpus/manifest.json && git commit --no-edit && git push
+```
+
+## 7. シード（このPR）
+
+Tatoeba API（2026-11-01 取得）から ja / en / fr の短文を 11〜12 件ずつ（`tatoeba/<lang>.jsonl`、tier=short）。
 孤児文・未承認文は除外。数値は manifest.json を参照（実測）。AI 往復は未測定。
