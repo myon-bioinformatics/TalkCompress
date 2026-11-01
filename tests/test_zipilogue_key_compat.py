@@ -28,13 +28,16 @@ def test_legacy_api_and_recovery(row):
     expected = FIXTURE['payload'].encode()
     assert z.decode(envelope, key=key.encode()) == expected
     assert z.key_fingerprint(key.encode()) == row['fingerprint']
+    # Default policy is raw UTF-8: text keys recover legacy envelopes exactly.
+    assert z.decode(envelope, key=key) == expected
+    assert z.key_fingerprint(key) == row['fingerprint']
+    # Explicit NFC opt-in derives a different key for non-NFC text.
     if row['label'] == 'nfd':
         with pytest.raises(ValueError, match='MAC verification failed'):
-            z.decode(envelope, key=key)
-        assert z.key_fingerprint(key) != row['fingerprint']
+            z.decode(envelope, key=key, key_normalization='NFC')
+        assert z.key_fingerprint(key, key_normalization='NFC') != row['fingerprint']
     else:
-        assert z.decode(envelope, key=key) == expected
-        assert z.key_fingerprint(key) == row['fingerprint']
+        assert z.decode(envelope, key=key, key_normalization='NFC') == expected
 
 
 @pytest.mark.parametrize('source', ['--key', 'env', '--key-file'])
@@ -46,12 +49,9 @@ def test_cli_legacy_recovery_and_fingerprints(monkeypatch, tmp_path, source, row
         path.write_bytes(key.encode() + b'\r\n')
         key = path
     result = run_cli(monkeypatch, source, key, 'decode', '--text', row['envelope'])
-    if row['label'] == 'nfd' and source != '--key-file':
-        assert result.returncode != 0
-        assert b'MAC verification failed' in result.stderr
-    else:
-        assert result.returncode == 0, result.stderr
-        assert result.stdout == FIXTURE['payload'].encode()
+    # Default raw policy: every legacy envelope recovers with its own bytes.
+    assert result.returncode == 0, result.stderr
+    assert result.stdout == FIXTURE['payload'].encode()
     fp = run_cli(monkeypatch, source, key, 'fingerprint')
     assert fp.returncode == 0, fp.stderr
     expected = z.key_fingerprint(row['key'].encode() if source == '--key-file' else row['key'])
@@ -71,11 +71,20 @@ def test_cli_new_envelopes_match_input_policy(monkeypatch, tmp_path, source, key
     assert result.returncode == 0, result.stderr
     assert z.decode(result.stdout, key=api_key) == b'new payload'
     other = 'cafe\u0301' if key == 'café' else 'café'
-    if source == '--key-file':
-        with pytest.raises(ValueError, match='MAC verification failed'):
-            z.decode(result.stdout, key=other.encode())
-    else:
-        assert z.decode(result.stdout, key=other) == b'new payload'
+    # Default raw policy: the other Unicode form is a different passphrase.
+    with pytest.raises(ValueError, match='MAC verification failed'):
+        z.decode(result.stdout, key=other.encode())
+
+
+@pytest.mark.parametrize('source', ['--key', 'env'])
+def test_cli_nfc_opt_in_unifies_unicode_forms(monkeypatch, source):
+    nfd = 'café'
+    nfc = 'café'
+    result = run_cli(monkeypatch, source, nfd, 'encode', '--text', 'new payload',
+                     '--key-normalization', 'NFC')
+    assert result.returncode == 0, result.stderr
+    assert z.decode(result.stdout, key=nfc, key_normalization='NFC') == b'new payload'
+    assert z.decode(result.stdout, key=nfd, key_normalization='NFC') == b'new payload'
 
 
 def test_binary_key_file_unchanged(monkeypatch, tmp_path):

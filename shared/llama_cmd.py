@@ -22,6 +22,9 @@ shows up as finish_reason=length and is rejected, not scored.
 from __future__ import annotations
 
 import json
+import hashlib
+import time
+import traceback
 import os
 import sys
 import urllib.error
@@ -68,9 +71,32 @@ def ask_llama(prompt: str, url: str = DEFAULT_URL, timeout: int = 300) -> str:
         }
     ).encode("utf-8")
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        payload = json.loads(resp.read().decode("utf-8"))
-    return extract_answer(payload)
+    started = time.monotonic()
+    payload = None
+    evidence = {"prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
+                "figure": os.environ.get("LLAMA_EVIDENCE_FIGURE"),
+                "phase": os.environ.get("LLAMA_EVIDENCE_PHASE", "roundtrip"),
+                "stage": "describe" if prompt.startswith("Below is an SVG") else
+                         "generate" if prompt.startswith("Write one SVG") else "probe",
+                "max_tokens": json.loads(body)["max_tokens"], "temperature": 0}
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+        answer = extract_answer(payload)
+        evidence["answer_completed"] = True
+        return answer
+    except Exception:
+        evidence["answer_completed"] = False
+        evidence["error"] = traceback.format_exc()
+        raise
+    finally:
+        if isinstance(payload, dict):
+            evidence["usage"] = payload.get("usage")
+            evidence["response"] = payload
+        evidence["elapsed_seconds"] = time.monotonic() - started
+        if path := os.environ.get("LLAMA_EVIDENCE_JSONL"):
+            with open(path, "a", encoding="utf-8") as stream:
+                stream.write(json.dumps(evidence, ensure_ascii=False) + "\n")
 
 
 def main() -> int:

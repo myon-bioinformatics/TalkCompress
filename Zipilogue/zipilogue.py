@@ -49,17 +49,29 @@ _SCRYPT_P: Final[int] = 1
 _SCRYPT_SALT: Final[bytes] = b"TalkCompress/Zipilogue/v1"
 
 
-def derive_key(passphrase: bytes | str) -> bytes:
-    """Derive from NFC text or exact bytes; legacy text uses text.encode("utf-8")."""
-    # NFC: the same passphrase typed as precomposed or decomposed text
-    # (café vs cafe + U+0301) must derive the same key.  bytes are used as-is.
-    raw = (
-        unicodedata.normalize("NFC", passphrase).encode("utf-8")
-        if isinstance(passphrase, str)
-        else passphrase
-    )
+def _key_bytes(passphrase: bytes | str, *, key_normalization: str = "none") -> bytes:
+    """Convert text explicitly; the legacy default preserves its original bytes."""
+    if key_normalization not in ("none", "NFC"):
+        raise ValueError("key_normalization must be 'none' or 'NFC'")
+    if isinstance(passphrase, str):
+        text = unicodedata.normalize("NFC", passphrase) if key_normalization == "NFC" else passphrase
+        raw = text.encode("utf-8")
+    else:
+        if key_normalization != "none":
+            raise ValueError("NFC key normalization requires text, not raw bytes")
+        raw = passphrase
     if not raw:
         raise ValueError("key must be non-empty")
+    return raw
+
+
+def derive_key(passphrase: bytes | str, *, key_normalization: str = "none") -> bytes:
+    """Derive the legacy key by default; NFC is explicit and text-only.
+
+    The mode is not stored in the v1 envelope. Peers must agree on it; decoding
+    never retries another mode or migrates/re-encrypts ciphertext.
+    """
+    raw = _key_bytes(passphrase, key_normalization=key_normalization)
     return hashlib.scrypt(
         raw,
         salt=_SCRYPT_SALT,
@@ -71,13 +83,15 @@ def derive_key(passphrase: bytes | str) -> bytes:
 
 
 
-def key_fingerprint(passphrase: bytes | str, *, length: int = 16) -> str:
+def key_fingerprint(
+    passphrase: bytes | str, *, length: int = 16, key_normalization: str = "none"
+) -> str:
     """Short hex fingerprint of the *derived* key (not the passphrase).
 
     Bots can compare fingerprints to confirm a shared secret without printing
     the key or passphrase. Default length is 16 hex chars (64 bits of SHA-256).
     """
-    digest = hashlib.sha256(derive_key(passphrase)).hexdigest()
+    digest = hashlib.sha256(derive_key(passphrase, key_normalization=key_normalization)).hexdigest()
     return digest[: max(8, min(length, 64))]
 
 
@@ -119,9 +133,10 @@ def encode(
     key: bytes | str,
     nonce: bytes | None = None,
     aad: bytes | str | None = None,
+    key_normalization: str = "none",
 ) -> bytes:
     """Return compact base64url (no padding) envelope bytes (ASCII)."""
-    k = derive_key(key)
+    k = derive_key(key, key_normalization=key_normalization)
     n = nonce if nonce is not None else secrets.token_bytes(NONCE_LEN)
     if len(n) != NONCE_LEN:
         raise ValueError(f"nonce must be {NONCE_LEN} bytes")
@@ -145,9 +160,10 @@ def decode(
     *,
     key: bytes | str,
     aad: bytes | str | None = None,
+    key_normalization: str = "none",
 ) -> bytes:
     """Decode base64url envelope; raises ValueError on tamper / bad format / AAD mismatch."""
-    k = derive_key(key)
+    k = derive_key(key, key_normalization=key_normalization)
     aad_b = _normalize_aad(aad)
     raw = envelope.encode("ascii") if isinstance(envelope, str) else envelope
     raw = raw.strip()
@@ -190,9 +206,12 @@ def encode_frames(
     *,
     key: bytes | str,
     aad: bytes | str | None = None,
+    key_normalization: str = "none",
 ) -> bytes:
     """Encode each payload as its own envelope; join with newlines (batch bot messages)."""
-    lines = [encode(p, key=key, aad=aad) for p in payloads]
+    if key_normalization != "none":
+        _key_bytes(key, key_normalization=key_normalization)
+    lines = [encode(p, key=key, aad=aad, key_normalization=key_normalization) for p in payloads]
     return b"\n".join(lines)
 
 
@@ -201,27 +220,35 @@ def decode_frames(
     *,
     key: bytes | str,
     aad: bytes | str | None = None,
+    key_normalization: str = "none",
 ) -> list[bytes]:
     """Decode newline-separated envelopes; skip blank lines."""
+    if key_normalization != "none":
+        _key_bytes(key, key_normalization=key_normalization)
     raw = blob.encode("ascii") if isinstance(blob, str) else blob
     out: list[bytes] = []
     for line in raw.splitlines():
         line = line.strip()
         if not line:
             continue
-        out.append(decode(line, key=key, aad=aad))
+        out.append(decode(line, key=key, aad=aad, key_normalization=key_normalization))
     return out
 
 
 def _read_key(args: argparse.Namespace) -> bytes | str:
     if args.key_file:
+        if getattr(args, "key_normalization", "none") != "none":
+            raise SystemExit("--key-normalization NFC cannot be used with raw --key-file bytes")
         data = Path(args.key_file).read_bytes()
         return data.rstrip(b"\r\n")
+    # Preserve the legacy helper's UTF-8 bytes contract unless text NFC is
+    # explicitly requested; normalization itself remains centralized in APIs.
+    mode = getattr(args, "key_normalization", "none")
     if args.key is not None:
-        return args.key
+        return args.key.encode("utf-8") if mode == "none" else args.key
     env = os.environ.get("TALKCOMPRESS_ZIP_KEY")
     if env:
-        return env
+        return env.encode("utf-8") if mode == "none" else env
     raise SystemExit("provide --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
 
 
@@ -254,7 +281,8 @@ def _maybe_wrap_envelope(text: str, args: argparse.Namespace) -> str:
         return text
     key = _read_key(args)
     aad = args.aad or ""
-    env = encode(text.encode("utf-8"), key=key, aad=aad)
+    env = encode(text.encode("utf-8"), key=key, aad=aad,
+                 key_normalization=getattr(args, "key_normalization", "none"))
     return env.decode("ascii")
 
 
@@ -264,7 +292,8 @@ def _maybe_unwrap_envelope(blob: str, args: argparse.Namespace) -> str:
         return blob
     key = _read_key(args)
     aad = args.aad or ""
-    return decode(blob.strip().encode("ascii"), key=key, aad=aad).decode("utf-8", errors="replace")
+    return decode(blob.strip().encode("ascii"), key=key, aad=aad,
+                  key_normalization=getattr(args, "key_normalization", "none")).decode("utf-8", errors="replace")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -289,8 +318,12 @@ def main(argv: list[str] | None = None) -> int:
         ),
     )
     g = p.add_mutually_exclusive_group(required=False)
-    g.add_argument("--key", help="NFC-normalized text passphrase (do not commit real keys)")
-    g.add_argument("--key-file", help="raw key bytes, no Unicode normalization (trailing CR/LF stripped)")
+    g.add_argument("--key", help="shared passphrase (do not commit real keys)")
+    g.add_argument("--key-file", help="read passphrase from file (trailing newline stripped)")
+    p.add_argument(
+        "--key-normalization", choices=("none", "NFC"), default="none",
+        help="text passphrase mode; default none preserves legacy bytes; NFC requires matching peer mode",
+    )
     p.add_argument("--text", help="UTF-8 text; otherwise stdin (encode: text/bytes, decode: envelope)")
     p.add_argument("--file", help="read input from PATH")
     p.add_argument("--out", help="write output to PATH instead of stdout")
@@ -364,6 +397,8 @@ def main(argv: list[str] | None = None) -> int:
         help="rule-import/negotiate: also declare peer proposals",
     )
     args = p.parse_args(argv)
+    if args.key_file and args.key_normalization != "none":
+        p.error("--key-normalization NFC cannot be used with raw --key-file bytes")
 
     # --- shared-rule modes (key optional) ---
     if args.mode.startswith("rule-"):
@@ -522,7 +557,7 @@ def main(argv: list[str] | None = None) -> int:
     aad = args.aad or ""
 
     if args.mode == "fingerprint":
-        fp = key_fingerprint(key)
+        fp = key_fingerprint(key, key_normalization=args.key_normalization)
         print(fp)
         if args.stats:
             import json as _json
@@ -541,20 +576,20 @@ def main(argv: list[str] | None = None) -> int:
             else:
                 raw_text = sys.stdin.read()
             payloads = [ln.encode("utf-8") for ln in raw_text.splitlines() if ln.strip()]
-            env = encode_frames(payloads, key=key, aad=aad)
+            env = encode_frames(payloads, key=key, aad=aad, key_normalization=args.key_normalization)
         elif args.file:
-            env = encode(Path(args.file).read_bytes(), key=key, aad=aad)
+            env = encode(Path(args.file).read_bytes(), key=key, aad=aad, key_normalization=args.key_normalization)
         elif args.text is not None:
-            env = encode(args.text.encode("utf-8"), key=key, aad=aad)
+            env = encode(args.text.encode("utf-8"), key=key, aad=aad, key_normalization=args.key_normalization)
         else:
-            env = encode(sys.stdin.buffer.read(), key=key, aad=aad)
+            env = encode(sys.stdin.buffer.read(), key=key, aad=aad, key_normalization=args.key_normalization)
         if args.stats or args.dry_run:
             import json as _json
             print(
                 _json.dumps(
                     {
                         "envelope_bytes": len(env),
-                        "fingerprint": key_fingerprint(key),
+                        "fingerprint": key_fingerprint(key, key_normalization=args.key_normalization),
                         "dry_run": bool(args.dry_run),
                     },
                     ensure_ascii=False,
@@ -579,14 +614,14 @@ def main(argv: list[str] | None = None) -> int:
     if args.hex_in:
         blob = bytes.fromhex(blob.decode("ascii").strip())
     if args.frames:
-        plains = decode_frames(blob, key=key, aad=aad)
+        plains = decode_frames(blob, key=key, aad=aad, key_normalization=args.key_normalization)
         out_bytes = b"\n".join(plains)
         if args.out:
             Path(args.out).write_bytes(out_bytes + b"\n")
         else:
             sys.stdout.buffer.write(out_bytes + b"\n")
         return 0
-    plain = decode(blob.strip(), key=key, aad=aad)
+    plain = decode(blob.strip(), key=key, aad=aad, key_normalization=args.key_normalization)
     if args.out:
         Path(args.out).write_bytes(plain)
     else:

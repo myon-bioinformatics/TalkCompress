@@ -67,6 +67,42 @@ uv run python Zipilogue/zipilogue.py fingerprint --key 'shared'
 
 秘密鍵をリポジトリに置かないこと。
 
+### パスフレーズの正規化と旧暗号文
+
+既定の `key_normalization="none"` は、文字列をそのまま UTF-8 にし、
+bytes はそのまま使う **#107 より前の方式**です。見た目が同じでも NFC と
+NFD の文字列は異なる鍵になります。この既定値で、過去の NFD 文字列鍵の
+復号と fingerprint を維持します。
+
+NFC を使いたい場合だけ、文字列 API の `key_normalization="NFC"` または
+Zipilogue CLI の `--key-normalization NFC` を明示してください。指定は
+`derive_key`、`key_fingerprint`、`encode` / `decode`、`encode_frames` /
+`decode_frames` で共通です。CLI の `--key` と `TALKCOMPRESS_ZIP_KEY` も
+同じ文字列変換を使い、rule-encode / rule-decode の封筒や dry-run の
+fingerprint にも反映します。NFKC ではないので、`ﬁ` と `fi` は別の鍵です。
+
+```python
+# 公開用の架空の値。実際の秘密をコード・リポジトリに書かないこと。
+from Zipilogue.zipilogue import encode, decode
+phrase = "SYNTHETIC cafe\u0301 fixture"
+envelope = encode(b"public fixture", key=phrase, key_normalization="NFC")
+assert decode(envelope, key=phrase, key_normalization="NFC") == b"public fixture"
+```
+
+raw bytes と `--key-file` は文字列と推測しません。これらに NFC を指定すると
+明示的に拒否します。既定の key-file の末尾 CR/LF 除去は従来どおりです。
+
+正規化の指定は封筒に保存されず、送受信側が別途一致させる必要があります。
+`ZIP1` / version 1、salt、KDF と MAC の方式は変更していません。
+復号失敗時に別の正規化で自動再試行することも、既存暗号文の移行・再暗号化も
+しません。#107 の暗黙 NFC 版で NFD 文字列から作成した暗号文を読む場合は、
+明示的に `key_normalization="NFC"` を指定します。元の PR と報告履歴は残し、
+この追補で既定の互換動作を戻しています。
+
+互換性は公開用の偽パスフレーズ・固定 nonce の旧 version 1 封筒で検証します。
+実際のユーザー鍵・暗号文にはアクセスせず、モデルや辞書取得もこのローカル検証では
+行いません。リポジトリの通常 CI にある CPU tokenizer 検査は別の経路です。
+
 ## Round-4
 
 `rule-export` / `rule-import` / `rule-threshold` / `rule-negotiate` — ルール共有・閾値調整・複数ピア合流。
