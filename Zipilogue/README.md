@@ -67,12 +67,12 @@ uv run python Zipilogue/zipilogue.py fingerprint --key 'shared'
 
 秘密鍵をリポジトリに置かないこと。
 
-### パスフレーズの正規化と旧暗号文
+### パスフレーズの明示的な正規化
 
 既定の `key_normalization="none"` は、文字列をそのまま UTF-8 にし、
-bytes はそのまま使う **#107 より前の方式**です。見た目が同じでも NFC と
-NFD の文字列は異なる鍵になります。この既定値で、過去の NFD 文字列鍵の
-復号と fingerprint を維持します。
+bytes はそのまま使います。見た目が同じでも NFC と NFD の文字列は
+異なる鍵になります。既存実データの互換性維持は要件ではなく、
+正規化するかを呼出側が明示的に選ぶ方針です。
 
 NFC を使いたい場合だけ、文字列 API の `key_normalization="NFC"` または
 Zipilogue CLI の `--key-normalization NFC` を明示してください。指定は
@@ -95,11 +95,10 @@ raw bytes と `--key-file` は文字列と推測しません。これらに NFC 
 正規化の指定は封筒に保存されず、送受信側が別途一致させる必要があります。
 `ZIP1` / version 1、salt、KDF と MAC の方式は変更していません。
 復号失敗時に別の正規化で自動再試行することも、既存暗号文の移行・再暗号化も
-しません。#107 の暗黙 NFC 版で NFD 文字列から作成した暗号文を読む場合は、
-明示的に `key_normalization="NFC"` を指定します。元の PR と報告履歴は残し、
-この追補で既定の互換動作を戻しています。
+しません。復号時も、作成時と同じ鍵・正規化モード・AAD を指定します。
+過去の PR と測定・検証の履歴は保持しますが、追加の救済処理は設けません。
 
-互換性は公開用の偽パスフレーズ・固定 nonce の旧 version 1 封筒で検証します。
+モードの違いは公開用の偽パスフレーズ・固定 nonce の version 1 封筒で検証します。
 実際のユーザー鍵・暗号文にはアクセスせず、モデルや辞書取得もこのローカル検証では
 行いません。リポジトリの通常 CI にある CPU tokenizer 検査は別の経路です。
 
@@ -200,39 +199,23 @@ v1 runner SHA256は `4ce0a0441c1426b61cecb4e00bcf707d727da8d75f32fdbfe09e0825eba
 v2は `d8425e9e896ff8e093b15132e422b1b391479100ecb001f6b7833dc9df836950`。
 条件上限を維持した修正であり、既存の負の結果は置き換えていません。
 
-### Unicode パスフレーズと既存データ
+### 入力経路ごとの鍵処理
 
-| 入力経路 | 鍵導出前の処理 | NFC/NFD |
+| 入力経路 | 既定 `none` | 明示 `NFC` |
 | --- | --- | --- |
-| Python API `str` | NFC → UTF-8 | 同じ鍵 |
-| CLI `--key` | NFC → UTF-8 | 同じ鍵 |
-| 環境変数 `TALKCOMPRESS_ZIP_KEY` | NFC → UTF-8 | 同じ鍵 |
-| Python API `bytes` | そのまま | 異なるバイト列は異なる鍵 |
-| `--key-file` | 末尾の CR/LF を全除去、それ以外はそのまま | 正規化しない |
+| Python API `str` | 元の UTF-8（NFC/NFD は異なる鍵） | NFC → UTF-8（NFC/NFD は同じ鍵） |
+| CLI `--key` | 元の UTF-8 | `--key-normalization NFC` で NFC → UTF-8 |
+| 環境変数 `TALKCOMPRESS_ZIP_KEY` | 元の UTF-8 | `--key-normalization NFC` で NFC → UTF-8 |
+| Python API `bytes` | そのまま | 拒否 |
+| `--key-file` | 末尾の CR/LF を全除去、それ以外はそのまま | 拒否 |
 
-NFKC は使わず、互換文字（例 `ﬁ` と `fi`）を同一視しません。
 `fingerprint`、フレーム処理、鍵付き rule モードにも同じ方針が適用されます。
+詳細は上の「パスフレーズの明示的な正規化」を参照してください。
 
-**互換性:** #107 より前の API は文字列を正規化せず UTF-8 にしていました。
-#107 は API の `str` だけを NFC 化しました。この後続修正では CLI `--key` と
-環境変数も NFC 化するため、それらで以前 NFD などの非NFC文字列を指定した
-暗号文は、同じ文字列入力では MAC 検証に失敗します。フィンガープリントも変わります。
-ASCII・既にNFCの文字列、および bytes の鍵導出は変更ありません。
-封筒に正規化方式の識別情報はなく、自動で旧方式を再試行しません。
-
-**旧データの回復:** 元のパスフレーズの正確なコードポイントが分かっていれば、
-API で `decode(envelope, key=old_passphrase.encode("utf-8"))` と指定します。
-CLI では元の UTF-8 バイト列を鍵ファイルに保存し、
-`python Zipilogue/zipilogue.py decode --key-file old-key.bin --file envelope.txt --out recovered.bin`
-で復号します。実際の秘密鍵ファイルをコミットしないでください。
-元の末尾 CR/LF も鍵の一部だった API データは、鍵ファイルではなく API の bytes で回復します。
-元の正確な文字列が不明な場合は、見た目が同じだけでは回復を保証できません。
-
-移行する場合は元データを保持したまま旧 bytes 鍵で復号し、新しい文字列鍵で再暗号化します。
-AAD がある場合は復号時にも元と同じ値を渡してください。
 `tests/fixtures/zipilogue_legacy_keys.json` は #107 直前の commit
 `84b28be729bf3d51d3e8a054cb0ab63edecb90a4` のコードを実行して生成した、
 ASCII/NFC/NFD の固定暗号文とフィンガープリントです（公開のテスト用鍵）。
+この検証用の来歴は保持しますが、実データの互換性・回復・移行を保証するものではありません。
 
 
 ## GitHub Actions からの交渉・往復実測

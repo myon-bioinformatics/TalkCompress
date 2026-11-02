@@ -50,7 +50,7 @@ _SCRYPT_SALT: Final[bytes] = b"TalkCompress/Zipilogue/v1"
 
 
 def _key_bytes(passphrase: bytes | str, *, key_normalization: str = "none") -> bytes:
-    """Convert text explicitly; the legacy default preserves its original bytes."""
+    """Convert text explicitly; the default uses its original UTF-8 bytes."""
     if key_normalization not in ("none", "NFC"):
         raise ValueError("key_normalization must be 'none' or 'NFC'")
     if isinstance(passphrase, str):
@@ -66,7 +66,7 @@ def _key_bytes(passphrase: bytes | str, *, key_normalization: str = "none") -> b
 
 
 def derive_key(passphrase: bytes | str, *, key_normalization: str = "none") -> bytes:
-    """Derive the legacy key by default; NFC is explicit and text-only.
+    """Derive from unnormalized UTF-8 by default; NFC is explicit and text-only.
 
     The mode is not stored in the v1 envelope. Peers must agree on it; decoding
     never retries another mode or migrates/re-encrypts ciphertext.
@@ -241,7 +241,7 @@ def _read_key(args: argparse.Namespace) -> bytes | str:
             raise SystemExit("--key-normalization NFC cannot be used with raw --key-file bytes")
         data = Path(args.key_file).read_bytes()
         return data.rstrip(b"\r\n")
-    # Preserve the legacy helper's UTF-8 bytes contract unless text NFC is
+    # Return UTF-8 bytes unless text NFC is
     # explicitly requested; normalization itself remains centralized in APIs.
     mode = getattr(args, "key_normalization", "none")
     if args.key is not None:
@@ -319,10 +319,10 @@ def main(argv: list[str] | None = None) -> int:
     )
     g = p.add_mutually_exclusive_group(required=False)
     g.add_argument("--key", help="shared passphrase (do not commit real keys)")
-    g.add_argument("--key-file", help="read passphrase from file (trailing newline stripped)")
+    g.add_argument("--key-file", help="raw key bytes; trailing CR/LF stripped; NFC mode is rejected")
     p.add_argument(
         "--key-normalization", choices=("none", "NFC"), default="none",
-        help="text passphrase mode; default none preserves legacy bytes; NFC requires matching peer mode",
+        help="text passphrase mode; default none uses original UTF-8; NFC is opt-in and requires matching peer mode",
     )
     p.add_argument("--text", help="UTF-8 text; otherwise stdin (encode: text/bytes, decode: envelope)")
     p.add_argument("--file", help="read input from PATH")
