@@ -75,7 +75,7 @@ def ask(cmd: str, prompt: str, timeout: int | None = None) -> str:
         # Only the explicit answer-validation exit is quality-only. Crashes, signals,
         # protocol errors and other nonzero exits are failed execution.
         error = RuntimeError if result.returncode == 3 else ModelExecutionError
-        raise error(f"model command failed ({result.returncode}): {result.stderr.strip()[:200]}")
+        raise error(f"model command failed ({result.returncode}): {result.stderr.strip()}")
     return result.stdout.strip()
 
 
@@ -296,13 +296,31 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("files", nargs="+", type=Path)
     parser.add_argument("--cmd", required=True, help="command that reads a prompt on stdin and prints the answer")
     parser.add_argument("--model", required=True, help="label of the model you ran, e.g. 'LFM3-1.7B Q4_K_M'")
+    parser.add_argument("--source-control", action="store_true", help="Also probe the canonical original SVG directly; separate from roundtrip scores")
     parser.add_argument("-o", "--output", type=Path, help="write the JSON report here instead of stdout")
     args = parser.parse_args(argv)
     reports = []
     for path in args.files:
         text = path.read_text(encoding="utf-8")
         try:
-            report = run(text, lambda p: ask(args.cmd, p))
+            # Context is passed only to child commands, and restored for API callers.
+            previous = {k: os.environ.get(k) for k in
+                        ("LLAMA_EVIDENCE_FIGURE", "LLAMA_EVIDENCE_PHASE")}
+            try:
+                os.environ["LLAMA_EVIDENCE_FIGURE"] = path.name
+                os.environ["LLAMA_EVIDENCE_PHASE"] = "roundtrip"
+                report = run(text, lambda p: ask(args.cmd, p))
+                if args.source_control:
+                    os.environ["LLAMA_EVIDENCE_PHASE"] = "source_control"
+                    original = canonicalize(text)
+                    report["source_control"] = score_probes(
+                        probes_from(original), original, lambda p: ask(args.cmd, p))
+            finally:
+                for key, value in previous.items():
+                    if value is None:
+                        os.environ.pop(key, None)
+                    else:
+                        os.environ[key] = value
         except subprocess.TimeoutExpired as exc:  # retain a fallback for failures outside a model stage
             report = {"dsl_ok": False, "score": None, "hits": 0, "total": 0, "errors": [],
                       "run_error": f"timeout after {exc.timeout}s"}
@@ -319,6 +337,8 @@ def main(argv: list[str] | None = None) -> int:
 def _write(args: argparse.Namespace, reports: list[dict]) -> None:
     meta = {
         "stage": "L3",
+        "source_control_enabled": args.source_control,
+        "evidence_schema_version": "1",
         "model": args.model,
         "command": args.cmd,
         "llama_url": os.environ.get("LLAMA_URL", "http://127.0.0.1:8080/v1/chat/completions"),

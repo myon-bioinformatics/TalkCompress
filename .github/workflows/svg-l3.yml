@@ -105,12 +105,13 @@ jobs:
       - name: Measure the six figures (no pass or fail on the results)
         env:
           MODEL: ${{ matrix.model }}
+          LLAMA_EVIDENCE_JSONL: out/requests.jsonl
         run: |
           mkdir -p out
           set +e
           LLAMA_URL=http://127.0.0.1:8080/v1/chat/completions \
             python shared/svg_l3.py examples/figures/*.svg --cmd "python shared/llama_cmd.py" \
-            --model "$MODEL" -o out/l3-report.json
+            --model "$MODEL" --source-control -o out/l3-report.json
           echo "svg_l3 exit status ${?} is recorded, not used as a verdict"
           set -e
           test -s out/l3-report.json
@@ -123,7 +124,7 @@ jobs:
           if not expected or sorted(r.get("figure", "") for r in reports) != expected:
               sys.exit("measurement report missing or duplicating expected figures")
           failed = [r["figure"] for r in reports
-                    if r.get("execution_errors") or "run_error" in r or any("llama-server unreachable" in e for e in r.get("errors", []))]
+                    if r.get("execution_errors") or r.get("source_control", {}).get("execution_errors") or "run_error" in r or any("llama-server unreachable" in e for e in r.get("errors", []))]
           if failed:
               sys.exit("measurement did not complete for: " + ", ".join(failed))
           PY

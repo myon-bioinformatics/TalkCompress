@@ -1,0 +1,26 @@
+{
+  "llama_cpp_commit": "3c809f44383bcebc318b8cddd8c6d11aaa861e9b",
+  "binary_sha256": "980c26e1356a599cb185371f982fab4bb36893e5c212f453561d6a197c35924d",
+  "version_output": "version: 0.8.0-dev (build 1, commit 3c809f4)\nbuilt with GNU 13.3.0 for Linux x86_64\n",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "command": [
+    "/workspace/scratch/4969bb795a4a/llama.cpp/build/bin/llama-server",
+    "-m",
+    "models/model.gguf",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "8080",
+    "-c",
+    "512",
+    "-t",
+    "2",
+    "-ngl",
+    "0",
+    "--parallel",
+    "1"
+  ],
+  "build": "cmake -DGGML_NATIVE=OFF -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release; target llama-server -j 4",
+  "measured_at_utc": "2026-11-01T06:55:48Z"
+}

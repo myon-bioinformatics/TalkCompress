@@ -1,0 +1,13 @@
+warning: no usable GPU found, --gpu-layers option will be ignored
+warning: one possible reason is that llama.cpp was compiled without GPU support
+warning: consult docs/build.md for compilation instructions
+0.00.002.131 I srv  llama_server: initializing ...
+0.00.002.157 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.002.501 W srv  server_setup: security: no API key is set and CORS allows all origins (see https://github.com/ggml-org/llama.cpp/pull/25655)
+0.00.004.130 I srv    load_model: loading model 'models/model.gguf'
+0.00.230.690 W load: control-looking token: 128247 '</s>' was not control-type; this is probably a bug in the model. its type will be overridden
+0.00.303.686 I cmn          init: llama threadpool init, n_threads = 2
+0.00.374.776 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 512, kv_unified = 'false'
+0.00.379.508 I srv  server_run_i: model loaded
+0.00.379.526 I srv  server_on_li: listening on http://127.0.0.1:8080
+0.01.426.296 I srv    operator(): operator(): cleaning up before exit...

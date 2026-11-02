@@ -1,0 +1,72 @@
+name: session-token-cost
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: session-token-cost-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  LLAMA_IMAGE: ghcr.io/ggml-org/llama.cpp@sha256:b32890309c1a33a534a01b0b461e953dc2c5a6bac20213abcf48e22847a19c85
+
+jobs:
+  measure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "latest"
+          python-version: "3.12.15"
+          activate-environment: true
+          enable-cache: false
+      - name: Prepare evidence directory
+        run: mkdir -p out
+      - name: Verify fixed Qwen weights
+        run: python scripts/fetch_l3_model.py qwen-0.5b models/model.gguf
+      - name: Start fixed tokenizer server
+        run: |
+          docker run --detach --name session-token-model --cpus=2 --memory=3g \
+            -p 127.0.0.1:8080:8080 -v "$PWD/models:/models:ro" \
+            "$LLAMA_IMAGE" -m /models/model.gguf --host 0.0.0.0 --port 8080 \
+            -c 512 -t 2 -ngl 0 --parallel 1
+          for _ in {1..90}; do
+            if curl --fail --silent http://127.0.0.1:8080/health >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
+      - name: Measure bytes and real tokenizer counts
+        run: |
+          python -m Zipilogue.session_tokens --model qwen-0.5b \
+            --model-path models/model.gguf --runtime-id "$LLAMA_IMAGE" \
+            --output out/session-token-cost.json
+      - name: Collect provenance even on failure
+        if: always()
+        run: |
+          mkdir -p out
+          git rev-parse HEAD > out/source-commit.txt
+          cp examples/session-cost.json out/
+          cp shared/l3_models.json out/
+          cp models/model.gguf.provenance.json out/ 2>/dev/null || true
+          docker logs session-token-model > out/llama-server.log 2>&1 || true
+          docker inspect session-token-model > out/container.json 2>&1 || true
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: session-token-cost-${{ github.run_id }}-${{ github.run_attempt }}
+          path: out/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Stop tokenizer server
+        if: always()
+        run: docker rm -f session-token-model 2>/dev/null || true

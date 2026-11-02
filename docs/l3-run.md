@@ -178,3 +178,30 @@ Saved evidence:
 Before measurement, the documented test command produced 139 passed and 1
 skipped (optional tiktoken unavailable). This test result does not establish
 model quality.
+
+### Request evidence and source control
+
+The manual workflow keeps the existing 2048 output-token / 4096 context limit,
+CPU, model pins and prompt/scorer v2. It additionally runs `--source-control`:
+each canonical original is probed directly with the same model and questions,
+even if its roundtrip failed. `source_control` is a separate result in each
+figure; it never replaces or contributes hits to the roundtrip score. A low
+control score indicates that model-based reading/answer formatting limits the
+measurement. A high control score with a low roundtrip score suggests loss in
+description/regeneration. Neither proves pixel equivalence.
+
+`LLAMA_EVIDENCE_JSONL=out/requests.jsonl` enables one JSON record per HTTP call:
+figure, roundtrip/source_control phase, stage, prompt SHA-256, requested token
+limit, temperature, complete response (including finish_reason), reported usage,
+elapsed seconds and full exception text. Missing usage remains missing; never
+estimate tokens from character counts. Raw responses can include unfinished
+text, but only completed final answers reach scoring. Logging failure fails the
+command rather than silently dropping evidence. Use only public/synthetic inputs
+when publishing these raw response artifacts.
+
+For the remaining qwen-1.5b, minicpm5-2b, lfm2.5-2.6b and lfm3-1.7b models,
+first use the unchanged 2048 baseline. Compare completion, DSL validity, probe
+scorability/hits and source-control results separately. Any larger-budget retry
+must be reported separately and only targets a confirmed finish_reason=length;
+do not reinterpret unfinished responses as successful quality measurements.
+The control adds model calls and therefore increases runtime.
