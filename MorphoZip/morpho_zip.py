@@ -601,8 +601,13 @@ POLARITY_MARKERS: tuple[str, ...] = ("!", "¬")
 # Bare これ/それ/あれ are the pronoun only when not the head of a conjunction /
 # adverb (それから, それぞれ, これから, それでは, それでも, これまで, それなり, それほど)
 # and not inside a word (おそれ). Shared by the inventory regex and the rewrite rules.
-_JA_DEIXIS_GUARD = r"(?!から|ぞれ|では|でも|で[、,，]|まで|なり|ほど|ゆえ|とも|に[、,，]|と[、,，])"
-_JA_DEIXIS_LB = r"(?<!お)"
+# あれこれ / かれこれ / それにしても are fixed phrases, not deixis. (これに、/これで、 stay as-is
+# too: the guard skips に、/で、 so 「これに、する」「これで、終わり」 never become ça.)
+_JA_DEIXIS_GUARD = (
+    r"(?!から|ぞれ|では|でも|で[、,，]|まで|なり|ほど|ゆえ|とも|に[、,，]|と[、,，]"
+    r"|にしても|にしろ|これ|それ)"
+)
+_JA_DEIXIS_LB = r"(?<!お)(?<!あれ)(?<!かれ)(?<!それ)"
 
 DEIXIS_CANONICAL: tuple[str, ...] = (
     "ça",    # proximal sg (this/これ/esto/ceci/这 → ça)
@@ -668,7 +673,7 @@ _DEIXIS_SURFACE_RE = _ci_compile(
     r"これは|これが|これを|それは|それが|それを|あれは|あれが|あれを|"
     # Bare これ/それ/あれ only as the pronoun: not inside conjunctions/adverbs
     # (それから, それぞれ, これから, それでは, それでも, これまで, それなり, それほど).
-    rf"(?:これ|それ|あれ){_JA_DEIXIS_GUARD}|"
+    rf"{_JA_DEIXIS_LB}(?:これ|それ|あれ){_JA_DEIXIS_GUARD}|"
     r"这些|那些|这个|那个|[这那]|"
     r"ceux-là|ceux-la|ceux-ci|"
     r"\bthese\b|\bthose\b|\bthis\b|\bthat\b|"
@@ -1062,7 +1067,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"彼女は|彼女が|彼女"), "she"),
     (re.compile(r"彼の|かれの"), "his"),
     (re.compile(r"彼を|かれを"), "him"),
-    (re.compile(r"彼は|彼が|彼|かれ|(?<![\w\u3040-\u30ff\u3400-\u9fff])他(?![\u3400-\u9fff])"), "he"),
+    (re.compile(r"彼は|彼が|彼|(?<![\u3040-\u30ff\u3400-\u9fff])かれ(?:は|が)?(?!こ|ら)|(?<![\w\u3040-\u30ff\u3400-\u9fff])他(?![\u3400-\u9fff])"), "he"),
     (re.compile(r"她的"), "her"),
     (re.compile(r"她"), "she"),
     # EN 3sg: keep he/she/him/her/his (case intact; do NOT rewrite to 彼/她)
@@ -1274,6 +1279,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     # bare not→! only mid-clause before a word; "Not, as I said" / "not." stay.
     (_ci_compile(r"(?<=\w\s)not\b(?=\s+\w)", re.I), "!"),
     # --- particles (助詞): after pronouns/aux JA; C 前後/内外 untouched
+    # Single particles only after kanji/katakana (noun-like); ー after hiragana (えーと) is not katakana.
     # Single particles only after kanji/katakana (noun-like). After hiragana they
     # are usually word-internal (ちょっと, あと, まとめて, ので, かなと) and pivoting
     # them broke JA text and raised o200k (237→239 on a 324-char sample).
@@ -1289,20 +1295,20 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"には"), " to "),  # →→to: token loser
     (re.compile(r"(?<!それ)(?<!これ)(?<!あれ)(?<![\s、。，．!?！？「（(])(?<!^)では(?!ない)"), " in "),  # それでは / 文頭の では は接続詞  # ∈→in: token loser
     (re.compile(r"とは"), "&"),
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])まで"), " until "),  # 〜→until: token loser
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)まで"), " until "),  # 〜→until: token loser
     # から: particle-from → ← (pairs with に/へ→→; fr is alias only — for-real 揺らぎ)
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])から"), "←"),
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?:に|へ)"), " to "),  # → tie w/o byte saving vs to
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])で(?!き|す|あっ|しょ|した|も|ござ)"), " in "),  # ∈→in: token loser
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])と(?!し|ころ|り|りあえず)"), "&"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)から"), "←"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)(?:に|へ)(?![、,，])"), " to "),  # 最後に、/特に、 = 副詞  # → tie w/o byte saving vs to
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)で(?!き|す|あっ|しょ|した|も|ござ)"), " in "),  # ∈→in: token loser
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)と(?!し|ころ|り|りあえず)"), "&"),
     # After you→U / 彼→he, JA と/も may follow ASCII pronoun surfaces
     (_ci_compile(r"\b(he|she|I|U|they|we|it)と(?!し|ころ|り|りあえず)", re.I), r"\1&"),
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])も(?!ら|う|し|の|っ|ち|ど|と(?:もと|に|で|の|より|$|[。、．，.,!?！？」』）)\s]))"), "+"),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)も(?!ら|う|し|の|っ|ち|ど|と(?:もと|に|で|の|より|$|[。、．，.,!?！？」』）)\s]))"), "+"),
     (_ci_compile(r"\b(he|she|I|U|they|we|it)も(?!と(?:もと|に|で|の|より|$|[。、．，.,!?！？」』）)\s]))", re.I), r"\1+"),
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])を"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)を"), ""),
     # は/が: drop after CJK; skip は in はい/はあ discourse; が in known starts rare
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])は(?!い|あ|ず)"), ""),
-    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])が(?!る|ん|っ|ち|く|くせい)"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)は(?!い|あ|ず)"), ""),
+    (re.compile(r"(?<=[\u30a0-\u30ff\u3400-\u9fff])(?<![\u3041-\u3096]ー)が(?!る|ん|っ|ち|く|くせい)"), ""),
     # sentence-final modality particles
     (re.compile(r"[ねよさ]+(?=[。．.!！？?]|$)"), ""),
     # --- prepositions pack1; C owns under/above/below/beneath — skip
