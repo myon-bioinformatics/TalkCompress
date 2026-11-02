@@ -8,7 +8,7 @@ def test_derive_key_nfc_nfd_equal():
     nfc = "café"
     nfd = unicodedata.normalize("NFD", nfc)
     assert nfc != nfd
-    assert derive_key(nfc) == derive_key(nfd)
+    assert derive_key(nfc, key_normalization="NFC") == derive_key(nfd, key_normalization="NFC")
 
 
 def test_derive_key_bytes_unchanged():
@@ -57,4 +57,4 @@ def test_suggest_hereafter_extended_mark_not_split():
 
 def test_derive_key_nfc_not_nfkc():
     # 互換文字（ﬁ リガチャ）は fi と別の鍵（NFKC ではなく NFC）
-    assert derive_key("\ufb01") != derive_key("fi")
+    assert derive_key("\ufb01", key_normalization="NFC") != derive_key("fi", key_normalization="NFC")
