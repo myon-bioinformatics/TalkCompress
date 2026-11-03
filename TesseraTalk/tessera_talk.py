@@ -805,6 +805,9 @@ def estimate_tokens(text: str) -> int:
     return n
 
 
+_HANGUL_JAMO_RUN = re.compile("[\u1100-\u11FF\uA960-\uA97F\uD7B0-\uD7FF]+")
+
+
 def _nfd_extra(text: str, cal: dict) -> int:
     """o200k sees the raw (non-NFC) bytes: a decomposed accent is its own token and splits
     the word at the mark. For each raw Latin word that NFC would change, add the gap between
@@ -819,6 +822,13 @@ def _nfd_extra(text: str, cal: dict) -> int:
             continue
         split = sum(_word_cost(q, cal) for q in _COMBINING_RE.split(w) if q) + len(_COMBINING_RE.findall(w))
         extra += max(0, split - (_word_cost(c, cal) + len(_COMBINING_RE.findall(c))))
+    # Decomposed Hangul (conjoining jamo, e.g. NFD "한국어"): o200k has no merges for them,
+    # one token per UTF-8 byte (3 per jamo), while NFC syllables were counted.
+    for m in _HANGUL_JAMO_RUN.finditer(text):
+        w = m.group()
+        c = unicodedata.normalize("NFC", w)
+        if c != w:
+            extra += max(0, len(w.encode("utf-8")) - estimate_tokens(c))
     return extra
 
 
