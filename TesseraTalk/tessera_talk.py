@@ -755,6 +755,9 @@ def estimate_tokens(text: str) -> int:
     return n
 
 
+_HANGUL_JAMO_RUN = re.compile("[\u1100-\u11FF\uA960-\uA97F\uD7B0-\uD7FF]+")
+
+
 def _nfd_extra(text: str, cal: dict) -> int:
     """o200k sees the raw (non-NFC) bytes: a decomposed accent is its own token and splits
     the word at the mark. For each raw Latin word that NFC would change, add the gap between
@@ -777,9 +780,6 @@ def _nfd_extra(text: str, cal: dict) -> int:
         if c != w:
             extra += max(0, len(w.encode("utf-8")) - estimate_tokens(c))
     return extra
-
-
-_HANGUL_JAMO_RUN = re.compile("[\u1100-\u11FF\uA960-\uA97F\uD7B0-\uD7FF]+")
 
 
 # zh stative verbs: 在 + V is the progressive marker, but statives (have / know /

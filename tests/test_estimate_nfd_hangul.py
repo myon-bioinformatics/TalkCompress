@@ -15,6 +15,10 @@ def test_nfd_hangul(text, expected):
     assert estimate_tokens(unicodedata.normalize("NFD", text)) == expected
 
 
+def test_nfd_jamo_pair():
+    assert estimate_tokens("\u1100\u1161") == 6  # NFD の 가、o200k 6
+
+
 def test_nfc_hangul_unchanged():
     assert estimate_tokens("한국어") == 2
 
