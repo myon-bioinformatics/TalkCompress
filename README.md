@@ -204,3 +204,9 @@ uv run python Zipilogue/zipilogue.py rule-encode --state book.json --text 'statu
 ## ライセンス
 
 MIT
+
+## Focused test discovery
+
+See [standard-library discovery commands](docs/unittest-discovery.md) for
+validated `python -S -m unittest discover` recipes, filename/name filtering,
+and the boundary with the full pytest suite.
