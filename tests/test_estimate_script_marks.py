@@ -17,7 +17,7 @@ def test_marks_cost_more_than_bare(bare, marked):
 @pytest.mark.parametrize("text, expected", [
     ("שלום עולם", 2),            # o200k 2(点なしは不変)
     ("مرحبا بالعالم", 4),        # o200k 4(点なしは不変)
-    ("नमस्ते दुनिया", 5),         # o200k 5
+    ("नमस्ते दुनिया", 4),         # o200k 5(結合文字を分割しないため -1、既知の差)
     ("שָׁלוֹם עוֹלָם", 11),       # o200k 13, main 15
 ])
 def test_marked_word_costs(text, expected):
@@ -37,8 +37,9 @@ def test_each_mark_adds_one():
     ("\u0924\u094d\u0930", 1, 3),  # त्र
     ("\u0936\u094d\u0930", 1, 3),  # श्र
     ("\u0926\u094d\u0927", 1, 3),  # द्ध
-    ("\u0935\u093f\u091c\u094d\u091e\u093e\u0928", 3, 5),  # विज्ञान(o200k 3/3)
+    ("\u0935\u093f\u091c\u094d\u091e\u093e\u0928", 2, 4),  # विज्ञान(o200k 3/3、既知の差)
     ("\u092e\u093f\u0924\u094d\u0930", 2, 4),  # मित्र(o200k 2/3)
+    ("\u0915\u094d\u0979", 1, 3),  # U+0979 の追加子音も結合文字扱い
 ])
 def test_deva_conjunct_not_split(text, alone, ctx):
     assert estimate_tokens(text) == alone
