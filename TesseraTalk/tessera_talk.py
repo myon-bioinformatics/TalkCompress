@@ -494,7 +494,12 @@ _PRETOKEN = re.compile(
     # o200k falls back to raw UTF-8 bytes, so each costs ≈ its 4 bytes.
     r"|(?P<b>[\U00020000-\U000323AF\U000F0000-\U0010FFFF])"
     # Emoji runs (skin-tone modifiers, ZWJ sequences, VS16, keycap U+20E3): costed from a measured table.
-    r"|(?P<e>\ufe0f?\u20e3|[\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*"
+    # A text-default symbol + VS16 ("☺️", "©️", "™️") is an emoji run too, so it is costed
+    # from the measured table instead of as a punctuation run.
+    r"|(?P<e>\ufe0f?\u20e3"
+    r"|(?:[\u00A9\u00AE\u203C\u2049\u2122\u2139\u2190-\u2BFF\u3030\u303D\u3297\u3299]\ufe0f)+"
+    r"(?:[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)?"
+    r"|[\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*"
     r"[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)"
     # Brahmic / SE-Asian scripts outside the calibrated tables (Bengali … Sinhala,
     # Myanmar, Khmer). Consonants are letters but vowel signs / viramas are marks, so
