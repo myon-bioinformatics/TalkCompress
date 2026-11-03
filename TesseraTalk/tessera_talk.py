@@ -484,6 +484,9 @@ DEFAULT_O200K_CALIB = _FIXTURES_DIR / "o200k_calib.json"
 # suffix, which o200k keeps in the same pre-token: ``we've`` = 1), digit groups
 # of <= 3, one CJK/kana/Hangul/Thai char, an other-script run, a punctuation run.
 _PRETOKEN = re.compile(
+    # Archaic Hangul jamo (U+1100–11FF, A960–A97F, D7B0–D7FF) and ideographic variation
+    # selectors (U+E0100–E01EF): o200k has no merges for them, one token per UTF-8 byte.
+    r"(?P<j>[\u1100-\u11FF\uA960-\uA97F\uD7B0-\uD7FF\U000E0100-\U000E01EF]+)|"
     # Combining marks that survive NFC (x + U+0301, i + U+0307) stay inside the word.
     r"(?P<w>[A-Za-z\u00C0-\u024F\u1E00-\u1EFF][A-Za-z\u00C0-\u024F\u1E00-\u1EFF\u0300-\u036F]*"
     r"(?:['\u2019](?:s|t|re|ve|m|ll|d)(?![A-Za-z]))?)"
@@ -718,6 +721,7 @@ def estimate_tokens(text: str) -> int:
       tables (own classes in the fallback)
     - Brahmic / Myanmar / Khmer runs (U+0980–0DFF, U+1000–109F, U+1780–17FF), signs
       included: ``ceil(len/3)``, Myanmar / Khmer ``ceil(2*len/3)``; a consonant-only word no longer costs 0
+    - archaic Hangul jamo / ideographic variation selectors: UTF-8 byte count
     - Hebrew points, Arabic harakat, Devanagari virama: the word is split at them,
       each letter piece costs as a word and each mark +1
     - digit groups of <= 3 = 1; each punctuation run = 1
@@ -785,6 +789,8 @@ def estimate_tokens(text: str) -> int:
             marks = _SCRIPT_MARKS_RE.findall(p)
             n += sum((len(q) + 3) // 4 for q in _SCRIPT_MARKS_RE.split(p) if q)
             n += sum(len(r) for r in marks)
+        elif kind == "j":
+            n += len(p.encode("utf-8"))
         elif kind == "p":
             # a punctuation run is one token; non-ASCII symbols outside o200k's
             # single-token set (e.g. "∴") cost one extra byte-level token each
