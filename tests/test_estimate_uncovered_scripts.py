@@ -42,8 +42,8 @@ def test_indic_word_costs(text, expected):
 
 
 def test_pointed_hebrew_closer_than_main():
-    # ニクード付きヘブライ語: o200k 13、main 9、本修正 15
-    assert estimate_tokens("שָׁלוֹם עוֹלָם") == 15
+    # ニクード付きヘブライ語: o200k 13、main 15、点ごとに分割して 11
+    assert estimate_tokens("שָׁלוֹם עוֹלָם") == 11
 
 
 @pytest.mark.parametrize("text", ["কর", "তম", "ကက", "\u1780\u1781", "ජන"])

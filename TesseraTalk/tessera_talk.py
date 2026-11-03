@@ -64,6 +64,14 @@ _CYRILLIC = re.compile(r"[\u0400-\u04FF]")
 _ARABIC = re.compile(r"[\u0600-\u06FF]")
 _DEVANAGARI = re.compile(r"[\u0900-\u097F]")
 _INDIC_CHARS_PER_TOKEN = 3
+# Nonspacing marks o200k splits off one token each inside a word: Hebrew points and
+# Arabic harakat (U+064B–065F, U+0670, Quranic U+06D6–06ED), Devanagari virama.
+# (Other Devanagari Mn signs stay merged: counting them overestimated real text.)
+_SCRIPT_MARKS_RE = re.compile(
+    "[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7"
+    "\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED"
+    "\u094D]+"
+)
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
 
 # In-scope language families for B token-min / LID (starting mix was en/zh/ja only).
@@ -497,7 +505,9 @@ _PRETOKEN = re.compile(
     # Indic / SE-Asian blocks keep the main-branch path: ceil(len/4) split at every vowel
     # sign drifts further from o200k there. Fixed ranges, not unicodedata, so the result
     # does not depend on the Python version.
-    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF\U00020000-\U000323AF])[^\W\d_])+)"
+    # Hebrew points (niqqud / cantillation, Mn) stay inside the word like Latin marks.
+    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF\U00020000-\U000323AF])[^\W\d_])"
+    r"(?:(?![\u0900-\u109F\u1780-\u17FF\U00020000-\U000323AF])[^\W\d_]|[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7])*)"
     # a keycap tail (U+FE0F U+20E3) is not swallowed by the symbol run: "#️⃣" = "#" + "️⃣" = 2
     r"|(?P<p>(?:(?!\ufe0f?\u20e3)[^\w\s])+)",
     re.IGNORECASE,
@@ -703,6 +713,8 @@ def estimate_tokens(text: str) -> int:
       tables (own classes in the fallback)
     - Brahmic / Myanmar / Khmer runs (U+0980–0DFF, U+1000–109F, U+1780–17FF), signs
       included: ``ceil(len/3)``, Myanmar / Khmer ``ceil(2*len/3)``; a consonant-only word no longer costs 0
+    - Hebrew points, Arabic harakat, Devanagari virama: the word is split at them,
+      each letter piece costs as a word and each mark +1
     - digit groups of <= 3 = 1; each punctuation run = 1
     Whitespace is free. Regenerate the table with ``scripts/calibrate_estimate.py --write``.
     """
@@ -723,7 +735,14 @@ def estimate_tokens(text: str) -> int:
                 # Unspaced words keep the #120 rule below (word cost + 1).
                 n += 1 if p in cal.get("vi_sp", ()) else max(2, _word_cost(p, cal))
             else:
-                n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
+                marks = _SCRIPT_MARKS_RE.findall(p) if kind == "o" else ()
+                if marks:
+                    # Arabic harakat / Devanagari virama: o200k splits the word at the marks, so cost each
+                    # letter piece as a word plus one token per mark
+                    n += sum(_word_cost(q, cal) for q in _SCRIPT_MARKS_RE.split(p) if q)
+                    n += sum(len(r) for r in marks)
+                else:
+                    n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
             if (m.start() == 0 or s[m.start() - 1] != " ") and (
                 _VI_SYLLABLE.fullmatch(p) or (vi_text and not p.isascii())
             ):
@@ -757,7 +776,10 @@ def estimate_tokens(text: str) -> int:
             per = 1.5 if p[0] >= "\u1000" else _INDIC_CHARS_PER_TOKEN
             n += max(1, -int(-len(p) // per))
         elif kind == "x":  # uncalibrated script: legacy ceil(len/4)
-            n += (len(p) + 3) // 4  # len >= 1, so always >= 1
+            # Hebrew points split the word: each letter piece ceil(len/4), +1 per point
+            marks = _SCRIPT_MARKS_RE.findall(p)
+            n += sum((len(q) + 3) // 4 for q in _SCRIPT_MARKS_RE.split(p) if q)
+            n += sum(len(r) for r in marks)
         elif kind == "p":
             # a punctuation run is one token; non-ASCII symbols outside o200k's
             # single-token set (e.g. "∴") cost one extra byte-level token each
