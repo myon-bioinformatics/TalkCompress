@@ -27,3 +27,9 @@ def test_marked_word_costs(text, expected):
 def test_each_mark_adds_one():
     base = estimate_tokens("كتب")
     assert estimate_tokens("كَتَبَ") >= base + 3
+
+
+def test_deva_ksa_conjunct_not_split():
+    # क्ष は o200k で 1 トークン。ヴィラーマ分割の例外(分割すると 3)
+    assert estimate_tokens("\u0915\u094d\u0937") == 1
+    assert estimate_tokens("x \u0915\u094d\u0937 y") == 3

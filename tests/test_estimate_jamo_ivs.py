@@ -16,7 +16,8 @@ def test_jamo_ivs_bytes(text, expected):
 
 def test_modern_hangul_unchanged():
     assert estimate_tokens("한국어") == 2
-    assert estimate_tokens("\u1100\u1161") == estimate_tokens("가")  # NFC で合成される
+    assert estimate_tokens("가") == 1
+    # NFD の字母 "\u1100\u1161" の値は NFD ハングル補正(別 PR)で決まるのでここでは見ない
 
 
 def test_jamo_group():

@@ -67,10 +67,13 @@ _INDIC_CHARS_PER_TOKEN = 3
 # Nonspacing marks o200k splits off one token each inside a word: Hebrew points and
 # Arabic harakat (U+064B–065F, U+0670, Quranic U+06D6–06ED), Devanagari virama.
 # (Other Devanagari Mn signs stay merged: counting them overestimated real text.)
+# Exception: the conjunct क्ष (ka + virama + ssa) is one merged o200k token, so its
+# virama is not a split point (splitting made "क्ष" 3 vs o200k 1).
 _SCRIPT_MARKS_RE = re.compile(
+    "(?:(?!(?<=\u0915)\u094D\u0937)"
     "[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7"
     "\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED"
-    "\u094D]+"
+    "\u094D])+"
 )
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
 
