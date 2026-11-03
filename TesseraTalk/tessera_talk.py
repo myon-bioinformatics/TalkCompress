@@ -63,6 +63,7 @@ _HANGUL = re.compile(r"[\uAC00-\uD7AF\u1100-\u11FF]")
 _CYRILLIC = re.compile(r"[\u0400-\u04FF]")
 _ARABIC = re.compile(r"[\u0600-\u06FF]")
 _DEVANAGARI = re.compile(r"[\u0900-\u097F]")
+_INDIC_CHARS_PER_TOKEN = 3
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
 
 # In-scope language families for B token-min / LID (starting mix was en/zh/ja only).
@@ -487,6 +488,10 @@ _PRETOKEN = re.compile(
     # Emoji runs (skin-tone modifiers, ZWJ sequences, VS16, keycap U+20E3): costed from a measured table.
     r"|(?P<e>\ufe0f?\u20e3|[\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*"
     r"[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)"
+    # Brahmic / SE-Asian scripts outside the calibrated tables (Bengali … Sinhala,
+    # Myanmar, Khmer). Consonants are letters but vowel signs / viramas are marks, so
+    # neither ``x`` nor ``p`` covered a whole word and the consonants cost 0.
+    r"|(?P<i>[\u0980-\u0DFF\u1000-\u109F\u1780-\u17FF]+)"
     r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
     # Letters of any other script (Hebrew, Armenian, Georgian, …) must not cost 0.
     # Indic / SE-Asian blocks keep the main-branch path: ceil(len/4) split at every vowel
@@ -696,6 +701,8 @@ def estimate_tokens(text: str) -> int:
     - CJK Ext B–H / Supplementary PUA chars (no vocab token): UTF-8 bytes (4 each)
     - other-script runs (Greek, Cyrillic, Arabic, Devanagari) go through the same
       tables (own classes in the fallback)
+    - Brahmic / Myanmar / Khmer runs (U+0980–0DFF, U+1000–109F, U+1780–17FF), signs
+      included: ``ceil(len/3)``, Myanmar / Khmer ``ceil(2*len/3)``; a consonant-only word no longer costs 0
     - digit groups of <= 3 = 1; each punctuation run = 1
     Whitespace is free. Regenerate the table with ``scripts/calibrate_estimate.py --write``.
     """
@@ -742,6 +749,13 @@ def estimate_tokens(text: str) -> int:
             n += len(p.encode("utf-8"))
         elif kind == "e":
             n += _emoji_cost(p, cal.get("emoji", {}))
+        elif kind == "i":
+            # whole run incl. vowel signs / viramas: o200k merges common Brahmic words, so
+            # ≈ 1 token per 3 code points on real text (corpus Bengali / Tamil rows).
+            # Splitting at every sign (the old path) overestimated them ≈ 1.6–2x.
+            # Myanmar / Khmer merge far less: ≈ 2 tokens per 3 code points.
+            per = 1.5 if p[0] >= "\u1000" else _INDIC_CHARS_PER_TOKEN
+            n += max(1, -int(-len(p) // per))
         elif kind == "x":  # uncalibrated script: legacy ceil(len/4)
             n += (len(p) + 3) // 4  # len >= 1, so always >= 1
         elif kind == "p":
