@@ -29,7 +29,17 @@ def test_each_mark_adds_one():
     assert estimate_tokens("كَتَبَ") >= base + 3
 
 
-def test_deva_ksa_conjunct_not_split():
-    # क्ष は o200k で 1 トークン。ヴィラーマ分割の例外(分割すると 3)
-    assert estimate_tokens("\u0915\u094d\u0937") == 1
-    assert estimate_tokens("x \u0915\u094d\u0937 y") == 3
+
+@pytest.mark.parametrize("text, alone, ctx", [
+    # 子音+ヴィラーマ+子音(結合文字)は分割しない。値は推定値(o200k: 1/3 ×5、द्ध 1/4)
+    ("\u0915\u094d\u0937", 1, 3),  # क्ष
+    ("\u091c\u094d\u091e", 1, 3),  # ज्ञ
+    ("\u0924\u094d\u0930", 1, 3),  # त्र
+    ("\u0936\u094d\u0930", 1, 3),  # श्र
+    ("\u0926\u094d\u0927", 1, 3),  # द्ध
+    ("\u0935\u093f\u091c\u094d\u091e\u093e\u0928", 3, 5),  # विज्ञान(o200k 3/3)
+    ("\u092e\u093f\u0924\u094d\u0930", 2, 4),  # मित्र(o200k 2/3)
+])
+def test_deva_conjunct_not_split(text, alone, ctx):
+    assert estimate_tokens(text) == alone
+    assert estimate_tokens(f"x {text} y") == ctx

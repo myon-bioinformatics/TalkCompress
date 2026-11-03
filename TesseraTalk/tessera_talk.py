@@ -67,14 +67,15 @@ _INDIC_CHARS_PER_TOKEN = 3
 # Nonspacing marks o200k splits off one token each inside a word: Hebrew points and
 # Arabic harakat (U+064B–065F, U+0670, Quranic U+06D6–06ED), Devanagari virama.
 # (Other Devanagari Mn signs stay merged: counting them overestimated real text.)
-# Exception: the conjunct क्ष (ka + virama + ssa) is one merged o200k token, so its
-# virama is not a split point (splitting made "क्ष" 3 vs o200k 1).
+# A virama followed by a consonant (a conjunct: क्ष ज्ञ त्र …) is not a split point;
+# o200k merges conjuncts (see _CONJUNCT_RE). Word-final / ZWJ / ZWNJ viramas still split.
 _SCRIPT_MARKS_RE = re.compile(
-    "(?:(?!(?<=\u0915)\u094D\u0937)"
+    "(?:(?!\u094D[\u0915-\u0939\u0958-\u095F])"
     "[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7"
     "\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED"
     "\u094D])+"
 )
+_CONJUNCT_RE = re.compile("[\u0915-\u0939\u0958-\u095F]\u094D(?=[\u0915-\u0939\u0958-\u095F])")
 _GREEK = re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]")
 
 # In-scope language families for B token-min / LID (starting mix was en/zh/ja only).
@@ -755,6 +756,11 @@ def estimate_tokens(text: str) -> int:
                     n += sum(len(r) for r in marks)
                 else:
                     n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
+                if kind == "o" and len(p) > 5:
+                    # Devanagari conjuncts (C + virama + C) are not split points: short ones
+                    # (क्ष ज्ञ त्र श्र द्ध) are one o200k token. Longer words still cost about
+                    # one extra token per conjunct (hi corpus: best MAE at > 5 code points).
+                    n += len(_CONJUNCT_RE.findall(p))
             if (m.start() == 0 or s[m.start() - 1] != " ") and (
                 _VI_SYLLABLE.fullmatch(p) or (vi_text and not p.isascii())
             ):
