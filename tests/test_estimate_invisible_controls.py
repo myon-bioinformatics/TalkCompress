@@ -19,6 +19,8 @@ def test_supported_interior_controls(text, expected):
     ('👨‍👩‍👧‍👦', 11), ('👩🏽‍💻', 7), ('❤️', 1), ('☺️', 2),
     ('ක\u200bក', 3), ('ক\u200bක', 3), ('ක\u200d👩', 4),
     ('\u200bក', 2), ('ក\u200b', 2), ('ក\u200b\u200bក', 3),
+    ('அກ\u200bຂ', 4), ('কກ\u200bຂ', 4), ('ກ\u200bຂক', 7),
+    ('කක\u200dකক', 5), ('កខ\u200bគஅ', 5),
     ('ක\u200cක', 3), ('क्‍ष', 4), ('ไทยລາວ', 7),
 ])
 def test_excluded_controls_and_scripts_keep_baseline(text, expected):

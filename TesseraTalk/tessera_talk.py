@@ -724,6 +724,20 @@ def _cjk_cost(run: str, vocab: frozenset) -> int:
     return n
 
 
+def _same_block_fragments(s: str, start: int, end: int, block: int) -> bool:
+    """Do not discount controls beside mixed Brahmic runs using a first-char rate."""
+    for at, step in ((start - 1, -1), (end, 1)):
+        while 0 <= at < len(s):
+            o = ord(s[at])
+            if not (0x0980 <= o <= 0x0DFF or 0x0E80 <= o <= 0x109F
+                    or 0x1780 <= o <= 0x17FF):
+                break
+            if o >> 7 != block:
+                return False
+            at += step
+    return True
+
+
 def estimate_tokens(text: str) -> int:
     """Stdlib-only token estimate calibrated toward o200k_base (no tiktoken at runtime).
 
@@ -767,7 +781,7 @@ def estimate_tokens(text: str) -> int:
         if p in ("\u200b", "\u200d") and 0 < m.start() and m.end() < len(s):
             block = ord(s[m.start() - 1]) >> 7
             same_block = block == ord(s[m.end()]) >> 7
-            if same_block and (
+            if same_block and _same_block_fragments(s, m.start(), m.end(), block) and (
                 (p == "\u200b" and block in (0x0E80 >> 7, 0x1780 >> 7))
                 or (p == "\u200d" and block == 0x0D80 >> 7)
             ):

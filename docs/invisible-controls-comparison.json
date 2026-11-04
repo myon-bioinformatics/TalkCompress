@@ -23207,6 +23207,88 @@
   },
   "examples": [
     {
+      "text": "அກ​ຂ",
+      "id": null,
+      "actual": 6,
+      "main": 4,
+      "include_all": 1,
+      "correct_all": 3,
+      "selected": 4,
+      "o200k_ids": [
+        41755,
+        26009,
+        223,
+        3310,
+        26009,
+        224
+      ]
+    },
+    {
+      "text": "কກ​ຂ",
+      "id": null,
+      "actual": 6,
+      "main": 4,
+      "include_all": 1,
+      "correct_all": 3,
+      "selected": 4,
+      "o200k_ids": [
+        2841,
+        26009,
+        223,
+        3310,
+        26009,
+        224
+      ]
+    },
+    {
+      "text": "ກ​ຂক",
+      "id": null,
+      "actual": 6,
+      "main": 7,
+      "include_all": 6,
+      "correct_all": 6,
+      "selected": 7,
+      "o200k_ids": [
+        26009,
+        223,
+        3310,
+        26009,
+        224,
+        2841
+      ]
+    },
+    {
+      "text": "කක‍කক",
+      "id": null,
+      "actual": 5,
+      "main": 5,
+      "include_all": 3,
+      "correct_all": 4,
+      "selected": 5,
+      "o200k_ids": [
+        9218,
+        9218,
+        2524,
+        9218,
+        2841
+      ]
+    },
+    {
+      "text": "កខ​គஅ",
+      "id": null,
+      "actual": 4,
+      "main": 5,
+      "include_all": 3,
+      "correct_all": 4,
+      "selected": 5,
+      "o200k_ids": [
+        11400,
+        37984,
+        97315,
+        41755
+      ]
+    },
+    {
       "text": "ශ්‍රී",
       "id": null,
       "actual": 2,
@@ -23669,5 +23751,5 @@
       ]
     }
   ],
-  "compression_comparisons": 8199
+  "compression_comparisons": 8214
 }

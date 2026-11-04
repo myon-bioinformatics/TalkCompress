@@ -17,7 +17,9 @@ Candidates use the existing block rates, with no word exceptions or fitted const
 - `selected`: retain fragmentation; omit the charge for a **single** ZWSP between
   characters in the same Khmer or Lao block, or ZWJ within the Sinhala block.
   Leading, trailing, repeated controls, cross-block boundaries, ZWNJ and other
-  scripts remain unchanged. Emoji ZWJ sequences remain unchanged.
+  scripts remain unchanged. Both adjacent `i` fragments must also consist entirely
+  of that block: mixed fragments inherit a first-character rate and are excluded.
+  Emoji ZWJ sequences remain unchanged.
 
 The selection uses fit MAE and boundary regressions. Generic inclusion and generic
 correction undercount Bengali conjuncts and Oriya examples. Myanmar's selected
@@ -65,7 +67,10 @@ therefore their unchanged result is not evidence of control accuracy.
 
 All sampled languages pass the held-out MAE gate. Sinhala's aggregate ratio moves
 slightly farther below 1 while MAE improves: improvement is not uniform across
-metrics or sentences. Sinhala has only 5 control-containing sentences per split;
+metrics or sentences. The existing Khmer fixture `សួស្តី​ពិភពលោក` is an
+explicit individual regression: o200k=10, main=10, selected=9. Its expected estimate
+is updated to 9 rather than adding a word exception; this tradeoff is recorded,
+not presented as a universal improvement. Sinhala has only 5 control-containing sentences per split;
 Lao only 4 fit and 1 held-out. More independent data is needed for stronger claims.
 
 For Khmer held-out, inclusion MAE=1.630, generic correction=1.590, selected=1.580.
@@ -102,12 +107,12 @@ can be resolved at `https://tatoeba.org/en/sentences/show/<ID>`.
 
 ## Validation
 
-- 25 focused boundary tests pass; expected estimates are frozen independently of
+- 30 focused boundary tests pass; expected estimates are frozen independently of
   the evaluation implementation.
 - Winner flips: **0/1178**; natural sample exact 29/37; matrix exact 3057/3064.
 - `tense_matrix.py --check`: up to date.
 - Compression/expansion baseline comparison covers all 2,704 fit/held-out strings
-  and 29 examples, each with RLE on, RLE off/newline preservation, and fixture
-  translation minification on: 8,199 comparisons. Outputs and their expansions
+  and 34 examples, each with RLE on, RLE off/newline preservation, and fixture
+  translation minification on: 8,214 comparisons. Outputs and their expansions
   must match baseline byte for byte. This is a measured corpus guarantee, not a
   claim about all possible future translation candidate rankings.

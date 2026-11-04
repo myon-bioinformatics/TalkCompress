@@ -32,8 +32,9 @@ def test_combining_mark_kept_in_word():
     ("নমস্কার পৃথিবী", 5),      # Bengali (o200k 6, main 10)
     ("નમસ્તે દુનિયા", 6),       # Gujarati (o200k 6, main 10; block rate 2.5)
     ("မင်္ဂလာပါ ကမ္ဘာ", 9),    # Myanmar (o200k 9, main 11; rate 1.75)
-    # ZWSP が直前の母音記号と同じ記号連にまとまらなくなったため main の 10 から +1
-    ("សួស្តី​ពិភពលោក", 10),       # Khmer (o200k 10, main 10)
+    # #147: interior ZWSP surcharge removed. Individual regression: o200k=10, main=10;
+    # corpus MAE improves, but this word is underestimated by one (no word exception).
+    ("សួស្តី​ពិភពលោក", 9),
     # 子音だけの語は main では 0 だった(o200k 8)
     ("\u1780" * 8, 6),
 ])
