@@ -148,7 +148,11 @@ def vi_space_vocab() -> list[str]:
 
 # Emoji code points costed one by one (measured: a ZWJ / skin-tone sequence costs the sum
 # of its parts). Digits are o200k costs of each isolated code point, per range.
-EMOJI_RANGES = ((0x2190, 0x2BFF), (0x200D, 0x200D), (0xFE0F, 0xFE0F), (0x1F000, 0x1FAFF), (0xE0020, 0xE007F))
+# The single code points (©, ®, ‼, ⁉, ™, ℹ, 〰, 〽, ㊗, ㊙) are the text-default emoji
+# outside U+2190–2BFF; they join an emoji run only when followed by VS16 (U+FE0F).
+EMOJI_RANGES = ((0x2190, 0x2BFF), (0x200D, 0x200D), (0xFE0F, 0xFE0F), (0x1F000, 0x1FAFF), (0xE0020, 0xE007F),
+                (0xA9, 0xA9), (0xAE, 0xAE), (0x203C, 0x203C), (0x2049, 0x2049), (0x2122, 0x2122),
+                (0x2139, 0x2139), (0x3030, 0x3030), (0x303D, 0x303D), (0x3297, 0x3297), (0x3299, 0x3299))
 
 
 def emoji_costs() -> dict:

@@ -26,19 +26,28 @@ def test_combining_mark_kept_in_word():
 
 
 @pytest.mark.parametrize("text, expected", [
-    # インド系・東南アジア系文字は main と同じ経路(母音記号を記号扱い)。
-    # 未分類文字用の ceil(len/4) で母音記号の位置で分割すると o200k から遠ざかるため。
-    ("வணக்கம் உலகம்", 6),      # Tamil (o200k 5)
-    ("নমস্কার পৃথিবী", 10),     # Bengali (o200k 6)
-    ("નમસ્તે દુનિયા", 10),      # Gujarati (o200k 6)
-    ("မင်္ဂလာပါ ကမ္ဘာ", 11),    # Myanmar (o200k 9)
-    ("សួស្តី​ពិភពលោក", 10),       # Khmer (o200k 10)
-    ("\u1780" * 8, 0),           # Khmer ブロック先頭 U+1780(main と同じ。既知の過小評価)
+    # ブラーフミー系は記号込みの語全体で ceil(len/3)、ミャンマー・クメールは ceil(2*len/3)。
+    # main は母音記号ごとに記号扱いで分割し、実コーパスで 1.6〜2 倍の過大評価だった。
+    ("வணக்கம் உலகம்", 5),      # Tamil (o200k 5, main 6)
+    ("নমস্কার পৃথিবী", 5),      # Bengali (o200k 6, main 10)
+    ("નમસ્તે દુનિયા", 4),       # Gujarati (o200k 6, main 10)
+    ("မင်္ဂလာပါ ကမ္ဘာ", 10),    # Myanmar (o200k 9, main 11)
+    # ZWSP が直前の母音記号と同じ記号連にまとまらなくなったため main の 10 から +1
+    ("សួស្តី​ពិភពលោក", 10),       # Khmer (o200k 10, main 10)
+    # 子音だけの語は main では 0 だった(o200k 8)
+    ("\u1780" * 8, 6),
 ])
-def test_indic_unchanged_from_main(text, expected):
+def test_indic_word_costs(text, expected):
     assert estimate_tokens(text) == expected
 
 
 def test_pointed_hebrew_closer_than_main():
-    # ニクード付きヘブライ語: o200k 13、main 9、本修正 15
-    assert estimate_tokens("שָׁלוֹם עוֹלָם") == 15
+    # ニクード付きヘブライ語: o200k 13、main 15、点ごとに分割して 11
+    assert estimate_tokens("שָׁלוֹם עוֹלָם") == 11
+
+
+@pytest.mark.parametrize("text", ["কর", "তম", "ကက", "\u1780\u1781", "ජන"])
+def test_brahmic_consonant_only_word_not_free(text):
+    # 母音記号を持たない語(子音だけ)も 0 トークンにしない
+    assert estimate_tokens(text) >= 1
+    assert estimate_tokens(text + " " + text) >= 2
