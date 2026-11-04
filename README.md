@@ -201,6 +201,12 @@ uv run python Zipilogue/zipilogue.py rule-observe --state book.json --text 'stat
 uv run python Zipilogue/zipilogue.py rule-encode --state book.json --text 'status update complete'
 ```
 
+## Focused test discovery
+
+See [standard-library discovery commands](docs/unittest-discovery.md) for
+validated `python -S -m unittest discover` recipes, filename/name filtering,
+and the boundary with the full pytest suite.
+
 ## ライセンス
 
 MIT
