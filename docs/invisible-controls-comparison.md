@@ -34,6 +34,9 @@ optimized against held-out. Held-out is a final gate, not proof of universal acc
 | Oriya `ଓଡ଼ିଆ` | 7 | 2 | 2 | 2 | 2 |
 | Emoji `👨‍👩‍👧‍👦` | 11 | 11 | 11 | 11 | 11 |
 
+The natural Khmer sentence [1172554](https://tatoeba.org/en/sentences/show/1172554)
+also reproduces the issue: o200k=41, main=57, selected=43.
+
 Exact code points, o200k token IDs and additional mixed-script/boundary cases are
 in [the JSON report](invisible-controls-comparison.json). Sinhala's residual
 error and Oriya's existing underestimation are intentionally not hidden by word
@@ -58,6 +61,7 @@ therefore their unchanged result is not evidence of control accuracy.
 | Thai | 200 | .360→.360 | .310→.310 | .9716→.9716 |
 | Tamil | 200 | 1.630→1.630 | 1.660→1.660 | .9717→.9717 |
 | Myanmar | 200 | 1.765→1.765 | 1.615→1.615 | 1.0318→1.0318 |
+| Oriya (ori) | 200 | 8.280→8.280 | 9.215→9.215 | .3842→.3842 |
 
 All sampled languages pass the held-out MAE gate. Sinhala's aggregate ratio moves
 slightly farther below 1 while MAE improves: improvement is not uniform across
@@ -72,8 +76,9 @@ sentences in each downloaded export. For Bengali (14 sentences), MAE is
 2.143 main, 2.857 inclusion, 2.571 generic correction, and 2.143 selected.
 For Sinhala (10), selected MAE 1.400→.700; Khmer (322), 5.848→2.065;
 Lao (5), 24.600→14.800. These subsets overlap fit/held-out; do not count them as
-independent validation. The Oriya `ory` export returned HTTP 404; Oriya has boundary
-checks only, not an invented Tatoeba held-out score.
+independent validation. The `ory` export returned HTTP 404, but the `ori` export is available and is
+included above. Oriya has a substantial pre-existing underestimation; this PR
+preserves its outputs rather than extending the correction to an uncalibrated block.
 
 ## Reproduction
 
@@ -90,7 +95,7 @@ uv run python scripts/tense_matrix.py --check
 ```
 
 The exports are mutable: `--expected` **fails explicitly** if an input hash changes.
-Preserve the seven downloaded `.tsv.bz2` inputs for an exact replay. Without
+Preserve the eight downloaded `.tsv.bz2` inputs for an exact replay. Without
 `--expected`, a later export can be measured as a new experiment, not represented
 as reproducing this snapshot. No raw corpus text is redistributed; sentence IDs
 can be resolved at `https://tatoeba.org/en/sentences/show/<ID>`.
@@ -101,8 +106,8 @@ can be resolved at `https://tatoeba.org/en/sentences/show/<ID>`.
   the evaluation implementation.
 - Winner flips: **0/1178**; natural sample exact 29/37; matrix exact 3057/3064.
 - `tense_matrix.py --check`: up to date.
-- Compression/expansion baseline comparison covers all 2,304 fit/held-out strings
+- Compression/expansion baseline comparison covers all 2,704 fit/held-out strings
   and 29 examples, each with RLE on, RLE off/newline preservation, and fixture
-  translation minification on: 6,999 comparisons. Outputs and their expansions
+  translation minification on: 8,199 comparisons. Outputs and their expansions
   must match baseline byte for byte. This is a measured corpus guarantee, not a
   claim about all possible future translation candidate rankings.

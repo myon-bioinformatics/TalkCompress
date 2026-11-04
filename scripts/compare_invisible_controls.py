@@ -27,7 +27,7 @@ from TesseraTalk import tessera_talk as current
 import tiktoken
 
 BASE = 'adf9fcf49e2f7ee8695819e00929f9bd0673c6ae'
-LANGS = ('ben', 'sin', 'khm', 'tha', 'lao', 'tam', 'mya')
+LANGS = ('ben', 'sin', 'khm', 'tha', 'lao', 'tam', 'mya', 'ori')
 CONTROLS = '\u200b\u200c\u200d'
 CHARS = r'[\u0980-\u0DFF\u0E80-\u0FFF\u1000-\u109F\u1780-\u17FF]'
 BRIDGE = re.compile('(' + CHARS + '+)([\u200b-\u200d]+)(?=' + CHARS + ')')
