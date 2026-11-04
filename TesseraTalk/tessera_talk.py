@@ -758,6 +758,20 @@ def estimate_tokens(text: str) -> int:
     n = 0
     for m in _PRETOKEN.finditer(s):
         kind, p = m.lastgroup, m.group()
+        # Keep shared pretokenization unchanged. Measured Tatoeba fit data supports
+        # removing the extra control charge for Khmer/Lao ZWSP and Sinhala ZWJ,
+        # while retaining each fragment's rounding cost. Joining runs instead
+        # underestimates Bengali conjuncts. Other blocks/controls are unmodified.
+        # Only a single interior control within one Unicode block qualifies:
+        # edge/repeated controls, mixed blocks and emoji ZWJ keep their costs.
+        if p in ("\u200b", "\u200d") and 0 < m.start() and m.end() < len(s):
+            block = ord(s[m.start() - 1]) >> 7
+            same_block = block == ord(s[m.end()]) >> 7
+            if same_block and (
+                (p == "\u200b" and block in (0x0E80 >> 7, 0x1780 >> 7))
+                or (p == "\u200d" and block == 0x0D80 >> 7)
+            ):
+                continue
         if kind in ("w", "o"):
             # a combining mark left after NFC is its own byte-level token in o200k
             spaced = m.start() > 0 and s[m.start() - 1] == " "
