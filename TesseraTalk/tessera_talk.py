@@ -609,28 +609,24 @@ def _range_cost(run: str) -> int:
 
 # Word-length factor for scripts o200k merges poorly (measured mean cost of " word" by
 # length on Tatoeba even-id rows): tokens ≈ a * len + b. Hebrew / Arabic (incl. Urdu) /
-# Georgian / Greek letters only; marked words keep the split-at-marks path.
+# Georgian / Greek letters only; marked words keep the split-at-marks path. Shorter words
+# than ``min_len`` keep the legacy rules: frequent short Hebrew / Greek words are often one
+# o200k token (" שלום" = 1), while 4-letter Arabic / Urdu / Georgian words average 1.5–1.8.
 _SCRIPT_FACTOR = (
-    (re.compile(r"[\u05D0-\u05EA\uFB1D-\uFB4F]+"), 0.45, 0.0),
-    (re.compile(r"[\u0620-\u064A\u066E-\u06D3\u06D5\u06EE-\u06FF]+"), 0.30, 0.3),
-    (re.compile(r"[\u10A0-\u10FF\u1C90-\u1CBF]+"), 0.32, 0.4),
-    (re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]+"), 0.38, 0.3),
+    (re.compile(r"[\u05D0-\u05EA\uFB1D-\uFB4F]+"), 0.45, 0.0, 5),
+    (re.compile(r"[\u0620-\u064A\u066E-\u06D3\u06D5\u06EE-\u06FF]+"), 0.30, 0.3, 4),
+    (re.compile(r"[\u10A0-\u10FF\u1C90-\u1CBF]+"), 0.32, 0.4, 4),
+    (re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]+"), 0.38, 0.3, 5),
 )
 
 
-# short words are often whole o200k tokens (" שלום" = 1); the legacy rules keep them
-_SCRIPT_FACTOR_MIN_LEN = 5
-
-
 def _script_factor_cost(w: str) -> int | None:
-    for rx, a, b in _SCRIPT_FACTOR:
-        if len(w) >= _SCRIPT_FACTOR_MIN_LEN and rx.fullmatch(w):
+    for rx, a, b, min_len in _SCRIPT_FACTOR:
+        if len(w) >= min_len and rx.fullmatch(w):
             return max(1, int(a * len(w) + b + 0.5))
     return None
 
 
-# Ethiopic (U+1200–139F, U+2D80–2DDF, U+AB00–AB2F): o200k has almost no merges,
-# 2 tokens per syllable; a preceding space is its own token.
 _STACKED_MARKS_RE = re.compile(r"[\u0300-\u036F]{2,}")
 
 
@@ -820,9 +816,9 @@ def estimate_tokens(text: str) -> int:
     - Hebrew points, Arabic harakat, Devanagari virama: the word is split at them,
       each letter piece costs as a word and each mark +1
     - fullwidth digits / letters, halfwidth kana, math alphanumerics: measured per-code-point costs
-    - Ethiopic: 2 per syllable (+1 for a preceding space)
+    - Ethiopic: 2 per syllable, 3 in the supplement / extended blocks (+1 for a preceding space)
     - unmarked Hebrew / Arabic / Urdu / Georgian / Greek words: ``round(a*len + b)`` per script
-    - stacked combining marks (2+ in a row): 2 per mark; C0 / C1 control chars: 1 each
+    - stacked combining marks (2+ in a row): 2 per mark; C0 control chars 1 each, C1 2 each
     - digit groups of <= 3 = 1; each punctuation run = 1
     Whitespace is free. Regenerate the table with ``scripts/calibrate_estimate.py --write``.
     """
@@ -883,7 +879,10 @@ def estimate_tokens(text: str) -> int:
         elif kind == "u":
             n += _range_cost(p)
         elif kind == "t":
-            n += 2 * len(p) + (1 if m.start() > 0 and s[m.start() - 1] == " " else 0)
+            # Ethiopic (U+1200–139F, U+2D80–2DDF, U+AB00–AB2F): o200k has almost no merges,
+            # 2 tokens per syllable; a preceding space is its own token.
+            # Ethiopic Extended / Supplement / Extended-A have no merges: 3 UTF-8 bytes each.
+            n += sum(2 if ch < "\u1380" else 3 for ch in p) + (1 if m.start() > 0 and s[m.start() - 1] == " " else 0)
         elif kind == "e":
             n += _emoji_cost(p, cal.get("emoji", {}))
         elif kind == "i":
@@ -907,9 +906,10 @@ def estimate_tokens(text: str) -> int:
         elif kind == "p":
             # a punctuation run is one token; non-ASCII symbols outside o200k's
             # single-token set (e.g. "∴") cost one extra byte-level token each
-            # C0 / C1 control characters are one byte-level token each
-            ctrl = sum(1 for ch in p if ord(ch) < 32 or 127 <= ord(ch) < 160)
-            n += max(1, ctrl + (ctrl < len(p))) + sum(
+            # C0 controls / DEL are one byte-level token each, C1 controls (2 UTF-8 bytes) two
+            ctrl = sum(1 for ch in p if ord(ch) < 32 or ord(ch) == 127)
+            c1 = sum(1 for ch in p if 128 <= ord(ch) < 160)
+            n += max(1, ctrl + 2 * c1 + (ctrl + c1 < len(p))) + sum(
                 1 for ch in p if ord(ch) >= 160 and ch not in cal["sym"])
         else:
             n += 1
