@@ -9,14 +9,15 @@ from TesseraTalk.tessera_talk import estimate_tokens
     ("שלום עולם", 2),       # Hebrew (o200k 2)
     ("Բարեւ աշխարհ", 4),    # Armenian (o200k 4)
     ("გამარჯობა", 3),       # Georgian (o200k 3)
-    ("ሰላም", 1),             # Ethiopic (o200k 6: 下限のみ保証)
+    ("ሰላም", 6),             # Ethiopic (o200k 6: 1 音節 2 トークン)
 ])
 def test_uncovered_script_not_free(text, expected):
     assert estimate_tokens(text) == expected
 
 
 def test_long_uncovered_word_scales():
-    assert estimate_tokens("აბგდევზთიკლმნოპ") == 4  # ceil(15/4)
+    # 5 文字以上のジョージア語は語長係数 round(0.32*len+0.4) (o200k 11、旧 ceil(15/4)=4)
+    assert estimate_tokens("აბგდევზთიკლმნოპ") == 5
 
 
 def test_combining_mark_kept_in_word():
