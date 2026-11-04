@@ -51,3 +51,29 @@ def test_brahmic_consonant_only_word_not_free(text):
     # 母音記号を持たない語(子音だけ)も 0 トークンにしない
     assert estimate_tokens(text) >= 1
     assert estimate_tokens(text + " " + text) >= 2
+
+
+@pytest.mark.parametrize("text, expected", [
+    # Lao / Tibetan は i クラス外で子音が 0 トークンだった(o200k と一致)
+    ("\u0f40", 2),              # ཀ  (o200k 2)
+    ("\u0e81", 2),              # ກ  (o200k 2)
+    ("\u0f40\u0f0b\u0f41", 4),  # ཀ་ཁ (o200k 4)
+])
+def test_lao_tibetan_not_free(text, expected):
+    assert estimate_tokens(text) == expected
+
+
+@pytest.mark.parametrize("text, expected", [
+    # ブロック別レート(_BRAHMIC_RATES)の回帰。Tatoeba held-out (seed 1104) から抽出
+    ("ຂ້ອຍຄິດວ່າ ຂ້ອຍເສັຍຂໍກະແຈ", 48),                 # Lao (o200k 48)
+    ("སྔ་དྲོ་བདེ་ལེགས", 20),                          # Tibetan (o200k 22)
+    ("ਟੌਮ ਨੇ ਮੈਰੀ ਨੂੰ ਦੱਸਿਅਾ ਕਿ ਓਹ ਗ਼ਲਤ ਸੀ।", 23),       # Gurmukhi (o200k 23)
+    ("ඔයා ඇහැරිනකොට මං මෙහෙන් ගිහින්.", 19),          # Sinhala (o200k 19)
+    ("నువ్వు ఎప్పుడైనా పారిస్ వెళ్ళావా?", 15),          # Telugu (o200k 15)
+    ("ಅವನು ಠಾಣೆಗೆ ಐದು ಗಂಟೆಗೆ ತಲುಪಿದ.", 14),            # Kannada (o200k 14)
+    ("હું પનિર ખાવ છું", 8),                          # Gujarati (o200k 8)
+    ("သူမက အလုပ်ခန့်အပ်တာကို ငြင်းဆန်လိုက်တယ်။", 23),  # Myanmar (o200k 23)
+    ("ខ្ញុំគ្រាន់តែគិតថាអ្នកចង់ទៅនោះទេ។", 22),          # Khmer (o200k 22)
+])
+def test_brahmic_block_rates(text, expected):
+    assert estimate_tokens(text) == expected
