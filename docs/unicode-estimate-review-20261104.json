@@ -1,0 +1,739 @@
+{
+  "tiktoken": "0.14.0",
+  "metrics": {
+    "all_jsonl_strings": {
+      "main": {
+        "n": 42954,
+        "exact": 0.4995809470596452,
+        "mae": 1.7194906178702798,
+        "bias": 0.060692834194719936,
+        "over": 7353,
+        "under": 14142,
+        "ratio": 1.006362105571418
+      },
+      "pr": {
+        "n": 42954,
+        "exact": 0.5,
+        "mae": 1.5606695534758113,
+        "bias": -0.11144480141546771,
+        "over": 7274,
+        "under": 14203,
+        "ratio": 0.9883178368352978
+      }
+    },
+    "corpus": {
+      "main": {
+        "n": 4734,
+        "exact": 0.35044359949302917,
+        "mae": 4.916772285593578,
+        "bias": -1.1212505280946345,
+        "over": 886,
+        "under": 2189,
+        "ratio": 0.9650934152292142
+      },
+      "pr": {
+        "n": 4734,
+        "exact": 0.35424588086185044,
+        "mae": 3.4757076468103083,
+        "bias": -2.6831432192648923,
+        "over": 807,
+        "under": 2250,
+        "ratio": 0.9164688319972643
+      }
+    },
+    "arabic": {
+      "main": {
+        "n": 140,
+        "exact": 0.06428571428571428,
+        "mae": 7.185714285714286,
+        "bias": -6.885714285714286,
+        "over": 11,
+        "under": 120,
+        "ratio": 0.8760288065843621
+      },
+      "pr": {
+        "n": 140,
+        "exact": 0.09285714285714286,
+        "mae": 6.478571428571429,
+        "bias": -6.135714285714286,
+        "over": 13,
+        "under": 114,
+        "ratio": 0.8895318930041153
+      }
+    },
+    "bengali": {
+      "main": {
+        "n": 60,
+        "exact": 0.016666666666666666,
+        "mae": 43.2,
+        "bias": 43.1,
+        "over": 58,
+        "under": 1,
+        "ratio": 1.6321192862380836
+      },
+      "pr": {
+        "n": 60,
+        "exact": 0.11666666666666667,
+        "mae": 4.85,
+        "bias": -0.45,
+        "over": 18,
+        "under": 35,
+        "ratio": 0.9934001466634075
+      }
+    },
+    "deva": {
+      "main": {
+        "n": 114,
+        "exact": 0.02631578947368421,
+        "mae": 26.68421052631579,
+        "bias": 18.333333333333332,
+        "over": 56,
+        "under": 55,
+        "ratio": 1.2646909827760893
+      },
+      "pr": {
+        "n": 114,
+        "exact": 0.07017543859649122,
+        "mae": 6.719298245614035,
+        "bias": -4.245614035087719,
+        "over": 20,
+        "under": 86,
+        "ratio": 0.9387031408308004
+      }
+    },
+    "hebrew": {
+      "main": {
+        "n": 66,
+        "exact": 0.015151515151515152,
+        "mae": 14.757575757575758,
+        "bias": -14.0,
+        "over": 3,
+        "under": 62,
+        "ratio": 0.7642255677468742
+      },
+      "pr": {
+        "n": 66,
+        "exact": 0.030303030303030304,
+        "mae": 14.454545454545455,
+        "bias": -14.424242424242424,
+        "over": 1,
+        "under": 63,
+        "ratio": 0.757080887981628
+      }
+    },
+    "tamil": {
+      "main": {
+        "n": 60,
+        "exact": 0.016666666666666666,
+        "mae": 79.0,
+        "bias": 78.9,
+        "over": 58,
+        "under": 1,
+        "ratio": 1.99768177028451
+      },
+      "pr": {
+        "n": 60,
+        "exact": 0.13333333333333333,
+        "mae": 5.733333333333333,
+        "bias": -2.1666666666666665,
+        "over": 19,
+        "under": 33,
+        "ratio": 0.9726027397260274
+      }
+    },
+    "random_bn": {
+      "main": {
+        "n": 3000,
+        "exact": 0.059666666666666666,
+        "mae": 4.369,
+        "bias": -4.247,
+        "over": 153,
+        "under": 2668,
+        "ratio": 0.4505347593582888
+      },
+      "pr": {
+        "n": 3000,
+        "exact": 0.06166666666666667,
+        "mae": 4.504333333333333,
+        "bias": -4.504333333333333,
+        "over": 0,
+        "under": 2815,
+        "ratio": 0.41724167672934276
+      }
+    },
+    "random_ta": {
+      "main": {
+        "n": 3000,
+        "exact": 0.133,
+        "mae": 2.6003333333333334,
+        "bias": -2.2636666666666665,
+        "over": 382,
+        "under": 2219,
+        "ratio": 0.713508268646642
+      },
+      "pr": {
+        "n": 3000,
+        "exact": 0.07133333333333333,
+        "mae": 4.700333333333333,
+        "bias": -4.700333333333333,
+        "over": 0,
+        "under": 2786,
+        "ratio": 0.405121498481269
+      }
+    },
+    "random_km_my": {
+      "main": {
+        "n": 3000,
+        "exact": 0.025,
+        "mae": 6.674,
+        "bias": -6.649333333333334,
+        "over": 37,
+        "under": 2888,
+        "ratio": 0.2813862170827479
+      },
+      "pr": {
+        "n": 3000,
+        "exact": 0.11266666666666666,
+        "mae": 3.2266666666666666,
+        "bias": -3.2266666666666666,
+        "over": 0,
+        "under": 2662,
+        "ratio": 0.6512842681652797
+      }
+    }
+  },
+  "boundaries": [
+    {
+      "text": "한국어",
+      "form": "NFC",
+      "main": 2,
+      "pr": 2,
+      "actual": 2
+    },
+    {
+      "text": "x 한국어 y",
+      "form": "NFC",
+      "main": 4,
+      "pr": 4,
+      "actual": 4
+    },
+    {
+      "text": "한국어",
+      "form": "NFD",
+      "main": 24,
+      "pr": 24,
+      "actual": 24
+    },
+    {
+      "text": "x 한국어 y",
+      "form": "NFD",
+      "main": 26,
+      "pr": 26,
+      "actual": 27
+    },
+    {
+      "text": "안녕하세요 세계",
+      "form": "NFC",
+      "main": 3,
+      "pr": 3,
+      "actual": 3
+    },
+    {
+      "text": "x 안녕하세요 세계 y",
+      "form": "NFC",
+      "main": 5,
+      "pr": 5,
+      "actual": 5
+    },
+    {
+      "text": "안녕하세요 세계",
+      "form": "NFD",
+      "main": 48,
+      "pr": 48,
+      "actual": 49
+    },
+    {
+      "text": "x 안녕하세요 세계 y",
+      "form": "NFD",
+      "main": 50,
+      "pr": 50,
+      "actual": 52
+    },
+    {
+      "text": "Tiếng Việt",
+      "form": "NFC",
+      "main": 3,
+      "pr": 3,
+      "actual": 3
+    },
+    {
+      "text": "x Tiếng Việt y",
+      "form": "NFC",
+      "main": 5,
+      "pr": 5,
+      "actual": 5
+    },
+    {
+      "text": "Tiếng Việt",
+      "form": "NFD",
+      "main": 9,
+      "pr": 9,
+      "actual": 8
+    },
+    {
+      "text": "x Tiếng Việt y",
+      "form": "NFD",
+      "main": 11,
+      "pr": 11,
+      "actual": 10
+    },
+    {
+      "text": "café",
+      "form": "NFC",
+      "main": 2,
+      "pr": 2,
+      "actual": 2
+    },
+    {
+      "text": "x café y",
+      "form": "NFC",
+      "main": 4,
+      "pr": 4,
+      "actual": 3
+    },
+    {
+      "text": "café",
+      "form": "NFD",
+      "main": 2,
+      "pr": 2,
+      "actual": 3
+    },
+    {
+      "text": "x café y",
+      "form": "NFD",
+      "main": 4,
+      "pr": 4,
+      "actual": 4
+    },
+    {
+      "text": "क़",
+      "form": "NFC",
+      "main": 1,
+      "pr": 1,
+      "actual": 2
+    },
+    {
+      "text": "x क़ y",
+      "form": "NFC",
+      "main": 3,
+      "pr": 3,
+      "actual": 4
+    },
+    {
+      "text": "क़",
+      "form": "NFD",
+      "main": 1,
+      "pr": 1,
+      "actual": 2
+    },
+    {
+      "text": "x क़ y",
+      "form": "NFD",
+      "main": 3,
+      "pr": 3,
+      "actual": 4
+    },
+    {
+      "text": "क्ष",
+      "form": "NFC",
+      "main": 1,
+      "pr": 1,
+      "actual": 1
+    },
+    {
+      "text": "x क्ष y",
+      "form": "NFC",
+      "main": 3,
+      "pr": 3,
+      "actual": 3
+    },
+    {
+      "text": "क्ष",
+      "form": "NFD",
+      "main": 1,
+      "pr": 1,
+      "actual": 1
+    },
+    {
+      "text": "x क्ष y",
+      "form": "NFD",
+      "main": 3,
+      "pr": 3,
+      "actual": 3
+    },
+    {
+      "text": "क्‍ष",
+      "form": "NFC",
+      "main": 3,
+      "pr": 4,
+      "actual": 4
+    },
+    {
+      "text": "x क्‍ष y",
+      "form": "NFC",
+      "main": 5,
+      "pr": 6,
+      "actual": 6
+    },
+    {
+      "text": "क्‍ष",
+      "form": "NFD",
+      "main": 3,
+      "pr": 4,
+      "actual": 4
+    },
+    {
+      "text": "x क्‍ष y",
+      "form": "NFD",
+      "main": 5,
+      "pr": 6,
+      "actual": 6
+    },
+    {
+      "text": "क्‌ष",
+      "form": "NFC",
+      "main": 3,
+      "pr": 4,
+      "actual": 4
+    },
+    {
+      "text": "x क्‌ष y",
+      "form": "NFC",
+      "main": 5,
+      "pr": 6,
+      "actual": 6
+    },
+    {
+      "text": "क्‌ष",
+      "form": "NFD",
+      "main": 3,
+      "pr": 4,
+      "actual": 4
+    },
+    {
+      "text": "x क्‌ष y",
+      "form": "NFD",
+      "main": 5,
+      "pr": 6,
+      "actual": 6
+    },
+    {
+      "text": "שָׁלוֹם",
+      "form": "NFC",
+      "main": 8,
+      "pr": 6,
+      "actual": 7
+    },
+    {
+      "text": "x שָׁלוֹם y",
+      "form": "NFC",
+      "main": 10,
+      "pr": 8,
+      "actual": 9
+    },
+    {
+      "text": "שָׁלוֹם",
+      "form": "NFD",
+      "main": 8,
+      "pr": 6,
+      "actual": 7
+    },
+    {
+      "text": "x שָׁלוֹם y",
+      "form": "NFD",
+      "main": 10,
+      "pr": 8,
+      "actual": 9
+    },
+    {
+      "text": "مَرْحَبًا",
+      "form": "NFC",
+      "main": 3,
+      "pr": 9,
+      "actual": 6
+    },
+    {
+      "text": "x مَرْحَبًا y",
+      "form": "NFC",
+      "main": 5,
+      "pr": 11,
+      "actual": 8
+    },
+    {
+      "text": "مَرْحَبًا",
+      "form": "NFD",
+      "main": 3,
+      "pr": 9,
+      "actual": 6
+    },
+    {
+      "text": "x مَرْحَبًا y",
+      "form": "NFD",
+      "main": 5,
+      "pr": 11,
+      "actual": 8
+    },
+    {
+      "text": "☺️",
+      "form": "NFC",
+      "main": 3,
+      "pr": 2,
+      "actual": 2
+    },
+    {
+      "text": "x ☺️ y",
+      "form": "NFC",
+      "main": 5,
+      "pr": 4,
+      "actual": 5
+    },
+    {
+      "text": "☺️",
+      "form": "NFD",
+      "main": 3,
+      "pr": 2,
+      "actual": 2
+    },
+    {
+      "text": "x ☺️ y",
+      "form": "NFD",
+      "main": 5,
+      "pr": 4,
+      "actual": 5
+    },
+    {
+      "text": "❤️",
+      "form": "NFC",
+      "main": 2,
+      "pr": 1,
+      "actual": 1
+    },
+    {
+      "text": "x ❤️ y",
+      "form": "NFC",
+      "main": 4,
+      "pr": 3,
+      "actual": 3
+    },
+    {
+      "text": "❤️",
+      "form": "NFD",
+      "main": 2,
+      "pr": 1,
+      "actual": 1
+    },
+    {
+      "text": "x ❤️ y",
+      "form": "NFD",
+      "main": 4,
+      "pr": 3,
+      "actual": 3
+    },
+    {
+      "text": "葛󠄀城",
+      "form": "NFC",
+      "main": 5,
+      "pr": 7,
+      "actual": 6
+    },
+    {
+      "text": "x 葛󠄀城 y",
+      "form": "NFC",
+      "main": 7,
+      "pr": 9,
+      "actual": 9
+    },
+    {
+      "text": "葛󠄀城",
+      "form": "NFD",
+      "main": 5,
+      "pr": 7,
+      "actual": 6
+    },
+    {
+      "text": "x 葛󠄀城 y",
+      "form": "NFD",
+      "main": 7,
+      "pr": 9,
+      "actual": 9
+    },
+    {
+      "text": "ᄒᆞᆫ",
+      "form": "NFC",
+      "main": 1,
+      "pr": 9,
+      "actual": 9
+    },
+    {
+      "text": "x ᄒᆞᆫ y",
+      "form": "NFC",
+      "main": 3,
+      "pr": 11,
+      "actual": 12
+    },
+    {
+      "text": "ᄒᆞᆫ",
+      "form": "NFD",
+      "main": 1,
+      "pr": 9,
+      "actual": 9
+    },
+    {
+      "text": "x ᄒᆞᆫ y",
+      "form": "NFD",
+      "main": 3,
+      "pr": 11,
+      "actual": 12
+    },
+    {
+      "text": "ꥠힰ",
+      "form": "NFC",
+      "main": 1,
+      "pr": 6,
+      "actual": 5
+    },
+    {
+      "text": "x ꥠힰ y",
+      "form": "NFC",
+      "main": 3,
+      "pr": 8,
+      "actual": 7
+    },
+    {
+      "text": "ꥠힰ",
+      "form": "NFD",
+      "main": 1,
+      "pr": 6,
+      "actual": 5
+    },
+    {
+      "text": "x ꥠힰ y",
+      "form": "NFD",
+      "main": 3,
+      "pr": 8,
+      "actual": 7
+    },
+    {
+      "text": "क्ॹ",
+      "form": "NFC",
+      "main": 1,
+      "pr": 1,
+      "actual": 4
+    },
+    {
+      "text": "x क्ॹ y",
+      "form": "NFC",
+      "main": 3,
+      "pr": 3,
+      "actual": 6
+    },
+    {
+      "text": "क्ॹ",
+      "form": "NFD",
+      "main": 1,
+      "pr": 1,
+      "actual": 4
+    },
+    {
+      "text": "x क्ॹ y",
+      "form": "NFD",
+      "main": 3,
+      "pr": 3,
+      "actual": 6
+    },
+    {
+      "text": "க்ஷ",
+      "form": "NFC",
+      "main": 2,
+      "pr": 1,
+      "actual": 3
+    },
+    {
+      "text": "x க்ஷ y",
+      "form": "NFC",
+      "main": 4,
+      "pr": 3,
+      "actual": 5
+    },
+    {
+      "text": "க்ஷ",
+      "form": "NFD",
+      "main": 2,
+      "pr": 1,
+      "actual": 3
+    },
+    {
+      "text": "x க்ஷ y",
+      "form": "NFD",
+      "main": 4,
+      "pr": 3,
+      "actual": 5
+    },
+    {
+      "text": "👨‍👩‍👧‍👦",
+      "form": "NFC",
+      "main": 11,
+      "pr": 11,
+      "actual": 11
+    },
+    {
+      "text": "x 👨‍👩‍👧‍👦 y",
+      "form": "NFC",
+      "main": 13,
+      "pr": 13,
+      "actual": 13
+    },
+    {
+      "text": "👨‍👩‍👧‍👦",
+      "form": "NFD",
+      "main": 11,
+      "pr": 11,
+      "actual": 11
+    },
+    {
+      "text": "x 👨‍👩‍👧‍👦 y",
+      "form": "NFD",
+      "main": 13,
+      "pr": 13,
+      "actual": 13
+    },
+    {
+      "text": "",
+      "form": "NFC",
+      "main": 0,
+      "pr": 0,
+      "actual": 0
+    },
+    {
+      "text": "x  y",
+      "form": "NFC",
+      "main": 2,
+      "pr": 2,
+      "actual": 3
+    },
+    {
+      "text": "",
+      "form": "NFD",
+      "main": 0,
+      "pr": 0,
+      "actual": 0
+    },
+    {
+      "text": "x  y",
+      "form": "NFD",
+      "main": 2,
+      "pr": 2,
+      "actual": 3
+    }
+  ]
+}
