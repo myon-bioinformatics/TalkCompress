@@ -64,6 +64,26 @@ _CYRILLIC = re.compile(r"[\u0400-\u04FF]")
 _ARABIC = re.compile(r"[\u0600-\u06FF]")
 _DEVANAGARI = re.compile(r"[\u0900-\u097F]")
 _INDIC_CHARS_PER_TOKEN = 3
+# Code points per o200k token for a Brahmic / SE-Asian run, by Unicode block (coarse tiers
+# measured on Tatoeba, seed 1104). Lao / Tibetan have almost no o200k merges (~1.3-2 tokens/char).
+_BRAHMIC_RATES = (
+    (0x0A00, 0x0A7F, 1.75),  # Gurmukhi
+    (0x0A80, 0x0AFF, 2.5),   # Gujarati
+    (0x0C00, 0x0CFF, 2.5),   # Telugu, Kannada
+    (0x0D80, 0x0DFF, 1.75),  # Sinhala
+    (0x0E80, 0x0EFF, 0.5),   # Lao
+    (0x0F00, 0x0FFF, 0.75),  # Tibetan (tsheg U+0F0B included)
+    (0x1000, 0x109F, 1.75),  # Myanmar
+    (0x1780, 0x17FF, 1.5),   # Khmer
+)
+
+
+def _brahmic_rate(ch: str) -> float:
+    o = ord(ch)
+    for lo, hi, r in _BRAHMIC_RATES:
+        if lo <= o <= hi:
+            return r
+    return _INDIC_CHARS_PER_TOKEN  # Bengali, Oriya, Tamil, Malayalam
 # Nonspacing marks o200k splits off one token each inside a word: Hebrew points and
 # Arabic harakat (U+064B–065F, U+0670, Quranic U+06D6–06ED), Devanagari virama.
 # (Other Devanagari Mn signs stay merged: counting them overestimated real text.)
@@ -510,7 +530,7 @@ _PRETOKEN = re.compile(
     # Brahmic / SE-Asian scripts outside the calibrated tables (Bengali … Sinhala,
     # Myanmar, Khmer). Consonants are letters but vowel signs / viramas are marks, so
     # neither ``x`` nor ``p`` covered a whole word and the consonants cost 0.
-    r"|(?P<i>[\u0980-\u0DFF\u1000-\u109F\u1780-\u17FF]+)"
+    r"|(?P<i>[\u0980-\u0DFF\u0E80-\u0FFF\u1000-\u109F\u1780-\u17FF]+)"
     r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
     # Letters of any other script (Hebrew, Armenian, Georgian, …) must not cost 0.
     # Indic / SE-Asian blocks keep the main-branch path: ceil(len/4) split at every vowel
@@ -785,7 +805,7 @@ def estimate_tokens(text: str) -> int:
             # ≈ 1 token per 3 code points on real text (corpus Bengali / Tamil rows).
             # Splitting at every sign (the old path) overestimated them ≈ 1.6–2x.
             # Myanmar / Khmer merge far less: ≈ 2 tokens per 3 code points.
-            per = 1.5 if p[0] >= "\u1000" else _INDIC_CHARS_PER_TOKEN
+            per = _brahmic_rate(p[0])
             n += max(1, -int(-len(p) // per))
         elif kind == "x":  # uncalibrated script: legacy ceil(len/4)
             # Hebrew points split the word: each letter piece ceil(len/4), +1 per point
