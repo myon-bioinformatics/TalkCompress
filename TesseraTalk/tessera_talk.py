@@ -522,6 +522,10 @@ _PRETOKEN = re.compile(
     # Emoji runs (skin-tone modifiers, ZWJ sequences, VS16, keycap U+20E3): costed from a measured table.
     # A text-default symbol + VS16 ("☺️", "©️", "™️") is an emoji run too, so it is costed
     # from the measured table instead of as a punctuation run.
+    # Fullwidth digits / letters (not punctuation, which CJK text uses) / halfwidth kana / math alphanumerics: per-code-point measured costs.
+    r"|(?P<u>[\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\uFF61-\uFF9F\U0001D400-\U0001D7FF]+)"
+    # Ethiopic syllables: 2 o200k tokens each.
+    r"|(?P<t>[\u1200-\u139F\u2D80-\u2DDF\uAB00-\uAB2F]+)"
     r"|(?P<e>\ufe0f?\u20e3"
     r"|(?:[\u00A9\u00AE\u203C\u2049\u2122\u2139\u2190-\u2BFF\u3030\u303D\u3297\u3299]\ufe0f)+"
     r"(?:[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)?"
@@ -537,8 +541,8 @@ _PRETOKEN = re.compile(
     # sign drifts further from o200k there. Fixed ranges, not unicodedata, so the result
     # does not depend on the Python version.
     # Hebrew points (niqqud / cantillation, Mn) stay inside the word like Latin marks.
-    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF\U00020000-\U000323AF])[^\W\d_])"
-    r"(?:(?![\u0900-\u109F\u1780-\u17FF\U00020000-\U000323AF])[^\W\d_]|[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7])*)"
+    r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF\u1200-\u139F\u2D80-\u2DDF\uAB00-\uAB2F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\uFF61-\uFF9F\U0001D400-\U0001D7FF\U00020000-\U000323AF])[^\W\d_])"
+    r"(?:(?![\u0900-\u109F\u1780-\u17FF\u1200-\u139F\u2D80-\u2DDF\uAB00-\uAB2F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\uFF61-\uFF9F\U0001D400-\U0001D7FF\U00020000-\U000323AF])[^\W\d_]|[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7])*)"
     # a keycap tail (U+FE0F U+20E3) is not swallowed by the symbol run: "#️⃣" = "#" + "️⃣" = 2
     r"|(?P<p>(?:(?!\ufe0f?\u20e3)[^\w\s])+)",
     re.IGNORECASE,
@@ -560,6 +564,70 @@ _COMBINING_RE = re.compile(r"[\u0300-\u036F]")
 # A word spelled only with Vietnamese letters (ASCII + Latin-1 accents + đ ă ơ ư ĩ ũ + tone letters).
 _VI_WORD = re.compile(r"[a-z\u00C0-\u00FF\u0111\u0103\u01A1\u01B0\u0129\u0169\u1EA0-\u1EF9]+", re.IGNORECASE)
 _CALIB: dict | None = None
+
+# Per-code-point o200k costs (one digit each, measured with tiktoken; o200k cost of a run
+# equals the sum of its code points here): fullwidth ASCII U+FF01–FF5E, halfwidth kana /
+# Hangul U+FF61–FF9F, Mathematical Alphanumeric Symbols U+1D400–1D7FF. Regenerate with
+# ``scripts/gen_unicode_range_costs.py``.
+_FULLWIDTH_COSTS = (
+    "12221121111111111111111111111111111111122212111121112222221111112222122222221222"
+    "22222212222121"
+)
+_HALFWIDTH_COSTS = (
+    "121112222222221121222222222222222222222212222222222222222221211"
+)
+_MATH_ALNUM_COSTS = (
+    "22222222222222222222222222222222222222222222222222222222222222223333333333333333"
+    "23333333333323333333333333323333333333332333333333333333333333333333333333333333"
+    "33332333333333333333333333333333333333333333333333333333333332333333333323333333"
+    "23332333233333333333333333333333333333333333333333333333333333333333333333333333"
+    "33333233333323333333333333333333333333333333333333333333333333333333333333333333"
+    "33333333333333333333333333333333333333333333333322222222222222222222222222222222"
+    "22222222222222222222222222222222333333333333333322333333333333333333333333333333"
+    "33333333333333333323333333333333333333333333333333333333333333333333333333333333"
+    "33333333333323333333333333333333333333333333333333333333333333333333233323333333"
+    "33333333333333333333333333333333233333333333333333333333333333333333333323333333"
+    "33333333333333333333233333333333333333333333333333333333333333333333333333333333"
+    "33333333333333333333333333323233333333333333333333333333333333333333333333333333"
+    "3233333333333333333333333333333333333233333333333332333333333333"
+)
+_RANGE_COSTS = ((0xFF01, _FULLWIDTH_COSTS), (0xFF61, _HALFWIDTH_COSTS), (0x1D400, _MATH_ALNUM_COSTS))
+
+
+def _range_cost(run: str) -> int:
+    n = 0
+    for ch in run:
+        cp = ord(ch)
+        for start, table in _RANGE_COSTS:
+            if start <= cp < start + len(table):
+                n += int(table[cp - start])
+                break
+        else:
+            n += len(ch.encode("utf-8"))
+    return n
+
+
+# Word-length factor for scripts o200k merges poorly (measured mean cost of " word" by
+# length on Tatoeba even-id rows): tokens ≈ a * len + b. Hebrew / Arabic (incl. Urdu) /
+# Georgian / Greek letters only; marked words keep the split-at-marks path. Shorter words
+# than ``min_len`` keep the legacy rules: frequent short Hebrew / Greek words are often one
+# o200k token (" שלום" = 1), while 4-letter Arabic / Urdu / Georgian words average 1.5–1.8.
+_SCRIPT_FACTOR = (
+    (re.compile(r"[\u05D0-\u05EA\uFB1D-\uFB4F]+"), 0.45, 0.0, 5),
+    (re.compile(r"[\u0620-\u064A\u066E-\u06D3\u06D5\u06EE-\u06FF]+"), 0.30, 0.3, 4),
+    (re.compile(r"[\u10A0-\u10FF\u1C90-\u1CBF]+"), 0.32, 0.4, 4),
+    (re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]+"), 0.38, 0.3, 5),
+)
+
+
+def _script_factor_cost(w: str) -> int | None:
+    for rx, a, b, min_len in _SCRIPT_FACTOR:
+        if len(w) >= min_len and rx.fullmatch(w):
+            return max(1, int(a * len(w) + b + 0.5))
+    return None
+
+
+_STACKED_MARKS_RE = re.compile(r"[\u0300-\u036F]{2,}")
 
 
 def _pretokens(s: str) -> list[tuple[str, str]]:
@@ -747,6 +815,10 @@ def estimate_tokens(text: str) -> int:
     - archaic Hangul jamo / ideographic variation selectors: UTF-8 byte count
     - Hebrew points, Arabic harakat, Devanagari virama: the word is split at them,
       each letter piece costs as a word and each mark +1
+    - fullwidth digits / letters, halfwidth kana, math alphanumerics: measured per-code-point costs
+    - Ethiopic: 2 per syllable, 3 in the supplement / extended blocks (+1 for a preceding space)
+    - unmarked Hebrew / Arabic / Urdu / Georgian / Greek words: ``round(a*len + b)`` per script
+    - stacked combining marks (2+ in a row): 2 per mark; C0 control chars 1 each, C1 2 each
     - digit groups of <= 3 = 1; each punctuation run = 1
     Whitespace is free. Regenerate the table with ``scripts/calibrate_estimate.py --write``.
     """
@@ -774,7 +846,13 @@ def estimate_tokens(text: str) -> int:
                     n += sum(_word_cost(q, cal) for q in _SCRIPT_MARKS_RE.split(p) if q)
                     n += sum(len(r) for r in marks)
                 else:
-                    n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p))
+                    f = _script_factor_cost(p) if kind == "o" else None
+                    if f is not None:
+                        n += f
+                    else:
+                        # stacked marks (Zalgo-style) fall back to bytes: 2 tokens per mark
+                        n += _word_cost(p, cal) + len(_COMBINING_RE.findall(p)) + sum(
+                            len(r) for r in _STACKED_MARKS_RE.findall(p))
             if (m.start() == 0 or s[m.start() - 1] != " ") and (
                 _VI_SYLLABLE.fullmatch(p) or (vi_text and not p.isascii())
             ):
@@ -798,6 +876,13 @@ def estimate_tokens(text: str) -> int:
                             cal.get("th_sp", frozenset()), cal.get("th_max"), cal.get("th_sp_max"))
         elif kind == "b":  # no vocabulary token: raw UTF-8 bytes
             n += len(p.encode("utf-8"))
+        elif kind == "u":
+            n += _range_cost(p)
+        elif kind == "t":
+            # Ethiopic (U+1200–139F, U+2D80–2DDF, U+AB00–AB2F): o200k has almost no merges,
+            # 2 tokens per syllable; a preceding space is its own token.
+            # Ethiopic Extended / Supplement / Extended-A have no merges: 3 UTF-8 bytes each.
+            n += sum(2 if ch < "\u1380" else 3 for ch in p) + (1 if m.start() > 0 and s[m.start() - 1] == " " else 0)
         elif kind == "e":
             n += _emoji_cost(p, cal.get("emoji", {}))
         elif kind == "i":
@@ -810,6 +895,10 @@ def estimate_tokens(text: str) -> int:
         elif kind == "x":  # uncalibrated script: legacy ceil(len/4)
             # Hebrew points split the word: each letter piece ceil(len/4), +1 per point
             marks = _SCRIPT_MARKS_RE.findall(p)
+            f = None if marks else _script_factor_cost(p)
+            if f is not None:
+                n += f
+                continue
             n += sum((len(q) + 3) // 4 for q in _SCRIPT_MARKS_RE.split(p) if q)
             n += sum(len(r) for r in marks)
         elif kind == "j":
@@ -817,7 +906,11 @@ def estimate_tokens(text: str) -> int:
         elif kind == "p":
             # a punctuation run is one token; non-ASCII symbols outside o200k's
             # single-token set (e.g. "∴") cost one extra byte-level token each
-            n += 1 + sum(1 for ch in p if ord(ch) > 127 and ch not in cal["sym"])
+            # C0 controls / DEL are one byte-level token each, C1 controls (2 UTF-8 bytes) two
+            ctrl = sum(1 for ch in p if ord(ch) < 32 or ord(ch) == 127)
+            c1 = sum(1 for ch in p if 128 <= ord(ch) < 160)
+            n += max(1, ctrl + 2 * c1 + (ctrl + c1 < len(p))) + sum(
+                1 for ch in p if ord(ch) >= 160 and ch not in cal["sym"])
         else:
             n += 1
     if s != text:
