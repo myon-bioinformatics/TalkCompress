@@ -1,5 +1,5 @@
-"""ヘブライ語の点・アラビア語のハラカート・デーヴァナーガリーのヴィラーマ(Mn)は
-o200k が語をその位置で分割するので、記号 1 つにつき 1 トークン数える。"""
+"""ヘブライ語の点・アラビア語のハラカートは o200k が語をその位置で分割するので、
+記号 1 つにつき 1 トークン数える。デーヴァナーガリーは Brahmic レート(ceil(len/3))。"""
 import pytest
 
 from TesseraTalk.tessera_talk import estimate_tokens
@@ -8,7 +8,7 @@ from TesseraTalk.tessera_talk import estimate_tokens
 @pytest.mark.parametrize("bare, marked", [
     ("שלום עולם", "שָׁלוֹם עוֹלָם"),
     ("مرحبا بالعالم", "مَرْحَبًا بِالْعَالَمِ"),
-    ("नमसत", "नमस्त"),
+    # Devanagari is Brahmic rate (ceil(len/3)); virama no longer splits, so omitted.
 ])
 def test_marks_cost_more_than_bare(bare, marked):
     assert estimate_tokens(marked) > estimate_tokens(bare)
@@ -37,7 +37,7 @@ def test_each_mark_adds_one():
     ("\u0924\u094d\u0930", 1, 3),  # त्र
     ("\u0936\u094d\u0930", 1, 3),  # श्र
     ("\u0926\u094d\u0927", 1, 3),  # द्ध
-    ("\u0935\u093f\u091c\u094d\u091e\u093e\u0928", 2, 4),  # विज्ञान(o200k 3/3、既知の差)
+    ("\u0935\u093f\u091c\u094d\u091e\u093e\u0928", 3, 5),  # विज्ञान(o200k 3/3; Brahmic rate)
     ("\u092e\u093f\u0924\u094d\u0930", 2, 4),  # मित्र(o200k 2/3)
     ("\u0915\u094d\u0979", 1, 3),  # U+0979 の追加子音も結合文字扱い
 ])
