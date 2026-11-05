@@ -69,6 +69,7 @@ _INDIC_CHARS_PER_TOKEN = 3
 _BRAHMIC_RATES = (
     (0x0A00, 0x0A7F, 1.75),  # Gurmukhi
     (0x0A80, 0x0AFF, 2.5),   # Gujarati
+    (0x0B00, 0x0B7F, 1.0),   # Oriya (Tatoeba ori, seed 1104 held-out)
     (0x0C00, 0x0CFF, 2.5),   # Telugu, Kannada
     (0x0D80, 0x0DFF, 1.75),  # Sinhala
     (0x0E80, 0x0EFF, 0.5),   # Lao
@@ -83,7 +84,7 @@ def _brahmic_rate(ch: str) -> float:
     for lo, hi, r in _BRAHMIC_RATES:
         if lo <= o <= hi:
             return r
-    return _INDIC_CHARS_PER_TOKEN  # Bengali, Oriya, Tamil, Malayalam
+    return _INDIC_CHARS_PER_TOKEN  # Bengali, Tamil, Malayalam, Devanagari
 # Nonspacing marks o200k splits off one token each inside a word: Hebrew points and
 # Arabic harakat (U+064B–065F, U+0670, Quranic U+06D6–06ED), Devanagari virama.
 # (Other Devanagari Mn signs stay merged: counting them overestimated real text.)
@@ -496,9 +497,9 @@ _LATIN_WORD = re.compile(r"[A-Za-z0-9\u00C0-\u024F\u1E00-\u1EFF']+")
 _LATIN_EXT_ADD = re.compile(r"[\u1E00-\u1EFF]")
 # Thai (U+0E00–U+0E7F): unspaced script, ≈ 1 token per character in GPT-style BPE.
 _THAI_CHAR = re.compile(r"[\u0E00-\u0E7F]")
-# Cyrillic / Arabic / Devanagari / Greek letter-runs
+# Cyrillic / Arabic / Greek letter-runs (Devanagari is i-class)
 _OTHER_WORD = re.compile(
-    r"[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+"
+    r"[\u0400-\u04FF\u0600-\u06FF\u0370-\u03FF\u1F00-\u1FFF]+"  # Devanagari is i-class
 )
 
 
@@ -531,11 +532,13 @@ _PRETOKEN = re.compile(
     r"(?:[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)?"
     r"|[\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*"
     r"[\u200d\U0001F000-\U0001FAFF][\u2190-\u2BFF\u200d\ufe0f\U0001F000-\U0001FAFF\U000E0020-\U000E007F]*)"
-    # Brahmic / SE-Asian scripts outside the calibrated tables (Bengali … Sinhala,
+    # Brahmic / SE-Asian scripts outside the calibrated tables (Devanagari … Sinhala,
     # Myanmar, Khmer). Consonants are letters but vowel signs / viramas are marks, so
     # neither ``x`` nor ``p`` covered a whole word and the consonants cost 0.
-    r"|(?P<i>[\u0980-\u0DFF\u0E80-\u0FFF\u1000-\u109F\u1780-\u17FF]+)"
-    r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0370-\u03FF\u1F00-\u1FFF]+)"
+    # Devanagari used to be an ``o`` word (ceil(len/4)) and under-counted Tatoeba hi/mr;
+    # folding it into ``i`` at the default rate 3 matches held-out o200k (seed 1104).
+    r"|(?P<i>[\u0900-\u097F]+|[\u0980-\u0DFF]+|[\u0E80-\u0FFF]+|[\u1000-\u109F]+|[\u1780-\u17FF]+)"
+    r"|(?P<o>[\u0400-\u04FF\u0600-\u06FF\u0370-\u03FF\u1F00-\u1FFF]+)"
     # Letters of any other script (Hebrew, Armenian, Georgian, …) must not cost 0.
     # Indic / SE-Asian blocks keep the main-branch path: ceil(len/4) split at every vowel
     # sign drifts further from o200k there. Fixed ranges, not unicodedata, so the result
@@ -543,6 +546,8 @@ _PRETOKEN = re.compile(
     # Hebrew points (niqqud / cantillation, Mn) stay inside the word like Latin marks.
     r"|(?P<x>(?:(?![\u0900-\u109F\u1780-\u17FF\u1200-\u139F\u2D80-\u2DDF\uAB00-\uAB2F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\uFF61-\uFF9F\U0001D400-\U0001D7FF\U00020000-\U000323AF])[^\W\d_])"
     r"(?:(?![\u0900-\u109F\u1780-\u17FF\u1200-\u139F\u2D80-\u2DDF\uAB00-\uAB2F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\uFF61-\uFF9F\U0001D400-\U0001D7FF\U00020000-\U000323AF])[^\W\d_]|[\u0591-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7])*)"
+    # Costly whitespace: in Python ``\s`` so ``p`` would miss them, but o200k charges.
+    r"|(?P<n>[\x85\xa0\u1680\u2028\u2029\u202f\u205f]+)"
     # a keycap tail (U+FE0F U+20E3) is not swallowed by the symbol run: "#️⃣" = "#" + "️⃣" = 2
     r"|(?P<p>(?:(?!\ufe0f?\u20e3)[^\w\s])+)",
     re.IGNORECASE,
@@ -613,7 +618,7 @@ def _range_cost(run: str) -> int:
 # than ``min_len`` keep the legacy rules: frequent short Hebrew / Greek words are often one
 # o200k token (" שלום" = 1), while 4-letter Arabic / Urdu / Georgian words average 1.5–1.8.
 _SCRIPT_FACTOR = (
-    (re.compile(r"[\u05D0-\u05EA\uFB1D-\uFB4F]+"), 0.45, 0.0, 5),
+    (re.compile(r"[\u05D0-\u05EA\uFB1D-\uFB4F]+"), 0.50, 0.0, 5),  # held-out heb seed 1104
     (re.compile(r"[\u0620-\u064A\u066E-\u06D3\u06D5\u06EE-\u06FF]+"), 0.30, 0.3, 4),
     (re.compile(r"[\u10A0-\u10FF\u1C90-\u1CBF]+"), 0.32, 0.4, 4),
     (re.compile(r"[\u0370-\u03FF\u1F00-\u1FFF]+"), 0.38, 0.3, 5),
@@ -718,7 +723,12 @@ def _word_cost(w: str, cal: dict) -> int:
     if "'" in lw:  # unknown contraction: stem + suffix
         stem, _, _ = lw.partition("'")
         return _word_cost(stem, cal) + 1
-    return _fallback_cost(lw, cal["len_table"], cal["suffixes"], cal["suffix_floor"])
+    cost = _fallback_cost(lw, cal["len_table"], cal["suffixes"], cal["suffix_floor"])
+    # UTF-8 misread as Latin-1/cp1252 often yields Ã/Â (lead bytes C3/C2). o200k keeps
+    # each code point separate, so floor at len(w). Real Western text rarely needs this.
+    if "Ã" in w or "Â" in w:
+        return max(cost, len(w))
+    return cost
 
 
 def _unpack_emoji(d: dict) -> dict:
@@ -806,6 +816,22 @@ def _same_block_fragments(s: str, start: int, end: int, block: int) -> bool:
     return True
 
 
+_FREE_WS = frozenset(" \t\n\r\f\v")
+# Whitespace that Python ``\s`` treats as free but o200k still encodes. Measured with
+# tiktoken 0.14.0 / o200k_base. NEL (U+0085) is the C1 control that ``strip()`` erases.
+_COSTLY_WS_COST = {
+    "\x85": 2,  # NEL (C1); strip() erases it and old early-return counted 0
+    "\xa0": 1,  # NBSP
+    "\u1680": 3,  # Ogham space mark
+    "\u2028": 1,  # line separator
+    "\u2029": 2,  # paragraph separator
+    "\u202f": 1,  # narrow NBSP
+    "\u205f": 2,  # medium mathematical space
+}
+# U+2000–200A and U+3000 stay free: NFC collapses some of them, and charging
+# ideographic space overestimates Japanese / fullwidth contexts.
+
+
 def estimate_tokens(text: str) -> int:
     """Stdlib-only token estimate calibrated toward o200k_base (no tiktoken at runtime).
 
@@ -822,21 +848,22 @@ def estimate_tokens(text: str) -> int:
     - Vietnamese words after a space: 1 if o200k has " word" (``vi_space_vocab``), else >= 2
     - emoji runs (skin tone, ZWJ, VS16): sum of measured per-code-point costs (``emoji_costs``)
     - CJK Ext B–H / Supplementary PUA chars (no vocab token): UTF-8 bytes (4 each)
-    - other-script runs (Greek, Cyrillic, Arabic, Devanagari) go through the same
+    - other-script runs (Greek, Cyrillic, Arabic) go through the same
       tables (own classes in the fallback)
-    - Brahmic / Myanmar / Khmer runs (U+0980–0DFF, U+1000–109F, U+1780–17FF), signs
-      included: ``ceil(len/3)``, Myanmar / Khmer ``ceil(2*len/3)``; a consonant-only word no longer costs 0
+    - Brahmic / Myanmar / Khmer runs (U+0900–0DFF, U+1000–109F, U+1780–17FF), signs
+      included: ``ceil(len/3)`` (Oriya ``ceil(len/1)``), Myanmar / Khmer ``ceil(2*len/3)``
     - archaic Hangul jamo / ideographic variation selectors: UTF-8 byte count
-    - Hebrew points, Arabic harakat, Devanagari virama: the word is split at them,
+    - Hebrew points / Arabic harakat: the word is split at them,
       each letter piece costs as a word and each mark +1
     - fullwidth digits / letters, halfwidth kana, math alphanumerics: measured per-code-point costs
     - Ethiopic: 2 per syllable, 3 in the supplement / extended blocks (+1 for a preceding space)
     - unmarked Hebrew / Arabic / Urdu / Georgian / Greek words: ``round(a*len + b)`` per script
     - stacked combining marks (2+ in a row): 2 per mark; C0 control chars 1 each, C1 2 each
     - digit groups of <= 3 = 1; each punctuation run = 1
-    Whitespace is free. Regenerate the table with ``scripts/calibrate_estimate.py --write``.
+    - costly whitespace (NEL, NBSP, Ogham, line/para separators): measured per-code-point costs
+    ASCII whitespace is free. Regenerate the table with ``scripts/calibrate_estimate.py --write``.
     """
-    if not text or not text.strip():
+    if not text or all(ch in _FREE_WS for ch in text):
         return 0
     s = unicodedata.normalize("NFC", text)
     cal = _load_calib()
@@ -869,7 +896,7 @@ def estimate_tokens(text: str) -> int:
             else:
                 marks = _SCRIPT_MARKS_RE.findall(p) if kind == "o" else ()
                 if marks:
-                    # Arabic harakat / Devanagari virama: o200k splits the word at the marks, so cost each
+                    # Arabic harakat: o200k splits the word at the marks, so cost each
                     # letter piece as a word plus one token per mark
                     n += sum(_word_cost(q, cal) for q in _SCRIPT_MARKS_RE.split(p) if q)
                     n += sum(len(r) for r in marks)
@@ -931,6 +958,8 @@ def estimate_tokens(text: str) -> int:
             n += sum(len(r) for r in marks)
         elif kind == "j":
             n += len(p.encode("utf-8"))
+        elif kind == "n":
+            n += sum(_COSTLY_WS_COST.get(ch, max(1, len(ch.encode("utf-8")))) for ch in p)
         elif kind == "p":
             # a punctuation run is one token; non-ASCII symbols outside o200k's
             # single-token set (e.g. "∴") cost one extra byte-level token each

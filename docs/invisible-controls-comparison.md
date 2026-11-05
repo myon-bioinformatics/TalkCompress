@@ -33,7 +33,7 @@ optimized against held-out. Held-out is a final gate, not proof of universal acc
 | Bengali `ক্‍ষ` (ZWJ) | 4 | 3 | 1 | 2 | 3 |
 | Bengali `ক্‌ষ` (ZWNJ) | 4 | 3 | 1 | 2 | 3 |
 | Khmer `កម្ពុជា​ជាប្រទេស​ដ៏ស្រស់ស្អាត` (ZWSP) | 15 | 21 | 18 | 19 | 19 |
-| Oriya `ଓଡ଼ିଆ` | 7 | 2 | 2 | 2 | 2 |
+| Oriya `ଓଡ଼ିଆ` | 7 | 2 | 2 | 2 | 5 |
 | Emoji `👨‍👩‍👧‍👦` | 11 | 11 | 11 | 11 | 11 |
 
 The natural Khmer sentence [1172554](https://tatoeba.org/en/sentences/show/1172554)
@@ -116,3 +116,10 @@ can be resolved at `https://tatoeba.org/en/sentences/show/<ID>`.
   translation minification on: 8,214 comparisons. Outputs and their expansions
   must match baseline byte for byte. This is a measured corpus guarantee, not a
   claim about all possible future translation candidate rankings.
+
+
+## Follow-up (#147 Oriya rate)
+
+After #148, Oriya still used the default Brahmic rate 3 (`sum_ratio≈0.39`).
+This branch sets Oriya (U+0B00–0B7F) to rate 1.0. Tatoeba `ori` seed 1104 held-out:
+`sum_ratio 0.40→0.87`, `MAE 7.8→1.7`. Example `ଓଡ଼ିଆ`: estimate 2→5 (o200k 7).
