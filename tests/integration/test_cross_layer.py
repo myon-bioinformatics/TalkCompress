@@ -5,9 +5,7 @@ Not DensityZip unit tests — D is only the cross-layer router under test as wir
 
 from __future__ import annotations
 
-import io
-import json
-import sys
+import io, json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]

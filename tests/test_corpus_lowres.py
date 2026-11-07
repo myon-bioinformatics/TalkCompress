@@ -6,8 +6,7 @@ generic validator cannot see.
 """
 from __future__ import annotations
 
-import importlib.util
-import re
+import importlib.util, re
 from pathlib import Path
 
 import pytest

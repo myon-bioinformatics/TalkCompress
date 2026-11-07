@@ -1,6 +1,5 @@
 """roundtrip.norm: NFD の応答でアクセントが落ちて NFC の原文と不一致にならないこと。"""
-import sys
-import unicodedata
+import sys, unicodedata
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))

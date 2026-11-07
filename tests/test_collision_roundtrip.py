@@ -3,9 +3,7 @@ progressive guard, and the report-only AI round-trip infrastructure."""
 
 from __future__ import annotations
 
-import copy
-import json
-import sys
+import copy, json, sys
 from pathlib import Path
 
 import pytest

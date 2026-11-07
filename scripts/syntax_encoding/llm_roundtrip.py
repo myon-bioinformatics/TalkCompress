@@ -3,13 +3,8 @@
 Importing this module never imports llama_cpp, opens weights, or runs inference.
 Historical #103 numbers used a different protocol and are not re-scored here.
 """
-import argparse
-import hashlib
-import json
-import re
-import sys
-from datetime import datetime, timezone
-from pathlib import Path
+import argparse, hashlib, json, re, sys
+from datetime import datetime, timezone; from pathlib import Path
 
 if __package__:
     from .cases import SVOC

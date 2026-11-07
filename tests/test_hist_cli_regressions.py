@@ -1,8 +1,4 @@
-import contextlib
-import io
-import json
-import tempfile
-import unittest
+import contextlib, io, json, tempfile, unittest
 from pathlib import Path
 from shared.hist_state import main
 

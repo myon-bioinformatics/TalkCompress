@@ -22,12 +22,7 @@ Usage: ``uv run python scripts/calibrate_estimate.py [--write] [--report]``
 """
 from __future__ import annotations
 
-import argparse
-import base64
-import collections
-import hashlib
-import json
-import sys
+import argparse, base64, collections, hashlib, json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent

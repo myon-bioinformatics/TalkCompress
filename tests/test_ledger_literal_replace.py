@@ -1,8 +1,7 @@
 """shared.ledger: 規約の置換先はリテラル、that is 判定は ASCII のみの大小無視。"""
 from __future__ import annotations
 
-import json
-import sys
+import json, sys
 from pathlib import Path
 
 import pytest

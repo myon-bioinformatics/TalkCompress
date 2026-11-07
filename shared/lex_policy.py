@@ -12,10 +12,8 @@ Layer ownership (TalkCompress):
 
 from __future__ import annotations
 
-import json
-import re
-from pathlib import Path
-from typing import Any
+import json, re
+from pathlib import Path; from typing import Any
 
 
 # Also support direct CLI execution with shared/ on sys.path.

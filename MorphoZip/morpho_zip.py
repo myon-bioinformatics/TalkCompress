@@ -33,13 +33,8 @@ para/pour/für/ために/为了→``for`` (``4`` は o200k で英語より高コ
 
 from __future__ import annotations
 
-import argparse
-import math
-import re
-import unicodedata
-import sys
-from pathlib import Path
-from typing import Any
+import argparse, math, re, sys, unicodedata
+from pathlib import Path; from typing import Any
 
 
 # --- ASCII-only case folding --------------------------------------------------

@@ -45,11 +45,8 @@ Breakdown (``breakdown``, 内訳): one flat compact string on ``kind=lex`` — p
 
 from __future__ import annotations
 
-import json
-import re
-from functools import lru_cache
-from pathlib import Path
-from typing import Any
+import json, re
+from functools import lru_cache; from pathlib import Path; from typing import Any
 
 # Also support direct CLI execution with shared/ on sys.path.
 if __package__:

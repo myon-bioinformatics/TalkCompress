@@ -8,8 +8,7 @@ English); the judge is deterministic, so every ROUNDTRIP_SEED gives the same ans
     uv run python scripts/roundtrip.py --run --lang nl \
         --cmd 'uv run python scripts/roundtrip_replay.py nl'
 """
-import json
-import sys
+import json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -1,9 +1,7 @@
 """主要10言語コーパス（#137）の取得スクリプトと同梱サンプルの検査。"""
 from __future__ import annotations
 
-import json
-import re
-import sys
+import json, re, sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
