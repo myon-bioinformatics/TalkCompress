@@ -1,5 +1,5 @@
 import pytest
-from MorphoZip import morpho_zip as mz
+from MorphoGrammarMinimal import morpho_grammar_minimal as mz
 
 @pytest.mark.parametrize('word',['or','OR','oder','ODER','ou','OU'])
 @pytest.mark.parametrize('left,right',[('3\n ',' 4'),('3 ','\n 4'),('3\n\t','\t\n -4'),('-3 ',' -4'),('3 ',' +4'),('3.5 ',' −4.5'),('3 ',' -.5')])

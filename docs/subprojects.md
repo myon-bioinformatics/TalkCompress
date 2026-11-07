@@ -1,18 +1,21 @@
 # サブプロジェクト（A–E）と git subtree
 
-TalkCompress は A–E の**親**です。将来まとめて切り出すときは Aoi の子リポと同様に `git subtree` で同期する想定です。いまは独立しそうにないので、同一リポ内のディレクトリのまま進めます。
+TalkCompress は A–E（+ 共有推定器 TokenCostHeuristic）の**親**です。将来まとめて切り出すときは Aoi の子リポと同様に `git subtree` で同期する想定です。いまは独立しそうにないので、同一リポ内のディレクトリのまま進めます。
 
-| ID | ディレクトリ | 層 |
-| --- | --- | --- |
-| A | `Zipilogue/` | 1 機械同士（共有ルール / 任意封筒） |
-| B | `TesseraTalk/` | 2 文単位多言語 + 翻訳トークン最短 |
-| C | `ShorthandEdge/` | 3 人間ギリギリ（合意台帳はここ） |
-| D | `DensityZip/` | 横断オーケストレーション + **density** 指標ファサード |
-| E | `MorphoZip/` | 4 文内・文法最小・代名詞在庫ビット |
+| ID | 表示名（旧名） | ディレクトリ / モジュール | 役割 |
+| --- | --- | --- | --- |
+| A | **RulePeerCodec**（旧 Zipilogue） | `RulePeerCodec/rule_peer_codec.py` | 1 機械同士: 動的共有ルール（observe / `--peer` / `encode_with_rules`・`decode_with_rules`）+ 任意封筒 |
+| B | **SentenceCalibratedMosaic**（旧 TesseraTalk） | `SentenceCalibratedMosaic/sentence_calibrated_mosaic.py` | 2 文単位の言語モザイク + 翻訳候補選択（TranslationSelector は B 内部の関数群で、独立した表示名ではない） |
+| — | **TokenCostHeuristic**（新設） | `TokenCostHeuristic/token_cost_heuristic.py` | 共有トークン推定器 `estimate_tokens` と `fixtures/o200k_calib.json`・`fixtures/en_wordlist.txt`。全ユニットはここから import する（旧来の B 本体への逆依存を解消） |
+| C | **ShorthandSessionEdge**（旧 ShorthandEdge） | `ShorthandSessionEdge/shorthand_session_edge.py` | 3 人間ギリギリ: 登録済み lex（合意台帳はここ）+ Session |
+| D | **DensityFacadeRoute**（旧 DensityZip） | `DensityFacadeRoute/density_facade_route.py` | 入口・配線・会話 I/O + **density** 指標ファサード（圧縮層ではない） |
+| E | **MorphoGrammarMinimal**（旧 MorphoZip） | `MorphoGrammarMinimal/morpho_grammar_minimal.py` | 4 文内の閉じた品詞形態論 + 文法最小の書き換え |
 
-### Zip 名の区別
+### 名前について
 
-A **Zipilogue** / D **DensityZip** / E **MorphoZip** は別物。散文では単独の「Zip」を使わずフルネームで書く。モジュールも `density_zip.py` / `morpho_zip.py` / `zipilogue.py` とフルに揃える。
+各ユニットは 3 語の表示名で呼ぶ。散文で単独の「Zip」は使わない。D の `--layers` は互換のため旧名（`zipilogue` / `tessera` / `tessera_talk` / `shorthand_edge` / `density_zip` / `densityzip` / `morpho_zip`）も入力別名として受け付ける。
+
+互換識別子として次は旧名のまま残す: 環境変数 `TALKCOMPRESS_ZIP_KEY`、封筒マジック `ZIP1`、KDF ソルト `TalkCompress/Zipilogue/v1`。リポジトリ名 TalkCompress とパッケージ名 `talk-compress` も変更しない。
 
 ## 真親への登録はしない
 

@@ -11,14 +11,14 @@ import pytest
 from tests._helpers import load as _load
 
 ROOT = Path(__file__).resolve().parents[1]
-BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
+BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
 SUBJ = {"i", "you", "he", "she", "it", "we", "they"}
 MAINS = ["I think", "She said", "We know", "They hope"]
 CONNECTORS = ["that", "which", "who", "if", "when", "because", "", "and"]
 
 
 def _t():
-    return _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _embedded_sources():

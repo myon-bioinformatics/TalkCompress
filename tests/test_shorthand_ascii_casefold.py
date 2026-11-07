@@ -1,6 +1,6 @@
 """ASCII shorthand phrases must not case-fold onto Turkish ı/İ, ſ or the Kelvin sign."""
 
-from ShorthandEdge.shorthand_edge import Session, _apply_map, expand
+from ShorthandSessionEdge.shorthand_session_edge import Session, _apply_map, expand
 
 
 def test_apply_map_ignores_dotless_i():
@@ -20,7 +20,7 @@ def test_expand_ignores_turkish_i_variants():
 
 
 def test_suggest_hereafter_keeps_dotted_capital_i_word_whole():
-    from ShorthandEdge.shorthand_edge import suggest_hereafter
+    from ShorthandSessionEdge.shorthand_session_edge import suggest_hereafter
 
     longs = [d["long"] for d in suggest_hereafter("İstanbul güzel. İstanbul güzel.")]
     assert "i\u0307stanbul güzel" in longs

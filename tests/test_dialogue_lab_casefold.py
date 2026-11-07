@@ -2,7 +2,7 @@
 
 import pytest
 
-from Zipilogue.dialogue_lab import encode, validate_mapping
+from RulePeerCodec.dialogue_lab import encode, validate_mapping
 
 RULE = [{"long": "kiss", "short": "k"}]
 

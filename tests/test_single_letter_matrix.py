@@ -28,7 +28,7 @@ def test_single_capital_survives(tname, letter, pipe):
 @pytest.mark.parametrize(("letter", "tname"), sorted(sla.EXEMPT))
 def test_exempt_is_dropped_article(letter, tname):
     # 除外一覧は「意図的に落とす」ことの確認（一覧が空洞化しないように）
-    got = sla.PIPES["MorphoZip"](TPL[tname].replace("_", letter))
+    got = sla.PIPES["MorphoGrammarMinimal"](TPL[tname].replace("_", letter))
     assert sla.standalone_count(letter, got) == 0, got
 
 

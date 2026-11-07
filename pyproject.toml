@@ -1,7 +1,7 @@
 [project]
 name = "talk-compress"
 version = "0.1.0"
-description = "Conversation compression gradients across five subprojects"
+description = "Conversation compression gradients across five subprojects and a shared token estimator"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -16,7 +16,7 @@ dev = [
     "tiktoken",
     "tokenizers",
 ]
-# Opt-in live MT for TesseraTalk --translate-engine=deep (not pulled by default uv sync).
+# Opt-in live MT for SentenceCalibratedMosaic --translate-engine=deep (not pulled by default uv sync).
 # Argos is intentionally omitted here (heavy language packs); install manually if needed.
 translate = ["deep-translator>=1.11.4"]
 
@@ -30,9 +30,10 @@ testpaths = ["tests"]
 pythonpath = [
   ".",
   "shared",
-  "Zipilogue",
-  "TesseraTalk",
-  "ShorthandEdge",
-  "DensityZip",
-  "MorphoZip",
+  "TokenCostHeuristic",
+  "RulePeerCodec",
+  "SentenceCalibratedMosaic",
+  "ShorthandSessionEdge",
+  "DensityFacadeRoute",
+  "MorphoGrammarMinimal",
 ]

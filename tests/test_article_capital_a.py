@@ -1,7 +1,7 @@
 """大文字 A は文頭のときだけ冠詞として落とす（Plan A / vitamin A などのラベルは保持）。"""
 import pytest
 
-from MorphoZip.morpho_zip import compress, strip_articles
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress, strip_articles
 
 KEEP = [
     ("Plan A failed.", "Plan A failed."),

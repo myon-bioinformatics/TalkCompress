@@ -26,7 +26,7 @@ import re
 import sys
 from pathlib import Path
 
-try:  # package import (pytest, DensityZip)
+try:  # package import (pytest, DensityFacadeRoute)
     from shared.keep_check import check, extract_exact
 except ImportError:  # run as a script from shared/
     from keep_check import check, extract_exact

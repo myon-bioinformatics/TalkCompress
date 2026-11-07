@@ -1,6 +1,6 @@
 """Round-4 layer-unit tests: A export/negotiate, B bank+mosaic, C ledger, E counters.
 
-DensityZip wiring for --translate-min → tests/integration/.
+DensityFacadeRoute wiring for --translate-min → tests/integration/.
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ if str(ROOT) not in sys.path:
 
 
 def test_rulebook_export_import_merge(tmp_path):
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+    rb = _load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     alice = rb.RuleBook.load(tmp_path / "alice.json", threshold=3)
     alice.declare("status update complete", "r1")
     alice.declare("ready and waiting", "r2")
@@ -41,13 +41,13 @@ def test_rulebook_export_import_merge(tmp_path):
 
 
 def test_rulebook_set_threshold_and_cli(tmp_path, capsys):
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+    rb = _load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     book = rb.RuleBook.load(tmp_path / "book.json", threshold=5)
     book.set_threshold(2)
     assert book.threshold == 2
     book.save()
 
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     rc = z.main(
         ["rule-threshold", "--state", str(tmp_path / "book.json"), "--threshold", "4"]
     )
@@ -58,7 +58,7 @@ def test_rulebook_set_threshold_and_cli(tmp_path, capsys):
 
 
 def test_rulebook_negotiate_multi_peer(tmp_path):
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+    rb = _load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     hub = rb.RuleBook.load(tmp_path / "hub.json")
     p1 = rb.RuleBook()
     p1.declare("continuous integration pipeline", "ci")
@@ -75,7 +75,7 @@ def test_rulebook_negotiate_multi_peer(tmp_path):
     assert hub._find_by_long("end to end test suite")
     assert hub._find_by_long("definition of done")
     # CLI path
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     state = tmp_path / "cli_hub.json"
     rb.RuleBook.load(state).save()
     rc = z.main(
@@ -98,7 +98,7 @@ def test_rulebook_negotiate_multi_peer(tmp_path):
 
 
 def test_b_bank_new_entries_shorten():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     # bust cache after bank edits
     t.load_translation_bank.cache_clear()
     chosen, lang, n = t.pick_shortest_translation("Good night.")
@@ -110,7 +110,7 @@ def test_b_bank_new_entries_shorten():
 
 
 def test_b_mosaic_with_translate_min_interaction():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     t.load_translation_bank.cache_clear()
     text = "Good morning. 今日はとても良い天気ですね. See you later."
     plain = t.compress(text, rle=True, translate_min=False)
@@ -152,7 +152,7 @@ def test_c_ledger_spatial_and_conjunctions():
     assert "i.e." not in apply_ledger_lex("that is the plan")
     assert "i.e." not in apply_ledger_lex("a car, that is, a vehicle")  # i.e. token loser
 
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     out = s.compress("check left and right carefully")
     assert "左右" in out
     out2 = s.compress("moreover please advise")
@@ -161,7 +161,7 @@ def test_c_ledger_spatial_and_conjunctions():
 
 
 def test_c_chat_pack_and_map_growth():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     assert "chat" in s.list_packs()
     sess = s.Session()
     sess.load_packs(["chat"])
@@ -175,7 +175,7 @@ def test_c_chat_pack_and_map_growth():
 
 
 def test_e_new_counters_and_grammar():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert "3台" in m.compress("I have 3 cars ready")
     assert "2棟" in m.compress("build 2 buildings here")
     assert "5杯" in m.compress("drink 5 cups tonight")
@@ -191,7 +191,7 @@ def test_e_new_counters_and_grammar():
 
 
 def test_e_smart_quoted_articles_kept():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     # straight quotes keep inner word
     assert "the" in m.compress('say "the" clearly', unique=False, etymon=False).lower()
     # smart quotes
@@ -204,7 +204,7 @@ def test_e_smart_quoted_articles_kept():
 
 
 def test_e_does_not_apply_c_ledger_or_ill_by_default():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress("I will go under the table", unique=False, etymon=False, counters=False)
     assert "under" in out.lower()
     assert "I'll" not in out

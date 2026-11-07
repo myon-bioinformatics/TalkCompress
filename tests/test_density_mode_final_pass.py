@@ -1,4 +1,4 @@
-"""--final-zh-de must not turn a non-compress --mode into compress (DensityZip)."""
+"""--final-zh-de must not turn a non-compress --mode into compress (DensityFacadeRoute)."""
 import importlib.util
 import json
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-_spec = importlib.util.spec_from_file_location("density_zip_mode_final", ROOT / "DensityZip" / "density_zip.py")
+_spec = importlib.util.spec_from_file_location("density_facade_route_mode_final", ROOT / "DensityFacadeRoute" / "density_facade_route.py")
 dz = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(dz)
 

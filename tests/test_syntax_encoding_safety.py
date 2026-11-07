@@ -22,7 +22,7 @@ import builtins, importlib, sys
 sys.path.insert(0, sys.argv[1])
 original = builtins.__import__
 def guarded(name, *args, **kwargs):
-    if name.split('.')[0] in {'tiktoken', 'llama_cpp', 'ShorthandEdge'}:
+    if name.split('.')[0] in {'tiktoken', 'llama_cpp', 'ShorthandSessionEdge'}:
         raise AssertionError('import side effect: ' + name)
     return original(name, *args, **kwargs)
 builtins.__import__ = guarded
@@ -46,7 +46,7 @@ sys.path.insert(0, __import__('os').path.dirname(path))
 sys.argv = [path] + sys.argv[2:]
 original = builtins.__import__
 def guarded(name, *args, **kwargs):
-    if name.split('.')[0] in {'tiktoken', 'llama_cpp', 'ShorthandEdge'}:
+    if name.split('.')[0] in {'tiktoken', 'llama_cpp', 'ShorthandSessionEdge'}:
         raise AssertionError('workload imported before opt-in: ' + name)
     return original(name, *args, **kwargs)
 builtins.__import__ = guarded
@@ -82,7 +82,7 @@ def test_tokenizer_entrypoints_work_with_fake_encoding_only(name, monkeypatch, c
     monkeypatch.setitem(sys.modules, "tiktoken", types.SimpleNamespace(
         get_encoding=lambda encoding: (calls.append(encoding) or FakeEncoding())))
     # No repository compressor is needed to prove safe CLI wiring.
-    monkeypatch.setitem(sys.modules, "ShorthandEdge.shorthand_edge",
+    monkeypatch.setitem(sys.modules, "ShorthandSessionEdge.shorthand_session_edge",
                         types.SimpleNamespace(compress=lambda text: text))
     module = importlib.import_module("scripts.syntax_encoding." + name)
     assert module.main(["--run"]) == 0
@@ -182,7 +182,7 @@ try:
     runpy.run_path(str(path), run_name='__main__')
 except SystemExit as error:
     assert error.code == 0
-assert pathlib.Path(sys.modules['ShorthandEdge.shorthand_edge'].__file__) == root / 'ShorthandEdge/shorthand_edge.py'
+assert pathlib.Path(sys.modules['ShorthandSessionEdge.shorthand_session_edge'].__file__) == root / 'ShorthandSessionEdge/shorthand_session_edge.py'
 assert 'shared.ledger' in sys.modules and 'shared.lex_policy' in sys.modules
 """
     result = subprocess.run([sys.executable, "-c", code, str(ROOT)], cwd=tmp_path,

@@ -2,9 +2,9 @@
   "schema_version": 1,
   "dataset_origin": "synthetic fixed messages; real tokenizer counts only",
   "implementation_sha256": {
-    "Zipilogue/session_tokens.py": "86f44e5dc9df1058d9837e7a733dfd9b4564bd89b7cd56f54bcfdde33e87b560",
-    "Zipilogue/session_cost.py": "e57fca969e53bfb73bd417520bd9fb0ce31a7307003c3c2624cbf236a45c4b65",
-    "Zipilogue/rulebook.py": "09e3c99059dfbb98f295a43e5928d06f6e121625ff87a009cbe3475a19152226",
+    "RulePeerCodec/session_tokens.py": "86f44e5dc9df1058d9837e7a733dfd9b4564bd89b7cd56f54bcfdde33e87b560",
+    "RulePeerCodec/session_cost.py": "e57fca969e53bfb73bd417520bd9fb0ce31a7307003c3c2624cbf236a45c4b65",
+    "RulePeerCodec/rulebook.py": "09e3c99059dfbb98f295a43e5928d06f6e121625ff87a009cbe3475a19152226",
     "shared/l3_models.json": "108b5769b90f67d70b1b4cb1a8d24981dd09b1dd74846c4270ff7788a8abc3ea"
   },
   "status": "measured",

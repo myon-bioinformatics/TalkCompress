@@ -4,7 +4,7 @@
 既存 RuleBook を変更せず、辞書配布・本文・再送の全体費用を比較する。
 
 ```sh
-python -m Zipilogue.session_cost
+python -m RulePeerCodec.session_cost
 python -m unittest discover -s tests -p test_session_cost.py
 ```
 

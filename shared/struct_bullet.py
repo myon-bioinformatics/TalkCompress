@@ -3,7 +3,7 @@
 Rule-based and stdlib only. Each sentence becomes one ``- `` line. Leading
 filler words are removed and a trailing full stop is dropped. The result is
 checked with keep_check (G3) against the source, and token counts from the
-stdlib estimator in TesseraTalk are printed for comparison.
+stdlib estimator in SentenceCalibratedMosaic are printed for comparison.
 
 Whether bullets are cheaper than prose depends on the text, so the counts are
 the decision input, not the bullet form itself.
@@ -29,7 +29,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-try:  # package import (pytest, DensityZip)
+try:  # package import (pytest, DensityFacadeRoute)
     from shared.keep_check import check
 except ImportError:  # run as a script from shared/
     from keep_check import check
@@ -87,8 +87,8 @@ def main(argv: list[str] | None = None) -> int:
         "count_drops": report.count_drops,
     }
     if args.tokens:
-        sys.path.insert(0, str(ROOT / "TesseraTalk"))
-        from tessera_talk import estimate_tokens
+        sys.path.insert(0, str(ROOT / "TokenCostHeuristic"))
+        from token_cost_heuristic import estimate_tokens
 
         summary["tokens"] = {
             "prose": estimate_tokens(source),

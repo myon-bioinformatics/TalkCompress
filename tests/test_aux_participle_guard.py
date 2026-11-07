@@ -2,7 +2,7 @@
 
 import pytest
 
-from TesseraTalk import tessera_talk as t
+from SentenceCalibratedMosaic import sentence_calibrated_mosaic as t
 
 POSSESSIVE_SHORTS = ("tive", "tuve")
 
@@ -75,7 +75,7 @@ def test_conj_table_has_no_garbage_forms():
     import re
     from pathlib import Path
 
-    data = json.loads(Path("TesseraTalk/fixtures/tense_conj_table.json").read_text(encoding="utf-8"))
+    data = json.loads(Path("SentenceCalibratedMosaic/fixtures/tense_conj_table.json").read_text(encoding="utf-8"))
     bad = []
 
     def walk(o, path=""):

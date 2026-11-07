@@ -1,6 +1,6 @@
 # Shared dictionary: bytes versus GGUF tokenizer tokens
 
-PR #119's `measure_session` is unchanged. `Zipilogue.session_tokens` injects
+PR #119's `measure_session` is unchanged. `RulePeerCodec.session_tokens` injects
 llama.cpp's `/tokenize` counter and compares the **same** frozen dictionary,
 32 messages, message order, and retry policy in both units.
 
@@ -32,7 +32,7 @@ docker run --rm --name session-token-model -p 127.0.0.1:8080:8080 \
 After `/health` returns success, in another terminal:
 
 ```sh
-python -m Zipilogue.session_tokens --model qwen-0.5b \
+python -m RulePeerCodec.session_tokens --model qwen-0.5b \
   --model-path models/model.gguf \
   --runtime-id ghcr.io/ggml-org/llama.cpp@sha256:b32890309c1a33a534a01b0b461e953dc2c5a6bac20213abcf48e22847a19c85 \
   --output out/session-token-cost.json

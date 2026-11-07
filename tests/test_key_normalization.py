@@ -9,18 +9,18 @@ import unicodedata
 
 import pytest
 
-from Zipilogue import zipilogue as z
+from RulePeerCodec import rule_peer_codec as z
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "Zipilogue/zipilogue.py"
+SCRIPT = ROOT / "RulePeerCodec/rule_peer_codec.py"
 NFC = "SYNTHETIC café fixture; not a secret"
 NFD = unicodedata.normalize("NFD", NFC)
 PAYLOAD = b"PUBLIC SYNTHETIC LEGACY V1 PAYLOAD"
 AAD = "fixture-channel"
 NONCE = bytes(range(16))
 # Frozen using pre-#107 source at 84b28be729bf3d51d3e8a054cb0ab63edecb90a4,
-# Zipilogue/zipilogue.py blob 8a907215fddead5f90a15c8a75c70064f5fa3097.
+# RulePeerCodec/rule_peer_codec.py blob 8a907215fddead5f90a15c8a75c70064f5fa3097.
 LEGACY_NFD = b"WklQMQEQAAECAwQFBgcICQoLDA0ODwAAACLtZRyAg3ee6-X7XRaCKbU2a_jLB25O64Gh3id1QiYo0yANsOn1Av5OxxC_R_DCeDP1dlZyWSeecujhTo035ptctJw"
 LEGACY_FINGERPRINT = "3f27e6e999cde86f"
 # Same public input under #107's implicit NFC behavior (source blob

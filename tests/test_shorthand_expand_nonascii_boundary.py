@@ -2,7 +2,7 @@
 
 import unicodedata
 
-from ShorthandEdge.shorthand_edge import expand
+from ShorthandSessionEdge.shorthand_session_edge import expand
 
 
 def test_ascii_short_not_inside_word():

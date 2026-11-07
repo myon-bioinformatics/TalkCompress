@@ -2,7 +2,7 @@
 
 import pytest
 
-from TesseraTalk import tessera_talk as t
+from SentenceCalibratedMosaic import sentence_calibrated_mosaic as t
 
 _SUBJECTS = ("I", "you", "he", "she", "it", "we", "they", "this", "who", "which")
 _HAVES = ("had", "have", "has", "'ve", "'s", "'d")

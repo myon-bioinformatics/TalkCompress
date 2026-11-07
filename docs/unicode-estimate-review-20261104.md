@@ -38,7 +38,7 @@ Synthetic sets are 3,000 random code-point sequences each, seed 1203, length 1�
 
 Known errors remain: NFD `x 한국어 y` 26 vs 27 and NFD `안녕하세요 세계` 48 vs 49 (already in main/#143); mixed contexts can differ by 2. Tamil `க்ஷ` 1 vs 3; contextual `x ☺️ y` 4 vs 5; IVS and archaic jamo byte-count fallback can overestimate because BPE may merge bytes. NFC/NFD inputs are deliberately not forced to have equal token estimates. These are approximate counts of raw strings, not normalization equivalence assertions.
 
-TesseraTalk, ShorthandEdge and MorphoZip compress/expand outputs were compared to main on 64 boundary inputs each (16 strings × NFC/NFD × bare/context): all 192 compressed and expanded outputs identical. This checks equality to baseline, not exact round-trip recovery of every source: existing normalization remains. The estimator change is outside compressor/expander implementations.
+SentenceCalibratedMosaic, ShorthandSessionEdge and MorphoGrammarMinimal compress/expand outputs were compared to main on 64 boundary inputs each (16 strings × NFC/NFD × bare/context): all 192 compressed and expanded outputs identical. This checks equality to baseline, not exact round-trip recovery of every source: existing normalization remains. The estimator change is outside compressor/expander implementations.
 
 `tokenizer_compat.py --agreement`: natural sample 29/37, matrix 3057/3064, winner flips 0/1178 against o200k. This covers the committed matrix, not every possible future candidate. `calibrate_estimate.py --report`: train 2464/2464, held-out 593/600, flips 0/1122 (this script filters a different cell set).
 

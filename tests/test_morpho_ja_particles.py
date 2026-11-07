@@ -3,7 +3,7 @@ import pytest
 
 from tests._helpers import load
 
-m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 
 
 @pytest.mark.parametrize("word", [

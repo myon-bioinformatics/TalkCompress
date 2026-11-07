@@ -1,4 +1,4 @@
-"""Zipilogue RuleBook: shared-rule growth (layer A core)."""
+"""RulePeerCodec RuleBook: shared-rule growth (layer A core)."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from tests._helpers import load as _load
 
 
 def test_rulebook_grows_after_repeated_phrases(tmp_path):
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+    rb = _load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     book = rb.RuleBook.load(tmp_path / "book.json", threshold=3)
     phrase = "ready and waiting"
     for _ in range(2):
@@ -24,7 +24,7 @@ def test_rulebook_grows_after_repeated_phrases(tmp_path):
 
 
 def test_rulebook_encode_decode_roundtrip(tmp_path):
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+    rb = _load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     book = rb.RuleBook.load(tmp_path / "book.json")
     book.declare("status update complete", "r1")
     book.save()
@@ -36,7 +36,7 @@ def test_rulebook_encode_decode_roundtrip(tmp_path):
 
 
 def test_rulebook_declare_formats():
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+    rb = _load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     book = rb.RuleBook()
     assert book.ingest_line("rule: hello world => hw") is not None
     assert book._find_by_short("hw") is not None
@@ -46,7 +46,7 @@ def test_rulebook_declare_formats():
 
 
 def test_rule_sim_shortens_after_threshold(tmp_path, capsys):
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     state = tmp_path / "sim.json"
     corpus = tmp_path / "corpus.txt"
     line = "agents stay ready and waiting forever"
@@ -79,8 +79,8 @@ def test_rule_sim_shortens_after_threshold(tmp_path, capsys):
 
 
 def test_rule_encode_with_optional_key(tmp_path, capsys):
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
-    rb = _load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
+    rb = _load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     state = tmp_path / "book.json"
     book = rb.RuleBook.load(state)
     book.declare("ping pong", "r1")
@@ -126,7 +126,7 @@ def test_rule_encode_with_optional_key(tmp_path, capsys):
 
 
 def test_crypto_roundtrip_still_works():
-    """Do not regress classic Zipilogue envelope."""
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+    """Do not regress classic RulePeerCodec envelope."""
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     env = z.encode(b"hello bots", key="k")
     assert z.decode(env, key="k") == b"hello bots"

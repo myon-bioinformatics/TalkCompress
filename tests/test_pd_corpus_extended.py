@@ -36,7 +36,7 @@ def test_extended_manifest_pins():
 
 @pytest.mark.parametrize("fname", FILES)
 def test_extended_corpus_zero_crash(fname):
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     args = ns()
     lines = _lines(fname)
     rng = random.Random(fname)

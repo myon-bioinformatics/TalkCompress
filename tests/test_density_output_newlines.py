@@ -5,7 +5,7 @@ import json
 import os
 import pytest
 
-from DensityZip import density_zip as dz
+from DensityFacadeRoute import density_facade_route as dz
 
 
 @pytest.mark.parametrize("route", [("--layer", "C"), ("--pipeline", "C")])

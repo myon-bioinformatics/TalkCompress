@@ -9,9 +9,9 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-_spec = importlib.util.spec_from_file_location("morpho_zip", ROOT / "MorphoZip/morpho_zip.py")
+_spec = importlib.util.spec_from_file_location("morpho_grammar_minimal", ROOT / "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 mz = importlib.util.module_from_spec(_spec)
-sys.modules.setdefault("morpho_zip", mz)
+sys.modules.setdefault("morpho_grammar_minimal", mz)
 _spec.loader.exec_module(mz)
 
 

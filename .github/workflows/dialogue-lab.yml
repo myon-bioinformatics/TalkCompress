@@ -107,7 +107,7 @@ jobs:
           # Exit 1 means no agreement or incomplete accounting, never positive evidence.
           # Preserve that exit code while the always() steps upload negative results too.
           set +e
-          python -m Zipilogue.dialogue_lab --groups 1 --peers 2 --rounds 4 \
+          python -m RulePeerCodec.dialogue_lab --groups 1 --peers 2 --rounds 4 \
             --timeout 600 --seed 42 --model-label "$MODEL" --output out/dialogue-report.json \
             > out/experiment.log 2>&1
           result=$?

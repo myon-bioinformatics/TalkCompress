@@ -16,7 +16,7 @@ sys.path[:0]=[str(repo),str(repo/'shared')]
 import tiktoken
 enc=tiktoken.get_encoding('o200k_base')
 def load(name,path):
- s=importlib.util.spec_from_file_location(name,path/'TesseraTalk/tessera_talk.py'); m=importlib.util.module_from_spec(s);sys.modules[name]=m;s.loader.exec_module(m);return m
+ s=importlib.util.spec_from_file_location(name,path/'SentenceCalibratedMosaic/sentence_calibrated_mosaic.py'); m=importlib.util.module_from_spec(s);sys.modules[name]=m;s.loader.exec_module(m);return m
 old=load('old',args.baseline);new=load('new',repo)
 def metrics(xs):
  out={}

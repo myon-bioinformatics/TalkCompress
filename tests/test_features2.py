@@ -1,6 +1,6 @@
 """Round-2 layer-unit tests: expand, frames, lex-policy, packs helpers.
 
-Budget/role/trace/auto via DensityZip → tests/integration/.
+Budget/role/trace/auto via DensityFacadeRoute → tests/integration/.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_morpho_expand_smoke():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     compressed = m.compress("I see 3 animals and 2 people")
     assert "3匹" in compressed
     expanded = m.expand(compressed)
@@ -32,7 +32,7 @@ def test_morpho_expand_smoke():
 
 
 def test_morpho_expand_cli(capsys):
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     rc = m.main(["--mode", "expand", "--text", "3匹 and 2人"])
     assert rc == 0
     out = capsys.readouterr().out
@@ -41,7 +41,7 @@ def test_morpho_expand_cli(capsys):
 
 
 def test_shorthand_export_lexicon(tmp_path):
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     sess = s.Session()
     sess.declare("special widget", "SW")
     data = sess.export_lexicon()
@@ -55,7 +55,7 @@ def test_shorthand_export_lexicon(tmp_path):
 
 
 def test_shorthand_suggest_hereafter():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     text = (
         "the continuous integration pipeline failed. "
         "fix continuous integration again. "
@@ -68,7 +68,7 @@ def test_shorthand_suggest_hereafter():
 
 
 def test_zip_frames_roundtrip():
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     payloads = [b"msg one", b"msg two", b"msg three"]
     blob = z.encode_frames(payloads, key="frame-key", aad="batch")
     assert blob.count(b"\n") == 2
@@ -77,7 +77,7 @@ def test_zip_frames_roundtrip():
 
 
 def test_zip_env_key(monkeypatch):
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     monkeypatch.setenv("TALKCOMPRESS_ZIP_KEY", "from-env")
     ns = z.argparse.Namespace(key=None, key_file=None)
     key = z._read_key(ns)
@@ -114,8 +114,8 @@ def test_lex_policy_load_dump(tmp_path):
 
 
 
-def test_tessera_new_lang_cues():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_new_lang_cues():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     assert "it" in t._CUES and "nl" in t._CUES and "id" in t._CUES and "sv" in t._CUES
     # Italian-ish
     assert t.detect_lang("Il gatto non è con la ragazza.") in ("it", "en", "es", "pt", "fr")
@@ -124,8 +124,8 @@ def test_tessera_new_lang_cues():
     assert lang == "id"
 
 
-def test_tessera_preserve_newlines():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_preserve_newlines():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     src = "Hello there.\n\nこんにちは。"
     mosaic = t.compress(src, preserve_newlines=True)
     assert "¶" in mosaic

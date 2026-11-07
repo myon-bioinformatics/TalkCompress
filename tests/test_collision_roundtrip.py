@@ -18,13 +18,13 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import roundtrip as rt  # noqa: E402
 import tense_matrix as tm  # noqa: E402
 
-BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
+BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
 CONJ = json.loads(tm.CONJ_PATH.read_text(encoding="utf-8"))["conj"]
 REG = tm.form_registry(CONJ)
 
 
 def _t():
-    return load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _c(form, lang, shape="simple"):
@@ -129,7 +129,7 @@ def test_zh_stative_progressive(s, want):
 
 
 def test_no_zh_stative_progressive_in_banks():
-    fx = ROOT / "TesseraTalk/fixtures"
+    fx = ROOT / "SentenceCalibratedMosaic/fixtures"
     t = _t()
     for p in fx.glob("*.json"):
         for line in p.read_text(encoding="utf-8").splitlines():

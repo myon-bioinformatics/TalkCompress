@@ -5,16 +5,16 @@ from __future__ import annotations
 from tests._helpers import load as _load, ns
 
 
-def _tessera():
-    return _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def _mosaic():
+    return _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _density():
-    return _load("density_zip", "DensityZip/density_zip.py")
+    return _load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
 
 
 def test_asap_acronym_beats_zh_densifier():
-    t = _tessera()
+    t = _mosaic()
     src = "Please reply as soon as possible."
     out = t.apply_zh_de_phrases(src)
     assert "ASAP" in out
@@ -24,7 +24,7 @@ def test_asap_acronym_beats_zh_densifier():
 
 def test_asap_beats_ja_naru_haya_densifier():
     """ASAP ≺ なる早 (JA densifier spelling; not なるはや)."""
-    t = _tessera()
+    t = _mosaic()
     assert "ja" in t.FINAL_PHRASE_LANGS
     src = "Please reply as soon as possible."
     out = t.apply_zh_de_phrases(src)
@@ -34,7 +34,7 @@ def test_asap_beats_ja_naru_haya_densifier():
 
 
 def test_short_de_compound_bahnhof_wins():
-    t = _tessera()
+    t = _mosaic()
     src = "Meet me at the train station tomorrow."
     out = t.apply_zh_de_phrases(src)
     assert "Bahnhof" in out
@@ -43,7 +43,7 @@ def test_short_de_compound_bahnhof_wins():
 
 
 def test_adj_noun_zh_compound_wins():
-    t = _tessera()
+    t = _mosaic()
     src = "high speed rail and green tea"
     out = t.apply_zh_de_phrases(src)
     # longest-first: high speed rail → 高铁 (not bare high-speed → 高速)
@@ -55,7 +55,7 @@ def test_adj_noun_zh_compound_wins():
 
 
 def test_long_de_compound_not_in_bank_when_losing():
-    t = _tessera()
+    t = _mosaic()
     # Geschwindigkeitsbegrenzung loses under estimate_tokens vs "speed limit"
     pairs = {(a.lower(), b) for a, b, _ in t.zh_de_phrase_pairs()}
     assert ("speed limit", "Geschwindigkeitsbegrenzung") not in pairs
@@ -67,7 +67,7 @@ def test_long_de_compound_not_in_bank_when_losing():
 
 def test_es_fr_tense_future_go_wins():
     """before: I will go tomorrow. → after: cheapest live form (vou ≺ iré)."""
-    t = _tessera()
+    t = _mosaic()
     src = "I will go tomorrow."
     out = t.apply_es_fr_tense(src)
     assert any(s in out for s in ("vou", "iré", "irei", "πάω"))
@@ -81,7 +81,7 @@ def test_es_fr_tense_progressive_keeps_aspect():
     I'm going now. → EN kept (no progressive periphrasis shrinks, and
     sou/estou-style 1s forms are not cheaper); he is going → está indo.
     """
-    t = _tessera()
+    t = _mosaic()
     src = "I'm going now."
     out = t.apply_es_fr_tense(src)
     assert out == src
@@ -90,14 +90,14 @@ def test_es_fr_tense_progressive_keeps_aspect():
 
 
 def test_es_fr_tense_bank_all_drop_tokens():
-    t = _tessera()
+    t = _mosaic()
     for src, dst, lang in t.es_fr_tense_pairs():
         assert lang in t.FINAL_TENSE_LANGS
         assert t.estimate_tokens(dst) < t.estimate_tokens(src)
 
 
 def test_final_pass_zh_sentence_from_bank():
-    t = _tessera()
+    t = _mosaic()
     src = "Good morning."
     out = t.final_zh_de_token_pass(src)
     # o200k: " Good morning." = 3 = " 早。" (no saving), so the source is kept
@@ -106,7 +106,7 @@ def test_final_pass_zh_sentence_from_bank():
 
 
 def test_final_pass_combined_zh_and_de():
-    t = _tessera()
+    t = _mosaic()
     src = "Meet me at the train station as soon as possible."
     before = t.estimate_tokens(src)
     out = t.final_token_pass(src)
@@ -119,7 +119,7 @@ def test_final_pass_combined_zh_and_de():
 
 def test_final_pass_includes_tense_and_compounds():
     """before: I will go … train station … ASAP → after: vou/iré + Bahnhof + ASAP."""
-    t = _tessera()
+    t = _mosaic()
     src = "I will go to the train station as soon as possible."
     before = t.estimate_tokens(src)
     out = t.final_token_pass(src)
@@ -132,14 +132,14 @@ def test_final_pass_includes_tense_and_compounds():
 
 
 def test_i_was_not_mapped_to_fui():
-    t = _tessera()
+    t = _mosaic()
     out = t.apply_es_fr_tense("I was tired.")
     assert "fui" not in out
     assert "I was" in out
 
 
 def test_i_went_maps_to_fui():
-    t = _tessera()
+    t = _mosaic()
     out = t.apply_es_fr_tense("I went home.")
     assert "fui" in out
     assert t.estimate_tokens(out) < t.estimate_tokens("I went home.")
@@ -192,7 +192,7 @@ def test_run_pipeline_order_ends_with_final(capsys):
     assert trace[-1]["layer"] == "B-final-zh-de"
     assert "Bahnhof" in out
     # token drop vs raw
-    t = _tessera()
+    t = _mosaic()
     assert t.estimate_tokens(out) < t.estimate_tokens(text)
 
 def test_going_to_future_not_eaten_by_progressive_voy():
@@ -200,7 +200,7 @@ def test_going_to_future_not_eaten_by_progressive_voy():
     I'm going now. → voy/vou
     I'm going to leave now. → saldré (not 'voy to leave')
     """
-    t = _tessera()
+    t = _mosaic()
     prog = t.apply_es_fr_tense("I'm going now.")
     assert not any(s in prog for s in ("voy", "vou", "πάω"))
     raw = "I'm going to leave now."
@@ -212,7 +212,7 @@ def test_going_to_future_not_eaten_by_progressive_voy():
 
 
 def test_going_to_go_maps_to_short_future():
-    t = _tessera()
+    t = _mosaic()
     raw = "I am going to go tomorrow."
     out = t.apply_es_fr_tense(raw)
     assert "voy to" not in out.lower()
@@ -222,7 +222,7 @@ def test_going_to_go_maps_to_short_future():
 
 
 def test_they_will_go_prefers_cheapest_pt_or_es():
-    t = _tessera()
+    t = _mosaic()
     raw = "they will go"
     out = t.apply_es_fr_tense(raw)
     # vão beats irán on utf8 under same token count
@@ -231,7 +231,7 @@ def test_they_will_go_prefers_cheapest_pt_or_es():
 
 
 def test_i_would_go_cheapest_pt_iria():
-    t = _tessera()
+    t = _mosaic()
     raw = "I would go"
     out = t.apply_es_fr_tense(raw)
     assert out == "iria"  # pt iria ≺ es iría on utf8
@@ -239,7 +239,7 @@ def test_i_would_go_cheapest_pt_iria():
 
 
 def test_i_will_see_maps_to_vere():
-    t = _tessera()
+    t = _mosaic()
     raw = "I will see you."
     out = t.apply_es_fr_tense(raw)
     assert "veré" in out
@@ -247,13 +247,13 @@ def test_i_will_see_maps_to_vere():
 
 
 def test_final_tense_langs_include_pt_nl_el():
-    t = _tessera()
+    t = _mosaic()
     assert t.FINAL_TENSE_LANGS >= {"es", "fr", "pt", "nl", "el"}
 
 
 def test_tense_before_after_examples():
     """Single-filter before→after expectations (tense densifier only)."""
-    t = _tessera()
+    t = _mosaic()
     cases = [
         ("I will go", ("vou", "iré", "irei", "πάω")),
         ("I went", ("fui", "vim")),
@@ -284,7 +284,7 @@ def test_tense_before_after_examples():
 
 def test_de_nl_compound_one_word_wins():
     """DE/nl multiword → one-word compound when dual metrics win."""
-    t = _tessera()
+    t = _mosaic()
     cases = [
         # mobile phone → cel|κιν via sibling (beats Handy); covered in test_cell_phone / handy test
         ("The swimming pool opens at nine.", "zwembad"),
@@ -296,7 +296,7 @@ def test_de_nl_compound_one_word_wins():
 
 
 def test_zh_compound_densifier_wins():
-    t = _tessera()
+    t = _mosaic()
     cases = [
         ("Ride the high speed rail tomorrow.", "高铁"),
         ("Check your blood pressure daily.", "tensão"),
@@ -310,7 +310,7 @@ def test_zh_compound_densifier_wins():
 
 def test_hsr_longest_beats_bare_high_speed():
     """Longest-first: 'high speed rail' → 高铁, not '高速 rail'."""
-    t = _tessera()
+    t = _mosaic()
     out = t.apply_zh_de_phrases("Ride the high speed rail.")
     assert "高铁" in out
     assert "高速" not in out
@@ -319,7 +319,7 @@ def test_hsr_longest_beats_bare_high_speed():
 
 def test_handy_beats_zh_phone_densifier():
     """Among ZH/DE bank alone Handy beats 手机; with sibling, pt/el cel|κιν is cheapest."""
-    t = _tessera()
+    t = _mosaic()
     # zh/de bank isolation: Handy still beats 手机
     pairs = [(s, r, lang) for s, r, lang in t.zh_de_phrase_pairs() if s.lower() in {"mobile phone", "cell phone"}]
     forms = {r for _, r, _ in pairs}
@@ -334,14 +334,14 @@ def test_handy_beats_zh_phone_densifier():
 
 
 def test_nl_in_final_phrase_langs():
-    t = _tessera()
+    t = _mosaic()
     assert "nl" in t.FINAL_PHRASE_LANGS
 
 
 def test_phrase_bank_pairs_dual_metric_wins():
     """Every active pair must shrink token AND utf8_bits."""
-    t = _tessera()
-    morpho = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    t = _mosaic()
+    morpho = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     for src, dst, lang in t.zh_de_phrase_pairs():
         assert lang in t.FINAL_PHRASE_LANGS
         assert t.estimate_tokens(dst) < t.estimate_tokens(src)
@@ -350,7 +350,7 @@ def test_phrase_bank_pairs_dual_metric_wins():
 
 def test_mid_compound_split_soft_no_false_fire():
     """Truncated compound phrases must not rewrite (word-boundary soft)."""
-    t = _tessera()
+    t = _mosaic()
     truncated = [
         "Meet me at the train stati",
         "Please bring your mobile pho",
@@ -370,13 +370,13 @@ def test_mid_compound_split_soft_no_false_fire():
         assert isinstance(out, str)
         assert len(out) <= len(src) + 8
 def test_pt_el_latin_phrase_langs_include_living():
-    t = _tessera()
+    t = _mosaic()
     assert t.FINAL_PT_EL_LATIN_PHRASE_LANGS >= {"pt", "el", "it", "la"}
     assert t.FINAL_PHRASE_LANGS >= {"pt", "el", "it", "la"}
 
 
 def test_pt_el_latin_phrase_bank_all_drop_tokens():
-    t = _tessera()
+    t = _mosaic()
     pairs = t.pt_el_latin_phrase_pairs()
     assert pairs, "sibling phrase bank should yield winning pairs"
     for src, dst, lang in pairs:
@@ -385,7 +385,7 @@ def test_pt_el_latin_phrase_bank_all_drop_tokens():
 
 
 def test_pt_el_latin_tense_bank_new_sources_only():
-    t = _tessera()
+    t = _mosaic()
     main_srcs = {s.lower() for s, _, _ in t.es_fr_tense_pairs()}
     for src, dst, lang in t.pt_el_latin_tense_pairs():
         assert src.lower() not in main_srcs, (src, "collides with es_fr_tense")
@@ -394,7 +394,7 @@ def test_pt_el_latin_tense_bank_new_sources_only():
 
 
 def test_cell_phone_maps_to_cel_or_kin():
-    t = _tessera()
+    t = _mosaic()
     raw = "Call me on my cell phone later."
     out = t.apply_zh_de_phrases(raw)
     assert "cell phone" not in out.lower()
@@ -403,7 +403,7 @@ def test_cell_phone_maps_to_cel_or_kin():
 
 
 def test_as_a_result_cheapest_ergo_or_logo():
-    t = _tessera()
+    t = _mosaic()
     raw = "as a result"
     out = t.apply_zh_de_phrases(raw)
     assert out in {"ergo", "logo", "άρα"}
@@ -411,7 +411,7 @@ def test_as_a_result_cheapest_ergo_or_logo():
 
 
 def test_once_again_prefers_pali():
-    t = _tessera()
+    t = _mosaic()
     # o200k: " once again" = 2 = " πάλι"; a tie never replaces the source
     out = t.apply_zh_de_phrases("once again")
     assert out == "once again"
@@ -419,7 +419,7 @@ def test_once_again_prefers_pali():
 
 def test_sibling_does_not_steal_bahnhof_or_asap():
     """Additive sibling must not rewrite help3 ZH/DE / EN acronym winners."""
-    t = _tessera()
+    t = _mosaic()
     src = "Meet me at the train station as soon as possible."
     out = t.apply_zh_de_phrases(src)
     assert "Bahnhof" in out
@@ -428,7 +428,7 @@ def test_sibling_does_not_steal_bahnhof_or_asap():
 
 
 def test_i_will_do_it_maps_to_farei():
-    t = _tessera()
+    t = _mosaic()
     raw = "I will do it tomorrow."
     out = t.apply_es_fr_tense(raw)
     assert "farei" in out
@@ -437,14 +437,14 @@ def test_i_will_do_it_maps_to_farei():
 
 
 def test_i_did_it_maps_to_fiz():
-    t = _tessera()
+    t = _mosaic()
     out = t.apply_es_fr_tense("I did it.")
     assert "fiz" in out
     assert t.estimate_tokens(out) < t.estimate_tokens("I did it.")
 
 
 def test_final_pass_includes_sibling_phrase():
-    t = _tessera()
+    t = _mosaic()
     raw = "Pay per month for the cell phone."
     before = t.estimate_tokens(raw)
     out = t.final_token_pass(raw)
@@ -456,7 +456,7 @@ def test_final_pass_includes_sibling_phrase():
 
 
 def test_classical_ibo_not_in_tense_pairs():
-    t = _tessera()
+    t = _mosaic()
     forms = {dst for _, dst, _ in t.es_fr_tense_pairs()} | {
         dst for _, dst, _ in t.pt_el_latin_tense_pairs()
     }
@@ -465,7 +465,7 @@ def test_classical_ibo_not_in_tense_pairs():
 
 def test_tense_tranche2_take_future_wins():
     """before: I will take … → after: tomaré/tomarei/πάρω (cheapest)."""
-    t = _tessera()
+    t = _mosaic()
     src = "I will take it tomorrow."
     out = t.apply_es_fr_tense(src)
     assert any(s in out for s in ("tomaré", "tomarei", "πάρω"))
@@ -474,7 +474,7 @@ def test_tense_tranche2_take_future_wins():
 
 
 def test_tense_tranche2_think_past_wins():
-    t = _tessera()
+    t = _mosaic()
     src = "I thought so."
     out = t.apply_es_fr_tense(src)
     assert any(s in out for s in ("pensé", "pensei"))
@@ -483,7 +483,7 @@ def test_tense_tranche2_think_past_wins():
 
 def test_tense_tranche2_going_to_take_not_eaten_by_voy():
     """I'm going now → voy/vou; I'm going to take … → take future, not voy to."""
-    t = _tessera()
+    t = _mosaic()
     prog = t.apply_es_fr_tense("I'm going now.")
     assert not any(s in prog for s in ("voy", "vou", "πάω"))
     raw = "I'm going to take it now."
@@ -495,7 +495,7 @@ def test_tense_tranche2_going_to_take_not_eaten_by_voy():
 
 
 def test_tense_tranche2_try_and_read_prog():
-    t = _tessera()
+    t = _mosaic()
     try_out = t.apply_es_fr_tense("I will try again.")
     assert "tentarei" in try_out
     assert t.estimate_tokens(try_out) < t.estimate_tokens("I will try again.")
@@ -506,7 +506,7 @@ def test_tense_tranche2_try_and_read_prog():
 
 
 def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
-    t = _tessera()
+    t = _mosaic()
     expected = {"take": "tomaré", "try": "tentarei", "find": "βρω",
                 "call": "llamaré", "put": "porei", "bring": "trarei"}
     for verb, winner in expected.items():
@@ -521,7 +521,7 @@ def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
 
 
 def test_tense_tranche2_and_sibling_longest_sources_coexist():
-    t = _tessera()
+    t = _mosaic()
     raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
     assert t.apply_es_fr_tense(raw) == "farei; fiz; quero ir; preciso ir; tomaré it."
     raw = "I will take my mobile phone to the train station as soon as possible."
@@ -529,7 +529,7 @@ def test_tense_tranche2_and_sibling_longest_sources_coexist():
 
 
 def test_tense_candidate_priority_is_independent_of_bank_order():
-    t = _tessera()
+    t = _mosaic()
     # Exercise each cost tie-breaker rather than accepting any candidate.
     cases = [
         ([("tomaré", "es"), ("πάρω", "el")], "tomaré"),  # 2 = 2 tokens; 7 < 8 bytes
@@ -549,7 +549,7 @@ def test_tense_candidate_priority_is_independent_of_bank_order():
 
 def test_tranche2_and_sibling_combined_final_pass():
     """Tense additions and sibling phrases compete in the same final pass."""
-    t = _tessera()
+    t = _mosaic()
     raw = "I'm going to take my mobile phone once again."
     out = t.final_token_pass(raw)
     assert any(form in out for form in ("tomaré", "tomarei", "πάρω"))
@@ -561,7 +561,7 @@ def test_tranche2_and_sibling_combined_final_pass():
 
 def test_tranche2_cheapest_for_every_source():
     """Check the selected surface, not only membership among candidates."""
-    t = _tessera()
+    t = _mosaic()
     entries = t.load_es_fr_tense_bank()["entries"]
     start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
     stop = next((i for i, e in enumerate(entries) if e["id"] == "arrive-past-1s"), len(entries))
@@ -579,7 +579,7 @@ def test_tranche2_cheapest_for_every_source():
 
 def test_tranche2_partial_verbs_and_going_to_guard():
     """An incomplete verb cannot trigger a full tense entry."""
-    t = _tessera()
+    t = _mosaic()
     for verb in ("take", "try", "find", "call", "put", "bring"):
         for stem in ("I am going to ", "I'm going to ", "I will "):
             for end in range(1, len(verb)):
@@ -593,7 +593,7 @@ def test_tranche2_partial_verbs_and_going_to_guard():
 
 
 def test_tranche2_future_does_not_choose_present_forms():
-    t = _tessera()
+    t = _mosaic()
     for stem, forms in (
         ("call", {"llamaré", "chamarei"}),
         ("bring", {"traeré", "trarei"}),
@@ -610,7 +610,7 @@ def test_tranche2_future_does_not_choose_present_forms():
 
 def test_o200k_ties_keep_english_source():
     """Bank forms that only tie the source under o200k_base are not applied."""
-    t = _tessera()
+    t = _mosaic()
     for src in ("I left", "I will leave", "I will want", "I knew", "I called"):
         assert t.apply_es_fr_tense(src) == src
     for src in ("washing machine", "traffic light", "traffic jam", "open source", "police station"):

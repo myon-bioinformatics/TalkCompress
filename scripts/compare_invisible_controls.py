@@ -23,7 +23,7 @@ import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from TesseraTalk import tessera_talk as current
+from SentenceCalibratedMosaic import sentence_calibrated_mosaic as current
 import tiktoken
 
 BASE = 'adf9fcf49e2f7ee8695819e00929f9bd0673c6ae'
@@ -41,7 +41,7 @@ EXAMPLES = ['அກ\u200bຂ', 'কກ\u200bຂ', 'ກ\u200bຂক', 'කක\u20
 
 
 def baseline(ref):
-    src = subprocess.check_output(['git', 'show', ref + ':TesseraTalk/tessera_talk.py'], cwd=ROOT, text=True)
+    src = subprocess.check_output(['git', 'show', ref + ':SentenceCalibratedMosaic/sentence_calibrated_mosaic.py'], cwd=ROOT, text=True)
     mod = types.ModuleType('_invisible_baseline')
     mod.__file__ = current.__file__  # calibration fixture path stays identical
     sys.modules[mod.__name__] = mod

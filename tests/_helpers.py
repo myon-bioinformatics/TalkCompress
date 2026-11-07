@@ -9,7 +9,7 @@ from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# One exec per (module name, path) for the pytest process. MorphoZip compiles
+# One exec per (module name, path) for the pytest process. MorphoGrammarMinimal compiles
 # a large regex inventory at import (~0.3s); local _load helpers used to redo
 # that on every test. lex_policy overrides stay live: layers call into
 # shared.lex_policy, which reads those globals at call time, so a cached
@@ -29,7 +29,7 @@ def load(name: str, rel: str) -> ModuleType:
     cached = _CACHE.get(key)
     if cached is not None:
         sys.modules[name] = cached
-        if name == "density_zip":
+        if name == "density_facade_route":
             _bind_density_loader(cached)
         return cached
 
@@ -40,16 +40,16 @@ def load(name: str, rel: str) -> ModuleType:
     sys.modules[name] = mod
     spec.loader.exec_module(mod)
     _CACHE[key] = mod
-    if name == "density_zip":
+    if name == "density_facade_route":
         _bind_density_loader(mod)
     return mod
 
 
 def _bind_density_loader(mod: ModuleType) -> None:
-    """Point the test-loaded DensityZip layer loader at this cache.
+    """Point the test-loaded DensityFacadeRoute layer loader at this cache.
 
-    Production ``DensityZip._load`` re-executes each layer on every hop
-    (MorphoZip's import cost). Tests reach D through ``load``; routing that
+    Production ``DensityFacadeRoute._load`` re-executes each layer on every hop
+    (MorphoGrammarMinimal's import cost). Tests reach D through ``load``; routing that
     private loader here keeps the suite on one copy. The CLI module on disk
     is unchanged.
     """
@@ -64,8 +64,8 @@ def _bind_density_loader(mod: ModuleType) -> None:
 
 
 def ns(**kwargs):
-    """Namespace for DensityZip transform helpers (結合テスト用)."""
-    c = load("density_zip", "DensityZip/density_zip.py")
+    """Namespace for DensityFacadeRoute transform helpers (結合テスト用)."""
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     defaults = dict(
         key=None,
         key_file=None,

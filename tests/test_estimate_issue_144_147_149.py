@@ -3,7 +3,7 @@
 Reference o200k counts measured with tiktoken; estimate tests need no tokenizer.
 """
 import pytest
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
 
 @pytest.mark.parametrize("text, estimate, reference", [

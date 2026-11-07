@@ -52,7 +52,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-DATA_PATH = ROOT / "TesseraTalk/fixtures/roundtrip.json"
+DATA_PATH = ROOT / "SentenceCalibratedMosaic/fixtures/roundtrip.json"
 
 PROMPT = (
     "The following sentence mixes English with short verb forms from other languages "

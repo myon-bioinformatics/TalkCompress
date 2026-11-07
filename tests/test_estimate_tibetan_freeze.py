@@ -4,7 +4,7 @@ Do not retune `_BRAHMIC_RATES` for Tibetan until a larger held-out set exists.
 seed 1104 fit/held-out on bod: sum_ratio ≈ 0.88–0.90 (see PR body).
 """
 import pytest
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
 
 # Short Tatoeba-bod style phrases; estimate column is this branch's freeze point.

@@ -10,7 +10,7 @@ from tests._helpers import load as _load
 
 
 def _t():
-    return _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _roles(s: str) -> list[str]:

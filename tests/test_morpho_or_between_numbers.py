@@ -1,11 +1,11 @@
-"""MorphoZip: or/oder/ou between two numbers must not turn into a fraction-like "3 / 4"."""
+"""MorphoGrammarMinimal: or/oder/ou between two numbers must not turn into a fraction-like "3 / 4"."""
 import typing
 
 import pytest
 
 from tests._helpers import load
 
-mz = load("morpho_zip", "MorphoZip/morpho_zip.py")
+mz = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 
 
 @pytest.mark.parametrize(

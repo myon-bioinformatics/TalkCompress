@@ -46,7 +46,7 @@ jobs:
           exit 1
       - name: Measure bytes and real tokenizer counts
         run: |
-          python -m Zipilogue.session_tokens --model qwen-0.5b \
+          python -m RulePeerCodec.session_tokens --model qwen-0.5b \
             --model-path models/model.gguf --runtime-id "$LLAMA_IMAGE" \
             --output out/session-token-cost.json
       - name: Collect provenance even on failure

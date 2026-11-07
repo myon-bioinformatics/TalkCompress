@@ -3,7 +3,7 @@ import unicodedata
 
 import pytest
 
-from MorphoZip.morpho_zip import compress, expand, restore_a_hyphen, strip_articles
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress, expand, restore_a_hyphen, strip_articles
 
 HYPHEN = [
     ("A Maria come.", "A\u2011Maria come."),  # 文頭
@@ -134,15 +134,15 @@ def test_input_u2011_folded_to_ascii():
     assert expand(out) == out
 
 
-def test_u2011_survives_densityzip():
+def test_u2011_survives_densityfacaderoute():
     import argparse
     import importlib.util
     from pathlib import Path
 
     src = "I met a John. A Maria come."
     out = compress(src)
-    # DensityZip 経由（engine e）
-    spec = importlib.util.spec_from_file_location("dz", Path(__file__).resolve().parents[1] / "DensityZip/density_zip.py")
+    # DensityFacadeRoute 経由（engine e）
+    spec = importlib.util.spec_from_file_location("dz", Path(__file__).resolve().parents[1] / "DensityFacadeRoute/density_facade_route.py")
     dz = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(dz)
     assert "\u2011" in dz._run_e(src, argparse.Namespace(mode="compress"))
@@ -150,37 +150,37 @@ def test_u2011_survives_densityzip():
 
 
 def test_u2011_estimate_tokens():
-    from TesseraTalk.tessera_talk import estimate_tokens
+    from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
     assert estimate_tokens("A\u2011Maria come.") >= estimate_tokens("A Maria come.")
 
 
-def test_u2011_survives_morphozip_cli(capsys):
-    from MorphoZip import morpho_zip
+def test_u2011_survives_morphogrammarminimal_cli(capsys):
+    from MorphoGrammarMinimal import morpho_grammar_minimal
 
-    morpho_zip.main(["--text", "I met a John. A Maria come."])
+    morpho_grammar_minimal.main(["--text", "I met a John. A Maria come."])
     out = capsys.readouterr().out.strip()
     assert "a\u2011John" in out and "A\u2011Maria" in out
-    morpho_zip.main(["--mode", "expand", "--text", out])
+    morpho_grammar_minimal.main(["--mode", "expand", "--text", out])
     assert capsys.readouterr().out.strip() == "I met a John. A Maria come."
 
 
 KEEP_SRC = "A\u2011Maria came."  # 利用者入力の U+2011 → ASCII '-' に正規化
 
 
-def test_keep_articles_input_u2011_morphozip():
+def test_keep_articles_input_u2011_morphogrammarminimal():
     out = compress(KEEP_SRC, keep_articles=True)
     assert "\u2011" not in out and "A-Maria" in out
     assert expand(out) == expand(compress("A-Maria came.", keep_articles=True))
     assert "A-Maria" in expand(out)
 
 
-def test_keep_articles_input_u2011_densityzip():
+def test_keep_articles_input_u2011_densityfacaderoute():
     import argparse
     import importlib.util
     from pathlib import Path
 
-    spec = importlib.util.spec_from_file_location("dz", Path(__file__).resolve().parents[1] / "DensityZip/density_zip.py")
+    spec = importlib.util.spec_from_file_location("dz", Path(__file__).resolve().parents[1] / "DensityFacadeRoute/density_facade_route.py")
     dz = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(dz)
     out = dz._run_e(KEEP_SRC, argparse.Namespace(mode="compress", keep_articles=True))
@@ -189,12 +189,12 @@ def test_keep_articles_input_u2011_densityzip():
 
 
 def test_keep_articles_input_u2011_cli(capsys):
-    from MorphoZip import morpho_zip
+    from MorphoGrammarMinimal import morpho_grammar_minimal
 
-    morpho_zip.main(["--keep-articles", "--text", KEEP_SRC])
+    morpho_grammar_minimal.main(["--keep-articles", "--text", KEEP_SRC])
     out = capsys.readouterr().out.strip()
     assert "\u2011" not in out and "A-Maria" in out
-    morpho_zip.main(["--mode", "expand", "--text", out])
+    morpho_grammar_minimal.main(["--mode", "expand", "--text", out])
     assert "A-Maria" in capsys.readouterr().out
 
 

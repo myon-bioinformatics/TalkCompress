@@ -1,6 +1,6 @@
 """Smoke + behavioral tests for TalkCompress A/B/C/E (layer unit).
 
-Cross-layer / DensityZip wiring → tests/integration/.
+Cross-layer / DensityFacadeRoute wiring → tests/integration/.
 """
 
 from __future__ import annotations
@@ -8,11 +8,11 @@ from __future__ import annotations
 from tests._helpers import load as _load
 
 
-# --- A Zipilogue ---
+# --- A RulePeerCodec ---
 
 
-def test_zipilogue_roundtrip():
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_roundtrip():
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     key = "shared-bot-secret"
     raw = b"hello bots \xe2\x9c\x93"
     env = z.encode(raw, key=key)
@@ -21,8 +21,8 @@ def test_zipilogue_roundtrip():
     assert z.decode(env, key=key) == raw
 
 
-def test_zipilogue_tamper_fails():
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_tamper_fails():
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     env = bytearray(z.encode(b"payload", key="k"))
     # Flip a byte in the middle of the envelope ASCII
     mid = len(env) // 2
@@ -35,8 +35,8 @@ def test_zipilogue_tamper_fails():
     assert raised
 
 
-def test_zipilogue_wrong_key_fails():
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_wrong_key_fails():
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     env = z.encode(b"secret message", key="alpha")
     try:
         z.decode(env, key="beta")
@@ -46,8 +46,8 @@ def test_zipilogue_wrong_key_fails():
     assert raised
 
 
-def test_zipilogue_cli_roundtrip(tmp_path):
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_cli_roundtrip(tmp_path):
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     key_file = tmp_path / "key.txt"
     key_file.write_text("cli-key\n", encoding="utf-8")
     # encode via main
@@ -84,17 +84,17 @@ def test_zipilogue_cli_roundtrip(tmp_path):
     assert z.decode(env, key="cli-key") == b"ping"
 
 
-# --- B TesseraTalk ---
+# --- B SentenceCalibratedMosaic ---
 
 
-def test_tessera_segments():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_segments():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     tagged = t.tag_sentences("Hello. こんにちは。", None)
     assert len(tagged) >= 2
 
 
-def test_tessera_heuristic_langs():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_heuristic_langs():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     tagged = t.tag_sentences(
         "The cat sits on the mat. 今日はいい天気です。 El perro corre en el parque.",
         None,
@@ -105,8 +105,8 @@ def test_tessera_heuristic_langs():
     assert "es" in langs
 
 
-def test_tessera_compress_expand():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_compress_expand():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     src = "Hello world. こんにちは世界。"
     mosaic = t.compress(src)
     assert "en:" in mosaic
@@ -117,22 +117,22 @@ def test_tessera_compress_expand():
     assert "こんにちは世界" in back
 
 
-# --- C ShorthandEdge ---
+# --- C ShorthandSessionEdge ---
 
 
 def test_shorthand_compress():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     assert "ASAP" in s.compress("please reply as soon as possible")
     assert "FYI" in s.compress("for your information this is ready")
 
 
 def test_shorthand_expand():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     assert "as soon as possible" in s.expand("do it ASAP")
 
 
 def test_shorthand_hereafter_convention():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     sess = s.Session()
     text = "hereafter pull request=PR\nplease open a pull request soon"
     out = s.compress(text, session=sess)
@@ -143,7 +143,7 @@ def test_shorthand_hereafter_convention():
 
 
 def test_shorthand_state_file(tmp_path):
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     path = tmp_path / "state.json"
     sess = s.Session()
     s.compress("hereafter unit test=UT\nok", session=sess)
@@ -153,17 +153,17 @@ def test_shorthand_state_file(tmp_path):
     assert "UT" in s.compress("run the unit test", session=sess2)
 
 
-# --- E MorphoZip ---
+# --- E MorphoGrammarMinimal ---
 
 
 def test_morpho_first_person():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.compress("私は行く") == "I行く"
     assert "I" in m.compress("僕は考える")
 
 
 def test_morpho_english_multi():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress("I am here with you and without fear whatever happens")
     # I'm-family contractions are C-owned; E keeps "I am"
     assert "I'm" not in out
@@ -175,7 +175,7 @@ def test_morpho_english_multi():
 
 
 def test_morpho_density_stats():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     before = "I am ready and waiting"
     after = m.compress(before)
     d = m.density(before, after)
@@ -185,7 +185,7 @@ def test_morpho_density_stats():
 
 
 def test_morpho_counters_kept():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     # 助数詞 should survive
     assert "匹" in m.compress("犬が3匹いる")
     assert "個" in m.compress("飴が7個ある")
@@ -221,7 +221,7 @@ def test_lex_unique_and_etymon():
 
 
 def test_morpho_opt_in_strip():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress("um ready", strip=True)
     assert "um" not in out.lower()
     assert "ready" in out

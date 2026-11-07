@@ -1,8 +1,8 @@
 """古いハングル字母と異体字セレクタ(IVS)は o200k で結合されないので UTF-8 バイト数で数える。"""
 import pytest
 
-from TesseraTalk import tessera_talk as T
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic import sentence_calibrated_mosaic as T
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
 
 @pytest.mark.parametrize("text, expected", [

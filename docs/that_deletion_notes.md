@@ -2,7 +2,7 @@
 
 採点: o200k_base、文中想定で先頭スペース付き（`' '+s`）。採用条件は英語より**トークンが厳密に少ない**こと。
 
-## 採用した規則（MorphoZip E 層）
+## 採用した規則（MorphoGrammarMinimal E 層）
 - **非 NP 目的語動詞**（think / hope / say / believe / feel / guess / suppose。活用形を含む）+ `that` + 節主語（代名詞・限定詞・there など）→ `that` を削除する。
 - **NP 目的語動詞**（know / see / tell / show / find / hear / realize。活用形を含む）+ `that` → 直後が「代名詞主語（I/U/you/he/she/it/we/they）+ 動詞」の場合だけ削除する。
 - **削除位置のコンマ**: 付けない。

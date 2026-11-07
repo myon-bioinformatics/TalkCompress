@@ -1,7 +1,7 @@
 """Opt-in experiment: role-differentiated brackets modelled on code syntax.
 
 Builds on ``bracket_chunk.chunks`` (NFC-normalised).  Applied to compressed
-MorphoZip output; baseline is the unchanged output (lowercase variant A).
+MorphoGrammarMinimal output; baseline is the unchanged output (lowercase variant A).
 
 * ``P1``   — call form ``prep(obj)``: ``in(Zürich)``
 * ``P1m``  — ``P1`` only for multi-word objects, single words untouched
@@ -87,9 +87,9 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     import tiktoken
 
-    spec = importlib.util.spec_from_file_location("morpho_zip", ROOT / "MorphoZip/morpho_zip.py")
+    spec = importlib.util.spec_from_file_location("morpho_grammar_minimal", ROOT / "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     mz = importlib.util.module_from_spec(spec)
-    sys.modules["morpho_zip"] = mz
+    sys.modules["morpho_grammar_minimal"] = mz
     spec.loader.exec_module(mz)  # type: ignore[union-attr]
     enc = tiktoken.get_encoding("o200k_base")
     rows = measure(bc.load_corpus(), mz.compress, lambda t: len(enc.encode(t)))

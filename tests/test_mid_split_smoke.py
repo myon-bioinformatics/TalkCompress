@@ -21,8 +21,8 @@ from tests._helpers import load, ns
 ROOT = Path(__file__).resolve().parents[1]
 CORPUS = ROOT / "tests" / "fixtures" / "pd_corpus"
 MANIFEST = CORPUS / "manifest.json"
-TRANS_JSON = ROOT / "TesseraTalk" / "fixtures" / "translations.json"
-ZH_DE_JSON = ROOT / "TesseraTalk" / "fixtures" / "zh_de_phrases.json"
+TRANS_JSON = ROOT / "SentenceCalibratedMosaic" / "fixtures" / "translations.json"
+ZH_DE_JSON = ROOT / "SentenceCalibratedMosaic" / "fixtures" / "zh_de_phrases.json"
 
 _CJK_RUN = re.compile(r"[\u3400-\u9FFF\uF900-\uFAFF]{2,}")
 _ASCII_WORD = re.compile(r"[A-Za-z']{4,}")
@@ -63,7 +63,7 @@ def mid_n(pytestconfig) -> int:
 
 
 def _estimate_tokens(text: str) -> int:
-    t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    t = load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     return int(t.estimate_tokens(text))
 
 
@@ -241,7 +241,7 @@ def _load_pd_texts() -> list[dict]:
 
 
 def _load_translated_sources() -> list[dict]:
-    """EN `from` strings + ZH/DE/JA candidate strings from TesseraTalk fixtures."""
+    """EN `from` strings + ZH/DE/JA candidate strings from SentenceCalibratedMosaic fixtures."""
     out: list[dict] = []
     trans = json.loads(TRANS_JSON.read_text(encoding="utf-8"))
     for entry in trans["entries"]:
@@ -302,17 +302,17 @@ def translated_texts() -> list[dict]:
 
 
 def _run_layers(text: str, layers: list[str]) -> str:
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     return dz.run_pipeline(layers, text, ns())
 
 
 def _run_c(text: str) -> str:
-    se = load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    se = load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     return se.compress(text)
 
 
 def _run_e(text: str) -> str:
-    mz = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    mz = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     return mz.compress(text)
 
 
@@ -459,7 +459,7 @@ def test_translated_mid_cjk_ceb(translated_texts, mid_seed):
         hits += 1
         if hits >= 8:  # keep light
             break
-    assert hits >= 3, "expected some CJK runs in TesseraTalk fixtures"
+    assert hits >= 3, "expected some CJK runs in SentenceCalibratedMosaic fixtures"
 
 
 def test_lone_surrogate_does_not_crash_but_not_utf8():

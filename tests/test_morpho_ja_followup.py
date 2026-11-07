@@ -1,11 +1,11 @@
-"""MorphoZip 日本語の既存崩れ（あれこれ / かれこれ / それにしても / 「えーと」 / 最後に、）と、
+"""MorphoGrammarMinimal 日本語の既存崩れ（あれこれ / かれこれ / それにしても / 「えーと」 / 最後に、）と、
 #132 の変異テストで生き残った箇所を殺す実値テスト。"""
 import pytest
 
 from shared import lex_policy as L
 from tests._helpers import load
 
-m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 
 
 def c(s: str) -> str:

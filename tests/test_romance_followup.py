@@ -1,7 +1,7 @@
 """#106 フォローアップ（3bot レビューの Should 2 点）。"""
 import pytest
 
-from MorphoZip.morpho_zip import compress
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress
 
 
 @pytest.mark.parametrize(
@@ -27,7 +27,7 @@ def test_mixed_text_only_romance_sentence_protected():
 @pytest.mark.parametrize("src", ["A Maria come.", "Veo a Juan.", "A Pedro le gusta."])
 def test_spanish_personal_a_without_cues_kept(src):
     # #122: 文頭 A＋名前は A\u2011Maria（U+2011）で保護され、実際の復元経路 expand で元に戻る。
-    from MorphoZip.morpho_zip import expand
+    from MorphoGrammarMinimal.morpho_grammar_minimal import expand
     assert expand(compress(src)) == src
 
 
@@ -46,9 +46,9 @@ def test_english_article_drop_unchanged(src, want):
 
 @pytest.mark.parametrize('literal', ['\ue0a10', '\ue0a11', '\ue0a1', '\ue0a1\ue0a10', 'x\ue0a10y'])
 def test_personal_a_does_not_decode_user_placeholder_text(literal):
-    from MorphoZip.morpho_zip import strip_articles
+    from MorphoGrammarMinimal.morpho_grammar_minimal import strip_articles
     source = f'A Maria {literal}.'
-    from MorphoZip.morpho_zip import expand, restore_a_hyphen
+    from MorphoGrammarMinimal.morpho_grammar_minimal import expand, restore_a_hyphen
     assert restore_a_hyphen(strip_articles(source)) == source
     assert expand(compress(source)) == source
 
@@ -70,7 +70,7 @@ def test_personal_a_supports_unicode_capital_and_titlecase_names(name, form):
     ('A Maria come. I have a cat.', 'A\u2011Maria come. I have cat.'),
 ])
 def test_personal_a_offsets_survive_quotes_and_respect_sentence_cues(source, want):
-    from MorphoZip.morpho_zip import strip_articles
+    from MorphoGrammarMinimal.morpho_grammar_minimal import strip_articles
     assert strip_articles(source) == want
 
 

@@ -41,9 +41,9 @@ def restore_quotes(text: str) -> str:
 
 
 def load_mz():
-    spec = importlib.util.spec_from_file_location("morpho_zip", ROOT / "MorphoZip/morpho_zip.py")
+    spec = importlib.util.spec_from_file_location("morpho_grammar_minimal", ROOT / "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     mz = importlib.util.module_from_spec(spec)
-    sys.modules["morpho_zip"] = mz
+    sys.modules["morpho_grammar_minimal"] = mz
     spec.loader.exec_module(mz)  # type: ignore[union-attr]
     return mz
 

@@ -16,8 +16,8 @@ import roundtrip as rt  # noqa: E402
 import tense_matrix as tm  # noqa: E402
 
 DATA = rt.load()
-BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
-JUDGE = json.loads((ROOT / "TesseraTalk/fixtures/roundtrip_judge/nl_blind.json").read_text(encoding="utf-8"))
+BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
+JUDGE = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/roundtrip_judge/nl_blind.json").read_text(encoding="utf-8"))
 
 
 def test_nl_is_enforced_and_lt100m():

@@ -6,7 +6,7 @@ import pytest
 
 from tests._helpers import load, ns
 
-dz = load("density_zip", "DensityZip/density_zip.py")
+dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
 lp = load("lex_policy", "shared/lex_policy.py")
 
 

@@ -1,7 +1,7 @@
 import unicodedata
 
-from MorphoZip.morpho_zip import compress
-from Zipilogue.zipilogue import derive_key
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress
+from RulePeerCodec.rule_peer_codec import derive_key
 
 
 def test_derive_key_nfc_nfd_equal():
@@ -25,21 +25,21 @@ def test_article_with_non_basic_combining_mark_kept():
 
 # 3bot レビュー Should 2: U+0300–036F 版に戻すと落ちるテスト（U+1DC4 は範囲外の結合文字）
 def test_article_surface_re_rejects_extended_mark():
-    from MorphoZip.morpho_zip import _ARTICLE_SURFACE_RE
+    from MorphoGrammarMinimal.morpho_grammar_minimal import _ARTICLE_SURFACE_RE
 
     assert _ARTICLE_SURFACE_RE.search("a\u1dc4") is None
     assert _ARTICLE_SURFACE_RE.search("a cat") is not None
 
 
 def test_pack_tokens_keeps_extended_mark_in_word():
-    from MorphoZip.morpho_zip import _PACK_SPLIT, pack_tokens
+    from MorphoGrammarMinimal.morpho_grammar_minimal import _PACK_SPLIT, pack_tokens
 
     assert pack_tokens("ka\u1dc4la x").startswith("ka\u1dc4la")
     assert "ka\u1dc4la" in _PACK_SPLIT.split("ka\u1dc4la x")
 
 
 def test_is_wordish_extended_mark():
-    from MorphoZip.morpho_zip import pack_tokens
+    from MorphoGrammarMinimal.morpho_grammar_minimal import pack_tokens
 
     # _is_wordish が拡張結合文字を語扱いしないと、語の前後で区切りが変わる
     # 語の直後の ( の前に空白が入るのは、直前のトークンが語扱いのときだけ
@@ -47,7 +47,7 @@ def test_is_wordish_extended_mark():
 
 
 def test_suggest_hereafter_extended_mark_not_split():
-    from ShorthandEdge.shorthand_edge import suggest_hereafter
+    from ShorthandSessionEdge.shorthand_session_edge import suggest_hereafter
 
     text = " ".join(["xa\u1dc4yword appears"] * 4)
     longs = [str(d["long"]) for d in suggest_hereafter(text)]

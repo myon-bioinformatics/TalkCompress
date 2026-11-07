@@ -1,4 +1,4 @@
-"""MorphoZip の手書き re.I パターンは ASCII 字母を ı/İ/ſ/U+212A に畳み込まない。"""
+"""MorphoGrammarMinimal の手書き re.I パターンは ASCII 字母を ı/İ/ſ/U+212A に畳み込まない。"""
 
 import ast
 import re
@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from MorphoZip import morpho_zip as M
+from MorphoGrammarMinimal import morpho_grammar_minimal as M
 
 SRC = Path(M.__file__).read_text(encoding="utf-8")
 

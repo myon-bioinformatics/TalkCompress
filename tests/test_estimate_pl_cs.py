@@ -6,7 +6,7 @@ import types
 
 import pytest
 
-from TesseraTalk.tessera_talk import estimate_tokens, _fallback_cost, _wclass
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens, _fallback_cost, _wclass
 
 # Historical #108 author-reported o200k_base counts (2026-10-31), not
 # independently remeasured by the offline tests below. Raw fitting evidence
