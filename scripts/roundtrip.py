@@ -423,7 +423,7 @@ def main(argv: list[str] | None = None) -> int:
         data["required"] = required_keys(tm.build()[0])
         DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if a.write_doc:
-        (ROOT / "docs/roundtrip_impact.md").write_text(impact_doc(data), encoding="utf-8")
+        (ROOT / "docs/roundtrip-impact.md").write_text(impact_doc(data), encoding="utf-8")
     if a.status:
         import tense_matrix as tm
         from collections import Counter

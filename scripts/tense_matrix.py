@@ -6,7 +6,7 @@ set, scores live-language candidates (es/fr/pt/it/nl/de/el/cs/pl) with
 
 * ``TesseraTalk/fixtures/tense_matrix.json`` — adopted cells only (runtime bank)
 * ``docs/tense_matrix_report.json`` — every cell incl. rejects + reason
-* ``docs/tense_matrix.md`` — compact summary
+* ``docs/tense-matrix.md`` — compact summary
 
 Usage::
 
@@ -62,7 +62,7 @@ sys.path.insert(0, str(ROOT))
 CONJ_PATH = ROOT / "TesseraTalk/fixtures/tense_conj_table.json"
 BANK_PATH = ROOT / "TesseraTalk/fixtures/tense_matrix.json"
 REPORT_PATH = ROOT / "docs/tense_matrix_report.json"
-MD_PATH = ROOT / "docs/tense_matrix.md"
+MD_PATH = ROOT / "docs/tense-matrix.md"
 
 TENSES = ("pres", "fut", "past", "perf", "futperf", "pluperf", "presprog", "pastprog", "futprog")
 
