@@ -84,7 +84,7 @@ Python 中心で、基本ランタイムの必須依存は現在ありません�
 | `tests/test_svg_render.py` · `test_svg_figure.py` · `test_asr_normalize.py` | 91 | 1 | ⛔ は tiktoken の語彙取得（ネットワーク）で、ブラウザとは無関係 |
 | 🎞️ 証跡 GIF | 7 | 0 | |
 
-⚠️ CI は Playwright を入れていないため、これらの Chromium テストは CI では常に skip になります（今回は手元で `playwright` を足して実行）。
+🧭 CI の `browser` ジョブ（Python 3.14・Chromium・Noto CJK）がこの 2 ファイルを実行します。`TALKCOMPRESS_REQUIRE_BROWSER=1` なのでブラウザが無ければ skip ではなく失敗になります。手元は `uv sync --group browser` → `python -m playwright install --only-shell chromium`。
 👀 `flow_center` は `mode: "center"` の指定どおり中心どうしを結ぶので、線が A / B のラベルに重なります。
 
 🔁 撮り直し:
