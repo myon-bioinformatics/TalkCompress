@@ -1,0 +1,125 @@
+{
+  "schema": "btk-evidence-gif/1",
+  "gif": "browser.gif",
+  "bytes": 49303,
+  "sha256": "ae0b486ff4083b3399fc64833430ff1774991f33526ec26a4993c9f732eef5ff",
+  "frames": 7,
+  "canvas": "720x512",
+  "browser": "chromium 153.0.8010.12",
+  "recorded": "2026-11-07",
+  "commit": "84e5dca0028d90db73254af33ac2d9d3ce545790",
+  "mapped": [],
+  "summary": {
+    "pass": 7,
+    "fail": 0
+  },
+  "shots": [
+    {
+      "label": "🔀 flow_basic",
+      "url": "/examples/figures/flow_basic.svg",
+      "viewport": "720x480",
+      "steps": [],
+      "status": "pass",
+      "errors": [],
+      "allowed": [],
+      "external": []
+    },
+    {
+      "label": "🔀 flow_center",
+      "url": "/examples/figures/flow_center.svg",
+      "viewport": "720x480",
+      "steps": [],
+      "status": "pass",
+      "errors": [],
+      "allowed": [],
+      "external": []
+    },
+    {
+      "label": "📈 chart_line",
+      "url": "/examples/figures/chart_line.svg",
+      "viewport": "720x480",
+      "steps": [],
+      "status": "pass",
+      "errors": [],
+      "allowed": [],
+      "external": []
+    },
+    {
+      "label": "📈 chart_two",
+      "url": "/examples/figures/chart_two.svg",
+      "viewport": "720x480",
+      "steps": [],
+      "status": "pass",
+      "errors": [],
+      "allowed": [],
+      "external": []
+    },
+    {
+      "label": "📈 chart_auto",
+      "url": "/examples/figures/chart_auto.svg",
+      "viewport": "720x480",
+      "steps": [],
+      "status": "pass",
+      "errors": [],
+      "allowed": [],
+      "external": []
+    },
+    {
+      "label": "〰️ polyline_only",
+      "url": "/examples/figures/polyline_only.svg",
+      "viewport": "720x480",
+      "steps": [],
+      "status": "pass",
+      "errors": [],
+      "allowed": [],
+      "external": []
+    },
+    {
+      "label": "📱 flow_basic",
+      "url": "/examples/figures/flow_basic.svg",
+      "viewport": "392x848",
+      "steps": [],
+      "status": "pass",
+      "errors": [],
+      "allowed": [],
+      "external": []
+    }
+  ],
+  "plan": [
+    {
+      "label": "🔀 flow_basic",
+      "url": "/examples/figures/flow_basic.svg",
+      "viewport": "720x480"
+    },
+    {
+      "label": "🔀 flow_center",
+      "url": "/examples/figures/flow_center.svg",
+      "viewport": "720x480"
+    },
+    {
+      "label": "📈 chart_line",
+      "url": "/examples/figures/chart_line.svg",
+      "viewport": "720x480"
+    },
+    {
+      "label": "📈 chart_two",
+      "url": "/examples/figures/chart_two.svg",
+      "viewport": "720x480"
+    },
+    {
+      "label": "📈 chart_auto",
+      "url": "/examples/figures/chart_auto.svg",
+      "viewport": "720x480"
+    },
+    {
+      "label": "〰️ polyline_only",
+      "url": "/examples/figures/polyline_only.svg",
+      "viewport": "720x480"
+    },
+    {
+      "label": "📱 flow_basic",
+      "url": "/examples/figures/flow_basic.svg",
+      "viewport": "392x848"
+    }
+  ]
+}

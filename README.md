@@ -73,6 +73,26 @@ Python 中心で、基本ランタイムの必須依存は現在ありません�
 | D | [DensityZip](DensityZip/) | 横断 — 入出力・層切替・共通CLI + **density** 指標ファサード（台帳は持たない; Zipilogue/MorphoZip とは別） |
 | E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小・語源寄せ・冠詞・助数詞（ℹ️ は C；フィラー除去は既定オフ） |
 
+## 🎞️ ブラウザ証跡
+
+![examples/figures の SVG 6 枚を Chromium で表示（PC 720×480・スマホ 392×848）](docs/evidence/browser.gif)
+
+🗓️ 2026-11-07 · 🧭 Chromium 153 · 🐧 Linux · 受領 [`docs/evidence/browser.json`](docs/evidence/browser.json)
+
+| 🧪 テスト | ✅ | ⛔ | 📝 |
+| --- | ---: | ---: | --- |
+| `tests/test_svg_render.py` · `test_svg_figure.py` · `test_asr_normalize.py` | 91 | 1 | ⛔ は tiktoken の語彙取得（ネットワーク）で、ブラウザとは無関係 |
+| 🎞️ 証跡 GIF | 7 | 0 | |
+
+⚠️ CI は Playwright を入れていないため、これらの Chromium テストは CI では常に skip になります（今回は手元で `playwright` を足して実行）。
+👀 `flow_center` は `mode: "center"` の指定どおり中心どうしを結ぶので、線が A / B のラベルに重なります。
+
+🔁 撮り直し:
+
+```sh
+python ../BrowserTestKit/tools/evidence_gif.py docs/evidence/browser.gif --serve . --plan docs/evidence/browser.json
+```
+
 ## 開発・CI
 
 - Python は `uv` 管理（`uv.lock` をコミット）。`uv sync` のあと `uv run pytest`。
