@@ -1,0 +1,54 @@
+TalkCompress kaomoji (ja) o200k_base vs estimate_tokens
+clone: /workspace/gh2-tc-emoji @ 84e5dca0028d90db73254af33ac2d9d3ce545790
+AI readability: 未測定
+
+Sources (kept unique / multi-line dropped):
+- ja.wikipedia 顔文字 (CC BY-SA 4.0) https://ja.wikipedia.org/wiki/%E9%A1%94%E6%96%87%E5%AD%97: kept 173, multiline dropped 0
+- kaomojikan/kaomoji-data (MIT) https://github.com/kaomojikan/kaomoji-data: kept 1652, multiline dropped 47
+- kaomojiya-collection/kaomoji-collection (MIT) https://github.com/kaomojiya-collection/kaomoji-collection: kept 35610, multiline dropped 73
+- netromdk/kaomojidict (MIT) https://github.com/netromdk/kaomojidict: kept 80, multiline dropped 0
+
+Total unique: 37515
+o200k min 1 max 121 mean 13.96 median 12
+histogram: 1:37, 2:144, 3:277, 4:595, 5:1497, 6+:34965
+estimate vs o200k: exact 5013, under 30880, over 1622; mean delta -3.28, median delta -2, mean |delta| 3.42
+
+Top 30 |delta| (surface | source | o200k | estimate | delta | bytes):
+ᦧྀི ꒰ᐢ⸜⸜ɞ̴̶̷̯ 𓈒 ɞ̴̶̷̯⸜⸜ᐢ꒱𖹭꒰ᐢ⸝⸝ʚ̴̶̷̯ 𓈒 ʚ̴̶̷̯⸝⸝ᐢ꒱ ᦧྀི | kaomojiya-collection/kaomoji-collection | 119 | 57 | -62 | 124
+ᦧྀི ꒰ᐢ⸜⸜ɞ̴̶̷̯ 𓈒 ɞ̴̶̷̯⸜⸜ᐢ꒱♡꒰ᐢ⸝⸝ʚ̴̶̷̯ 𓈒 ʚ̴̶̷̯⸝⸝ᐢ꒱ ᦧྀི | kaomojiya-collection/kaomoji-collection | 116 | 56 | -60 | 123
+( -᷄ω̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥-᷅ ) | kaomojiya-collection/kaomoji-collection | 121 | 62 | -59 | 124
+( -̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥᷄◞ω◟-̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥̥᷅ ) | kaomojiya-collection/kaomoji-collection | 115 | 59 | -56 | 120
+⁺⊹˚.⋆ o。／⌒⌒ヽ 🤍 。(二二二)〇 ᴍᴇʀʀʏ ｏ(𓈒ᖛ⩊ᖛ𓈒 )⌒) ᴄʜʀɪꜱᴍᴀꜱ◝✩ ┏━oo━┯━┓ 🤍 | kaomojiya-collection/kaomoji-collection | 95 | 45 | -50 | 147
+๑º³º)y━･o○𓂃 𓈒𓏸◌𓈒𓏸𓈒𓂂𓂃◌𓈒𓐍𓈒𓂂𓇬 | kaomojiya-collection/kaomoji-collection | 66 | 19 | -47 | 80
+(꒪.̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̨̨̨̨̨̨̨̨̨̨̨̨.̸̸̨̨꒪ ) | kaomojiya-collection/kaomoji-collection | 90 | 44 | -46 | 91
+(｀･.̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̨̨̨̨̨̨̨̨̨̨̨̨.̸̸̨̨･´) | kaomojiya-collection/kaomoji-collection | 88 | 44 | -44 | 95
+｡+｡☆・+・゜☆・+｡☆+☆｡☆｡+☆ﾟ|｡・/☆｡+r⌒|ヽﾟ/｡／・☆|丶|/`／｡☆|==`-/∠_〉｡+|======／|====／|==／|／ | kaomojiya-collection/kaomoji-collection | 69 | 25 | -44 | 153
+⁽⁽꜀(꜂ ꜆ε:)꜄⁾⁾ ⁽⁽꜀(:3꜂ ꜆)꜄⁾⁾ ⁽⁽꜀(꜂ ꜆ε:)꜄⁾⁾ ⁽⁽꜀(:3꜂ ꜆)꜄⁾⁾ | kaomojiya-collection/kaomoji-collection | 92 | 48 | -44 | 121
+( ≖⩊≖)⊃ ᚢᛟᚢᛖᚱᚢᛁᚾᛞᛖᛚᛁᚷ⋆ৡ ⋆˚࿔ | netromdk/kaomojidict | 61 | 17 | -44 | 70
+₍₍◞(ˊ꒳​ˋ)◟₎₎ ⁽⁽◝(ˊ꒳​ˋ)◜⁾⁾₍₍◞(ˊ꒳​ˋ)◟₎₎ ⁽⁽◝(ˊ꒳​ˋ)◜⁾⁾ | kaomojiya-collection/kaomoji-collection | 88 | 47 | -41 | 122
+_(:.̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̸̨̨̨̨̨̨̨̨̨̨̨̨ 」∠)_ | kaomojiya-collection/kaomoji-collection | 79 | 39 | -40 | 85
+∗*∘ᎻᎯᏢᏢᎩ ᏴᎥᏒᎢᏲᎠᎯᎩ∗*∘ | kaomojiya-collection/kaomoji-collection | 50 | 10 | -40 | 54
+𖤣𖥧𖥣｡𖥧 𖧧 ( ᐛ )𐤔𐤔 𖤣𖥧𖥣｡ | kaomojiya-collection/kaomoji-collection | 50 | 10 | -40 | 56
+わっしょい！(⊃=͟͟͞͞🍠=͟͟͞͞🍠＾o＾)⊃=͟͟͞͞🍠=͟͟͞͞🍠=͟͟͞͞🍠=͟͟͞͞🍠✨✨ | kaomojiya-collection/kaomoji-collection | 83 | 46 | -37 | 117
+(꜆꜄꜆˙꒳˙)꜆꜄꜆🥜𓂃👹 𓈒𓏸𓈒𓐍 | kaomojiya-collection/kaomoji-collection | 52 | 15 | -37 | 56
+‎ 𓂃꙳⋆ ᴍᴇʀʀʏ ᴄʜʀɪsᴛᴍᴀs ꙳⋆ 𓂃 | kaomojiya-collection/kaomoji-collection | 49 | 14 | -35 | 60
+\⁽⁽꜀(:3꜂ ꜆)꜄⁾⁾=͟͟͞͞=͟͟͞͞ ⁽⁽꜂(꜀ ꜄ε:)꜆⁾⁾/// | kaomojiya-collection/kaomoji-collection | 66 | 32 | -34 | 82
+( งʺᵒ̴̶̷᷅༬ᵒ̴̶̷᷄ง ̵͞͞꜆ ̳͞꜄̵̹͟͟ ͟͞ ꜆̠̠̚)`Дﾟ) | kaomojiya-collection/kaomoji-collection | 75 | 41 | -34 | 86
+(❀◕‿◕ฺ)з ㋵✿ฺ㋺✿ฺ㋛✿ฺ㋗✿ฺ㋧✿ฺ♬ε(◕‿◕✿ฺ)з | kaomojiya-collection/kaomoji-collection | 65 | 32 | -33 | 89
+=͟͟͞͞(⁰͉ງ⁰᷊᷅╹͙╹͙ଭ=͟͟͞͞( ᵒ̴̶̷̤́ۿᵒ̴̶̷̤̀ ∩) | kaomojiya-collection/kaomoji-collection | 73 | 41 | -32 | 84
+૮꒰ྀི⸝⸝⸝ᵒ̴̶̷̥́ ᵕ ᵒ̴̶̷̣̥̀⸝⸝⸝ ꒱ྀིა | kaomojiya-collection/kaomoji-collection | 64 | 32 | -32 | 76
+🌈🎷♪̊̈♪̆̈꒰ঌ( ˙꒳˙ )໒꒱︎✿·͜·︎✿·͜·𓂃 𓈒𓏸𑁍ᕷ*.° | kaomojiya-collection/kaomoji-collection | 65 | 33 | -32 | 93
+❄∘⁖⁎⋆ᶿ̴̤᷇ ˒̫ ᶿ̴̤᷆⋆ᶿ̤᷇ ˓̫ ᶿ̤᷆⋆✶⁎∘❄ | kaomojiya-collection/kaomoji-collection | 68 | 36 | -32 | 81
+꒰(⸝⸝⸝⸝´⸝⸝⸝◜ ᴥ ⸝⸝⸝⸝⸝)꒱ | kaomojiya-collection/kaomoji-collection | 50 | 18 | -32 | 54
+꒰(⸝⸝⸝´⸝⸝⸝◜ 𓏠 ⸝⸝⸝⸝⸝)꒱ | kaomojiya-collection/kaomoji-collection | 49 | 17 | -32 | 52
+꒰(⸝⸝⸝´⸝⸝⸝◜ 𓇚 ⸝⸝⸝⸝⸝)꒱ | kaomojiya-collection/kaomoji-collection | 49 | 17 | -32 | 52
+꒰(•⸝⸝⸝⸝⸝´⸝⸝◜ ⬣ ⸝⸝⸝⸝⸝)꒱ | kaomojiya-collection/kaomoji-collection | 51 | 19 | -32 | 57
+◝꒰´꒳`∗꒱◟◝꒰´꒳`꒱◟◝꒰∗´꒳`꒱◟ | kaomojiya-collection/kaomoji-collection | 49 | 18 | -31 | 60
+
+Skipped sources:
+- 6/kaomoji-json (github): no license; data scraped from 顔文字ステーション kaosute.net → skipped.
+- eliot-akira/kaomoji (github): no license file stated → skipped.
+- kuanyui/kaomoji.el: license not confirmed (LICENSE 404) → skipped.
+- en.wikipedia List of emoticons: mostly Western; not used.
+- 2ch AA galleries / commercial 顔文字 sites (kaosute etc.): terms unclear, no wholesale copying.
+Notes: ja.wikipedia cells split on spaces with paren-balancing heuristic; a few entries may be fragments/combined. kaomojiya data is very large and includes emoji-mixed / non-classic items; netromdk is mostly Western-style one-liners.
