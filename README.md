@@ -111,9 +111,9 @@ uv run python DensityFacadeRoute/density_facade_route.py --pipeline C,E --trace 
 # 層の密度比較（JSON Lines）
 uv run python DensityFacadeRoute/density_facade_route.py --compare --text "I have 3 animals and 2 people"
 
-# ファイル入出力 / RulePeerCodec AAD・環境変数鍵
+# ファイル入出力 / RulePeerCodec AAD・鍵ファイル
 uv run python DensityFacadeRoute/density_facade_route.py --layer C --file in.txt --out out.txt
-TALKCOMPRESS_ZIP_KEY=secret uv run python DensityFacadeRoute/density_facade_route.py --layer A --aad chat --file plain.txt --out env.txt
+uv run python DensityFacadeRoute/density_facade_route.py --layer A --key-file ./key.txt --aad chat --file plain.txt --out env.txt
 
 # 語彙ポリシー上書き（プロセス内） / MorphoGrammarMinimal 16進・expand
 uv run python DensityFacadeRoute/density_facade_route.py --layer E --lex-policy policy.json --text "..."

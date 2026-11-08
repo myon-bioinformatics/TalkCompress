@@ -19,7 +19,7 @@ Optional associated context (``aad`` / channel label) is folded into the MAC
 so the same plaintext+key under different labels do not verify interchangeably.
 AAD is NOT written into the envelope — both peers must supply the same label.
 
-Key resolution: ``--key`` / ``--key-file``, else env ``TALKCOMPRESS_ZIP_KEY``.
+Key resolution: ``--key`` / ``--key-file`` only (no environment-variable fallback).
 ``key_fingerprint`` / CLI ``fingerprint`` confirm shared secrets without printing keys.
 ``--dry-run`` on encode reports envelope length without dumping binary.
 """
@@ -31,14 +31,13 @@ import base64
 import hashlib
 import unicodedata
 import hmac
-import os
 import secrets
 import struct
 import sys
 from pathlib import Path
 from typing import Final
 
-MAGIC: Final[bytes] = b"ZIP1"
+MAGIC: Final[bytes] = b"RPC1"
 VERSION: Final[int] = 1
 NONCE_LEN: Final[int] = 16
 MAC_LEN: Final[int] = 32
@@ -46,7 +45,7 @@ KEY_LEN: Final[int] = 32
 _SCRYPT_N: Final[int] = 2**14
 _SCRYPT_R: Final[int] = 8
 _SCRYPT_P: Final[int] = 1
-_SCRYPT_SALT: Final[bytes] = b"TalkCompress/Zipilogue/v1"
+_SCRYPT_SALT: Final[bytes] = b"TalkCompress/RulePeerCodec/v1"
 
 
 def _key_bytes(passphrase: bytes | str, *, key_normalization: str = "none") -> bytes:
@@ -246,10 +245,7 @@ def _read_key(args: argparse.Namespace) -> bytes | str:
     mode = getattr(args, "key_normalization", "none")
     if args.key is not None:
         return args.key.encode("utf-8") if mode == "none" else args.key
-    env = os.environ.get("TALKCOMPRESS_ZIP_KEY")
-    if env:
-        return env.encode("utf-8") if mode == "none" else env
-    raise SystemExit("provide --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
+    raise SystemExit("provide --key or --key-file")
 
 
 def _load_rulebook():
@@ -276,7 +272,7 @@ def _rule_text(args: argparse.Namespace) -> str:
 
 def _maybe_wrap_envelope(text: str, args: argparse.Namespace) -> str:
     """If --key present, wrap UTF-8 rule text in MAC envelope; else return text."""
-    has_key = bool(args.key or args.key_file or os.environ.get("TALKCOMPRESS_ZIP_KEY"))
+    has_key = bool(args.key or args.key_file)
     if not has_key:
         return text
     key = _read_key(args)
@@ -287,7 +283,7 @@ def _maybe_wrap_envelope(text: str, args: argparse.Namespace) -> str:
 
 
 def _maybe_unwrap_envelope(blob: str, args: argparse.Namespace) -> str:
-    has_key = bool(args.key or args.key_file or os.environ.get("TALKCOMPRESS_ZIP_KEY"))
+    has_key = bool(args.key or args.key_file)
     if not has_key:
         return blob
     key = _read_key(args)

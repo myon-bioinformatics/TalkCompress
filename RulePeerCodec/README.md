@@ -1,6 +1,6 @@
 # RulePeerCodec（A）
 
-旧名 Zipilogue（KDF ソルト `TalkCompress/Zipilogue/v1`・環境変数 `TALKCOMPRESS_ZIP_KEY`・封筒マジック `ZIP1` は互換のため据え置き）。
+旧名 Zipilogue。改名に合わせて封筒形式を破壊的に変更した（マジック `RPC1`、KDF ソルト `TalkCompress/RulePeerCodec/v1`）。旧形式の封筒は復号できない。鍵の入力は `--key` / `--key-file` のみで、環境変数からは読まない。
 
 **層1 — 機械同士。** 送受信が**共有ルール台帳（RuleBook）**を積み上げて短くするチャネル。鍵付き MAC 封筒は任意の輸送層。
 
@@ -58,7 +58,7 @@ DensityFacadeRoute からは `--layer A --rule-state book.json`（鍵は任意�
 - KDF: `hashlib.scrypt` → 32-byte key
 - ストリーム: HMAC-SHA256 カウンタ鍵ストリーム XOR
 - MAC: HMAC-SHA256（改ざん検知）
-- 封筒: `ZIP1` + ver + nonce(16) + ciphertext + mac → **base64url（パディングなし）**
+- 封筒: `RPC1` + ver + nonce(16) + ciphertext + mac → **base64url（パディングなし）**
 - **AAD（任意）**: `--aad` / チャネルラベルを MAC 入力に折り込む
 
 ```bash
@@ -79,7 +79,7 @@ bytes はそのまま使います。見た目が同じでも NFC と NFD の文�
 NFC を使いたい場合だけ、文字列 API の `key_normalization="NFC"` または
 RulePeerCodec CLI の `--key-normalization NFC` を明示してください。指定は
 `derive_key`、`key_fingerprint`、`encode` / `decode`、`encode_frames` /
-`decode_frames` で共通です。CLI の `--key` と `TALKCOMPRESS_ZIP_KEY` も
+`decode_frames` で共通です。CLI の `--key` も
 同じ文字列変換を使い、rule-encode / rule-decode の封筒や dry-run の
 fingerprint にも反映します。NFKC ではないので、`ﬁ` と `fi` は別の鍵です。
 
@@ -95,7 +95,7 @@ raw bytes と `--key-file` は文字列と推測しません。これらに NFC 
 明示的に拒否します。既定の key-file の末尾 CR/LF 除去は従来どおりです。
 
 正規化の指定は封筒に保存されず、送受信側が別途一致させる必要があります。
-`ZIP1` / version 1、salt、KDF と MAC の方式は変更していません。
+封筒は `RPC1` / version 1、salt は `TalkCompress/RulePeerCodec/v1`。KDF と MAC の方式は従来と同じです。
 復号失敗時に別の正規化で自動再試行することも、既存暗号文の移行・再暗号化も
 しません。復号時も、作成時と同じ鍵・正規化モード・AAD を指定します。
 過去の PR と測定・検証の履歴は保持しますが、追加の救済処理は設けません。
@@ -207,16 +207,14 @@ v2は `d8425e9e896ff8e093b15132e422b1b391479100ecb001f6b7833dc9df836950`。
 | --- | --- | --- |
 | Python API `str` | 元の UTF-8（NFC/NFD は異なる鍵） | NFC → UTF-8（NFC/NFD は同じ鍵） |
 | CLI `--key` | 元の UTF-8 | `--key-normalization NFC` で NFC → UTF-8 |
-| 環境変数 `TALKCOMPRESS_ZIP_KEY` | 元の UTF-8 | `--key-normalization NFC` で NFC → UTF-8 |
 | Python API `bytes` | そのまま | 拒否 |
 | `--key-file` | 末尾の CR/LF を全除去、それ以外はそのまま | 拒否 |
 
 `fingerprint`、フレーム処理、鍵付き rule モードにも同じ方針が適用されます。
 詳細は上の「パスフレーズの明示的な正規化」を参照してください。
 
-`tests/fixtures/rule_peer_codec_legacy_keys.json` は #107 直前の commit
-`84b28be729bf3d51d3e8a054cb0ab63edecb90a4` のコードを実行して生成した、
-ASCII/NFC/NFD の固定暗号文とフィンガープリントです（公開のテスト用鍵）。
+`tests/fixtures/rule_peer_codec_legacy_keys.json` は ASCII/NFC/NFD の固定暗号文とフィンガープリントです（公開のテスト用鍵）。
+もとは #107 直前の commit `84b28be729bf3d51d3e8a054cb0ab63edecb90a4` で生成したもので、`RPC1` 形式への変更に合わせて同じ鍵・nonce・平文で再生成しました。
 この検証用の来歴は保持しますが、実データの互換性・回復・移行を保証するものではありません。
 
 

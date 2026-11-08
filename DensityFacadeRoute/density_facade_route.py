@@ -28,7 +28,6 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
-import os
 import pathlib
 import re
 import sys
@@ -442,9 +441,7 @@ def _resolve_zip_key(args: argparse.Namespace) -> str | None:
     key = getattr(args, "key", None)
     if getattr(args, "key_file", None):
         key = pathlib.Path(args.key_file).read_text(encoding="utf-8").rstrip("\r\n")
-    if not key:
-        key = os.environ.get("TALKCOMPRESS_ZIP_KEY") or None
-    return key
+    return key or None
 
 
 def _sample_delta(before: str, after: str, limit: int = 48) -> str:
@@ -474,7 +471,7 @@ def _run_a(text: str, args: argparse.Namespace, *, decode: bool = False) -> str:
     aad = getattr(args, "aad", None) or ""
     if not key and not rule_state:
         raise SystemExit(
-            "layer 1 / RulePeerCodec requires --rule-state and/or --key/--key-file/TALKCOMPRESS_ZIP_KEY"
+            "layer 1 / RulePeerCodec requires --rule-state and/or --key/--key-file"
         )
 
     rb_mod = None
@@ -694,7 +691,7 @@ def run_pipeline(
         if not _resolve_zip_key(args) and not getattr(args, "rule_state", None):
             raise SystemExit(
                 "pipeline includes A (RulePeerCodec) but no --rule-state and/or "
-                "--key/--key-file/TALKCOMPRESS_ZIP_KEY"
+                "--key/--key-file"
             )
     out = text
     saved_mode = getattr(args, "mode", None)
@@ -1320,7 +1317,7 @@ def main(argv: list[str] | None = None) -> int:
     if getattr(args, "fingerprint_key", False):
         key = _resolve_zip_key(args)
         if not key:
-            raise SystemExit("--fingerprint-key requires --key, --key-file, or TALKCOMPRESS_ZIP_KEY")
+            raise SystemExit("--fingerprint-key requires --key or --key-file")
         z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
         fp = z.key_fingerprint(key)
         print(fp, file=sys.stderr)
@@ -1350,7 +1347,7 @@ def main(argv: list[str] | None = None) -> int:
             if getattr(args, "mode", None) != "decode":
                 raise SystemExit(
                     "profile/layer A (RulePeerCodec) requires --rule-state and/or "
-                    "--key/--key-file/TALKCOMPRESS_ZIP_KEY"
+                    "--key/--key-file"
                 )
 
     if getattr(args, "lex_policy", None):

@@ -76,15 +76,14 @@ def test_zip_frames_roundtrip():
     assert back == payloads
 
 
-def test_zip_env_key(monkeypatch):
+def test_rule_peer_codec_key_requires_flag():
     z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
-    monkeypatch.setenv("TALKCOMPRESS_ZIP_KEY", "from-env")
     ns = z.argparse.Namespace(key=None, key_file=None)
-    key = z._read_key(ns)
-    # Default key_normalization="none": env text is passed as raw UTF-8 bytes.
-    assert key == b"from-env"
-    env = z.encode(b"hi", key=key)
-    assert z.decode(env, key="from-env") == b"hi"
+    # No environment-variable fallback: only --key / --key-file supply a key.
+    import pytest
+
+    with pytest.raises(SystemExit, match="--key or --key-file"):
+        z._read_key(ns)
 
 
 def test_lex_policy_load_dump(tmp_path):

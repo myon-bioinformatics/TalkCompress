@@ -19,20 +19,17 @@ NFD = unicodedata.normalize("NFD", NFC)
 PAYLOAD = b"PUBLIC SYNTHETIC LEGACY V1 PAYLOAD"
 AAD = "fixture-channel"
 NONCE = bytes(range(16))
-# Frozen using pre-#107 source at 84b28be729bf3d51d3e8a054cb0ab63edecb90a4,
-# RulePeerCodec/rule_peer_codec.py blob 8a907215fddead5f90a15c8a75c70064f5fa3097.
-LEGACY_NFD = b"WklQMQEQAAECAwQFBgcICQoLDA0ODwAAACLtZRyAg3ee6-X7XRaCKbU2a_jLB25O64Gh3id1QiYo0yANsOn1Av5OxxC_R_DCeDP1dlZyWSeecujhTo035ptctJw"
-LEGACY_FINGERPRINT = "3f27e6e999cde86f"
+# Frozen vectors (originally pre-#107 84b28be7); regenerated for the RPC1 envelope
+# and TalkCompress/RulePeerCodec/v1 salt with the same key, nonce and payload.
+LEGACY_NFD = b"UlBDMQEQAAECAwQFBgcICQoLDA0ODwAAACJ8VPo9S5GERO3Jqx5zvLIuNP_JXEdFDBHIjwEDc9fr43_2r7nBu1TaP7MrMVzq6FudHtW2S6-_Vz_xK2JqaGIzJMc"
+LEGACY_FINGERPRINT = "ba935e367e626057"
 # Same public input under #107's implicit NFC behavior (source blob
 # 384d48a02380f53079b0d31d03dc77e9f9998632); now selected explicitly.
-IMPLICIT_107_NFC = b"WklQMQEQAAECAwQFBgcICQoLDA0ODwAAACIaLgMcMMRHQhli4wSJ25_eKT7XQWwAVXu4yfbE8HiZgX0P1ZQ83wwPMtGmlwaCm6DEa4pXc_uyohJanZ7EqED8U1c"
+IMPLICIT_107_NFC = b"UlBDMQEQAAECAwQFBgcICQoLDA0ODwAAACJbWFQiBzSx1t1woOlazJXAHHtLVXKRNr34PR6tCoiceO72V5JiJuZaym0wyJ5W6aMP14fsUpy4xUTnEoFh25ohaEY"
 
 
-def cli(*args, text=None, env_key=None):
+def cli(*args, text=None):
     env = dict(os.environ)
-    env.pop("TALKCOMPRESS_ZIP_KEY", None)
-    if env_key is not None:
-        env["TALKCOMPRESS_ZIP_KEY"] = env_key
     return subprocess.run([sys.executable, str(SCRIPT), *args], input=text,
                           env=env, capture_output=True, timeout=15)
 
@@ -44,7 +41,7 @@ def test_frozen_legacy_nfd_envelope_and_fingerprint_remain_compatible():
     assert z.derive_key(NFD) == z.derive_key(NFD.encode("utf-8"))
     assert z.derive_key(NFC) != z.derive_key(NFD)
     frame = base64.urlsafe_b64decode(LEGACY_NFD + b"=" * (-len(LEGACY_NFD) % 4))
-    assert frame[:6] == b"ZIP1\x01\x10"
+    assert frame[:6] == b"RPC1\x01\x10"
 
 
 def test_explicit_nfc_is_canonical_not_compatibility_normalization():
@@ -116,15 +113,13 @@ def test_tamper_wrong_key_and_wrong_aad_still_fail(mode):
 
 
 @pytest.mark.parametrize("mode", ["none", "NFC"])
-@pytest.mark.parametrize("source", ["argument", "environment"])
-def test_cli_text_key_matches_api_fingerprint_and_legacy_decode(mode, source):
-    key_args = ["--key", NFD] if source == "argument" else []
-    env_key = NFD if source == "environment" else None
-    r = cli("fingerprint", *key_args, "--key-normalization", mode, env_key=env_key)
+def test_cli_text_key_matches_api_fingerprint_and_legacy_decode(mode):
+    key_args = ["--key", NFD]
+    r = cli("fingerprint", *key_args, "--key-normalization", mode)
     assert r.returncode == 0, r.stderr
     assert r.stdout.decode().strip() == z.key_fingerprint(NFD, key_normalization=mode)
     if mode == "none":
-        r = cli("decode", *key_args, "--aad", AAD, "--text", LEGACY_NFD.decode(), env_key=env_key)
+        r = cli("decode", *key_args, "--aad", AAD, "--text", LEGACY_NFD.decode())
         assert r.returncode == 0 and r.stdout == PAYLOAD, r.stderr
 
 
@@ -187,13 +182,9 @@ def test_cli_rule_wrap_and_unwrap_forward_mode(mode, tmp_path):
     assert d.returncode == 0 and d.stdout.strip() == b"ready and waiting", d.stderr
 
 
-@pytest.mark.parametrize("source", ["argument", "environment"])
 @pytest.mark.parametrize("mode", [None, "none", "NFC"])
-def test_read_key_preserves_legacy_bytes_unless_nfc_is_explicit(monkeypatch, source, mode):
-    monkeypatch.delenv("TALKCOMPRESS_ZIP_KEY", raising=False)
-    if source == "environment":
-        monkeypatch.setenv("TALKCOMPRESS_ZIP_KEY", NFD)
-    args = z.argparse.Namespace(key=NFD if source == "argument" else None, key_file=None)
+def test_read_key_preserves_legacy_bytes_unless_nfc_is_explicit(mode):
+    args = z.argparse.Namespace(key=NFD, key_file=None)
     if mode is not None:
         args.key_normalization = mode
     key = z._read_key(args)

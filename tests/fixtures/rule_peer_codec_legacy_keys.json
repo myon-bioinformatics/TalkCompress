@@ -5,20 +5,21 @@
     {
       "label": "ascii",
       "key": "secret",
-      "envelope": "WklQMQEQAAECAwQFBgcICQoLDA0ODwAAAA7n02_qxXHtozCNqo8mZQlaQgnG-QopFB9gbIgPixOy668snqAfoSik8FDZfDS5",
-      "fingerprint": "7678f21067c2963e"
+      "envelope": "UlBDMQEQAAECAwQFBgcICQoLDA0ODwAAAA5VwGibsaL9FbowNMhn1CD-hh7x_KAK3wwY44heBHOpHCUBGE2CskpC_BlSN5yJ",
+      "fingerprint": "3ab4e74a4b3a8c99"
     },
     {
       "label": "nfc",
       "key": "café",
-      "envelope": "WklQMQEQAAECAwQFBgcICQoLDA0ODwAAAA5h2SQUnT-8YEaVe7H8XpFlhnM6sKZKBl_wOvdShVcQHfbWpme8BztAqYsEIsDy",
-      "fingerprint": "2112be9a1e9b7c4b"
+      "envelope": "UlBDMQEQAAECAwQFBgcICQoLDA0ODwAAAA70-nPBLx2zBR3Cc9W0tyqS8nI9Sez85-3IYJwHmgfDCHZ1ThE8u7IhdhBOOA5X",
+      "fingerprint": "c76e888c2978782d"
     },
     {
       "label": "nfd",
       "key": "café",
-      "envelope": "WklQMQEQAAECAwQFBgcICQoLDA0ODwAAAA5nHfat2IdNkLAatAZsOJdaSue5p6zCpKuiCFJCgSeZjrsETRwnGWYs7VUj6ORW",
-      "fingerprint": "67b2fc9580ea5a69"
+      "envelope": "UlBDMQEQAAECAwQFBgcICQoLDA0ODwAAAA6Pgw9V2tJZDMfCOTB_G0p5uwc5NkDOa_gR8dzZsSuYDxvyOSWG1EFCJe2Y_iSn",
+      "fingerprint": "6e7d089bd529ebb1"
     }
-  ]
+  ],
+  "regenerated_for": "RPC1 / TalkCompress/RulePeerCodec/v1 (same keys, nonce, payload)"
 }

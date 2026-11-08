@@ -6,7 +6,6 @@ Router wiring only — not a D product-surface unit suite.
 from __future__ import annotations
 
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -302,16 +301,11 @@ def test_profile_cli_override(capsys):
 
 def test_profile_machine_needs_key():
     c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
-    env_key = os.environ.pop("TALKCOMPRESS_ZIP_KEY", None)
     try:
-        try:
-            c.main(["--profile", "machine", "--text", "hello"])
-            assert False, "expected SystemExit"
-        except SystemExit as e:
-            assert "key" in str(e).lower() or e.code not in (0, None)
-    finally:
-        if env_key is not None:
-            os.environ["TALKCOMPRESS_ZIP_KEY"] = env_key
+        c.main(["--profile", "machine", "--text", "hello"])
+        assert False, "expected SystemExit"
+    except SystemExit as e:
+        assert "key" in str(e).lower() or e.code not in (0, None)
 
 
 def test_min_ratio_fail():

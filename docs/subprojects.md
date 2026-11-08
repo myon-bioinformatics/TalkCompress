@@ -15,7 +15,7 @@ TalkCompress は A–E（+ 共有推定器 TokenCostHeuristic）の**親**です
 
 各ユニットは 3 語の表示名で呼ぶ。散文で単独の「Zip」は使わない。D の `--layers` は互換のため旧名（`zipilogue` / `tessera` / `tessera_talk` / `shorthand_edge` / `density_zip` / `densityzip` / `morpho_zip`）も入力別名として受け付ける。
 
-互換識別子として次は旧名のまま残す: 環境変数 `TALKCOMPRESS_ZIP_KEY`、封筒マジック `ZIP1`、KDF ソルト `TalkCompress/Zipilogue/v1`。リポジトリ名 TalkCompress とパッケージ名 `talk-compress` も変更しない。
+RulePeerCodec の封筒は改名に合わせて破壊的に変更した（マジック `RPC1`、KDF ソルト `TalkCompress/RulePeerCodec/v1`）。旧形式の封筒は復号できない。鍵の入力は `--key` / `--key-file` のみで、環境変数の鍵入力は廃止した。リポジトリ名 TalkCompress とパッケージ名 `talk-compress` も変更しない。
 
 ## 真親への登録はしない
 
