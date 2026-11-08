@@ -116,3 +116,40 @@ def test_actions_pinned_to_full_sha():
     assert uses
     for ref in uses:
         assert re.fullmatch(r"[\w.-]+/[\w.-]+@[0-9a-f]{40}", ref), ref
+
+
+@pytest.mark.parametrize("extra", [[], [_req("wrong.svg")], [{"response": {}, "usage": {"prompt_tokens": 1, "completion_tokens": 1}}]])
+def test_each_figure_requires_its_own_request_evidence(extra):
+    report = {"reports": [
+        {"figure": "a.svg", "dsl_ok": False},
+        {"figure": "b.svg", "dsl_ok": True, "status": "scored"},
+    ]}
+    result = bench.summarize(report, [_req("a.svg")] + extra, ["a.svg", "b.svg"])
+    assert result["measurement_complete"] is False
+    assert result["problems"] == ["b.svg: no model requests were recorded"]
+    assert result["figures"][0]["completed"] is True  # DSL failure is still a measured result.
+    missing = result["figures"][1]
+    assert missing["completed"] is False
+    assert missing["tokens"]["requests"] == 0
+    assert missing["execution_errors"] == {}  # Missing evidence is not a fabricated execution error.
+    # With evidence for both figures, unfinished answers remain results, not quality failures.
+    result = bench.summarize(report, [_req("a.svg"), _req("b.svg", completed=False)], ["a.svg", "b.svg"])
+    assert result["measurement_complete"] is True
+
+
+def test_missing_figure_requests_fail_cli_and_preserve_summary(tmp_path):
+    figs = tmp_path / "figs"; figs.mkdir()
+    for name in ("a.svg", "b.svg"):
+        (figs / name).write_text("<svg/>")
+    rep = tmp_path / "report.json"
+    rep.write_text(json.dumps({"reports": [{"figure": name, "dsl_ok": True} for name in ("a.svg", "b.svg")]}))
+    req = tmp_path / "requests.jsonl"
+    req.write_text(json.dumps(_req("a.svg")) + "\n")
+    out = tmp_path / "out"
+    result = subprocess.run([sys.executable, "scripts/svg_l3_bench.py", "summarize", str(rep), str(req),
+                             "--out-dir", str(out), "--figures", str(figs)], cwd=ROOT, capture_output=True)
+    assert result.returncode == 1
+    summary = json.loads((out / "summary.json").read_text())
+    assert summary["measurement_complete"] is False
+    assert summary["figures"][1]["tokens"]["requests"] == 0
+    assert "b.svg: no model requests were recorded" in (out / "summary.md").read_text()

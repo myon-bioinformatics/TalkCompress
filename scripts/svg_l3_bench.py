@@ -75,6 +75,8 @@ def summarize(report: dict | None, requests: list[dict], expected: list[str]) ->
     for r in reports:
         fig = r.get("figure", "")
         rows = [q for q in requests if q.get("figure") == fig]
+        if not rows:
+            problems.append(f"{fig}: no model requests were recorded")
         tokens = {"prompt": 0, "completion": 0, "requests": len(rows), "unfinished_answers": 0}
         for q in rows:
             if not q.get("answer_completed"):
@@ -96,7 +98,7 @@ def summarize(report: dict | None, requests: list[dict], expected: list[str]) ->
         if execution:
             problems.append(f"{fig}: measurement did not complete: {sorted(execution)}")
         # "incomplete" = an unfinished/unscorable model answer somewhere in the round trip.
-        completed = r.get("status") != "incomplete" and "run_error" not in r and not execution
+        completed = bool(rows) and r.get("status") != "incomplete" and "run_error" not in r and not execution
         figures.append({
             "figure": fig,
             "completed": completed,
