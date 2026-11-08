@@ -46,6 +46,8 @@ _SCRYPT_N: Final[int] = 2**14
 _SCRYPT_R: Final[int] = 8
 _SCRYPT_P: Final[int] = 1
 _SCRYPT_SALT: Final[bytes] = b"TalkCompress/RulePeerCodec/v1"
+_LEGACY_MAGIC: Final[bytes] = b"ZIP1"
+_LEGACY_SCRYPT_SALT: Final[bytes] = b"TalkCompress/Zipilogue/v1"
 
 
 def _key_bytes(passphrase: bytes | str, *, key_normalization: str = "none") -> bytes:
@@ -70,10 +72,14 @@ def derive_key(passphrase: bytes | str, *, key_normalization: str = "none") -> b
     The mode is not stored in the v1 envelope. Peers must agree on it; decoding
     never retries another mode or migrates/re-encrypts ciphertext.
     """
+    return _derive_key(passphrase, salt=_SCRYPT_SALT, key_normalization=key_normalization)
+
+
+def _derive_key(passphrase, *, salt, key_normalization):
     raw = _key_bytes(passphrase, key_normalization=key_normalization)
     return hashlib.scrypt(
         raw,
-        salt=_SCRYPT_SALT,
+        salt=salt,
         n=_SCRYPT_N,
         r=_SCRYPT_R,
         p=_SCRYPT_P,
@@ -116,13 +122,13 @@ def _normalize_aad(aad: bytes | str | None) -> bytes:
     return aad
 
 
-def _mac(key: bytes, nonce: bytes, ciphertext: bytes, aad: bytes = b"") -> bytes:
+def _mac(key: bytes, nonce: bytes, ciphertext: bytes, aad: bytes = b"", *, magic: bytes = MAGIC) -> bytes:
     # Empty AAD keeps the legacy MAC (backward compatible).
     # Non-empty AAD folds aad_len (4 BE) + aad so channel labels separate MAC space.
     if aad:
-        material = MAGIC + bytes([VERSION]) + nonce + struct.pack(">I", len(aad)) + aad + ciphertext
+        material = magic + bytes([VERSION]) + nonce + struct.pack(">I", len(aad)) + aad + ciphertext
     else:
-        material = MAGIC + bytes([VERSION]) + nonce + ciphertext
+        material = magic + bytes([VERSION]) + nonce + ciphertext
     return hmac.new(key, material, hashlib.sha256).digest()
 
 
@@ -162,7 +168,7 @@ def decode(
     key_normalization: str = "none",
 ) -> bytes:
     """Decode base64url envelope; raises ValueError on tamper / bad format / AAD mismatch."""
-    k = derive_key(key, key_normalization=key_normalization)
+    _key_bytes(key, key_normalization=key_normalization)
     aad_b = _normalize_aad(aad)
     raw = envelope.encode("ascii") if isinstance(envelope, str) else envelope
     raw = raw.strip()
@@ -175,7 +181,8 @@ def decode(
     min_len = 4 + 1 + 1 + NONCE_LEN + 4 + MAC_LEN
     if len(frame) < min_len:
         raise ValueError("envelope too short")
-    if frame[:4] != MAGIC:
+    magic = frame[:4]
+    if magic not in (MAGIC, _LEGACY_MAGIC):
         raise ValueError("bad magic")
     ver = frame[4]
     if ver != VERSION:
@@ -193,7 +200,10 @@ def decode(
     ct = frame[off : off + ct_len]
     off += ct_len
     tag = frame[off : off + MAC_LEN]
-    expect = _mac(k, nonce, ct, aad_b)
+    # Select one domain from the header; authenticate that same header. No fallback.
+    salt = _SCRYPT_SALT if magic == MAGIC else _LEGACY_SCRYPT_SALT
+    k = _derive_key(key, salt=salt, key_normalization=key_normalization)
+    expect = _mac(k, nonce, ct, aad_b, magic=magic)
     if not hmac.compare_digest(tag, expect):
         raise ValueError("MAC verification failed")
     ks = _keystream(k, nonce, len(ct))
