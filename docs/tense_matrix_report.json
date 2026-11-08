@@ -43771,11 +43771,12 @@
    "verb": "know",
    "src": "que knows",
    "roundtrip_gated": [
+    "que sa",
     "que weet"
    ],
    "en_best": "que knows",
-   "best": "que sa",
-   "lang": "it",
+   "best": "que sabe",
+   "lang": "es",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -43784,7 +43785,7 @@
    ],
    "utf8": [
     9,
-    6
+    8
    ],
    "status": "adopt"
   },
@@ -43798,11 +43799,12 @@
     "dá"
    ],
    "roundtrip_gated": [
+    "que dà",
     "que geeft"
    ],
    "en_best": "que gives",
-   "best": "que dà",
-   "lang": "it",
+   "best": "que gibt",
+   "lang": "de",
    "shape": "simple",
    "number": "",
    "tok": [
@@ -43811,7 +43813,7 @@
    ],
    "utf8": [
     9,
-    7
+    8
    ],
    "status": "adopt"
   },

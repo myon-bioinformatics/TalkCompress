@@ -13418,14 +13418,14 @@
    "from": [
     "que knows"
    ],
-   "to": "que sa",
-   "lang": "it",
+   "to": "que sabe",
+   "lang": "es",
    "tense": "pres",
    "subject": "rel-que-sg",
    "candidates": [
     {
-     "form": "que sa",
-     "lang": "it"
+     "form": "que sabe",
+     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -13435,14 +13435,14 @@
    "from": [
     "que gives"
    ],
-   "to": "que dà",
-   "lang": "it",
+   "to": "que gibt",
+   "lang": "de",
    "tense": "pres",
    "subject": "rel-que-sg",
    "candidates": [
     {
-     "form": "que dà",
-     "lang": "it"
+     "form": "que gibt",
+     "lang": "de"
     }
    ],
    "scored_by": "o200k_base"
