@@ -27,6 +27,9 @@ NEW_LA = {
     "among other things": "inter alia",
 }
 NEW_LA_TENSE = {"I will come": "veniam"}
+REVERSED = {"once again": "iterum", "as a result": "ergo", "more or less": "circa", "face to face": "coram",
+            "day by day": "cotidie", "for this reason": "ideo", "in favor of": "pro", "with respect to": "re",
+            "among others": "inter alia"}
 REJECTED = ["interim", "bona fide", "per capita", "a fortiori", "in memoriam", "seriatim", "sua sponte"]
 
 
@@ -114,3 +117,17 @@ def test_code_switched_sentences(src, want):
     out = t.final_token_pass(src, apply_sentences=False)
     assert out == want
     assert t.estimate_tokens(out) <= t.estimate_tokens(src)
+
+
+@pytest.mark.parametrize(("src", "form"), sorted(REVERSED.items()))
+def test_pre_gate_la_failures_reversed(src, form):
+    t = _t()
+    assert rt.status(RT, "la", form) == "pass" if form == "inter alia" else rt.status(RT, "la", form) != "pass"
+    assert (src, form, "la") not in set(t.pt_el_latin_phrase_pairs())
+    assert form not in t.apply_zh_de_phrases(f"We did it {src} today.").replace(src, "")
+
+
+def test_gradatim_kept():
+    t = _t()
+    assert ("step by step", "gradatim", "la") in set(t.pt_el_latin_phrase_pairs())
+    assert rt.status(RT, "la", "gradatim") == "pass"

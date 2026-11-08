@@ -402,11 +402,11 @@ def test_cell_phone_maps_to_cel_or_kin():
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
-def test_as_a_result_cheapest_ergo_or_logo():
+def test_as_a_result_cheapest_logo_after_ergo_reversed():
     t = _tessera()
     raw = "as a result"
     out = t.apply_zh_de_phrases(raw)
-    assert out in {"ergo", "logo", "άρα"}
+    assert out in {"logo", "άρα"}
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 

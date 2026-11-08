@@ -8,7 +8,7 @@
     "Only forms that beat the English source on estimate_tokens; runtime cheapest (token→utf8→len).",
     "No hyphen morphology. Compound-style multiword EN → short densifier is a candidate class, not noun-only.",
     "Country-only jargon (CTT, BI) and sense-lossy truncations are in examples_not_registered.",
-    "la (<100M speakers): new la forms need AI round-trip ≥0.9 (roundtrip.json records, judge answers in roundtrip_judge/la_blind.json). Original 10 la shorts predate the gate; their records are report-only (most restore to a synonym, e.g. ergo→therefore)."
+    "la (<100M speakers): every la form must pass AI round-trip exact-match ≥0.9 (roundtrip.json; judge answers in roundtrip_judge/la_blind.json). The 9 pre-gate la shorts that restored to a synonym (iterum, ergo, circa, coram, cotidie/quotidie, ideo, pro, re, inter alia←among others) were reversed; gradatim kept."
   ],
   "entries": [
     {
@@ -110,19 +110,14 @@
           "form": "de novo",
           "lang": "pt",
           "class": "densifier"
-        },
-        {
-          "form": "iterum",
-          "lang": "la",
-          "class": "densifier"
         }
       ],
       "metrics": {
         "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
+        "token_after": 2,
+        "both_shrink": false
       },
-      "note": "cheapest πάλι; iterum = living scholarly Latin"
+      "note": "iterum reversed; under calibrated estimate_tokens EN once again=2 so no candidate applies at runtime (EN kept)"
     },
     {
       "id": "in-other-words-pt-el",
@@ -155,15 +150,10 @@
       "from": [
         "as a result"
       ],
-      "to": "ergo",
-      "lang": "la",
+      "to": "logo",
+      "lang": "pt",
       "class": "densifier",
       "candidates": [
-        {
-          "form": "ergo",
-          "lang": "la",
-          "class": "densifier"
-        },
         {
           "form": "logo",
           "lang": "pt",
@@ -179,8 +169,7 @@
         "token_before": 4,
         "token_after": 1,
         "both_shrink": true
-      },
-      "note": "ergo = surviving scholarly Latin (not classical conjugation)"
+      }
     },
     {
       "id": "see-you-soon-it-pt-el",
@@ -219,15 +208,10 @@
       "from": [
         "more or less"
       ],
-      "to": "circa",
-      "lang": "la",
+      "to": "πάνω κάτω",
+      "lang": "el",
       "class": "densifier",
       "candidates": [
-        {
-          "form": "circa",
-          "lang": "la",
-          "class": "densifier"
-        },
         {
           "form": "πάνω κάτω",
           "lang": "el",
@@ -268,55 +252,6 @@
       "note": "passo a passo loses under estimate_tokens (5≥3) — not registered"
     },
     {
-      "id": "face-to-face-la",
-      "from": [
-        "face to face"
-      ],
-      "to": "coram",
-      "lang": "la",
-      "class": "compound",
-      "candidates": [
-        {
-          "form": "coram",
-          "lang": "la",
-          "class": "compound"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "both_shrink": true
-      },
-      "note": "cara a cara ties EN (3=3) — not registered; coram living scholarly"
-    },
-    {
-      "id": "day-by-day-la",
-      "from": [
-        "day by day"
-      ],
-      "to": "cotidie",
-      "lang": "la",
-      "class": "compound",
-      "candidates": [
-        {
-          "form": "cotidie",
-          "lang": "la",
-          "class": "compound"
-        },
-        {
-          "form": "quotidie",
-          "lang": "la",
-          "class": "compound"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "both_shrink": true
-      },
-      "note": "dia a dia ties EN — not registered"
-    },
-    {
       "id": "one-by-one-el",
       "from": [
         "one by one"
@@ -338,9 +273,8 @@
       }
     },
     {
-      "id": "among-others-la",
+      "id": "among-other-things-la",
       "from": [
-        "among others",
         "among other things"
       ],
       "to": "inter alia",
@@ -358,22 +292,17 @@
         "token_after": 3,
         "both_shrink": true
       },
-      "note": "among other things added (#la tranche); AI round-trip restores inter alia → among other things"
+      "note": "source among others reversed (restored as among other things); only the passing source kept"
     },
     {
       "id": "for-this-reason-la-pt",
       "from": [
         "for this reason"
       ],
-      "to": "ideo",
-      "lang": "la",
+      "to": "por isso",
+      "lang": "pt",
       "class": "densifier",
       "candidates": [
-        {
-          "form": "ideo",
-          "lang": "la",
-          "class": "densifier"
-        },
         {
           "form": "por isso",
           "lang": "pt",
@@ -382,7 +311,7 @@
       ],
       "metrics": {
         "token_before": 4,
-        "token_after": 1,
+        "token_after": 2,
         "both_shrink": true
       }
     },
@@ -418,15 +347,10 @@
       "from": [
         "in favor of"
       ],
-      "to": "pro",
-      "lang": "la",
+      "to": "υπέρ",
+      "lang": "el",
       "class": "densifier",
       "candidates": [
-        {
-          "form": "pro",
-          "lang": "la",
-          "class": "densifier"
-        },
         {
           "form": "υπέρ",
           "lang": "el",
@@ -435,7 +359,7 @@
       ],
       "metrics": {
         "token_before": 4,
-        "token_after": 1,
+        "token_after": 2,
         "both_shrink": true
       }
     },
@@ -444,15 +368,10 @@
       "from": [
         "with respect to"
       ],
-      "to": "re",
-      "lang": "la",
+      "to": "ως προς",
+      "lang": "el",
       "class": "densifier",
       "candidates": [
-        {
-          "form": "re",
-          "lang": "la",
-          "class": "densifier"
-        },
         {
           "form": "ως προς",
           "lang": "el",
@@ -461,10 +380,9 @@
       ],
       "metrics": {
         "token_before": 4,
-        "token_after": 1,
+        "token_after": 2,
         "both_shrink": true
-      },
-      "note": "re = living scholarly / epistolary Latin"
+      }
     },
     {
       "id": "in-a-test-tube-la",
@@ -920,6 +838,96 @@
       "to": "obiter",
       "lang": "la",
       "why_dropped": "o200k-calibrated estimate_tokens ties EN (2=2); AI round-trip 9/9 but not cheaper"
+    },
+    {
+      "id": "once-again-el-pt-la-iterum",
+      "from": [
+        "once again"
+      ],
+      "to": "iterum",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as again) — reversed (<100M gate)"
+    },
+    {
+      "id": "as-a-result-la-pt-el-ergo",
+      "from": [
+        "as a result"
+      ],
+      "to": "ergo",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as therefore) — reversed (<100M gate)"
+    },
+    {
+      "id": "more-or-less-la-el-circa",
+      "from": [
+        "more or less"
+      ],
+      "to": "circa",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as around) — reversed (<100M gate)"
+    },
+    {
+      "id": "face-to-face-la-coram",
+      "from": [
+        "face to face"
+      ],
+      "to": "coram",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as in person) — reversed (<100M gate)"
+    },
+    {
+      "id": "day-by-day-la-cotidie",
+      "from": [
+        "day by day"
+      ],
+      "to": "cotidie",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as daily) — reversed (<100M gate)"
+    },
+    {
+      "id": "day-by-day-la-quotidie",
+      "from": [
+        "day by day"
+      ],
+      "to": "quotidie",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as daily) — reversed (<100M gate)"
+    },
+    {
+      "id": "among-others-inter-alia",
+      "from": [
+        "among others"
+      ],
+      "to": "inter alia",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as among other things) — reversed"
+    },
+    {
+      "id": "for-this-reason-la-pt-ideo",
+      "from": [
+        "for this reason"
+      ],
+      "to": "ideo",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as therefore) — reversed (<100M gate)"
+    },
+    {
+      "id": "in-favor-of-la-el-pro",
+      "from": [
+        "in favor of"
+      ],
+      "to": "pro",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as for) — reversed (<100M gate)"
+    },
+    {
+      "id": "with-respect-to-la-el-re",
+      "from": [
+        "with respect to"
+      ],
+      "to": "re",
+      "lang": "la",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as regarding) — reversed (<100M gate)"
     }
   ]
 }
