@@ -31,8 +31,9 @@ trials > 0 で rate 0（status `never`）は全言語共通で不可。採点は
 - `que sa` / `que dà`: 生成 JSON は手編集せず、`scripts/tense_matrix.py` に個別の
   `ROUNDTRIP_REVERSED = {("it","que sa"), ("it","que dà")}` を追加して再生成した。
   言語単位の強制（`ROUNDTRIP_ENFORCED_LANGS`）ではなく、it の他の形は report-only のまま。
-  再生成の結果、該当セル（mx-know-pres-rel-que-sg / mx-give-pres-rel-que-sg）は既存の次点候補
-  es `que sabe` / de `que gibt` になった。新しい候補は追加していない。これらの es/de 形は今回未検証。
+  リバース対象を候補に含むセル（mx-know-pres-rel-que-sg / mx-give-pres-rel-que-sg）は候補を空にして英語のまま残し
+  （`cell["roundtrip_reversed"]` に記録）、次点の他言語候補（es que sabe / de que gibt）は昇格させない。
+  これにより es / de を含む他言語の winner は origin/main と同一のまま。新しい候補は追加していない。
 - `ciao`: #164（ギリシャ語 πάλι）と同じく `pt_el_latin_phrases.json` の entries から外し、
   `examples_not_registered` に理由付きで移した。他候補（pt até / el γεια）は昇格させていない（英語 see you soon のまま）。
 - 失敗3形の記録は `roundtrip.json` に証拠として残した。
@@ -71,5 +72,5 @@ trials > 0 で rate 0（status `never`）は全言語共通で不可。採点は
 
 ## テスト
 
-`uv run pytest`: **5905 passed, 5 skipped, 1 xfailed**（新規 `tests/test_it_roundtrip_gate.py` 6件を含む）。
-`uv run python scripts/tense_matrix.py --check` と `git diff --check` も成功。
+`uv run pytest`: **5903 passed, 5 skipped, 1 xfailed**（新規 `tests/test_it_roundtrip_gate.py` 6件を含む）。
+`uv run python scripts/tense_matrix.py --check` と `git diff --check` も成功。セル削減に合わせ `scripts/tokenizer_compat.py --compat` で docs/tokenizer_compat.{json,md} を再生成（2セル減のみ）。

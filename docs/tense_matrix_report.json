@@ -43770,24 +43770,12 @@
    "tense": "pres",
    "verb": "know",
    "src": "que knows",
-   "roundtrip_gated": [
-    "que sa",
-    "que weet"
+   "roundtrip_reversed": [
+    "que sa"
    ],
    "en_best": "que knows",
-   "best": "que sabe",
-   "lang": "es",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    9,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43798,24 +43786,12 @@
     "da",
     "dá"
    ],
-   "roundtrip_gated": [
-    "que dà",
-    "que geeft"
+   "roundtrip_reversed": [
+    "que dà"
    ],
    "en_best": "que gives",
-   "best": "que gibt",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    9,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",

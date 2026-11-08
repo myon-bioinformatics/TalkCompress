@@ -740,14 +740,13 @@ def en_baselines(src: str) -> list[str]:
 ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
 # Individually reversed (lang, form) winners whose independent blind AI round-trip
 # failed (docs/it_roundtrip_20261108.md). Not language-wide enforcement: other
-# forms of the same language stay report-only.
+# forms of the same language stay report-only. A cell whose candidates include a
+# reversed form stays English (no next-language candidate is promoted).
 ROUNDTRIP_REVERSED = frozenset({("it", "que sa"), ("it", "que dà")})
 _RT_DATA: dict = {}
 
 
 def _rt_ok(form: str, lang: str, gate=None) -> bool:
-    if (lang, form) in ROUNDTRIP_REVERSED:
-        return False
     if lang in ROUNDTRIP_ENFORCED_LANGS:
         sys.path.insert(0, str(ROOT / "scripts"))
         import roundtrip as rt
@@ -824,6 +823,10 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
+                rev = [c["form"] for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED]
+                if rev:
+                    cell["roundtrip_reversed"] = rev
+                    cands = []
                 if True:  # nl always gated (#29); others only with an explicit gate
                     # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
                     gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
