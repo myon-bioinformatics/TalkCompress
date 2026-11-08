@@ -1,13 +1,47 @@
 {
-  "schema": "btk-evidence-gif/1",
+  "schema": "btk-evidence-gif/2",
   "gif": "browser.gif",
-  "bytes": 49303,
-  "sha256": "ae0b486ff4083b3399fc64833430ff1774991f33526ec26a4993c9f732eef5ff",
+  "bytes": 41905,
+  "sha256": "c93615a22d9e7bcfaff205d8f66cfec49f61f9d2c8d96280be5ef9bf3d5beb51",
   "frames": 7,
   "canvas": "720x512",
   "browser": "chromium 153.0.8010.12",
-  "recorded": "2026-11-07",
-  "commit": "84e5dca0028d90db73254af33ac2d9d3ce545790",
+  "recorded": "2026-11-08",
+  "commit": "c1c32a737f896c95f3214d52b149a144b6cb48b3",
+  "encoder": {
+    "module": "PySaiyanWeBoo web_ui gif.js",
+    "web_ui": "d55e14fcf3f088522259295e4a8cf9564beb5721",
+    "bytes": 41905,
+    "frames": 7,
+    "colors": 255,
+    "thin": 0,
+    "attempts": 1,
+    "stored": 7,
+    "merged": 0,
+    "buckets": 600,
+    "overBudget": false,
+    "encodeMs": 91,
+    "images": 7,
+    "reused": 0,
+    "patches": 0,
+    "synthesized": 0,
+    "capture_s": 5.5
+  },
+  "limits": {
+    "colors": 255,
+    "max_bytes": null,
+    "max_frames": 300,
+    "last_hold_ms": 2000
+  },
+  "transfer": {
+    "screenshots": 7,
+    "png_bytes": 62904,
+    "identical": 0,
+    "patches": 0,
+    "calls": 7,
+    "sent_bytes": 83876,
+    "gif_bytes": 41905
+  },
   "mapped": [],
   "summary": {
     "pass": 7,
@@ -22,7 +56,8 @@
       "status": "pass",
       "errors": [],
       "allowed": [],
-      "external": []
+      "external": [],
+      "generator": null
     },
     {
       "label": "🔀 flow_center",
@@ -32,7 +67,8 @@
       "status": "pass",
       "errors": [],
       "allowed": [],
-      "external": []
+      "external": [],
+      "generator": null
     },
     {
       "label": "📈 chart_line",
@@ -42,7 +78,8 @@
       "status": "pass",
       "errors": [],
       "allowed": [],
-      "external": []
+      "external": [],
+      "generator": null
     },
     {
       "label": "📈 chart_two",
@@ -52,7 +89,8 @@
       "status": "pass",
       "errors": [],
       "allowed": [],
-      "external": []
+      "external": [],
+      "generator": null
     },
     {
       "label": "📈 chart_auto",
@@ -62,7 +100,8 @@
       "status": "pass",
       "errors": [],
       "allowed": [],
-      "external": []
+      "external": [],
+      "generator": null
     },
     {
       "label": "〰️ polyline_only",
@@ -72,7 +111,8 @@
       "status": "pass",
       "errors": [],
       "allowed": [],
-      "external": []
+      "external": [],
+      "generator": null
     },
     {
       "label": "📱 flow_basic",
@@ -82,7 +122,8 @@
       "status": "pass",
       "errors": [],
       "allowed": [],
-      "external": []
+      "external": [],
+      "generator": null
     }
   ],
   "plan": [

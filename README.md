@@ -90,7 +90,7 @@ Python 中心で、基本ランタイムの必須依存は現在ありません�
 🔁 撮り直し:
 
 ```sh
-python ../BrowserTestKit/tools/evidence_gif.py docs/evidence/browser.gif --serve . --plan docs/evidence/browser.json
+uv run --project ../BrowserTestKit --group pages --group browser python ../BrowserTestKit/tools/evidence_gif.py docs/evidence/browser.gif --serve . --plan docs/evidence/browser.json
 ```
 
 ## 開発・CI
