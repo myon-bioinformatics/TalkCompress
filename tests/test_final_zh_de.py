@@ -44,11 +44,12 @@ def test_short_de_compound_bahnhof_wins():
 
 def test_adj_noun_zh_compound_wins():
     t = _tessera()
-    src = "high speed rail and green tea"
+    src = "chain-of-thought and green tea"
     out = t.apply_zh_de_phrases(src)
-    # longest-first: high speed rail → 高铁 (not bare high-speed → 高速)
-    assert "高铁" in out
-    assert "高速" not in out
+    # 高铁 / 高速 failed the zh exact round-trip gate and were removed (EN stays);
+    # chain-of-thought → 思维链 passed and still fires.
+    assert "思维链" in out
+    assert "high" not in out
     # o200k: " green tea" = 2 < " 绿茶" = 3 (bare space + 2 chars), so EN stays
     assert "green tea" in out
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
@@ -298,9 +299,9 @@ def test_de_nl_compound_one_word_wins():
 def test_zh_compound_densifier_wins():
     t = _tessera()
     cases = [
-        ("Ride the high speed rail tomorrow.", "高铁"),
+        ("Learn the full-stack tomorrow.", "全栈"),
         ("Check your blood pressure daily.", "tensão"),
-        ("Join the large language model talk.", "大模型"),
+        ("Join the open-source talk.", "开源"),
     ]
     for src, want in cases:
         out = t.apply_zh_de_phrases(src)
@@ -308,13 +309,11 @@ def test_zh_compound_densifier_wins():
         assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
-def test_hsr_longest_beats_bare_high_speed():
-    """Longest-first: 'high speed rail' → 高铁, not '高速 rail'."""
+def test_hsr_and_high_speed_removed_after_roundtrip_gate():
+    """高铁 / 高速 failed the zh exact round-trip gate (0/9): EN stays, no '高速 rail'."""
     t = _tessera()
     out = t.apply_zh_de_phrases("Ride the high speed rail.")
-    assert "高铁" in out
-    assert "高速" not in out
-    assert "rail" not in out.lower()
+    assert out == "Ride the high speed rail."
 
 
 def test_handy_beats_zh_phone_densifier():
