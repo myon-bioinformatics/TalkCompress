@@ -760,7 +760,2311 @@
         "Maybe que wilden today.",
         "Maybe que wilden today."
       ]
+    },
+    "nl:stofzuiger": {
+      "lang": "nl",
+      "form": "stofzuiger",
+      "trials": 18,
+      "restored": 18,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "nl",
+        "form": "stofzuiger",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3ccb7ac9-d382-4e7d-9151-d258dcbe56d4",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "7fc9dc6cde80e44696675ed13fb2f6cae8110e042a3e5c63224aaef28a055986",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Vacuum cleaner.",
+              "converted": "Stofzuiger.",
+              "seed": "1",
+              "prompt_sha256": "8ba10f85a4283fb6ad0c774a68b9a5334ed37b2aa912356c476e0acb1470c4d8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "60740c1f1571188bd59a49f05c8dd9a8f7af037744f4c1a39e6506b0df8a2407",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Vacuum cleaner.",
+              "converted": "Stofzuiger.",
+              "seed": "2",
+              "prompt_sha256": "8ba10f85a4283fb6ad0c774a68b9a5334ed37b2aa912356c476e0acb1470c4d8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "418dd62c77301617e472b626e339229c416832c40a435506b13c05e822f10e52",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Vacuum cleaner.",
+              "converted": "Stofzuiger.",
+              "seed": "3",
+              "prompt_sha256": "8ba10f85a4283fb6ad0c774a68b9a5334ed37b2aa912356c476e0acb1470c4d8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cf542cba0f40a08e521ba727f2198242d39337ffb747562db027c54762700e1b",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Maybe vacuum cleaner today.",
+              "converted": "Maybe stofzuiger today.",
+              "seed": "1",
+              "prompt_sha256": "1e1028aacbfceb2585b26f64ed48d3ebd3727785602fabe9998bb55775178eea",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "bc69ee602e7f4f044be3b641ab6492a0b4026b286f3480c955a8de2757c67ba0",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Maybe vacuum cleaner today.",
+              "converted": "Maybe stofzuiger today.",
+              "seed": "2",
+              "prompt_sha256": "1e1028aacbfceb2585b26f64ed48d3ebd3727785602fabe9998bb55775178eea",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "88b313a95c79fdb0d3dd812917df8d0df92de0136576670e7b97ab2bbdf51876",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Maybe vacuum cleaner today.",
+              "converted": "Maybe stofzuiger today.",
+              "seed": "3",
+              "prompt_sha256": "1e1028aacbfceb2585b26f64ed48d3ebd3727785602fabe9998bb55775178eea",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8d6dd5cc321cc9da03761531ec113a7573c1e8b1fe9aec1bc22efcfd744c2b0e",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "She told me that vacuum cleaner.",
+              "converted": "She told me that stofzuiger.",
+              "seed": "1",
+              "prompt_sha256": "c2252ebbfd104cdc91b57551295859cefb649560491f6d1e8ae246dedb03eb21",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b706006c758c1ff2ba31a757b8aa1dac27822c6614899deaeedf944de89cea4e",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "She told me that vacuum cleaner.",
+              "converted": "She told me that stofzuiger.",
+              "seed": "2",
+              "prompt_sha256": "c2252ebbfd104cdc91b57551295859cefb649560491f6d1e8ae246dedb03eb21",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8851b685e7951a4c41631fde1dc40b9da20cfa2083907b96c374f5cb8aa44933",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "She told me that vacuum cleaner.",
+              "converted": "She told me that stofzuiger.",
+              "seed": "3",
+              "prompt_sha256": "c2252ebbfd104cdc91b57551295859cefb649560491f6d1e8ae246dedb03eb21",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "7fc9dc6cde80e44696675ed13fb2f6cae8110e042a3e5c63224aaef28a055986",
+            "60740c1f1571188bd59a49f05c8dd9a8f7af037744f4c1a39e6506b0df8a2407",
+            "418dd62c77301617e472b626e339229c416832c40a435506b13c05e822f10e52",
+            "cf542cba0f40a08e521ba727f2198242d39337ffb747562db027c54762700e1b",
+            "bc69ee602e7f4f044be3b641ab6492a0b4026b286f3480c955a8de2757c67ba0",
+            "88b313a95c79fdb0d3dd812917df8d0df92de0136576670e7b97ab2bbdf51876",
+            "8d6dd5cc321cc9da03761531ec113a7573c1e8b1fe9aec1bc22efcfd744c2b0e",
+            "b706006c758c1ff2ba31a757b8aa1dac27822c6614899deaeedf944de89cea4e",
+            "8851b685e7951a4c41631fde1dc40b9da20cfa2083907b96c374f5cb8aa44933"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "non_independent_provisional",
+            "usable_as_blind_evidence": false
+          }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3c32bb35-085b-48e1-93f1-2e84e78fd013",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "7fc9dc6cde80e44696675ed13fb2f6cae8110e042a3e5c63224aaef28a055986",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Vacuum cleaner.",
+              "converted": "Stofzuiger.",
+              "seed": "1",
+              "prompt_sha256": "8ba10f85a4283fb6ad0c774a68b9a5334ed37b2aa912356c476e0acb1470c4d8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "60740c1f1571188bd59a49f05c8dd9a8f7af037744f4c1a39e6506b0df8a2407",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Vacuum cleaner.",
+              "converted": "Stofzuiger.",
+              "seed": "2",
+              "prompt_sha256": "8ba10f85a4283fb6ad0c774a68b9a5334ed37b2aa912356c476e0acb1470c4d8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "418dd62c77301617e472b626e339229c416832c40a435506b13c05e822f10e52",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Vacuum cleaner.",
+              "converted": "Stofzuiger.",
+              "seed": "3",
+              "prompt_sha256": "8ba10f85a4283fb6ad0c774a68b9a5334ed37b2aa912356c476e0acb1470c4d8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cf542cba0f40a08e521ba727f2198242d39337ffb747562db027c54762700e1b",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Maybe vacuum cleaner today.",
+              "converted": "Maybe stofzuiger today.",
+              "seed": "1",
+              "prompt_sha256": "1e1028aacbfceb2585b26f64ed48d3ebd3727785602fabe9998bb55775178eea",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "bc69ee602e7f4f044be3b641ab6492a0b4026b286f3480c955a8de2757c67ba0",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Maybe vacuum cleaner today.",
+              "converted": "Maybe stofzuiger today.",
+              "seed": "2",
+              "prompt_sha256": "1e1028aacbfceb2585b26f64ed48d3ebd3727785602fabe9998bb55775178eea",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "88b313a95c79fdb0d3dd812917df8d0df92de0136576670e7b97ab2bbdf51876",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "Maybe vacuum cleaner today.",
+              "converted": "Maybe stofzuiger today.",
+              "seed": "3",
+              "prompt_sha256": "1e1028aacbfceb2585b26f64ed48d3ebd3727785602fabe9998bb55775178eea",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8d6dd5cc321cc9da03761531ec113a7573c1e8b1fe9aec1bc22efcfd744c2b0e",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "She told me that vacuum cleaner.",
+              "converted": "She told me that stofzuiger.",
+              "seed": "1",
+              "prompt_sha256": "c2252ebbfd104cdc91b57551295859cefb649560491f6d1e8ae246dedb03eb21",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b706006c758c1ff2ba31a757b8aa1dac27822c6614899deaeedf944de89cea4e",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "She told me that vacuum cleaner.",
+              "converted": "She told me that stofzuiger.",
+              "seed": "2",
+              "prompt_sha256": "c2252ebbfd104cdc91b57551295859cefb649560491f6d1e8ae246dedb03eb21",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8851b685e7951a4c41631fde1dc40b9da20cfa2083907b96c374f5cb8aa44933",
+              "lang": "nl",
+              "form": "stofzuiger",
+              "source": "She told me that vacuum cleaner.",
+              "converted": "She told me that stofzuiger.",
+              "seed": "3",
+              "prompt_sha256": "c2252ebbfd104cdc91b57551295859cefb649560491f6d1e8ae246dedb03eb21",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "7fc9dc6cde80e44696675ed13fb2f6cae8110e042a3e5c63224aaef28a055986",
+            "60740c1f1571188bd59a49f05c8dd9a8f7af037744f4c1a39e6506b0df8a2407",
+            "418dd62c77301617e472b626e339229c416832c40a435506b13c05e822f10e52",
+            "cf542cba0f40a08e521ba727f2198242d39337ffb747562db027c54762700e1b",
+            "bc69ee602e7f4f044be3b641ab6492a0b4026b286f3480c955a8de2757c67ba0",
+            "88b313a95c79fdb0d3dd812917df8d0df92de0136576670e7b97ab2bbdf51876",
+            "8d6dd5cc321cc9da03761531ec113a7573c1e8b1fe9aec1bc22efcfd744c2b0e",
+            "b706006c758c1ff2ba31a757b8aa1dac27822c6614899deaeedf944de89cea4e",
+            "8851b685e7951a4c41631fde1dc40b9da20cfa2083907b96c374f5cb8aa44933"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "source": "Independent agent restorations relayed by parent, 2026-11-08 JST",
+            "judge_access": "Converted sentences only; no repository, source English, or assignment glosses"
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 18,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 18
+    },
+    "nl:zoekmachine": {
+      "lang": "nl",
+      "form": "zoekmachine",
+      "trials": 18,
+      "restored": 18,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "nl",
+        "form": "zoekmachine",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3ccb7ac9-d382-4e7d-9151-d258dcbe56d4",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "cec978325bccae87c57ce25886568f71f914e3f1494b80d53e6e11b4bb8ebd47",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Search engine.",
+              "converted": "Zoekmachine.",
+              "seed": "1",
+              "prompt_sha256": "837a1121e2bf8e6cb4ac53befa096f3c8c03343eb7217bb7fa139c2a8ee36eaf",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "917a376814267247dbe94eb02e833bba24c5bc94e611a301b0ab235c8fc02f42",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Search engine.",
+              "converted": "Zoekmachine.",
+              "seed": "2",
+              "prompt_sha256": "837a1121e2bf8e6cb4ac53befa096f3c8c03343eb7217bb7fa139c2a8ee36eaf",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "22a57633ab83700cccb7493bff4b535826a979a0f50d566deb01acbd32c9b9fc",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Search engine.",
+              "converted": "Zoekmachine.",
+              "seed": "3",
+              "prompt_sha256": "837a1121e2bf8e6cb4ac53befa096f3c8c03343eb7217bb7fa139c2a8ee36eaf",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "961f9a0086f103bfa99cd278daa436517aa0ceca59876d077bb66f89cbfb1ee7",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Maybe search engine today.",
+              "converted": "Maybe zoekmachine today.",
+              "seed": "1",
+              "prompt_sha256": "596024c221f711939c09f9bedac17f8012eab3082202c6e761dcb57a7677b124",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "875bf714cacf86403aa2c2d7c9fdcc85ede8f63d46bb22cab3ed485c25d375bb",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Maybe search engine today.",
+              "converted": "Maybe zoekmachine today.",
+              "seed": "2",
+              "prompt_sha256": "596024c221f711939c09f9bedac17f8012eab3082202c6e761dcb57a7677b124",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8d85f971fa863024798a05f9cac534d23c06f1ca89d945a2018c6b2a5e261c33",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Maybe search engine today.",
+              "converted": "Maybe zoekmachine today.",
+              "seed": "3",
+              "prompt_sha256": "596024c221f711939c09f9bedac17f8012eab3082202c6e761dcb57a7677b124",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d232d162ba094ae86010857d8256d8c2ba61c88f042be9cfe26ab2f612ec7168",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "She told me that search engine.",
+              "converted": "She told me that zoekmachine.",
+              "seed": "1",
+              "prompt_sha256": "ac8685bbd0c8b15728e9a2082d522e479669d4a057f3d6c2cdd8689c02409cab",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "84cf2ab7a53ad1cc5474b55ce57d95cf1f39c192a5213a00a8eedfc8babb6f63",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "She told me that search engine.",
+              "converted": "She told me that zoekmachine.",
+              "seed": "2",
+              "prompt_sha256": "ac8685bbd0c8b15728e9a2082d522e479669d4a057f3d6c2cdd8689c02409cab",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b9a06ba533d6b5cdde23f6c861e920b74fa254bb4b0caab72a9829bd42183632",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "She told me that search engine.",
+              "converted": "She told me that zoekmachine.",
+              "seed": "3",
+              "prompt_sha256": "ac8685bbd0c8b15728e9a2082d522e479669d4a057f3d6c2cdd8689c02409cab",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "cec978325bccae87c57ce25886568f71f914e3f1494b80d53e6e11b4bb8ebd47",
+            "917a376814267247dbe94eb02e833bba24c5bc94e611a301b0ab235c8fc02f42",
+            "22a57633ab83700cccb7493bff4b535826a979a0f50d566deb01acbd32c9b9fc",
+            "961f9a0086f103bfa99cd278daa436517aa0ceca59876d077bb66f89cbfb1ee7",
+            "875bf714cacf86403aa2c2d7c9fdcc85ede8f63d46bb22cab3ed485c25d375bb",
+            "8d85f971fa863024798a05f9cac534d23c06f1ca89d945a2018c6b2a5e261c33",
+            "d232d162ba094ae86010857d8256d8c2ba61c88f042be9cfe26ab2f612ec7168",
+            "84cf2ab7a53ad1cc5474b55ce57d95cf1f39c192a5213a00a8eedfc8babb6f63",
+            "b9a06ba533d6b5cdde23f6c861e920b74fa254bb4b0caab72a9829bd42183632"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "non_independent_provisional",
+            "usable_as_blind_evidence": false
+          }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3c32bb35-085b-48e1-93f1-2e84e78fd013",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "cec978325bccae87c57ce25886568f71f914e3f1494b80d53e6e11b4bb8ebd47",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Search engine.",
+              "converted": "Zoekmachine.",
+              "seed": "1",
+              "prompt_sha256": "837a1121e2bf8e6cb4ac53befa096f3c8c03343eb7217bb7fa139c2a8ee36eaf",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "917a376814267247dbe94eb02e833bba24c5bc94e611a301b0ab235c8fc02f42",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Search engine.",
+              "converted": "Zoekmachine.",
+              "seed": "2",
+              "prompt_sha256": "837a1121e2bf8e6cb4ac53befa096f3c8c03343eb7217bb7fa139c2a8ee36eaf",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "22a57633ab83700cccb7493bff4b535826a979a0f50d566deb01acbd32c9b9fc",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Search engine.",
+              "converted": "Zoekmachine.",
+              "seed": "3",
+              "prompt_sha256": "837a1121e2bf8e6cb4ac53befa096f3c8c03343eb7217bb7fa139c2a8ee36eaf",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "961f9a0086f103bfa99cd278daa436517aa0ceca59876d077bb66f89cbfb1ee7",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Maybe search engine today.",
+              "converted": "Maybe zoekmachine today.",
+              "seed": "1",
+              "prompt_sha256": "596024c221f711939c09f9bedac17f8012eab3082202c6e761dcb57a7677b124",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "875bf714cacf86403aa2c2d7c9fdcc85ede8f63d46bb22cab3ed485c25d375bb",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Maybe search engine today.",
+              "converted": "Maybe zoekmachine today.",
+              "seed": "2",
+              "prompt_sha256": "596024c221f711939c09f9bedac17f8012eab3082202c6e761dcb57a7677b124",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8d85f971fa863024798a05f9cac534d23c06f1ca89d945a2018c6b2a5e261c33",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "Maybe search engine today.",
+              "converted": "Maybe zoekmachine today.",
+              "seed": "3",
+              "prompt_sha256": "596024c221f711939c09f9bedac17f8012eab3082202c6e761dcb57a7677b124",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d232d162ba094ae86010857d8256d8c2ba61c88f042be9cfe26ab2f612ec7168",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "She told me that search engine.",
+              "converted": "She told me that zoekmachine.",
+              "seed": "1",
+              "prompt_sha256": "ac8685bbd0c8b15728e9a2082d522e479669d4a057f3d6c2cdd8689c02409cab",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "84cf2ab7a53ad1cc5474b55ce57d95cf1f39c192a5213a00a8eedfc8babb6f63",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "She told me that search engine.",
+              "converted": "She told me that zoekmachine.",
+              "seed": "2",
+              "prompt_sha256": "ac8685bbd0c8b15728e9a2082d522e479669d4a057f3d6c2cdd8689c02409cab",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b9a06ba533d6b5cdde23f6c861e920b74fa254bb4b0caab72a9829bd42183632",
+              "lang": "nl",
+              "form": "zoekmachine",
+              "source": "She told me that search engine.",
+              "converted": "She told me that zoekmachine.",
+              "seed": "3",
+              "prompt_sha256": "ac8685bbd0c8b15728e9a2082d522e479669d4a057f3d6c2cdd8689c02409cab",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "cec978325bccae87c57ce25886568f71f914e3f1494b80d53e6e11b4bb8ebd47",
+            "917a376814267247dbe94eb02e833bba24c5bc94e611a301b0ab235c8fc02f42",
+            "22a57633ab83700cccb7493bff4b535826a979a0f50d566deb01acbd32c9b9fc",
+            "961f9a0086f103bfa99cd278daa436517aa0ceca59876d077bb66f89cbfb1ee7",
+            "875bf714cacf86403aa2c2d7c9fdcc85ede8f63d46bb22cab3ed485c25d375bb",
+            "8d85f971fa863024798a05f9cac534d23c06f1ca89d945a2018c6b2a5e261c33",
+            "d232d162ba094ae86010857d8256d8c2ba61c88f042be9cfe26ab2f612ec7168",
+            "84cf2ab7a53ad1cc5474b55ce57d95cf1f39c192a5213a00a8eedfc8babb6f63",
+            "b9a06ba533d6b5cdde23f6c861e920b74fa254bb4b0caab72a9829bd42183632"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "source": "Independent agent restorations relayed by parent, 2026-11-08 JST",
+            "judge_access": "Converted sentences only; no repository, source English, or assignment glosses"
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 18,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 18
+    },
+    "nl:zwembad": {
+      "lang": "nl",
+      "form": "zwembad",
+      "trials": 18,
+      "restored": 18,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "nl",
+        "form": "zwembad",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3ccb7ac9-d382-4e7d-9151-d258dcbe56d4",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "221e360310279ba7caaeb0a05e4ae993e34762b954762c850d35a00f6c0679ed",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Swimming pool.",
+              "converted": "Zwembad.",
+              "seed": "1",
+              "prompt_sha256": "3c845da74b0fb8d2754414b9ab2c2e689bb6626729671a042557c4a859c01fd5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c9f21f23e65bb888fd74553a53afa99ed974319b1bedaff6f3e764fd5b57c628",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Swimming pool.",
+              "converted": "Zwembad.",
+              "seed": "2",
+              "prompt_sha256": "3c845da74b0fb8d2754414b9ab2c2e689bb6626729671a042557c4a859c01fd5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "f9d80a300880ac48bcd4c11bf760405a67ac8a961246591fe2c17755dfa4cc47",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Swimming pool.",
+              "converted": "Zwembad.",
+              "seed": "3",
+              "prompt_sha256": "3c845da74b0fb8d2754414b9ab2c2e689bb6626729671a042557c4a859c01fd5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "fa23cfd92c72fd648c1ae915a38c95ee1e08300969c3c9a786448f6faca74800",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Maybe swimming pool today.",
+              "converted": "Maybe zwembad today.",
+              "seed": "1",
+              "prompt_sha256": "9205649c64b2695ea904f3e394d15a0a622bc8a7a565696c8e3f2b5412f48e39",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e33e23e1209cf567af114755e7210b30cfdaf0ddabdd3b528762e567245d930c",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Maybe swimming pool today.",
+              "converted": "Maybe zwembad today.",
+              "seed": "2",
+              "prompt_sha256": "9205649c64b2695ea904f3e394d15a0a622bc8a7a565696c8e3f2b5412f48e39",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "3847af68ba2ec65548910f1f9919b333c3a10b704a950c68a0cc07538ebda450",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Maybe swimming pool today.",
+              "converted": "Maybe zwembad today.",
+              "seed": "3",
+              "prompt_sha256": "9205649c64b2695ea904f3e394d15a0a622bc8a7a565696c8e3f2b5412f48e39",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a8a4e5f71c5b895e8d5647370256b934a10a1b5be7348109df702dbed9f3f28c",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "She told me that swimming pool.",
+              "converted": "She told me that zwembad.",
+              "seed": "1",
+              "prompt_sha256": "a77b99296387e8a76cd109d57a153519a3715f1e2ac80aee5bc986338f9fac0c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cc04a62f16023efc5eaefcd26195de097cc60bc46f67c87bb2a1dd71a313d904",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "She told me that swimming pool.",
+              "converted": "She told me that zwembad.",
+              "seed": "2",
+              "prompt_sha256": "a77b99296387e8a76cd109d57a153519a3715f1e2ac80aee5bc986338f9fac0c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2ffe15582095ffb30194a6e07ff0eadbe61c170c591bde175251bd943bfffca0",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "She told me that swimming pool.",
+              "converted": "She told me that zwembad.",
+              "seed": "3",
+              "prompt_sha256": "a77b99296387e8a76cd109d57a153519a3715f1e2ac80aee5bc986338f9fac0c",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "221e360310279ba7caaeb0a05e4ae993e34762b954762c850d35a00f6c0679ed",
+            "c9f21f23e65bb888fd74553a53afa99ed974319b1bedaff6f3e764fd5b57c628",
+            "f9d80a300880ac48bcd4c11bf760405a67ac8a961246591fe2c17755dfa4cc47",
+            "fa23cfd92c72fd648c1ae915a38c95ee1e08300969c3c9a786448f6faca74800",
+            "e33e23e1209cf567af114755e7210b30cfdaf0ddabdd3b528762e567245d930c",
+            "3847af68ba2ec65548910f1f9919b333c3a10b704a950c68a0cc07538ebda450",
+            "a8a4e5f71c5b895e8d5647370256b934a10a1b5be7348109df702dbed9f3f28c",
+            "cc04a62f16023efc5eaefcd26195de097cc60bc46f67c87bb2a1dd71a313d904",
+            "2ffe15582095ffb30194a6e07ff0eadbe61c170c591bde175251bd943bfffca0"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "non_independent_provisional",
+            "usable_as_blind_evidence": false
+          }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3c32bb35-085b-48e1-93f1-2e84e78fd013",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "221e360310279ba7caaeb0a05e4ae993e34762b954762c850d35a00f6c0679ed",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Swimming pool.",
+              "converted": "Zwembad.",
+              "seed": "1",
+              "prompt_sha256": "3c845da74b0fb8d2754414b9ab2c2e689bb6626729671a042557c4a859c01fd5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c9f21f23e65bb888fd74553a53afa99ed974319b1bedaff6f3e764fd5b57c628",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Swimming pool.",
+              "converted": "Zwembad.",
+              "seed": "2",
+              "prompt_sha256": "3c845da74b0fb8d2754414b9ab2c2e689bb6626729671a042557c4a859c01fd5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "f9d80a300880ac48bcd4c11bf760405a67ac8a961246591fe2c17755dfa4cc47",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Swimming pool.",
+              "converted": "Zwembad.",
+              "seed": "3",
+              "prompt_sha256": "3c845da74b0fb8d2754414b9ab2c2e689bb6626729671a042557c4a859c01fd5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "fa23cfd92c72fd648c1ae915a38c95ee1e08300969c3c9a786448f6faca74800",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Maybe swimming pool today.",
+              "converted": "Maybe zwembad today.",
+              "seed": "1",
+              "prompt_sha256": "9205649c64b2695ea904f3e394d15a0a622bc8a7a565696c8e3f2b5412f48e39",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e33e23e1209cf567af114755e7210b30cfdaf0ddabdd3b528762e567245d930c",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Maybe swimming pool today.",
+              "converted": "Maybe zwembad today.",
+              "seed": "2",
+              "prompt_sha256": "9205649c64b2695ea904f3e394d15a0a622bc8a7a565696c8e3f2b5412f48e39",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "3847af68ba2ec65548910f1f9919b333c3a10b704a950c68a0cc07538ebda450",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "Maybe swimming pool today.",
+              "converted": "Maybe zwembad today.",
+              "seed": "3",
+              "prompt_sha256": "9205649c64b2695ea904f3e394d15a0a622bc8a7a565696c8e3f2b5412f48e39",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a8a4e5f71c5b895e8d5647370256b934a10a1b5be7348109df702dbed9f3f28c",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "She told me that swimming pool.",
+              "converted": "She told me that zwembad.",
+              "seed": "1",
+              "prompt_sha256": "a77b99296387e8a76cd109d57a153519a3715f1e2ac80aee5bc986338f9fac0c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cc04a62f16023efc5eaefcd26195de097cc60bc46f67c87bb2a1dd71a313d904",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "She told me that swimming pool.",
+              "converted": "She told me that zwembad.",
+              "seed": "2",
+              "prompt_sha256": "a77b99296387e8a76cd109d57a153519a3715f1e2ac80aee5bc986338f9fac0c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2ffe15582095ffb30194a6e07ff0eadbe61c170c591bde175251bd943bfffca0",
+              "lang": "nl",
+              "form": "zwembad",
+              "source": "She told me that swimming pool.",
+              "converted": "She told me that zwembad.",
+              "seed": "3",
+              "prompt_sha256": "a77b99296387e8a76cd109d57a153519a3715f1e2ac80aee5bc986338f9fac0c",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "221e360310279ba7caaeb0a05e4ae993e34762b954762c850d35a00f6c0679ed",
+            "c9f21f23e65bb888fd74553a53afa99ed974319b1bedaff6f3e764fd5b57c628",
+            "f9d80a300880ac48bcd4c11bf760405a67ac8a961246591fe2c17755dfa4cc47",
+            "fa23cfd92c72fd648c1ae915a38c95ee1e08300969c3c9a786448f6faca74800",
+            "e33e23e1209cf567af114755e7210b30cfdaf0ddabdd3b528762e567245d930c",
+            "3847af68ba2ec65548910f1f9919b333c3a10b704a950c68a0cc07538ebda450",
+            "a8a4e5f71c5b895e8d5647370256b934a10a1b5be7348109df702dbed9f3f28c",
+            "cc04a62f16023efc5eaefcd26195de097cc60bc46f67c87bb2a1dd71a313d904",
+            "2ffe15582095ffb30194a6e07ff0eadbe61c170c591bde175251bd943bfffca0"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "source": "Independent agent restorations relayed by parent, 2026-11-08 JST",
+            "judge_access": "Converted sentences only; no repository, source English, or assignment glosses"
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 18,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 18
+    },
+    "nl:wasmachine": {
+      "lang": "nl",
+      "form": "wasmachine",
+      "trials": 18,
+      "restored": 18,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "nl",
+        "form": "wasmachine",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3ccb7ac9-d382-4e7d-9151-d258dcbe56d4",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "4820802aa054bb252242a0a4ba2bbc4c44245f22409e56e6ed5f0cbf1fd35344",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Washing machine.",
+              "converted": "Wasmachine.",
+              "seed": "1",
+              "prompt_sha256": "130ca2b40c2f8785f2c5797f3fb8c2126c064ddfa88b5ce65a31330fc4cd12d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "694097b6f9dc7e23ab7e3bc5908755c0cff840199b13fb0deb4fe65a10b89d63",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Washing machine.",
+              "converted": "Wasmachine.",
+              "seed": "2",
+              "prompt_sha256": "130ca2b40c2f8785f2c5797f3fb8c2126c064ddfa88b5ce65a31330fc4cd12d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1afcb639fdb086365c143635bd434c8c28b68f9ed92d05f9c5875474ce59652e",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Washing machine.",
+              "converted": "Wasmachine.",
+              "seed": "3",
+              "prompt_sha256": "130ca2b40c2f8785f2c5797f3fb8c2126c064ddfa88b5ce65a31330fc4cd12d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "81e8a326980979806eb811bfb7c93692b67df75728d5d091a2c8d0bbf469f963",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Maybe washing machine today.",
+              "converted": "Maybe wasmachine today.",
+              "seed": "1",
+              "prompt_sha256": "0f2a932cc5d51bbbb4ecfba0199aad81e1d789fbb5974239e165c09aff134f1a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2b7df053b58e013b620f16d61985d9aa490ce7cd2ad13a72deb0f654ab0f75da",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Maybe washing machine today.",
+              "converted": "Maybe wasmachine today.",
+              "seed": "2",
+              "prompt_sha256": "0f2a932cc5d51bbbb4ecfba0199aad81e1d789fbb5974239e165c09aff134f1a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "edd1a88e908bde5e8e702c7844dd9bd89af7f41b5594279341ae515f54e434f6",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Maybe washing machine today.",
+              "converted": "Maybe wasmachine today.",
+              "seed": "3",
+              "prompt_sha256": "0f2a932cc5d51bbbb4ecfba0199aad81e1d789fbb5974239e165c09aff134f1a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "dbb3c7c5dbaca716b2da7ed883c13a2a4bf25a0154b7ecc13718bfbf12537d9b",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "She told me that washing machine.",
+              "converted": "She told me that wasmachine.",
+              "seed": "1",
+              "prompt_sha256": "6c40d948fab4939955c08f230eb5373d6ba5d8eceace181ef5ac7be55fbc7120",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e195cc8e990f31e1487f73297ec874db6f92a4c9ba6196159334549da0ec7bac",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "She told me that washing machine.",
+              "converted": "She told me that wasmachine.",
+              "seed": "2",
+              "prompt_sha256": "6c40d948fab4939955c08f230eb5373d6ba5d8eceace181ef5ac7be55fbc7120",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4982f6ae7bc4e10c66ebce8a5ac2e072fc3f6bf2aa13de1bfb315613ce68a774",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "She told me that washing machine.",
+              "converted": "She told me that wasmachine.",
+              "seed": "3",
+              "prompt_sha256": "6c40d948fab4939955c08f230eb5373d6ba5d8eceace181ef5ac7be55fbc7120",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "4820802aa054bb252242a0a4ba2bbc4c44245f22409e56e6ed5f0cbf1fd35344",
+            "694097b6f9dc7e23ab7e3bc5908755c0cff840199b13fb0deb4fe65a10b89d63",
+            "1afcb639fdb086365c143635bd434c8c28b68f9ed92d05f9c5875474ce59652e",
+            "81e8a326980979806eb811bfb7c93692b67df75728d5d091a2c8d0bbf469f963",
+            "2b7df053b58e013b620f16d61985d9aa490ce7cd2ad13a72deb0f654ab0f75da",
+            "edd1a88e908bde5e8e702c7844dd9bd89af7f41b5594279341ae515f54e434f6",
+            "dbb3c7c5dbaca716b2da7ed883c13a2a4bf25a0154b7ecc13718bfbf12537d9b",
+            "e195cc8e990f31e1487f73297ec874db6f92a4c9ba6196159334549da0ec7bac",
+            "4982f6ae7bc4e10c66ebce8a5ac2e072fc3f6bf2aa13de1bfb315613ce68a774"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "non_independent_provisional",
+            "usable_as_blind_evidence": false
+          }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3c32bb35-085b-48e1-93f1-2e84e78fd013",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "4820802aa054bb252242a0a4ba2bbc4c44245f22409e56e6ed5f0cbf1fd35344",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Washing machine.",
+              "converted": "Wasmachine.",
+              "seed": "1",
+              "prompt_sha256": "130ca2b40c2f8785f2c5797f3fb8c2126c064ddfa88b5ce65a31330fc4cd12d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "694097b6f9dc7e23ab7e3bc5908755c0cff840199b13fb0deb4fe65a10b89d63",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Washing machine.",
+              "converted": "Wasmachine.",
+              "seed": "2",
+              "prompt_sha256": "130ca2b40c2f8785f2c5797f3fb8c2126c064ddfa88b5ce65a31330fc4cd12d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1afcb639fdb086365c143635bd434c8c28b68f9ed92d05f9c5875474ce59652e",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Washing machine.",
+              "converted": "Wasmachine.",
+              "seed": "3",
+              "prompt_sha256": "130ca2b40c2f8785f2c5797f3fb8c2126c064ddfa88b5ce65a31330fc4cd12d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "81e8a326980979806eb811bfb7c93692b67df75728d5d091a2c8d0bbf469f963",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Maybe washing machine today.",
+              "converted": "Maybe wasmachine today.",
+              "seed": "1",
+              "prompt_sha256": "0f2a932cc5d51bbbb4ecfba0199aad81e1d789fbb5974239e165c09aff134f1a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2b7df053b58e013b620f16d61985d9aa490ce7cd2ad13a72deb0f654ab0f75da",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Maybe washing machine today.",
+              "converted": "Maybe wasmachine today.",
+              "seed": "2",
+              "prompt_sha256": "0f2a932cc5d51bbbb4ecfba0199aad81e1d789fbb5974239e165c09aff134f1a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "edd1a88e908bde5e8e702c7844dd9bd89af7f41b5594279341ae515f54e434f6",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "Maybe washing machine today.",
+              "converted": "Maybe wasmachine today.",
+              "seed": "3",
+              "prompt_sha256": "0f2a932cc5d51bbbb4ecfba0199aad81e1d789fbb5974239e165c09aff134f1a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "dbb3c7c5dbaca716b2da7ed883c13a2a4bf25a0154b7ecc13718bfbf12537d9b",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "She told me that washing machine.",
+              "converted": "She told me that wasmachine.",
+              "seed": "1",
+              "prompt_sha256": "6c40d948fab4939955c08f230eb5373d6ba5d8eceace181ef5ac7be55fbc7120",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e195cc8e990f31e1487f73297ec874db6f92a4c9ba6196159334549da0ec7bac",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "She told me that washing machine.",
+              "converted": "She told me that wasmachine.",
+              "seed": "2",
+              "prompt_sha256": "6c40d948fab4939955c08f230eb5373d6ba5d8eceace181ef5ac7be55fbc7120",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4982f6ae7bc4e10c66ebce8a5ac2e072fc3f6bf2aa13de1bfb315613ce68a774",
+              "lang": "nl",
+              "form": "wasmachine",
+              "source": "She told me that washing machine.",
+              "converted": "She told me that wasmachine.",
+              "seed": "3",
+              "prompt_sha256": "6c40d948fab4939955c08f230eb5373d6ba5d8eceace181ef5ac7be55fbc7120",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "4820802aa054bb252242a0a4ba2bbc4c44245f22409e56e6ed5f0cbf1fd35344",
+            "694097b6f9dc7e23ab7e3bc5908755c0cff840199b13fb0deb4fe65a10b89d63",
+            "1afcb639fdb086365c143635bd434c8c28b68f9ed92d05f9c5875474ce59652e",
+            "81e8a326980979806eb811bfb7c93692b67df75728d5d091a2c8d0bbf469f963",
+            "2b7df053b58e013b620f16d61985d9aa490ce7cd2ad13a72deb0f654ab0f75da",
+            "edd1a88e908bde5e8e702c7844dd9bd89af7f41b5594279341ae515f54e434f6",
+            "dbb3c7c5dbaca716b2da7ed883c13a2a4bf25a0154b7ecc13718bfbf12537d9b",
+            "e195cc8e990f31e1487f73297ec874db6f92a4c9ba6196159334549da0ec7bac",
+            "4982f6ae7bc4e10c66ebce8a5ac2e072fc3f6bf2aa13de1bfb315613ce68a774"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "source": "Independent agent restorations relayed by parent, 2026-11-08 JST",
+            "judge_access": "Converted sentences only; no repository, source English, or assignment glosses"
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 18,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 18
+    },
+    "nl:neem": {
+      "lang": "nl",
+      "form": "neem",
+      "trials": 18,
+      "restored": 18,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "nl",
+        "form": "neem",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3ccb7ac9-d382-4e7d-9151-d258dcbe56d4",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "f1b436336f6266c2e6f8fc62374d6d0a3a9ea1579e0120654b43765df2bbaef5",
+              "lang": "nl",
+              "form": "neem",
+              "source": "I take.",
+              "converted": "Neem.",
+              "seed": "1",
+              "prompt_sha256": "cf4da08574c99a79d0d91d70177e43ec61918a5e4c48190dd9c0a96790085c60",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "64de575497cfa11cb9a45d3401a5a062ef999589f4575905f6a4a9c315ed62f6",
+              "lang": "nl",
+              "form": "neem",
+              "source": "I take.",
+              "converted": "Neem.",
+              "seed": "2",
+              "prompt_sha256": "cf4da08574c99a79d0d91d70177e43ec61918a5e4c48190dd9c0a96790085c60",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "eb56abc31c5387fe19b8a2e34ab5d3d9775828cea18decfe693d695923bd462a",
+              "lang": "nl",
+              "form": "neem",
+              "source": "I take.",
+              "converted": "Neem.",
+              "seed": "3",
+              "prompt_sha256": "cf4da08574c99a79d0d91d70177e43ec61918a5e4c48190dd9c0a96790085c60",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "06749204dd0d50eb49ba19f1d4f30c34a11d4b478eaf705b137b75e5b44cb6b7",
+              "lang": "nl",
+              "form": "neem",
+              "source": "Maybe I take today.",
+              "converted": "Maybe neem today.",
+              "seed": "1",
+              "prompt_sha256": "39c32e3be71e4090ab85d52b827e036c4b6fc5a549aacfbaae0a3abeda73a115",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1705a9079aeb99c18c54e7d93fcecacd0577231e2846f232b9ba31fce36982b9",
+              "lang": "nl",
+              "form": "neem",
+              "source": "Maybe I take today.",
+              "converted": "Maybe neem today.",
+              "seed": "2",
+              "prompt_sha256": "39c32e3be71e4090ab85d52b827e036c4b6fc5a549aacfbaae0a3abeda73a115",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b0e0e944f8983e61303c071fa7f01212474151b276b3b5ba2a7aaa5b1eb2ee5a",
+              "lang": "nl",
+              "form": "neem",
+              "source": "Maybe I take today.",
+              "converted": "Maybe neem today.",
+              "seed": "3",
+              "prompt_sha256": "39c32e3be71e4090ab85d52b827e036c4b6fc5a549aacfbaae0a3abeda73a115",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5270dc3f3611000ed2442351121b35c568d20ad15c73eb82bee04ccc3c598793",
+              "lang": "nl",
+              "form": "neem",
+              "source": "She told me that I take.",
+              "converted": "She told me that neem.",
+              "seed": "1",
+              "prompt_sha256": "bc7143d4b4bc43eab0c9a422f93751032dc34063db78d247ec3c72b549c2f9c6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "33acb9095723c1a96b28e67909f25479d55a5eec31af61753149ca7e37cb5f9f",
+              "lang": "nl",
+              "form": "neem",
+              "source": "She told me that I take.",
+              "converted": "She told me that neem.",
+              "seed": "2",
+              "prompt_sha256": "bc7143d4b4bc43eab0c9a422f93751032dc34063db78d247ec3c72b549c2f9c6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "623bbe0103ddd1e154ece3a5c3e281fbbf454912d9f019ce866f46959e965ddb",
+              "lang": "nl",
+              "form": "neem",
+              "source": "She told me that I take.",
+              "converted": "She told me that neem.",
+              "seed": "3",
+              "prompt_sha256": "bc7143d4b4bc43eab0c9a422f93751032dc34063db78d247ec3c72b549c2f9c6",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "f1b436336f6266c2e6f8fc62374d6d0a3a9ea1579e0120654b43765df2bbaef5",
+            "64de575497cfa11cb9a45d3401a5a062ef999589f4575905f6a4a9c315ed62f6",
+            "eb56abc31c5387fe19b8a2e34ab5d3d9775828cea18decfe693d695923bd462a",
+            "06749204dd0d50eb49ba19f1d4f30c34a11d4b478eaf705b137b75e5b44cb6b7",
+            "1705a9079aeb99c18c54e7d93fcecacd0577231e2846f232b9ba31fce36982b9",
+            "b0e0e944f8983e61303c071fa7f01212474151b276b3b5ba2a7aaa5b1eb2ee5a",
+            "5270dc3f3611000ed2442351121b35c568d20ad15c73eb82bee04ccc3c598793",
+            "33acb9095723c1a96b28e67909f25479d55a5eec31af61753149ca7e37cb5f9f",
+            "623bbe0103ddd1e154ece3a5c3e281fbbf454912d9f019ce866f46959e965ddb"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "non_independent_provisional",
+            "usable_as_blind_evidence": false
+          }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3c32bb35-085b-48e1-93f1-2e84e78fd013",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "f1b436336f6266c2e6f8fc62374d6d0a3a9ea1579e0120654b43765df2bbaef5",
+              "lang": "nl",
+              "form": "neem",
+              "source": "I take.",
+              "converted": "Neem.",
+              "seed": "1",
+              "prompt_sha256": "cf4da08574c99a79d0d91d70177e43ec61918a5e4c48190dd9c0a96790085c60",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "64de575497cfa11cb9a45d3401a5a062ef999589f4575905f6a4a9c315ed62f6",
+              "lang": "nl",
+              "form": "neem",
+              "source": "I take.",
+              "converted": "Neem.",
+              "seed": "2",
+              "prompt_sha256": "cf4da08574c99a79d0d91d70177e43ec61918a5e4c48190dd9c0a96790085c60",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "eb56abc31c5387fe19b8a2e34ab5d3d9775828cea18decfe693d695923bd462a",
+              "lang": "nl",
+              "form": "neem",
+              "source": "I take.",
+              "converted": "Neem.",
+              "seed": "3",
+              "prompt_sha256": "cf4da08574c99a79d0d91d70177e43ec61918a5e4c48190dd9c0a96790085c60",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "06749204dd0d50eb49ba19f1d4f30c34a11d4b478eaf705b137b75e5b44cb6b7",
+              "lang": "nl",
+              "form": "neem",
+              "source": "Maybe I take today.",
+              "converted": "Maybe neem today.",
+              "seed": "1",
+              "prompt_sha256": "39c32e3be71e4090ab85d52b827e036c4b6fc5a549aacfbaae0a3abeda73a115",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1705a9079aeb99c18c54e7d93fcecacd0577231e2846f232b9ba31fce36982b9",
+              "lang": "nl",
+              "form": "neem",
+              "source": "Maybe I take today.",
+              "converted": "Maybe neem today.",
+              "seed": "2",
+              "prompt_sha256": "39c32e3be71e4090ab85d52b827e036c4b6fc5a549aacfbaae0a3abeda73a115",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b0e0e944f8983e61303c071fa7f01212474151b276b3b5ba2a7aaa5b1eb2ee5a",
+              "lang": "nl",
+              "form": "neem",
+              "source": "Maybe I take today.",
+              "converted": "Maybe neem today.",
+              "seed": "3",
+              "prompt_sha256": "39c32e3be71e4090ab85d52b827e036c4b6fc5a549aacfbaae0a3abeda73a115",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5270dc3f3611000ed2442351121b35c568d20ad15c73eb82bee04ccc3c598793",
+              "lang": "nl",
+              "form": "neem",
+              "source": "She told me that I take.",
+              "converted": "She told me that neem.",
+              "seed": "1",
+              "prompt_sha256": "bc7143d4b4bc43eab0c9a422f93751032dc34063db78d247ec3c72b549c2f9c6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "33acb9095723c1a96b28e67909f25479d55a5eec31af61753149ca7e37cb5f9f",
+              "lang": "nl",
+              "form": "neem",
+              "source": "She told me that I take.",
+              "converted": "She told me that neem.",
+              "seed": "2",
+              "prompt_sha256": "bc7143d4b4bc43eab0c9a422f93751032dc34063db78d247ec3c72b549c2f9c6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "623bbe0103ddd1e154ece3a5c3e281fbbf454912d9f019ce866f46959e965ddb",
+              "lang": "nl",
+              "form": "neem",
+              "source": "She told me that I take.",
+              "converted": "She told me that neem.",
+              "seed": "3",
+              "prompt_sha256": "bc7143d4b4bc43eab0c9a422f93751032dc34063db78d247ec3c72b549c2f9c6",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "f1b436336f6266c2e6f8fc62374d6d0a3a9ea1579e0120654b43765df2bbaef5",
+            "64de575497cfa11cb9a45d3401a5a062ef999589f4575905f6a4a9c315ed62f6",
+            "eb56abc31c5387fe19b8a2e34ab5d3d9775828cea18decfe693d695923bd462a",
+            "06749204dd0d50eb49ba19f1d4f30c34a11d4b478eaf705b137b75e5b44cb6b7",
+            "1705a9079aeb99c18c54e7d93fcecacd0577231e2846f232b9ba31fce36982b9",
+            "b0e0e944f8983e61303c071fa7f01212474151b276b3b5ba2a7aaa5b1eb2ee5a",
+            "5270dc3f3611000ed2442351121b35c568d20ad15c73eb82bee04ccc3c598793",
+            "33acb9095723c1a96b28e67909f25479d55a5eec31af61753149ca7e37cb5f9f",
+            "623bbe0103ddd1e154ece3a5c3e281fbbf454912d9f019ce866f46959e965ddb"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "source": "Independent agent restorations relayed by parent, 2026-11-08 JST",
+            "judge_access": "Converted sentences only; no repository, source English, or assignment glosses"
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 18,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 18
+    },
+    "nl:denk": {
+      "lang": "nl",
+      "form": "denk",
+      "trials": 18,
+      "restored": 18,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "nl",
+        "form": "denk",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3ccb7ac9-d382-4e7d-9151-d258dcbe56d4",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "97ad6c1696ddc2856a2ca53e1efa3d164589a8984ad4b7a10bb2cfc8575d0c35",
+              "lang": "nl",
+              "form": "denk",
+              "source": "I think.",
+              "converted": "Denk.",
+              "seed": "1",
+              "prompt_sha256": "aa0657b7273b50593f793fba36fec897f4be8882a43030c3fd33ac39a439058d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c8b722c4afcc80c81ef321bd9269af0b0751dcda7efc4c6eaf3396ec8c51e491",
+              "lang": "nl",
+              "form": "denk",
+              "source": "I think.",
+              "converted": "Denk.",
+              "seed": "2",
+              "prompt_sha256": "aa0657b7273b50593f793fba36fec897f4be8882a43030c3fd33ac39a439058d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1094b7f321aee4d818a0a947bab897d5369c71355fb67cb08e4349c16848bc3d",
+              "lang": "nl",
+              "form": "denk",
+              "source": "I think.",
+              "converted": "Denk.",
+              "seed": "3",
+              "prompt_sha256": "aa0657b7273b50593f793fba36fec897f4be8882a43030c3fd33ac39a439058d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2d2d22493792d43c1e6f969332f877eac2b24d6d78148bfe11bed517f8bdd287",
+              "lang": "nl",
+              "form": "denk",
+              "source": "Maybe I think today.",
+              "converted": "Maybe denk today.",
+              "seed": "1",
+              "prompt_sha256": "2b42e21840829f50c3fba645b2257b526c2b4adaca26647b119889d2fbac973f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "98cf24734b34438b0ec0ff68fe4c7788a757ea621af491ace803e4e9c98f02fe",
+              "lang": "nl",
+              "form": "denk",
+              "source": "Maybe I think today.",
+              "converted": "Maybe denk today.",
+              "seed": "2",
+              "prompt_sha256": "2b42e21840829f50c3fba645b2257b526c2b4adaca26647b119889d2fbac973f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d3f5b708e9152239d9dcb682aa6ac2248b2cb17d5ccdddf8c7f9555982dfa7b5",
+              "lang": "nl",
+              "form": "denk",
+              "source": "Maybe I think today.",
+              "converted": "Maybe denk today.",
+              "seed": "3",
+              "prompt_sha256": "2b42e21840829f50c3fba645b2257b526c2b4adaca26647b119889d2fbac973f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d7023672393093f9854b1babce53c09a554dc94fe159389dae37a2bab8907367",
+              "lang": "nl",
+              "form": "denk",
+              "source": "She told me that I think.",
+              "converted": "She told me that denk.",
+              "seed": "1",
+              "prompt_sha256": "55d5938c0dfaa1eb3c3d1d228ab41d7049f45ec00e1b31df957b813cda3366d2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2677d6fae0b4cfa14d2380539867406003ee499c2a1740fc2da247ee0e418c2e",
+              "lang": "nl",
+              "form": "denk",
+              "source": "She told me that I think.",
+              "converted": "She told me that denk.",
+              "seed": "2",
+              "prompt_sha256": "55d5938c0dfaa1eb3c3d1d228ab41d7049f45ec00e1b31df957b813cda3366d2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0fe72b5aca0b787eef6f5f7b7c8c421a4c4b839f00f6309733ffd3fbc37ad8a3",
+              "lang": "nl",
+              "form": "denk",
+              "source": "She told me that I think.",
+              "converted": "She told me that denk.",
+              "seed": "3",
+              "prompt_sha256": "55d5938c0dfaa1eb3c3d1d228ab41d7049f45ec00e1b31df957b813cda3366d2",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "97ad6c1696ddc2856a2ca53e1efa3d164589a8984ad4b7a10bb2cfc8575d0c35",
+            "c8b722c4afcc80c81ef321bd9269af0b0751dcda7efc4c6eaf3396ec8c51e491",
+            "1094b7f321aee4d818a0a947bab897d5369c71355fb67cb08e4349c16848bc3d",
+            "2d2d22493792d43c1e6f969332f877eac2b24d6d78148bfe11bed517f8bdd287",
+            "98cf24734b34438b0ec0ff68fe4c7788a757ea621af491ace803e4e9c98f02fe",
+            "d3f5b708e9152239d9dcb682aa6ac2248b2cb17d5ccdddf8c7f9555982dfa7b5",
+            "d7023672393093f9854b1babce53c09a554dc94fe159389dae37a2bab8907367",
+            "2677d6fae0b4cfa14d2380539867406003ee499c2a1740fc2da247ee0e418c2e",
+            "0fe72b5aca0b787eef6f5f7b7c8c421a4c4b839f00f6309733ffd3fbc37ad8a3"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "non_independent_provisional",
+            "usable_as_blind_evidence": false
+          }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "3c32bb35-085b-48e1-93f1-2e84e78fd013",
+          "config": {
+            "only_lang": "nl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "97ad6c1696ddc2856a2ca53e1efa3d164589a8984ad4b7a10bb2cfc8575d0c35",
+              "lang": "nl",
+              "form": "denk",
+              "source": "I think.",
+              "converted": "Denk.",
+              "seed": "1",
+              "prompt_sha256": "aa0657b7273b50593f793fba36fec897f4be8882a43030c3fd33ac39a439058d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c8b722c4afcc80c81ef321bd9269af0b0751dcda7efc4c6eaf3396ec8c51e491",
+              "lang": "nl",
+              "form": "denk",
+              "source": "I think.",
+              "converted": "Denk.",
+              "seed": "2",
+              "prompt_sha256": "aa0657b7273b50593f793fba36fec897f4be8882a43030c3fd33ac39a439058d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1094b7f321aee4d818a0a947bab897d5369c71355fb67cb08e4349c16848bc3d",
+              "lang": "nl",
+              "form": "denk",
+              "source": "I think.",
+              "converted": "Denk.",
+              "seed": "3",
+              "prompt_sha256": "aa0657b7273b50593f793fba36fec897f4be8882a43030c3fd33ac39a439058d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2d2d22493792d43c1e6f969332f877eac2b24d6d78148bfe11bed517f8bdd287",
+              "lang": "nl",
+              "form": "denk",
+              "source": "Maybe I think today.",
+              "converted": "Maybe denk today.",
+              "seed": "1",
+              "prompt_sha256": "2b42e21840829f50c3fba645b2257b526c2b4adaca26647b119889d2fbac973f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "98cf24734b34438b0ec0ff68fe4c7788a757ea621af491ace803e4e9c98f02fe",
+              "lang": "nl",
+              "form": "denk",
+              "source": "Maybe I think today.",
+              "converted": "Maybe denk today.",
+              "seed": "2",
+              "prompt_sha256": "2b42e21840829f50c3fba645b2257b526c2b4adaca26647b119889d2fbac973f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d3f5b708e9152239d9dcb682aa6ac2248b2cb17d5ccdddf8c7f9555982dfa7b5",
+              "lang": "nl",
+              "form": "denk",
+              "source": "Maybe I think today.",
+              "converted": "Maybe denk today.",
+              "seed": "3",
+              "prompt_sha256": "2b42e21840829f50c3fba645b2257b526c2b4adaca26647b119889d2fbac973f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d7023672393093f9854b1babce53c09a554dc94fe159389dae37a2bab8907367",
+              "lang": "nl",
+              "form": "denk",
+              "source": "She told me that I think.",
+              "converted": "She told me that denk.",
+              "seed": "1",
+              "prompt_sha256": "55d5938c0dfaa1eb3c3d1d228ab41d7049f45ec00e1b31df957b813cda3366d2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2677d6fae0b4cfa14d2380539867406003ee499c2a1740fc2da247ee0e418c2e",
+              "lang": "nl",
+              "form": "denk",
+              "source": "She told me that I think.",
+              "converted": "She told me that denk.",
+              "seed": "2",
+              "prompt_sha256": "55d5938c0dfaa1eb3c3d1d228ab41d7049f45ec00e1b31df957b813cda3366d2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0fe72b5aca0b787eef6f5f7b7c8c421a4c4b839f00f6309733ffd3fbc37ad8a3",
+              "lang": "nl",
+              "form": "denk",
+              "source": "She told me that I think.",
+              "converted": "She told me that denk.",
+              "seed": "3",
+              "prompt_sha256": "55d5938c0dfaa1eb3c3d1d228ab41d7049f45ec00e1b31df957b813cda3366d2",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "97ad6c1696ddc2856a2ca53e1efa3d164589a8984ad4b7a10bb2cfc8575d0c35",
+            "c8b722c4afcc80c81ef321bd9269af0b0751dcda7efc4c6eaf3396ec8c51e491",
+            "1094b7f321aee4d818a0a947bab897d5369c71355fb67cb08e4349c16848bc3d",
+            "2d2d22493792d43c1e6f969332f877eac2b24d6d78148bfe11bed517f8bdd287",
+            "98cf24734b34438b0ec0ff68fe4c7788a757ea621af491ace803e4e9c98f02fe",
+            "d3f5b708e9152239d9dcb682aa6ac2248b2cb17d5ccdddf8c7f9555982dfa7b5",
+            "d7023672393093f9854b1babce53c09a554dc94fe159389dae37a2bab8907367",
+            "2677d6fae0b4cfa14d2380539867406003ee499c2a1740fc2da247ee0e418c2e",
+            "0fe72b5aca0b787eef6f5f7b7c8c421a4c4b839f00f6309733ffd3fbc37ad8a3"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "source": "Independent agent restorations relayed by parent, 2026-11-08 JST",
+            "judge_access": "Converted sentences only; no repository, source English, or assignment glosses"
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 18,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 18
     }
   },
-  "required": []
+  "required": [],
+  "run_history": [
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "3ccb7ac9-d382-4e7d-9151-d258dcbe56d4",
+      "config": {
+        "only_lang": "nl",
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s}.",
+          "Maybe {s} today.",
+          "She told me that {s}."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1"
+      },
+      "selected_forms": [
+        "nl:stofzuiger",
+        "nl:zoekmachine",
+        "nl:zwembad",
+        "nl:wasmachine",
+        "nl:neem",
+        "nl:denk"
+      ],
+      "duplicate_targets": 0,
+      "requested": 54,
+      "scheduled": 54,
+      "attempted": 54,
+      "completed": 54,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true
+    },
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "3c32bb35-085b-48e1-93f1-2e84e78fd013",
+      "config": {
+        "only_lang": "nl",
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s}.",
+          "Maybe {s} today.",
+          "She told me that {s}."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "2fd7d550071ce670015e22847eb41a581d7565162b91658a971773f4671361f5",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1"
+      },
+      "selected_forms": [
+        "nl:neem",
+        "nl:denk",
+        "nl:stofzuiger",
+        "nl:zoekmachine",
+        "nl:zwembad",
+        "nl:wasmachine"
+      ],
+      "duplicate_targets": 0,
+      "requested": 54,
+      "scheduled": 54,
+      "attempted": 54,
+      "completed": 54,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true
+    }
+  ]
 }
