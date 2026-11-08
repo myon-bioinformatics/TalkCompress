@@ -4,10 +4,11 @@
   "notes": [
     "Additive sibling to zh_de_phrases.json (does not rewrite ZH/DE/EN/JA entries).",
     "Living Portuguese, modern Greek, Italian, and surviving scholarly Latin only.",
-    "Classical Latin conjugations are out of scope; surviving Latin abbrevs like e.g./i.e./etc. stay C.",
+    "Classical Latin conjugations live in es_fr_tense.json candidates only when they win tokens and pass AI round-trip (veniam); surviving Latin abbrevs like e.g./i.e./etc. stay C.",
     "Only forms that beat the English source on estimate_tokens; runtime cheapest (token→utf8→len).",
     "No hyphen morphology. Compound-style multiword EN → short densifier is a candidate class, not noun-only.",
-    "Country-only jargon (CTT, BI) and sense-lossy truncations are in examples_not_registered."
+    "Country-only jargon (CTT, BI) and sense-lossy truncations are in examples_not_registered.",
+    "la (<100M speakers): new la forms need AI round-trip ≥0.9 (roundtrip.json records, judge answers in roundtrip_judge/la_blind.json). Original 10 la shorts predate the gate; their records are report-only (most restore to a synonym, e.g. ergo→therefore)."
   ],
   "entries": [
     {
@@ -339,7 +340,8 @@
     {
       "id": "among-others-la",
       "from": [
-        "among others"
+        "among others",
+        "among other things"
       ],
       "to": "inter alia",
       "lang": "la",
@@ -355,7 +357,8 @@
         "token_before": 4,
         "token_after": 3,
         "both_shrink": true
-      }
+      },
+      "note": "among other things added (#la tranche); AI round-trip restores inter alia → among other things"
     },
     {
       "id": "for-this-reason-la-pt",
@@ -462,6 +465,126 @@
         "both_shrink": true
       },
       "note": "re = living scholarly / epistolary Latin"
+    },
+    {
+      "id": "in-a-test-tube-la",
+      "from": [
+        "in a test tube"
+      ],
+      "to": "in vitro",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "in vitro",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 14,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "note": "la tranche: AI round-trip 9/9 (roundtrip_judge/la_blind.json)"
+    },
+    {
+      "id": "in-a-living-organism-la",
+      "from": [
+        "in a living organism"
+      ],
+      "to": "in vivo",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "in vivo",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_before": 20,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "note": "la tranche: AI round-trip 9/9 (roundtrip_judge/la_blind.json)"
+    },
+    {
+      "id": "word-for-word-la",
+      "from": [
+        "word for word"
+      ],
+      "to": "verbatim",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "verbatim",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 13,
+        "utf8_after": 8,
+        "both_shrink": true
+      },
+      "note": "la tranche: AI round-trip 9/9 (roundtrip_judge/la_blind.json)"
+    },
+    {
+      "id": "in-the-middle-of-things-la",
+      "from": [
+        "in the middle of things"
+      ],
+      "to": "in medias res",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "in medias res",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 5,
+        "token_after": 3,
+        "utf8_before": 23,
+        "utf8_after": 13,
+        "both_shrink": true
+      },
+      "note": "la tranche: AI round-trip 9/9 (roundtrip_judge/la_blind.json)"
+    },
+    {
+      "id": "after-the-fact-la",
+      "from": [
+        "after the fact"
+      ],
+      "to": "ex post",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "ex post",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 14,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "note": "la tranche: AI round-trip 9/9 (roundtrip_judge/la_blind.json)"
     }
   ],
   "examples_not_registered": [
@@ -545,6 +668,258 @@
       "would_be": "delegacia",
       "lang": "pt",
       "reason": "loses to ZH 警局 (help3 #7) on estimate_tokens (3 vs 2); kept out of sibling so B-final stays with 警局"
+    },
+    {
+      "id": "per-se-la",
+      "from": [
+        "by itself"
+      ],
+      "to": "per se",
+      "lang": "la",
+      "why_dropped": "ties EN on estimate_tokens (2=2)"
+    },
+    {
+      "id": "ab-initio-la",
+      "from": [
+        "from the beginning"
+      ],
+      "to": "ab initio",
+      "lang": "la",
+      "why_dropped": "ties EN on estimate_tokens (3=3)"
+    },
+    {
+      "id": "de-facto-la",
+      "from": [
+        "in fact"
+      ],
+      "to": "de facto",
+      "lang": "la",
+      "why_dropped": "ties EN (2=2); also sense shift"
+    },
+    {
+      "id": "de-jure-la",
+      "from": [
+        "by law"
+      ],
+      "to": "de jure",
+      "lang": "la",
+      "why_dropped": "ties EN (2=2)"
+    },
+    {
+      "id": "ad-infinitum-la",
+      "from": [
+        "without end"
+      ],
+      "to": "ad infinitum",
+      "lang": "la",
+      "why_dropped": "loses (3>2)"
+    },
+    {
+      "id": "ex-post-facto-la",
+      "from": [
+        "after the fact"
+      ],
+      "to": "ex post facto",
+      "lang": "la",
+      "why_dropped": "ties EN (3=3); ex post wins"
+    },
+    {
+      "id": "vice-versa-la",
+      "from": [
+        "the other way around"
+      ],
+      "to": "vice versa",
+      "lang": "la",
+      "why_dropped": "C ledger owns vice versa (→⇄); not stacked in B"
+    },
+    {
+      "id": "ipso-facto-la",
+      "from": [
+        "by that very fact"
+      ],
+      "to": "ipso facto",
+      "lang": "la",
+      "why_dropped": "C ledger owns ipso facto"
+    },
+    {
+      "id": "prima-facie-la",
+      "from": [
+        "at first sight"
+      ],
+      "to": "prima facie",
+      "lang": "la",
+      "why_dropped": "C/E ledger owns prima facie and at first sight/glance (→一見)"
+    },
+    {
+      "id": "in-situ-la",
+      "from": [
+        "in the original place"
+      ],
+      "to": "in situ",
+      "lang": "la",
+      "why_dropped": "MorphoZip owns in situ (→現場)"
+    },
+    {
+      "id": "sui-generis-la",
+      "from": [
+        "one of a kind"
+      ],
+      "to": "sui generis",
+      "lang": "la",
+      "why_dropped": "MorphoZip owns sui generis"
+    },
+    {
+      "id": "mutatis-la",
+      "from": [
+        "with the necessary changes"
+      ],
+      "to": "mutatis mutandis",
+      "lang": "la",
+      "why_dropped": "MorphoZip owns mutatis mutandis"
+    },
+    {
+      "id": "in-the-meantime-interim",
+      "from": [
+        "in the meantime"
+      ],
+      "to": "interim",
+      "lang": "la",
+      "why_dropped": "AI round-trip 0/9 (restored as meanwhile)"
+    },
+    {
+      "id": "in-good-faith-bona-fide",
+      "from": [
+        "in good faith"
+      ],
+      "to": "bona fide",
+      "lang": "la",
+      "why_dropped": "AI round-trip 0/9 (read as genuine)"
+    },
+    {
+      "id": "for-each-person-per-capita",
+      "from": [
+        "for each person"
+      ],
+      "to": "per capita",
+      "lang": "la",
+      "why_dropped": "AI round-trip 0/9 (per person)"
+    },
+    {
+      "id": "all-the-more-a-fortiori",
+      "from": [
+        "all the more so"
+      ],
+      "to": "a fortiori",
+      "lang": "la",
+      "why_dropped": "AI round-trip 0/9 (even more so)"
+    },
+    {
+      "id": "in-memory-of-memoriam",
+      "from": [
+        "in memory of"
+      ],
+      "to": "in memoriam",
+      "lang": "la",
+      "why_dropped": "AI round-trip 0/9 (drops of); sense-lossy"
+    },
+    {
+      "id": "one-after-another-seriatim",
+      "from": [
+        "one after another"
+      ],
+      "to": "seriatim",
+      "lang": "la",
+      "why_dropped": "AI round-trip 0/9 (one by one)"
+    },
+    {
+      "id": "own-accord-sua-sponte",
+      "from": [
+        "of one's own accord"
+      ],
+      "to": "sua sponte",
+      "lang": "la",
+      "why_dropped": "AI round-trip 0/9 (on its own)"
+    },
+    {
+      "id": "by-way-of-via-la",
+      "from": [
+        "by way of"
+      ],
+      "to": "via",
+      "lang": "la",
+      "why_dropped": "collision: via already registered (pt, by means of)"
+    },
+    {
+      "id": "for-this-purpose-ad-hoc",
+      "from": [
+        "for this purpose"
+      ],
+      "to": "ad hoc",
+      "lang": "la",
+      "why_dropped": "C owns ad hoc (→adhoc)"
+    },
+    {
+      "id": "same-place-ibid",
+      "from": [
+        "in the same place"
+      ],
+      "to": "ibid",
+      "lang": "la",
+      "why_dropped": "citation abbrev → C territory"
+    },
+    {
+      "id": "note-well-nb",
+      "from": [
+        "note well"
+      ],
+      "to": "NB",
+      "lang": "la",
+      "why_dropped": "abbrev → C territory"
+    },
+    {
+      "id": "on-the-contrary-contra",
+      "from": [
+        "on the contrary"
+      ],
+      "to": "contra",
+      "lang": "la",
+      "why_dropped": "sense-lossy (contra = against)"
+    },
+    {
+      "id": "in-the-first-place-primo",
+      "from": [
+        "in the first place"
+      ],
+      "to": "primo",
+      "lang": "la",
+      "why_dropped": "sense-lossy (also = originally); es/it primo = cousin"
+    },
+    {
+      "id": "so-to-speak-quasi",
+      "from": [
+        "so to speak"
+      ],
+      "to": "quasi",
+      "lang": "la",
+      "why_dropped": "sense-lossy"
+    },
+    {
+      "id": "on-the-whole-in-toto",
+      "from": [
+        "on the whole"
+      ],
+      "to": "in toto",
+      "lang": "la",
+      "why_dropped": "sense-lossy (in toto = entirely)"
+    },
+    {
+      "id": "in-passing-obiter",
+      "from": [
+        "in passing"
+      ],
+      "to": "obiter",
+      "lang": "la",
+      "why_dropped": "o200k-calibrated estimate_tokens ties EN (2=2); AI round-trip 9/9 but not cheaper"
     }
   ]
 }

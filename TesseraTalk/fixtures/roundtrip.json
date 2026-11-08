@@ -760,7 +760,5234 @@
         "Maybe que wilden today.",
         "Maybe que wilden today."
       ]
+    },
+    "la:in vitro": {
+      "lang": "la",
+      "form": "in vitro",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "in vitro",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "2d944bc6d912798afd2327e2a0b7c78c3fadd54014e06300ca5cc4c49bbab01c",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "In a test tube.",
+              "converted": "In vitro.",
+              "seed": "1",
+              "prompt_sha256": "ca7ed8188f059779eb09c895c49a762d1effc5958c3e37cb755eacb87d7a7b9b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "47521ccc6c09304450743c8c374188f7892e1d3430b6b3d51dcaa5979de578c4",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "In a test tube.",
+              "converted": "In vitro.",
+              "seed": "2",
+              "prompt_sha256": "ca7ed8188f059779eb09c895c49a762d1effc5958c3e37cb755eacb87d7a7b9b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "3297c952ba08907d2d755fdcfaa4a0d842e501f06b5faba485db5078701c9d42",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "In a test tube.",
+              "converted": "In vitro.",
+              "seed": "3",
+              "prompt_sha256": "ca7ed8188f059779eb09c895c49a762d1effc5958c3e37cb755eacb87d7a7b9b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "be5b43befd043cd77a926aba33e0263397f8b36423b508c280cc1ec2a7ce7bdb",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "Maybe in a test tube today.",
+              "converted": "Maybe in vitro today.",
+              "seed": "1",
+              "prompt_sha256": "9f3dac4a2b5d15734c7c4359173df44c1343cf1ed5a9b6158ab3432ab0c7064b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "08888b1b1de346936e1f2584a479836bbd8ac7021f05def1fb005973020b4b34",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "Maybe in a test tube today.",
+              "converted": "Maybe in vitro today.",
+              "seed": "2",
+              "prompt_sha256": "9f3dac4a2b5d15734c7c4359173df44c1343cf1ed5a9b6158ab3432ab0c7064b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4214a32a273db90e303786d67c118efe471f5310a20608f2b594ec143b790aa5",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "Maybe in a test tube today.",
+              "converted": "Maybe in vitro today.",
+              "seed": "3",
+              "prompt_sha256": "9f3dac4a2b5d15734c7c4359173df44c1343cf1ed5a9b6158ab3432ab0c7064b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cf4e08317544628f9d7de20990f47410964d6cfc50af735acfe8f17776c5c0ac",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "She told me that in a test tube.",
+              "converted": "She told me that in vitro.",
+              "seed": "1",
+              "prompt_sha256": "604fcd72eee3cf7003454106bb4198eaeb4d7170aea756f8e7406da14e7bca50",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a7dbc17f40a52f4c50e74fe141cd4fdbace9c4b98105db3fd3ccd64e7e949b5f",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "She told me that in a test tube.",
+              "converted": "She told me that in vitro.",
+              "seed": "2",
+              "prompt_sha256": "604fcd72eee3cf7003454106bb4198eaeb4d7170aea756f8e7406da14e7bca50",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8c8fca377e9eb648963070a11bb48ae90540d327c2dabd854a04e93b8b32ee34",
+              "lang": "la",
+              "form": "in vitro",
+              "source": "She told me that in a test tube.",
+              "converted": "She told me that in vitro.",
+              "seed": "3",
+              "prompt_sha256": "604fcd72eee3cf7003454106bb4198eaeb4d7170aea756f8e7406da14e7bca50",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "2d944bc6d912798afd2327e2a0b7c78c3fadd54014e06300ca5cc4c49bbab01c",
+            "47521ccc6c09304450743c8c374188f7892e1d3430b6b3d51dcaa5979de578c4",
+            "3297c952ba08907d2d755fdcfaa4a0d842e501f06b5faba485db5078701c9d42",
+            "be5b43befd043cd77a926aba33e0263397f8b36423b508c280cc1ec2a7ce7bdb",
+            "08888b1b1de346936e1f2584a479836bbd8ac7021f05def1fb005973020b4b34",
+            "4214a32a273db90e303786d67c118efe471f5310a20608f2b594ec143b790aa5",
+            "cf4e08317544628f9d7de20990f47410964d6cfc50af735acfe8f17776c5c0ac",
+            "a7dbc17f40a52f4c50e74fe141cd4fdbace9c4b98105db3fd3ccd64e7e949b5f",
+            "8c8fca377e9eb648963070a11bb48ae90540d327c2dabd854a04e93b8b32ee34"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:in vivo": {
+      "lang": "la",
+      "form": "in vivo",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "in vivo",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "ff7140c41f061449a1048f75794397682457879210aa591d86457ed7d1fe70e2",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "In a living organism.",
+              "converted": "In vivo.",
+              "seed": "1",
+              "prompt_sha256": "1179ca815952e0bfc892d4cb0aee17d28d8de6633d83541a5443ff71829a6dda",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "712fa8d34a98daaf8daab4521f15ddfcab193642bbd798962344006b4a072d95",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "In a living organism.",
+              "converted": "In vivo.",
+              "seed": "2",
+              "prompt_sha256": "1179ca815952e0bfc892d4cb0aee17d28d8de6633d83541a5443ff71829a6dda",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e95f16832b2f71410c9b456708527876252d23a5895f97535c2a5793f55312bc",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "In a living organism.",
+              "converted": "In vivo.",
+              "seed": "3",
+              "prompt_sha256": "1179ca815952e0bfc892d4cb0aee17d28d8de6633d83541a5443ff71829a6dda",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e855670a11552e992418d71c32065b1df5e053e5128c57135854906175d26c5a",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "Maybe in a living organism today.",
+              "converted": "Maybe in vivo today.",
+              "seed": "1",
+              "prompt_sha256": "8c8fa9ae0c2bf5be36249870e883680e1ff58cb33687140dfb7db4ec151a97fb",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "00fee49616290d6b1ef3caa8e79c9583cd3ba90ba38a4b1ac0cef5bc76efbc16",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "Maybe in a living organism today.",
+              "converted": "Maybe in vivo today.",
+              "seed": "2",
+              "prompt_sha256": "8c8fa9ae0c2bf5be36249870e883680e1ff58cb33687140dfb7db4ec151a97fb",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e7cfc2b1f9af5556fa157c3fb12338d1e0ac28676948014e60e07f1d2e858914",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "Maybe in a living organism today.",
+              "converted": "Maybe in vivo today.",
+              "seed": "3",
+              "prompt_sha256": "8c8fa9ae0c2bf5be36249870e883680e1ff58cb33687140dfb7db4ec151a97fb",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4dde029b1f0785e80b68f26c6962d4198acc410865a27ca9c9b419a2a242aaa8",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "She told me that in a living organism.",
+              "converted": "She told me that in vivo.",
+              "seed": "1",
+              "prompt_sha256": "c2a3317173cc30907360746cb54df6b67f2152dd02cdbfdc7b1a4654022dd8d9",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8754458df2a7203bcfc66e73ba1fda3959ae80456bd017ea92492c11324ae136",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "She told me that in a living organism.",
+              "converted": "She told me that in vivo.",
+              "seed": "2",
+              "prompt_sha256": "c2a3317173cc30907360746cb54df6b67f2152dd02cdbfdc7b1a4654022dd8d9",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "fb61aeb41ece1db5665bca018b39563df5197fa34c08e71b830a4b578fa054d7",
+              "lang": "la",
+              "form": "in vivo",
+              "source": "She told me that in a living organism.",
+              "converted": "She told me that in vivo.",
+              "seed": "3",
+              "prompt_sha256": "c2a3317173cc30907360746cb54df6b67f2152dd02cdbfdc7b1a4654022dd8d9",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "ff7140c41f061449a1048f75794397682457879210aa591d86457ed7d1fe70e2",
+            "712fa8d34a98daaf8daab4521f15ddfcab193642bbd798962344006b4a072d95",
+            "e95f16832b2f71410c9b456708527876252d23a5895f97535c2a5793f55312bc",
+            "e855670a11552e992418d71c32065b1df5e053e5128c57135854906175d26c5a",
+            "00fee49616290d6b1ef3caa8e79c9583cd3ba90ba38a4b1ac0cef5bc76efbc16",
+            "e7cfc2b1f9af5556fa157c3fb12338d1e0ac28676948014e60e07f1d2e858914",
+            "4dde029b1f0785e80b68f26c6962d4198acc410865a27ca9c9b419a2a242aaa8",
+            "8754458df2a7203bcfc66e73ba1fda3959ae80456bd017ea92492c11324ae136",
+            "fb61aeb41ece1db5665bca018b39563df5197fa34c08e71b830a4b578fa054d7"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:verbatim": {
+      "lang": "la",
+      "form": "verbatim",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "verbatim",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "4c831ad470345ba3a0e2478f633c86a9e9e79bf5ba97329884ef0aa8948e6e20",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "Word for word.",
+              "converted": "Verbatim.",
+              "seed": "1",
+              "prompt_sha256": "686fbb35f7cd7ca6108b32b4259b98c1b7730a45cf20d0ec56770eb0098bc2ec",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "9f51d0965924ba73e3e36f327aa0898c45098f37f2d5d153c667b83778ee73e9",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "Word for word.",
+              "converted": "Verbatim.",
+              "seed": "2",
+              "prompt_sha256": "686fbb35f7cd7ca6108b32b4259b98c1b7730a45cf20d0ec56770eb0098bc2ec",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "24e816c33ff7dd90ab70affbbcb69848f80b6c94dc976d7c1024e6ed2494ceb5",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "Word for word.",
+              "converted": "Verbatim.",
+              "seed": "3",
+              "prompt_sha256": "686fbb35f7cd7ca6108b32b4259b98c1b7730a45cf20d0ec56770eb0098bc2ec",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8702e591b0fc09f322c2f1c1cbe59ad9c62d5af25179eb59e91be45d818b6655",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "Maybe word for word today.",
+              "converted": "Maybe verbatim today.",
+              "seed": "1",
+              "prompt_sha256": "33f65d932c75d6d56dc2cd11d98c801e82a7cfc7ff844e8209e57cea8a71e07e",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "6defaa76eff0d10db902f82e83291d752297202d7f28dc688ad80449d5245969",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "Maybe word for word today.",
+              "converted": "Maybe verbatim today.",
+              "seed": "2",
+              "prompt_sha256": "33f65d932c75d6d56dc2cd11d98c801e82a7cfc7ff844e8209e57cea8a71e07e",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "30fb316c9e10242151e6f6bbe5869feaa7eade7c7b8dca41d5efd8101c79151c",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "Maybe word for word today.",
+              "converted": "Maybe verbatim today.",
+              "seed": "3",
+              "prompt_sha256": "33f65d932c75d6d56dc2cd11d98c801e82a7cfc7ff844e8209e57cea8a71e07e",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d004ac8c615548774c8e9495a24e40df21b27263de783e2e36262cd5be41a3ed",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "She told me that word for word.",
+              "converted": "She told me that verbatim.",
+              "seed": "1",
+              "prompt_sha256": "fa4d58a2821a76318f8a3a5cdeb56cbfa99cb70c18852d2160a865c8e0e52185",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8635fbae3291533a59231edf35482086945893c4c26257ca89fdaafd57e5fb73",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "She told me that word for word.",
+              "converted": "She told me that verbatim.",
+              "seed": "2",
+              "prompt_sha256": "fa4d58a2821a76318f8a3a5cdeb56cbfa99cb70c18852d2160a865c8e0e52185",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c37050ac8d14c9b301fe7c636b4078585ec2e9b7f0623774797bc651466e5c97",
+              "lang": "la",
+              "form": "verbatim",
+              "source": "She told me that word for word.",
+              "converted": "She told me that verbatim.",
+              "seed": "3",
+              "prompt_sha256": "fa4d58a2821a76318f8a3a5cdeb56cbfa99cb70c18852d2160a865c8e0e52185",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "4c831ad470345ba3a0e2478f633c86a9e9e79bf5ba97329884ef0aa8948e6e20",
+            "9f51d0965924ba73e3e36f327aa0898c45098f37f2d5d153c667b83778ee73e9",
+            "24e816c33ff7dd90ab70affbbcb69848f80b6c94dc976d7c1024e6ed2494ceb5",
+            "8702e591b0fc09f322c2f1c1cbe59ad9c62d5af25179eb59e91be45d818b6655",
+            "6defaa76eff0d10db902f82e83291d752297202d7f28dc688ad80449d5245969",
+            "30fb316c9e10242151e6f6bbe5869feaa7eade7c7b8dca41d5efd8101c79151c",
+            "d004ac8c615548774c8e9495a24e40df21b27263de783e2e36262cd5be41a3ed",
+            "8635fbae3291533a59231edf35482086945893c4c26257ca89fdaafd57e5fb73",
+            "c37050ac8d14c9b301fe7c636b4078585ec2e9b7f0623774797bc651466e5c97"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:in medias res": {
+      "lang": "la",
+      "form": "in medias res",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "in medias res",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "93ab3533b4a0292973539ff6a1a3782d325e35a9ab6bb44a51d835d475902c40",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "In the middle of things.",
+              "converted": "In medias res.",
+              "seed": "1",
+              "prompt_sha256": "335faca3b55c7c81155096a66c00019a0f416d12af3bc21af5265f1b51b1d384",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "9ee6931db406ca400fc392f2b30010dae1400f5a27eaf12ab8722ed0b23c0bb7",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "In the middle of things.",
+              "converted": "In medias res.",
+              "seed": "2",
+              "prompt_sha256": "335faca3b55c7c81155096a66c00019a0f416d12af3bc21af5265f1b51b1d384",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e73baa002d61f8b881c40ab0a883c3bd6ba544693b9f4794158e378fc9c40e01",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "In the middle of things.",
+              "converted": "In medias res.",
+              "seed": "3",
+              "prompt_sha256": "335faca3b55c7c81155096a66c00019a0f416d12af3bc21af5265f1b51b1d384",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "f866a9a45cfffce7ea5859e0c5e91018d1b1455d50f3e93e00e3aebc6748e1e4",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "Maybe in the middle of things today.",
+              "converted": "Maybe in medias res today.",
+              "seed": "1",
+              "prompt_sha256": "8cf053261d6f375dd1229d0c82551fc1fbf5d3c9bf08387328febbd225ffcf33",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "48411a82b485317073916afb90f3a9a32cfa32c0f84c884c20a055e01ee353bb",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "Maybe in the middle of things today.",
+              "converted": "Maybe in medias res today.",
+              "seed": "2",
+              "prompt_sha256": "8cf053261d6f375dd1229d0c82551fc1fbf5d3c9bf08387328febbd225ffcf33",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1cc2b161b70afb89209e0cb7e84b171d86cbd171f19f960eb807dfefcbf64d4b",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "Maybe in the middle of things today.",
+              "converted": "Maybe in medias res today.",
+              "seed": "3",
+              "prompt_sha256": "8cf053261d6f375dd1229d0c82551fc1fbf5d3c9bf08387328febbd225ffcf33",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1d58f68992234e339d798cb0b2bbf23ba8412739b57345fea33ed6252e88efc5",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "She told me that in the middle of things.",
+              "converted": "She told me that in medias res.",
+              "seed": "1",
+              "prompt_sha256": "7549ceae318495231acca04c0b05fc91e66643109281516d168b9cbc0a4fe7e4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "41068377a822d5a3e9da4ea1db37adf8ef730c9abd9328d1da230989aee58ca8",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "She told me that in the middle of things.",
+              "converted": "She told me that in medias res.",
+              "seed": "2",
+              "prompt_sha256": "7549ceae318495231acca04c0b05fc91e66643109281516d168b9cbc0a4fe7e4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "ac47e589e33ffa005db573887a126ba221b005dd3dbc6b56696ec4263cc16c6b",
+              "lang": "la",
+              "form": "in medias res",
+              "source": "She told me that in the middle of things.",
+              "converted": "She told me that in medias res.",
+              "seed": "3",
+              "prompt_sha256": "7549ceae318495231acca04c0b05fc91e66643109281516d168b9cbc0a4fe7e4",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "93ab3533b4a0292973539ff6a1a3782d325e35a9ab6bb44a51d835d475902c40",
+            "9ee6931db406ca400fc392f2b30010dae1400f5a27eaf12ab8722ed0b23c0bb7",
+            "e73baa002d61f8b881c40ab0a883c3bd6ba544693b9f4794158e378fc9c40e01",
+            "f866a9a45cfffce7ea5859e0c5e91018d1b1455d50f3e93e00e3aebc6748e1e4",
+            "48411a82b485317073916afb90f3a9a32cfa32c0f84c884c20a055e01ee353bb",
+            "1cc2b161b70afb89209e0cb7e84b171d86cbd171f19f960eb807dfefcbf64d4b",
+            "1d58f68992234e339d798cb0b2bbf23ba8412739b57345fea33ed6252e88efc5",
+            "41068377a822d5a3e9da4ea1db37adf8ef730c9abd9328d1da230989aee58ca8",
+            "ac47e589e33ffa005db573887a126ba221b005dd3dbc6b56696ec4263cc16c6b"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:obiter": {
+      "lang": "la",
+      "form": "obiter",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "obiter",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "f27414202e1bcded453b801394ab05d511740f0c06b9ffa5facd02ba05fb82d9",
+              "lang": "la",
+              "form": "obiter",
+              "source": "In passing.",
+              "converted": "Obiter.",
+              "seed": "1",
+              "prompt_sha256": "0acaee50a05860976ad4e3e1e7b60450369f990ff0f00b756296678538b52cfb",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "7a36ba52c2ad20d535a1fc116d8072f9fe4dce19bc59adcdafdd1aeb171e1f3a",
+              "lang": "la",
+              "form": "obiter",
+              "source": "In passing.",
+              "converted": "Obiter.",
+              "seed": "2",
+              "prompt_sha256": "0acaee50a05860976ad4e3e1e7b60450369f990ff0f00b756296678538b52cfb",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "db9707bb95b540ef1cf411a1fbb31cadd8b20140e1d46c9df4d610ddbc4eacda",
+              "lang": "la",
+              "form": "obiter",
+              "source": "In passing.",
+              "converted": "Obiter.",
+              "seed": "3",
+              "prompt_sha256": "0acaee50a05860976ad4e3e1e7b60450369f990ff0f00b756296678538b52cfb",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "24f62668c69bd82a46fc2ebeead208693ed1d79e5faadcb26d773da35e0d19aa",
+              "lang": "la",
+              "form": "obiter",
+              "source": "Maybe in passing today.",
+              "converted": "Maybe obiter today.",
+              "seed": "1",
+              "prompt_sha256": "d3fd5d04fad554749b53bb160ed4038459d39ba36b9c354a6da88e19d8274f57",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "27f243f00916822c0ecdb5ce347cd1cab46f8df59eab13cb936a3ed00bad37c1",
+              "lang": "la",
+              "form": "obiter",
+              "source": "Maybe in passing today.",
+              "converted": "Maybe obiter today.",
+              "seed": "2",
+              "prompt_sha256": "d3fd5d04fad554749b53bb160ed4038459d39ba36b9c354a6da88e19d8274f57",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2511d780141f18cdeb14731334f1720937e556ff2a0650793d8446f7409e45b3",
+              "lang": "la",
+              "form": "obiter",
+              "source": "Maybe in passing today.",
+              "converted": "Maybe obiter today.",
+              "seed": "3",
+              "prompt_sha256": "d3fd5d04fad554749b53bb160ed4038459d39ba36b9c354a6da88e19d8274f57",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0f130872e71d6ed224381d4fb8069b23d8ac6705013ba055ba6ac1df34e63ed9",
+              "lang": "la",
+              "form": "obiter",
+              "source": "She told me that in passing.",
+              "converted": "She told me that obiter.",
+              "seed": "1",
+              "prompt_sha256": "412d811524647f3ee9fff0d1d987c7d419996ad623d4e4847df3bb69ca71433f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4513ecee8ff6568c160dfe8c1916f2303577b4d4a0c1372af0c221e2e9564800",
+              "lang": "la",
+              "form": "obiter",
+              "source": "She told me that in passing.",
+              "converted": "She told me that obiter.",
+              "seed": "2",
+              "prompt_sha256": "412d811524647f3ee9fff0d1d987c7d419996ad623d4e4847df3bb69ca71433f",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c02dbb97e3902a3eb0d2ca8b766a28ce825e219714f1e4be114390d238ee54f7",
+              "lang": "la",
+              "form": "obiter",
+              "source": "She told me that in passing.",
+              "converted": "She told me that obiter.",
+              "seed": "3",
+              "prompt_sha256": "412d811524647f3ee9fff0d1d987c7d419996ad623d4e4847df3bb69ca71433f",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "f27414202e1bcded453b801394ab05d511740f0c06b9ffa5facd02ba05fb82d9",
+            "7a36ba52c2ad20d535a1fc116d8072f9fe4dce19bc59adcdafdd1aeb171e1f3a",
+            "db9707bb95b540ef1cf411a1fbb31cadd8b20140e1d46c9df4d610ddbc4eacda",
+            "24f62668c69bd82a46fc2ebeead208693ed1d79e5faadcb26d773da35e0d19aa",
+            "27f243f00916822c0ecdb5ce347cd1cab46f8df59eab13cb936a3ed00bad37c1",
+            "2511d780141f18cdeb14731334f1720937e556ff2a0650793d8446f7409e45b3",
+            "0f130872e71d6ed224381d4fb8069b23d8ac6705013ba055ba6ac1df34e63ed9",
+            "4513ecee8ff6568c160dfe8c1916f2303577b4d4a0c1372af0c221e2e9564800",
+            "c02dbb97e3902a3eb0d2ca8b766a28ce825e219714f1e4be114390d238ee54f7"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:ex post": {
+      "lang": "la",
+      "form": "ex post",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "ex post",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "40e05caade37be2f845762b2e15821e0e43c4307ea5eed835285cc518fe2b7dc",
+              "lang": "la",
+              "form": "ex post",
+              "source": "After the fact.",
+              "converted": "Ex post.",
+              "seed": "1",
+              "prompt_sha256": "373d4d90383af25ceb45e2e15a6872614feeee3ae9159bd93cc463cf1ef9d2a5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a4953a0a8e2a1eced829e95fba66dc091e5a7b37fcd243c37d6acbaea2ade8dc",
+              "lang": "la",
+              "form": "ex post",
+              "source": "After the fact.",
+              "converted": "Ex post.",
+              "seed": "2",
+              "prompt_sha256": "373d4d90383af25ceb45e2e15a6872614feeee3ae9159bd93cc463cf1ef9d2a5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "62993cd88c950a9f2469443b9818c75f0dcabbf2dab100db0cde92a9f0d32333",
+              "lang": "la",
+              "form": "ex post",
+              "source": "After the fact.",
+              "converted": "Ex post.",
+              "seed": "3",
+              "prompt_sha256": "373d4d90383af25ceb45e2e15a6872614feeee3ae9159bd93cc463cf1ef9d2a5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "3276644d8176f68be76d72ee60285b8b67763c001b6cf81122d2c8c056eb5aad",
+              "lang": "la",
+              "form": "ex post",
+              "source": "Maybe after the fact today.",
+              "converted": "Maybe ex post today.",
+              "seed": "1",
+              "prompt_sha256": "fde9e25d9144c3e33e27db0fcfba5f460b9f1ea471b43a454caf72fc5e3da6dc",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d12d919aada55f0dda20e3b690de8a5417c1287c4df75d9b13fa8e3a786bd390",
+              "lang": "la",
+              "form": "ex post",
+              "source": "Maybe after the fact today.",
+              "converted": "Maybe ex post today.",
+              "seed": "2",
+              "prompt_sha256": "fde9e25d9144c3e33e27db0fcfba5f460b9f1ea471b43a454caf72fc5e3da6dc",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "f893cbd286dd18f56745ae3c3c12db6f99ff213ccfe8808e620017bf63dd7c9a",
+              "lang": "la",
+              "form": "ex post",
+              "source": "Maybe after the fact today.",
+              "converted": "Maybe ex post today.",
+              "seed": "3",
+              "prompt_sha256": "fde9e25d9144c3e33e27db0fcfba5f460b9f1ea471b43a454caf72fc5e3da6dc",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2e6f313e5630d9d086c66b6e03d0bee046ebaeebba7ba964df63912da4bd54d7",
+              "lang": "la",
+              "form": "ex post",
+              "source": "She told me that after the fact.",
+              "converted": "She told me that ex post.",
+              "seed": "1",
+              "prompt_sha256": "102846d16bd98f3bae0a10f5782ca33e363d377eaaa5cc824623d77f6ff04ce0",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "79d8e7e675b643bd0365f2a50ac62c27b2c30c6258b97222313cfec25da70262",
+              "lang": "la",
+              "form": "ex post",
+              "source": "She told me that after the fact.",
+              "converted": "She told me that ex post.",
+              "seed": "2",
+              "prompt_sha256": "102846d16bd98f3bae0a10f5782ca33e363d377eaaa5cc824623d77f6ff04ce0",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d092d9779c3bc17408a6a1daf2e62db62172014faac015e50ae116ba6de1c127",
+              "lang": "la",
+              "form": "ex post",
+              "source": "She told me that after the fact.",
+              "converted": "She told me that ex post.",
+              "seed": "3",
+              "prompt_sha256": "102846d16bd98f3bae0a10f5782ca33e363d377eaaa5cc824623d77f6ff04ce0",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "40e05caade37be2f845762b2e15821e0e43c4307ea5eed835285cc518fe2b7dc",
+            "a4953a0a8e2a1eced829e95fba66dc091e5a7b37fcd243c37d6acbaea2ade8dc",
+            "62993cd88c950a9f2469443b9818c75f0dcabbf2dab100db0cde92a9f0d32333",
+            "3276644d8176f68be76d72ee60285b8b67763c001b6cf81122d2c8c056eb5aad",
+            "d12d919aada55f0dda20e3b690de8a5417c1287c4df75d9b13fa8e3a786bd390",
+            "f893cbd286dd18f56745ae3c3c12db6f99ff213ccfe8808e620017bf63dd7c9a",
+            "2e6f313e5630d9d086c66b6e03d0bee046ebaeebba7ba964df63912da4bd54d7",
+            "79d8e7e675b643bd0365f2a50ac62c27b2c30c6258b97222313cfec25da70262",
+            "d092d9779c3bc17408a6a1daf2e62db62172014faac015e50ae116ba6de1c127"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:interim": {
+      "lang": "la",
+      "form": "interim",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Interim.",
+        "Interim.",
+        "Interim.",
+        "Maybe interim today.",
+        "Maybe interim today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "interim",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "30e00daffe6b9cd4f7c59318ff749addc3822bdcb9218817d575b7b2bceffebc",
+              "lang": "la",
+              "form": "interim",
+              "source": "In the meantime.",
+              "converted": "Interim.",
+              "seed": "1",
+              "prompt_sha256": "f485c447da7237d1dccd08b579cb1f574dc7636c63be5fa1fbddba96b46c85a7",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "630a06d61c4da9a56903c55795662e2200095820b4ed720c90ff941ea1c4000b",
+              "lang": "la",
+              "form": "interim",
+              "source": "In the meantime.",
+              "converted": "Interim.",
+              "seed": "2",
+              "prompt_sha256": "f485c447da7237d1dccd08b579cb1f574dc7636c63be5fa1fbddba96b46c85a7",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "946df9b13052bebdb095fec3b27221fb746eb1ed5e6402354457bf6dd171ff29",
+              "lang": "la",
+              "form": "interim",
+              "source": "In the meantime.",
+              "converted": "Interim.",
+              "seed": "3",
+              "prompt_sha256": "f485c447da7237d1dccd08b579cb1f574dc7636c63be5fa1fbddba96b46c85a7",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "3d0186daa95c2e3adc32771bec1e87f6e9d42d9eb962c45e441746b3a0787a77",
+              "lang": "la",
+              "form": "interim",
+              "source": "Maybe in the meantime today.",
+              "converted": "Maybe interim today.",
+              "seed": "1",
+              "prompt_sha256": "d8e7623f50aabf2d268ade0d2dde8409ddd879a6cead216380cccc081172740f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "54813fef922affa8ad9fceefb75b88fbf8e3a509004c61877c8e029776923ad0",
+              "lang": "la",
+              "form": "interim",
+              "source": "Maybe in the meantime today.",
+              "converted": "Maybe interim today.",
+              "seed": "2",
+              "prompt_sha256": "d8e7623f50aabf2d268ade0d2dde8409ddd879a6cead216380cccc081172740f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "04f61ae4e4dad002117b52a652502e255a940fe8ad01c9d2ef6938f463fbc647",
+              "lang": "la",
+              "form": "interim",
+              "source": "Maybe in the meantime today.",
+              "converted": "Maybe interim today.",
+              "seed": "3",
+              "prompt_sha256": "d8e7623f50aabf2d268ade0d2dde8409ddd879a6cead216380cccc081172740f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "db89cf5fa4ddeca9dec592b1050af4d37656b7e517a6d31d52abdb1c6a2f03c7",
+              "lang": "la",
+              "form": "interim",
+              "source": "She told me that in the meantime.",
+              "converted": "She told me that interim.",
+              "seed": "1",
+              "prompt_sha256": "a2484c9699f7fc2dedc93928b460577760ee74345831ef6649aee4f598ad2ded",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "f20845cbfe7e0d7d104bb5121103c83612808b4a00cb0819834a0afa7f6f8589",
+              "lang": "la",
+              "form": "interim",
+              "source": "She told me that in the meantime.",
+              "converted": "She told me that interim.",
+              "seed": "2",
+              "prompt_sha256": "a2484c9699f7fc2dedc93928b460577760ee74345831ef6649aee4f598ad2ded",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "0426ec55019790007081e2d23fd2a3a17268afbf35fc6c464a01116deb8b3d09",
+              "lang": "la",
+              "form": "interim",
+              "source": "She told me that in the meantime.",
+              "converted": "She told me that interim.",
+              "seed": "3",
+              "prompt_sha256": "a2484c9699f7fc2dedc93928b460577760ee74345831ef6649aee4f598ad2ded",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "30e00daffe6b9cd4f7c59318ff749addc3822bdcb9218817d575b7b2bceffebc",
+            "630a06d61c4da9a56903c55795662e2200095820b4ed720c90ff941ea1c4000b",
+            "946df9b13052bebdb095fec3b27221fb746eb1ed5e6402354457bf6dd171ff29",
+            "3d0186daa95c2e3adc32771bec1e87f6e9d42d9eb962c45e441746b3a0787a77",
+            "54813fef922affa8ad9fceefb75b88fbf8e3a509004c61877c8e029776923ad0",
+            "04f61ae4e4dad002117b52a652502e255a940fe8ad01c9d2ef6938f463fbc647",
+            "db89cf5fa4ddeca9dec592b1050af4d37656b7e517a6d31d52abdb1c6a2f03c7",
+            "f20845cbfe7e0d7d104bb5121103c83612808b4a00cb0819834a0afa7f6f8589",
+            "0426ec55019790007081e2d23fd2a3a17268afbf35fc6c464a01116deb8b3d09"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:inter alia": {
+      "lang": "la",
+      "form": "inter alia",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "inter alia",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "ce507396ab8d8432cc8559ff06cf5d186a3999604a32b45d37d5cb9da6fcf320",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "Among other things.",
+              "converted": "Inter alia.",
+              "seed": "1",
+              "prompt_sha256": "31b0443574c7bcc25d4356e6c511c1d1848bd3c1c7ed39050c1c2ad9ba76da43",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cbf4387b7a7bf01461fbd86bc7e020b75c8e56e141fe59d432e33c9b819fda36",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "Among other things.",
+              "converted": "Inter alia.",
+              "seed": "2",
+              "prompt_sha256": "31b0443574c7bcc25d4356e6c511c1d1848bd3c1c7ed39050c1c2ad9ba76da43",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "43928ab5a59ea7e2415e01562101a908966cbe5d7d74999095fc32eb8f13117e",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "Among other things.",
+              "converted": "Inter alia.",
+              "seed": "3",
+              "prompt_sha256": "31b0443574c7bcc25d4356e6c511c1d1848bd3c1c7ed39050c1c2ad9ba76da43",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "f8c3cb1e0a947a4b96fd106de32479d98fa0fdd19fffa8fb72cec8a6efa6f0b8",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "Maybe among other things today.",
+              "converted": "Maybe inter alia today.",
+              "seed": "1",
+              "prompt_sha256": "cbef39a5908d37bf4d200b61d28914a522e55c36c98a014127c6fb4112559815",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2a3b94bb1af1c9bb9f0605566812eed2101981ae5c8d5ca183c177236ac84ceb",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "Maybe among other things today.",
+              "converted": "Maybe inter alia today.",
+              "seed": "2",
+              "prompt_sha256": "cbef39a5908d37bf4d200b61d28914a522e55c36c98a014127c6fb4112559815",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "62a1a24e255b6840fe5592313062602b4cc870ac9ba86987437b57ac12d75392",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "Maybe among other things today.",
+              "converted": "Maybe inter alia today.",
+              "seed": "3",
+              "prompt_sha256": "cbef39a5908d37bf4d200b61d28914a522e55c36c98a014127c6fb4112559815",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "db06501486cb204d6c953f6b5c6f61c76b3cd7f8376148cc099b96c374717cac",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "She told me that among other things.",
+              "converted": "She told me that inter alia.",
+              "seed": "1",
+              "prompt_sha256": "96bcef1b75f6b6098537fa4b3241aef1f90ad679274cbe56174e91da8eac4525",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "230750018db4e901f998ad1cb65e2cbe8efd36d62cab3febb49b228d855d5116",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "She told me that among other things.",
+              "converted": "She told me that inter alia.",
+              "seed": "2",
+              "prompt_sha256": "96bcef1b75f6b6098537fa4b3241aef1f90ad679274cbe56174e91da8eac4525",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "33ab8485e36026eac3616637e8bad55e538e2be246576de52ebeaffd3ec0918c",
+              "lang": "la",
+              "form": "inter alia",
+              "source": "She told me that among other things.",
+              "converted": "She told me that inter alia.",
+              "seed": "3",
+              "prompt_sha256": "96bcef1b75f6b6098537fa4b3241aef1f90ad679274cbe56174e91da8eac4525",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "ce507396ab8d8432cc8559ff06cf5d186a3999604a32b45d37d5cb9da6fcf320",
+            "cbf4387b7a7bf01461fbd86bc7e020b75c8e56e141fe59d432e33c9b819fda36",
+            "43928ab5a59ea7e2415e01562101a908966cbe5d7d74999095fc32eb8f13117e",
+            "f8c3cb1e0a947a4b96fd106de32479d98fa0fdd19fffa8fb72cec8a6efa6f0b8",
+            "2a3b94bb1af1c9bb9f0605566812eed2101981ae5c8d5ca183c177236ac84ceb",
+            "62a1a24e255b6840fe5592313062602b4cc870ac9ba86987437b57ac12d75392",
+            "db06501486cb204d6c953f6b5c6f61c76b3cd7f8376148cc099b96c374717cac",
+            "230750018db4e901f998ad1cb65e2cbe8efd36d62cab3febb49b228d855d5116",
+            "33ab8485e36026eac3616637e8bad55e538e2be246576de52ebeaffd3ec0918c"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:bona fide": {
+      "lang": "la",
+      "form": "bona fide",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Bona fide.",
+        "Bona fide.",
+        "Bona fide.",
+        "Maybe bona fide today.",
+        "Maybe bona fide today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "bona fide",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "d5410c26e5f6cb655cbdeadc2b5859e395cb45c022e202fec97037e4862e6a9b",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "In good faith.",
+              "converted": "Bona fide.",
+              "seed": "1",
+              "prompt_sha256": "816806933baf4400bdca385cbe57195024c86ce932cc5c95dd5568d0cd354f22",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "420aad20d48b53c286685d5237a4624ee986529a245b1568458fd421ccd0ee2d",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "In good faith.",
+              "converted": "Bona fide.",
+              "seed": "2",
+              "prompt_sha256": "816806933baf4400bdca385cbe57195024c86ce932cc5c95dd5568d0cd354f22",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "eb5d16d3e450e94f98b003797962f615aaeea98f0d959596e674549bf219292f",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "In good faith.",
+              "converted": "Bona fide.",
+              "seed": "3",
+              "prompt_sha256": "816806933baf4400bdca385cbe57195024c86ce932cc5c95dd5568d0cd354f22",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "9e4b972b6a57a3c2b148dd9ec7400947add465c65c3197987f14cd80640a06c7",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "Maybe in good faith today.",
+              "converted": "Maybe bona fide today.",
+              "seed": "1",
+              "prompt_sha256": "34f6a7ed79e5751ac5b9ffedda9c1163402e67feab33fdfc1c176f327d009b1a",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "09715a158a9af518762674aa93247dd7844b7bb222e4e427df7e8c4e92d5abc2",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "Maybe in good faith today.",
+              "converted": "Maybe bona fide today.",
+              "seed": "2",
+              "prompt_sha256": "34f6a7ed79e5751ac5b9ffedda9c1163402e67feab33fdfc1c176f327d009b1a",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "aaf8081fe947ff736f6c1188ba293efd17eb62e3a87b3f8bd4cefcf6395bc178",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "Maybe in good faith today.",
+              "converted": "Maybe bona fide today.",
+              "seed": "3",
+              "prompt_sha256": "34f6a7ed79e5751ac5b9ffedda9c1163402e67feab33fdfc1c176f327d009b1a",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "4692b8579265f8e803bf93dd5340aeddccb33261651482cfadf035c0dbc9b437",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "She told me that in good faith.",
+              "converted": "She told me that bona fide.",
+              "seed": "1",
+              "prompt_sha256": "93c0a7f600b951b9b60e1311a0052e96f58372cf296324da3eff127d6b06fcf2",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "53695b05cdf30963242ef5d4c5ceec20acfee8d4ec7de7865b7c0b7ef8dae2e9",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "She told me that in good faith.",
+              "converted": "She told me that bona fide.",
+              "seed": "2",
+              "prompt_sha256": "93c0a7f600b951b9b60e1311a0052e96f58372cf296324da3eff127d6b06fcf2",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "d426c81bf5a966d393cbf89af59b8a89ea5931868a4dff49330803b45d97c061",
+              "lang": "la",
+              "form": "bona fide",
+              "source": "She told me that in good faith.",
+              "converted": "She told me that bona fide.",
+              "seed": "3",
+              "prompt_sha256": "93c0a7f600b951b9b60e1311a0052e96f58372cf296324da3eff127d6b06fcf2",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "d5410c26e5f6cb655cbdeadc2b5859e395cb45c022e202fec97037e4862e6a9b",
+            "420aad20d48b53c286685d5237a4624ee986529a245b1568458fd421ccd0ee2d",
+            "eb5d16d3e450e94f98b003797962f615aaeea98f0d959596e674549bf219292f",
+            "9e4b972b6a57a3c2b148dd9ec7400947add465c65c3197987f14cd80640a06c7",
+            "09715a158a9af518762674aa93247dd7844b7bb222e4e427df7e8c4e92d5abc2",
+            "aaf8081fe947ff736f6c1188ba293efd17eb62e3a87b3f8bd4cefcf6395bc178",
+            "4692b8579265f8e803bf93dd5340aeddccb33261651482cfadf035c0dbc9b437",
+            "53695b05cdf30963242ef5d4c5ceec20acfee8d4ec7de7865b7c0b7ef8dae2e9",
+            "d426c81bf5a966d393cbf89af59b8a89ea5931868a4dff49330803b45d97c061"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:per capita": {
+      "lang": "la",
+      "form": "per capita",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Per capita.",
+        "Per capita.",
+        "Per capita.",
+        "Maybe per capita today.",
+        "Maybe per capita today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "per capita",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "35a99b9271ef7f178ded3bedb9650b2bc26bbc8e3118a989ddd903d41fbbb318",
+              "lang": "la",
+              "form": "per capita",
+              "source": "For each person.",
+              "converted": "Per capita.",
+              "seed": "1",
+              "prompt_sha256": "43b1f92ed478eebc8cd46530455af12267512aff6471ff68ed7881204348a906",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "d659fbf4ed8a710b218177c4b74542e924bdbfa4cfb164c33c2ab8a5815714eb",
+              "lang": "la",
+              "form": "per capita",
+              "source": "For each person.",
+              "converted": "Per capita.",
+              "seed": "2",
+              "prompt_sha256": "43b1f92ed478eebc8cd46530455af12267512aff6471ff68ed7881204348a906",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "46d392a52b1a454cabe7019e8abc83fe7467906e002270070c0b7d267e1f7cf1",
+              "lang": "la",
+              "form": "per capita",
+              "source": "For each person.",
+              "converted": "Per capita.",
+              "seed": "3",
+              "prompt_sha256": "43b1f92ed478eebc8cd46530455af12267512aff6471ff68ed7881204348a906",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "9fb7a593bb932ac86db08ea7eb177e26af7661dc023c0d83dee11ac58bbc3bac",
+              "lang": "la",
+              "form": "per capita",
+              "source": "Maybe for each person today.",
+              "converted": "Maybe per capita today.",
+              "seed": "1",
+              "prompt_sha256": "03bb2d42fb33f53614e4403e50865117ca1095ee2a4595fb6ed6ae9afb842496",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "947dcd16c4cdec51425595f92ce98ccfb304e4724f11c0ecc159ec8ba38b70db",
+              "lang": "la",
+              "form": "per capita",
+              "source": "Maybe for each person today.",
+              "converted": "Maybe per capita today.",
+              "seed": "2",
+              "prompt_sha256": "03bb2d42fb33f53614e4403e50865117ca1095ee2a4595fb6ed6ae9afb842496",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "fb9b856a6efd10342cec73fab16deaf5e3414fc4fe913c4ea0d4acb0a383132b",
+              "lang": "la",
+              "form": "per capita",
+              "source": "Maybe for each person today.",
+              "converted": "Maybe per capita today.",
+              "seed": "3",
+              "prompt_sha256": "03bb2d42fb33f53614e4403e50865117ca1095ee2a4595fb6ed6ae9afb842496",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "54e1edaa56cabc545debb6cda6c51efb7824ade978f7e0b5c3174323e211f0c3",
+              "lang": "la",
+              "form": "per capita",
+              "source": "She told me that for each person.",
+              "converted": "She told me that per capita.",
+              "seed": "1",
+              "prompt_sha256": "403aa132c7d93b8b89f9a1beeff842e33fd97fa36a266da5f90c7916f63e5b0b",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "6a9ed624b8744920635b1a61ddb378e2274a88b981c4872b6b6c3fc60e726aec",
+              "lang": "la",
+              "form": "per capita",
+              "source": "She told me that for each person.",
+              "converted": "She told me that per capita.",
+              "seed": "2",
+              "prompt_sha256": "403aa132c7d93b8b89f9a1beeff842e33fd97fa36a266da5f90c7916f63e5b0b",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "3609a4b73ab5ccaae6c47c5dce2e2c759d70c2016b587090b444d16ec3bf9337",
+              "lang": "la",
+              "form": "per capita",
+              "source": "She told me that for each person.",
+              "converted": "She told me that per capita.",
+              "seed": "3",
+              "prompt_sha256": "403aa132c7d93b8b89f9a1beeff842e33fd97fa36a266da5f90c7916f63e5b0b",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "35a99b9271ef7f178ded3bedb9650b2bc26bbc8e3118a989ddd903d41fbbb318",
+            "d659fbf4ed8a710b218177c4b74542e924bdbfa4cfb164c33c2ab8a5815714eb",
+            "46d392a52b1a454cabe7019e8abc83fe7467906e002270070c0b7d267e1f7cf1",
+            "9fb7a593bb932ac86db08ea7eb177e26af7661dc023c0d83dee11ac58bbc3bac",
+            "947dcd16c4cdec51425595f92ce98ccfb304e4724f11c0ecc159ec8ba38b70db",
+            "fb9b856a6efd10342cec73fab16deaf5e3414fc4fe913c4ea0d4acb0a383132b",
+            "54e1edaa56cabc545debb6cda6c51efb7824ade978f7e0b5c3174323e211f0c3",
+            "6a9ed624b8744920635b1a61ddb378e2274a88b981c4872b6b6c3fc60e726aec",
+            "3609a4b73ab5ccaae6c47c5dce2e2c759d70c2016b587090b444d16ec3bf9337"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:a fortiori": {
+      "lang": "la",
+      "form": "a fortiori",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "A fortiori.",
+        "A fortiori.",
+        "A fortiori.",
+        "Maybe a fortiori today.",
+        "Maybe a fortiori today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "a fortiori",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "14b5d8206ff486fc5d39e38147e6f9e5985d66d85984f16b4317e0cb7b69af36",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "All the more so.",
+              "converted": "A fortiori.",
+              "seed": "1",
+              "prompt_sha256": "83529fef90b8609a4eca0be5b59a3e7b718bfe83f7aa093775df65a57f6edcb8",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "b89252e4c864ba7f5d3eb627f5ebefb5b84132bcd7a7bb0e1fd7dd6e9493f96a",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "All the more so.",
+              "converted": "A fortiori.",
+              "seed": "2",
+              "prompt_sha256": "83529fef90b8609a4eca0be5b59a3e7b718bfe83f7aa093775df65a57f6edcb8",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "832cf888a2e804ccec242f73878dbb26f2de59060ef7b65960ef5716bbc25162",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "All the more so.",
+              "converted": "A fortiori.",
+              "seed": "3",
+              "prompt_sha256": "83529fef90b8609a4eca0be5b59a3e7b718bfe83f7aa093775df65a57f6edcb8",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "112fa87fb4f0506777f3692b7f1a600774c13e03a93f1b84be7d9ecd37913ce1",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "Maybe all the more so today.",
+              "converted": "Maybe a fortiori today.",
+              "seed": "1",
+              "prompt_sha256": "a8b93bfdfcecc4f18412c8f2f03d9a0e94f897cbabbccabc118d8bafeb6c4971",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "d42e03b6ece0a854be33f3cb0b9fda29032eb5d0303ea7967a34f72e59e22757",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "Maybe all the more so today.",
+              "converted": "Maybe a fortiori today.",
+              "seed": "2",
+              "prompt_sha256": "a8b93bfdfcecc4f18412c8f2f03d9a0e94f897cbabbccabc118d8bafeb6c4971",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "41bce14bd64b6a37e131cc2d79dffb46637e7f82a65516755c46843e9e55964d",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "Maybe all the more so today.",
+              "converted": "Maybe a fortiori today.",
+              "seed": "3",
+              "prompt_sha256": "a8b93bfdfcecc4f18412c8f2f03d9a0e94f897cbabbccabc118d8bafeb6c4971",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "c72b9158b0a17b89715243b60d99c14b746ad5c99c93b00db93cabeb0fc164cf",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "She told me that all the more so.",
+              "converted": "She told me that a fortiori.",
+              "seed": "1",
+              "prompt_sha256": "ed187dd6194605dc578667a3b0b79826f992839af87c6fb576bd877a9f57ebdd",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "454197e3c45eb5516e768d21ae255e07848c2ec4ccffc990656a6c9652e5dce1",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "She told me that all the more so.",
+              "converted": "She told me that a fortiori.",
+              "seed": "2",
+              "prompt_sha256": "ed187dd6194605dc578667a3b0b79826f992839af87c6fb576bd877a9f57ebdd",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "64119b3dbfb481b85d9f6581063399fd52b904603aa6649f96907d7210dff7fa",
+              "lang": "la",
+              "form": "a fortiori",
+              "source": "She told me that all the more so.",
+              "converted": "She told me that a fortiori.",
+              "seed": "3",
+              "prompt_sha256": "ed187dd6194605dc578667a3b0b79826f992839af87c6fb576bd877a9f57ebdd",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "14b5d8206ff486fc5d39e38147e6f9e5985d66d85984f16b4317e0cb7b69af36",
+            "b89252e4c864ba7f5d3eb627f5ebefb5b84132bcd7a7bb0e1fd7dd6e9493f96a",
+            "832cf888a2e804ccec242f73878dbb26f2de59060ef7b65960ef5716bbc25162",
+            "112fa87fb4f0506777f3692b7f1a600774c13e03a93f1b84be7d9ecd37913ce1",
+            "d42e03b6ece0a854be33f3cb0b9fda29032eb5d0303ea7967a34f72e59e22757",
+            "41bce14bd64b6a37e131cc2d79dffb46637e7f82a65516755c46843e9e55964d",
+            "c72b9158b0a17b89715243b60d99c14b746ad5c99c93b00db93cabeb0fc164cf",
+            "454197e3c45eb5516e768d21ae255e07848c2ec4ccffc990656a6c9652e5dce1",
+            "64119b3dbfb481b85d9f6581063399fd52b904603aa6649f96907d7210dff7fa"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:in memoriam": {
+      "lang": "la",
+      "form": "in memoriam",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "In memoriam.",
+        "In memoriam.",
+        "In memoriam.",
+        "Maybe in memoriam today.",
+        "Maybe in memoriam today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "in memoriam",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "1a9d20c9dca651b1e701a251ebc0e73f61a75f884650006019d46c38800a880d",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "In memory of.",
+              "converted": "In memoriam.",
+              "seed": "1",
+              "prompt_sha256": "3519ce559942739b285fbeda54e8bf743f9b855c0333379393a5fa68f294dd8c",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "1da9bec9a01fd6b3ba79299135ac97fcedd351f85b876f50beb01a3db6bc0abb",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "In memory of.",
+              "converted": "In memoriam.",
+              "seed": "2",
+              "prompt_sha256": "3519ce559942739b285fbeda54e8bf743f9b855c0333379393a5fa68f294dd8c",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "29c95dd587cb8a0145f86ecdce2a82315b6ee085867f9754fc4ca559580a330a",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "In memory of.",
+              "converted": "In memoriam.",
+              "seed": "3",
+              "prompt_sha256": "3519ce559942739b285fbeda54e8bf743f9b855c0333379393a5fa68f294dd8c",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "f2a4c231b82c4f5f2e84063d05e9c2b3a705947084f1d6c53532d52afe426967",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "Maybe in memory of today.",
+              "converted": "Maybe in memoriam today.",
+              "seed": "1",
+              "prompt_sha256": "22c072df4787f5c231dee55917a1420078e747a989742c772a7856aa62b6ca69",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "51f16832d2cba28c10d08409353f4f6a6a4c2b6adb3e8737b126f2279579a258",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "Maybe in memory of today.",
+              "converted": "Maybe in memoriam today.",
+              "seed": "2",
+              "prompt_sha256": "22c072df4787f5c231dee55917a1420078e747a989742c772a7856aa62b6ca69",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "77b474af4a7759713056bfe113362da07bd16b4ad5b62051be72e0a708021dbd",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "Maybe in memory of today.",
+              "converted": "Maybe in memoriam today.",
+              "seed": "3",
+              "prompt_sha256": "22c072df4787f5c231dee55917a1420078e747a989742c772a7856aa62b6ca69",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "b209359d986c9ac766f58dd322aa6963997a63124b988b41526c03ae783d0422",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "She told me that in memory of.",
+              "converted": "She told me that in memoriam.",
+              "seed": "1",
+              "prompt_sha256": "4ba1af37c875fa3a81be910b6d198f1b28b29e90e913653df9db605dd92bc356",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "65a9eafb185dd814a4576b527c5709246dcedff7ef3a0198527b28200180ad9f",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "She told me that in memory of.",
+              "converted": "She told me that in memoriam.",
+              "seed": "2",
+              "prompt_sha256": "4ba1af37c875fa3a81be910b6d198f1b28b29e90e913653df9db605dd92bc356",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "cb11f6bf471b153e6094dabe36d1eb3c3ac26dfaaa5a5b24d691f3b8fe2f14b8",
+              "lang": "la",
+              "form": "in memoriam",
+              "source": "She told me that in memory of.",
+              "converted": "She told me that in memoriam.",
+              "seed": "3",
+              "prompt_sha256": "4ba1af37c875fa3a81be910b6d198f1b28b29e90e913653df9db605dd92bc356",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "1a9d20c9dca651b1e701a251ebc0e73f61a75f884650006019d46c38800a880d",
+            "1da9bec9a01fd6b3ba79299135ac97fcedd351f85b876f50beb01a3db6bc0abb",
+            "29c95dd587cb8a0145f86ecdce2a82315b6ee085867f9754fc4ca559580a330a",
+            "f2a4c231b82c4f5f2e84063d05e9c2b3a705947084f1d6c53532d52afe426967",
+            "51f16832d2cba28c10d08409353f4f6a6a4c2b6adb3e8737b126f2279579a258",
+            "77b474af4a7759713056bfe113362da07bd16b4ad5b62051be72e0a708021dbd",
+            "b209359d986c9ac766f58dd322aa6963997a63124b988b41526c03ae783d0422",
+            "65a9eafb185dd814a4576b527c5709246dcedff7ef3a0198527b28200180ad9f",
+            "cb11f6bf471b153e6094dabe36d1eb3c3ac26dfaaa5a5b24d691f3b8fe2f14b8"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:seriatim": {
+      "lang": "la",
+      "form": "seriatim",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Seriatim.",
+        "Seriatim.",
+        "Seriatim.",
+        "Maybe seriatim today.",
+        "Maybe seriatim today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "seriatim",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "6fe2cabd5fc530a5fbd0d992120145a343fdeebf1f8d647cfc9da137cb980317",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "One after another.",
+              "converted": "Seriatim.",
+              "seed": "1",
+              "prompt_sha256": "7b2588c27042c69cf4739581391faa8abb721b1a7b3925b5b8c877fe3b36fb64",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "70b8e1cecf6d6b56144e104174601d7ecebf77511f91e1d605190640bd845cef",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "One after another.",
+              "converted": "Seriatim.",
+              "seed": "2",
+              "prompt_sha256": "7b2588c27042c69cf4739581391faa8abb721b1a7b3925b5b8c877fe3b36fb64",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "1051d9b1df4362f3493bea93b6cc16c4095c806668c7b2727ae522e5507bfe6e",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "One after another.",
+              "converted": "Seriatim.",
+              "seed": "3",
+              "prompt_sha256": "7b2588c27042c69cf4739581391faa8abb721b1a7b3925b5b8c877fe3b36fb64",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "86398694d13a280303213d94ef073fa53191967d7b028cf64e88d1d6670553c2",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "Maybe one after another today.",
+              "converted": "Maybe seriatim today.",
+              "seed": "1",
+              "prompt_sha256": "05886eecc4ec4652633979e5ca3ed25f9056b0e79417c5d89dea2be42e8b8006",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "46d6e1abd7b993a60cd2f268a4fab61aba9b69a065281100ac09c62eb1830c64",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "Maybe one after another today.",
+              "converted": "Maybe seriatim today.",
+              "seed": "2",
+              "prompt_sha256": "05886eecc4ec4652633979e5ca3ed25f9056b0e79417c5d89dea2be42e8b8006",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "fab2badacb91f6ac28062faad99af4fca5ea8aaaedd4d4890518a2a81a9876ad",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "Maybe one after another today.",
+              "converted": "Maybe seriatim today.",
+              "seed": "3",
+              "prompt_sha256": "05886eecc4ec4652633979e5ca3ed25f9056b0e79417c5d89dea2be42e8b8006",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "ac90297255ae317289f3d560738a9d2f1438085ea28902950510c063ea30e2ba",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "She told me that one after another.",
+              "converted": "She told me that seriatim.",
+              "seed": "1",
+              "prompt_sha256": "5e1ab9534a0f1652cba1dc8358dfef58c98c20b3b449e85584e04cd7e009f509",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "a62d8b984269689ad686671de261e5b043c653ecb3f7c75c0ab18ccf52b398c1",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "She told me that one after another.",
+              "converted": "She told me that seriatim.",
+              "seed": "2",
+              "prompt_sha256": "5e1ab9534a0f1652cba1dc8358dfef58c98c20b3b449e85584e04cd7e009f509",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "62ebe791d26e09f4528e147f445a868f4c609284b99ada8be5fc94b7d41c641a",
+              "lang": "la",
+              "form": "seriatim",
+              "source": "She told me that one after another.",
+              "converted": "She told me that seriatim.",
+              "seed": "3",
+              "prompt_sha256": "5e1ab9534a0f1652cba1dc8358dfef58c98c20b3b449e85584e04cd7e009f509",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "6fe2cabd5fc530a5fbd0d992120145a343fdeebf1f8d647cfc9da137cb980317",
+            "70b8e1cecf6d6b56144e104174601d7ecebf77511f91e1d605190640bd845cef",
+            "1051d9b1df4362f3493bea93b6cc16c4095c806668c7b2727ae522e5507bfe6e",
+            "86398694d13a280303213d94ef073fa53191967d7b028cf64e88d1d6670553c2",
+            "46d6e1abd7b993a60cd2f268a4fab61aba9b69a065281100ac09c62eb1830c64",
+            "fab2badacb91f6ac28062faad99af4fca5ea8aaaedd4d4890518a2a81a9876ad",
+            "ac90297255ae317289f3d560738a9d2f1438085ea28902950510c063ea30e2ba",
+            "a62d8b984269689ad686671de261e5b043c653ecb3f7c75c0ab18ccf52b398c1",
+            "62ebe791d26e09f4528e147f445a868f4c609284b99ada8be5fc94b7d41c641a"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:sua sponte": {
+      "lang": "la",
+      "form": "sua sponte",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Sua sponte.",
+        "Sua sponte.",
+        "Sua sponte.",
+        "Maybe sua sponte today.",
+        "Maybe sua sponte today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "sua sponte",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "9e1312b7d667338c07956a673afa86794397374ea3eae3ad56e8a6b82780ceb7",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "Of one's own accord.",
+              "converted": "Sua sponte.",
+              "seed": "1",
+              "prompt_sha256": "f98ae44a144f477d7e024c0cf00703bedbad61986f2faa3364a25cf2a2e04437",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "5a2f087d98a9dbfb8386733055ec5eb7475e59aaf6140dcc950a83aa6f090ca0",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "Of one's own accord.",
+              "converted": "Sua sponte.",
+              "seed": "2",
+              "prompt_sha256": "f98ae44a144f477d7e024c0cf00703bedbad61986f2faa3364a25cf2a2e04437",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "9c0d9fdad2a5b534549bdbaa79a32822d70aa9b9ed968e07e2d8c3917f997fba",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "Of one's own accord.",
+              "converted": "Sua sponte.",
+              "seed": "3",
+              "prompt_sha256": "f98ae44a144f477d7e024c0cf00703bedbad61986f2faa3364a25cf2a2e04437",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "0e4f0fbe9bb9d02e8ae1ee56d31f732b0bcb8611891d48fae115af88763746a0",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "Maybe of one's own accord today.",
+              "converted": "Maybe sua sponte today.",
+              "seed": "1",
+              "prompt_sha256": "7e3d8e12bb45a9e5b6f591df7b55fab896d39d0ba6ec71affd67340a9ad71f0f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "f14cc5d58bd3869d42780d2def64558257b061f6ec098e898a3655d6e97da5d3",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "Maybe of one's own accord today.",
+              "converted": "Maybe sua sponte today.",
+              "seed": "2",
+              "prompt_sha256": "7e3d8e12bb45a9e5b6f591df7b55fab896d39d0ba6ec71affd67340a9ad71f0f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "cee32210568b19aa8dda16417d19422267322bc751f5045452ac253842517ee5",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "Maybe of one's own accord today.",
+              "converted": "Maybe sua sponte today.",
+              "seed": "3",
+              "prompt_sha256": "7e3d8e12bb45a9e5b6f591df7b55fab896d39d0ba6ec71affd67340a9ad71f0f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "89fc4e32d8a67ee972efa5e57325852dd377545626efa79301990c1023fc3690",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "She told me that of one's own accord.",
+              "converted": "She told me that sua sponte.",
+              "seed": "1",
+              "prompt_sha256": "abacf5665d5c396ce89feba2af0aa78c78d3ae917a7298b2c223abfb9b830ed7",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "cbf40583dd6682c0a00f79a0e70de4f8400562acd5cc3b8ff91f8d13c05a41b0",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "She told me that of one's own accord.",
+              "converted": "She told me that sua sponte.",
+              "seed": "2",
+              "prompt_sha256": "abacf5665d5c396ce89feba2af0aa78c78d3ae917a7298b2c223abfb9b830ed7",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "90278c5c1f8a83cb00fed3354b62b9f2b97fd0ad3a3ec0c093c4032a829cf344",
+              "lang": "la",
+              "form": "sua sponte",
+              "source": "She told me that of one's own accord.",
+              "converted": "She told me that sua sponte.",
+              "seed": "3",
+              "prompt_sha256": "abacf5665d5c396ce89feba2af0aa78c78d3ae917a7298b2c223abfb9b830ed7",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "9e1312b7d667338c07956a673afa86794397374ea3eae3ad56e8a6b82780ceb7",
+            "5a2f087d98a9dbfb8386733055ec5eb7475e59aaf6140dcc950a83aa6f090ca0",
+            "9c0d9fdad2a5b534549bdbaa79a32822d70aa9b9ed968e07e2d8c3917f997fba",
+            "0e4f0fbe9bb9d02e8ae1ee56d31f732b0bcb8611891d48fae115af88763746a0",
+            "f14cc5d58bd3869d42780d2def64558257b061f6ec098e898a3655d6e97da5d3",
+            "cee32210568b19aa8dda16417d19422267322bc751f5045452ac253842517ee5",
+            "89fc4e32d8a67ee972efa5e57325852dd377545626efa79301990c1023fc3690",
+            "cbf40583dd6682c0a00f79a0e70de4f8400562acd5cc3b8ff91f8d13c05a41b0",
+            "90278c5c1f8a83cb00fed3354b62b9f2b97fd0ad3a3ec0c093c4032a829cf344"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:iterum": {
+      "lang": "la",
+      "form": "iterum",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Iterum.",
+        "Iterum.",
+        "Iterum.",
+        "Maybe iterum today.",
+        "Maybe iterum today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "iterum",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "025381703237b024a75ceebde67d7a4faccdd251851c88c84b06fb217391d6e1",
+              "lang": "la",
+              "form": "iterum",
+              "source": "Once again.",
+              "converted": "Iterum.",
+              "seed": "1",
+              "prompt_sha256": "813a8c2f4d62b8d710d56da5fd2ce245e9b0a6e9d736a3260bfe4a32cd11cafa",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "4d55566a046ede1e01e24be7d98713eacfd8697b059fdc0618fd0fbaf6067bdc",
+              "lang": "la",
+              "form": "iterum",
+              "source": "Once again.",
+              "converted": "Iterum.",
+              "seed": "2",
+              "prompt_sha256": "813a8c2f4d62b8d710d56da5fd2ce245e9b0a6e9d736a3260bfe4a32cd11cafa",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "721b7993c78675171fad4abf751aa0b92125d3c922d1e97e6617f4ab49e2f854",
+              "lang": "la",
+              "form": "iterum",
+              "source": "Once again.",
+              "converted": "Iterum.",
+              "seed": "3",
+              "prompt_sha256": "813a8c2f4d62b8d710d56da5fd2ce245e9b0a6e9d736a3260bfe4a32cd11cafa",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "7959e0bbd3d4cbb7dd4bbbd9b1aacd103fdbcec2e5d80f25c56f177c5e1a5add",
+              "lang": "la",
+              "form": "iterum",
+              "source": "Maybe once again today.",
+              "converted": "Maybe iterum today.",
+              "seed": "1",
+              "prompt_sha256": "75697db7644119f709867e79005a8a019236ec67c4ac848aa84e22a53d1c663a",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "e94f83478a21db8f89fcfcef4ae17dcd8cd00dfdd237a571817d54279265ae29",
+              "lang": "la",
+              "form": "iterum",
+              "source": "Maybe once again today.",
+              "converted": "Maybe iterum today.",
+              "seed": "2",
+              "prompt_sha256": "75697db7644119f709867e79005a8a019236ec67c4ac848aa84e22a53d1c663a",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "3ae6e21d71a2e98ee8e6da6dbd65b27e0869845eaf9d1e654e792938dcb8c607",
+              "lang": "la",
+              "form": "iterum",
+              "source": "Maybe once again today.",
+              "converted": "Maybe iterum today.",
+              "seed": "3",
+              "prompt_sha256": "75697db7644119f709867e79005a8a019236ec67c4ac848aa84e22a53d1c663a",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "02913dd83cc928769269268da76701e5818d4df496e79cf3c46ed3a41005fcae",
+              "lang": "la",
+              "form": "iterum",
+              "source": "She told me that once again.",
+              "converted": "She told me that iterum.",
+              "seed": "1",
+              "prompt_sha256": "8b46d25d986aa0a3b691392f46dcf4f272ee8046145ea8dcef7ccdae53d175e3",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "0628e1d19d3a9a8241a297ee2a1b544ef9a86e0b6f14a69155fbdea93aa56010",
+              "lang": "la",
+              "form": "iterum",
+              "source": "She told me that once again.",
+              "converted": "She told me that iterum.",
+              "seed": "2",
+              "prompt_sha256": "8b46d25d986aa0a3b691392f46dcf4f272ee8046145ea8dcef7ccdae53d175e3",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "392312c61bdda15c414be4acca8c67071558e6ffb14f405b25b54d3316323efd",
+              "lang": "la",
+              "form": "iterum",
+              "source": "She told me that once again.",
+              "converted": "She told me that iterum.",
+              "seed": "3",
+              "prompt_sha256": "8b46d25d986aa0a3b691392f46dcf4f272ee8046145ea8dcef7ccdae53d175e3",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "025381703237b024a75ceebde67d7a4faccdd251851c88c84b06fb217391d6e1",
+            "4d55566a046ede1e01e24be7d98713eacfd8697b059fdc0618fd0fbaf6067bdc",
+            "721b7993c78675171fad4abf751aa0b92125d3c922d1e97e6617f4ab49e2f854",
+            "7959e0bbd3d4cbb7dd4bbbd9b1aacd103fdbcec2e5d80f25c56f177c5e1a5add",
+            "e94f83478a21db8f89fcfcef4ae17dcd8cd00dfdd237a571817d54279265ae29",
+            "3ae6e21d71a2e98ee8e6da6dbd65b27e0869845eaf9d1e654e792938dcb8c607",
+            "02913dd83cc928769269268da76701e5818d4df496e79cf3c46ed3a41005fcae",
+            "0628e1d19d3a9a8241a297ee2a1b544ef9a86e0b6f14a69155fbdea93aa56010",
+            "392312c61bdda15c414be4acca8c67071558e6ffb14f405b25b54d3316323efd"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:ergo": {
+      "lang": "la",
+      "form": "ergo",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Ergo.",
+        "Ergo.",
+        "Ergo.",
+        "Maybe ergo today.",
+        "Maybe ergo today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "ergo",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "a596d3cae4488160a2d1dd4813bc479936aa914e3e2ae272e1bffbaa1e00c1a4",
+              "lang": "la",
+              "form": "ergo",
+              "source": "As a result.",
+              "converted": "Ergo.",
+              "seed": "1",
+              "prompt_sha256": "137f8558bb80b0df643c12cea6aed5b637d8f68679016ab5e226b5293f51cddf",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "3177334dd12cbb122c3d0f25206de3bc982e3023aa6af4be6453bacf82e7b1f5",
+              "lang": "la",
+              "form": "ergo",
+              "source": "As a result.",
+              "converted": "Ergo.",
+              "seed": "2",
+              "prompt_sha256": "137f8558bb80b0df643c12cea6aed5b637d8f68679016ab5e226b5293f51cddf",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "13342525e86c80ee44d66d60992600760b69066e07422fbbab11ed24818a3e4e",
+              "lang": "la",
+              "form": "ergo",
+              "source": "As a result.",
+              "converted": "Ergo.",
+              "seed": "3",
+              "prompt_sha256": "137f8558bb80b0df643c12cea6aed5b637d8f68679016ab5e226b5293f51cddf",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "58c00b8910c73052ead944dcf596a63b6d943e43eabf0f4d6953bcdc8c29602a",
+              "lang": "la",
+              "form": "ergo",
+              "source": "Maybe as a result today.",
+              "converted": "Maybe ergo today.",
+              "seed": "1",
+              "prompt_sha256": "0253610b62e76fcd006022526cfb5c94bc86bf3a4da3e7d6b8af7c77f88e624f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "d970e99bff1fb6b0f1000f2346477cd98d26755c5e6d9767073905cb2d9604e5",
+              "lang": "la",
+              "form": "ergo",
+              "source": "Maybe as a result today.",
+              "converted": "Maybe ergo today.",
+              "seed": "2",
+              "prompt_sha256": "0253610b62e76fcd006022526cfb5c94bc86bf3a4da3e7d6b8af7c77f88e624f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "e79b4b4dbaf82226de971d6e6cbf6ae69706b82fdc4d2ce641836345577f7f2b",
+              "lang": "la",
+              "form": "ergo",
+              "source": "Maybe as a result today.",
+              "converted": "Maybe ergo today.",
+              "seed": "3",
+              "prompt_sha256": "0253610b62e76fcd006022526cfb5c94bc86bf3a4da3e7d6b8af7c77f88e624f",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "539c0d95f7a38b60b5f2d7838086d554cb6402b08bfaf27a8ae2b48d93af8f8b",
+              "lang": "la",
+              "form": "ergo",
+              "source": "She told me that as a result.",
+              "converted": "She told me that ergo.",
+              "seed": "1",
+              "prompt_sha256": "625c44a0b043de14724613003578f0ddce21e2e63342aada3539d596172dc0cd",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "b5ac6b13f7a01834c6630350b346ec7bad786456bcf5103be7c0ddda63431574",
+              "lang": "la",
+              "form": "ergo",
+              "source": "She told me that as a result.",
+              "converted": "She told me that ergo.",
+              "seed": "2",
+              "prompt_sha256": "625c44a0b043de14724613003578f0ddce21e2e63342aada3539d596172dc0cd",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "31c894771b069ebe6f4f22e67be7c762c3b253b45fa8edd3714964e14dbb50f7",
+              "lang": "la",
+              "form": "ergo",
+              "source": "She told me that as a result.",
+              "converted": "She told me that ergo.",
+              "seed": "3",
+              "prompt_sha256": "625c44a0b043de14724613003578f0ddce21e2e63342aada3539d596172dc0cd",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "a596d3cae4488160a2d1dd4813bc479936aa914e3e2ae272e1bffbaa1e00c1a4",
+            "3177334dd12cbb122c3d0f25206de3bc982e3023aa6af4be6453bacf82e7b1f5",
+            "13342525e86c80ee44d66d60992600760b69066e07422fbbab11ed24818a3e4e",
+            "58c00b8910c73052ead944dcf596a63b6d943e43eabf0f4d6953bcdc8c29602a",
+            "d970e99bff1fb6b0f1000f2346477cd98d26755c5e6d9767073905cb2d9604e5",
+            "e79b4b4dbaf82226de971d6e6cbf6ae69706b82fdc4d2ce641836345577f7f2b",
+            "539c0d95f7a38b60b5f2d7838086d554cb6402b08bfaf27a8ae2b48d93af8f8b",
+            "b5ac6b13f7a01834c6630350b346ec7bad786456bcf5103be7c0ddda63431574",
+            "31c894771b069ebe6f4f22e67be7c762c3b253b45fa8edd3714964e14dbb50f7"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:circa": {
+      "lang": "la",
+      "form": "circa",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Circa.",
+        "Circa.",
+        "Circa.",
+        "Maybe circa today.",
+        "Maybe circa today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "circa",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "2d0f31ac324a85280dd549413397e7357393529f34c0857f7bf0f4e7d2942a71",
+              "lang": "la",
+              "form": "circa",
+              "source": "More or less.",
+              "converted": "Circa.",
+              "seed": "1",
+              "prompt_sha256": "9c3864ea6e7ff43b761503a1e2ff9b0ad71dff113c13b2dd91abe109b689988c",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "75f28a0fc971321d604d104b0c98601f224738c1ebbf211b5fddb5f214b3a206",
+              "lang": "la",
+              "form": "circa",
+              "source": "More or less.",
+              "converted": "Circa.",
+              "seed": "2",
+              "prompt_sha256": "9c3864ea6e7ff43b761503a1e2ff9b0ad71dff113c13b2dd91abe109b689988c",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "538e58c843d764fed6d07c01556faaa1a226376e9de80208b3c72d7069ba36b8",
+              "lang": "la",
+              "form": "circa",
+              "source": "More or less.",
+              "converted": "Circa.",
+              "seed": "3",
+              "prompt_sha256": "9c3864ea6e7ff43b761503a1e2ff9b0ad71dff113c13b2dd91abe109b689988c",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "028225c0c4ab638185d87088dce0f7dc8676cb188c531431d69691acc201b9f3",
+              "lang": "la",
+              "form": "circa",
+              "source": "Maybe more or less today.",
+              "converted": "Maybe circa today.",
+              "seed": "1",
+              "prompt_sha256": "daa5906430f1ea2446e96ce2b9555904c7f3d3056e1b4b3c4c7e076baa25919b",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "cb70196f8796b5e380d175fbffc7e1c9dd195e5816698862184b9cbb8e02acfe",
+              "lang": "la",
+              "form": "circa",
+              "source": "Maybe more or less today.",
+              "converted": "Maybe circa today.",
+              "seed": "2",
+              "prompt_sha256": "daa5906430f1ea2446e96ce2b9555904c7f3d3056e1b4b3c4c7e076baa25919b",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "923bf542d52d94d8ec0a49b73b3e05bb5a3d62c0b3e0b5a954eea959651ee02e",
+              "lang": "la",
+              "form": "circa",
+              "source": "Maybe more or less today.",
+              "converted": "Maybe circa today.",
+              "seed": "3",
+              "prompt_sha256": "daa5906430f1ea2446e96ce2b9555904c7f3d3056e1b4b3c4c7e076baa25919b",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "f54c18d4d5803364710ae089614d97b46fa2fb4436c9b9bd3d3227413fe7703d",
+              "lang": "la",
+              "form": "circa",
+              "source": "She told me that more or less.",
+              "converted": "She told me that circa.",
+              "seed": "1",
+              "prompt_sha256": "a1984dd1f85f96f99cec7220ddbf94048449847615f765865992dce24f677c77",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "4c92793312e7f1470e7d910b2768e1d03e5f8208690529fb8f5bc35e35632c3b",
+              "lang": "la",
+              "form": "circa",
+              "source": "She told me that more or less.",
+              "converted": "She told me that circa.",
+              "seed": "2",
+              "prompt_sha256": "a1984dd1f85f96f99cec7220ddbf94048449847615f765865992dce24f677c77",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "61d1d6b99c1608d9d1d68efeb0af06d3afeb76ebb68a8ac5c1be456ed8214e03",
+              "lang": "la",
+              "form": "circa",
+              "source": "She told me that more or less.",
+              "converted": "She told me that circa.",
+              "seed": "3",
+              "prompt_sha256": "a1984dd1f85f96f99cec7220ddbf94048449847615f765865992dce24f677c77",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "2d0f31ac324a85280dd549413397e7357393529f34c0857f7bf0f4e7d2942a71",
+            "75f28a0fc971321d604d104b0c98601f224738c1ebbf211b5fddb5f214b3a206",
+            "538e58c843d764fed6d07c01556faaa1a226376e9de80208b3c72d7069ba36b8",
+            "028225c0c4ab638185d87088dce0f7dc8676cb188c531431d69691acc201b9f3",
+            "cb70196f8796b5e380d175fbffc7e1c9dd195e5816698862184b9cbb8e02acfe",
+            "923bf542d52d94d8ec0a49b73b3e05bb5a3d62c0b3e0b5a954eea959651ee02e",
+            "f54c18d4d5803364710ae089614d97b46fa2fb4436c9b9bd3d3227413fe7703d",
+            "4c92793312e7f1470e7d910b2768e1d03e5f8208690529fb8f5bc35e35632c3b",
+            "61d1d6b99c1608d9d1d68efeb0af06d3afeb76ebb68a8ac5c1be456ed8214e03"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:gradatim": {
+      "lang": "la",
+      "form": "gradatim",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "gradatim",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "698bbf37434e52d5245252b467367450c34ef2f43ce77904322aed20bef25fda",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "Step by step.",
+              "converted": "Gradatim.",
+              "seed": "1",
+              "prompt_sha256": "495d1d41d7c7c9fb81b6646c0a50f4011d23b801b19f6e87744817779f27ed17",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5c311393e5299e4677736fbe8f17e554b1e5e9076f4a5ec40784efd6645ca8d6",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "Step by step.",
+              "converted": "Gradatim.",
+              "seed": "2",
+              "prompt_sha256": "495d1d41d7c7c9fb81b6646c0a50f4011d23b801b19f6e87744817779f27ed17",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "022c27d4de24707be4ce0f0bb47f77c78fc9369c20748a57b1ddf37b784f5250",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "Step by step.",
+              "converted": "Gradatim.",
+              "seed": "3",
+              "prompt_sha256": "495d1d41d7c7c9fb81b6646c0a50f4011d23b801b19f6e87744817779f27ed17",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b4cc09d974d3333a393b02d192ce73164d9c37d4edbfbc151ec00713881af6b1",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "Maybe step by step today.",
+              "converted": "Maybe gradatim today.",
+              "seed": "1",
+              "prompt_sha256": "6092d33b9a1b42a697571952c88e7e6d266a5b2b26725db0ee33450f08b77ef1",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c699046bda2ef21c21b280d9d51c1c97ee793e63a02479b65cb4237284726c22",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "Maybe step by step today.",
+              "converted": "Maybe gradatim today.",
+              "seed": "2",
+              "prompt_sha256": "6092d33b9a1b42a697571952c88e7e6d266a5b2b26725db0ee33450f08b77ef1",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "7f50ddb63f871f275c33c3f2cd226f7f65490d38b1ac60df1a6d5d7f24086924",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "Maybe step by step today.",
+              "converted": "Maybe gradatim today.",
+              "seed": "3",
+              "prompt_sha256": "6092d33b9a1b42a697571952c88e7e6d266a5b2b26725db0ee33450f08b77ef1",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1c6eeb3d1de09f1e8c6f9669ac74961b16067cce5329709e78b6bb0a0aa75cc8",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "She told me that step by step.",
+              "converted": "She told me that gradatim.",
+              "seed": "1",
+              "prompt_sha256": "4f7d662a1b2f5418a2781c6c2737b84c1ba6994d571729e5303a041f4a393644",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "9967a2a4a30efb9735b5d44c7ff2c33a5aafc25d70b2617f69521ae075eea7fc",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "She told me that step by step.",
+              "converted": "She told me that gradatim.",
+              "seed": "2",
+              "prompt_sha256": "4f7d662a1b2f5418a2781c6c2737b84c1ba6994d571729e5303a041f4a393644",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1ad728d78b7b770072df1038a6748aac03193c4c7b2be4f9509d8341b33ca551",
+              "lang": "la",
+              "form": "gradatim",
+              "source": "She told me that step by step.",
+              "converted": "She told me that gradatim.",
+              "seed": "3",
+              "prompt_sha256": "4f7d662a1b2f5418a2781c6c2737b84c1ba6994d571729e5303a041f4a393644",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "698bbf37434e52d5245252b467367450c34ef2f43ce77904322aed20bef25fda",
+            "5c311393e5299e4677736fbe8f17e554b1e5e9076f4a5ec40784efd6645ca8d6",
+            "022c27d4de24707be4ce0f0bb47f77c78fc9369c20748a57b1ddf37b784f5250",
+            "b4cc09d974d3333a393b02d192ce73164d9c37d4edbfbc151ec00713881af6b1",
+            "c699046bda2ef21c21b280d9d51c1c97ee793e63a02479b65cb4237284726c22",
+            "7f50ddb63f871f275c33c3f2cd226f7f65490d38b1ac60df1a6d5d7f24086924",
+            "1c6eeb3d1de09f1e8c6f9669ac74961b16067cce5329709e78b6bb0a0aa75cc8",
+            "9967a2a4a30efb9735b5d44c7ff2c33a5aafc25d70b2617f69521ae075eea7fc",
+            "1ad728d78b7b770072df1038a6748aac03193c4c7b2be4f9509d8341b33ca551"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:coram": {
+      "lang": "la",
+      "form": "coram",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Coram.",
+        "Coram.",
+        "Coram.",
+        "Maybe coram today.",
+        "Maybe coram today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "coram",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "1d574ee17fa4579fb23b7d77c2ef6e6fd78552cd4f17821e576025352deebac5",
+              "lang": "la",
+              "form": "coram",
+              "source": "Face to face.",
+              "converted": "Coram.",
+              "seed": "1",
+              "prompt_sha256": "7c737b28c9bf02ff18883470f0f3cf4de8dbef82162fc64302936c05ff716642",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "da2562cc18b5cd382e197bde57efbe71fab6d3f2ea8aade3868acc47d15c8e5e",
+              "lang": "la",
+              "form": "coram",
+              "source": "Face to face.",
+              "converted": "Coram.",
+              "seed": "2",
+              "prompt_sha256": "7c737b28c9bf02ff18883470f0f3cf4de8dbef82162fc64302936c05ff716642",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "677bdd62891d971df3c6bf4bde2046007a766f3887675528aa49100c8c1359f8",
+              "lang": "la",
+              "form": "coram",
+              "source": "Face to face.",
+              "converted": "Coram.",
+              "seed": "3",
+              "prompt_sha256": "7c737b28c9bf02ff18883470f0f3cf4de8dbef82162fc64302936c05ff716642",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "d7bde56c5f6b9283a7bafdbce4f6a83364c66677d66dfe619457dafc195341c0",
+              "lang": "la",
+              "form": "coram",
+              "source": "Maybe face to face today.",
+              "converted": "Maybe coram today.",
+              "seed": "1",
+              "prompt_sha256": "875cb70477a9149fbfe0975d6d0200d8adbc2ecdf78a15c4b5372c77bb95ddd6",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "43872e640f42f103696232792ea83e589fdab8d17f1a77c0c8fb4b70f750e08b",
+              "lang": "la",
+              "form": "coram",
+              "source": "Maybe face to face today.",
+              "converted": "Maybe coram today.",
+              "seed": "2",
+              "prompt_sha256": "875cb70477a9149fbfe0975d6d0200d8adbc2ecdf78a15c4b5372c77bb95ddd6",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "f1cd1cccec10a415a648e6142006f7b60b27084aa457abfa3336e92a97f69533",
+              "lang": "la",
+              "form": "coram",
+              "source": "Maybe face to face today.",
+              "converted": "Maybe coram today.",
+              "seed": "3",
+              "prompt_sha256": "875cb70477a9149fbfe0975d6d0200d8adbc2ecdf78a15c4b5372c77bb95ddd6",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "5824e7217bb11cf904e2d41730dbc2bb051cdd15bc72df2f7e5b9db8d8e14e5e",
+              "lang": "la",
+              "form": "coram",
+              "source": "She told me that face to face.",
+              "converted": "She told me that coram.",
+              "seed": "1",
+              "prompt_sha256": "c5381b23a20756fbe2f229923eaf4b3e0098580033a90e5880ca8e813de3bed3",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "309ca0a5f83e3b25ae5468a4036970baadf1dd777f00754ff5e900715bea64da",
+              "lang": "la",
+              "form": "coram",
+              "source": "She told me that face to face.",
+              "converted": "She told me that coram.",
+              "seed": "2",
+              "prompt_sha256": "c5381b23a20756fbe2f229923eaf4b3e0098580033a90e5880ca8e813de3bed3",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "22e1fff46ca90e7223887bed87123e8152931fed7028db5744c7b51b738c2a61",
+              "lang": "la",
+              "form": "coram",
+              "source": "She told me that face to face.",
+              "converted": "She told me that coram.",
+              "seed": "3",
+              "prompt_sha256": "c5381b23a20756fbe2f229923eaf4b3e0098580033a90e5880ca8e813de3bed3",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "1d574ee17fa4579fb23b7d77c2ef6e6fd78552cd4f17821e576025352deebac5",
+            "da2562cc18b5cd382e197bde57efbe71fab6d3f2ea8aade3868acc47d15c8e5e",
+            "677bdd62891d971df3c6bf4bde2046007a766f3887675528aa49100c8c1359f8",
+            "d7bde56c5f6b9283a7bafdbce4f6a83364c66677d66dfe619457dafc195341c0",
+            "43872e640f42f103696232792ea83e589fdab8d17f1a77c0c8fb4b70f750e08b",
+            "f1cd1cccec10a415a648e6142006f7b60b27084aa457abfa3336e92a97f69533",
+            "5824e7217bb11cf904e2d41730dbc2bb051cdd15bc72df2f7e5b9db8d8e14e5e",
+            "309ca0a5f83e3b25ae5468a4036970baadf1dd777f00754ff5e900715bea64da",
+            "22e1fff46ca90e7223887bed87123e8152931fed7028db5744c7b51b738c2a61"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:cotidie": {
+      "lang": "la",
+      "form": "cotidie",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Cotidie.",
+        "Cotidie.",
+        "Cotidie.",
+        "Maybe cotidie today.",
+        "Maybe cotidie today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "cotidie",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "8b039a378b088680ef2e9865c2b462cb9878c13abfa151d7a593802359c5754a",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "Day by day.",
+              "converted": "Cotidie.",
+              "seed": "1",
+              "prompt_sha256": "73c6905600c937276f4c2ead5c3ad4d8c8b06ec2350f36119b0d256a374ea488",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "1a90ccfa7b3eadf95e9b150dfac4f1bf1b750d44f57c6bd8e76ad59bb2af72fa",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "Day by day.",
+              "converted": "Cotidie.",
+              "seed": "2",
+              "prompt_sha256": "73c6905600c937276f4c2ead5c3ad4d8c8b06ec2350f36119b0d256a374ea488",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "a97ac8376194eb42c468d02be25faad146753e68df70962cb58c956819b3c713",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "Day by day.",
+              "converted": "Cotidie.",
+              "seed": "3",
+              "prompt_sha256": "73c6905600c937276f4c2ead5c3ad4d8c8b06ec2350f36119b0d256a374ea488",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "901e4b9c129af6fe6131788740d4fe33e090a5c89d9b5c31cfde6300dca6aba3",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "Maybe day by day today.",
+              "converted": "Maybe cotidie today.",
+              "seed": "1",
+              "prompt_sha256": "782b79930f8a4ac6e96910660264207cce9e05da8b13ae7e4ee9bb3edcba4fc0",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "fdbc8fbdf5bac31d6d5c6e6cb16109cf01f6c0bbccfc3e5406c42f9231b2b691",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "Maybe day by day today.",
+              "converted": "Maybe cotidie today.",
+              "seed": "2",
+              "prompt_sha256": "782b79930f8a4ac6e96910660264207cce9e05da8b13ae7e4ee9bb3edcba4fc0",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "8d5b4148ce7d417392b31644a048ce7c7563dbffb6464bb34f360cb2633a74f8",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "Maybe day by day today.",
+              "converted": "Maybe cotidie today.",
+              "seed": "3",
+              "prompt_sha256": "782b79930f8a4ac6e96910660264207cce9e05da8b13ae7e4ee9bb3edcba4fc0",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "f3a12666d8cd2c8f7c33fbaac09f9798b84b0b2235c20947d798ed0f0ca4f8a8",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "She told me that day by day.",
+              "converted": "She told me that cotidie.",
+              "seed": "1",
+              "prompt_sha256": "51f2848bbcc2a6a69b8beae31186a54c2a26638c5838f2ae2e517fc0953be0a1",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "9be936c67e43035b4297cf2404cf5282177f0eea3144eace3d862001c5029a2c",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "She told me that day by day.",
+              "converted": "She told me that cotidie.",
+              "seed": "2",
+              "prompt_sha256": "51f2848bbcc2a6a69b8beae31186a54c2a26638c5838f2ae2e517fc0953be0a1",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "a3efb9c6c0b561eccd375d6ed2412775930402ac809eda9da056919339817502",
+              "lang": "la",
+              "form": "cotidie",
+              "source": "She told me that day by day.",
+              "converted": "She told me that cotidie.",
+              "seed": "3",
+              "prompt_sha256": "51f2848bbcc2a6a69b8beae31186a54c2a26638c5838f2ae2e517fc0953be0a1",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "8b039a378b088680ef2e9865c2b462cb9878c13abfa151d7a593802359c5754a",
+            "1a90ccfa7b3eadf95e9b150dfac4f1bf1b750d44f57c6bd8e76ad59bb2af72fa",
+            "a97ac8376194eb42c468d02be25faad146753e68df70962cb58c956819b3c713",
+            "901e4b9c129af6fe6131788740d4fe33e090a5c89d9b5c31cfde6300dca6aba3",
+            "fdbc8fbdf5bac31d6d5c6e6cb16109cf01f6c0bbccfc3e5406c42f9231b2b691",
+            "8d5b4148ce7d417392b31644a048ce7c7563dbffb6464bb34f360cb2633a74f8",
+            "f3a12666d8cd2c8f7c33fbaac09f9798b84b0b2235c20947d798ed0f0ca4f8a8",
+            "9be936c67e43035b4297cf2404cf5282177f0eea3144eace3d862001c5029a2c",
+            "a3efb9c6c0b561eccd375d6ed2412775930402ac809eda9da056919339817502"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:ideo": {
+      "lang": "la",
+      "form": "ideo",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Ideo.",
+        "Ideo.",
+        "Ideo.",
+        "Maybe ideo today.",
+        "Maybe ideo today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "ideo",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "493c68b3bcb2306e041e3230a7ab3c7a9f3178a39f7a5ed814556c79c6cda1d0",
+              "lang": "la",
+              "form": "ideo",
+              "source": "For this reason.",
+              "converted": "Ideo.",
+              "seed": "1",
+              "prompt_sha256": "1cf5fbcef123d185e021babee60fc8ca1ce5f7c517e8fc2abe8681b604129a81",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "c1c6452789466ce69f824af5316535b2d039ec52bff623ee35c4dfd76d7fe66f",
+              "lang": "la",
+              "form": "ideo",
+              "source": "For this reason.",
+              "converted": "Ideo.",
+              "seed": "2",
+              "prompt_sha256": "1cf5fbcef123d185e021babee60fc8ca1ce5f7c517e8fc2abe8681b604129a81",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "be25b4fb1336eb26394b4ba77acd928ba51cfaeffb61f1f3875502b0992f4dbb",
+              "lang": "la",
+              "form": "ideo",
+              "source": "For this reason.",
+              "converted": "Ideo.",
+              "seed": "3",
+              "prompt_sha256": "1cf5fbcef123d185e021babee60fc8ca1ce5f7c517e8fc2abe8681b604129a81",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "205d57d6ba547282881752aaacb03794886d11273821366a51bd41dbfdb64108",
+              "lang": "la",
+              "form": "ideo",
+              "source": "Maybe for this reason today.",
+              "converted": "Maybe ideo today.",
+              "seed": "1",
+              "prompt_sha256": "d3f6c37e6dca9d99105638c9be63401d1cdcb20a431e7c8ee520a9bbc9e11810",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "166391a236efbd1d499dd9b2f4432c26e0536ac7d99b61ccbd79e000751ef526",
+              "lang": "la",
+              "form": "ideo",
+              "source": "Maybe for this reason today.",
+              "converted": "Maybe ideo today.",
+              "seed": "2",
+              "prompt_sha256": "d3f6c37e6dca9d99105638c9be63401d1cdcb20a431e7c8ee520a9bbc9e11810",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "7b90e1db28fb8e1fcf131c56d92d4651ef50adcca7ead403d05b2eaa07a1f6bd",
+              "lang": "la",
+              "form": "ideo",
+              "source": "Maybe for this reason today.",
+              "converted": "Maybe ideo today.",
+              "seed": "3",
+              "prompt_sha256": "d3f6c37e6dca9d99105638c9be63401d1cdcb20a431e7c8ee520a9bbc9e11810",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "78c1b49f2e2a59fc885086027203827aa93b7d3ccbfddcfd9016e78bbdcf312a",
+              "lang": "la",
+              "form": "ideo",
+              "source": "She told me that for this reason.",
+              "converted": "She told me that ideo.",
+              "seed": "1",
+              "prompt_sha256": "b6005a99beac9a3630964c0ac63e68764ff9b89842cd5b3e16db6618a2e98f8b",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "0f53d9ec35c75937817d60e150ac034cb9bf63891d74f245d842e26fec3766d0",
+              "lang": "la",
+              "form": "ideo",
+              "source": "She told me that for this reason.",
+              "converted": "She told me that ideo.",
+              "seed": "2",
+              "prompt_sha256": "b6005a99beac9a3630964c0ac63e68764ff9b89842cd5b3e16db6618a2e98f8b",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "49beafc10c2a573c8875a3ed70e939388fab5e6c2017034c5701f08e785d03b5",
+              "lang": "la",
+              "form": "ideo",
+              "source": "She told me that for this reason.",
+              "converted": "She told me that ideo.",
+              "seed": "3",
+              "prompt_sha256": "b6005a99beac9a3630964c0ac63e68764ff9b89842cd5b3e16db6618a2e98f8b",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "493c68b3bcb2306e041e3230a7ab3c7a9f3178a39f7a5ed814556c79c6cda1d0",
+            "c1c6452789466ce69f824af5316535b2d039ec52bff623ee35c4dfd76d7fe66f",
+            "be25b4fb1336eb26394b4ba77acd928ba51cfaeffb61f1f3875502b0992f4dbb",
+            "205d57d6ba547282881752aaacb03794886d11273821366a51bd41dbfdb64108",
+            "166391a236efbd1d499dd9b2f4432c26e0536ac7d99b61ccbd79e000751ef526",
+            "7b90e1db28fb8e1fcf131c56d92d4651ef50adcca7ead403d05b2eaa07a1f6bd",
+            "78c1b49f2e2a59fc885086027203827aa93b7d3ccbfddcfd9016e78bbdcf312a",
+            "0f53d9ec35c75937817d60e150ac034cb9bf63891d74f245d842e26fec3766d0",
+            "49beafc10c2a573c8875a3ed70e939388fab5e6c2017034c5701f08e785d03b5"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:pro": {
+      "lang": "la",
+      "form": "pro",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Pro.",
+        "Pro.",
+        "Pro.",
+        "Maybe pro today.",
+        "Maybe pro today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "pro",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "1e5fe613ba4f0e20d8ec44f70a12a3d93616cadc31ccb84846bce11d084cde59",
+              "lang": "la",
+              "form": "pro",
+              "source": "In favor of.",
+              "converted": "Pro.",
+              "seed": "1",
+              "prompt_sha256": "e8c187499e405f1ce57eb6c1488e558bb5a4f22b1cce28d1254dfbf82894de8d",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "e77cef58050f23032720bb4f5b81e07d4f3ffe66cf94d05f62cc5a5471755d68",
+              "lang": "la",
+              "form": "pro",
+              "source": "In favor of.",
+              "converted": "Pro.",
+              "seed": "2",
+              "prompt_sha256": "e8c187499e405f1ce57eb6c1488e558bb5a4f22b1cce28d1254dfbf82894de8d",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "e293f3f32f8d96adfd3d229978fbba70575fca8b224ce2371d8a12771ad2e7a3",
+              "lang": "la",
+              "form": "pro",
+              "source": "In favor of.",
+              "converted": "Pro.",
+              "seed": "3",
+              "prompt_sha256": "e8c187499e405f1ce57eb6c1488e558bb5a4f22b1cce28d1254dfbf82894de8d",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "dc26eab0e84138e61f60be78cc58c56117fdf251e29cfa526c671cb451549195",
+              "lang": "la",
+              "form": "pro",
+              "source": "Maybe in favor of today.",
+              "converted": "Maybe pro today.",
+              "seed": "1",
+              "prompt_sha256": "7702cb745007a7bf62fb764e5db77e11378193e2b8030369e423001ee9205c49",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "5ef92880a1ffe57f55748466a92767f8f6bc4cd67b75512b7e4b799509ae4bd5",
+              "lang": "la",
+              "form": "pro",
+              "source": "Maybe in favor of today.",
+              "converted": "Maybe pro today.",
+              "seed": "2",
+              "prompt_sha256": "7702cb745007a7bf62fb764e5db77e11378193e2b8030369e423001ee9205c49",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "6d4647eb2663ca9109e221fdf0763e265590527071c50e8add74b38c42569f55",
+              "lang": "la",
+              "form": "pro",
+              "source": "Maybe in favor of today.",
+              "converted": "Maybe pro today.",
+              "seed": "3",
+              "prompt_sha256": "7702cb745007a7bf62fb764e5db77e11378193e2b8030369e423001ee9205c49",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "826e1f7380b7981ca08113479d600a35684d32990da5ce329a5efcb92cae0f2c",
+              "lang": "la",
+              "form": "pro",
+              "source": "She told me that in favor of.",
+              "converted": "She told me that pro.",
+              "seed": "1",
+              "prompt_sha256": "3b9e6b955a22346ce866ac4148fe9423643e2e902260f90a147cda2f8cedbfde",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "fe0f3e578a35f724f327d3c3809e78d868fe90f9e41ee63dd94fee6968a02e46",
+              "lang": "la",
+              "form": "pro",
+              "source": "She told me that in favor of.",
+              "converted": "She told me that pro.",
+              "seed": "2",
+              "prompt_sha256": "3b9e6b955a22346ce866ac4148fe9423643e2e902260f90a147cda2f8cedbfde",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "b5ddb7f2523aa3c73a28546befe5559413f1421501162438d2ea0409a5362820",
+              "lang": "la",
+              "form": "pro",
+              "source": "She told me that in favor of.",
+              "converted": "She told me that pro.",
+              "seed": "3",
+              "prompt_sha256": "3b9e6b955a22346ce866ac4148fe9423643e2e902260f90a147cda2f8cedbfde",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "1e5fe613ba4f0e20d8ec44f70a12a3d93616cadc31ccb84846bce11d084cde59",
+            "e77cef58050f23032720bb4f5b81e07d4f3ffe66cf94d05f62cc5a5471755d68",
+            "e293f3f32f8d96adfd3d229978fbba70575fca8b224ce2371d8a12771ad2e7a3",
+            "dc26eab0e84138e61f60be78cc58c56117fdf251e29cfa526c671cb451549195",
+            "5ef92880a1ffe57f55748466a92767f8f6bc4cd67b75512b7e4b799509ae4bd5",
+            "6d4647eb2663ca9109e221fdf0763e265590527071c50e8add74b38c42569f55",
+            "826e1f7380b7981ca08113479d600a35684d32990da5ce329a5efcb92cae0f2c",
+            "fe0f3e578a35f724f327d3c3809e78d868fe90f9e41ee63dd94fee6968a02e46",
+            "b5ddb7f2523aa3c73a28546befe5559413f1421501162438d2ea0409a5362820"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:re": {
+      "lang": "la",
+      "form": "re",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Re.",
+        "Re.",
+        "Re.",
+        "Maybe re today.",
+        "Maybe re today."
+      ],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "re",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "6f47f2690095cebd58677cbcff3feaf260f80171115b93bdcc09595d813e49d6",
+              "lang": "la",
+              "form": "re",
+              "source": "With respect to.",
+              "converted": "Re.",
+              "seed": "1",
+              "prompt_sha256": "776b980f28c0962a379a53bc7709e41a5ff0b2c5476c200771ac12450b6c687d",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "24c1a6e1cb2dc3c3a4500da0fd394b84633d80fce3461bbfc7b64a6a0f5151f1",
+              "lang": "la",
+              "form": "re",
+              "source": "With respect to.",
+              "converted": "Re.",
+              "seed": "2",
+              "prompt_sha256": "776b980f28c0962a379a53bc7709e41a5ff0b2c5476c200771ac12450b6c687d",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "98b325f43ed8952a27531e67478e3a054e4e6dcb03b0a58fc92b468cb6064767",
+              "lang": "la",
+              "form": "re",
+              "source": "With respect to.",
+              "converted": "Re.",
+              "seed": "3",
+              "prompt_sha256": "776b980f28c0962a379a53bc7709e41a5ff0b2c5476c200771ac12450b6c687d",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "d83bf1b1855ffbef17890b0ad2162759924607f7dc8290164c165925f872585e",
+              "lang": "la",
+              "form": "re",
+              "source": "Maybe with respect to today.",
+              "converted": "Maybe re today.",
+              "seed": "1",
+              "prompt_sha256": "1b51df4a0f3a3dd52df8e833f4c4336b892aca81dc2ac96836c5f63715e0d2ad",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "e2f3e0430d246b9294542eafe15ea8b184646f7b593b24c7966eb2ca0c51b53f",
+              "lang": "la",
+              "form": "re",
+              "source": "Maybe with respect to today.",
+              "converted": "Maybe re today.",
+              "seed": "2",
+              "prompt_sha256": "1b51df4a0f3a3dd52df8e833f4c4336b892aca81dc2ac96836c5f63715e0d2ad",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "4a85ab9f5575b3efdbbee32f94d4b0549d1754e8f05fb3490b4bacd710e48405",
+              "lang": "la",
+              "form": "re",
+              "source": "Maybe with respect to today.",
+              "converted": "Maybe re today.",
+              "seed": "3",
+              "prompt_sha256": "1b51df4a0f3a3dd52df8e833f4c4336b892aca81dc2ac96836c5f63715e0d2ad",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "8de1e5a1cac3721f270fd1093a6dc519eb97e8a992904713807be5de8a7f6680",
+              "lang": "la",
+              "form": "re",
+              "source": "She told me that with respect to.",
+              "converted": "She told me that re.",
+              "seed": "1",
+              "prompt_sha256": "5927a5a2f313bd3d516da5da62cb95124e0566b87d4a9c9fea04a9f6c03c83ad",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "dee121c373ad17ddb836a3655ddda0a7a5d500a8a63f45a8ec298d9efbd530bd",
+              "lang": "la",
+              "form": "re",
+              "source": "She told me that with respect to.",
+              "converted": "She told me that re.",
+              "seed": "2",
+              "prompt_sha256": "5927a5a2f313bd3d516da5da62cb95124e0566b87d4a9c9fea04a9f6c03c83ad",
+              "status": "completed",
+              "restored": false
+            },
+            {
+              "target_id": "583596fa26596a77667e09a658f0046c38ad2e7a0b00660999a3010b452de3f4",
+              "lang": "la",
+              "form": "re",
+              "source": "She told me that with respect to.",
+              "converted": "She told me that re.",
+              "seed": "3",
+              "prompt_sha256": "5927a5a2f313bd3d516da5da62cb95124e0566b87d4a9c9fea04a9f6c03c83ad",
+              "status": "completed",
+              "restored": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "6f47f2690095cebd58677cbcff3feaf260f80171115b93bdcc09595d813e49d6",
+            "24c1a6e1cb2dc3c3a4500da0fd394b84633d80fce3461bbfc7b64a6a0f5151f1",
+            "98b325f43ed8952a27531e67478e3a054e4e6dcb03b0a58fc92b468cb6064767",
+            "d83bf1b1855ffbef17890b0ad2162759924607f7dc8290164c165925f872585e",
+            "e2f3e0430d246b9294542eafe15ea8b184646f7b593b24c7966eb2ca0c51b53f",
+            "4a85ab9f5575b3efdbbee32f94d4b0549d1754e8f05fb3490b4bacd710e48405",
+            "8de1e5a1cac3721f270fd1093a6dc519eb97e8a992904713807be5de8a7f6680",
+            "dee121c373ad17ddb836a3655ddda0a7a5d500a8a63f45a8ec298d9efbd530bd",
+            "583596fa26596a77667e09a658f0046c38ad2e7a0b00660999a3010b452de3f4"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:ibo": {
+      "lang": "la",
+      "form": "ibo",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "ibo",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "959d925760f017dbeea92c85425a754d16f1253baaee1a37cff944d9965ab566",
+              "lang": "la",
+              "form": "ibo",
+              "source": "I will go.",
+              "converted": "Ibo.",
+              "seed": "1",
+              "prompt_sha256": "0c43fe5f799d44db5581d79ea5e5ea5fcf413701ab91fa29f5382bf47a4a3628",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "548277e9ca22082e190c9478c1731bb3d13c577a1678f23b04a4f2591712e35a",
+              "lang": "la",
+              "form": "ibo",
+              "source": "I will go.",
+              "converted": "Ibo.",
+              "seed": "2",
+              "prompt_sha256": "0c43fe5f799d44db5581d79ea5e5ea5fcf413701ab91fa29f5382bf47a4a3628",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5dc76d79e9dc248a559ae74e47be9db4be7647a1c40499814089dcf09cb59e4e",
+              "lang": "la",
+              "form": "ibo",
+              "source": "I will go.",
+              "converted": "Ibo.",
+              "seed": "3",
+              "prompt_sha256": "0c43fe5f799d44db5581d79ea5e5ea5fcf413701ab91fa29f5382bf47a4a3628",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "008c9031c5ad850db122b28d309afcae1a38757765350805cddea5f53257b596",
+              "lang": "la",
+              "form": "ibo",
+              "source": "Maybe I will go today.",
+              "converted": "Maybe ibo today.",
+              "seed": "1",
+              "prompt_sha256": "395ef46757e4fed0a6eb7c1e91c5bf436daf27cdf0f584155f04a59ee7ace428",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0a974d04a9aa338abc86fa15b6248338db80d2769d0096a935e7313886e678ff",
+              "lang": "la",
+              "form": "ibo",
+              "source": "Maybe I will go today.",
+              "converted": "Maybe ibo today.",
+              "seed": "2",
+              "prompt_sha256": "395ef46757e4fed0a6eb7c1e91c5bf436daf27cdf0f584155f04a59ee7ace428",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5b2ccc4f2cf6edbf30196ef9f0094e4afd97f1419d60d1b399c0469a70d099fd",
+              "lang": "la",
+              "form": "ibo",
+              "source": "Maybe I will go today.",
+              "converted": "Maybe ibo today.",
+              "seed": "3",
+              "prompt_sha256": "395ef46757e4fed0a6eb7c1e91c5bf436daf27cdf0f584155f04a59ee7ace428",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2ef625edd94c6817544847fbd8c2b965fcd8613d0d798c18ff24650f17eb2566",
+              "lang": "la",
+              "form": "ibo",
+              "source": "She told me that I will go.",
+              "converted": "She told me that ibo.",
+              "seed": "1",
+              "prompt_sha256": "2ee42bbcc3d2d0e15bb242d860fc971ac96762b31423cedbb884ddd6be484879",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4a4ce99acfc45c45faca41edd5a9262c889c2d526c496e1c3a757281d6a6dc1e",
+              "lang": "la",
+              "form": "ibo",
+              "source": "She told me that I will go.",
+              "converted": "She told me that ibo.",
+              "seed": "2",
+              "prompt_sha256": "2ee42bbcc3d2d0e15bb242d860fc971ac96762b31423cedbb884ddd6be484879",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b6d33c45c428e01d3f4ee329753668cb21295999f74bb2a1a98fb64b5abe8038",
+              "lang": "la",
+              "form": "ibo",
+              "source": "She told me that I will go.",
+              "converted": "She told me that ibo.",
+              "seed": "3",
+              "prompt_sha256": "2ee42bbcc3d2d0e15bb242d860fc971ac96762b31423cedbb884ddd6be484879",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "959d925760f017dbeea92c85425a754d16f1253baaee1a37cff944d9965ab566",
+            "548277e9ca22082e190c9478c1731bb3d13c577a1678f23b04a4f2591712e35a",
+            "5dc76d79e9dc248a559ae74e47be9db4be7647a1c40499814089dcf09cb59e4e",
+            "008c9031c5ad850db122b28d309afcae1a38757765350805cddea5f53257b596",
+            "0a974d04a9aa338abc86fa15b6248338db80d2769d0096a935e7313886e678ff",
+            "5b2ccc4f2cf6edbf30196ef9f0094e4afd97f1419d60d1b399c0469a70d099fd",
+            "2ef625edd94c6817544847fbd8c2b965fcd8613d0d798c18ff24650f17eb2566",
+            "4a4ce99acfc45c45faca41edd5a9262c889c2d526c496e1c3a757281d6a6dc1e",
+            "b6d33c45c428e01d3f4ee329753668cb21295999f74bb2a1a98fb64b5abe8038"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:habebo": {
+      "lang": "la",
+      "form": "habebo",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "habebo",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "afff54de7247b7d15350251dec8b4688df2e84d13b75c7f2d233b8c67f8ac479",
+              "lang": "la",
+              "form": "habebo",
+              "source": "I will have.",
+              "converted": "Habebo.",
+              "seed": "1",
+              "prompt_sha256": "8f16d8279572f5db8bebd5830567b3f9209b6c5939e01387e144b1a010212359",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "15a4ce447c6ca24fb84b87abec33fc453f6566d2659fcdb67ad9bb12a56ecefe",
+              "lang": "la",
+              "form": "habebo",
+              "source": "I will have.",
+              "converted": "Habebo.",
+              "seed": "2",
+              "prompt_sha256": "8f16d8279572f5db8bebd5830567b3f9209b6c5939e01387e144b1a010212359",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "179c3eb446639129f8241ea0c55ff0dead8b485c4294452cfe5b58c61bf45ca0",
+              "lang": "la",
+              "form": "habebo",
+              "source": "I will have.",
+              "converted": "Habebo.",
+              "seed": "3",
+              "prompt_sha256": "8f16d8279572f5db8bebd5830567b3f9209b6c5939e01387e144b1a010212359",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d072ae496fe0bdf3cd0fb7efd6562cca73fc2e8d1b567fa505472be19175fc39",
+              "lang": "la",
+              "form": "habebo",
+              "source": "Maybe I will have today.",
+              "converted": "Maybe habebo today.",
+              "seed": "1",
+              "prompt_sha256": "ff77bc87aef4ee5abc91003d3777136faf0d04a5aee8189f5120702d5ea186df",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a53abcfc9b634952fdbdb5e9db7f1d9178129c2607c2fae0adfbf137db729294",
+              "lang": "la",
+              "form": "habebo",
+              "source": "Maybe I will have today.",
+              "converted": "Maybe habebo today.",
+              "seed": "2",
+              "prompt_sha256": "ff77bc87aef4ee5abc91003d3777136faf0d04a5aee8189f5120702d5ea186df",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2951bfd56fc8e95fd8e130226443f2b1bca48ad7a652d8b4549d7ccf858d6d38",
+              "lang": "la",
+              "form": "habebo",
+              "source": "Maybe I will have today.",
+              "converted": "Maybe habebo today.",
+              "seed": "3",
+              "prompt_sha256": "ff77bc87aef4ee5abc91003d3777136faf0d04a5aee8189f5120702d5ea186df",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a8d6ac1c336ccc38bebdd39aa6231a9af9eb7a9fa0ad3fa3e4ee67ce16ec0d36",
+              "lang": "la",
+              "form": "habebo",
+              "source": "She told me that I will have.",
+              "converted": "She told me that habebo.",
+              "seed": "1",
+              "prompt_sha256": "60b9dd4a9470ad9b9d123515cde9aeffc1bc3899dfa84e171f52852d2a92168b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "04354f26f6d080b6501886bd41eb054329beee8376b2e91aeedd586d53dea937",
+              "lang": "la",
+              "form": "habebo",
+              "source": "She told me that I will have.",
+              "converted": "She told me that habebo.",
+              "seed": "2",
+              "prompt_sha256": "60b9dd4a9470ad9b9d123515cde9aeffc1bc3899dfa84e171f52852d2a92168b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "aba54457da412c682f9a2e93847a7966e2168ff5aeb750bed9fba30d3283c26b",
+              "lang": "la",
+              "form": "habebo",
+              "source": "She told me that I will have.",
+              "converted": "She told me that habebo.",
+              "seed": "3",
+              "prompt_sha256": "60b9dd4a9470ad9b9d123515cde9aeffc1bc3899dfa84e171f52852d2a92168b",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "afff54de7247b7d15350251dec8b4688df2e84d13b75c7f2d233b8c67f8ac479",
+            "15a4ce447c6ca24fb84b87abec33fc453f6566d2659fcdb67ad9bb12a56ecefe",
+            "179c3eb446639129f8241ea0c55ff0dead8b485c4294452cfe5b58c61bf45ca0",
+            "d072ae496fe0bdf3cd0fb7efd6562cca73fc2e8d1b567fa505472be19175fc39",
+            "a53abcfc9b634952fdbdb5e9db7f1d9178129c2607c2fae0adfbf137db729294",
+            "2951bfd56fc8e95fd8e130226443f2b1bca48ad7a652d8b4549d7ccf858d6d38",
+            "a8d6ac1c336ccc38bebdd39aa6231a9af9eb7a9fa0ad3fa3e4ee67ce16ec0d36",
+            "04354f26f6d080b6501886bd41eb054329beee8376b2e91aeedd586d53dea937",
+            "aba54457da412c682f9a2e93847a7966e2168ff5aeb750bed9fba30d3283c26b"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:veniam": {
+      "lang": "la",
+      "form": "veniam",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "veniam",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "c9c19934dcdd4462d8b4cef22b3466a05577f7a1a101e79aebc76308dece1abe",
+              "lang": "la",
+              "form": "veniam",
+              "source": "I will come.",
+              "converted": "Veniam.",
+              "seed": "1",
+              "prompt_sha256": "0376a4398f657fad25fdd314bea073c7089f8ed4ca9138b0abe137d87dac7e80",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e690cb416d4418099a125dfe098a267c467fa3e54ec7e9e1454530e30e9f226b",
+              "lang": "la",
+              "form": "veniam",
+              "source": "I will come.",
+              "converted": "Veniam.",
+              "seed": "2",
+              "prompt_sha256": "0376a4398f657fad25fdd314bea073c7089f8ed4ca9138b0abe137d87dac7e80",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "103790602c8b8a33e8103d49bd396d4f86914c314fe8490679e105aed1c25567",
+              "lang": "la",
+              "form": "veniam",
+              "source": "I will come.",
+              "converted": "Veniam.",
+              "seed": "3",
+              "prompt_sha256": "0376a4398f657fad25fdd314bea073c7089f8ed4ca9138b0abe137d87dac7e80",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a4c32f75ca19dd62ba2b3d984ab2452f218fbcd3c2eebf91d38553260587c4f8",
+              "lang": "la",
+              "form": "veniam",
+              "source": "Maybe I will come today.",
+              "converted": "Maybe veniam today.",
+              "seed": "1",
+              "prompt_sha256": "dc8abb95b338b9be3da0b3686237b639b98ad5fd273c4e2c45c46057694328f3",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d7e033b54cf4ed700f397bef7eb59b1223a594fe76497bb26866412cb6a0c475",
+              "lang": "la",
+              "form": "veniam",
+              "source": "Maybe I will come today.",
+              "converted": "Maybe veniam today.",
+              "seed": "2",
+              "prompt_sha256": "dc8abb95b338b9be3da0b3686237b639b98ad5fd273c4e2c45c46057694328f3",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "ffad823e64b74d5fa3877f1d68d3482fc2bbd391bc915cdf1c79c61560574b5c",
+              "lang": "la",
+              "form": "veniam",
+              "source": "Maybe I will come today.",
+              "converted": "Maybe veniam today.",
+              "seed": "3",
+              "prompt_sha256": "dc8abb95b338b9be3da0b3686237b639b98ad5fd273c4e2c45c46057694328f3",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "add2a9508b749acdf364491755918b0f07a39be1dc4690858fe67f03b3d08e7c",
+              "lang": "la",
+              "form": "veniam",
+              "source": "She told me that I will come.",
+              "converted": "She told me that veniam.",
+              "seed": "1",
+              "prompt_sha256": "82b16b645a21acf40b6adc62bf650f4755da66bb387c308b40c37ca43b0c5bf4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5db43bb9bc59f4a7bb2d2d5f6bd4c9d197c2a4174426dd9a50a99d66993c7190",
+              "lang": "la",
+              "form": "veniam",
+              "source": "She told me that I will come.",
+              "converted": "She told me that veniam.",
+              "seed": "2",
+              "prompt_sha256": "82b16b645a21acf40b6adc62bf650f4755da66bb387c308b40c37ca43b0c5bf4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "7cd7ce8ca0270a8a7aa1fd47e0e371b4f869d2faeac5a5f031cb838a6e538302",
+              "lang": "la",
+              "form": "veniam",
+              "source": "She told me that I will come.",
+              "converted": "She told me that veniam.",
+              "seed": "3",
+              "prompt_sha256": "82b16b645a21acf40b6adc62bf650f4755da66bb387c308b40c37ca43b0c5bf4",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "c9c19934dcdd4462d8b4cef22b3466a05577f7a1a101e79aebc76308dece1abe",
+            "e690cb416d4418099a125dfe098a267c467fa3e54ec7e9e1454530e30e9f226b",
+            "103790602c8b8a33e8103d49bd396d4f86914c314fe8490679e105aed1c25567",
+            "a4c32f75ca19dd62ba2b3d984ab2452f218fbcd3c2eebf91d38553260587c4f8",
+            "d7e033b54cf4ed700f397bef7eb59b1223a594fe76497bb26866412cb6a0c475",
+            "ffad823e64b74d5fa3877f1d68d3482fc2bbd391bc915cdf1c79c61560574b5c",
+            "add2a9508b749acdf364491755918b0f07a39be1dc4690858fe67f03b3d08e7c",
+            "5db43bb9bc59f4a7bb2d2d5f6bd4c9d197c2a4174426dd9a50a99d66993c7190",
+            "7cd7ce8ca0270a8a7aa1fd47e0e371b4f869d2faeac5a5f031cb838a6e538302"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "la:ero": {
+      "lang": "la",
+      "form": "ero",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "la",
+        "form": "ero",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "c2fed660c83a4aa1629b2e2b97c50bae6ecb4603933a2a409560d52d7aa543bb",
+              "lang": "la",
+              "form": "ero",
+              "source": "I will be.",
+              "converted": "Ero.",
+              "seed": "1",
+              "prompt_sha256": "9507871f1d3ec20599ac9362b2544af6f0a16bc4e2254bc6105259fa7c0c7b23",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0e705566d07c93d11f3db674354bf8fd17057cb4ec1724f93f9278dc2d585486",
+              "lang": "la",
+              "form": "ero",
+              "source": "I will be.",
+              "converted": "Ero.",
+              "seed": "2",
+              "prompt_sha256": "9507871f1d3ec20599ac9362b2544af6f0a16bc4e2254bc6105259fa7c0c7b23",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "7b5ab35ca0ecefed995e5ad1b47aa6dfaf659fa37cc802d925d2d70e7ae23517",
+              "lang": "la",
+              "form": "ero",
+              "source": "I will be.",
+              "converted": "Ero.",
+              "seed": "3",
+              "prompt_sha256": "9507871f1d3ec20599ac9362b2544af6f0a16bc4e2254bc6105259fa7c0c7b23",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "adfe9b3b535c9a1ae208d394433f296515f9df046b0b77f04dd14afd86ea0e7a",
+              "lang": "la",
+              "form": "ero",
+              "source": "Maybe I will be today.",
+              "converted": "Maybe ero today.",
+              "seed": "1",
+              "prompt_sha256": "c20a70641782a54604352e63e46ba77f2a96a39aeb6a425f4172145036bc1b20",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0c33c29d8fa20db3edd52c355d925f9b7939ebdd8bbf4268ae5223d077450804",
+              "lang": "la",
+              "form": "ero",
+              "source": "Maybe I will be today.",
+              "converted": "Maybe ero today.",
+              "seed": "2",
+              "prompt_sha256": "c20a70641782a54604352e63e46ba77f2a96a39aeb6a425f4172145036bc1b20",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a3be8350f1c285825a80bd21a32b4b31026f358c2e9d68b4e714bff7ee24806d",
+              "lang": "la",
+              "form": "ero",
+              "source": "Maybe I will be today.",
+              "converted": "Maybe ero today.",
+              "seed": "3",
+              "prompt_sha256": "c20a70641782a54604352e63e46ba77f2a96a39aeb6a425f4172145036bc1b20",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d18779ac3ce04921827b82cb810e62a167c3a7f0a5de3832a6d3b61f0ef1d8f9",
+              "lang": "la",
+              "form": "ero",
+              "source": "She told me that I will be.",
+              "converted": "She told me that ero.",
+              "seed": "1",
+              "prompt_sha256": "cfb238ddd6e8f07937aaccae056486f913cbdd743c059c091e9f774a0b5cdd28",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "92688376eb0b9f69586734a82a622dc367f1f302d06de26bab054031b4ede4d1",
+              "lang": "la",
+              "form": "ero",
+              "source": "She told me that I will be.",
+              "converted": "She told me that ero.",
+              "seed": "2",
+              "prompt_sha256": "cfb238ddd6e8f07937aaccae056486f913cbdd743c059c091e9f774a0b5cdd28",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "f68cab4241bb7189622a073e72e6071cf1238f2b42084f49bb808316f1637bdd",
+              "lang": "la",
+              "form": "ero",
+              "source": "She told me that I will be.",
+              "converted": "She told me that ero.",
+              "seed": "3",
+              "prompt_sha256": "cfb238ddd6e8f07937aaccae056486f913cbdd743c059c091e9f774a0b5cdd28",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "c2fed660c83a4aa1629b2e2b97c50bae6ecb4603933a2a409560d52d7aa543bb",
+            "0e705566d07c93d11f3db674354bf8fd17057cb4ec1724f93f9278dc2d585486",
+            "7b5ab35ca0ecefed995e5ad1b47aa6dfaf659fa37cc802d925d2d70e7ae23517",
+            "adfe9b3b535c9a1ae208d394433f296515f9df046b0b77f04dd14afd86ea0e7a",
+            "0c33c29d8fa20db3edd52c355d925f9b7939ebdd8bbf4268ae5223d077450804",
+            "a3be8350f1c285825a80bd21a32b4b31026f358c2e9d68b4e714bff7ee24806d",
+            "d18779ac3ce04921827b82cb810e62a167c3a7f0a5de3832a6d3b61f0ef1d8f9",
+            "92688376eb0b9f69586734a82a622dc367f1f302d06de26bab054031b4ede4d1",
+            "f68cab4241bb7189622a073e72e6071cf1238f2b42084f49bb808316f1637bdd"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
     }
   },
-  "required": []
+  "required": [],
+  "run_history": [
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "b9757c29-d912-45f4-bfc2-2aeeba64faa7",
+      "config": {
+        "only_lang": null,
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s}.",
+          "Maybe {s} today.",
+          "She told me that {s}."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "3fc163ba7dd672a307496982cd292b66fa53467e96190e229b6a1edc8d77b58c",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1"
+      },
+      "selected_forms": [
+        "la:in vitro",
+        "la:in vivo",
+        "la:verbatim",
+        "la:in medias res",
+        "la:obiter",
+        "la:ex post",
+        "la:interim",
+        "la:inter alia",
+        "la:bona fide",
+        "la:per capita",
+        "la:a fortiori",
+        "la:in memoriam",
+        "la:seriatim",
+        "la:sua sponte",
+        "la:iterum",
+        "la:ergo",
+        "la:circa",
+        "la:gradatim",
+        "la:coram",
+        "la:cotidie",
+        "la:ideo",
+        "la:pro",
+        "la:re",
+        "la:ibo",
+        "la:habebo",
+        "la:veniam",
+        "la:ero"
+      ],
+      "duplicate_targets": 0,
+      "requested": 243,
+      "scheduled": 243,
+      "attempted": 243,
+      "completed": 243,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true
+    }
+  ]
 }

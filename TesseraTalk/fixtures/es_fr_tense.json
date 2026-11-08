@@ -9,7 +9,7 @@
     "複合名詞 / compounds here are just another candidate class for cheapest tokens (incl. adj+noun when they win), not a noun-only policy.",
     "Dropped go-fut-fr (je vais) — always loses to iré under cheapest.",
     "I was≠fui (ambiguous with I went); keep EN for I was / map only I went→fui.",
-    "Classical Latin conjugations (ibo/ivi/sum…) skipped — prefer surviving modern Romance / live Latin-derived abbrevs (e.g./i.e./etc. stay C).",
+    "Classical Latin conjugations: only veniam (I will come) adopted — 1 token vs vendré 2, AI round-trip 9/9. habebo ties terei on tokens and loses on utf8; ibo ties vou; ero collides with it 'I was'; sum/es/ivi/vidi etc. not added (EN/es homographs or ambiguous).",
     "Progressive *going is not applied when followed by 'to' (going-to future guard in apply_es_fr_tense / _apply_phrase_pairs).",
     "Explicit going-to phrases (I am going to go → iré/vou/…) registered as longer sources.",
     "Tranche2 1s (~35): take/think/try/find/call/put/bring/write/read/buy/wait/use/open/pay/live/send/stay; skip tell≃say, make≃do, get, ask (pedir/preguntar shaky).",
@@ -321,16 +321,26 @@
       "from": [
         "I will come"
       ],
-      "to": "vendré",
-      "lang": "es",
+      "to": "veniam",
+      "lang": "la",
       "tense": "future",
       "metrics": {
         "token_before": 3,
-        "token_after": 2,
+        "token_after": 1,
         "utf8_before": 11,
-        "utf8_after": 7,
+        "utf8_after": 6,
         "both_shrink": true
-      }
+      },
+      "candidates": [
+        {
+          "form": "vendré",
+          "lang": "es"
+        },
+        {
+          "form": "veniam",
+          "lang": "la"
+        }
+      ]
     },
     {
       "id": "come-fut-3s",
@@ -1876,7 +1886,7 @@
       ],
       "to": "ibo",
       "lang": "la",
-      "why_dropped": "classical Latin not modern surviving use; Romance iré/vou win"
+      "why_dropped": "ibo ties vou on token (1=1), utf8 (3=3) and len — not a strict win; AI round-trip 9/9 recorded but not adopted"
     },
     {
       "id": "go-pres-nl-bare",
@@ -2069,6 +2079,24 @@
       "to": "vi",
       "lang": "es",
       "why_dropped": "EN homograph guard: every candidate spells an English word (vi) → hand row dropped; tense_matrix supplies the next-cheapest unique form (I came → kwam, I saw → vis)"
+    },
+    {
+      "id": "be-fut-la",
+      "from": [
+        "I will be"
+      ],
+      "to": "ero",
+      "lang": "la",
+      "why_dropped": "collision: it ero = I was (opposite tense); AI round-trip passes but reject"
+    },
+    {
+      "id": "have-fut-la",
+      "from": [
+        "I will have"
+      ],
+      "to": "habebo",
+      "lang": "la",
+      "why_dropped": "o200k-calibrated estimate_tokens 2 = terei 2, utf8 6 > 5 — loses; AI round-trip 9/9 but not cheaper"
     }
   ]
 }
