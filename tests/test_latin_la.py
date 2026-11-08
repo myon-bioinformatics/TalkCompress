@@ -131,3 +131,9 @@ def test_gradatim_kept():
     t = _t()
     assert ("step by step", "gradatim", "la") in set(t.pt_el_latin_phrase_pairs())
     assert rt.status(RT, "la", "gradatim") == "pass"
+
+
+def test_in_favor_of_hyper_reversed():
+    t = _t()
+    assert all(not (s == "in favor of" and d == "υπέρ") for s, d, _ in t.pt_el_latin_phrase_pairs())
+    assert "υπέρ" not in t.apply_zh_de_phrases("We voted in favor of the plan.")

@@ -343,27 +343,6 @@
       "note": "bare Latin per dropped — collides with EN per"
     },
     {
-      "id": "in-favor-of-la-el",
-      "from": [
-        "in favor of"
-      ],
-      "to": "υπέρ",
-      "lang": "el",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "υπέρ",
-          "lang": "el",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
-        "both_shrink": true
-      }
-    },
-    {
       "id": "with-respect-to-la-el",
       "from": [
         "with respect to"
@@ -928,6 +907,15 @@
       "to": "re",
       "lang": "la",
       "why_dropped": "AI round-trip exact-match 0/9 (restored as regarding) — reversed (<100M gate)"
+    },
+    {
+      "id": "in-favor-of-el-hyper",
+      "from": [
+        "in favor of"
+      ],
+      "to": "υπέρ",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as in favor) — reversed; evidence recorded on PR #164 head 9a5799f. No other candidate left, entry removed (EN kept)"
     }
   ]
 }
