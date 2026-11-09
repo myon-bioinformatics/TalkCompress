@@ -21,8 +21,8 @@ SNAPSHOT = json.loads((FIX / "roundtrip_judge/pt_sources.json").read_text(encodi
 SOURCES = SNAPSHOT["forms"]
 JUDGE_SHA = "d161afaef0b6f8dea08c5ff5babb69f349a7baea60f697ddaf5e85b36dd369df"
 BASE_OTHER_LANG_HASHES = {
-    "tense_matrix": "082a8144cee2ffed61cf37395da0a20e5486ddb02fa0453b249630e4a0ca4d59",  # after #168 (it que sa / que dà reversed)
-    "es_fr_tense": "beeb3c06593d4451c2ec40fa39479891deaf7e20117f7430ba6836e4fea9fbe0",
+    "tense_matrix": "f0d10b9e9c87c842deb9ec3a3c52b88ee7a10374ac729f46e51e137873cd7f55",  # after #172 (es reversals)
+    "es_fr_tense": "b6abfe61b846d0442aaf38763f9421f453f4e19b15e1d084d946de7f5bd61176",  # after #172 (es reversals)
     "pt_el_latin_phrases": "37ae65ea2143b97433429ebb183878776273552c3d4a41d9b8f94f60838d497c",  # after #168 (it ciao reversed)
     "pt_el_latin_tense": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
 }

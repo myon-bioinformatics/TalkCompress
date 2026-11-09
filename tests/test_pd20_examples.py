@@ -102,12 +102,19 @@ def test_b_final_accepts_full_and_contracted(full, short, winner):
     "full,short",
     [
         ("I would go", "I'd go"),
-        ("we will go", "we'll go"),
+        # we will go → vamos reversed (docs/es_roundtrip_20261109.md); EN left, so
+        # full/short identity forms need not converge on a shared short winner.
     ],
 )
 def test_b_final_contracted_matches_full(full, short):
     t = _t()
     assert t.apply_es_fr_tense(short) == t.apply_es_fr_tense(full)
+
+
+def test_we_will_go_left_english_after_vamos_reverse():
+    t = _t()
+    assert t.apply_es_fr_tense("we will go") == "we will go"
+    assert t.apply_es_fr_tense("we'll go") == "we'll go"
 
 
 @pytest.mark.parametrize("src", ["I'm going to buy", "I am going to buy"])
