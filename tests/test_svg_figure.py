@@ -50,15 +50,7 @@ def test_chart_writes_tick_labels_and_escaped_text():
     assert analyze(svg).ok
 
 
-def test_l2_renders_example_figure_when_chromium_present():
-    pytest.importorskip("playwright.sync_api")
-    from shared.svg_render import Renderer, l2_check
-    try:
-        r = Renderer()
-    except Exception as exc:
-        pytest.skip(f"chromium unavailable: {exc}")
-    try:
-        report = l2_check(build(json.loads(EXAMPLES[0].read_text(encoding="utf-8"))), r)
-        assert report["ok"]
-    finally:
-        r.close()
+def test_l2_renders_example_figure_when_chromium_present(renderer):
+    from shared.svg_render import l2_check
+    report = l2_check(build(json.loads(EXAMPLES[0].read_text(encoding="utf-8"))), renderer)
+    assert report["ok"]

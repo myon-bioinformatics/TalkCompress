@@ -9,7 +9,34 @@ nl（1億人未満）の現在完了セル採用 0 件は `fixtures/roundtrip.js
 | id | EN | 採用 | lt100m 強制時 |
 |---|---|---|---|
 
-## 全件（`--impact lt100m`、0件）
+## 全件（`--impact lt100m`、27件）
 
 ```
+mx-come-fut-3s-it	it will come	None	->	('verrà', 'it')
+mx-come-fut-dem-this	this will come	('this virá', 'pt')	->	('this verrà', 'it')
+mx-do-perf-3p	they have done	None	->	('hicieron', 'es')
+mx-do-perf-dem-these	these have done	None	->	('these hicieron', 'es')
+mx-do-perf-dem-those	those have done	None	->	('those hicieron', 'es')
+mx-do-perf-rel-que-pl	que have done	None	->	('que hicieron', 'es')
+mx-do-perf-rel-which-pl	which have done	None	->	('which hicieron', 'es')
+mx-give-perf-1s	I have given	None	->	('ai donné', 'fr')
+mx-give-perf-rel-que-pl	que have given	None	->	('que dieron', 'es')
+mx-give-perf-rel-que-sg	que has given	None	->	('que dio', 'es')
+mx-give-perf-rel-which-pl	which have given	None	->	('which dieron', 'es')
+mx-give-perf-rel-which-sg	which has given	None	->	('which dio', 'es')
+mx-give-perf-rel-who-pl	who have given	None	->	('who dieron', 'es')
+mx-give-perf-rel-who-sg	who has given	None	->	('who dio', 'es')
+mx-go-past-3s-it	it went	None	->	('fue', 'es')
+mx-go-perf-2	you have gone	None	->	('fostes', 'pt')
+mx-go-perf-3s-he	he has gone	None	->	('fue', 'es')
+mx-go-perf-3s-it	it has gone	None	->	('fue', 'es')
+mx-go-perf-3s-she	she has gone	None	->	('fue', 'es')
+mx-go-perf-dem-this	this has gone	None	->	('this fue', 'es')
+mx-go-perf-rel-que-pl	que have gone	None	->	('que fueron', 'es')
+mx-go-perf-rel-que-sg	que has gone	None	->	('que fue', 'es')
+mx-go-perf-rel-which-pl	which have gone	None	->	('which fueron', 'es')
+mx-go-perf-rel-which-sg	which has gone	None	->	('which fue', 'es')
+mx-go-perf-rel-who-pl	who have gone	None	->	('who fueron', 'es')
+mx-go-perf-rel-who-sg	who has gone	None	->	('who fue', 'es')
+mx-see-pluperf-3p	they had seen	None	->	('avaient vu', 'fr')
 ```
