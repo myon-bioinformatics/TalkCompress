@@ -1,10 +1,5 @@
-import copy
-import importlib.util
-import json
+import copy, importlib.util, json, subprocess, sys, types
 from pathlib import Path
-import subprocess
-import sys
-import types
 
 import pytest
 

@@ -12,12 +12,7 @@ urlopen には TIMEOUT 秒のタイムアウトを付け、id は ID_RE で検�
 """
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
-import re
-import sys
-import urllib.request
+import argparse, hashlib, json, re, sys, urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))

@@ -1,8 +1,6 @@
 """Unicode mark class for stdlib regular-expression word boundaries."""
+import re, sys, unicodedata
 from functools import lru_cache
-import re
-import sys
-import unicodedata
 
 
 @lru_cache(maxsize=1)

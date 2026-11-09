@@ -3,9 +3,8 @@
 JSONL text rows and metadata strings are reported separately. Synthetic random
 code points are stress data, not grammatical syllables or natural-language data.
 """
-import sys,json,importlib.util,random,unicodedata,collections
+import argparse, collections, importlib.util, json, random, sys, unicodedata
 from pathlib import Path
-import argparse
 repo=Path(__file__).resolve().parents[1]
 root=repo.parent
 sys.path[:0]=[str(repo),str(repo/'shared')]

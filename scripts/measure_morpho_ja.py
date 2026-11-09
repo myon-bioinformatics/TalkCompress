@@ -4,11 +4,7 @@
 
 --ref を付けると、その git ref の MorphoZip/morpho_zip.py と比べる。
 """
-import argparse
-import importlib.util
-import subprocess
-import sys
-import tempfile
+import argparse, importlib.util, subprocess, sys, tempfile
 from pathlib import Path
 
 import tiktoken

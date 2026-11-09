@@ -36,19 +36,8 @@ committed bank is never gated by this script.
 
 from __future__ import annotations
 
-import argparse
-import copy
-import hashlib
-import uuid
-import json
-import math
-import os
-import re
-import subprocess
-import sys
-import unicodedata
-from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
+import argparse, copy, hashlib, json, math, os, re, subprocess, sys, unicodedata, uuid
+from concurrent.futures import ThreadPoolExecutor; from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))

@@ -1,9 +1,6 @@
 """Offline guards against uv replacing the selected CI matrix interpreter."""
+import os, shlex, subprocess, sys
 from pathlib import Path
-import os
-import shlex
-import subprocess
-import sys
 
 
 WORKFLOW = Path(__file__).resolve().parents[1] / '.github/workflows/ci.yml'

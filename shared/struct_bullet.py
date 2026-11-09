@@ -20,11 +20,7 @@ Exit status is 0 when keep_check passes, otherwise 1.
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
-import sys
-import unicodedata
+import argparse, json, re, sys, unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

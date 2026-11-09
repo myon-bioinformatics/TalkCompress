@@ -1,11 +1,6 @@
 """Synthetic public fixtures only: no real user keys, network or model work."""
-import base64
-import json
-import os
+import base64, json, os, subprocess, sys, unicodedata
 from pathlib import Path
-import subprocess
-import sys
-import unicodedata
 
 import pytest
 
