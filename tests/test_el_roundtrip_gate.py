@@ -72,8 +72,12 @@ def test_once_again_removed_but_passing_greek_and_latin_main_labels_remain():
     entries = {e["id"]: e for e in bank["entries"]}
     assert "once-again-el-pt-la" not in entries
     assert entries["one-by-one-el"]["to"] == "ένα ένα"
-    assert entries["more-or-less-la-el"]["to"] == "circa"
-    assert entries["in-favor-of-la-el"]["to"] == "pro"
-    assert entries["with-respect-to-la-el"]["to"] == "re"
+    # #161 で la circa / pro / re が往復 0/9 で外れたため、#164 で 9/9 だった el 形が勝者になる。
+    # in favor of は υπέρ (el) も 0/9 なのでエントリごと削除し英語のまま。
+    assert entries["more-or-less-la-el"]["to"] == "πάνω κάτω"
+    assert "in-favor-of-la-el" not in entries
+    assert entries["with-respect-to-la-el"]["to"] == "ως προς"
+    dropped_ids = {e["id"] for e in bank["examples_not_registered"]}
+    assert {"more-or-less-la-el-circa", "in-favor-of-la-el-pro", "with-respect-to-la-el-re", "in-favor-of-el-hyper"} <= dropped_ids
     dropped = next(e for e in bank["examples_not_registered"] if e["id"] == "once-again-el-pt-la")
     assert dropped["to"] == "πάλι" and "restored as again" in dropped["why_dropped"]

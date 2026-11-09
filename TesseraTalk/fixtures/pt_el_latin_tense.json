@@ -6,7 +6,7 @@
     "Only NEW English sources not already mapped in es_fr_tense.json.",
     "Living PT/EL forms that beat EN on estimate_tokens; cheapest at runtime.",
     "Sense-lossy drops (posso for I can go without motion) documented below.",
-    "Classical Latin conjugations skipped."
+    "Classical Latin conjugations skipped here; the two that win (veniam) are candidates on existing es_fr_tense.json sources."
   ],
   "entries": [
     {
