@@ -29,10 +29,15 @@ def test_winner(eid, to, lang):
     assert (e["to"], e["lang"]) == (to, lang)
 
 
-@pytest.mark.parametrize("eid", ["mx-see-perf-1p", "mx-take-perf-1s", "mx-say-perf-3s-she"])
+@pytest.mark.parametrize("eid", ["mx-see-perf-1p", "mx-say-perf-3s-she"])
 def test_nl_preterite_gated_for_perfect(eid):
     # #29: nl preterite for EN perfect restores as simple past (0/9 etc.) -> gated
     assert BY_ID[eid]["lang"] != "nl"
+
+
+def test_de_nahm_perfect_reversed_leaves_english():
+    # de nahm (I have taken) failed independent blind round-trip 0/9 → ROUNDTRIP_REVERSED
+    assert "mx-take-perf-1s" not in BY_ID
 
 
 @pytest.mark.parametrize("person,de,nl", [("1s", "sah", "zag"), ("1p", "sahen", "zagen"), ("3", "sah", "zag")])

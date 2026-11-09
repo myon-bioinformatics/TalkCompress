@@ -42,9 +42,10 @@ def test_excluded_forms_untouched(src):
 
 def test_matrix_row_still_beats_u():
     # clause-start matrix row (2nd-person verb, strictly fewer tokens) wins over U + EN chain
-    # (#29: nl ``ging`` was gated by the AI round-trip; use a row that still wins)
-    out = t.apply_es_fr_tense("you came")
-    assert out != "U came" and t.estimate_tokens(out) < t.estimate_tokens("U came")
+    # (#29: nl ``ging`` gated; de ``kamst`` reversed 0/9) — dachtest for perfect still wins
+    out = t.apply_es_fr_tense("you have thought")
+    assert out == "dachtest"
+    assert out != "U have thought" and t.estimate_tokens(out) < t.estimate_tokens("U have thought")
     # embedded: pro-drop blocked → subject kept as U
     assert t.apply_es_fr_tense("I know you went").endswith("U went")
 

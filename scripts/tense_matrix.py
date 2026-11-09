@@ -738,6 +738,62 @@ def en_baselines(src: str) -> list[str]:
 
 
 ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
+# Individually reversed (lang, form) winners whose independent blind AI round-trip
+# failed (docs/de_roundtrip_20261109.md). Not language-wide enforcement: other
+# forms of the same language stay report-only. A cell whose candidates include a
+# reversed form stays English (no next-language candidate is promoted).
+ROUNDTRIP_REVERSED = frozenset({
+    ("de", 'dachte'),
+    ("de", 'fand'),
+    ("de", 'kamst'),
+    ("de", 'nahm'),
+    ("de", 'nahmst'),
+    ("de", 'que dachte'),
+    ("de", 'que dachten'),
+    ("de", 'que denkt'),
+    ("de", 'que fand'),
+    ("de", 'que fanden'),
+    ("de", 'que kam'),
+    ("de", 'que kamen'),
+    ("de", 'que nahm'),
+    ("de", 'que nahmen'),
+    ("de", 'que sah'),
+    ("de", 'que sahen'),
+    ("de", 'taten'),
+    ("de", 'tatest'),
+    ("de", 'these dachten'),
+    ("de", 'these fanden'),
+    ("de", 'these kamen'),
+    ("de", 'these nahmen'),
+    ("de", 'these sahen'),
+    ("de", 'this dachte'),
+    ("de", 'this fand'),
+    ("de", 'this kam'),
+    ("de", 'this nahm'),
+    ("de", 'this sah'),
+    ("de", 'those dachten'),
+    ("de", 'those fanden'),
+    ("de", 'those kamen'),
+    ("de", 'those nahmen'),
+    ("de", 'those sahen'),
+    ("de", 'which dachte'),
+    ("de", 'which dachten'),
+    ("de", 'which fand'),
+    ("de", 'which fanden'),
+    ("de", 'which kam'),
+    ("de", 'which kamen'),
+    ("de", 'which nahm'),
+    ("de", 'which nahmen'),
+    ("de", 'which sah'),
+    ("de", 'which sahen'),
+    ("de", 'who dachte'),
+    ("de", 'who fand'),
+    ("de", 'who fanden'),
+    ("de", 'who kam'),
+    ("de", 'who kamen'),
+    ("de", 'who nahm'),
+    ("de", 'who sah'),
+})
 _RT_DATA: dict = {}
 
 
@@ -818,7 +874,7 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
-                if True:  # nl always gated (#29); others only with an explicit gate
+                if True:  # nl always gated (#29); others only with an explicit gate                if True:  # nl always gated (#29); others only with an explicit gate
                     # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
                     gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
                     if gated:
@@ -854,6 +910,29 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous", "2-neutral")]
                 if nl_hold:
                     cands = restore_nl(cell, cands, nl_hold, st, tok)
+                # Individually reversed winners (#168): after nl/homograph gates, if the
+                # prefer_on_tie winner is reversed, clear the cell (EN stays, no promotion).
+                # Losing reversed candidates are dropped alone so other languages keep their
+                # origin/main winners.
+                rev = [c for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED]
+                if rev:
+                    cell["roundtrip_reversed"] = [c["form"] for c in rev]
+                    if cands:
+                        scored0 = sorted(
+                            cands,
+                            key=lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"]),
+                        )
+                        pick0 = t.prefer_on_tie(
+                            (scored0[0]["form"], scored0[0]["lang"]),
+                            [(c["form"], c["lang"]) for c in scored0],
+                            lambda f: (tok(f), u8(f)),
+                        )
+                        if pick0 in {(c["form"], c["lang"]) for c in rev} and (
+                            tok(pick0[0]), u8(pick0[0])
+                        ) < (st, su):
+                            cands = []
+                        else:
+                            cands = [c for c in cands if (c["lang"], c["form"]) not in ROUNDTRIP_REVERSED]
                 if not cands:
                     cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
                     continue

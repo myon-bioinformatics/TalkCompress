@@ -566,9 +566,9 @@ def test_tranche2_cheapest_for_every_source():
     start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
     stop = next((i for i, e in enumerate(entries) if e["id"] == "arrive-past-1s"), len(entries))
     tranche2 = entries[start:stop]
-    # 35 → 31: try/read/wait/stay progressive → simple present rows were
-    # dropped (aspect loss), see examples_not_registered.
-    assert len(tranche2) == 31
+    # 35 → 31 → 30: try/read/wait/stay progressive dropped (aspect loss); find-past-1s
+    # (fand) reversed after de independent blind round-trip 0/9.
+    assert len(tranche2) == 30
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
         for src in entry["from"]:

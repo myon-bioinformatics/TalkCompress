@@ -1161,40 +1161,6 @@
       "note": "encontraré is 3 tok (= I will find); pt acharei / el βρω win"
     },
     {
-      "id": "find-past-1s",
-      "from": [
-        "I found"
-      ],
-      "to": "fand",
-      "lang": "de",
-      "tense": "past",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 7,
-        "utf8_after": 4,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "encontré",
-          "lang": "es"
-        },
-        {
-          "form": "achei",
-          "lang": "pt"
-        },
-        {
-          "form": "vond",
-          "lang": "nl"
-        },
-        {
-          "form": "fand",
-          "lang": "de"
-        }
-      ]
-    },
-    {
       "id": "find-fut-goingto-1s",
       "from": [
         "I am going to find",
@@ -2069,6 +2035,41 @@
       "to": "vi",
       "lang": "es",
       "why_dropped": "EN homograph guard: every candidate spells an English word (vi) → hand row dropped; tense_matrix supplies the next-cheapest unique form (I came → kwam, I saw → vis)"
+    },
+    {
+      "id": "find-past-1s",
+      "from": [
+        "I found"
+      ],
+      "to": "fand",
+      "lang": "de",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 7,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "encontré",
+          "lang": "es"
+        },
+        {
+          "form": "achei",
+          "lang": "pt"
+        },
+        {
+          "form": "vond",
+          "lang": "nl"
+        },
+        {
+          "form": "fand",
+          "lang": "de"
+        }
+      ],
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as I found; scored on tense_matrix-first form 'fand' / from[0] 'I have found' for the shared surface, and this es_fr entry from[0] 'I found' shares the surface); ge100m threshold 0.6 not met. Other candidates not promoted; EN stays."
     }
   ]
 }
