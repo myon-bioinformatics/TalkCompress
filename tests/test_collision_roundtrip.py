@@ -211,10 +211,29 @@ def test_committed_bank_not_gated_and_no_never_forms():
 
 def test_impact_lt100m_lists_sub100m_only():
     d = rt.load()
+    # All committed winners may pass. Exercise the gate with an explicitly
+    # unverified winner instead of depending on unfinished production records.
+    d["records"].pop("cs:vezmete", None)
     rows = rt.impact(d, "lt100m")
-    assert rows
-    langs = {old[1] for _k, _s, old, _n in rows if old}
-    assert langs & {"nl", "cs", "pl"}
+    assert any(eid == "mx-take-fut-2" and old[1] == "cs"
+               for eid, _src, old, _new in rows if old)
+    # Demonstrative parity followers reuse their number-matched pronoun winner, so a
+    # gated pronoun class can move a ge100m dem row too (pt ``this virá`` follows
+    # ``it will come`` after the #171 merge). Direct winners stay sub-100M only.
+    langs = {old[1] for k, _s, old, _n in rows if old and "-dem-" not in k}
+    assert langs.isdisjoint(d["ge100m_langs"])
+
+
+def test_committed_cs_pl_winners_have_passing_roundtrips():
+    d = rt.load()
+    entries = [e for e in BANK["entries"] if e["lang"] in {"cs", "pl"}]
+    assert {e["lang"] for e in entries} == {"cs", "pl"}
+    for e in entries:
+        rec = d["records"][rt.key(e["lang"], e["to"])]
+        assert rt.status(d, e["lang"], e["to"]) == "pass", e["id"]
+        cohort = rt.latest_cohort(rec)
+        assert cohort is not None and cohort["complete"], e["id"]
+        assert cohort["completed"] >= d["min_trials"], e["id"]
 
 
 def test_guard_falls_to_next_best_not_english():

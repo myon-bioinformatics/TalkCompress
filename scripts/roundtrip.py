@@ -432,7 +432,7 @@ def impact_doc(data: dict) -> str:
     flip = {k: f"{old} -> {new}" for k, _s, old, new in rows}
     req = [e for e in bank["entries"] if (e["lang"], e["tense"]) in REQUIRED_RULES]
     out = [
-        "# 往復チェック強制時の影響（report-only、記録0件時点）", "",
+        "# 往復チェック強制時の影響（report-only）", "",
         "生成: `uv run python scripts/roundtrip.py --write-doc`（採点は o200k_base）。", "",
         "## 往復チェック必須の nl 過去形（現在完了セル）", "",
         f"nl（1億人未満）の現在完了セル採用 {len(req)} 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。", "",
