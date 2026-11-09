@@ -4,7 +4,10 @@ TesseraTalk の対応表（英語 → 短い他言語形）について、**概�
 いまのデータからその意味に沿って **具体的な知識をつないだグラフ（ナレッジグラフ）** を組み立てる。
 
 - 実装: `scripts/mapping_graph.py`（標準ライブラリのみ。tiktoken も tense_matrix の import も不要）
-- テスト: `tests/test_mapping_graph.py`
+- グラフ核: `shared/kgraph.py`（自前の標準ライブラリ実装。型付き隣接リスト・逆引き索引・関係種別で絞った探索・status 集計）。
+  数一致追従の判定順（追従元が先）と循環検出は標準の `graphlib.TopologicalSorter`（`CycleError`）を使う。
+  単一ファイル配布 `dist/kgraph_min.py` は `docs/distributions.md` を参照
+- テスト: `tests/test_mapping_graph.py`、`tests/test_kgraph.py`、`tests/test_distributions.py`
 - **これはモデルと読み取り専用ツールであり、移行ではない。** 採用・リバース・往復ゲートの挙動は一切変えない。
   既存の設定（`ROUNDTRIP_*`）と生成物（`tense_matrix.json` / `tense_matrix_report.json` / `roundtrip.json`）を
   読むだけで、どのファイルにも書き込まない。
@@ -130,7 +133,7 @@ uv run python scripts/mapping_graph.py --node form:pt:foi       # 1 ノードと
 - `multi_meaning`: 同じ `lang:form` が別の動詞（意味）にも採用されている。
 - `tense_merge`: 同じ動詞の別時制に同じ形（例: 過去形を現在完了にも使う）。情報のみ。
 
-`--check` が非 0 で終わるのは、グラフ自体が矛盾する場合（同じ ID が別クラス、行き先の無い辺）だけ。
+`--check` が非 0 で終わるのは、グラフ自体が矛盾する場合（同じ ID が別クラス、行き先の無い辺、数一致追従の循環）だけ。
 未測定や衝突は報告するが失敗にはしない。
 
 ## 7. このベース（#173, `fix/fr-roundtrip-20261109`）での実行結果

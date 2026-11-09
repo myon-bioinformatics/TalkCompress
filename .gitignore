@@ -11,6 +11,12 @@ venv/
 .coverage
 htmlcov/
 dist/
+# committed minpy bundles (docs/distributions.md)
+!/dist/
+/dist/*
+!/dist/*_min.py
+!/dist/LICENSE
+.test-deps/
 build/
 *.egg-info/
 .DS_Store
