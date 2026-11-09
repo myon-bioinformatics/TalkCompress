@@ -82,14 +82,18 @@ def test_parity_followers_of_reversed_base(g):
 def test_source_query_lists_all_languages(g):
     rows = mg.by_source(g, "I will take")
     langs = {(r["role"], r["lang"], r["form"]) for r in rows}
-    assert ("adopted", "el", "tomaré") in langs and ("candidate", "pt", "tomarei") in langs
+    # #164 で tomaré の lang ラベルを es に直し、往復 0/9 の πάρω (el) を外した。
+    assert ("adopted", "es", "tomaré") in langs and ("candidate", "pt", "tomarei") in langs
+    assert ("not_registered", "el", "πάρω") in langs
     assert all(r["status"] in mg.STATUSES for r in rows)
 
 
 def test_collisions_report(g):
     col = mg.collisions(g)
     assert set(col) == {"cross_language", "lang_label_mismatch", "multi_meaning", "tense_merge"}
-    assert any(r["id"] == "adopt:el:tomaré:i will take" for r in col["lang_label_mismatch"])
+    ids = {r["id"] for r in col["lang_label_mismatch"]}
+    assert "adopt:el:tomaré:i will take" not in ids  # #164 で es に修正済み
+    assert "adopt:es:vou sair:i am going to leave" in ids
 
 
 def test_cli_check_is_read_only():
