@@ -747,93 +747,138 @@ ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
 # Not language-wide enforcement. A reversed cell stays English: do not promote
 # its next-language candidate (including English-homograph alternatives).
 ROUNDTRIP_REVERSED = frozenset({
-    # it (#168, docs/it_roundtrip_20261108.md): any-candidate reverse (see below).
-    ("it", "que sa"),
-    ("it", "que dà"),
-    # pt (#171): adopted-winner reverse only.
-    ("pt", "acharam"),
-    ("pt", "dei"),
-    ("pt", "disseram"),
-    ("pt", "fizeram"),
-    ("pt", "foi"),
-    ("pt", "foste"),
-    ("pt", "pensaram"),
-    ("pt", "que acha"),
-    ("pt", "que deram"),
-    ("pt", "que deu"),
-    ("pt", "que fizeram"),
-    ("pt", "que foi"),
-    ("pt", "que foram"),
-    ("pt", "que vem"),
-    ("pt", "quiseram"),
-    ("pt", "these acharam"),
-    ("pt", "these deram"),
-    ("pt", "these disseram"),
-    ("pt", "these fizeram"),
-    ("pt", "these foram"),
-    ("pt", "these pensaram"),
-    ("pt", "these quiseram"),
-    ("pt", "these tiveram"),
-    ("pt", "these tomaram"),
-    ("pt", "these vieram"),
-    ("pt", "these viram"),
-    ("pt", "this deu"),
-    ("pt", "this foi"),
-    ("pt", "those acharam"),
-    ("pt", "those deram"),
-    ("pt", "those disseram"),
-    ("pt", "those fizeram"),
-    ("pt", "those foram"),
-    ("pt", "those pensaram"),
-    ("pt", "those quiseram"),
-    ("pt", "those tiveram"),
-    ("pt", "those tomaram"),
-    ("pt", "those vieram"),
-    ("pt", "those viram"),
-    ("pt", "tiveram"),
-    ("pt", "tomaram"),
-    ("pt", "vieram"),
-    ("pt", "viram"),
-    ("pt", "virá"),
-    ("pt", "which deram"),
-    ("pt", "which deu"),
-    ("pt", "which fizeram"),
-    ("pt", "which foi"),
-    ("pt", "which foram"),
-    ("pt", "who deram"),
-    ("pt", "who deu"),
-    ("pt", "who foi"),
-    ("pt", "who foram"),
-    # fr (#173, docs/fr_roundtrip_20261109.md): ranked-winner reverse; the reversed
-    # member fails its parity class, so number-matched followers stay English too.
-    ("fr", "prends"),
-    ("fr", "vins"),
-    ("fr", "vis"),
-    ("fr", "pris"),
-    ("fr", "voulus"),
-    ("fr", "sus"),
-    ("fr", "avoir voulu"),
-    ("fr", "avoir eu"),
-    ("fr", "avoir su"),
-    ("fr", "avais su"),
-    ("fr", "ira"),
-    ("fr", "ont su"),
-    ("fr", "que dit"),
-    ("fr", "que ont voulu"),
-    ("fr", "que ont eu"),
-    ("fr", "que ont su"),
+    ('es', 'dijiste'),
+    ('es', 'dijo'),
+    ('es', 'hizo'),
+    ('es', 'pensamos'),
+    ('es', 'que dan'),
+    ('es', 'que dijeron'),
+    ('es', 'que dijo'),
+    ('es', 'que hizo'),
+    ('es', 'que toma'),
+    ('es', 'que va'),
+    ('es', 'que ve'),
+    ('es', 'these dijeron'),
+    ('es', 'this dijo'),
+    ('es', 'this hizo'),
+    ('es', 'those dijeron'),
+    ('es', 'viste'),
+    ('es', 'which dijeron'),
+    ('es', 'which dijo'),
+    ('es', 'which hizo'),
+    ('es', 'who dijo'),
+    ('es', 'who hizo'),
+    ('fr', 'avais su'),
+    ('fr', 'avoir eu'),
+    ('fr', 'avoir su'),
+    ('fr', 'avoir voulu'),
+    ('fr', 'ira'),
+    ('fr', 'ont su'),
+    ('fr', 'prends'),
+    ('fr', 'pris'),
+    ('fr', 'que dit'),
+    ('fr', 'que ont eu'),
+    ('fr', 'que ont su'),
+    ('fr', 'que ont voulu'),
+    ('fr', 'sus'),
+    ('fr', 'vins'),
+    ('fr', 'vis'),
+    ('fr', 'voulus'),
+    ('it', 'que dà'),
+    ('it', 'que sa'),
+    ('pt', 'acharam'),
+    ('pt', 'dei'),
+    ('pt', 'disseram'),
+    ('pt', 'fizeram'),
+    ('pt', 'foi'),
+    ('pt', 'foste'),
+    ('pt', 'pensaram'),
+    ('pt', 'que acha'),
+    ('pt', 'que deram'),
+    ('pt', 'que deu'),
+    ('pt', 'que fizeram'),
+    ('pt', 'que foi'),
+    ('pt', 'que foram'),
+    ('pt', 'que vem'),
+    ('pt', 'quiseram'),
+    ('pt', 'these acharam'),
+    ('pt', 'these deram'),
+    ('pt', 'these disseram'),
+    ('pt', 'these fizeram'),
+    ('pt', 'these foram'),
+    ('pt', 'these pensaram'),
+    ('pt', 'these quiseram'),
+    ('pt', 'these tiveram'),
+    ('pt', 'these tomaram'),
+    ('pt', 'these vieram'),
+    ('pt', 'these viram'),
+    ('pt', 'this deu'),
+    ('pt', 'this foi'),
+    ('pt', 'those acharam'),
+    ('pt', 'those deram'),
+    ('pt', 'those disseram'),
+    ('pt', 'those fizeram'),
+    ('pt', 'those foram'),
+    ('pt', 'those pensaram'),
+    ('pt', 'those quiseram'),
+    ('pt', 'those tiveram'),
+    ('pt', 'those tomaram'),
+    ('pt', 'those vieram'),
+    ('pt', 'those viram'),
+    ('pt', 'tiveram'),
+    ('pt', 'tomaram'),
+    ('pt', 'vieram'),
+    ('pt', 'viram'),
+    ('pt', 'virá'),
+    ('pt', 'which deram'),
+    ('pt', 'which deu'),
+    ('pt', 'which fizeram'),
+    ('pt', 'which foi'),
+    ('pt', 'which foram'),
+    ('pt', 'who deram'),
+    ('pt', 'who deu'),
+    ('pt', 'who foi'),
+    ('pt', 'who foram'),
 })
 # Languages whose reversed forms empty the whole cell as soon as they appear as a
 # candidate (#168, it). Every other language is reversed only when it is the
 # adopted winner (post-ranking, #171), so a reversed form that is merely listed
 # as a candidate never wipes a cell won by another language.
 ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS = frozenset({"it"})
-# Languages whose reversed ranked winner fails its parity class before adoption
-# (#173 fr). A reversed form that only loses in a cell changes nothing.
-ROUNDTRIP_REVERSED_WINNER_PARITY_LANGS = frozenset({"fr"})
-# EN sources that stay English after a reversal so no next candidate is promoted.
-# fr (#173): sibling-bank (es_fr_tense.json) winner pris reversed -> not de ``nahm``.
-ROUNDTRIP_REVERSED_SOURCES = frozenset({"i took"})  # "I arrived" is not a matrix cell
+# Languages whose reversed forms are dropped as candidates before ranking (#172 es):
+# the next candidate may win unless the EN source is in ROUNDTRIP_REVERSED_SOURCES.
+ROUNDTRIP_REVERSED_DROP_CANDIDATE_LANGS = frozenset({"es"})
+# EN sources (cell src) that stay English after a reversal so no next candidate is
+# promoted (#172 es, #173 fr).
+ROUNDTRIP_REVERSED_SOURCES = frozenset({
+    'he has done',
+    'he has said',
+    'i took',
+    'it has done',
+    'it has said',
+    'que give',
+    'que goes',
+    'que has done',
+    'que has said',
+    'que have said',
+    'que sees',
+    'que takes',
+    'she has done',
+    'she has said',
+    'these have said',
+    'this has done',
+    'this has said',
+    'those have said',
+    'we have thought',
+    'we thought',
+    'which has done',
+    'which has said',
+    'which have said',
+    'who has done',
+    'who has said',
+    'you have said',
+    'you have seen',
+})
 _RT_DATA: dict = {}
 
 
@@ -904,7 +949,7 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     cell.update(status="existing", reason="already in es_fr_tense / pt_el_latin_tense")
                     continue
                 if src.lower() in ROUNDTRIP_REVERSED_SOURCES:
-                    cell.update(status="reject", reason="sibling-bank fr winner reversed by blind AI round-trip; EN kept")
+                    cell.update(status="reject", reason="independent blind round-trip failed; EN kept (no fallback promotion)")
                     continue
                 cands = _candidates(conj, person, tense, verb, num)
                 if keep or person in ("3s", "3p"):
@@ -921,11 +966,18 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
-                rev = [c["form"] for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED
-                       and c["lang"] in ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS]
-                if rev:
-                    cell["roundtrip_reversed"] = rev
-                    cands = []
+                rev_any = [c for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED
+                           and c["lang"] in ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS]
+                rev_drop = [c for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED
+                            and c["lang"] in ROUNDTRIP_REVERSED_DROP_CANDIDATE_LANGS]
+                if rev_any or rev_drop:
+                    cell["roundtrip_reversed"] = [c["form"] for c in cands if c in rev_any or c in rev_drop]
+                    # it (#168): any reversed candidate keeps the whole cell English.
+                    # es (#172): drop only the reversed candidates; empty the cell only when
+                    # this EN source adopted a reversed winner (ROUNDTRIP_REVERSED_SOURCES).
+                    cands = [c for c in cands if c not in rev_drop]
+                    if rev_any or src.lower() in ROUNDTRIP_REVERSED_SOURCES:
+                        cands = []
                 if True:  # nl always gated (#29); others only with an explicit gate
                     # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
                     gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
@@ -981,11 +1033,10 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     scored.remove(w)
                     scored.insert(0, w)
                 best = scored[0]
-                # reversed winner: EN kept; stays in its parity class so number-matched
-                # demonstratives do not keep the same verb form on their own
-                reversed_best = ((best["lang"], best["form"]) in ROUNDTRIP_REVERSED
-                                 and best["lang"] in ROUNDTRIP_REVERSED_WINNER_PARITY_LANGS)
-                if reversed_best:
+                # French reversals precede parity so demonstratives cannot retain
+                # a verb whose number-matched pronoun winner was rejected (#173).
+                reversed_parity = best["lang"] == "fr" and (best["lang"], best["form"]) in ROUNDTRIP_REVERSED
+                if reversed_parity:
                     cell["roundtrip_reversed"] = [best["form"]]
                 cell.update(
                     best=best["form"], lang=best["lang"], shape=best["shape"], number=best["number"],
@@ -996,7 +1047,7 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     "src": src, "label": label, "best": best, "scored": scored, "kind": kind,
                     "num_key": (person, num), "keepc": shrink, "st": st, "su": su,
                     "homo_shrinks": any((tok(h["form"]), u8(h["form"])) < (st, su) for h in homo),
-                    "cls": _parity_class(sub), "reversed": reversed_best,
+                    "cls": _parity_class(sub), "reversed_parity": reversed_parity,
                 }
     # class-level decision: adopt iff for EVERY member token strictly shrinks and
     # utf8 never grows, and utf8 strictly shrinks for at least one member
@@ -1034,7 +1085,7 @@ def build(gate=None) -> tuple[dict, dict, str]:
             continue
         def ok(c):
             p = c["_pending"]
-            if p["reversed"]:
+            if p["reversed_parity"]:
                 return False
             return (tok(p["best"]["form"]), u8(p["best"]["form"])) < (p["st"], p["su"])
         oks = [ok(c) for c in members]
@@ -1060,8 +1111,6 @@ def build(gate=None) -> tuple[dict, dict, str]:
                         "scored_by": "o200k_base",
                     }
                 )
-            elif p["reversed"]:
-                c.update(status="reject", reason="independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept")
             elif p["homo_shrinks"]:
                 c.update(status="reject", reason="EN homograph collision: every shrinking candidate spells an English word")
             elif len(members) > 1 and any(oks) and not all(oks):

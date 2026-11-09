@@ -264,7 +264,7 @@ def test_tense_before_after_examples():
         ("I saw", ("sah",)),
         ("I will say", ("diré",)),
         ("I said", ("dije",)),
-        ("I could", ("pude",)),
+        # I could → pude reversed (docs/es_roundtrip_20261109.md); EN left
         ("I would like", ("gostaria", "quisiera")),
         ("I am going to go", ("vou", "iré", "irei", "πάω")),
         ("I'm going to leave", ("saldré", "vou sair")),
@@ -570,10 +570,11 @@ def test_tranche2_cheapest_for_every_source():
     # reversed by the fr blind round-trip: docs/fr_roundtrip_20261109.md)
     stop = next((i for i, e in enumerate(entries) if e["id"] == "live-past-1s"), len(entries))
     tranche2 = entries[start:stop]
+    # 35 → 31 for aspect loss, then 30 after pt-labeled essayé failed the
+    # independent roundtrip (entry moved to examples_not_registered).
     # 35 → 31: try/read/wait/stay progressive → simple present rows were
     # dropped (aspect loss), see examples_not_registered.
     # 31 → 30: fr take-past-1s (pris) reversed by the blind round-trip (0/9).
-    # 30 → 29: pt-labeled essayé failed the independent roundtrip (#171).
     assert len(tranche2) == 29
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
