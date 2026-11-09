@@ -738,6 +738,65 @@ def en_baselines(src: str) -> list[str]:
 
 
 ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
+# Individually reversed (lang, form) winners whose independent blind AI round-trip
+# failed (docs/es_roundtrip_20261109.md). Not language-wide enforcement: other
+# forms of the same language stay report-only. A cell whose candidates include a
+# reversed form stays English (no next-language candidate is promoted).
+ROUNDTRIP_REVERSED = frozenset({
+    ("es", "viste"),
+    ("es", "dijiste"),
+    ("es", "hizo"),
+    ("es", "dijo"),
+    ("es", "pensamos"),
+    ("es", "this hizo"),
+    ("es", "this dijo"),
+    ("es", "these dijeron"),
+    ("es", "those dijeron"),
+    ("es", "who hizo"),
+    ("es", "who dijo"),
+    ("es", "which hizo"),
+    ("es", "which dijo"),
+    ("es", "which dijeron"),
+    ("es", "que va"),
+    ("es", "que ve"),
+    ("es", "que toma"),
+    ("es", "que hizo"),
+    ("es", "que dijo"),
+    ("es", "que dan"),
+    ("es", "que dijeron"),
+})
+# EN sources (tense_matrix cell src / entry from[0]) whose origin/main es winner is
+# in ROUNDTRIP_REVERSED. Used to empty only those cells so a next-language candidate
+# is not promoted, without wiping unrelated cells that merely list the same surface
+# as a non-winning candidate.
+ROUNDTRIP_REVERSED_SOURCES = frozenset({
+    "you have seen",
+    "you have said",
+    "he has done",
+    "she has done",
+    "it has done",
+    "he has said",
+    "she has said",
+    "it has said",
+    "we thought",
+    "we have thought",
+    "this has done",
+    "this has said",
+    "these have said",
+    "those have said",
+    "who has done",
+    "who has said",
+    "which has done",
+    "which has said",
+    "which have said",
+    "que goes",
+    "que sees",
+    "que takes",
+    "que has done",
+    "que has said",
+    "que give",
+    "que have said",
+})
 _RT_DATA: dict = {}
 
 
@@ -818,6 +877,16 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
+                rev = [c["form"] for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED]
+                if rev:
+                    cell["roundtrip_reversed"] = rev
+                    # Always drop reversed (lang, form) candidates. Empty the cell
+                    # only when this EN source currently adopts a reversed winner on
+                    # origin/main (ROUNDTRIP_REVERSED_SOURCES), so the next-language
+                    # candidate is not promoted — matching #168 que sa / que dà.
+                    cands = [c for c in cands if (c["lang"], c["form"]) not in ROUNDTRIP_REVERSED]
+                    if src.lower() in ROUNDTRIP_REVERSED_SOURCES:
+                        cands = []
                 if True:  # nl always gated (#29); others only with an explicit gate
                     # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
                     gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]

@@ -263,7 +263,7 @@ def test_tense_before_after_examples():
         ("I saw", ("sah",)),
         ("I will say", ("diré",)),
         ("I said", ("dije",)),
-        ("I could", ("pude",)),
+        # I could → pude reversed (docs/es_roundtrip_20261109.md); EN left
         ("I would like", ("gostaria", "quisiera")),
         ("I am going to go", ("vou", "iré", "irei", "πάω")),
         ("I'm going to leave", ("saldré", "vou sair")),
