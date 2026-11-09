@@ -159,6 +159,7 @@ uv run python scripts/mapping_graph.py --node form:pt:foi       # 1 ノードと
 - 追従元が reversed の数一致追従: 22 件（うち採用のまま 1 件: `this virá`）。
 - `lang_label_mismatch`: 3 件（`es_fr_tense` の `take-fut-1s` / `take-fut-goingto-1s` は `tomaré` が `lang: el`、
   `leave-fut-goingto-1s` は `vou sair` が `lang: es`）。データは直していない（別 PR で判断）。
+  → その後 #164 で `tomaré` の 2 件は `lang: es` に修正済み。残りは `vou sair` の 1 件。
 - de（#174）、nl 6 形（#163）、cs/pl（#165）、el（#164）、la（#161）はこのベースでは未測定として出る。
   #161/#164 の `logo`・`por isso`・`acharei`（pt）、`tomaré`（es）は、このベースでは **採用形ではなく候補** として
   存在し、いずれも `untested`。

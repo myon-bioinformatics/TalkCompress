@@ -37,38 +37,6 @@
       }
     },
     {
-      "id": "once-again-el-pt-la",
-      "from": [
-        "once again"
-      ],
-      "to": "πάλι",
-      "lang": "el",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "πάλι",
-          "lang": "el",
-          "class": "densifier"
-        },
-        {
-          "form": "de novo",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "iterum",
-          "lang": "la",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
-      },
-      "note": "cheapest πάλι; iterum = living scholarly Latin"
-    },
-    {
       "id": "as-a-result-la-pt-el",
       "from": [
         "as a result"
@@ -405,6 +373,15 @@
       "would_be": "delegacia",
       "lang": "pt",
       "reason": "loses to ZH 警局 (help3 #7) on estimate_tokens (3 vs 2); kept out of sibling so B-final stays with 警局"
+    },
+    {
+      "id": "once-again-el-pt-la",
+      "from": [
+        "once again"
+      ],
+      "to": "πάλι",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as again); calibrated EN once again=2 tokens ties πάλι/de novo/iterum=2, so no candidate beats EN."
     },
     {
       "id": "cell-phone-pt-el",
