@@ -331,8 +331,8 @@ ARTICLE_ALIAS_TO_CANONICAL: dict[str, str] = {
 _ARTICLE_SURFACE_RE = _ci_compile(r"\b(?:the|a|an)\b(?!" + _MARK_CLASS + r")", re.I)
 
 # --- conjunction (接続詞): high-freq logical; C owns moreover/nevertheless ----
-CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "bc", "therefore")
-CONJ_EXTENDED: tuple[str, ...] = ("&", "/", "bc", "therefore", "+")
+CONJ_CANONICAL: tuple[str, ...] = ("&", "/", "cuz", "therefore")
+CONJ_EXTENDED: tuple[str, ...] = ("&", "/", "cuz", "therefore", "+")
 CONJ_ALIAS_TO_CANONICAL: dict[str, str] = {
     "therefore": "therefore",  # English canonical (symbol was token loser)
     "&": "&",
@@ -350,17 +350,18 @@ CONJ_ALIAS_TO_CANONICAL: dict[str, str] = {
     "または": "/",
     "若しくは": "/",
     "もしくは": "/",
-    "bc": "bc",
-    "because": "bc",
+    "cuz": "cuz",  # readable informal clip (see MorphoZip/fixtures/informal_candidates.json)
+    "because": "cuz",
+    "bc": "cuz",  # legacy emit; input alias only
     "∴": "therefore",
-    "∵": "bc",
+    "∵": "cuz",
     "+": "+",
     "in addition": "+",
 }
 _CONJ_SURFACE_RE = _ci_compile(
     r"および|並びに|もしくは|若しくは|または|かつ|"
     r"\bbecause\b|\btherefore\b|\bwhereas\b|\bin addition\b|"
-    r"\band\b|\bor\b|\bund\b|\bet\b|\by\b|\boder\b|\bou\b|\bbc\b|[＆&/∴∵+]",
+    r"\band\b|\bor\b|\bund\b|\bet\b|\by\b|\boder\b|\bou\b|\bcuz\b|\bbc\b|[＆&/∴∵+]",
     re.I,
 )
 
@@ -714,7 +715,7 @@ CLOSED_INVENTORIES: dict[str, ClosedInventory] = {
         CONJ_EXTENDED,
         CONJ_ALIAS_TO_CANONICAL,
         _CONJ_SURFACE_RE,
-        "because→bc OK; cuz not ruled out but prefer bc; ∴ removed (token loser → therefore); "
+        "because→cuz (readable clip; bc/∵ input aliases; scored in fixtures/informal_candidates.json); ∴ removed (token loser → therefore); "
         "dotted/math typing may land later; C owns moreover→also / nevertheless→but",
     ),
     "adverb": ClosedInventory(
@@ -1219,7 +1220,7 @@ _SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\boder\b", re.I), lambda m: _numeric_or(m)),  # DE
     (_ci_compile(r"\bou\b", re.I), lambda m: _numeric_or(m)),  # FR
 
-    (_ci_compile(r"\bbecause\b", re.I), "bc"),
+    (_ci_compile(r"\bbecause\b", re.I), "cuz"),
     # Resultatives share ∴ (cheaper than so). thereby stays: by-that-means ≠ therefore,
     # and ∴by is whereby.
     # Contrastive however → though (general EN synonym). Skip concessive/degree
@@ -1793,8 +1794,8 @@ _PHRASE_GRAMMAR: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\binsofar as\b", re.I), "insofar"),
     # pursuant to / in accordance with → 準, in lieu of → 代,
     # as opposed to / rather than → vs are prep cycle2 (_SUBS)
-    (_ci_compile(r"\bgiven that\b", re.I), "bc"),
-    (_ci_compile(r"\binasmuch as\b", re.I), "bc"),
+    (_ci_compile(r"\bgiven that\b", re.I), "cuz"),
+    (_ci_compile(r"\binasmuch as\b", re.I), "cuz"),
     (_ci_compile(r"\beven though\b", re.I), "tho"),
     (_ci_compile(r"\bnow therefore\b", re.I), "therefore"),  # ∴→therefore (token loser)
     (_ci_compile(r"\bfor this reason\b", re.I), "therefore"),  # ∴→therefore (token loser)
@@ -2502,7 +2503,8 @@ _EXPAND_SUBS: list[tuple[re.Pattern[str], str]] = [
     (_ci_compile(r"\bw/\b", re.I), "with"),
     (re.compile(r"\bU\b"), "you"),  # capital U pronoun surface
     (_ci_compile(r"\bu r\b", re.I), "you are"),
-    (_ci_compile(r"\bbc\b", re.I), "because"),
+    (_ci_compile(r"\bcuz\b", re.I), "because"),
+    (_ci_compile(r"\bbc\b", re.I), "because"),  # legacy emit
     (re.compile(r"\btho∴\b"), "nonetheless"),
     (_ci_compile(r"\btho\b", re.I), "though"),  # informal EN clip inverse
     (re.compile(r"∴↓"), "hereinafter"),
