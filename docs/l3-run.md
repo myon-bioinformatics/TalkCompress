@@ -181,7 +181,7 @@ model quality.
 
 ### Request evidence and source control
 
-The manual workflow keeps the existing 2048 output-token / 4096 context limit,
+The run keeps the existing 2048 output-token / 4096 context limit,
 CPU, model pins and prompt/scorer v2. It additionally runs `--source-control`:
 each canonical original is probed directly with the same model and questions,
 even if its roundtrip failed. `source_control` is a separate result in each

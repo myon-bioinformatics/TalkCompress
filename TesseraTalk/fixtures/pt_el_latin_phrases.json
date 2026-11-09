@@ -182,38 +182,6 @@
       "note": "ergo = surviving scholarly Latin (not classical conjugation)"
     },
     {
-      "id": "see-you-soon-it-pt-el",
-      "from": [
-        "see you soon"
-      ],
-      "to": "ciao",
-      "lang": "it",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "ciao",
-          "lang": "it",
-          "class": "densifier"
-        },
-        {
-          "form": "até",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "γεια",
-          "lang": "el",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
-      },
-      "note": "ciao living IT; até bare is common BR farewell short"
-    },
-    {
       "id": "more-or-less-la-el",
       "from": [
         "more or less"
@@ -545,6 +513,15 @@
       "would_be": "delegacia",
       "lang": "pt",
       "reason": "loses to ZH 警局 (help3 #7) on estimate_tokens (3 vs 2); kept out of sibling so B-final stays with 警局"
+    },
+    {
+      "id": "see-you-soon-it-pt-el",
+      "from": [
+        "see you soon"
+      ],
+      "to": "ciao",
+      "lang": "it",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as hello; source see you soon). Reversed per docs/it_roundtrip_20261108.md; no other candidate promoted."
     }
   ]
 }
