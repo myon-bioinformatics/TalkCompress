@@ -613,7 +613,7 @@ def test_formal_legal_connectives_dual_metrics():
         "c-aforementioned": "said",
         "c-tnc": "T&C",
         "c-et-al": "etal",
-        "conj-given-that": "bc",
+        "conj-given-that": "cuz",
         "legal-null-void": "void",
     }
     for cid, dst in expected.items():
@@ -671,7 +671,7 @@ def test_formal_legal_connectives_dual_metrics():
     assert "aforementioned" in blocked
     assert apply_ledger_lex("vice versa") == "⇄"  # o200k tie 2=2, utf8 fewer
     assert apply_ledger_lex("even though late") == "tho late"
-    assert apply_ledger_lex("given that we signed") == "bc we signed"
+    assert apply_ledger_lex("given that we signed") == "cuz we signed"
     assert apply_ledger_lex("instead of cash") == "vs cash"
     # E-owned legal anaphora is not applied by C
     assert "therein" in apply_ledger_lex("parties therein")
