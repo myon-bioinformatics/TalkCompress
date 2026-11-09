@@ -37,10 +37,10 @@ TalkCompress は、**誰が、どの共有知識・規則を持てば理解で�
 | --- | --- |
 | 各層の担当・語彙ポリシー | [層の設計](docs/layers.md) |
 | 共有台帳と LLM 同士の交渉 | [Zipilogue](Zipilogue/README.md)、[交渉の診断と実測](docs/zipilogue-negotiation-feedback.md) |
-| トークン・多言語短形の比較 | [tokenizer 間の互換レポート](docs/tokenizer_compat.md)、[人称・時制行列](docs/tense_matrix.md) |
+| トークン・多言語短形の比較 | [tokenizer 間の互換レポート](docs/tokenizer-compat.md)、[人称・時制行列](docs/tense-matrix.md) |
 | トークン数推定（`estimate_tokens`）の較正と限界 | [Unicode 推定器のレビュー](docs/unicode-estimate-review-20261104.md)（自然文向けの目安で、安全な上限ではない）、[不可視制御文字の扱い](docs/invisible-controls-comparison.md) |
 | 保持項目と QA 評価の範囲 | [keep-check](shared/keep_check.py)、[QA fidelity](shared/qa_fidelity.py)、[採点の検証記録](docs/qa-fidelity-validation.md) |
-| 文法・文型による省略と復元 | [文型表記の実験記録](docs/syntax-pattern-encoding.md)、[往復チェックの記録](docs/roundtrip_impact.md) |
+| 文法・文型による省略と復元 | [文型表記の実験記録](docs/syntax-pattern-encoding.md)、[往復チェックの記録](docs/roundtrip-impact.md) |
 | 図の意味をテキストで往復する実験 | [SVG L3 の手順・実測・限界](docs/l3-run.md) |
 
 Python 中心で、基本ランタイムの必須依存は現在ありません。テスト・実トークン計測・ライブ翻訳・描画・LLM 実測では用途別の追加ツールを使います。旧 NFD 文字列鍵の互換性維持・回復機能の拡充は、今後の研究要件に含めません。

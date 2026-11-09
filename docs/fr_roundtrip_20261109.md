@@ -98,8 +98,8 @@ Issue #29 本文、C 層 in favor of→pro、他言語の勝者データ・記�
 
 ## テスト
 
-再生成: `scripts/tense_matrix.py`（tense_matrix.json / docs/tense_matrix.md / docs/tense_matrix_report.json）、
-`scripts/tokenizer_compat.py --compat`、`scripts/roundtrip.py --write-doc`（docs/roundtrip_impact.md、report-only）、
+再生成: `scripts/tense_matrix.py`（tense_matrix.json / docs/tense-matrix.md / docs/tense_matrix_report.json）、
+`scripts/tokenizer_compat.py --compat`、`scripts/roundtrip.py --write-doc`（docs/roundtrip-impact.md、report-only）、
 `scripts/calibrate_estimate.py --write`（o200k_calib.json から外れた arrivé / έφτασα の2語のみ）。
 既存テストのうち、リバースした形を前提にしていた `test_final_zh_de.py`（tranche2 の件数・終端）、
 `test_pd20_examples.py`（frank-arrived を keep に）、`test_stative_perfect.py`（you have known/had/wanted は英語）、

@@ -15,7 +15,7 @@ script adds two reporting layers; neither changes any winner:
   Losing on some tokenizer is recorded, not disqualifying.
 
     uv run python scripts/tokenizer_compat.py --agreement
-    uv run python scripts/tokenizer_compat.py --compat     # rewrites docs/tokenizer_compat.{json,md}
+    uv run python scripts/tokenizer_compat.py --compat     # rewrites docs/tokenizer-compat.{json,md}
 """
 
 from __future__ import annotations
@@ -30,8 +30,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import tense_matrix as tm  # noqa: E402
 
 SAMPLE_PATH = ROOT / "TesseraTalk/fixtures/token_agreement_sample.json"
-COMPAT_JSON = ROOT / "docs/tokenizer_compat.json"
-COMPAT_MD = ROOT / "docs/tokenizer_compat.md"
+COMPAT_JSON = ROOT / "docs/tokenizer-compat.json"
+COMPAT_MD = ROOT / "docs/tokenizer-compat.md"
 CACHE = Path.home() / ".cache/talkcompress/tokenizers"
 
 # Pinned public tokenizer.json revisions (no auth needed).

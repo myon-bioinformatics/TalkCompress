@@ -77,4 +77,4 @@ def test_hf_tokenizers_optional_offline(monkeypatch, tmp_path):
 
 
 def test_roundtrip_doc_up_to_date():
-    assert (ROOT / "docs/roundtrip_impact.md").read_text(encoding="utf-8") == rt.impact_doc(rt.load())
+    assert (ROOT / "docs/roundtrip-impact.md").read_text(encoding="utf-8") == rt.impact_doc(rt.load())
