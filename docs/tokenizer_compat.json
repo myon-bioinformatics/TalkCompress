@@ -35,24 +35,24 @@
   }
  },
  "skipped": {},
- "adopted": 792,
+ "adopted": 727,
  "beats_en_count": {
-  "o200k_base": 792,
-  "cl100k_base": 623,
-  "qwen2.5": 640,
-  "qwen3": 640,
-  "llama3.2": 634,
-  "mistral-v0.3": 561,
-  "deepseek-v3": 633
+  "o200k_base": 727,
+  "cl100k_base": 572,
+  "qwen2.5": 589,
+  "qwen3": 589,
+  "llama3.2": 583,
+  "mistral-v0.3": 513,
+  "deepseek-v3": 584
  },
  "categories": {
-  "all": 540,
-  "o200k only": 128,
-  "6/7": 74,
+  "all": 492,
+  "o200k only": 114,
+  "6/7": 73,
   "2/7": 14,
   "4/7": 13,
   "3/7": 12,
-  "5/7": 11
+  "5/7": 9
  },
  "cells": [
   {
@@ -331,22 +331,6 @@
    "src": "I have known",
    "to": "ai su",
    "lang": "fr",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-give-perf-1s",
-   "src": "I have given",
-   "to": "dei",
-   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -1291,22 +1275,6 @@
    "id": "mx-give-past-2",
    "src": "you gave",
    "to": "deste",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-go-perf-2",
-   "src": "you have gone",
-   "to": "foste",
    "lang": "pt",
    "beats_en_on": [
     "o200k_base",
@@ -2332,22 +2300,6 @@
    "id": "mx-give-past-3s-he",
    "src": "he gave",
    "to": "deu",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-go-perf-3s-he",
-   "src": "he has gone",
-   "to": "foi",
    "lang": "pt",
    "beats_en_on": [
     "o200k_base",
@@ -3649,22 +3601,6 @@
    "category": "all"
   },
   {
-   "id": "mx-go-perf-3s-she",
-   "src": "she has gone",
-   "to": "foi",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-come-perf-3s-she",
    "src": "she has come",
    "to": "kam",
@@ -4686,22 +4622,6 @@
    "category": "all"
   },
   {
-   "id": "mx-come-fut-3s-it",
-   "src": "it will come",
-   "to": "virá",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-do-fut-3s-it",
    "src": "it will do",
    "to": "fera",
@@ -4846,22 +4766,6 @@
    "category": "all"
   },
   {
-   "id": "mx-go-past-3s-it",
-   "src": "it went",
-   "to": "foi",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-come-past-3s-it",
    "src": "it came",
    "to": "kam",
@@ -4992,22 +4896,6 @@
    "id": "mx-give-past-3s-it",
    "src": "it gave",
    "to": "deu",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-go-perf-3s-it",
-   "src": "it has gone",
-   "to": "foi",
    "lang": "pt",
    "beats_en_on": [
     "o200k_base",
@@ -7341,22 +7229,6 @@
    "category": "all"
   },
   {
-   "id": "mx-do-perf-3p",
-   "src": "they have done",
-   "to": "fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-see-perf-3p",
    "src": "they have seen",
    "to": "sahen",
@@ -7678,150 +7550,6 @@
    "id": "mx-go-pluperf-3p",
    "src": "they had gone",
    "to": "foram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-come-pluperf-3p",
-   "src": "they had come",
-   "to": "vieram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-do-pluperf-3p",
-   "src": "they had done",
-   "to": "fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-see-pluperf-3p",
-   "src": "they had seen",
-   "to": "viram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-take-pluperf-3p",
-   "src": "they had taken",
-   "to": "tomaram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-find-pluperf-3p",
-   "src": "they had found",
-   "to": "acharam",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-want-pluperf-3p",
-   "src": "they had wanted",
-   "to": "quiseram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-have-pluperf-3p",
-   "src": "they had had",
-   "to": "tiveram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-think-pluperf-3p",
-   "src": "they had thought",
-   "to": "pensaram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-say-pluperf-3p",
-   "src": "they had said",
-   "to": "disseram",
    "lang": "pt",
    "beats_en_on": [
     "o200k_base",
@@ -8431,22 +8159,6 @@
    "category": "all"
   },
   {
-   "id": "mx-go-perf-dem-this",
-   "src": "this has gone",
-   "to": "this foi",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-come-perf-dem-this",
    "src": "this has come",
    "to": "this kam",
@@ -8546,22 +8258,6 @@
    "src": "this has said",
    "to": "this dijo",
    "lang": "es",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-give-perf-dem-this",
-   "src": "this has given",
-   "to": "this deu",
-   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -9145,22 +8841,6 @@
    "category": "3/7"
   },
   {
-   "id": "mx-go-perf-dem-these",
-   "src": "these have gone",
-   "to": "these foram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-come-perf-dem-these",
    "src": "these have come",
    "to": "these kamen",
@@ -9175,16 +8855,6 @@
     "deepseek-v3"
    ],
    "category": "all"
-  },
-  {
-   "id": "mx-do-perf-dem-these",
-   "src": "these have done",
-   "to": "these fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
   },
   {
    "id": "mx-see-perf-dem-these",
@@ -9287,22 +8957,6 @@
     "deepseek-v3"
    ],
    "category": "3/7"
-  },
-  {
-   "id": "mx-give-perf-dem-these",
-   "src": "these have given",
-   "to": "these deram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
   },
   {
    "id": "mx-go-futperf-dem-these",
@@ -9465,156 +9119,6 @@
     "deepseek-v3"
    ],
    "category": "4/7"
-  },
-  {
-   "id": "mx-go-pluperf-dem-these",
-   "src": "these had gone",
-   "to": "these foram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-come-pluperf-dem-these",
-   "src": "these had come",
-   "to": "these vieram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-do-pluperf-dem-these",
-   "src": "these had done",
-   "to": "these fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-see-pluperf-dem-these",
-   "src": "these had seen",
-   "to": "these viram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-take-pluperf-dem-these",
-   "src": "these had taken",
-   "to": "these tomaram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-find-pluperf-dem-these",
-   "src": "these had found",
-   "to": "these acharam",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2"
-   ],
-   "category": "5/7"
-  },
-  {
-   "id": "mx-want-pluperf-dem-these",
-   "src": "these had wanted",
-   "to": "these quiseram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-have-pluperf-dem-these",
-   "src": "these had had",
-   "to": "these tiveram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-think-pluperf-dem-these",
-   "src": "these had thought",
-   "to": "these pensaram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-say-pluperf-dem-these",
-   "src": "these had said",
-   "to": "these disseram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-give-pluperf-dem-these",
-   "src": "these had given",
-   "to": "these deram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
   },
   {
    "id": "mx-go-futprog-dem-these",
@@ -9885,22 +9389,6 @@
    "category": "3/7"
   },
   {
-   "id": "mx-go-perf-dem-those",
-   "src": "those have gone",
-   "to": "those foram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-come-perf-dem-those",
    "src": "those have come",
    "to": "those kamen",
@@ -9915,16 +9403,6 @@
     "deepseek-v3"
    ],
    "category": "all"
-  },
-  {
-   "id": "mx-do-perf-dem-those",
-   "src": "those have done",
-   "to": "those fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
   },
   {
    "id": "mx-see-perf-dem-those",
@@ -10027,22 +9505,6 @@
     "deepseek-v3"
    ],
    "category": "3/7"
-  },
-  {
-   "id": "mx-give-perf-dem-those",
-   "src": "those have given",
-   "to": "those deram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
   },
   {
    "id": "mx-go-futperf-dem-those",
@@ -10205,156 +9667,6 @@
     "deepseek-v3"
    ],
    "category": "4/7"
-  },
-  {
-   "id": "mx-go-pluperf-dem-those",
-   "src": "those had gone",
-   "to": "those foram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-come-pluperf-dem-those",
-   "src": "those had come",
-   "to": "those vieram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-do-pluperf-dem-those",
-   "src": "those had done",
-   "to": "those fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-see-pluperf-dem-those",
-   "src": "those had seen",
-   "to": "those viram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-take-pluperf-dem-those",
-   "src": "those had taken",
-   "to": "those tomaram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-find-pluperf-dem-those",
-   "src": "those had found",
-   "to": "those acharam",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2"
-   ],
-   "category": "5/7"
-  },
-  {
-   "id": "mx-want-pluperf-dem-those",
-   "src": "those had wanted",
-   "to": "those quiseram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-have-pluperf-dem-those",
-   "src": "those had had",
-   "to": "those tiveram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-think-pluperf-dem-those",
-   "src": "those had thought",
-   "to": "those pensaram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-say-pluperf-dem-those",
-   "src": "those had said",
-   "to": "those disseram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-give-pluperf-dem-those",
-   "src": "those had given",
-   "to": "those deram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
   },
   {
    "id": "mx-go-futprog-dem-those",
@@ -10602,22 +9914,6 @@
    "category": "o200k only"
   },
   {
-   "id": "mx-go-perf-rel-who-sg",
-   "src": "who has gone",
-   "to": "who foi",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-come-perf-rel-who-sg",
    "src": "who has come",
    "to": "who kam",
@@ -10729,42 +10025,10 @@
    "category": "all"
   },
   {
-   "id": "mx-give-perf-rel-who-sg",
-   "src": "who has given",
-   "to": "who deu",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-give-pres-rel-who-pl",
    "src": "who give",
    "to": "who dan",
    "lang": "es",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-go-perf-rel-who-pl",
-   "src": "who have gone",
-   "to": "who foram",
-   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -10797,22 +10061,6 @@
    "src": "who have found",
    "to": "who fanden",
    "lang": "de",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-give-perf-rel-who-pl",
-   "src": "who have given",
-   "to": "who deram",
-   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -10960,22 +10208,6 @@
    "category": "o200k only"
   },
   {
-   "id": "mx-go-perf-rel-which-sg",
-   "src": "which has gone",
-   "to": "which foi",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-come-perf-rel-which-sg",
    "src": "which has come",
    "to": "which kam",
@@ -11087,42 +10319,10 @@
    "category": "all"
   },
   {
-   "id": "mx-give-perf-rel-which-sg",
-   "src": "which has given",
-   "to": "which deu",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-give-pres-rel-which-pl",
    "src": "which give",
    "to": "which dan",
    "lang": "es",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-go-perf-rel-which-pl",
-   "src": "which have gone",
-   "to": "which foram",
-   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -11149,16 +10349,6 @@
     "deepseek-v3"
    ],
    "category": "all"
-  },
-  {
-   "id": "mx-do-perf-rel-which-pl",
-   "src": "which have done",
-   "to": "which fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
   },
   {
    "id": "mx-see-perf-rel-which-pl",
@@ -11279,22 +10469,6 @@
    "category": "all"
   },
   {
-   "id": "mx-give-perf-rel-which-pl",
-   "src": "which have given",
-   "to": "which deram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-go-pres-rel-que-sg",
    "src": "que goes",
    "to": "que va",
@@ -11309,21 +10483,6 @@
     "deepseek-v3"
    ],
    "category": "all"
-  },
-  {
-   "id": "mx-come-pres-rel-que-sg",
-   "src": "que comes",
-   "to": "que vem",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "deepseek-v3"
-   ],
-   "category": "6/7"
   },
   {
    "id": "mx-see-pres-rel-que-sg",
@@ -11353,16 +10512,6 @@
    "category": "2/7"
   },
   {
-   "id": "mx-find-pres-rel-que-sg",
-   "src": "que finds",
-   "to": "que acha",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
    "id": "mx-want-pres-rel-que-sg",
    "src": "que wants",
    "to": "que wil",
@@ -11386,48 +10535,6 @@
     "o200k_base"
    ],
    "category": "o200k only"
-  },
-  {
-   "id": "mx-know-pres-rel-que-sg",
-   "src": "que knows",
-   "to": "que sa",
-   "lang": "it",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-give-pres-rel-que-sg",
-   "src": "que gives",
-   "to": "que dà",
-   "lang": "it",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
-  },
-  {
-   "id": "mx-go-perf-rel-que-sg",
-   "src": "que has gone",
-   "to": "que foi",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
   },
   {
    "id": "mx-come-perf-rel-que-sg",
@@ -11541,42 +10648,10 @@
    "category": "all"
   },
   {
-   "id": "mx-give-perf-rel-que-sg",
-   "src": "que has given",
-   "to": "que deu",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
    "id": "mx-give-pres-rel-que-pl",
    "src": "que give",
    "to": "que dan",
    "lang": "es",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-go-perf-rel-que-pl",
-   "src": "que have gone",
-   "to": "que foram",
-   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -11603,16 +10678,6 @@
     "deepseek-v3"
    ],
    "category": "all"
-  },
-  {
-   "id": "mx-do-perf-rel-que-pl",
-   "src": "que have done",
-   "to": "que fizeram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
   },
   {
    "id": "mx-see-perf-rel-que-pl",
@@ -11689,22 +10754,6 @@
     "deepseek-v3"
    ],
    "category": "3/7"
-  },
-  {
-   "id": "mx-give-perf-rel-que-pl",
-   "src": "que have given",
-   "to": "que deram",
-   "lang": "pt",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
   }
  ]
 }
