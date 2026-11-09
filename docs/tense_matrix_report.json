@@ -375,8 +375,23 @@
    "tense": "past",
    "verb": "find",
    "src": "I found",
-   "status": "existing",
-   "reason": "already in es_fr_tense / pt_el_latin_tense"
+   "roundtrip_gated": [
+    "vond"
+   ],
+   "en_best": "I found",
+   "homograph_dropped": [
+    {
+     "form": "ho trovato",
+     "en": [
+      "ho"
+     ]
+    }
+   ],
+   "roundtrip_reversed": [
+    "fand"
+   ],
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "1s",
@@ -644,19 +659,11 @@
      ]
     }
    ],
-   "best": "nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "nahm"
    ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "1s",
@@ -681,19 +688,11 @@
      ]
     }
    ],
-   "best": "fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "fand"
    ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "1s",
@@ -796,19 +795,11 @@
      ]
     }
    ],
-   "best": "dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "dachte"
    ],
-   "utf8": [
-    12,
-    6
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "1s",
@@ -4097,19 +4088,11 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "kamst",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "kamst"
    ],
-   "utf8": [
-    11,
-    5
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "2",
@@ -4121,7 +4104,8 @@
     "as fait"
    ],
    "roundtrip_reversed": [
-    "hizo"
+    "hizo",
+    "tatest"
    ],
    "roundtrip_gated": [
     "deed"
@@ -4164,19 +4148,8 @@
     "number": "2pl-ustedes",
     "tok": 1
    },
-   "best": "tatest",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    11,
-    6
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "2",
@@ -4224,19 +4197,11 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "best": "nahmst",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "nahmst"
    ],
-   "utf8": [
-    12,
-    6
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "2",
@@ -8842,24 +8807,11 @@
      ]
     }
    ],
-   "best": "nahm",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "nahm"
    ],
-   "utf8": [
-    7,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -8881,24 +8833,11 @@
      ]
     }
    ],
-   "best": "fand",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "fand"
    ],
-   "utf8": [
-    8,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -8968,24 +8907,11 @@
      ]
     }
    ],
-   "best": "dachte",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "dachte"
    ],
-   "utf8": [
-    10,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -9281,24 +9207,11 @@
      ]
     }
    ],
-   "best": "nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "nahm"
    ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -9326,24 +9239,11 @@
      ]
     }
    ],
-   "best": "fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "fand"
    ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -9441,24 +9341,11 @@
      ]
     }
    ],
-   "best": "dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "dachte"
    ],
-   "utf8": [
-    12,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-he",
@@ -12620,24 +12507,11 @@
      ]
     }
    ],
-   "best": "nahm",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "nahm"
    ],
-   "utf8": [
-    8,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -12659,24 +12533,11 @@
      ]
     }
    ],
-   "best": "fand",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "fand"
    ],
-   "utf8": [
-    9,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -12746,24 +12607,11 @@
      ]
     }
    ],
-   "best": "dachte",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "dachte"
    ],
-   "utf8": [
-    11,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -13059,24 +12907,11 @@
      ]
     }
    ],
-   "best": "nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "nahm"
    ],
-   "utf8": [
-    11,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -13104,24 +12939,11 @@
      ]
     }
    ],
-   "best": "fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "fand"
    ],
-   "utf8": [
-    11,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -13219,24 +13041,11 @@
      ]
     }
    ],
-   "best": "dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "dachte"
    ],
-   "utf8": [
-    13,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-she",
@@ -16451,24 +16260,11 @@
      ]
     }
    ],
-   "best": "nahm",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "nahm"
    ],
-   "utf8": [
-    7,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -16490,24 +16286,11 @@
      ]
     }
    ],
-   "best": "fand",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "fand"
    ],
-   "utf8": [
-    8,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -16577,24 +16360,11 @@
      ]
     }
    ],
-   "best": "dachte",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "dachte"
    ],
-   "utf8": [
-    10,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -16890,24 +16660,11 @@
      ]
     }
    ],
-   "best": "nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "nahm"
    ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -16935,24 +16692,11 @@
      ]
     }
    ],
-   "best": "fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "fand"
    ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -17050,24 +16794,11 @@
      ]
     }
    ],
-   "best": "dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
+   "roundtrip_reversed": [
+    "dachte"
    ],
-   "utf8": [
-    12,
-    6
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "3s-it",
@@ -20273,19 +20004,11 @@
     "deden"
    ],
    "en_best": "we've done",
-   "best": "taten",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "taten"
    ],
-   "utf8": [
-    10,
-    5
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "1p",
@@ -23166,6 +22889,9 @@
     "deden"
    ],
    "en_best": "they've done",
+   "roundtrip_reversed": [
+    "fizeram"
+   ],
    "best": "fizeram",
    "lang": "pt",
    "shape": "simple-preterite",
@@ -23180,9 +22906,6 @@
    ],
    "status": "reject",
    "candidates": [],
-   "roundtrip_reversed": [
-    "fizeram"
-   ],
    "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
@@ -25840,20 +25563,11 @@
      ]
     }
    ],
-   "best": "this kam",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "this kam"
    ],
-   "utf8": [
-    13,
-    8
-   ],
-   "status": "adopt",
-   "parity_verb": "kam"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -25889,20 +25603,11 @@
      ]
     }
    ],
-   "best": "this sah",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "this sah"
    ],
-   "utf8": [
-    13,
-    8
-   ],
-   "status": "adopt",
-   "parity_verb": "sah"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -25930,20 +25635,11 @@
      ]
     }
    ],
-   "best": "this nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "this nahm"
    ],
-   "utf8": [
-    14,
-    9
-   ],
-   "status": "adopt",
-   "parity_verb": "nahm"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -25971,20 +25667,11 @@
      ]
     }
    ],
-   "best": "this fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "this fand"
    ],
-   "utf8": [
-    14,
-    9
-   ],
-   "status": "adopt",
-   "parity_verb": "fand"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -26082,20 +25769,11 @@
      ]
     }
    ],
-   "best": "this dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "this dachte"
    ],
-   "utf8": [
-    16,
-    11
-   ],
-   "status": "adopt",
-   "parity_verb": "dachte"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-this",
@@ -29722,20 +29400,11 @@
     "these kwamen"
    ],
    "en_best": "these have come",
-   "best": "these kamen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "these kamen"
    ],
-   "utf8": [
-    15,
-    11
-   ],
-   "status": "adopt",
-   "parity_verb": "kamen"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-these",
@@ -29775,20 +29444,11 @@
     "these zagen"
    ],
    "en_best": "these have seen",
-   "best": "these sahen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "these sahen"
    ],
-   "utf8": [
-    15,
-    11
-   ],
-   "status": "adopt",
-   "parity_verb": "sahen"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-these",
@@ -29799,20 +29459,11 @@
     "these namen"
    ],
    "en_best": "these have taken",
-   "best": "these nahmen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "these nahmen"
    ],
-   "utf8": [
-    16,
-    12
-   ],
-   "status": "adopt",
-   "parity_verb": "nahmen"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-these",
@@ -29823,20 +29474,11 @@
     "these vonden"
    ],
    "en_best": "these have found",
-   "best": "these fanden",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "these fanden"
    ],
-   "utf8": [
-    16,
-    12
-   ],
-   "status": "adopt",
-   "parity_verb": "fanden"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-these",
@@ -29898,20 +29540,11 @@
     "these dachten"
    ],
    "en_best": "these have thought",
-   "best": "these dachten",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "these dachten"
    ],
-   "utf8": [
-    18,
-    13
-   ],
-   "status": "adopt",
-   "parity_verb": "dachten"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-these",
@@ -32473,20 +32106,11 @@
     "those kwamen"
    ],
    "en_best": "those have come",
-   "best": "those kamen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "those kamen"
    ],
-   "utf8": [
-    15,
-    11
-   ],
-   "status": "adopt",
-   "parity_verb": "kamen"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-those",
@@ -32526,20 +32150,11 @@
     "those zagen"
    ],
    "en_best": "those have seen",
-   "best": "those sahen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "those sahen"
    ],
-   "utf8": [
-    15,
-    11
-   ],
-   "status": "adopt",
-   "parity_verb": "sahen"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-those",
@@ -32550,20 +32165,11 @@
     "those namen"
    ],
    "en_best": "those have taken",
-   "best": "those nahmen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "those nahmen"
    ],
-   "utf8": [
-    16,
-    12
-   ],
-   "status": "adopt",
-   "parity_verb": "nahmen"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-those",
@@ -32574,20 +32180,11 @@
     "those vonden"
    ],
    "en_best": "those have found",
-   "best": "those fanden",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "those fanden"
    ],
-   "utf8": [
-    16,
-    12
-   ],
-   "status": "adopt",
-   "parity_verb": "fanden"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-those",
@@ -32649,20 +32246,11 @@
     "those dachten"
    ],
    "en_best": "those have thought",
-   "best": "those dachten",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "those dachten"
    ],
-   "utf8": [
-    18,
-    13
-   ],
-   "status": "adopt",
-   "parity_verb": "dachten"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "dem-those",
@@ -35280,19 +34868,11 @@
      ]
     }
    ],
-   "best": "who kam",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "who kam"
    ],
-   "utf8": [
-    10,
-    7
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -35328,19 +34908,11 @@
      ]
     }
    ],
-   "best": "who sah",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "who sah"
    ],
-   "utf8": [
-    10,
-    7
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -35368,19 +34940,11 @@
      ]
     }
    ],
-   "best": "who nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "who nahm"
    ],
-   "utf8": [
-    11,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -35408,19 +34972,11 @@
      ]
     }
    ],
-   "best": "who fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "who fand"
    ],
-   "utf8": [
-    11,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -35518,19 +35074,11 @@
      ]
     }
    ],
-   "best": "who dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "who dachte"
    ],
-   "utf8": [
-    13,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-sg",
@@ -37491,19 +37039,11 @@
     "who kwamen"
    ],
    "en_best": "who've come",
-   "best": "who kamen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "who kamen"
    ],
-   "utf8": [
-    11,
-    9
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-pl",
@@ -37586,19 +37126,11 @@
     "who vonden"
    ],
    "en_best": "who've found",
-   "best": "who fanden",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "who fanden"
    ],
-   "utf8": [
-    12,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-who-pl",
@@ -39510,19 +39042,11 @@
      ]
     }
    ],
-   "best": "which kam",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "which kam"
    ],
-   "utf8": [
-    14,
-    9
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -39558,19 +39082,11 @@
      ]
     }
    ],
-   "best": "which sah",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "which sah"
    ],
-   "utf8": [
-    14,
-    9
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -39598,19 +39114,11 @@
      ]
     }
    ],
-   "best": "which nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "which nahm"
    ],
-   "utf8": [
-    15,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -39638,19 +39146,11 @@
      ]
     }
    ],
-   "best": "which fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "which fand"
    ],
-   "utf8": [
-    15,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -39748,19 +39248,11 @@
      ]
     }
    ],
-   "best": "which dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "which dachte"
    ],
-   "utf8": [
-    17,
-    12
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-sg",
@@ -41721,19 +41213,11 @@
     "which kwamen"
    ],
    "en_best": "which have come",
-   "best": "which kamen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "which kamen"
    ],
-   "utf8": [
-    15,
-    11
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-pl",
@@ -41772,19 +41256,11 @@
     "which zagen"
    ],
    "en_best": "which have seen",
-   "best": "which sahen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "which sahen"
    ],
-   "utf8": [
-    15,
-    11
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-pl",
@@ -41795,19 +41271,11 @@
     "which namen"
    ],
    "en_best": "which have taken",
-   "best": "which nahmen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "which nahmen"
    ],
-   "utf8": [
-    16,
-    12
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-pl",
@@ -41818,19 +41286,11 @@
     "which vonden"
    ],
    "en_best": "which have found",
-   "best": "which fanden",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "which fanden"
    ],
-   "utf8": [
-    16,
-    12
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-pl",
@@ -41890,19 +41350,11 @@
     "which dachten"
    ],
    "en_best": "which have thought",
-   "best": "which dachten",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "which dachten"
    ],
-   "utf8": [
-    18,
-    13
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-which-pl",
@@ -43335,19 +42787,11 @@
     "que denkt"
    ],
    "en_best": "que thinks",
-   "best": "que denkt",
-   "lang": "de",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
+   "roundtrip_reversed": [
+    "que denkt"
    ],
-   "utf8": [
-    10,
-    9
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43669,19 +43113,11 @@
      ]
     }
    ],
-   "best": "que kam",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "que kam"
    ],
-   "utf8": [
-    12,
-    7
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43717,19 +43153,11 @@
      ]
     }
    ],
-   "best": "que sah",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "que sah"
    ],
-   "utf8": [
-    12,
-    7
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43757,19 +43185,11 @@
      ]
     }
    ],
-   "best": "que nahm",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "que nahm"
    ],
-   "utf8": [
-    13,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43797,19 +43217,11 @@
      ]
     }
    ],
-   "best": "que fand",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "que fand"
    ],
-   "utf8": [
-    13,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43907,19 +43319,11 @@
      ]
     }
    ],
-   "best": "que dachte",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "que dachte"
    ],
-   "utf8": [
-    15,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -45865,19 +45269,11 @@
     "que kwamen"
    ],
    "en_best": "que have come",
-   "best": "que kamen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "que kamen"
    ],
-   "utf8": [
-    13,
-    9
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-pl",
@@ -45916,19 +45312,11 @@
     "que zagen"
    ],
    "en_best": "que have seen",
-   "best": "que sahen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "que sahen"
    ],
-   "utf8": [
-    13,
-    9
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-pl",
@@ -45939,19 +45327,11 @@
     "que namen"
    ],
    "en_best": "que have taken",
-   "best": "que nahmen",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "que nahmen"
    ],
-   "utf8": [
-    14,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-pl",
@@ -45962,19 +45342,11 @@
     "que vonden"
    ],
    "en_best": "que have found",
-   "best": "que fanden",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
+   "roundtrip_reversed": [
+    "que fanden"
    ],
-   "utf8": [
-    14,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-pl",
@@ -46042,19 +45414,11 @@
     "que dachten"
    ],
    "en_best": "que have thought",
-   "best": "que dachten",
-   "lang": "de",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    3
+   "roundtrip_reversed": [
+    "que dachten"
    ],
-   "utf8": [
-    16,
-    11
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-pl",
