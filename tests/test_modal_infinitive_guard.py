@@ -1,4 +1,4 @@
-"""Modal rows (I must → debo, I could → pude) never fire before an English verb."""
+"""Modal rows (I must → debo; I could left EN after es round-trip reverse) never fire before an English verb."""
 
 import re
 
@@ -29,7 +29,8 @@ def _head(s, m):
 
 
 def test_modal_shorts_discovered():
-    assert {"debo", "pude"} <= set(_MODAL_SHORTS)
+    assert "debo" in _MODAL_SHORTS
+    assert "pude" not in _MODAL_SHORTS  # reversed: docs/es_roundtrip_20261109.md
 
 
 def test_no_converted_modal_with_english_verb():
@@ -55,7 +56,7 @@ def test_modal_plus_bare_infinitive_stays_english(src):
 
 
 @pytest.mark.parametrize(
-    "src,want", [("I must", "debo"), ("I could", "pude"), ("I must.", "debo."),
+    "src,want", [("I must", "debo"), ("I could", "I could"), ("I must.", "debo."),
                  ("I'll go", "vou"), ("I would like", "gostaria")]
 )
 def test_full_modal_phrases_still_compress(src, want):

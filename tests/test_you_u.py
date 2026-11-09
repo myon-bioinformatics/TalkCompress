@@ -42,9 +42,11 @@ def test_excluded_forms_untouched(src):
 
 def test_matrix_row_still_beats_u():
     # clause-start matrix row (2nd-person verb, strictly fewer tokens) wins over U + EN chain
-    # (#29: nl ``ging`` was gated by the AI round-trip; use a row that still wins)
-    out = t.apply_es_fr_tense("you came")
-    assert out != "U came" and t.estimate_tokens(out) < t.estimate_tokens("U came")
+    # (#29: nl ``ging`` was gated by the AI round-trip; fr ``vins`` was reversed by the
+    # fr blind round-trip, docs/fr_roundtrip_20261109.md; use a row that still wins)
+    assert t.apply_es_fr_tense("you came") == "U came"
+    out = t.apply_es_fr_tense("you come")
+    assert out != "U come" and t.estimate_tokens(out) < t.estimate_tokens("U come")
     # embedded: pro-drop blocked → subject kept as U
     assert t.apply_es_fr_tense("I know you went").endswith("U went")
 

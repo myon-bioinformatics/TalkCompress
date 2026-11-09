@@ -32,8 +32,11 @@ def test_no_stative_preterite_in_perf():
     ("you have known", "avoir su"), ("you have had", "avoir eu"), ("you have wanted", "avoir voulu"),
 ])
 def test_you_stative_perfect_uses_infinitive(src, form):
-    assert BY_SRC[src]["to"] == form
-    assert BY_SRC[src]["lang"] == "fr"
+    # the fr infinitive still ranks first, but the blind AI round-trip restored it as
+    # "to have …" (0/9), so the cell is reversed to EN (docs/fr_roundtrip_20261109.md)
+    assert src not in BY_SRC
+    assert REPORT[src]["status"] == "reject"
+    assert REPORT[src]["roundtrip_reversed"] == [form]
 
 
 @pytest.mark.parametrize("src", ["he has known", "she has had", "it has wanted", "who has known"])
@@ -60,7 +63,8 @@ def test_candidates_module_level():
 
 def test_you_infinitive_is_person_neutral():
     for src in ("you have known", "you have had", "you have wanted"):
-        assert REPORT[src]["number"] == "2-neutral"
+        assert REPORT[src]["usted_style_best"]["number"] == "2-neutral"
+        assert REPORT[src]["roundtrip_reversed"][0].startswith("avoir ")
 
 
 def test_you_infinitive_candidate_tag():
