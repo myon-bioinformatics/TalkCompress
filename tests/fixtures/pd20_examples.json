@@ -32,9 +32,8 @@
       "id": "frank-arrived",
       "source": "shelley-frank-01.txt",
       "text": "I arrived here yesterday",
-      "expect": "arrivé here yesterday",
-      "kind": "convert",
-      "want_contains": "arrivé"
+      "expect": "I arrived here yesterday",
+      "kind": "keep"
     },
     {
       "id": "dickens-it-was",

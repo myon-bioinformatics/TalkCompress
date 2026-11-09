@@ -1021,23 +1021,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-take-pres-2",
-   "from": [
-    "you take"
-   ],
-   "to": "prends",
-   "lang": "fr",
-   "tense": "pres",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "prends",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-find-pres-2",
    "from": [
     "you find"
@@ -1327,57 +1310,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-come-past-2",
-   "from": [
-    "you came"
-   ],
-   "to": "vins",
-   "lang": "fr",
-   "tense": "past",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "vins",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-see-past-2",
-   "from": [
-    "you saw"
-   ],
-   "to": "vis",
-   "lang": "fr",
-   "tense": "past",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "vis",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-take-past-2",
-   "from": [
-    "you took"
-   ],
-   "to": "pris",
-   "lang": "fr",
-   "tense": "past",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "pris",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-find-past-2",
    "from": [
     "you found"
@@ -1390,23 +1322,6 @@
     {
      "form": "achaste",
      "lang": "pt"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-want-past-2",
-   "from": [
-    "you wanted"
-   ],
-   "to": "voulus",
-   "lang": "fr",
-   "tense": "past",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "voulus",
-     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1446,23 +1361,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-know-past-2",
-   "from": [
-    "you knew"
-   ],
-   "to": "sus",
-   "lang": "fr",
-   "tense": "past",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "sus",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-give-past-2",
    "from": [
     "you gave"
@@ -1475,23 +1373,6 @@
     {
      "form": "deste",
      "lang": "pt"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-see-perf-2",
-   "from": [
-    "you have seen"
-   ],
-   "to": "viste",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "viste",
-     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -1514,40 +1395,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-want-perf-2",
-   "from": [
-    "you have wanted"
-   ],
-   "to": "avoir voulu",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "avoir voulu",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-have-perf-2",
-   "from": [
-    "you have had"
-   ],
-   "to": "avoir eu",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "avoir eu",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-think-perf-2",
    "from": [
     "you have thought"
@@ -1560,40 +1407,6 @@
     {
      "form": "dachtest",
      "lang": "de"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-2",
-   "from": [
-    "you have said"
-   ],
-   "to": "dijiste",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "dijiste",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-know-perf-2",
-   "from": [
-    "you have known"
-   ],
-   "to": "avoir su",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "avoir su",
-     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -1781,23 +1594,6 @@
     {
      "form": "disseras",
      "lang": "pt"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-know-pluperf-2",
-   "from": [
-    "you had known"
-   ],
-   "to": "avais su",
-   "lang": "fr",
-   "tense": "pluperf",
-   "subject": "2",
-   "candidates": [
-    {
-     "form": "avais su",
-     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -2619,23 +2415,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-do-perf-3s-he",
-   "from": [
-    "he has done"
-   ],
-   "to": "hizo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "3s-he",
-   "candidates": [
-    {
-     "form": "hizo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-see-perf-3s-he",
    "from": [
     "he has seen"
@@ -2648,23 +2427,6 @@
     {
      "form": "sah",
      "lang": "de"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-3s-he",
-   "from": [
-    "he has said"
-   ],
-   "to": "dijo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "3s-he",
-   "candidates": [
-    {
-     "form": "dijo",
-     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -3945,23 +3707,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-do-perf-3s-she",
-   "from": [
-    "she has done"
-   ],
-   "to": "hizo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "3s-she",
-   "candidates": [
-    {
-     "form": "hizo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-see-perf-3s-she",
    "from": [
     "she has seen"
@@ -3974,23 +3719,6 @@
     {
      "form": "sah",
      "lang": "de"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-3s-she",
-   "from": [
-    "she has said"
-   ],
-   "to": "dijo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "3s-she",
-   "candidates": [
-    {
-     "form": "dijo",
-     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -4999,23 +4727,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-go-fut-3s-it",
-   "from": [
-    "it will go"
-   ],
-   "to": "ira",
-   "lang": "fr",
-   "tense": "fut",
-   "subject": "3s-it",
-   "candidates": [
-    {
-     "form": "ira",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-do-fut-3s-it",
    "from": [
     "it will do"
@@ -5288,23 +4999,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-do-perf-3s-it",
-   "from": [
-    "it has done"
-   ],
-   "to": "hizo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "3s-it",
-   "candidates": [
-    {
-     "form": "hizo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-see-perf-3s-it",
    "from": [
     "it has seen"
@@ -5317,23 +5011,6 @@
     {
      "form": "sah",
      "lang": "de"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-3s-it",
-   "from": [
-    "it has said"
-   ],
-   "to": "dijo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "3s-it",
-   "candidates": [
-    {
-     "form": "dijo",
-     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -6597,23 +6274,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-think-past-1p",
-   "from": [
-    "we thought"
-   ],
-   "to": "pensamos",
-   "lang": "es",
-   "tense": "past",
-   "subject": "1p",
-   "candidates": [
-    {
-     "form": "pensamos",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-say-past-1p",
    "from": [
     "we said"
@@ -6779,23 +6439,6 @@
     {
      "form": "avons eu",
      "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-think-perf-1p",
-   "from": [
-    "we have thought"
-   ],
-   "to": "pensamos",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "1p",
-   "candidates": [
-    {
-     "form": "pensamos",
-     "lang": "es"
     }
    ],
    "scored_by": "o200k_base"
@@ -7753,23 +7396,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-know-past-3p",
-   "from": [
-    "they knew"
-   ],
-   "to": "ont su",
-   "lang": "fr",
-   "tense": "past",
-   "subject": "3p",
-   "candidates": [
-    {
-     "form": "ont su",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-give-past-3p",
    "from": [
     "they gave"
@@ -7935,23 +7561,6 @@
     {
      "form": "dijeron",
      "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-know-perf-3p",
-   "from": [
-    "they have known"
-   ],
-   "to": "ont su",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "3p",
-   "candidates": [
-    {
-     "form": "ont su",
-     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -8756,23 +8365,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-go-fut-dem-this",
-   "from": [
-    "this will go"
-   ],
-   "to": "this ira",
-   "lang": "fr",
-   "tense": "fut",
-   "subject": "dem-this",
-   "candidates": [
-    {
-     "form": "this ira",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-come-fut-dem-this",
    "from": [
     "this will come"
@@ -8937,40 +8529,6 @@
    "candidates": [
     {
      "form": "this dará",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-do-perf-dem-this",
-   "from": [
-    "this has done"
-   ],
-   "to": "this hizo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "dem-this",
-   "candidates": [
-    {
-     "form": "this hizo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-dem-this",
-   "from": [
-    "this has said"
-   ],
-   "to": "this dijo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "dem-this",
-   "candidates": [
-    {
-     "form": "this dijo",
      "lang": "es"
     }
    ],
@@ -9776,40 +9334,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-say-perf-dem-these",
-   "from": [
-    "these have said"
-   ],
-   "to": "these dijeron",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "dem-these",
-   "candidates": [
-    {
-     "form": "these dijeron",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-know-perf-dem-these",
-   "from": [
-    "these have known"
-   ],
-   "to": "these ont su",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "dem-these",
-   "candidates": [
-    {
-     "form": "these ont su",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-go-futperf-dem-these",
    "from": [
     "these will have gone"
@@ -10422,40 +9946,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-say-perf-dem-those",
-   "from": [
-    "those have said"
-   ],
-   "to": "those dijeron",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "dem-those",
-   "candidates": [
-    {
-     "form": "those dijeron",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-know-perf-dem-those",
-   "from": [
-    "those have known"
-   ],
-   "to": "those ont su",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "dem-those",
-   "candidates": [
-    {
-     "form": "those ont su",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-go-futperf-dem-those",
    "from": [
     "those will have gone"
@@ -11017,40 +10507,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-do-perf-rel-who-sg",
-   "from": [
-    "who has done"
-   ],
-   "to": "who hizo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-who-sg",
-   "candidates": [
-    {
-     "form": "who hizo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-rel-who-sg",
-   "from": [
-    "who has said"
-   ],
-   "to": "who dijo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-who-sg",
-   "candidates": [
-    {
-     "form": "who dijo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-give-pres-rel-who-pl",
    "from": [
     "who give"
@@ -11238,40 +10694,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-do-perf-rel-which-sg",
-   "from": [
-    "which has done"
-   ],
-   "to": "which hizo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-which-sg",
-   "candidates": [
-    {
-     "form": "which hizo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-rel-which-sg",
-   "from": [
-    "which has said"
-   ],
-   "to": "which dijo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-which-sg",
-   "candidates": [
-    {
-     "form": "which dijo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-give-pres-rel-which-pl",
    "from": [
     "which give"
@@ -11323,23 +10745,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-say-perf-rel-which-pl",
-   "from": [
-    "which have said"
-   ],
-   "to": "which dijeron",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-which-pl",
-   "candidates": [
-    {
-     "form": "which dijeron",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-know-perf-rel-which-pl",
    "from": [
     "which have known"
@@ -11357,57 +10762,6 @@
    "scored_by": "o200k_base"
   },
   {
-   "id": "mx-go-pres-rel-que-sg",
-   "from": [
-    "que goes"
-   ],
-   "to": "que va",
-   "lang": "es",
-   "tense": "pres",
-   "subject": "rel-que-sg",
-   "candidates": [
-    {
-     "form": "que va",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-see-pres-rel-que-sg",
-   "from": [
-    "que sees"
-   ],
-   "to": "que ve",
-   "lang": "es",
-   "tense": "pres",
-   "subject": "rel-que-sg",
-   "candidates": [
-    {
-     "form": "que ve",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-take-pres-rel-que-sg",
-   "from": [
-    "que takes"
-   ],
-   "to": "que toma",
-   "lang": "es",
-   "tense": "pres",
-   "subject": "rel-que-sg",
-   "candidates": [
-    {
-     "form": "que toma",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
    "id": "mx-want-pres-rel-que-sg",
    "from": [
     "que wants"
@@ -11420,142 +10774,6 @@
     {
      "form": "que wil",
      "lang": "nl"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-pres-rel-que-sg",
-   "from": [
-    "que says"
-   ],
-   "to": "que dit",
-   "lang": "fr",
-   "tense": "pres",
-   "subject": "rel-que-sg",
-   "candidates": [
-    {
-     "form": "que dit",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-do-perf-rel-que-sg",
-   "from": [
-    "que has done"
-   ],
-   "to": "que hizo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-que-sg",
-   "candidates": [
-    {
-     "form": "que hizo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-rel-que-sg",
-   "from": [
-    "que has said"
-   ],
-   "to": "que dijo",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-que-sg",
-   "candidates": [
-    {
-     "form": "que dijo",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-give-pres-rel-que-pl",
-   "from": [
-    "que give"
-   ],
-   "to": "que dan",
-   "lang": "es",
-   "tense": "pres",
-   "subject": "rel-que-pl",
-   "candidates": [
-    {
-     "form": "que dan",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-want-perf-rel-que-pl",
-   "from": [
-    "que have wanted"
-   ],
-   "to": "que ont voulu",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "rel-que-pl",
-   "candidates": [
-    {
-     "form": "que ont voulu",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-have-perf-rel-que-pl",
-   "from": [
-    "que have had"
-   ],
-   "to": "que ont eu",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "rel-que-pl",
-   "candidates": [
-    {
-     "form": "que ont eu",
-     "lang": "fr"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-say-perf-rel-que-pl",
-   "from": [
-    "que have said"
-   ],
-   "to": "que dijeron",
-   "lang": "es",
-   "tense": "perf",
-   "subject": "rel-que-pl",
-   "candidates": [
-    {
-     "form": "que dijeron",
-     "lang": "es"
-    }
-   ],
-   "scored_by": "o200k_base"
-  },
-  {
-   "id": "mx-know-perf-rel-que-pl",
-   "from": [
-    "que have known"
-   ],
-   "to": "que ont su",
-   "lang": "fr",
-   "tense": "perf",
-   "subject": "rel-que-pl",
-   "candidates": [
-    {
-     "form": "que ont su",
-     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"

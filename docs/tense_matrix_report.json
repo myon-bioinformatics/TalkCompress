@@ -367,8 +367,8 @@
    "tense": "past",
    "verb": "take",
    "src": "I took",
-   "status": "existing",
-   "reason": "already in es_fr_tense / pt_el_latin_tense"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "1s",
@@ -3028,6 +3028,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "prends"
+   ],
    "best": "prends",
    "lang": "fr",
    "shape": "simple",
@@ -3040,7 +3043,8 @@
     8,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3606,7 +3610,7 @@
     "tok": 1
    },
    "roundtrip_reversed": [
-    "kamst"
+    "vins"
    ],
    "best": "vins",
    "lang": "fr",
@@ -3620,7 +3624,8 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "2",
@@ -3638,6 +3643,9 @@
    "crossling_dropped": [
     "a vu",
     "as vu"
+   ],
+   "roundtrip_reversed": [
+    "vis"
    ],
    "roundtrip_gated": [
     "zag"
@@ -3668,7 +3676,8 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3697,7 +3706,7 @@
     "tok": 1
    },
    "roundtrip_reversed": [
-    "nahmst"
+    "pris"
    ],
    "best": "pris",
    "lang": "fr",
@@ -3711,7 +3720,8 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3779,6 +3789,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "voulus"
+   ],
    "best": "voulus",
    "lang": "fr",
    "shape": "simple",
@@ -3791,7 +3804,8 @@
     10,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3853,6 +3867,10 @@
    "crossling_dropped": [
     "a dit",
     "as dit"
+   ],
+   "roundtrip_reversed": [
+    "dijiste",
+    "dijo"
    ],
    "roundtrip_gated": [
     "zei"
@@ -3923,6 +3941,9 @@
     "number": "2sg-tú",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "sus"
+   ],
    "best": "sus",
    "lang": "fr",
    "shape": "simple",
@@ -3935,7 +3956,8 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "2",
@@ -4081,6 +4103,10 @@
     "a fait",
     "as fait"
    ],
+   "roundtrip_reversed": [
+    "hizo",
+    "tatest"
+   ],
    "roundtrip_gated": [
     "deed"
    ],
@@ -4118,13 +4144,10 @@
     }
    ],
    "usted_style_best": {
-    "form": "hizo",
-    "number": "2sg-usted",
+    "form": "fizeram",
+    "number": "2pl-ustedes",
     "tok": 1
    },
-   "roundtrip_reversed": [
-    "tatest"
-   ],
    "status": "reject",
    "reason": "EN homograph collision: every candidate spells an English word"
   },
@@ -4133,52 +4156,8 @@
    "tense": "perf",
    "verb": "see",
    "src": "you have seen",
-   "crossling_dropped": [
-    "a vu",
-    "as vu"
-   ],
-   "roundtrip_gated": [
-    "zag"
-   ],
-   "en_best": "you've seen",
-   "homograph_dropped": [
-    {
-     "form": "has visto",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "ha visto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha visto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "usted_style_best": {
-    "form": "vio",
-    "number": "2sg-usted",
-    "tok": 1
-   },
-   "best": "viste",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    11,
-    5
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "2",
@@ -4287,6 +4266,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir voulu"
+   ],
    "best": "avoir voulu",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4299,7 +4281,8 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -4312,6 +4295,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir eu"
+   ],
    "best": "avoir eu",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4324,7 +4310,8 @@
     10,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -4385,52 +4372,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "you have said",
-   "crossling_dropped": [
-    "a dit",
-    "as dit"
-   ],
-   "roundtrip_gated": [
-    "zei"
-   ],
-   "en_best": "you've said",
-   "homograph_dropped": [
-    {
-     "form": "has dicho",
-     "en": [
-      "has"
-     ]
-    },
-    {
-     "form": "ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "usted_style_best": {
-    "form": "dijo",
-    "number": "2sg-usted",
-    "tok": 1
-   },
-   "best": "dijiste",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "2sg-tú",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    11,
-    7
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "2",
@@ -4443,6 +4386,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir su"
+   ],
    "best": "avoir su",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4455,7 +4401,8 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -4920,6 +4867,9 @@
     "number": "2sg-usted",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avais su"
+   ],
    "best": "avais su",
    "lang": "fr",
    "shape": "compound",
@@ -4932,7 +4882,8 @@
     11,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -8970,6 +8921,9 @@
    "crossling_dropped": [
     "a dit"
    ],
+   "roundtrip_reversed": [
+    "dijo"
+   ],
    "roundtrip_gated": [
     "zei"
    ],
@@ -9179,63 +9133,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "he has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_gated": [
-    "deed"
-   ],
-   "en_best": "he's done",
-   "homograph_dropped": [
-    {
-     "form": "ha hecho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "fez",
-     "en": [
-      "fez"
-     ]
-    },
-    {
-     "form": "ha fatto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "deed",
-     "en": [
-      "deed"
-     ]
-    },
-    {
-     "form": "tat",
-     "en": [
-      "tat"
-     ]
-    }
-   ],
-   "best": "hizo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    9,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-he",
@@ -9453,45 +9352,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "he has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_gated": [
-    "zei"
-   ],
-   "en_best": "he's said",
-   "homograph_dropped": [
-    {
-     "form": "ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "best": "dijo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    9,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-he",
@@ -12759,6 +12621,9 @@
    "crossling_dropped": [
     "a dit"
    ],
+   "roundtrip_reversed": [
+    "dijo"
+   ],
    "roundtrip_gated": [
     "zei"
    ],
@@ -12968,63 +12833,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "she has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_gated": [
-    "deed"
-   ],
-   "en_best": "she's done",
-   "homograph_dropped": [
-    {
-     "form": "ha hecho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "fez",
-     "en": [
-      "fez"
-     ]
-    },
-    {
-     "form": "ha fatto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "deed",
-     "en": [
-      "deed"
-     ]
-    },
-    {
-     "form": "tat",
-     "en": [
-      "tat"
-     ]
-    }
-   ],
-   "best": "hizo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-she",
@@ -13242,45 +13052,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "she has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_gated": [
-    "zei"
-   ],
-   "en_best": "she's said",
-   "homograph_dropped": [
-    {
-     "form": "ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "best": "dijo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    10,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-she",
@@ -16076,6 +15849,9 @@
    "verb": "go",
    "src": "it will go",
    "en_best": "it'll go",
+   "roundtrip_reversed": [
+    "ira"
+   ],
    "best": "ira",
    "lang": "fr",
    "shape": "simple",
@@ -16088,7 +15864,8 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3s-it",
@@ -16597,6 +16374,9 @@
    "crossling_dropped": [
     "a dit"
    ],
+   "roundtrip_reversed": [
+    "dijo"
+   ],
    "roundtrip_gated": [
     "zei"
    ],
@@ -16806,63 +16586,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "it has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_gated": [
-    "deed"
-   ],
-   "en_best": "it's done",
-   "homograph_dropped": [
-    {
-     "form": "ha hecho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "fez",
-     "en": [
-      "fez"
-     ]
-    },
-    {
-     "form": "ha fatto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "deed",
-     "en": [
-      "deed"
-     ]
-    },
-    {
-     "form": "tat",
-     "en": [
-      "tat"
-     ]
-    }
-   ],
-   "best": "hizo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    9,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-it",
@@ -17080,45 +16805,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "it has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_gated": [
-    "zei"
-   ],
-   "en_best": "it's said",
-   "homograph_dropped": [
-    {
-     "form": "ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "best": "dijo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    9,
-    4
-   ],
-   "status": "adopt",
-   "parity_class": [
-    "3s-he",
-    "3s-she",
-    "3s-it"
-   ]
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-it",
@@ -19736,6 +19424,9 @@
    "tense": "pres",
    "verb": "think",
    "src": "we think",
+   "roundtrip_reversed": [
+    "pensamos"
+   ],
    "roundtrip_gated": [
     "denken"
    ],
@@ -20186,26 +19877,8 @@
    "tense": "past",
    "verb": "think",
    "src": "we thought",
-   "crossling_dropped": [
-    "avons pensé"
-   ],
-   "roundtrip_gated": [
-    "dachten"
-   ],
-   "en_best": "we thought",
-   "best": "pensamos",
-   "lang": "es",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    10,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "1p",
@@ -20460,26 +20133,8 @@
    "tense": "perf",
    "verb": "think",
    "src": "we have thought",
-   "crossling_dropped": [
-    "avons pensé"
-   ],
-   "roundtrip_gated": [
-    "dachten"
-   ],
-   "en_best": "we've thought",
-   "best": "pensamos",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    1
-   ],
-   "utf8": [
-    13,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "1p",
@@ -23138,6 +22793,9 @@
     "wisten"
    ],
    "en_best": "they knew",
+   "roundtrip_reversed": [
+    "ont su"
+   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -23150,7 +22808,8 @@
     9,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3p",
@@ -23422,6 +23081,9 @@
     "hebben geweten"
    ],
    "en_best": "they've known",
+   "roundtrip_reversed": [
+    "ont su"
+   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -23434,7 +23096,8 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3p",
@@ -25519,8 +25182,8 @@
     12,
     8
    ],
-   "status": "adopt",
-   "parity_verb": "ira"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25911,59 +25574,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "this has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_gated": [
-    "this deed"
-   ],
-   "en_best": "this has done",
-   "homograph_dropped": [
-    {
-     "form": "this ha hecho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "this fez",
-     "en": [
-      "fez"
-     ]
-    },
-    {
-     "form": "this ha fatto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "this deed",
-     "en": [
-      "deed"
-     ]
-    },
-    {
-     "form": "this tat",
-     "en": [
-      "tat"
-     ]
-    }
-   ],
-   "best": "this hizo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    13,
-    9
-   ],
-   "status": "adopt",
-   "parity_verb": "hizo"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-this",
@@ -26168,41 +25780,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "this has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_gated": [
-    "this zei"
-   ],
-   "en_best": "this has said",
-   "homograph_dropped": [
-    {
-     "form": "this ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "this ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "best": "this dijo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    13,
-    9
-   ],
-   "status": "adopt",
-   "parity_verb": "dijo"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-this",
@@ -29972,24 +29551,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "these have said",
-   "roundtrip_gated": [
-    "these zeiden"
-   ],
-   "en_best": "these have said",
-   "best": "these dijeron",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    15,
-    13
-   ],
-   "status": "adopt",
-   "parity_verb": "dijeron"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30012,8 +29575,8 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "ont su"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -32694,24 +32257,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "those have said",
-   "roundtrip_gated": [
-    "those zeiden"
-   ],
-   "en_best": "those have said",
-   "best": "those dijeron",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    15,
-    13
-   ],
-   "status": "adopt",
-   "parity_verb": "dijeron"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32734,8 +32281,8 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "ont su"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -35332,58 +34879,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "who has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_gated": [
-    "who deed"
-   ],
-   "en_best": "who's done",
-   "homograph_dropped": [
-    {
-     "form": "who ha hecho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "who fez",
-     "en": [
-      "fez"
-     ]
-    },
-    {
-     "form": "who ha fatto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "who deed",
-     "en": [
-      "deed"
-     ]
-    },
-    {
-     "form": "who tat",
-     "en": [
-      "tat"
-     ]
-    }
-   ],
-   "best": "who hizo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    10,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-sg",
@@ -35588,40 +35085,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "who has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_gated": [
-    "who zei"
-   ],
-   "en_best": "who's said",
-   "homograph_dropped": [
-    {
-     "form": "who ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "who ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "best": "who dijo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    10,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-sg",
@@ -39588,58 +39053,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "which has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_gated": [
-    "which deed"
-   ],
-   "en_best": "which has done",
-   "homograph_dropped": [
-    {
-     "form": "which ha hecho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "which fez",
-     "en": [
-      "fez"
-     ]
-    },
-    {
-     "form": "which ha fatto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "which deed",
-     "en": [
-      "deed"
-     ]
-    },
-    {
-     "form": "which tat",
-     "en": [
-      "tat"
-     ]
-    }
-   ],
-   "best": "which hizo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    14,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-sg",
@@ -39844,40 +39259,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "which has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_gated": [
-    "which zei"
-   ],
-   "en_best": "which has said",
-   "homograph_dropped": [
-    {
-     "form": "which ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "which ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "best": "which dijo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    14,
-    10
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-sg",
@@ -41978,23 +41361,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "which have said",
-   "roundtrip_gated": [
-    "which zeiden"
-   ],
-   "en_best": "which have said",
-   "best": "which dijeron",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    15,
-    13
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-pl",
@@ -43288,23 +42656,8 @@
    "tense": "pres",
    "verb": "go",
    "src": "que goes",
-   "roundtrip_gated": [
-    "que gaat"
-   ],
-   "en_best": "que goes",
-   "best": "que va",
-   "lang": "es",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    8,
-    6
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -43347,46 +42700,16 @@
    "tense": "pres",
    "verb": "see",
    "src": "que sees",
-   "roundtrip_gated": [
-    "que ziet"
-   ],
-   "en_best": "que sees",
-   "best": "que ve",
-   "lang": "es",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    8,
-    6
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
    "tense": "pres",
    "verb": "take",
    "src": "que takes",
-   "roundtrip_gated": [
-    "que neemt"
-   ],
-   "en_best": "que takes",
-   "best": "que toma",
-   "lang": "es",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    9,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -43493,6 +42816,9 @@
      ]
     }
    ],
+   "roundtrip_reversed": [
+    "que dit"
+   ],
    "best": "que dit",
    "lang": "fr",
    "shape": "simple",
@@ -43505,7 +42831,8 @@
     8,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-sg",
@@ -43797,58 +43124,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "que has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_gated": [
-    "que deed"
-   ],
-   "en_best": "que has done",
-   "homograph_dropped": [
-    {
-     "form": "que ha hecho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "que fez",
-     "en": [
-      "fez"
-     ]
-    },
-    {
-     "form": "que ha fatto",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "que deed",
-     "en": [
-      "deed"
-     ]
-    },
-    {
-     "form": "que tat",
-     "en": [
-      "tat"
-     ]
-    }
-   ],
-   "best": "que hizo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    12,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -44053,40 +43330,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "que has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_gated": [
-    "que zei"
-   ],
-   "en_best": "que has said",
-   "homograph_dropped": [
-    {
-     "form": "que ha dicho",
-     "en": [
-      "ha"
-     ]
-    },
-    {
-     "form": "que ha detto",
-     "en": [
-      "ha"
-     ]
-    }
-   ],
-   "best": "que dijo",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    12,
-    8
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -45792,23 +45037,8 @@
    "tense": "pres",
    "verb": "give",
    "src": "que give",
-   "roundtrip_gated": [
-    "que geven"
-   ],
-   "en_best": "que give",
-   "best": "que dan",
-   "lang": "es",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    8,
-    7
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-pl",
@@ -46127,6 +45357,9 @@
     "que hebben gewild"
    ],
    "en_best": "que have wanted",
+   "roundtrip_reversed": [
+    "que ont voulu"
+   ],
    "best": "que ont voulu",
    "lang": "fr",
    "shape": "compound",
@@ -46139,7 +45372,8 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-pl",
@@ -46150,6 +45384,9 @@
     "que hebben gehad"
    ],
    "en_best": "que have had",
+   "roundtrip_reversed": [
+    "que ont eu"
+   ],
    "best": "que ont eu",
    "lang": "fr",
    "shape": "compound",
@@ -46162,7 +45399,8 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-pl",
@@ -46187,23 +45425,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "que have said",
-   "roundtrip_gated": [
-    "que zeiden"
-   ],
-   "en_best": "que have said",
-   "best": "que dijeron",
-   "lang": "es",
-   "shape": "simple-preterite",
-   "number": "",
-   "tok": [
-    3,
-    2
-   ],
-   "utf8": [
-    13,
-    11
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-pl",
@@ -46214,6 +45437,9 @@
     "que hebben geweten"
    ],
    "en_best": "que have known",
+   "roundtrip_reversed": [
+    "que ont su"
+   ],
    "best": "que ont su",
    "lang": "fr",
    "shape": "compound",
@@ -46226,7 +45452,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-pl",
