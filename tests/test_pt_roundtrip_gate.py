@@ -173,3 +173,39 @@ def test_evidence_is_loaded_once_per_build_cache(monkeypatch):
     tm._rt_status("denkt", "nl")
     tm._rt_ok("denkt", "nl")
     assert len(calls) == 1
+
+
+@pytest.mark.parametrize("remove_hash", [False, True])
+@pytest.mark.parametrize("tamper_response", [False, True])
+def test_any_source_receipt_cannot_downgrade_to_single_source(remove_hash, tamper_response):
+    cohort = copy.deepcopy(rt.load()["records"][SOURCES[0]["key"]]["cohorts"][-1])
+    assert rt._valid_cohort(cohort)
+    if tamper_response:
+        cohort["targets"][0]["response"] = "Unrelated synthetic tampering probe."
+    del cohort["config"]["source_acceptance"]
+    if remove_hash:
+        del cohort["config"]["accepted_sources_sha256"]
+    assert not rt._valid_cohort(cohort)
+
+
+@pytest.mark.parametrize("field", ["accepted_sources", "first_source_match", "matched_source", "matched_via_alternate"])
+def test_single_source_receipt_rejects_any_source_fields(monkeypatch, field):
+    data = {"templates": ["{s}."], "seeds": [1], "min_trials": 1,
+            "thresholds": {"lt100m": 0.9, "ge100m": 0.6}, "ge100m_langs": ["pt"], "records": {}}
+    monkeypatch.setattr(rt.subprocess, "run", lambda *a, **kw: SimpleNamespace(stdout="He had seen.", returncode=0))
+    rt.run(data, "fake", entries=[{"lang": "pt", "from": ["he had seen"], "to": "vira"}])
+    cohort = rt.latest_cohort(data["records"]["pt:vira"])
+    assert rt._valid_cohort(cohort)
+    cohort["targets"][0][field] = None
+    assert not rt._valid_cohort(cohort)
+
+
+def test_single_source_receipt_rejects_orphan_hash(monkeypatch):
+    data = {"templates": ["{s}."], "seeds": [1], "min_trials": 1,
+            "thresholds": {"lt100m": 0.9, "ge100m": 0.6}, "ge100m_langs": ["pt"], "records": {}}
+    monkeypatch.setattr(rt.subprocess, "run", lambda *a, **kw: SimpleNamespace(stdout="He had seen.", returncode=0))
+    rt.run(data, "fake", entries=[{"lang": "pt", "from": ["he had seen"], "to": "vira"}])
+    cohort = rt.latest_cohort(data["records"]["pt:vira"])
+    assert rt._valid_cohort(cohort)
+    cohort["config"]["accepted_sources_sha256"] = "0" * 64
+    assert not rt._valid_cohort(cohort)

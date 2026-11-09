@@ -102,6 +102,8 @@ def _valid_cohort(current) -> bool:
     if config.get("normalization") != "norm-nfc-v1":
         return False
     any_source = config.get("source_acceptance") == "any-official-source-v1"
+    if "accepted_sources_sha256" in config and not any_source:
+        return False
     if "source_acceptance" in config and (not any_source or not isinstance(config.get("accepted_sources_sha256"), str)
             or not re.fullmatch(r"[0-9a-f]{64}", config["accepted_sources_sha256"])):
         return False
@@ -117,6 +119,9 @@ def _valid_cohort(current) -> bool:
     identity_fields = ("lang", "form", "source", "converted", "seed", "prompt_sha256")
     for target in targets:
         if not isinstance(target, dict) or any(not isinstance(target.get(k), str) for k in identity_fields):
+            return False
+        if not any_source and any(k in target for k in (
+                "accepted_sources", "first_source_match", "matched_source", "matched_via_alternate")):
             return False
         if not re.fullmatch(r"[0-9a-f]{64}", target["prompt_sha256"]):
             return False
