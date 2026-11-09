@@ -5,9 +5,8 @@ to measure tokens; the default explicitly measures UTF-8 bytes.
 """
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
-from dataclasses import asdict, dataclass
 import json
+from collections.abc import Callable, Sequence; from dataclasses import asdict, dataclass
 
 from .rulebook import RuleBook
 

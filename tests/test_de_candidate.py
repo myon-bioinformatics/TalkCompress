@@ -33,16 +33,19 @@ def test_de_strictly_wins_kam(s, want):
 @pytest.mark.parametrize(
     "s,want",
     [("he thinks", "denkt"), ("we think", "denken"), ("they think", "denken"), ("we found", "fanden"),
-     ("they found", "fanden"), ("he found", "fand")],
+     ("they found", "fanden")],
 )
 def test_tie_goes_to_de(s, want):
     assert BY_SRC[s]["to"] == want and BY_SRC[s]["lang"] == "de"
     assert _t().apply_es_fr_tense(s) == want
 
 
-def test_hand_bank_tie_goes_to_de():
+def test_fand_reversed_leaves_english():
+    """he found / I found used shared surface fand; independent blind round-trip was 0/9."""
     t = _t()
-    assert t.apply_es_fr_tense("I found") == "fand"
+    assert "he found" not in BY_SRC
+    assert t.apply_es_fr_tense("he found") == "he found"
+    assert t.apply_es_fr_tense("I found") == "I found"
 
 
 @pytest.mark.parametrize(

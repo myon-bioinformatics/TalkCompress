@@ -20,13 +20,8 @@ script adds two reporting layers; neither changes any winner:
 
 from __future__ import annotations
 
-import argparse
-import json
-import sys
-import urllib.request
-from collections import Counter
-from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
+import argparse, json, sys, urllib.request
+from collections import Counter; from concurrent.futures import ThreadPoolExecutor; from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))

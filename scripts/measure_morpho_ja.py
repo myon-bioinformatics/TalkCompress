@@ -4,11 +4,7 @@
 
 --ref を付けると、その git ref の MorphoZip/morpho_zip.py と比べる。
 """
-import argparse
-import importlib.util
-import subprocess
-import sys
-import tempfile
+import argparse, importlib.util, subprocess, sys, tempfile
 from pathlib import Path
 
 import tiktoken
@@ -30,10 +26,10 @@ def stat(s: str) -> str:
     return f"{len(ENC.encode(s))} / {len(s.encode())}"
 
 
-def main() -> None:
+def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ref")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     text = SAMPLE.read_text().strip()
     print(f"字数 {len(text)}")
     print(f"原文            {stat(text)}")

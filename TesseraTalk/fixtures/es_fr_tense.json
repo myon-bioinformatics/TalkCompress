@@ -114,58 +114,6 @@
       "note": "fui = I went only; I was kept EN (ambiguity gate)"
     },
     {
-      "id": "go-fut-3sm",
-      "from": [
-        "he will go"
-      ],
-      "to": "vai",
-      "lang": "pt",
-      "tense": "future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 10,
-        "utf8_after": 3,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "irá",
-          "lang": "es"
-        },
-        {
-          "form": "vai",
-          "lang": "pt"
-        }
-      ]
-    },
-    {
-      "id": "go-fut-3sf",
-      "from": [
-        "she will go"
-      ],
-      "to": "vai",
-      "lang": "pt",
-      "tense": "future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 11,
-        "utf8_after": 3,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "irá",
-          "lang": "es"
-        },
-        {
-          "form": "vai",
-          "lang": "pt"
-        }
-      ]
-    },
-    {
       "id": "go-fut-2s",
       "from": [
         "you will go"
@@ -180,36 +128,6 @@
         "utf8_after": 5,
         "both_shrink": true
       }
-    },
-    {
-      "id": "go-fut-1p",
-      "from": [
-        "we will go"
-      ],
-      "to": "vamos",
-      "lang": "es",
-      "tense": "future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "utf8_before": 10,
-        "utf8_after": 5,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "iremos",
-          "lang": "es"
-        },
-        {
-          "form": "vamos",
-          "lang": "es"
-        },
-        {
-          "form": "vamos",
-          "lang": "pt"
-        }
-      ]
     },
     {
       "id": "go-fut-3p",
@@ -236,23 +154,6 @@
           "lang": "es"
         }
       ]
-    },
-    {
-      "id": "go-past-3s",
-      "from": [
-        "she went",
-        "he went"
-      ],
-      "to": "fue",
-      "lang": "es",
-      "tense": "past",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "utf8_before": 8,
-        "utf8_after": 3,
-        "both_shrink": true
-      }
     },
     {
       "id": "go-cond-1s",
@@ -588,23 +489,6 @@
       ]
     },
     {
-      "id": "could-past-1s",
-      "from": [
-        "I could"
-      ],
-      "to": "pude",
-      "lang": "es",
-      "tense": "past",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 7,
-        "utf8_after": 4,
-        "both_shrink": true
-      },
-      "note": "past ability; live Romance (not classical potui)"
-    },
-    {
       "id": "see-fut-1s",
       "from": [
         "I will see",
@@ -855,13 +739,13 @@
         "I'll take"
       ],
       "to": "tomaré",
-      "lang": "el",
+      "lang": "es",
       "tense": "future",
       "metrics": {
         "token_before": 3,
-        "token_after": 1,
+        "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 8,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
@@ -872,39 +756,9 @@
         {
           "form": "tomarei",
           "lang": "pt"
-        },
-        {
-          "form": "πάρω",
-          "lang": "el"
         }
       ],
-      "note": "cheapest may prefer el πάρω (1 tok); classical Latin skipped"
-    },
-    {
-      "id": "take-past-1s",
-      "from": [
-        "I took"
-      ],
-      "to": "pris",
-      "lang": "fr",
-      "tense": "past",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "utf8_before": 6,
-        "utf8_after": 4,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tomé",
-          "lang": "es"
-        },
-        {
-          "form": "pris",
-          "lang": "fr"
-        }
-      ]
+      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take."
     },
     {
       "id": "take-pres-1s",
@@ -947,13 +801,13 @@
         "I'm going to take"
       ],
       "to": "tomaré",
-      "lang": "el",
+      "lang": "es",
       "tense": "future",
       "metrics": {
-        "token_before": 6,
-        "token_after": 1,
+        "token_before": 5,
+        "token_after": 2,
         "utf8_before": 18,
-        "utf8_after": 8,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
@@ -964,13 +818,9 @@
         {
           "form": "tomarei",
           "lang": "pt"
-        },
-        {
-          "form": "πάρω",
-          "lang": "el"
         }
       ],
-      "note": "explicit going-to; not progressive voy"
+      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take."
     },
     {
       "id": "think-fut-1s",
@@ -1086,36 +936,6 @@
       "note": "intentaré is 3 tok (= I will try); pt tentarei wins"
     },
     {
-      "id": "try-past-1s",
-      "from": [
-        "I tried"
-      ],
-      "to": "essayé",
-      "lang": "pt",
-      "tense": "past",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "utf8_before": 7,
-        "utf8_after": 6,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tentei",
-          "lang": "pt"
-        },
-        {
-          "form": "intenté",
-          "lang": "es"
-        },
-        {
-          "form": "essayé",
-          "lang": "fr"
-        }
-      ]
-    },
-    {
       "id": "try-fut-goingto-1s",
       "from": [
         "I am going to try",
@@ -1138,61 +958,23 @@
       "from": [
         "I will find"
       ],
-      "to": "βρω",
-      "lang": "el",
+      "to": "acharei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
-        "token_after": 1,
+        "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 6,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
         {
           "form": "acharei",
           "lang": "pt"
-        },
-        {
-          "form": "βρω",
-          "lang": "el"
         }
       ],
-      "note": "encontraré is 3 tok (= I will find); pt acharei / el βρω win"
-    },
-    {
-      "id": "find-past-1s",
-      "from": [
-        "I found"
-      ],
-      "to": "fand",
-      "lang": "de",
-      "tense": "past",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 7,
-        "utf8_after": 4,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "encontré",
-          "lang": "es"
-        },
-        {
-          "form": "achei",
-          "lang": "pt"
-        },
-        {
-          "form": "vond",
-          "lang": "nl"
-        },
-        {
-          "form": "fand",
-          "lang": "de"
-        }
-      ]
+      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained."
     },
     {
       "id": "find-fut-goingto-1s",
@@ -1200,27 +982,23 @@
         "I am going to find",
         "I'm going to find"
       ],
-      "to": "βρω",
-      "lang": "el",
+      "to": "acharei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
-        "token_before": 6,
-        "token_after": 1,
+        "token_before": 5,
+        "token_after": 2,
         "utf8_before": 18,
-        "utf8_after": 6,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
         {
           "form": "acharei",
           "lang": "pt"
-        },
-        {
-          "form": "βρω",
-          "lang": "el"
         }
       ],
-      "note": "explicit going-to"
+      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained."
     },
     {
       "id": "call-fut-1s",
@@ -1724,38 +1502,6 @@
       ]
     },
     {
-      "id": "arrive-past-1s",
-      "from": [
-        "I arrived"
-      ],
-      "to": "arrivé",
-      "lang": "fr",
-      "tense": "past",
-      "candidates": [
-        {
-          "form": "arrivé",
-          "lang": "fr"
-        },
-        {
-          "form": "llegué",
-          "lang": "es"
-        },
-        {
-          "form": "cheguei",
-          "lang": "pt"
-        },
-        {
-          "form": "kwam aan",
-          "lang": "nl"
-        },
-        {
-          "form": "έφτασα",
-          "lang": "el"
-        }
-      ],
-      "note": "tranche3: es/fr/pt 同点 (2tok/7B) → cheapest tie-break"
-    },
-    {
       "id": "live-past-1s",
       "from": [
         "I lived"
@@ -1847,6 +1593,58 @@
         }
       ],
       "note": "explicit going-to; compraré 2tok/9B（αγοράσω 2tok/14B は utf8 負け）; nl koop/ga kopen は未来の意味が弱く不採用"
+    },
+    {
+      "id": "go-fut-1p",
+      "from": [
+        "we will go"
+      ],
+      "to": "we will go",
+      "lang": "es",
+      "tense": "future",
+      "note": "roundtrip-reversed short form was 'vamos'; EN left (docs/es_roundtrip_20261109.md)",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 5,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-past-3s",
+      "from": [
+        "she went",
+        "he went"
+      ],
+      "to": "she went",
+      "lang": "es",
+      "tense": "past",
+      "note": "roundtrip-reversed short form was 'fue'; EN left (docs/es_roundtrip_20261109.md)",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 8,
+        "utf8_after": 3,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "could-past-1s",
+      "from": [
+        "I could"
+      ],
+      "to": "I could",
+      "lang": "es",
+      "tense": "past",
+      "note": "roundtrip-reversed short form was 'pude'; EN left (docs/es_roundtrip_20261109.md)",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 7,
+        "utf8_after": 4,
+        "both_shrink": true
+      }
     }
   ],
   "examples_not_registered": [
@@ -2069,6 +1867,214 @@
       "to": "vi",
       "lang": "es",
       "why_dropped": "EN homograph guard: every candidate spells an English word (vi) → hand row dropped; tense_matrix supplies the next-cheapest unique form (I came → kwam, I saw → vis)"
+    },
+    {
+      "id": "go-fut-1p",
+      "from": [
+        "we will go"
+      ],
+      "to": "vamos",
+      "lang": "es",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as we go; source we will go). Short form vamos reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
+    },
+    {
+      "id": "go-past-3s",
+      "from": [
+        "she went",
+        "he went"
+      ],
+      "to": "fue",
+      "lang": "es",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as he went; source she went). Short form fue reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
+    },
+    {
+      "id": "could-past-1s",
+      "from": [
+        "I could"
+      ],
+      "to": "pude",
+      "lang": "es",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as I was able to; source I could). Short form pude reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
+    },
+    {
+      "id": "go-fut-3sm",
+      "from": [
+        "he will go"
+      ],
+      "to": "vai",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 10,
+        "utf8_after": 3,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "irá",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ],
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"He goes.\", \"Maybe he goes today.\", \"She told me that he goes.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "go-fut-3sf",
+      "from": [
+        "she will go"
+      ],
+      "to": "vai",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 11,
+        "utf8_after": 3,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "irá",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ],
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"He goes.\", \"Maybe he goes today.\", \"She told me that he goes.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "try-past-1s",
+      "from": [
+        "I tried"
+      ],
+      "to": "essayé",
+      "lang": "pt",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 7,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tentei",
+          "lang": "pt"
+        },
+        {
+          "form": "intenté",
+          "lang": "es"
+        },
+        {
+          "form": "essayé",
+          "lang": "fr"
+        }
+      ],
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Tried.\", \"Maybe tried today.\", \"She told me that tried.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "take-past-1s",
+      "from": [
+        "I took"
+      ],
+      "to": "pris",
+      "lang": "fr",
+      "why_dropped": "independent blind AI round-trip 0/9 (fr:pris never; shared form scored against first bank entry 'you took', judge restored 'I took'); docs/fr_roundtrip_20261109.md — EN kept, es tomé not promoted"
+    },
+    {
+      "id": "arrive-past-1s",
+      "from": [
+        "I arrived"
+      ],
+      "to": "arrivé",
+      "lang": "fr",
+      "why_dropped": "independent blind AI round-trip 0/9 (fr:arrivé never; judge restored 'He arrived'); docs/fr_roundtrip_20261109.md — EN kept, es/pt/nl/el candidates not promoted"
+    },
+    {
+      "id": "take-fut-1s-el",
+      "from": [
+        "I will take",
+        "I'll take"
+      ],
+      "to": "πάρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+    },
+    {
+      "id": "take-fut-goingto-1s-el",
+      "from": [
+        "I am going to take",
+        "I'm going to take"
+      ],
+      "to": "πάρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+    },
+    {
+      "id": "find-fut-1s-el",
+      "from": [
+        "I will find"
+      ],
+      "to": "βρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
+    },
+    {
+      "id": "find-fut-goingto-1s-el",
+      "from": [
+        "I am going to find",
+        "I'm going to find"
+      ],
+      "to": "βρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
+    },
+    {
+      "id": "find-past-1s",
+      "from": [
+        "I found"
+      ],
+      "to": "fand",
+      "lang": "de",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 7,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "encontré",
+          "lang": "es"
+        },
+        {
+          "form": "achei",
+          "lang": "pt"
+        },
+        {
+          "form": "vond",
+          "lang": "nl"
+        },
+        {
+          "form": "fand",
+          "lang": "de"
+        }
+      ],
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as I found; scored on tense_matrix-first form 'fand' / from[0] 'I have found' for the shared surface, and this es_fr entry from[0] 'I found' shares the surface); ge100m threshold 0.6 not met. Other candidates not promoted; EN stays."
     }
   ]
 }

@@ -22,12 +22,7 @@ Usage: ``uv run python scripts/calibrate_estimate.py [--write] [--report]``
 """
 from __future__ import annotations
 
-import argparse
-import base64
-import collections
-import hashlib
-import json
-import sys
+import argparse, base64, collections, hashlib, json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -331,11 +326,11 @@ def report() -> dict:
     return out
 
 
-def main() -> None:
+def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--report", action="store_true")
-    a = ap.parse_args()
+    a = ap.parse_args(argv)
     if a.write:
         CALIB.write_text(json.dumps(build(), ensure_ascii=False, indent=0, sort_keys=True) + "\n", encoding="utf-8")
         print("wrote", CALIB.relative_to(ROOT))

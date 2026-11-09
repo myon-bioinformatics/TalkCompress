@@ -1,8 +1,5 @@
 """CLI bookkeeping for SVG L3: failures are recorded per figure, never turned into a verdict."""
-import io
-import json
-import socket
-import subprocess
+import io, json, socket, subprocess
 from pathlib import Path
 
 import pytest

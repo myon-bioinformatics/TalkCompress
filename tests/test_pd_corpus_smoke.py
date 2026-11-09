@@ -8,8 +8,7 @@ using a seeded RNG so CI stays reproducible. Override via pytest options:
 
 from __future__ import annotations
 
-import json
-import random
+import json, random
 from pathlib import Path
 
 import pytest

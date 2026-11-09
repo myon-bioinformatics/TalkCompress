@@ -36,19 +36,8 @@ committed bank is never gated by this script.
 
 from __future__ import annotations
 
-import argparse
-import copy
-import hashlib
-import uuid
-import json
-import math
-import os
-import re
-import subprocess
-import sys
-import unicodedata
-from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
+import argparse, copy, hashlib, json, math, os, re, subprocess, sys, unicodedata, uuid
+from concurrent.futures import ThreadPoolExecutor; from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -101,6 +90,12 @@ def _valid_cohort(current) -> bool:
         return False
     if config.get("normalization") != "norm-nfc-v1":
         return False
+    any_source = config.get("source_acceptance") == "any-official-source-v1"
+    if "accepted_sources_sha256" in config and not any_source:
+        return False
+    if "source_acceptance" in config and (not any_source or not isinstance(config.get("accepted_sources_sha256"), str)
+            or not re.fullmatch(r"[0-9a-f]{64}", config["accepted_sources_sha256"])):
+        return False
     targets = current.get("targets")
     if not isinstance(targets, list):
         return False
@@ -114,6 +109,9 @@ def _valid_cohort(current) -> bool:
     for target in targets:
         if not isinstance(target, dict) or any(not isinstance(target.get(k), str) for k in identity_fields):
             return False
+        if not any_source and any(k in target for k in (
+                "accepted_sources", "first_source_match", "matched_source", "matched_via_alternate")):
+            return False
         if not re.fullmatch(r"[0-9a-f]{64}", target["prompt_sha256"]):
             return False
         target_id = _identity({k: target[k] for k in identity_fields})
@@ -124,6 +122,20 @@ def _valid_cohort(current) -> bool:
         if outcome == "completed":
             if type(target.get("restored")) is not bool:
                 return False
+            if any_source:
+                accepted = target.get("accepted_sources")
+                response = target.get("response")
+                if (not isinstance(accepted, list) or not accepted
+                        or any(not isinstance(s, str) for s in accepted)
+                        or target["source"] not in accepted or not isinstance(response, str)):
+                    return False
+                matched = next((s for s in accepted if norm(response) == norm(s)), None)
+                first = norm(response) == norm(target["source"])
+                if (target["restored"] != (matched is not None) or target.get("matched_source") != matched
+                        or type(target.get("first_source_match")) is not bool or target["first_source_match"] != first
+                        or type(target.get("matched_via_alternate")) is not bool
+                        or target["matched_via_alternate"] != (matched is not None and not first)):
+                    return False
             counts["completed"] += 1
             counts["restored"] += int(target["restored"])
         elif outcome == "timeout":
@@ -276,7 +288,8 @@ def _valid_policy(data: dict, *, required: bool = False) -> bool:
 
 
 def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
-        entries: list[dict] | None = None, timeout: float = 120) -> dict:
+        entries: list[dict] | None = None, timeout: float = 120,
+        accepted_sources: dict[str, list[str]] | None = None) -> dict:
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout must be finite and positive")
     if not _valid_policy(data):
@@ -288,6 +301,16 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
     if entries is None:
         import tense_matrix as tm
         entries = tm.build()[0]["entries"]
+    # Optional form-level acceptance for ambiguous/shared converted forms. The
+    # first bank-order from[0] remains the target identity; alternatives neither
+    # create trials nor rewrite the independent judge's response.
+    if accepted_sources is not None and (
+        not isinstance(accepted_sources, dict)
+        or any(not isinstance(k, str) or not isinstance(v, list) or not v
+               or any(not isinstance(src, str) or not src for src in v)
+               for k, v in accepted_sources.items())
+    ):
+        raise ValueError("accepted_sources must map form keys to nonempty source lists")
     prompt_template = PROMPT
     config = {"only_lang": only_lang, "timeout": timeout, "workers": workers,
               "templates": copy.deepcopy(data["templates"]), "seeds": copy.deepcopy(data["seeds"]),
@@ -295,6 +318,9 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
               "prompt_sha256": hashlib.sha256(prompt_template.encode("utf-8")).hexdigest(),
               "evaluation_policy": copy.deepcopy({k: data.get(k) for k in ("min_trials", "thresholds", "ge100m_langs")}),
               "normalization": "norm-nfc-v1"}
+    if accepted_sources is not None:
+        config["source_acceptance"] = "any-official-source-v1"
+        config["accepted_sources_sha256"] = _identity(accepted_sources)
     run_id = str(uuid.uuid4())
     selected = {}
     targets = {}
@@ -304,12 +330,17 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
             continue
         k = key(e["lang"], e["to"])
         selected[k] = {"lang": e["lang"], "form": e["to"]}
-        for en, cv in sentences(data, e["from"][0], e["to"]):
+        for template_index, (en, cv) in enumerate(sentences(data, e["from"][0], e["to"])):
             for seed in data["seeds"]:
                 target = {"lang": e["lang"], "form": e["to"], "source": en,
                           "converted": cv, "seed": str(seed),
                           "prompt_sha256": hashlib.sha256(prompt_template.format(c=cv).encode("utf-8")).hexdigest()}
                 target_id = _identity(target)
+                if accepted_sources is not None:
+                    sources = accepted_sources.get(k, [e["from"][0]])
+                    target["accepted_sources"] = list(dict.fromkeys(
+                        [en] + [sentences(data, src, e["to"])[template_index][0] for src in sources]
+                    ))
                 if target_id in targets:
                     duplicate_targets += 1
                 else:
@@ -328,7 +359,13 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
             return {**result, "status": "execution_error", "error_type": type(exc).__name__}
         if p.returncode != 0:
             return {**result, "status": "execution_error", "returncode": p.returncode}
-        return {**result, "status": "completed", "restored": norm(p.stdout) == norm(target["source"])}
+        first_match = norm(p.stdout) == norm(target["source"])
+        if accepted_sources is None:
+            return {**result, "status": "completed", "restored": first_match}
+        matched = next((src for src in target["accepted_sources"] if norm(p.stdout) == norm(src)), None)
+        return {**result, "status": "completed", "response": p.stdout.strip(),
+                "restored": matched is not None, "first_source_match": first_match,
+                "matched_source": matched, "matched_via_alternate": matched is not None and not first_match}
 
     expected_targets = {k: [target_id for target_id, t in targets.items() if key(t["lang"], t["form"]) == k] for k in selected}
     with ThreadPoolExecutor(max_workers=workers) as ex:
@@ -384,7 +421,7 @@ def impact_doc(data: dict) -> str:
     flip = {k: f"{old} -> {new}" for k, _s, old, new in rows}
     req = [e for e in bank["entries"] if (e["lang"], e["tense"]) in REQUIRED_RULES]
     out = [
-        "# 往復チェック強制時の影響（report-only、記録0件時点）", "",
+        "# 往復チェック強制時の影響（report-only）", "",
         "生成: `uv run python scripts/roundtrip.py --write-doc`（採点は o200k_base）。", "",
         "## 往復チェック必須の nl 過去形（現在完了セル）", "",
         f"nl（1億人未満）の現在完了セル採用 {len(req)} 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。", "",

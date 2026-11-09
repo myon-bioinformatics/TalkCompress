@@ -5,11 +5,8 @@ message-boundary policy. Runtime uses only the Python standard library.
 """
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
+import argparse, hashlib, json, urllib.request
 from pathlib import Path
-import urllib.request
 
 from scripts.fetch_l3_model import prepare
 from .rulebook import RuleBook

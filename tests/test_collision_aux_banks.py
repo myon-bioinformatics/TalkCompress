@@ -2,8 +2,7 @@
 
 from __future__ import annotations
 
-import json
-import sys
+import json, sys
 from pathlib import Path
 
 import pytest
@@ -114,7 +113,9 @@ def test_collision_blocked_generated():
     rows = {(r["bank"], r["id"], r["form"]) for r in BANK["collision_blocked"]}
     assert ("es_fr_tense", "go-past-1s", "vim") in rows
     assert ("es_fr_tense", "give-past-1s", "di") in rows
-    assert ("pt_el_latin_phrases", "by-means-of-pt-el", "via") in rows
+    # Reversed pt phrase is no longer registered; direct collision rejection
+    # remains covered by test_bank_form_collision_rejects above.
+    assert ("pt_el_latin_phrases", "by-means-of-pt-el", "via") not in rows
     t = _t()
     assert t.collision_blocked("es_fr_tense") >= {("go-past-1s", "vim"), ("think-past-1s", "pensé")}
     assert t.collision_blocked("nope") == frozenset()
@@ -122,14 +123,17 @@ def test_collision_blocked_generated():
 
 @pytest.mark.parametrize(
     ("s", "want"),
-    [("I went", "fui"), ("I gave", "I gave"), ("I thought", "pensei"), ("I have given", "dei")],
+    [("I went", "fui"), ("I gave", "I gave"), ("I thought", "pensei"), ("I have given", "I have given")],
 )
 def test_runtime_tense_bank_guarded(s, want):
     assert _t().apply_es_fr_tense(s) == want
 
 
 def test_runtime_phrase_bank_guarded():
-    assert _t().apply_zh_de_phrases("by means of") == "μέσω"
+    assert _t().apply_zh_de_phrases("by means of") == "by means of"
+    # The sole remaining pt phrase is labeled /mês but does not beat EN
+    # under the runtime estimator; label-level roundtrip coverage is separate.
+    assert _t().apply_zh_de_phrases("per month") == "per month"
 
 
 def test_bank_phrase_pairs_blocked_falls_back():

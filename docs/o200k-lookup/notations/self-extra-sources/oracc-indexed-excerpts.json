@@ -1,0 +1,82 @@
+[
+  {
+    "source_url": "https://oracc.ub.uni-muenchen.de/doc/help/editinginatf/primer/index.html",
+    "label": "primer-example-1",
+    "text": "&P348865 = SpTU 5, 283\n#project: cams\n#atf: lang akk-x-ltebab\n#atf: use unicode\n\n@tablet\n\n@obverse\n1.\tṭup-pi! E₂ ep-šu₂ sip-pu rak-su E₂ rug-gu-bu\n2.\t{giš}IG SAG.KUL kun-nu KI{+ti₃} {id₂}har ša₂ {d}NA₃\n$ single ruling\n3.\t40?# ina 1 KUŠ₃ US₂ AN.TA {tu₁₅}SI.SA₂ DA E₂ ša₂ ",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  },
+  {
+    "source_url": "https://oracc.ub.uni-muenchen.de/doc/help/editinginatf/primer/index.html",
+    "label": "primer-example-2",
+    "text": "&P348658 = SpTU 2, 055\n#project: cams\n#atf: lang akk-x-ltebab\n#atf: use unicode\n\n@tablet\n\n@obverse\n1.\tṭup-pi A.ŠA₃ ki-šub-ba#-[a ...]\n2.\t{id₂}har-ri ša₂ {d}MUATI? x [...]\n3.\tša₂ qe₂-reb UNUG#[{ki}]",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  },
+  {
+    "source_url": "https://oracc.museum.upenn.edu/ns/xtf/1.0/atftut.html",
+    "label": "structure-example",
+    "text": "&P555555 = Some Publication 32\n@obverse\n1. 1(diš) udu ba-ug₇\n$ reverse blank",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  },
+  {
+    "source_url": "https://oracc.museum.upenn.edu/ns/xtf/1.0/atftut.html",
+    "label": "catalogue-line",
+    "text": "&P000001 = ATU 3, pl. 011, W 6435,a",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  },
+  {
+    "source_url": "https://oracc.museum.upenn.edu/ns/xtf/1.0/atftut.html",
+    "label": "line-labels",
+    "text": "1.   a\na+1. e\n2'.  i",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  },
+  {
+    "source_url": "https://oracc.museum.upenn.edu/ns/xtf/1.0/advanced.html",
+    "label": "cell-example",
+    "text": "&P123123=UET 3,2\n1. a & e",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  },
+  {
+    "source_url": "https://oracc.museum.upenn.edu/ns/xtf/1.0/advanced.html",
+    "label": "field-example",
+    "text": "&P123123=UET 3,2\n1. a , e",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  },
+  {
+    "source_url": "https://oracc.museum.upenn.edu/ns/xtf/1.0/advanced.html",
+    "label": "field-type-example",
+    "text": "&P123123=UET 3,2\n1. e4 ,!sv A",
+    "retrieval": "WebSearch indexed quotation; not a downloaded original page",
+    "license": "CC-BY-SA-3.0",
+    "attribution": "Oracc and its documentation contributors",
+    "license_url": "https://oracc.museum.upenn.edu/doc/about/",
+    "note": "Original HTML retrieval failed with TLS/500/504; text transcribed from indexed tool quotation. Surrounding code-block blank lines not included."
+  }
+]

@@ -102,12 +102,19 @@ def test_b_final_accepts_full_and_contracted(full, short, winner):
     "full,short",
     [
         ("I would go", "I'd go"),
-        ("we will go", "we'll go"),
+        # we will go → vamos reversed (docs/es_roundtrip_20261109.md); EN left, so
+        # full/short identity forms need not converge on a shared short winner.
     ],
 )
 def test_b_final_contracted_matches_full(full, short):
     t = _t()
     assert t.apply_es_fr_tense(short) == t.apply_es_fr_tense(full)
+
+
+def test_we_will_go_left_english_after_vamos_reverse():
+    t = _t()
+    assert t.apply_es_fr_tense("we will go") == "we will go"
+    assert t.apply_es_fr_tense("we'll go") == "we'll go"
 
 
 @pytest.mark.parametrize("src", ["I'm going to buy", "I am going to buy"])
@@ -130,24 +137,25 @@ def test_going_to_guard_contracted():
     assert "vou" not in out and "voy" not in out
 
 
-# --- Greek (el) runtime winners ---------------------------------------------
+# --- Post-roundtrip runtime winners ---------------------------------------------
 
 @pytest.mark.parametrize(
-    "src,el",
+    "src,winner",
     [
-        ("I will find", "βρω"),
+        ("I will find", "acharei"),
+        ("I am going to find", "acharei"),
     ],
 )
-def test_el_wins_cheapest(src, el):
+def test_find_fallback_wins_cheapest(src, winner):
     t = _t()
     out = t.apply_es_fr_tense(src)
-    assert out == el
+    assert out == winner
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
 @pytest.mark.parametrize(
     "full,short,winner",
-    [("I will take it", "I'll take it", "tomaré it"), ("I will find it", "I'll find it", "βρω it")],
+    [("I will take it", "I'll take it", "tomaré it"), ("I will find it", "I'll find it", "acharei it")],
 )
 def test_contracted_future_ties_stay_english(full, short, winner):
     """o200k: " I'll take it" = 3 = " tomaré it"; the full form (4) still converts."""
@@ -159,7 +167,7 @@ def test_contracted_future_ties_stay_english(full, short, winner):
 
 @pytest.mark.parametrize("src", ["I will take", "I am going to take"])
 def test_take_future_es_wins_tie_on_bytes(src):
-    """πάρω and tomaré are both 2 o200k tokens; tomaré is 7 bytes vs 8."""
+    """After failed Greek removal, the retained tomaré wins (2 tokens, 7 bytes)."""
     t = _t()
     assert t.apply_es_fr_tense(src) == "tomaré"
     assert t.apply_es_fr_tense("I'll take") == "I'll take"
@@ -179,4 +187,5 @@ def test_bank_to_label_matches_runtime_winner():
         assert (e["id"], e["to"]) not in blocked, e["id"]
         assert t.apply_es_fr_tense(e["from"][0]) == e["to"], e["id"]
         langs.add(e["lang"])
-    assert "el" in langs
+    assert {"pt", "es"} <= langs
+    assert "el" not in langs  # failed Greek future candidates were removed

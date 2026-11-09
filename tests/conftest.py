@@ -2,6 +2,30 @@
 
 from __future__ import annotations
 
+import os
+
+import pytest
+
+
+@pytest.fixture(scope="session")
+def renderer():
+    """One Chromium ``shared.svg_render.Renderer`` for the SVG tests.
+
+    Without Playwright or a browser the tests skip, as before; with
+    ``TALKCOMPRESS_REQUIRE_BROWSER=1`` (the CI browser lane) a missing browser
+    fails instead, so the lane cannot pass by skipping everything.
+    """
+    required = os.environ.get("TALKCOMPRESS_REQUIRE_BROWSER") == "1"
+    try:
+        from shared.svg_render import Renderer
+        r = Renderer()
+    except Exception as exc:  # no Playwright / no Chromium here
+        if required:
+            pytest.fail(f"browser required but unavailable: {exc}")
+        pytest.skip(f"chromium unavailable: {exc}")
+    yield r
+    r.close()
+
 
 def pytest_addoption(parser):
     group = parser.getgroup("pd-corpus")

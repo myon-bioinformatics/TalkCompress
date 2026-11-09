@@ -4,14 +4,14 @@
 
 ## 方針（言語非依存の最短形）
 
-**ソース言語を問わず、意味が通る最短の表層へ畳む**（記号 OK）。英語専用・日本語専用の特例を増やさない。比較の `≥` `≤` `≒` `=` はその一例であり、代名詞・前置・接続なども同じ原則（U/he/无/前/bc/∴ …）。
+**ソース言語を問わず、意味が通る最短の表層へ畳む**（記号 OK）。英語専用・日本語専用の特例を増やさない。比較の `≥` `≤` `≒` `=` はその一例であり、代名詞・前置・接続なども同じ原則（U/he/无/前/cuz/∴ …）。
 
 ### 具体
 
 
 - 一人称 → `I`（私は/僕は/俺は…を潰す）
 - **代名詞 case-split 在庫（5-bit 設計）**（下記）
-- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・助詞・比較）→ 下記。接続 → `&` `/` `bc` `∴`；前置1 → `w/` `4` `←` `@`；前置2 → `de` `无` `内` `前` `後`；助詞 → `∅` `→` `∈` `〜`；比較 → `≥` `≤`。極性 `!`/`¬` は在庫幅とは別の **1bit フラグ**
+- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・助詞・比較）→ 下記。接続 → `&` `/` `cuz` `therefore`；前置1 → `w/` `4` `←` `@`；前置2 → `de` `无` `内` `前` `後`；助詞 → `∅` `→` `∈` `〜`；比較 → `≥` `≤`。極性 `!`/`¬` は在庫幅とは別の **1bit フラグ**
 - whatever 系 → `∀` / `∀loc` / `∀who` … / hereafter → `∴→`
 - 助数詞: JA 既存は維持。EN 数量句も実験的に短くする（`3 animals` → `3匹`, `2 people` → `2人` など）。桁化済みの数字が前提（スペル数字→桁は C）
 - 冠詞: 引用なしの `the`/`a`/`an` は落とす。`"the"` / `'the'` は内側の語だけ残す（引用符は外す）。`--keep-articles` で無効化
@@ -52,7 +52,7 @@
 | 代名詞 pronoun | I/my/me/mine … U/your/you/yours … he/his/him … she/her/hers … it/its … they/their/them/theirs + y'all | 26 | **5** | **格軸**+独立所有格；表層 utf8+token 優先；she 開放；**neuter=it（事物）**；君/彼/彼女=入力別名；bits 設計/レポート | `you…`→`U…`；`mine is yours` 維持；`彼女を`→`her` |
 | 指示代名詞 deixis | ça / eso / these / those / あれ | 5 | **3** | **人称・it と別在庫**；this/これ/这→ça；that/それ/那→eso（関係詞 that は除外）；token→utf8 cheapest | `this book`→`ça book`；`それは本`→`eso本`；`I think that…` は that 維持 |
 | 冠詞 article | ∅ | 1 | **0** | the/a/an → 削除（引用は保持） | `the cat` → `cat` |
-| 接続詞 conjunction | & / bc / ∴ | 4 | 2 | and→& or→/ **because→bc** therefore→∴（cuz は否定せず、数学記号系を優先；点々表記の余地） | `… because …` → `… bc …` |
+| 接続詞 conjunction | & / cuz / therefore | 4 | 2 | and→& or→/ **because→cuz**（bc/∵ は入力別名）therefore は英語のまま（∴ は token loser） | `… because …` → `… cuz …` |
 | 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；拡張 □=always / oft=often；**never→¬ not→!**（極性は助動詞と共有・在庫外1bit）。∀ は whatever 用 | `however very` → `tho ˅`；`always never` → `□ ¬` |
 | 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can should→must might→may（**would は will に写像しない**：時制・法が変わるため）；**I'll は C**；否定 `can't/won't/shouldn't/mustn't/may not`→`!can/!will/!must/!may`；`don't/not`→`!`；肯定は素の can/will/must/may。**極性 `!` = 在庫幅とは別1bit** | `I could` → `I can`；`I won't` → `I !will` |
 | 前置詞 preposition | w/ / 4 / ← / @ | 4 | 2 | with→w/ for→4 **from→←** at→@；`fr` は別名のみ（colloquial **for real** 揺らぎ）。ML: con/avec/mit・para/pour/für・desde/depuis/aus・bei。**under/above は C** | `for lunch from home at noon` → `4 lunch ← home @ noon` |
@@ -69,7 +69,9 @@
 
 **C との境界:** moreover/furthermore/nevertheless・regarding→re:・as follows→↓・inter alia→i.a.・under/above/below・**I'll 族（`family=abbrev` 縮約）**・チャット頭字語・e.g./etc.・**information→ℹ️（`family=emoji`）**・開いた数学記号（`family=symbol` ≠∞±…）・台帳の前後/内外ペアは C。短形は数学/記号優先（両方効くとき絵文字より記号）。 C 台帳 lex の `metrics.bit` は本モジュールの `utf8_bits` /（在庫適用時）`closed_inventory_bits` を参照する（所有は E のまま）。E の bare 前/後（EN before/after）と 以上/以下→≥/≤、助詞コアは別。`in`/`on` は曖昧のため自動書き換え見送り。
 
-**because / cuz:** `because→bc` 採用。`cuz` は可能性として否定しないが、数学記号寄りの `bc` / `∴` 系を優先。将来点々付き表記が載る余地あり（bc のまま）。
+**because / cuz:** `because→cuz` 採用（2026-11-08）。because / bc / cuz はいずれも o200k 1 トークン（7 / 2 / 3 バイト）。`bc` は 1 バイト少ないが British Columbia / before Christ などと紛れるため、同トークンなら意味の明瞭さを優先して +1 バイトを許容。旧出力の `bc` と `∵` は入力別名として `cuz` に寄せ、展開も because に戻す。
+
+**口語クリップ採点台帳:** 閉じた在庫の意味について口語・略記の候補（cuz / cos / b/c …）は [`fixtures/informal_candidates.json`](fixtures/informal_candidates.json) に実測トークン・バイトと reject 理由付きで記録する。「否定せず」「見送り可」とコメントに書くだけで採点集合から外すのは不可。`tests/test_informal_candidates.py` が公式 `estimate_tokens` との一致と勝者を検証する。
 
 **助動詞・副詞 × not（検証パス実装）:** 否定 `can't/won't/shouldn't/mustn't/may not/don't`→`!…` / `!`；肯定は素の can/will/must/may。副詞 `not→!` `never→¬`。極性は `polarity_bit_cost`（1bit/マーカー）。時制の深い畳み込みは未着手。I'll は C 所有のまま。
 

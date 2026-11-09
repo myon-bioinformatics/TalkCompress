@@ -11,61 +11,6 @@
   ],
   "entries": [
     {
-      "id": "cell-phone-pt-el",
-      "from": [
-        "cell phone",
-        "mobile phone"
-      ],
-      "to": "cel",
-      "lang": "pt",
-      "class": "compound",
-      "candidates": [
-        {
-          "form": "cel",
-          "lang": "pt",
-          "class": "compound"
-        },
-        {
-          "form": "κιν",
-          "lang": "el",
-          "class": "compound"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
-      },
-      "note": "BR cel / EL κιν (κινητό); beats EN multiword"
-    },
-    {
-      "id": "blood-pressure-el-pt",
-      "from": [
-        "blood pressure"
-      ],
-      "to": "tensão",
-      "lang": "pt",
-      "class": "compound",
-      "candidates": [
-        {
-          "form": "tensão",
-          "lang": "pt",
-          "class": "compound"
-        },
-        {
-          "form": "πίεση",
-          "lang": "el",
-          "class": "compound"
-        }
-      ],
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
-        "both_shrink": true
-      },
-      "note": "PA (pt medical acronym) dropped — jargon / unstable outside clinical PT"
-    },
-    {
       "id": "per-month-pt-el",
       "from": [
         "per month"
@@ -88,64 +33,6 @@
       "metrics": {
         "token_before": 3,
         "token_after": 1,
-        "both_shrink": true
-      }
-    },
-    {
-      "id": "once-again-el-pt-la",
-      "from": [
-        "once again"
-      ],
-      "to": "πάλι",
-      "lang": "el",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "πάλι",
-          "lang": "el",
-          "class": "densifier"
-        },
-        {
-          "form": "de novo",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "iterum",
-          "lang": "la",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
-      },
-      "note": "cheapest πάλι; iterum = living scholarly Latin"
-    },
-    {
-      "id": "in-other-words-pt-el",
-      "from": [
-        "in other words"
-      ],
-      "to": "aliás",
-      "lang": "pt",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "aliás",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "δηλαδή",
-          "lang": "el",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 5,
-        "token_after": 2,
         "both_shrink": true
       }
     },
@@ -180,38 +67,6 @@
         "both_shrink": true
       },
       "note": "ergo = surviving scholarly Latin (not classical conjugation)"
-    },
-    {
-      "id": "see-you-soon-it-pt-el",
-      "from": [
-        "see you soon"
-      ],
-      "to": "ciao",
-      "lang": "it",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "ciao",
-          "lang": "it",
-          "class": "densifier"
-        },
-        {
-          "form": "até",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "γεια",
-          "lang": "el",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
-      },
-      "note": "ciao living IT; até bare is common BR farewell short"
     },
     {
       "id": "more-or-less-la-el",
@@ -384,33 +239,6 @@
       }
     },
     {
-      "id": "by-means-of-pt-el",
-      "from": [
-        "by means of"
-      ],
-      "to": "via",
-      "lang": "pt",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "via",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "μέσω",
-          "lang": "el",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 4,
-        "token_after": 1,
-        "both_shrink": true
-      },
-      "note": "bare Latin per dropped — collides with EN per"
-    },
-    {
       "id": "in-favor-of-la-el",
       "from": [
         "in favor of"
@@ -545,6 +373,140 @@
       "would_be": "delegacia",
       "lang": "pt",
       "reason": "loses to ZH 警局 (help3 #7) on estimate_tokens (3 vs 2); kept out of sibling so B-final stays with 警局"
+    },
+    {
+      "id": "once-again-el-pt-la",
+      "from": [
+        "once again"
+      ],
+      "to": "πάλι",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as again); calibrated EN once again=2 tokens ties πάλι/de novo/iterum=2, so no candidate beats EN."
+    },
+    {
+      "id": "cell-phone-pt-el",
+      "from": [
+        "cell phone",
+        "mobile phone"
+      ],
+      "to": "cel",
+      "lang": "pt",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "cel",
+          "lang": "pt",
+          "class": "compound"
+        },
+        {
+          "form": "κιν",
+          "lang": "el",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "BR cel / EL κιν (κινητό); beats EN multiword",
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Cell.\", \"Maybe cell today.\", \"She told me that cell.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "blood-pressure-el-pt",
+      "from": [
+        "blood pressure"
+      ],
+      "to": "tensão",
+      "lang": "pt",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "tensão",
+          "lang": "pt",
+          "class": "compound"
+        },
+        {
+          "form": "πίεση",
+          "lang": "el",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "note": "PA (pt medical acronym) dropped — jargon / unstable outside clinical PT",
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Tension.\", \"Maybe tension today.\", \"She told me that tension.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "in-other-words-pt-el",
+      "from": [
+        "in other words"
+      ],
+      "to": "aliás",
+      "lang": "pt",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "aliás",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "δηλαδή",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 5,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"By the way.\", \"Maybe by the way today.\", \"She told me that by the way.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "by-means-of-pt-el",
+      "from": [
+        "by means of"
+      ],
+      "to": "via",
+      "lang": "pt",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "via",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "μέσω",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "bare Latin per dropped — collides with EN per",
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"He used to see.\", \"Maybe he used to see today.\", \"She told me that he used to see.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "see-you-soon-it-pt-el",
+      "from": [
+        "see you soon"
+      ],
+      "to": "ciao",
+      "lang": "it",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as hello; source see you soon). Reversed per docs/it_roundtrip_20261108.md; no other candidate promoted."
     }
   ]
 }

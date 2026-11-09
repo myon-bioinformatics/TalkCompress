@@ -1,7 +1,5 @@
 """Manual exploratory tokenizer measurement; importing never obtains encodings."""
-import argparse
-import re
-import statistics as st
+import argparse, re, statistics as st
 
 if __package__:
     from .cases import PV, SVC, SVOO, SVOC

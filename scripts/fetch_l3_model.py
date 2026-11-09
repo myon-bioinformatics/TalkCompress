@@ -7,11 +7,7 @@ SHA-256 (also for cache hits) and writes ``DEST.provenance.json``.
 """
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
-import sys
-import urllib.request
+import argparse, hashlib, json, sys, urllib.request
 from pathlib import Path
 
 CATALOG = Path("shared/l3_models.json")
