@@ -99,3 +99,23 @@ def test_cli_check_is_read_only():
     res = json.loads(out.stdout)
     assert res["enforced_langs"] == ["nl"]
     assert {p: p.stat().st_mtime_ns for p in before} == before
+
+
+def test_parity_order_puts_bases_first(g):
+    order = mg.parity_order(g)
+    pos = {n: i for i, n in enumerate(order)}
+    for p in g.of_type("ParityFollow"):
+        for base in g.out(p["id"], "followsVerbOf"):
+            assert pos[base] < pos[p["id"]]
+        for derived in g.out(p["id"], "derivesForm"):
+            assert pos[p["id"]] < pos[derived]
+
+
+def test_parity_cycle_is_a_graph_error():
+    h = mg.Graph()
+    h.add("form:pt:x", "Form")
+    h.add("parity:a", "ParityFollow")
+    h.link("parity:a", "followsVerbOf", "form:pt:x")
+    h.link("parity:a", "derivesForm", "form:pt:x")
+    with pytest.raises(mg.GraphError, match="cycle"):
+        mg.parity_order(h)

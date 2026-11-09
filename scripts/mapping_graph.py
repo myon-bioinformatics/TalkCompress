@@ -50,7 +50,9 @@ STATUSES = ("pass", "fail", "never", "unverified", "untested", "not_applicable")
 TENSE_ALIASES = {"future": "fut", "present": "pres", "conditional": "cond"}
 
 sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT))
 import roundtrip as rt  # noqa: E402  (stdlib only; status() is the single source of truth)
+from shared.kgraph import CycleError, Graph, GraphError, aggregate, dependency_order  # noqa: E402
 
 
 def norm_en(s: str) -> str:
@@ -99,37 +101,6 @@ def meaning_key(bank: str, entry: dict) -> str:
     return f"{'-'.join(parts[:idx]) or eid}:{tense}"
 
 
-class Graph:
-    def __init__(self) -> None:
-        self.nodes: dict[str, dict] = {}
-        self.edges: list[tuple[str, str, str]] = []
-
-    def add(self, nid: str, kind: str, **props) -> str:
-        node = self.nodes.setdefault(nid, {"id": nid, "type": kind})
-        if node["type"] != kind:
-            raise ValueError(f"ID collision across classes: {nid} is {node['type']} and {kind}")
-        for k, v in props.items():
-            node.setdefault(k, v)
-        return nid
-
-    def link(self, s: str, p: str, o: str) -> None:
-        e = (s, p, o)
-        if e not in self._edge_set:
-            self._edge_set.add(e)
-            self.edges.append(e)
-
-    _edge_set: set
-
-    def out(self, nid: str, pred: str | None = None) -> list[str]:
-        return [o for s, p, o in self.edges if s == nid and (pred is None or p == pred)]
-
-    def inc(self, nid: str, pred: str | None = None) -> list[str]:
-        return [s for s, p, o in self.edges if o == nid and (pred is None or p == pred)]
-
-    def of_type(self, kind: str) -> list[dict]:
-        return [n for n in self.nodes.values() if n["type"] == kind]
-
-
 def _record_nodes(g: Graph, rtd: dict, lang: str, form: str, fid: str) -> None:
     rec = rtd["records"].get(rt.key(lang, form))
     if not rec:
@@ -155,7 +126,6 @@ def _record_nodes(g: Graph, rtd: dict, lang: str, form: str, fid: str) -> None:
 
 def build(root: Path = ROOT) -> Graph:
     g = Graph()
-    g._edge_set = set()
     s = read_settings(root / "scripts/tense_matrix.py")
     rtd = rt.load(root / "TesseraTalk/fixtures/roundtrip.json")
 
@@ -254,10 +224,27 @@ def build(root: Path = ROOT) -> Graph:
             g.link(pid, "followsVerbOf", form_node(lang, vw))
             if c["status"] == "adopt":
                 g.link(pid, "derivesForm", form_node(lang, c["best"]))
-    for s_, p, o in g.edges:  # dangling targets (e.g. rejectedBy rev:...) must exist
-        if o not in g.nodes:
-            raise ValueError(f"dangling edge {s_} -{p}-> {o}")
+    g.validate()  # dangling targets (e.g. rejectedBy rev:...) must exist
+    parity_order(g)  # follows must be acyclic (graphlib CycleError otherwise)
     return g
+
+
+def parity_order(g: Graph) -> list[str]:
+    """Judging order for parity follows: base forms before their followers.
+
+    A follower (ParityFollow) depends on the Form it follows and, once adopted, the
+    Form it derives depends on the follow. A cycle (a form following itself through
+    another follow) raises ``GraphError`` from graphlib's ``CycleError``.
+    """
+    deps: dict[str, set[str]] = defaultdict(set)
+    for p in g.of_type("ParityFollow"):
+        deps[p["id"]].update(g.out(p["id"], "followsVerbOf"))
+        for f in g.out(p["id"], "derivesForm"):
+            deps[f].add(p["id"])
+    try:
+        return dependency_order(deps)
+    except CycleError as exc:
+        raise GraphError(f"parity follow cycle: {' -> '.join(exc.args[1])}") from exc
 
 
 # ---------------------------------------------------------------- queries
@@ -273,10 +260,7 @@ def adopted_forms(g: Graph) -> dict[str, dict]:
 
 
 def status_summary(g: Graph) -> dict[str, Counter]:
-    per: dict[str, Counter] = defaultdict(Counter)
-    for f in adopted_forms(g).values():
-        per[f["lang"]][f["status"]] += 1
-    return dict(sorted(per.items()))
+    return aggregate(adopted_forms(g).values(), "lang", "status")
 
 
 def untested(g: Graph, lang: str | None = None) -> dict[str, list[str]]:
@@ -289,12 +273,13 @@ def untested(g: Graph, lang: str | None = None) -> dict[str, list[str]]:
 
 def by_source(g: Graph, src: str) -> list[dict]:
     eid = f"en:{norm_en(src)}"
+    by_src = g.reverse_index("forSource")
     rows = []
     for nid in g.inc(eid, "replaces"):
         a = g.nodes[nid]
         rows.append({"role": "adopted", "lang": a["lang"], "form": a["form"], "bank": a["bank"],
                      "status": g.nodes[form_id(a["lang"], a["form"])]["status"]})
-    for nid in g.inc(eid, "forSource"):
+    for nid in by_src.get(eid, []):
         c = g.nodes[nid]
         role = "reversed" if g.out(nid, "rejectedBy") else ("not_registered" if c.get("not_registered")
                                                              else "gated" if c.get("gated") else "candidate")
@@ -398,7 +383,7 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
     try:
         g = build()
-    except ValueError as exc:
+    except GraphError as exc:
         print(f"graph inconsistent: {exc}", file=sys.stderr)
         return 1
     if a.check:
@@ -418,8 +403,8 @@ def main(argv: list[str] | None = None) -> int:
         if a.node not in g.nodes:
             print(f"no node {a.node}", file=sys.stderr)
             return 1
-        res = {"node": g.nodes[a.node], "out": [(p, o) for s, p, o in g.edges if s == a.node],
-               "in": [(s, p) for s, p, o in g.edges if o == a.node]}
+        res = {"node": g.nodes[a.node], "out": g.out_edges(a.node),
+               "in": [(s, p) for p, s in g.in_edges(a.node)]}
     print(json.dumps(res, ensure_ascii=False, indent=None if a.json else 1))
     return 0
 
