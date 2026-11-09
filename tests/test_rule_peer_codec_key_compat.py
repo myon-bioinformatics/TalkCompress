@@ -1,8 +1,6 @@
 """Fixed RPC1 envelopes (regenerated from the pre-NFC vectors' keys, nonce and payload)."""
-import json
+import json, subprocess, sys
 from pathlib import Path
-import subprocess
-import sys
 
 import pytest
 from RulePeerCodec import rule_peer_codec as z

@@ -9,8 +9,7 @@ C ledger (conventions.json) の from→to。
 
 from __future__ import annotations
 
-import json
-import re
+import json, re
 
 import pytest
 

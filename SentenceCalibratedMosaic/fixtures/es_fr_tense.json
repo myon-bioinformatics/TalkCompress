@@ -739,13 +739,13 @@
         "I'll take"
       ],
       "to": "tomaré",
-      "lang": "el",
+      "lang": "es",
       "tense": "future",
       "metrics": {
         "token_before": 3,
-        "token_after": 1,
+        "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 8,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
@@ -756,13 +756,9 @@
         {
           "form": "tomarei",
           "lang": "pt"
-        },
-        {
-          "form": "πάρω",
-          "lang": "el"
         }
       ],
-      "note": "cheapest may prefer el πάρω (1 tok); classical Latin skipped"
+      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take."
     },
     {
       "id": "take-pres-1s",
@@ -805,13 +801,13 @@
         "I'm going to take"
       ],
       "to": "tomaré",
-      "lang": "el",
+      "lang": "es",
       "tense": "future",
       "metrics": {
-        "token_before": 6,
-        "token_after": 1,
+        "token_before": 5,
+        "token_after": 2,
         "utf8_before": 18,
-        "utf8_after": 8,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
@@ -822,13 +818,9 @@
         {
           "form": "tomarei",
           "lang": "pt"
-        },
-        {
-          "form": "πάρω",
-          "lang": "el"
         }
       ],
-      "note": "explicit going-to; not progressive voy"
+      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take."
     },
     {
       "id": "think-fut-1s",
@@ -966,61 +958,23 @@
       "from": [
         "I will find"
       ],
-      "to": "βρω",
-      "lang": "el",
+      "to": "acharei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 3,
-        "token_after": 1,
+        "token_after": 2,
         "utf8_before": 11,
-        "utf8_after": 6,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
         {
           "form": "acharei",
           "lang": "pt"
-        },
-        {
-          "form": "βρω",
-          "lang": "el"
         }
       ],
-      "note": "encontraré is 3 tok (= I will find); pt acharei / el βρω win"
-    },
-    {
-      "id": "find-past-1s",
-      "from": [
-        "I found"
-      ],
-      "to": "fand",
-      "lang": "de",
-      "tense": "past",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 7,
-        "utf8_after": 4,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "encontré",
-          "lang": "es"
-        },
-        {
-          "form": "achei",
-          "lang": "pt"
-        },
-        {
-          "form": "vond",
-          "lang": "nl"
-        },
-        {
-          "form": "fand",
-          "lang": "de"
-        }
-      ]
+      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained."
     },
     {
       "id": "find-fut-goingto-1s",
@@ -1028,27 +982,23 @@
         "I am going to find",
         "I'm going to find"
       ],
-      "to": "βρω",
-      "lang": "el",
+      "to": "acharei",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
-        "token_before": 6,
-        "token_after": 1,
+        "token_before": 5,
+        "token_after": 2,
         "utf8_before": 18,
-        "utf8_after": 6,
+        "utf8_after": 7,
         "both_shrink": true
       },
       "candidates": [
         {
           "form": "acharei",
           "lang": "pt"
-        },
-        {
-          "form": "βρω",
-          "lang": "el"
         }
       ],
-      "note": "explicit going-to"
+      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained."
     },
     {
       "id": "call-fut-1s",
@@ -2051,6 +2001,80 @@
       "to": "arrivé",
       "lang": "fr",
       "why_dropped": "independent blind AI round-trip 0/9 (fr:arrivé never; judge restored 'He arrived'); docs/fr_roundtrip_20261109.md — EN kept, es/pt/nl/el candidates not promoted"
+    },
+    {
+      "id": "take-fut-1s-el",
+      "from": [
+        "I will take",
+        "I'll take"
+      ],
+      "to": "πάρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+    },
+    {
+      "id": "take-fut-goingto-1s-el",
+      "from": [
+        "I am going to take",
+        "I'm going to take"
+      ],
+      "to": "πάρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+    },
+    {
+      "id": "find-fut-1s-el",
+      "from": [
+        "I will find"
+      ],
+      "to": "βρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
+    },
+    {
+      "id": "find-fut-goingto-1s-el",
+      "from": [
+        "I am going to find",
+        "I'm going to find"
+      ],
+      "to": "βρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
+    },
+    {
+      "id": "find-past-1s",
+      "from": [
+        "I found"
+      ],
+      "to": "fand",
+      "lang": "de",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 7,
+        "utf8_after": 4,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "encontré",
+          "lang": "es"
+        },
+        {
+          "form": "achei",
+          "lang": "pt"
+        },
+        {
+          "form": "vond",
+          "lang": "nl"
+        },
+        {
+          "form": "fand",
+          "lang": "de"
+        }
+      ],
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as I found; scored on tense_matrix-first form 'fand' / from[0] 'I have found' for the shared surface, and this es_fr entry from[0] 'I found' shares the surface); ge100m threshold 0.6 not met. Other candidates not promoted; EN stays."
     }
   ]
 }

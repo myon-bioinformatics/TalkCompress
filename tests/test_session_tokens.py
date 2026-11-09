@@ -1,9 +1,6 @@
 """Mocked protocol tests, not measured model evidence."""
-import json
-from pathlib import Path
-import tempfile
-import unittest
-from unittest.mock import patch, MagicMock
+import json, tempfile, unittest
+from pathlib import Path; from unittest.mock import MagicMock, patch
 
 from RulePeerCodec.rulebook import RuleBook
 from RulePeerCodec.session_tokens import LlamaTokenizer, comparison, main

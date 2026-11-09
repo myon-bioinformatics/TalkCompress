@@ -1,0 +1,359 @@
+[
+  {
+    "name": "kaomoji-collection.json",
+    "url": "https://raw.githubusercontent.com/kaomojiya-collection/kaomoji-collection/main/kaomoji.json",
+    "bytes": 1378383,
+    "sha256": "7373e5dabd04fdc91cfb452af6f65950fa6953a613c804cbcd790d3ed4ef738d",
+    "status": "ok"
+  },
+  {
+    "name": "kaomoji-collection-LICENSE",
+    "url": "https://raw.githubusercontent.com/kaomojiya-collection/kaomoji-collection/main/LICENSE",
+    "bytes": 1094,
+    "sha256": "6caa0b409bc5bbbd06875c3b98ce4224da875e5d85409de2a3d3f12b25ecaae2",
+    "status": "ok"
+  },
+  {
+    "name": "kaomoji-data.json",
+    "url": "https://raw.githubusercontent.com/kaomojikan/kaomoji-data/main/kaomoji.json",
+    "bytes": 439007,
+    "sha256": "22721e1b31d60fee5a9bd9f26c8639ab4efee2e6c01cec3f674f0e0d1d3aea2b",
+    "status": "ok"
+  },
+  {
+    "name": "kaomoji-data-LICENSE",
+    "url": "https://raw.githubusercontent.com/kaomojikan/kaomoji-data/main/LICENSE",
+    "bytes": 1067,
+    "sha256": "08cb2c981c94a80ef0b80be68cdec72e54faa8d81c96e3476a23955eb9ba8a3b",
+    "status": "ok"
+  },
+  {
+    "name": "gemoji.json",
+    "url": "https://raw.githubusercontent.com/github/gemoji/master/db/emoji.json",
+    "bytes": 413367,
+    "sha256": "b174ae2aeb321b52f64adb9ff412f966a7f338839d780784dd15dcad702c2dd6",
+    "status": "ok"
+  },
+  {
+    "name": "gemoji-LICENSE",
+    "url": "https://raw.githubusercontent.com/github/gemoji/master/LICENSE",
+    "bytes": 1056,
+    "sha256": "7ea1d1fd0602e6623b9a65e791499a0ea5a2f5f60f91bfad78cbaeee19da26e6",
+    "status": "ok"
+  },
+  {
+    "name": "emot.py",
+    "url": "https://raw.githubusercontent.com/NeelShah18/emot/master/emot/emo_unicode.py",
+    "bytes": 303708,
+    "sha256": "05126202199c3a9d1ce98b50f9a95be8a16af9700d6732be2d66207f7c0af822",
+    "status": "ok"
+  },
+  {
+    "name": "emot-LICENSE",
+    "url": "https://raw.githubusercontent.com/NeelShah18/emot/master/LICENSE",
+    "bytes": 1094,
+    "sha256": "29254305a9690f128df0109b9eb4743bc15d49a5caec96421c9cd544892eccdf",
+    "status": "ok"
+  },
+  {
+    "name": "EmojiSources.txt",
+    "url": "https://www.unicode.org/Public/17.0.0/ucd/EmojiSources.txt",
+    "bytes": 13643,
+    "sha256": "db1b517734304781702789d586801275e82bd91ff45be7d34e2dc250cc10e34d",
+    "status": "ok"
+  },
+  {
+    "name": "unicode-LICENSE",
+    "url": "https://www.unicode.org/license.txt",
+    "bytes": 1995,
+    "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+    "status": "ok"
+  },
+  {
+    "name": "dingbats.json",
+    "url": "https://raw.githubusercontent.com/mwilliamson/dingbat-to-unicode/main/data.json",
+    "status": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "dingbats-README",
+    "url": "https://raw.githubusercontent.com/mwilliamson/dingbat-to-unicode/main/README.md",
+    "status": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "dingbats-LICENSE",
+    "url": "https://raw.githubusercontent.com/mwilliamson/dingbat-to-unicode/main/LICENSE",
+    "status": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "cldr-en.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/en.xml",
+    "bytes": 294945,
+    "sha256": "8511aadd046fdba2f0ffe590266ced8bbf48175ad139b2675d85d7141057b235",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-en.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/en.xml",
+    "bytes": 548066,
+    "sha256": "d76bd041c8c9e7b00b716aff8b7d9dbf509877010e191d5efd068be2553e066e",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-ja.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/ja.xml",
+    "bytes": 315416,
+    "sha256": "27b1009d4ca4cb61b68a9e8c52f974629d76d00b95711bd984783bc0f58d3da4",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-ja.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/ja.xml",
+    "bytes": 557581,
+    "sha256": "4f2e1b1e64594cabbe12c6f60cee497863923f49833e1631942f16d015838e67",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-ko.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/ko.xml",
+    "bytes": 355784,
+    "sha256": "1d7007de84c0431f892b3f8c87b24835c8f8474a1711a2406592aaf24f5db72d",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-ko.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/ko.xml",
+    "bytes": 612716,
+    "sha256": "c624e7369d0b283c9f7085360157b7f5f701260b36e4e5ff3f9552ce196dbbb8",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-zh.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/zh.xml",
+    "bytes": 291028,
+    "sha256": "92389f71659998736530c72d4dcc86e453fe0be170cde5c5ad27094cab2a2de8",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-zh.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/zh.xml",
+    "bytes": 502514,
+    "sha256": "777acebb7c4ed103c34f5605881a2537656e0a17d9d1127518da7cd54f612bcc",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-ru.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/ru.xml",
+    "bytes": 426395,
+    "sha256": "325bc6bb96aff4a5a9124a9087313669b0e88da920b84e261d61a402ea9405a8",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-ru.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/ru.xml",
+    "bytes": 753237,
+    "sha256": "cd3aa5d40a42d473c7796584d560cac9b35f223561dd3e0e57594fec5003c010",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-ar.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/ar.xml",
+    "bytes": 407870,
+    "sha256": "64e2f9817583f3e5378647bc2b6e82a7d6896f4a084072e1520500ef1afe3887",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-ar.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/ar.xml",
+    "bytes": 736719,
+    "sha256": "beac3c6bc02012d9b87eef8ae3e152630c7a8cd8f015ff5f28193bcc34541b6b",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-de.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/de.xml",
+    "bytes": 334981,
+    "sha256": "12eb92612539223d4dcfaec3c45437a31a82022b1c59160873fa4d4439dd7d07",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-de.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/de.xml",
+    "bytes": 560052,
+    "sha256": "c7511229fdfa1471cecba195ff4a094d70507a320e5364e0edc8ca5c72eeae09",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-fr.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/fr.xml",
+    "bytes": 332160,
+    "sha256": "d832108eabaad757700107dab95b3d9b0a198e46c34db3f255f80fe399cfbe94",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-fr.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/fr.xml",
+    "bytes": 584524,
+    "sha256": "f76bab496c0e1a9ae8fc309a6a01a313089ec167289db59c308a33cfd225f78b",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-es.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/es.xml",
+    "bytes": 296589,
+    "sha256": "fe8384e9cd2ee0998eb00ddf5549272eb5b56739e539ef33fedcd727fce5026a",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-es.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/es.xml",
+    "bytes": 540254,
+    "sha256": "ea9b3abc0a2c73a815faec1034764b6a503d14638ad4fb9556d8a7341838672c",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-pt.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/pt.xml",
+    "bytes": 317054,
+    "sha256": "784be701f969963dc1d8240cd8ae02eb5bad28153bc9d0613e5c5777537e5398",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-pt.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/pt.xml",
+    "bytes": 532058,
+    "sha256": "8810bb38da561be161413f6292a6ce4a81d815ae9b6906a16a5b38d89f398496",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-th.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/th.xml",
+    "bytes": 430511,
+    "sha256": "9d4fa1d15ad86074862c886ff59f2153feb2097762aed6802334e91024d488fe",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-th.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/th.xml",
+    "bytes": 813840,
+    "sha256": "28378f0aea0872c920af6398a9cde2fe032e29e3fc03341c9dbee4ac7c1190f5",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-hi.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotations/hi.xml",
+    "bytes": 490936,
+    "sha256": "a6b256ab43b7fa894564ac35b49cfa50f42778987f3e4ab4986477dbde1e2597",
+    "status": "ok"
+  },
+  {
+    "name": "cldr-derived-hi.xml",
+    "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-48/common/annotationsDerived/hi.xml",
+    "bytes": 924521,
+    "sha256": "56156ab368112abf93f200937e4ee2d86601a37142167091f14737c831357db8",
+    "status": "ok"
+  },
+  {
+    "name": "dingbats.csv",
+    "url": "https://raw.githubusercontent.com/mwilliamson/dingbat-to-unicode/main/dingbats.csv",
+    "bytes": 30041,
+    "sha256": "88244b93435fe6f9aa3faa791e24ab0168deaff54021532e1c3071c8161676eb",
+    "status": "ok"
+  },
+  {
+    "name": "dingbats-LICENSE",
+    "url": "https://raw.githubusercontent.com/mwilliamson/dingbat-to-unicode/main/js/LICENSE",
+    "bytes": 1304,
+    "sha256": "1013cef4b629a3c7eaf737c110fb5bebbf3abbc16e154d769468d71c3653fa37",
+    "status": "ok"
+  },
+  {
+    "name": "dingbats-README",
+    "url": "https://raw.githubusercontent.com/mwilliamson/dingbat-to-unicode/main/js/README.md",
+    "bytes": 2142,
+    "sha256": "4ba2166aef14edeb205e1dfd5202eb39513c309780077a9562c2cac5cd188d13",
+    "status": "ok"
+  },
+  {
+    "name": "emoji4unicode.xml",
+    "url": "https://raw.githubusercontent.com/google/emoji4unicode/master/data/emoji4unicode.xml",
+    "bytes": 162744,
+    "sha256": "221369d8cabd3f6f217ba82cf25d41c0f97d283cefa6a9a66de1af69121418d3",
+    "status": "ok"
+  },
+  {
+    "name": "emoji4unicode-LICENSE",
+    "url": "https://raw.githubusercontent.com/google/emoji4unicode/master/LICENSE",
+    "status": "HTTP Error 404: Not Found"
+  },
+  {
+    "name": "emoji4unicode-COPYING",
+    "url": "https://raw.githubusercontent.com/google/emoji4unicode/master/COPYING",
+    "bytes": 11357,
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "status": "ok"
+  },
+  {
+    "name": "emoji4unicode-COPYING_ICU",
+    "url": "https://raw.githubusercontent.com/google/emoji4unicode/master/COPYING_ICU",
+    "bytes": 1702,
+    "sha256": "c499e08cb0a5c2003e7918142883fec79f8d25f3745c7898753d7e3c26ffb1ef",
+    "status": "ok"
+  },
+  {
+    "name": "emoji4unicode-COPYING_UNICODE",
+    "url": "https://raw.githubusercontent.com/google/emoji4unicode/master/COPYING_UNICODE",
+    "bytes": 1976,
+    "sha256": "81f53932c448e72b3b1b458bd58d202e3b027b7dc5b4c6cb303af4a5f4a862de",
+    "status": "ok"
+  },
+  {
+    "name": "emoji4unicode-NOTICE",
+    "url": "https://raw.githubusercontent.com/google/emoji4unicode/master/NOTICE",
+    "bytes": 183,
+    "sha256": "2631d5e25bec8b41c915b7a9ca3bf8ca5383762e1b0b4a5587c82bf7623f6c9a",
+    "status": "ok"
+  },
+  {
+    "name": "python-LICENSE",
+    "url": "https://raw.githubusercontent.com/python/cpython/v3.14.0/LICENSE",
+    "bytes": 13804,
+    "sha256": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231",
+    "status": "ok"
+  },
+  {
+    "name": "python-stdlib-html.entities",
+    "url": "https://docs.python.org/3/library/html.entities.html",
+    "sha256": "d7ed3f33f59f35a1c60aeb3b11e3c95dc136b24e0705f762a9c3831c2f51c3ca",
+    "bytes": 40916,
+    "status": "ok",
+    "note": "Exact Python stdlib table snapshot; data source is installed Python table"
+  },
+  {
+    "name": "ipa-xsampa.csv",
+    "url": "https://raw.githubusercontent.com/dmort27/epitran/master/epitran/data/ipa-xsampa.csv",
+    "bytes": 4351,
+    "sha256": "4e3f3d9eb3245f4eb95ba47225b625e632b35f218ab6c7868d66b9363dcef9a6",
+    "status": "ok"
+  },
+  {
+    "name": "signmaker-README.md",
+    "url": "https://raw.githubusercontent.com/sutton-signwriting/signmaker/main/README.md",
+    "bytes": 5806,
+    "sha256": "3d801ed2a26fbcde343807deeefe41f833ce30459a27f73e3095adc79b8a7582",
+    "status": "ok"
+  },
+  {
+    "name": "signmaker-LICENSE",
+    "url": "https://raw.githubusercontent.com/sutton-signwriting/signmaker/main/LICENSE",
+    "bytes": 1129,
+    "sha256": "1d1ab20d29a97ba0c8259eb85a888ee524d3de75d6f9052e7109edbe70fdc3ef",
+    "status": "ok"
+  },
+  {
+    "name": "epitran-LICENSE",
+    "url": "https://raw.githubusercontent.com/dmort27/epitran/master/LICENSE.txt",
+    "bytes": 1082,
+    "sha256": "bd46b34e5bc6a0b5042a7fb115058213b7ffa112a864124b0a67ecb92cf040d5",
+    "status": "ok"
+  }
+]

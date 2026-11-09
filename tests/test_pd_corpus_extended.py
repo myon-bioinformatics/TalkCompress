@@ -5,9 +5,7 @@ C→E runs over every line of every file; C→E→B-final runs on a seeded quart
 
 from __future__ import annotations
 
-import hashlib
-import json
-import random
+import hashlib, json, random
 from pathlib import Path
 
 import pytest

@@ -26,16 +26,8 @@ Key resolution: ``--key`` / ``--key-file`` only (no environment-variable fallbac
 
 from __future__ import annotations
 
-import argparse
-import base64
-import hashlib
-import unicodedata
-import hmac
-import secrets
-import struct
-import sys
-from pathlib import Path
-from typing import Final
+import argparse, base64, hashlib, hmac, secrets, struct, sys, unicodedata
+from pathlib import Path; from typing import Final
 
 MAGIC: Final[bytes] = b"RPC1"
 VERSION: Final[int] = 1

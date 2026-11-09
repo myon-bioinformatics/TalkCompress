@@ -134,8 +134,9 @@ def test_runtime_pairs_after_gate():
 
 
 def test_non_zh_entries_unchanged():
-    """de / en / nl entries (incl. those carrying losing zh candidates) are byte-identical to main 84e5dca."""
+    """de / en / nl entries (incl. those carrying losing zh candidates) are byte-identical to main 84e5dca,
+    minus the three de entries reversed by the de round-trip (#174: Tankstelle, Parkplatz, wenn)."""
     n = [e for e in fixture("zh_de_phrases.json")["entries"] if e["lang"] != "zh"]
-    assert len(n) == 25
+    assert len(n) == 22
     blob = json.dumps(n, ensure_ascii=False, sort_keys=True).encode()
-    assert hashlib.sha256(blob).hexdigest() == "4df75e7831d00b42392412cae90f0ebea04cb4346bb31b06fccf378c5b414881"
+    assert hashlib.sha256(blob).hexdigest() == "8b00a966355899c7633af1af5fe4f91be11d5e86a2cb72a7d5acc2ff78b9def9"

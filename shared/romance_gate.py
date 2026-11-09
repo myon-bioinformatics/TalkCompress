@@ -12,8 +12,7 @@ misreading Romance as English changes meaning.
 """
 from __future__ import annotations
 
-import re
-import unicodedata
+import re, unicodedata
 from collections.abc import Callable
 
 # Heuristic function-word cues, not a complete language detector. Highly

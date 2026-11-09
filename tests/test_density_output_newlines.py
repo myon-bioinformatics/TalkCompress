@@ -1,8 +1,7 @@
 """Density's stdout and --out agree after Shorthand preserves line endings."""
 from __future__ import annotations
 
-import json
-import os
+import json, os
 import pytest
 
 from DensityFacadeRoute import density_facade_route as dz

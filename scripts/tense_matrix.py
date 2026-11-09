@@ -49,12 +49,8 @@ Romance imperfect is also habitual).
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
-import sys
-from collections import Counter, defaultdict
-from pathlib import Path
+import argparse, json, re, sys
+from collections import Counter, defaultdict; from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -747,6 +743,56 @@ ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
 # Not language-wide enforcement. A reversed cell stays English: do not promote
 # its next-language candidate (including English-homograph alternatives).
 ROUNDTRIP_REVERSED = frozenset({
+    ('de', 'dachte'),
+    ('de', 'fand'),
+    ('de', 'kamst'),
+    ('de', 'nahm'),
+    ('de', 'nahmst'),
+    ('de', 'que dachte'),
+    ('de', 'que dachten'),
+    ('de', 'que denkt'),
+    ('de', 'que fand'),
+    ('de', 'que fanden'),
+    ('de', 'que kam'),
+    ('de', 'que kamen'),
+    ('de', 'que nahm'),
+    ('de', 'que nahmen'),
+    ('de', 'que sah'),
+    ('de', 'que sahen'),
+    ('de', 'taten'),
+    ('de', 'tatest'),
+    ('de', 'these dachten'),
+    ('de', 'these fanden'),
+    ('de', 'these kamen'),
+    ('de', 'these nahmen'),
+    ('de', 'these sahen'),
+    ('de', 'this dachte'),
+    ('de', 'this fand'),
+    ('de', 'this kam'),
+    ('de', 'this nahm'),
+    ('de', 'this sah'),
+    ('de', 'those dachten'),
+    ('de', 'those fanden'),
+    ('de', 'those kamen'),
+    ('de', 'those nahmen'),
+    ('de', 'those sahen'),
+    ('de', 'which dachte'),
+    ('de', 'which dachten'),
+    ('de', 'which fand'),
+    ('de', 'which fanden'),
+    ('de', 'which kam'),
+    ('de', 'which kamen'),
+    ('de', 'which nahm'),
+    ('de', 'which nahmen'),
+    ('de', 'which sah'),
+    ('de', 'which sahen'),
+    ('de', 'who dachte'),
+    ('de', 'who fand'),
+    ('de', 'who fanden'),
+    ('de', 'who kam'),
+    ('de', 'who kamen'),
+    ('de', 'who nahm'),
+    ('de', 'who sah'),
     ('es', 'dijiste'),
     ('es', 'dijo'),
     ('es', 'hizo'),
@@ -879,6 +925,10 @@ ROUNDTRIP_REVERSED_SOURCES = frozenset({
     'you have said',
     'you have seen',
 })
+# Languages reversed at ranking time (#174 de): after the nl / homograph gates, a
+# reversed prefer_on_tie winner that beats EN empties the cell (no promotion);
+# otherwise only the reversed candidates are dropped so other-language winners stay.
+ROUNDTRIP_REVERSED_TIE_WINNER_LANGS = frozenset({"de"})
 _RT_DATA: dict = {}
 
 
@@ -1014,6 +1064,30 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous", "2-neutral")]
                 if nl_hold:
                     cands = restore_nl(cell, cands, nl_hold, st, tok)
+                # Individually reversed de winners (#174): after nl/homograph gates, if the
+                # prefer_on_tie winner is reversed, clear the cell (EN stays, no promotion).
+                # Losing reversed candidates are dropped alone so other languages keep their
+                # origin/main winners.
+                rev_de = [c for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED
+                          and c["lang"] in ROUNDTRIP_REVERSED_TIE_WINNER_LANGS]
+                if rev_de:
+                    cell["roundtrip_reversed"] = cell.get("roundtrip_reversed", []) + [c["form"] for c in rev_de]
+                    if cands:
+                        scored0 = sorted(
+                            cands,
+                            key=lambda c: (tok(c["form"]), u8(c["form"]), len(c["form"]), c["form"]),
+                        )
+                        pick0 = t.prefer_on_tie(
+                            (scored0[0]["form"], scored0[0]["lang"]),
+                            [(c["form"], c["lang"]) for c in scored0],
+                            lambda f: (tok(f), u8(f)),
+                        )
+                        if pick0 in {(c["form"], c["lang"]) for c in rev_de} and (
+                            tok(pick0[0]), u8(pick0[0])
+                        ) < (st, su):
+                            cands = []
+                        else:
+                            cands = [c for c in cands if c not in rev_de]
                 if not cands:
                     cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
                     continue

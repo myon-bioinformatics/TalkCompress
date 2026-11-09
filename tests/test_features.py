@@ -412,12 +412,13 @@ def test_morpho_article_inventory():
 
 def test_morpho_conjunction_inventory():
     m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
-    assert m.CONJ_CANONICAL == ("&", "/", "bc", "therefore")  # ∴ token loser
+    assert m.CONJ_CANONICAL == ("&", "/", "cuz", "therefore")  # ∴ token loser
     out = m.compress("cats and dogs or birds because rain therefore fly", unique=False, etymon=False)
-    assert "&" in out and "/" in out and "bc" in out and "therefore" in out  # ∴ removed
+    assert "&" in out and "/" in out and "cuz" in out and "bc" not in out.split() and "therefore" in out  # ∴ removed
     assert m.canonicalize_closed("conjunction", "and") == "&"
-    assert m.canonicalize_closed("conjunction", "because") == "bc"
-    c = m.conjunction_bit_cost("a & b / c bc d therefore e")
+    assert m.canonicalize_closed("conjunction", "because") == "cuz"
+    assert m.canonicalize_closed("conjunction", "bc") == "cuz"  # legacy input
+    c = m.conjunction_bit_cost("a & b / c cuz d therefore e")
     assert c["bits_per"] == 2
     assert c["count"] >= 4
     assert c["total_bits"] == c["count"] * 2

@@ -1,8 +1,6 @@
 """MorphoGrammarMinimal の手書き re.I パターンは ASCII 字母を ı/İ/ſ/U+212A に畳み込まない。"""
 
-import ast
-import re
-import unicodedata
+import ast, re, unicodedata
 from pathlib import Path
 
 import pytest

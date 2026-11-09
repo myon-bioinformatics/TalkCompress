@@ -9,9 +9,7 @@ Seeded RNG (``--mid-seed`` / ``--mid-n``) keeps CI reproducible.
 
 from __future__ import annotations
 
-import json
-import random
-import re
+import json, random, re
 from pathlib import Path
 
 import pytest

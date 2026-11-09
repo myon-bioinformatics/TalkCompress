@@ -1,7 +1,5 @@
 """Offline transport-vs-quality regressions; never starts a model or network call."""
-import io
-import json
-import subprocess
+import io, json, subprocess
 from pathlib import Path
 
 import pytest

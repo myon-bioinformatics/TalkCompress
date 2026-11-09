@@ -17,6 +17,6 @@ def test_el_contribution_smoke():
     assert r["with_el"]["tokens"] <= r["src"]["tokens"]
     assert r["with_el"]["tokens"] <= r["no_el"]["tokens"]
     ids = {f["id"] for f in r["bank_flips"]}
-    # o200k: "I will take" -> tomaré (2 = 2 with πάρω, fewer bytes) so only find flips to el
-    assert "find-fut-1s" in ids
+    # Greek future candidates failed exact round-trip; these bank flips disappear.
+    assert ids == set()
     assert mod.measure() == r

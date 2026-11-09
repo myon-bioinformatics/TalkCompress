@@ -34,17 +34,8 @@ rewriting ``zh_de_phrases`` / ``es_fr_tense``. Surviving Latin-derived abbrevs
 
 from __future__ import annotations
 
-import argparse
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import functools
-import json
-import re
-import sys
-import unicodedata
-from collections import Counter
-from functools import lru_cache
-from pathlib import Path
-from typing import Any
+import argparse, functools, json, re, sys, unicodedata
+from collections import Counter; from concurrent.futures import as_completed, ThreadPoolExecutor; from functools import lru_cache; from pathlib import Path; from typing import Any
 
 # Token costs live in TokenCostHeuristic (shared estimator); re-exported for callers.
 _TCH_DIR = str(Path(__file__).resolve().parents[1] / "TokenCostHeuristic")

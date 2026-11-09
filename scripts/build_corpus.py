@@ -11,15 +11,7 @@
 """
 from __future__ import annotations
 
-import bz2
-import datetime as dt
-import hashlib
-import json
-import pathlib
-import random
-import re
-import sys
-import urllib.request
+import bz2, datetime as dt, hashlib, json, pathlib, random, re, sys, urllib.request
 
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent

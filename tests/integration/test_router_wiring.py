@@ -5,8 +5,7 @@ Router wiring only — not a D product-surface unit suite.
 
 from __future__ import annotations
 
-import json
-import sys
+import json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]

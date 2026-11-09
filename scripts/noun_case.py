@@ -22,15 +22,8 @@ Usage::
 
 from __future__ import annotations
 
-import argparse
-import importlib.util
-import json
-import re
-import sys
-import unicodedata
-from pathlib import Path
-from types import ModuleType
-from typing import Callable
+import argparse, importlib.util, json, re, sys, unicodedata
+from pathlib import Path; from types import ModuleType; from typing import Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 CORPUS = ROOT / "tests/fixtures/pd_corpus"

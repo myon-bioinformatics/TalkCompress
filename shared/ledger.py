@@ -45,11 +45,8 @@ Breakdown (``breakdown``, 内訳): one flat compact string on ``kind=lex`` — p
 
 from __future__ import annotations
 
-import json
-import re
-from functools import lru_cache
-from pathlib import Path
-from typing import Any
+import json, re
+from functools import lru_cache; from pathlib import Path; from typing import Any
 
 # Also support direct CLI execution with shared/ on sys.path.
 if __package__:
@@ -769,7 +766,7 @@ def sync_symbol_lex(
     symbol_note = (
         "family=symbol (C-only): open math/symbol shortenings not in E closed POS "
         "(≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear "
-        "(policy-short-form-priority). Skip E-owned ~/≒/= /≥/≤/∴/bc/∀. Dual "
+        "(policy-short-form-priority). Skip E-owned ~/≒/= /≥/≤/∴/cuz/∀. Dual "
         "metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form."
     )
     if isinstance(notes, list):

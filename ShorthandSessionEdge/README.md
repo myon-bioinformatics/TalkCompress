@@ -106,7 +106,7 @@ uv run python -m shared.ledger --sync-contractions
 
 **言語横断 cheapest（policy-cross-lang-cheapest）:** 意味が通る候補から TokenCostHeuristic `estimate_tokens` → E `utf8_bits` が最も楽な表層を選ぶ（`shared.ledger.select_cheapest_form`）。登録時 dual metrics；utf8 不変は落とす。
 
-**`family=symbol`:** E 閉じた品詞以外の開いた数学記号（≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷）。絵文字より記号が載るならこちら。E の ~/≒/= /≥/≤/∴/bc/∀ は増やさない。
+**`family=symbol`:** E 閉じた品詞以外の開いた数学記号（≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷）。絵文字より記号が載るならこちら。E の ~/≒/= /≥/≤/∴/cuz/∀ は増やさない。
 
 | 例 | pivot | 短形 | 備考 |
 | --- | --- | --- | --- |

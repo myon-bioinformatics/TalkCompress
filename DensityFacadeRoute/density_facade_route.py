@@ -25,12 +25,7 @@ Agreed human conventions (under/below→下, 凹凸, …) live under
 
 from __future__ import annotations
 
-import argparse
-import importlib.util
-import json
-import pathlib
-import re
-import sys
+import argparse, importlib.util, json, pathlib, re, sys
 from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]

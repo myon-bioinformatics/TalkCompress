@@ -8,9 +8,7 @@ Applies one textual mutant at a time to the real source and runs
 
 from __future__ import annotations
 
-import re
-import subprocess
-import sys
+import re, subprocess, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

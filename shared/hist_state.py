@@ -20,10 +20,7 @@ prints the report. Exit status is 0 when the check passes or is not requested.
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
-import sys
+import argparse, json, re, sys
 from pathlib import Path
 
 try:  # package import (pytest, DensityFacadeRoute)

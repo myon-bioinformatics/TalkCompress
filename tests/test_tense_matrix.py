@@ -2,14 +2,8 @@
 
 from __future__ import annotations
 
-import json
-import subprocess
-import sys
-from collections import Counter
-from pathlib import Path
-
-import sys
-from pathlib import Path
+import json, subprocess, sys
+from collections import Counter; from pathlib import Path
 
 import pytest
 
@@ -288,9 +282,9 @@ def test_that_stays_unconverted():
         ("people who are going", "people who are going"),
         ("the book which was read", "the book que was read"),  # which (2 tok) → que (1 tok)
         ("people who went", "people who went"),  # number-neutral verb stays EN
-        ("the man who has gone", "the man who has gone"),  # failed pt form removed
+        ("the man who has gone", "the man who has gone"),  # failed pt form (foi) removed (#171)
         ("the man who finds it", "the man who acha it"),  # passing singular form
-        ("the man that has seen it", "the man que sah it"),  # DET+NOUN+that → que, has → sg
+        ("the man that has seen it", "the man que has seen it"),  # que sah reversed (de round-trip 0/9); que still shortens that
         ("the fact that he left", "the fact that he left"),  # complementizer
         ("the proposition that all men are", "the proposition that all men are"),
         ("Who is going?", "Who is going?"),  # interrogative (no noun before) untouched

@@ -16,14 +16,8 @@ Usage::
 
 from __future__ import annotations
 
-import argparse
-import importlib.util
-import json
-import re
-import sys
-import unicodedata
-from pathlib import Path
-from typing import Callable
+import argparse, importlib.util, json, re, sys, unicodedata
+from pathlib import Path; from typing import Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 _spec = importlib.util.spec_from_file_location("bracket_chunk", ROOT / "scripts/bracket_chunk.py")

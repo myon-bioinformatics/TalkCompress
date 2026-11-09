@@ -5,9 +5,7 @@ Not DensityFacadeRoute unit tests — D is only the cross-layer router under tes
 
 from __future__ import annotations
 
-import io
-import json
-import sys
+import io, json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]

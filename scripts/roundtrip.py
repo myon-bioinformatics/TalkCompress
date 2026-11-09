@@ -36,19 +36,8 @@ committed bank is never gated by this script.
 
 from __future__ import annotations
 
-import argparse
-import copy
-import hashlib
-import uuid
-import json
-import math
-import os
-import re
-import subprocess
-import sys
-import unicodedata
-from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
+import argparse, copy, hashlib, json, math, os, re, subprocess, sys, unicodedata, uuid
+from concurrent.futures import ThreadPoolExecutor; from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -432,7 +421,7 @@ def impact_doc(data: dict) -> str:
     flip = {k: f"{old} -> {new}" for k, _s, old, new in rows}
     req = [e for e in bank["entries"] if (e["lang"], e["tense"]) in REQUIRED_RULES]
     out = [
-        "# 往復チェック強制時の影響（report-only、記録0件時点）", "",
+        "# 往復チェック強制時の影響（report-only）", "",
         "生成: `uv run python scripts/roundtrip.py --write-doc`（採点は o200k_base）。", "",
         "## 往復チェック必須の nl 過去形（現在完了セル）", "",
         f"nl（1億人未満）の現在完了セル採用 {len(req)} 件は `fixtures/roundtrip.json` の `required` に登録。強制は report-only。", "",

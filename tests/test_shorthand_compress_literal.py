@@ -1,8 +1,7 @@
 """ShorthandSessionEdge.compress: 短縮形はリテラル置換、改行は入力どおり保持する。"""
 from __future__ import annotations
 
-import subprocess
-import sys
+import subprocess, sys
 from pathlib import Path
 
 import pytest

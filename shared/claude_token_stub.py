@@ -22,12 +22,8 @@ Stdlib only. Nothing here calls the count_tokens endpoint or needs a key.
 
 from __future__ import annotations
 
-import hashlib
-import json
-import re
-import sys
-from dataclasses import dataclass
-from pathlib import Path
+import hashlib, json, re, sys
+from dataclasses import dataclass; from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 NEW_TOKENIZER_FACTOR = 1.3  # docs: "approximately 30 percent more" on 4.7+ and Mythos

@@ -2,8 +2,7 @@
 nl restore rule (a round-trip-gated nl form may come back only when dropping it
 costs >= 1 token, never for bytes, and never when its round-trip was measured
 as failing)."""
-import importlib.util
-import json
+import importlib.util, json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

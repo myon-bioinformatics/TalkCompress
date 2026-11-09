@@ -8,11 +8,8 @@ rule_peer_codec.encode/decode — RuleBook is the evolving content channel.
 
 from __future__ import annotations
 
-import json
-import re
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any
+import json, re
+from dataclasses import dataclass, field; from pathlib import Path; from typing import Any
 
 RULEBOOK_VERSION = 1
 DEFAULT_THRESHOLD = 3

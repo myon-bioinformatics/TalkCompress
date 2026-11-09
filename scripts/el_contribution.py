@@ -6,9 +6,7 @@ Excludes el by temporarily removing it from FINAL_*_LANGS (no code hook needed).
 
 from __future__ import annotations
 
-import json
-import re
-import sys
+import json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

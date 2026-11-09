@@ -1,7 +1,5 @@
-import os
-import importlib.util
+import importlib.util, os, types
 from pathlib import Path
-import types
 
 import pytest
 

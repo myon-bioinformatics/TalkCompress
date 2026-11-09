@@ -12,10 +12,8 @@ Layer ownership (TalkCompress):
 
 from __future__ import annotations
 
-import json
-import re
-from pathlib import Path
-from typing import Any
+import json, re
+from pathlib import Path; from typing import Any
 
 
 # Also support direct CLI execution with shared/ on sys.path.
@@ -789,7 +787,7 @@ def emoji_policy_rows() -> list[dict[str, Any]]:
 
 # --- C-owned open math/symbol (family=symbol); not E closed POS -------------
 # Prefer these over emoji when meaning is clear (policy-short-form-priority).
-# Skip forms already owned by E (~ / ≒ / = / ≥ / ≤ / ∴ / bc / ∀ …).
+# Skip forms already owned by E (~ / ≒ / = / ≥ / ≤ / ∴ / cuz / ∀ …).
 # Spec: (id_suffix, from-forms, glyph, rationale); forms[0] = metrics sample.
 SYMBOL_SPEC: tuple[tuple[str, tuple[str, ...], str, str], ...] = (
     ("neq", ('not equal', 'not equals'), "≠", "o200k 同数・utf8 減（tie+bytes 採用）"),

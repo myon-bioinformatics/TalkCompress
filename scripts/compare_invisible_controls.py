@@ -7,19 +7,8 @@ snapshot; current upstream exports may change. --expected checks input hashes.
 """
 from __future__ import annotations
 
-import argparse
-import bz2
-import hashlib
-import json
-import math
+import argparse, bz2, hashlib, json, math, random, re, subprocess, sys, types, unicodedata, urllib.request
 from pathlib import Path
-import random
-import re
-import subprocess
-import sys
-import types
-import unicodedata
-import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))

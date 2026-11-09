@@ -25,18 +25,8 @@ See docs/l3-run.md for the full procedure.
 
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
-import os
-import re
-import shlex
-import subprocess
-import sys
-import xml.etree.ElementTree as ET
-from dataclasses import dataclass
-from decimal import Decimal, DecimalException
-from pathlib import Path
+import argparse, hashlib, json, os, re, shlex, subprocess, sys, xml.etree.ElementTree as ET
+from dataclasses import dataclass; from decimal import Decimal, DecimalException; from pathlib import Path
 
 try:
     from shared.qa_fidelity import Probe, make_prompt

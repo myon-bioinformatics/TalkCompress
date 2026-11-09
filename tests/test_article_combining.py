@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-import importlib.util
-import inspect
-import sys
-import unicodedata
+import importlib.util, inspect, sys, unicodedata
 from pathlib import Path
 
 import pytest
