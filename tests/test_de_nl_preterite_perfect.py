@@ -29,7 +29,7 @@ def test_winner(eid, to, lang):
     assert (e["to"], e["lang"]) == (to, lang)
 
 
-@pytest.mark.parametrize("eid", ["mx-see-perf-1p", "mx-take-perf-1s", "mx-say-perf-3s-she"])
+@pytest.mark.parametrize("eid", ["mx-see-perf-1p", "mx-take-perf-1s", "mx-give-perf-3s-she"])
 def test_nl_preterite_gated_for_perfect(eid):
     # #29: nl preterite for EN perfect restores as simple past (0/9 etc.) -> gated
     assert BY_ID[eid]["lang"] != "nl"
