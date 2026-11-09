@@ -17,11 +17,7 @@ o200k_base でエンコードしたトークン数の合計、sha256 はファ�
 """
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
-import re
-import sys
+import argparse, hashlib, json, re, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent

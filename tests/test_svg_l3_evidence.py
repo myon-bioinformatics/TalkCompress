@@ -1,8 +1,6 @@
 """Offline evidence and source-control regressions; no model required."""
-import io
-import json
-from pathlib import Path
-from unittest.mock import patch
+import io, json
+from pathlib import Path; from unittest.mock import patch
 
 import pytest
 

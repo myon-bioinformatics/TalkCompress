@@ -20,14 +20,7 @@ Usage:
 """
 from __future__ import annotations
 
-import argparse
-import gzip
-import hashlib
-import io
-import json
-import sys
-import tarfile
-import urllib.request
+import argparse, gzip, hashlib, io, json, sys, tarfile, urllib.request
 from pathlib import Path
 
 LANGS = ("ko", "vi", "th", "id", "tr", "he", "fa", "sw", "bn", "ta")

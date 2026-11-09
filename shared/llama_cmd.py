@@ -21,14 +21,7 @@ shows up as finish_reason=length and is rejected, not scored.
 
 from __future__ import annotations
 
-import json
-import hashlib
-import time
-import traceback
-import os
-import sys
-import urllib.error
-import urllib.request
+import hashlib, json, os, sys, time, traceback, urllib.error, urllib.request
 
 try:
     from shared.qa_fidelity import final_answer

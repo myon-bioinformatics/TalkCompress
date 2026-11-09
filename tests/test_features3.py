@@ -5,10 +5,7 @@ Window/profile/quality via DensityZip → tests/integration/.
 
 from __future__ import annotations
 
-import importlib
-import json
-import os
-import sys
+import importlib, json, os, sys
 from pathlib import Path
 
 from tests._helpers import load as _load

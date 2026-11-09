@@ -1,8 +1,6 @@
 """The committed o200k calibration table is reproducible and generalises."""
 
-import hashlib
-import importlib.util
-import json
+import hashlib, importlib.util, json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

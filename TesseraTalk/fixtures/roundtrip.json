@@ -140015,6 +140015,1876 @@
       "execution_errors": 0,
       "attempted": 9
     },
+    "cs:vezmete": {
+      "lang": "cs",
+      "form": "vezmete",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "vezmete",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "ac13ccb95ae3b803e68cdb4caec556144f4f86ac4ce56d505309813b2f41e42f",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "You will take.",
+              "converted": "Vezmete.",
+              "seed": "1",
+              "prompt_sha256": "2473b8810578575e3b9b7cf6c434bd6f99e6f2462dab3ea2130e48b44ad9633a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "fb5574525071c07e4195ec610bcaa7d58e7f3d9ab8d37e77fa34cf2ba8a7c1ae",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "You will take.",
+              "converted": "Vezmete.",
+              "seed": "2",
+              "prompt_sha256": "2473b8810578575e3b9b7cf6c434bd6f99e6f2462dab3ea2130e48b44ad9633a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "fbb19687cd6f086216ebaf0c84274b6c259fd56aa95908f241a352b22bc7590c",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "You will take.",
+              "converted": "Vezmete.",
+              "seed": "3",
+              "prompt_sha256": "2473b8810578575e3b9b7cf6c434bd6f99e6f2462dab3ea2130e48b44ad9633a",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2e5e770d1702839e1171ee71c9985c3835fcd9df353c4f665962852e90e21950",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "Maybe you will take today.",
+              "converted": "Maybe vezmete today.",
+              "seed": "1",
+              "prompt_sha256": "22af84203279fbf917766c07e811330704cd38732f8fb64b7e5dbe339084d055",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "9c0964e3fab15b2d2dbe5d2f01aa720a093eab2208a2793dbfd3a1ff2f3a0476",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "Maybe you will take today.",
+              "converted": "Maybe vezmete today.",
+              "seed": "2",
+              "prompt_sha256": "22af84203279fbf917766c07e811330704cd38732f8fb64b7e5dbe339084d055",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a3c178c25dfbf8d0577640f12b54a162280d54ec510efb37f56c9f19dce3bf85",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "Maybe you will take today.",
+              "converted": "Maybe vezmete today.",
+              "seed": "3",
+              "prompt_sha256": "22af84203279fbf917766c07e811330704cd38732f8fb64b7e5dbe339084d055",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "973fc4e84d9da9ea7ecf19c818fd6ef2e014054efdda0e49b985c688bd5da069",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "She told me that you will take.",
+              "converted": "She told me that vezmete.",
+              "seed": "1",
+              "prompt_sha256": "2dd75ea647e805809acd98f2fa808bff5e31dcb03c1e78020e3ef9bd7da63ca4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cd90861d770cd15bc487845c2e8735f80fa2d7e4df9b96d38b29b10dc9003fdb",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "She told me that you will take.",
+              "converted": "She told me that vezmete.",
+              "seed": "2",
+              "prompt_sha256": "2dd75ea647e805809acd98f2fa808bff5e31dcb03c1e78020e3ef9bd7da63ca4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "83e3ee5da77edd30a872b01243b319828a1f032e07d79cc892be9d30ccebb966",
+              "lang": "cs",
+              "form": "vezmete",
+              "source": "She told me that you will take.",
+              "converted": "She told me that vezmete.",
+              "seed": "3",
+              "prompt_sha256": "2dd75ea647e805809acd98f2fa808bff5e31dcb03c1e78020e3ef9bd7da63ca4",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "ac13ccb95ae3b803e68cdb4caec556144f4f86ac4ce56d505309813b2f41e42f",
+            "fb5574525071c07e4195ec610bcaa7d58e7f3d9ab8d37e77fa34cf2ba8a7c1ae",
+            "fbb19687cd6f086216ebaf0c84274b6c259fd56aa95908f241a352b22bc7590c",
+            "2e5e770d1702839e1171ee71c9985c3835fcd9df353c4f665962852e90e21950",
+            "9c0964e3fab15b2d2dbe5d2f01aa720a093eab2208a2793dbfd3a1ff2f3a0476",
+            "a3c178c25dfbf8d0577640f12b54a162280d54ec510efb37f56c9f19dce3bf85",
+            "973fc4e84d9da9ea7ecf19c818fd6ef2e014054efdda0e49b985c688bd5da069",
+            "cd90861d770cd15bc487845c2e8735f80fa2d7e4df9b96d38b29b10dc9003fdb",
+            "83e3ee5da77edd30a872b01243b319828a1f032e07d79cc892be9d30ccebb966"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "cs:najdeme": {
+      "lang": "cs",
+      "form": "najdeme",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "najdeme",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "878e09d59f61689576fb9802460f7ae76b3daa1db1d16e4a7fde37d672724e5c",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "We will find.",
+              "converted": "Najdeme.",
+              "seed": "1",
+              "prompt_sha256": "806367a4f2d0cf5955f4971ac789cb0a1b63030aa31097295b8859161183adb8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "26158614d13f98c79f2ad1a152a303fbc0588bd842cfa9afb76f5203c837bc07",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "We will find.",
+              "converted": "Najdeme.",
+              "seed": "2",
+              "prompt_sha256": "806367a4f2d0cf5955f4971ac789cb0a1b63030aa31097295b8859161183adb8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "24e25ac0c2d414ee8a1dd5d0e4cd4174537f0ad228f75bc6fd55dafeb4b7e9ae",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "We will find.",
+              "converted": "Najdeme.",
+              "seed": "3",
+              "prompt_sha256": "806367a4f2d0cf5955f4971ac789cb0a1b63030aa31097295b8859161183adb8",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "33093460f3c4263bb3e99b198703ca0ef77bd1e9b1527515472a7c46771cdf3d",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "Maybe we will find today.",
+              "converted": "Maybe najdeme today.",
+              "seed": "1",
+              "prompt_sha256": "f05ff9ebe1c3c8320c084a08c700c024e2162e5264dba875913fe7d23d86eb7d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "648b2a8f7fd41c774caa477c08f202ae922115629a375e1a317c0b9d4385747f",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "Maybe we will find today.",
+              "converted": "Maybe najdeme today.",
+              "seed": "2",
+              "prompt_sha256": "f05ff9ebe1c3c8320c084a08c700c024e2162e5264dba875913fe7d23d86eb7d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b021e235cf0146b85fa48fd936593d9a5498c40daa315ce74c0c3b830b4d6301",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "Maybe we will find today.",
+              "converted": "Maybe najdeme today.",
+              "seed": "3",
+              "prompt_sha256": "f05ff9ebe1c3c8320c084a08c700c024e2162e5264dba875913fe7d23d86eb7d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "eee20383bb8016f1999318176e25096c9dd73a0f1dc82c4682a0b1644e4871e8",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "She told me that we will find.",
+              "converted": "She told me that najdeme.",
+              "seed": "1",
+              "prompt_sha256": "25ee3072fd972018a36798fdddce80d783c2f5817c1c01b7c77e7db39cfc5532",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "67dd5382c683898e1feb2d9c4e9c4970daec3dc112622a3cb78b0325c0b07216",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "She told me that we will find.",
+              "converted": "She told me that najdeme.",
+              "seed": "2",
+              "prompt_sha256": "25ee3072fd972018a36798fdddce80d783c2f5817c1c01b7c77e7db39cfc5532",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "db7db155e93a147b72ac05ad3214b822024cce391eee6b3fe0e1b7a65fac0719",
+              "lang": "cs",
+              "form": "najdeme",
+              "source": "She told me that we will find.",
+              "converted": "She told me that najdeme.",
+              "seed": "3",
+              "prompt_sha256": "25ee3072fd972018a36798fdddce80d783c2f5817c1c01b7c77e7db39cfc5532",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "878e09d59f61689576fb9802460f7ae76b3daa1db1d16e4a7fde37d672724e5c",
+            "26158614d13f98c79f2ad1a152a303fbc0588bd842cfa9afb76f5203c837bc07",
+            "24e25ac0c2d414ee8a1dd5d0e4cd4174537f0ad228f75bc6fd55dafeb4b7e9ae",
+            "33093460f3c4263bb3e99b198703ca0ef77bd1e9b1527515472a7c46771cdf3d",
+            "648b2a8f7fd41c774caa477c08f202ae922115629a375e1a317c0b9d4385747f",
+            "b021e235cf0146b85fa48fd936593d9a5498c40daa315ce74c0c3b830b4d6301",
+            "eee20383bb8016f1999318176e25096c9dd73a0f1dc82c4682a0b1644e4871e8",
+            "67dd5382c683898e1feb2d9c4e9c4970daec3dc112622a3cb78b0325c0b07216",
+            "db7db155e93a147b72ac05ad3214b822024cce391eee6b3fe0e1b7a65fac0719"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "cs:najdou": {
+      "lang": "cs",
+      "form": "najdou",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "najdou",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "45fe68ede9f2d680039fb0b1c49f2e7cabfbbf841b6016c9d6ffe4ab0b482526",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "They will find.",
+              "converted": "Najdou.",
+              "seed": "1",
+              "prompt_sha256": "da316c09f07dadecd7d577df145a52846b6ebe3cd21d4e50b7579543a62d29a9",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "7a2f7d7b8e967bbbc7d15e1e23d5cc9f7449792e38d8360fb54fa1699d44d788",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "They will find.",
+              "converted": "Najdou.",
+              "seed": "2",
+              "prompt_sha256": "da316c09f07dadecd7d577df145a52846b6ebe3cd21d4e50b7579543a62d29a9",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "51efd6d0c093d17038f272f1c385ba934d3a8d8a117329dc0f298ba43a0a2dda",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "They will find.",
+              "converted": "Najdou.",
+              "seed": "3",
+              "prompt_sha256": "da316c09f07dadecd7d577df145a52846b6ebe3cd21d4e50b7579543a62d29a9",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "26fe99c29000aa81d712e0856e32f52ea881cffc648a0f459fd683271c624aad",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "Maybe they will find today.",
+              "converted": "Maybe najdou today.",
+              "seed": "1",
+              "prompt_sha256": "a2a3cf60d1d47828f99f09d42dbdb6947e7ba1d10317dd73b588605605715227",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5ea3333924f301d4a455bb069f2d013dae1ec0b4b9d14970cda1bed067921ed9",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "Maybe they will find today.",
+              "converted": "Maybe najdou today.",
+              "seed": "2",
+              "prompt_sha256": "a2a3cf60d1d47828f99f09d42dbdb6947e7ba1d10317dd73b588605605715227",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "3592a2538f72800539d2d01fba252337d537347bda95bf230efe791786963171",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "Maybe they will find today.",
+              "converted": "Maybe najdou today.",
+              "seed": "3",
+              "prompt_sha256": "a2a3cf60d1d47828f99f09d42dbdb6947e7ba1d10317dd73b588605605715227",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "17a4372e9beab5c47eb21ac588601bcf836d4fc09e79bc272a06d1dc4028bd74",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "She told me that they will find.",
+              "converted": "She told me that najdou.",
+              "seed": "1",
+              "prompt_sha256": "ef09c5d0552eb456d82182f114efc382f2b75f119c1f9bfac1a971e3140f395e",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "183b8e6fac3f701873c5011a9ca5c46d7d08828cedd6b5a688f20dc51c939fb9",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "She told me that they will find.",
+              "converted": "She told me that najdou.",
+              "seed": "2",
+              "prompt_sha256": "ef09c5d0552eb456d82182f114efc382f2b75f119c1f9bfac1a971e3140f395e",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "964eb2633a710806181a1ed2bedf47b1a0fe47a2c404e5de992e7b049b3bf0d1",
+              "lang": "cs",
+              "form": "najdou",
+              "source": "She told me that they will find.",
+              "converted": "She told me that najdou.",
+              "seed": "3",
+              "prompt_sha256": "ef09c5d0552eb456d82182f114efc382f2b75f119c1f9bfac1a971e3140f395e",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "45fe68ede9f2d680039fb0b1c49f2e7cabfbbf841b6016c9d6ffe4ab0b482526",
+            "7a2f7d7b8e967bbbc7d15e1e23d5cc9f7449792e38d8360fb54fa1699d44d788",
+            "51efd6d0c093d17038f272f1c385ba934d3a8d8a117329dc0f298ba43a0a2dda",
+            "26fe99c29000aa81d712e0856e32f52ea881cffc648a0f459fd683271c624aad",
+            "5ea3333924f301d4a455bb069f2d013dae1ec0b4b9d14970cda1bed067921ed9",
+            "3592a2538f72800539d2d01fba252337d537347bda95bf230efe791786963171",
+            "17a4372e9beab5c47eb21ac588601bcf836d4fc09e79bc272a06d1dc4028bd74",
+            "183b8e6fac3f701873c5011a9ca5c46d7d08828cedd6b5a688f20dc51c939fb9",
+            "964eb2633a710806181a1ed2bedf47b1a0fe47a2c404e5de992e7b049b3bf0d1"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "cs:dají": {
+      "lang": "cs",
+      "form": "dají",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "dají",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "56ca1ee74eb34415e1a5cc3829a6df47f6606b62d798ae615b2a78db34000c58",
+              "lang": "cs",
+              "form": "dají",
+              "source": "They will give.",
+              "converted": "Dají.",
+              "seed": "1",
+              "prompt_sha256": "7b8bb82181c0ed794e3348862cd9c6f0bce00ecd25fc1e76da4c934cac4d6804",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "167561669ef1cf9f79717811b36e49319ab71fd37cec48768d5f5fc645456a6e",
+              "lang": "cs",
+              "form": "dají",
+              "source": "They will give.",
+              "converted": "Dají.",
+              "seed": "2",
+              "prompt_sha256": "7b8bb82181c0ed794e3348862cd9c6f0bce00ecd25fc1e76da4c934cac4d6804",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "9caa4573fadec58f164d52d989d360b6554c905833e82f95261681da7f91d2d3",
+              "lang": "cs",
+              "form": "dají",
+              "source": "They will give.",
+              "converted": "Dají.",
+              "seed": "3",
+              "prompt_sha256": "7b8bb82181c0ed794e3348862cd9c6f0bce00ecd25fc1e76da4c934cac4d6804",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "9289dd575e8811791592e289b620fe73753b93bd71bf2c66a374516ac67231d9",
+              "lang": "cs",
+              "form": "dají",
+              "source": "Maybe they will give today.",
+              "converted": "Maybe dají today.",
+              "seed": "1",
+              "prompt_sha256": "e07a725a1d8fea1d640446df1ea874b284cfdd673a8f983f92724d8162ccc7b2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "946bc5a23485ff1eb11fc37c0eb2fc4276da5e96e077fc0d382030e5c346d0da",
+              "lang": "cs",
+              "form": "dají",
+              "source": "Maybe they will give today.",
+              "converted": "Maybe dají today.",
+              "seed": "2",
+              "prompt_sha256": "e07a725a1d8fea1d640446df1ea874b284cfdd673a8f983f92724d8162ccc7b2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "89d5602cd67a006949dd87c2cf2bc785214d03fb2d19b579c4c5a9dc8e2eb75b",
+              "lang": "cs",
+              "form": "dají",
+              "source": "Maybe they will give today.",
+              "converted": "Maybe dají today.",
+              "seed": "3",
+              "prompt_sha256": "e07a725a1d8fea1d640446df1ea874b284cfdd673a8f983f92724d8162ccc7b2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a914d1f0ef8745cdda9d1351d2a59e346744f9b76ba4cf1bedf1886c342a7392",
+              "lang": "cs",
+              "form": "dají",
+              "source": "She told me that they will give.",
+              "converted": "She told me that dají.",
+              "seed": "1",
+              "prompt_sha256": "8f0e2b144ce835c4c652ee3dc994790d184c13c334108c2c69c256b1e419acd0",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c49018b47441a4c96058e1e7350a7a407d7ece8d73952b001afd0ebbb5cb5925",
+              "lang": "cs",
+              "form": "dají",
+              "source": "She told me that they will give.",
+              "converted": "She told me that dají.",
+              "seed": "2",
+              "prompt_sha256": "8f0e2b144ce835c4c652ee3dc994790d184c13c334108c2c69c256b1e419acd0",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1ada9a1c4b4ddb8851f549d97b46ddbf640998c7d1176b95b9cdb504df63323d",
+              "lang": "cs",
+              "form": "dají",
+              "source": "She told me that they will give.",
+              "converted": "She told me that dají.",
+              "seed": "3",
+              "prompt_sha256": "8f0e2b144ce835c4c652ee3dc994790d184c13c334108c2c69c256b1e419acd0",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "56ca1ee74eb34415e1a5cc3829a6df47f6606b62d798ae615b2a78db34000c58",
+            "167561669ef1cf9f79717811b36e49319ab71fd37cec48768d5f5fc645456a6e",
+            "9caa4573fadec58f164d52d989d360b6554c905833e82f95261681da7f91d2d3",
+            "9289dd575e8811791592e289b620fe73753b93bd71bf2c66a374516ac67231d9",
+            "946bc5a23485ff1eb11fc37c0eb2fc4276da5e96e077fc0d382030e5c346d0da",
+            "89d5602cd67a006949dd87c2cf2bc785214d03fb2d19b579c4c5a9dc8e2eb75b",
+            "a914d1f0ef8745cdda9d1351d2a59e346744f9b76ba4cf1bedf1886c342a7392",
+            "c49018b47441a4c96058e1e7350a7a407d7ece8d73952b001afd0ebbb5cb5925",
+            "1ada9a1c4b4ddb8851f549d97b46ddbf640998c7d1176b95b9cdb504df63323d"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "cs:these najdou": {
+      "lang": "cs",
+      "form": "these najdou",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "these najdou",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "551afc2144b8242dae84d26b2f02208a31769355fdedc90459f803e96c33e3ea",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "These will find.",
+              "converted": "These najdou.",
+              "seed": "1",
+              "prompt_sha256": "da9956c87fbe8fb04d624cd47496e8bd27703c070ce2f1bce400cbc285360c67",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "87ecf83df673b7a83ec393c17c037c76bce30f47a070e209fad3a3c11b778b2a",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "These will find.",
+              "converted": "These najdou.",
+              "seed": "2",
+              "prompt_sha256": "da9956c87fbe8fb04d624cd47496e8bd27703c070ce2f1bce400cbc285360c67",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "ae53945667f03c4d3dee2ca685448126bd79a15a2833e202b197f0b1ac76f266",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "These will find.",
+              "converted": "These najdou.",
+              "seed": "3",
+              "prompt_sha256": "da9956c87fbe8fb04d624cd47496e8bd27703c070ce2f1bce400cbc285360c67",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "a51f6d6cda40c2df79d85e32591ad03a8fd2591f3f29943dab4f3e0734f9fbeb",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "Maybe these will find today.",
+              "converted": "Maybe these najdou today.",
+              "seed": "1",
+              "prompt_sha256": "75085f292979ed275c015678d86eb2c511b7cef0b35a8dd7e5158bb63b4b5e06",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "ff937fb3958820c35673d54e96a2f50a5f37b03618069f0e927ae97e0cebe37a",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "Maybe these will find today.",
+              "converted": "Maybe these najdou today.",
+              "seed": "2",
+              "prompt_sha256": "75085f292979ed275c015678d86eb2c511b7cef0b35a8dd7e5158bb63b4b5e06",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "274b9ccc0547ccff8ae64c3d66536bea77942220f15a0bb3f886a05fa31be46c",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "Maybe these will find today.",
+              "converted": "Maybe these najdou today.",
+              "seed": "3",
+              "prompt_sha256": "75085f292979ed275c015678d86eb2c511b7cef0b35a8dd7e5158bb63b4b5e06",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "7e49a2dffa0e644c58e6842f6f5764699b20d106ff79b31b4b9e169cfbd2685d",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "She told me that these will find.",
+              "converted": "She told me that these najdou.",
+              "seed": "1",
+              "prompt_sha256": "09dc0473da275714de7053a3248d9b369ab01ca531bc9d7ca12d09f73745f000",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "3b457f3bf36decf088e0567dc47086175e204a515099870f573538b1fab99a79",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "She told me that these will find.",
+              "converted": "She told me that these najdou.",
+              "seed": "2",
+              "prompt_sha256": "09dc0473da275714de7053a3248d9b369ab01ca531bc9d7ca12d09f73745f000",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c76ead72a54fffafe73d3b9463f9314d10ecf887183c42a3d896a287ca1e416a",
+              "lang": "cs",
+              "form": "these najdou",
+              "source": "She told me that these will find.",
+              "converted": "She told me that these najdou.",
+              "seed": "3",
+              "prompt_sha256": "09dc0473da275714de7053a3248d9b369ab01ca531bc9d7ca12d09f73745f000",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "551afc2144b8242dae84d26b2f02208a31769355fdedc90459f803e96c33e3ea",
+            "87ecf83df673b7a83ec393c17c037c76bce30f47a070e209fad3a3c11b778b2a",
+            "ae53945667f03c4d3dee2ca685448126bd79a15a2833e202b197f0b1ac76f266",
+            "a51f6d6cda40c2df79d85e32591ad03a8fd2591f3f29943dab4f3e0734f9fbeb",
+            "ff937fb3958820c35673d54e96a2f50a5f37b03618069f0e927ae97e0cebe37a",
+            "274b9ccc0547ccff8ae64c3d66536bea77942220f15a0bb3f886a05fa31be46c",
+            "7e49a2dffa0e644c58e6842f6f5764699b20d106ff79b31b4b9e169cfbd2685d",
+            "3b457f3bf36decf088e0567dc47086175e204a515099870f573538b1fab99a79",
+            "c76ead72a54fffafe73d3b9463f9314d10ecf887183c42a3d896a287ca1e416a"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "cs:these dají": {
+      "lang": "cs",
+      "form": "these dají",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "these dají",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "61f0ef3161f517f6c3746ed3248e3022f04705d44d8b1a4c44298a7636a46fe5",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "These will give.",
+              "converted": "These dají.",
+              "seed": "1",
+              "prompt_sha256": "03081a49b372cde00c6488d1a6112b0b4ae21ffeb1ba5cd164fe37e167c03db4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "79508a8d28857886cd39bcaabccf6296e7030071106df3fa8c7a07e766e9d95f",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "These will give.",
+              "converted": "These dají.",
+              "seed": "2",
+              "prompt_sha256": "03081a49b372cde00c6488d1a6112b0b4ae21ffeb1ba5cd164fe37e167c03db4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4b3fc38cb02163fcdb554b48f39444af7e37606941dc7b1a5961080c74daa64c",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "These will give.",
+              "converted": "These dají.",
+              "seed": "3",
+              "prompt_sha256": "03081a49b372cde00c6488d1a6112b0b4ae21ffeb1ba5cd164fe37e167c03db4",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1ab9e065a1cb1e7672a7ce24bd65a591accdf19fc54868aedc15905bfbf8d5e1",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "Maybe these will give today.",
+              "converted": "Maybe these dají today.",
+              "seed": "1",
+              "prompt_sha256": "a441ae59450be43f95682bc164a9ee70a7766d5497e8a31200a97e19ccbce909",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "15abf6b5cd9236ba57e9dd38a3fc4e713cdd86b85f7384c62c630e6880c12f35",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "Maybe these will give today.",
+              "converted": "Maybe these dají today.",
+              "seed": "2",
+              "prompt_sha256": "a441ae59450be43f95682bc164a9ee70a7766d5497e8a31200a97e19ccbce909",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "09aa0a04ae20e393cb8ce804d4a9ba9f72083fb7d63386609151aa8bd2afae72",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "Maybe these will give today.",
+              "converted": "Maybe these dají today.",
+              "seed": "3",
+              "prompt_sha256": "a441ae59450be43f95682bc164a9ee70a7766d5497e8a31200a97e19ccbce909",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b159865624105e6f9a7f68676eb3162018f32620fea784cab76172574248e686",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "She told me that these will give.",
+              "converted": "She told me that these dají.",
+              "seed": "1",
+              "prompt_sha256": "211d02d179ddc8c8adf1695df4e9689128348ae5facca644c153a3f99b7e772b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0be0c7c302f4a996392822f057d2b8181944248557206bf1b109994aff7434d8",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "She told me that these will give.",
+              "converted": "She told me that these dají.",
+              "seed": "2",
+              "prompt_sha256": "211d02d179ddc8c8adf1695df4e9689128348ae5facca644c153a3f99b7e772b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "62c6c2400e72931537f44ea212e4804df4dc4656c99246bfb48a14bbcdb132f8",
+              "lang": "cs",
+              "form": "these dají",
+              "source": "She told me that these will give.",
+              "converted": "She told me that these dají.",
+              "seed": "3",
+              "prompt_sha256": "211d02d179ddc8c8adf1695df4e9689128348ae5facca644c153a3f99b7e772b",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "61f0ef3161f517f6c3746ed3248e3022f04705d44d8b1a4c44298a7636a46fe5",
+            "79508a8d28857886cd39bcaabccf6296e7030071106df3fa8c7a07e766e9d95f",
+            "4b3fc38cb02163fcdb554b48f39444af7e37606941dc7b1a5961080c74daa64c",
+            "1ab9e065a1cb1e7672a7ce24bd65a591accdf19fc54868aedc15905bfbf8d5e1",
+            "15abf6b5cd9236ba57e9dd38a3fc4e713cdd86b85f7384c62c630e6880c12f35",
+            "09aa0a04ae20e393cb8ce804d4a9ba9f72083fb7d63386609151aa8bd2afae72",
+            "b159865624105e6f9a7f68676eb3162018f32620fea784cab76172574248e686",
+            "0be0c7c302f4a996392822f057d2b8181944248557206bf1b109994aff7434d8",
+            "62c6c2400e72931537f44ea212e4804df4dc4656c99246bfb48a14bbcdb132f8"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "cs:those najdou": {
+      "lang": "cs",
+      "form": "those najdou",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "those najdou",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "c07b1fa53d8456e0299d38d35a729baeff079ecdef2a9eb4fa44e5d7b53f94b1",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "Those will find.",
+              "converted": "Those najdou.",
+              "seed": "1",
+              "prompt_sha256": "95d2b9ade2159dc417eee77c3d3fffec66479b9ecac64854f8bad8d672f58340",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "58d3fc2d36f8f86e569c39c6c40e14bc7bb53efe53a554ce48836f3ba2d7b404",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "Those will find.",
+              "converted": "Those najdou.",
+              "seed": "2",
+              "prompt_sha256": "95d2b9ade2159dc417eee77c3d3fffec66479b9ecac64854f8bad8d672f58340",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8d5da23acd8401e94e6c8287c697db4849dc0a6c618e22e58d5a0d4059c687d6",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "Those will find.",
+              "converted": "Those najdou.",
+              "seed": "3",
+              "prompt_sha256": "95d2b9ade2159dc417eee77c3d3fffec66479b9ecac64854f8bad8d672f58340",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "0116f500e1cde2ed15a3802006938df6316dbe24606dc84bdfc8f1e781b6319a",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "Maybe those will find today.",
+              "converted": "Maybe those najdou today.",
+              "seed": "1",
+              "prompt_sha256": "64920f664db799302daee15458b4297592c9967e265fb09b02046cee0aa762a2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "ddeb9acb9937a6e5628c09ce034021cb9afa4ff906edb5b7fbfb786c8df74aa8",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "Maybe those will find today.",
+              "converted": "Maybe those najdou today.",
+              "seed": "2",
+              "prompt_sha256": "64920f664db799302daee15458b4297592c9967e265fb09b02046cee0aa762a2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "21afee6423097b2f8702666857874ba6298a248b2bd420a5f6d66181ac88ae82",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "Maybe those will find today.",
+              "converted": "Maybe those najdou today.",
+              "seed": "3",
+              "prompt_sha256": "64920f664db799302daee15458b4297592c9967e265fb09b02046cee0aa762a2",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "13f39d828098d48286707d7b777fa14f7924a780baccf8f8974995f4506814e7",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "She told me that those will find.",
+              "converted": "She told me that those najdou.",
+              "seed": "1",
+              "prompt_sha256": "332ccec414db0927bf7b9fde280508ff46ada973f64728775a1293911aa69594",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "05e559706033ffea7dfeaeaee056ddcc8b560efb1b315dd3c8bd85e7598afc36",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "She told me that those will find.",
+              "converted": "She told me that those najdou.",
+              "seed": "2",
+              "prompt_sha256": "332ccec414db0927bf7b9fde280508ff46ada973f64728775a1293911aa69594",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "22c9c8956e8854015da2441d0e0d1adfed537ebe30a9e0e23962aab73bc5d278",
+              "lang": "cs",
+              "form": "those najdou",
+              "source": "She told me that those will find.",
+              "converted": "She told me that those najdou.",
+              "seed": "3",
+              "prompt_sha256": "332ccec414db0927bf7b9fde280508ff46ada973f64728775a1293911aa69594",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "c07b1fa53d8456e0299d38d35a729baeff079ecdef2a9eb4fa44e5d7b53f94b1",
+            "58d3fc2d36f8f86e569c39c6c40e14bc7bb53efe53a554ce48836f3ba2d7b404",
+            "8d5da23acd8401e94e6c8287c697db4849dc0a6c618e22e58d5a0d4059c687d6",
+            "0116f500e1cde2ed15a3802006938df6316dbe24606dc84bdfc8f1e781b6319a",
+            "ddeb9acb9937a6e5628c09ce034021cb9afa4ff906edb5b7fbfb786c8df74aa8",
+            "21afee6423097b2f8702666857874ba6298a248b2bd420a5f6d66181ac88ae82",
+            "13f39d828098d48286707d7b777fa14f7924a780baccf8f8974995f4506814e7",
+            "05e559706033ffea7dfeaeaee056ddcc8b560efb1b315dd3c8bd85e7598afc36",
+            "22c9c8956e8854015da2441d0e0d1adfed537ebe30a9e0e23962aab73bc5d278"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "cs:those dají": {
+      "lang": "cs",
+      "form": "those dají",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "cs",
+        "form": "those dají",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+          "config": {
+            "only_lang": "cs",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "c8c5ae34ac9f886826d01f3a85a28264f413e900d3abf5a9ed43b71b42334ff9",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "Those will give.",
+              "converted": "Those dají.",
+              "seed": "1",
+              "prompt_sha256": "ca41f27791a63ebbf5cecfed9ba39f2d482480f35036467aeb6965c5e96f969c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "87ddeeb2455bc63520e7fb309c4b7a22760528b7487e7e255b11dbed35808fe9",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "Those will give.",
+              "converted": "Those dají.",
+              "seed": "2",
+              "prompt_sha256": "ca41f27791a63ebbf5cecfed9ba39f2d482480f35036467aeb6965c5e96f969c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "2239d36a3934b38204b32d60f961c26e56efca54bab1f1e8ca136546800ff65f",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "Those will give.",
+              "converted": "Those dají.",
+              "seed": "3",
+              "prompt_sha256": "ca41f27791a63ebbf5cecfed9ba39f2d482480f35036467aeb6965c5e96f969c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b1b7ec30b6c6a23e8e91783fd744b4196099f493d5d6420cd677ceaaad93103f",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "Maybe those will give today.",
+              "converted": "Maybe those dají today.",
+              "seed": "1",
+              "prompt_sha256": "750eef2a9a51f4741a57e14e7885419b24fde9e941fa8453e48c98bbaa2ae4d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "6bdf2aae939eb3b1e3d14972e986d9a8eb71dfa0ba1301e7cc00241b94d40ec8",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "Maybe those will give today.",
+              "converted": "Maybe those dají today.",
+              "seed": "2",
+              "prompt_sha256": "750eef2a9a51f4741a57e14e7885419b24fde9e941fa8453e48c98bbaa2ae4d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "1b327f4614529cebc0c408ea5807d7ca4f785a759d8198691fb54ac749bd0e07",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "Maybe those will give today.",
+              "converted": "Maybe those dají today.",
+              "seed": "3",
+              "prompt_sha256": "750eef2a9a51f4741a57e14e7885419b24fde9e941fa8453e48c98bbaa2ae4d6",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cb3bcc6257dfb1dcb7c50cff5f1656049fedc0721b0a225a112a352283051e40",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "She told me that those will give.",
+              "converted": "She told me that those dají.",
+              "seed": "1",
+              "prompt_sha256": "c0677d803f448b05be66b44d7f07473a484a015578d2f58d055b198c74d523a5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "4297cf36b20b7168dbc7ec08f5a148496de61a2b6f6aba18ec5d30d52112dd1e",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "She told me that those will give.",
+              "converted": "She told me that those dají.",
+              "seed": "2",
+              "prompt_sha256": "c0677d803f448b05be66b44d7f07473a484a015578d2f58d055b198c74d523a5",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "246808e4a08dfbd01d03d6199e95dd5ae080645fbeadb541f035605c8e42702b",
+              "lang": "cs",
+              "form": "those dají",
+              "source": "She told me that those will give.",
+              "converted": "She told me that those dají.",
+              "seed": "3",
+              "prompt_sha256": "c0677d803f448b05be66b44d7f07473a484a015578d2f58d055b198c74d523a5",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "c8c5ae34ac9f886826d01f3a85a28264f413e900d3abf5a9ed43b71b42334ff9",
+            "87ddeeb2455bc63520e7fb309c4b7a22760528b7487e7e255b11dbed35808fe9",
+            "2239d36a3934b38204b32d60f961c26e56efca54bab1f1e8ca136546800ff65f",
+            "b1b7ec30b6c6a23e8e91783fd744b4196099f493d5d6420cd677ceaaad93103f",
+            "6bdf2aae939eb3b1e3d14972e986d9a8eb71dfa0ba1301e7cc00241b94d40ec8",
+            "1b327f4614529cebc0c408ea5807d7ca4f785a759d8198691fb54ac749bd0e07",
+            "cb3bcc6257dfb1dcb7c50cff5f1656049fedc0721b0a225a112a352283051e40",
+            "4297cf36b20b7168dbc7ec08f5a148496de61a2b6f6aba18ec5d30d52112dd1e",
+            "246808e4a08dfbd01d03d6199e95dd5ae080645fbeadb541f035605c8e42702b"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "pl:dasz": {
+      "lang": "pl",
+      "form": "dasz",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "pl",
+        "form": "dasz",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "403c0585-6bab-485a-9a02-ab6cb8ec1fbc",
+          "config": {
+            "only_lang": "pl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "c504bf238d546ee5f28c7c0e33377958c6e728ee8c233233256570103baaae17",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "f9dbe94267a6486631d193fa0a07889e6662a58986da9f6afecd638340221d66",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "You will give.",
+              "converted": "Dasz.",
+              "seed": "1",
+              "prompt_sha256": "5e8b9dfcd1912031507d0f2b885f2d10356ba0bde3a18d4e89d3342048b31e8c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "351fdcdbdf63ee18956c745cd48062e56d9c9cf7b3332cce1ad09a7a5b29ce14",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "You will give.",
+              "converted": "Dasz.",
+              "seed": "2",
+              "prompt_sha256": "5e8b9dfcd1912031507d0f2b885f2d10356ba0bde3a18d4e89d3342048b31e8c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b6092d0a061cab9091db978c80f72b1ce940c0730f2f1ff091c62e4623c36c50",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "You will give.",
+              "converted": "Dasz.",
+              "seed": "3",
+              "prompt_sha256": "5e8b9dfcd1912031507d0f2b885f2d10356ba0bde3a18d4e89d3342048b31e8c",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "9cf61642dc8f41ef142e3bb64f5b1961797f1bb26e31dbd24fd230f85b8d3136",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "Maybe you will give today.",
+              "converted": "Maybe dasz today.",
+              "seed": "1",
+              "prompt_sha256": "190f3ec25be2eb29fba8649ba087d7d8df3280570e7f1f2c3afdf1851610de8b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "e6003d8dda0cc41ffb9d114f183c66808f4078c1440cdb9fdf65708265eb52ee",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "Maybe you will give today.",
+              "converted": "Maybe dasz today.",
+              "seed": "2",
+              "prompt_sha256": "190f3ec25be2eb29fba8649ba087d7d8df3280570e7f1f2c3afdf1851610de8b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "c85c9d92dabbb1dbc7a35abd5c848f518f4b71f36cf2762f147ee800f55be162",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "Maybe you will give today.",
+              "converted": "Maybe dasz today.",
+              "seed": "3",
+              "prompt_sha256": "190f3ec25be2eb29fba8649ba087d7d8df3280570e7f1f2c3afdf1851610de8b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cfb6d9b3e7efe24ec94f39a943d45b2ab16cc21b04b8ee058c8d4baffdaf15a6",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "She told me that you will give.",
+              "converted": "She told me that dasz.",
+              "seed": "1",
+              "prompt_sha256": "dcc800e9057c1b368d8e212bfd291bbd88e16e9d81caaeff5424b345acbf82fa",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "bb70c0e6e97b549ddfc87ef74e0fb904903306fc85f0a0a9a593e79fba9bf55d",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "She told me that you will give.",
+              "converted": "She told me that dasz.",
+              "seed": "2",
+              "prompt_sha256": "dcc800e9057c1b368d8e212bfd291bbd88e16e9d81caaeff5424b345acbf82fa",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "876974e76e6c2f6c2924137e6d0d5b3a1edbd27fa26e5c52ae71e1926d170533",
+              "lang": "pl",
+              "form": "dasz",
+              "source": "She told me that you will give.",
+              "converted": "She told me that dasz.",
+              "seed": "3",
+              "prompt_sha256": "dcc800e9057c1b368d8e212bfd291bbd88e16e9d81caaeff5424b345acbf82fa",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "f9dbe94267a6486631d193fa0a07889e6662a58986da9f6afecd638340221d66",
+            "351fdcdbdf63ee18956c745cd48062e56d9c9cf7b3332cce1ad09a7a5b29ce14",
+            "b6092d0a061cab9091db978c80f72b1ce940c0730f2f1ff091c62e4623c36c50",
+            "9cf61642dc8f41ef142e3bb64f5b1961797f1bb26e31dbd24fd230f85b8d3136",
+            "e6003d8dda0cc41ffb9d114f183c66808f4078c1440cdb9fdf65708265eb52ee",
+            "c85c9d92dabbb1dbc7a35abd5c848f518f4b71f36cf2762f147ee800f55be162",
+            "cfb6d9b3e7efe24ec94f39a943d45b2ab16cc21b04b8ee058c8d4baffdaf15a6",
+            "bb70c0e6e97b549ddfc87ef74e0fb904903306fc85f0a0a9a593e79fba9bf55d",
+            "876974e76e6c2f6c2924137e6d0d5b3a1edbd27fa26e5c52ae71e1926d170533"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "pl:damy": {
+      "lang": "pl",
+      "form": "damy",
+      "trials": 9,
+      "restored": 9,
+      "failures": [],
+      "legacy_snapshot": {
+        "lang": "pl",
+        "form": "damy",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "403c0585-6bab-485a-9a02-ab6cb8ec1fbc",
+          "config": {
+            "only_lang": "pl",
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "c504bf238d546ee5f28c7c0e33377958c6e728ee8c233233256570103baaae17",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1"
+          },
+          "targets": [
+            {
+              "target_id": "d323e8bdc46d1905381d3213cb2ae6be24aad35216d83cbdcee25184cef044e2",
+              "lang": "pl",
+              "form": "damy",
+              "source": "We will give.",
+              "converted": "Damy.",
+              "seed": "1",
+              "prompt_sha256": "be0dabc8bb184c91424a91bcf7cab6758ad47b987958accaffc9c2af8d6d34c0",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "5e0e07bed40b71d9f4d6b3142b88b6a0944e44e97367f4f379664198698740d4",
+              "lang": "pl",
+              "form": "damy",
+              "source": "We will give.",
+              "converted": "Damy.",
+              "seed": "2",
+              "prompt_sha256": "be0dabc8bb184c91424a91bcf7cab6758ad47b987958accaffc9c2af8d6d34c0",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "d48e41d671b23dc25ecbed3fed927237f8b1572f0556d1fd709b0c12741e004c",
+              "lang": "pl",
+              "form": "damy",
+              "source": "We will give.",
+              "converted": "Damy.",
+              "seed": "3",
+              "prompt_sha256": "be0dabc8bb184c91424a91bcf7cab6758ad47b987958accaffc9c2af8d6d34c0",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "cb03e2c81a2a830a5f5b89ae099cc5ad52a1ed5aa359b2dbb46d1c118406d6da",
+              "lang": "pl",
+              "form": "damy",
+              "source": "Maybe we will give today.",
+              "converted": "Maybe damy today.",
+              "seed": "1",
+              "prompt_sha256": "66674fb8bdd6b7e2cd6dbcfb9c368ea775d4b81934b59bf6014a7691b51de99b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "571867abb364fc655ce7be2b253555b522076de256dd2473c5e7eeea2cf58f6d",
+              "lang": "pl",
+              "form": "damy",
+              "source": "Maybe we will give today.",
+              "converted": "Maybe damy today.",
+              "seed": "2",
+              "prompt_sha256": "66674fb8bdd6b7e2cd6dbcfb9c368ea775d4b81934b59bf6014a7691b51de99b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "67a4e34d037b852787857b4fd6430ae325b80674be157a5728056f0f214b088b",
+              "lang": "pl",
+              "form": "damy",
+              "source": "Maybe we will give today.",
+              "converted": "Maybe damy today.",
+              "seed": "3",
+              "prompt_sha256": "66674fb8bdd6b7e2cd6dbcfb9c368ea775d4b81934b59bf6014a7691b51de99b",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "b81db505a24ddc700abeb764e79fda9c05ebc8401ecc44351578c81c7cdfc907",
+              "lang": "pl",
+              "form": "damy",
+              "source": "She told me that we will give.",
+              "converted": "She told me that damy.",
+              "seed": "1",
+              "prompt_sha256": "56df77acab365c0eb0d54e113c2d4e3e18d2cf197922b2bb6b261dc05eb78c9d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "8ec41d5951bd2b55c4deb0850633b376b6fffe890224bca8ba3c04d6c1f5389d",
+              "lang": "pl",
+              "form": "damy",
+              "source": "She told me that we will give.",
+              "converted": "She told me that damy.",
+              "seed": "2",
+              "prompt_sha256": "56df77acab365c0eb0d54e113c2d4e3e18d2cf197922b2bb6b261dc05eb78c9d",
+              "status": "completed",
+              "restored": true
+            },
+            {
+              "target_id": "689458c6e73545bdb79899e6875930a156eb8de88f761a3187c4ac166ea20fd3",
+              "lang": "pl",
+              "form": "damy",
+              "source": "She told me that we will give.",
+              "converted": "She told me that damy.",
+              "seed": "3",
+              "prompt_sha256": "56df77acab365c0eb0d54e113c2d4e3e18d2cf197922b2bb6b261dc05eb78c9d",
+              "status": "completed",
+              "restored": true
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "d323e8bdc46d1905381d3213cb2ae6be24aad35216d83cbdcee25184cef044e2",
+            "5e0e07bed40b71d9f4d6b3142b88b6a0944e44e97367f4f379664198698740d4",
+            "d48e41d671b23dc25ecbed3fed927237f8b1572f0556d1fd709b0c12741e004c",
+            "cb03e2c81a2a830a5f5b89ae099cc5ad52a1ed5aa359b2dbb46d1c118406d6da",
+            "571867abb364fc655ce7be2b253555b522076de256dd2473c5e7eeea2cf58f6d",
+            "67a4e34d037b852787857b4fd6430ae325b80674be157a5728056f0f214b088b",
+            "b81db505a24ddc700abeb764e79fda9c05ebc8401ecc44351578c81c7cdfc907",
+            "8ec41d5951bd2b55c4deb0850633b376b6fffe890224bca8ba3c04d6c1f5389d",
+            "689458c6e73545bdb79899e6875930a156eb8de88f761a3187c4ac166ea20fd3"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 9,
+          "complete": true
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
     "de:kam": {
       "lang": "de",
       "form": "kam",
@@ -157862,6 +159732,134 @@
       "scheduled": 1017,
       "attempted": 1017,
       "completed": 1017,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true
+    },
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "40699122-e604-482e-90aa-8c376e0db745",
+      "config": {
+        "only_lang": "cs",
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s}.",
+          "Maybe {s} today.",
+          "She told me that {s}."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "79922ebc68fe305210c907843b7d4fdf16a0e7fd74f96d2225661641c64545f7",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1"
+      },
+      "selected_forms": [
+        "cs:vezmete",
+        "cs:najdeme",
+        "cs:najdou",
+        "cs:dají",
+        "cs:these najdou",
+        "cs:these dají",
+        "cs:those najdou",
+        "cs:those dají"
+      ],
+      "duplicate_targets": 0,
+      "requested": 72,
+      "scheduled": 72,
+      "attempted": 72,
+      "completed": 72,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true
+    },
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "403c0585-6bab-485a-9a02-ab6cb8ec1fbc",
+      "config": {
+        "only_lang": "pl",
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s}.",
+          "Maybe {s} today.",
+          "She told me that {s}."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "c504bf238d546ee5f28c7c0e33377958c6e728ee8c233233256570103baaae17",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1"
+      },
+      "selected_forms": [
+        "pl:dasz",
+        "pl:damy"
+      ],
+      "duplicate_targets": 0,
+      "requested": 18,
+      "scheduled": 18,
+      "attempted": 18,
+      "completed": 18,
       "timeouts": 0,
       "execution_errors": 0,
       "complete": true,

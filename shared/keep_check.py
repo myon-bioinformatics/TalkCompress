@@ -21,13 +21,8 @@ Exit status is 0 when nothing is missing and no secret leaked, otherwise 1.
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
-import sys
-import unicodedata
-from dataclasses import dataclass, field
-from pathlib import Path
+import argparse, json, re, sys, unicodedata
+from dataclasses import dataclass, field; from pathlib import Path
 
 URL_RE = re.compile(r"(?<![\w])https?://[^\s)>\]\"']+")
 PATH_RE = re.compile(r"(?<![\w:/.])(?:\.{1,2}/)?[\w.-]+(?:/[\w.-]+)+")

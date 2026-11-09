@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 
-import importlib.util
-import re
-import sys
+import importlib.util, re, sys
 from pathlib import Path
 
 import pytest

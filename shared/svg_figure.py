@@ -31,12 +31,8 @@ CLI::
 
 from __future__ import annotations
 
-import argparse
-import json
-import math
-import sys
-from pathlib import Path
-from xml.sax.saxutils import escape
+import argparse, json, math, sys
+from pathlib import Path; from xml.sax.saxutils import escape
 
 INK = "#363636"
 ACCENT = "#1f4e79"

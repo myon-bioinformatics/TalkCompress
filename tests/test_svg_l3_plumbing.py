@@ -3,12 +3,8 @@
 The endpoint is a local stub, not a model. This checks the plumbing only (prompts,
 finish_reason handling, JSON report), not any model's quality.
 """
-import json
-import subprocess
-import sys
-import threading
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
+import json, subprocess, sys, threading
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer; from pathlib import Path
 
 import pytest
 

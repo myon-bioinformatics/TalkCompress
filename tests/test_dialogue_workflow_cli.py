@@ -1,8 +1,5 @@
 """CLI/HTTP evidence regression without weights or model downloads."""
-import json
-import subprocess
-import sys
-import threading
+import json, subprocess, sys, threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from Zipilogue import dialogue_lab

@@ -1,13 +1,6 @@
 """Offline only: fake bytes, tokenizer modules and Llama; never real encodings/models."""
-import ast
-import hashlib
-import importlib
-import json
-import os
+import ast, hashlib, importlib, json, os, subprocess, sys, types
 from pathlib import Path
-import subprocess
-import sys
-import types
 
 import pytest
 

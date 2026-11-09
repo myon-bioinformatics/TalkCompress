@@ -36,15 +36,8 @@ CLI::
 
 from __future__ import annotations
 
-import argparse
-import re
-import sys
-import unicodedata
-import xml.etree.ElementTree as ET
-from dataclasses import dataclass, field
-from decimal import ROUND_HALF_EVEN, Context, Decimal, DecimalException, InvalidOperation
-from pathlib import Path
-from xml.sax.saxutils import escape
+import argparse, re, sys, unicodedata, xml.etree.ElementTree as ET
+from dataclasses import dataclass, field; from decimal import Context, Decimal, DecimalException, InvalidOperation, ROUND_HALF_EVEN; from pathlib import Path; from xml.sax.saxutils import escape
 
 VERSION = "0"
 SVG_NS = "http://www.w3.org/2000/svg"

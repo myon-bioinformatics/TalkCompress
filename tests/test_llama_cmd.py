@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-import json
-import threading
+import json, threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from shared.llama_cmd import ask_llama

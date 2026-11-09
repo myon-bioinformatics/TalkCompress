@@ -1,9 +1,7 @@
 """Non-ASCII Latin ledger/etymon sources must not fire inside a longer word."""
 from __future__ import annotations
 
-import re
-import sys
-import unicodedata
+import re, sys, unicodedata
 
 import pytest
 

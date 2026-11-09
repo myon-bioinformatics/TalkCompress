@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import importlib.util
-import sys
-from pathlib import Path
-from types import ModuleType
+import importlib.util, sys
+from pathlib import Path; from types import ModuleType
 
 ROOT = Path(__file__).resolve().parents[1]
 

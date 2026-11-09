@@ -20,12 +20,8 @@ Usage::
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
-import unicodedata
-from pathlib import Path
-from typing import Callable
+import argparse, json, re, unicodedata
+from pathlib import Path; from typing import Callable
 
 ROOT = Path(__file__).resolve().parents[1]
 CORPUS = ROOT / "tests/fixtures/pd_corpus"

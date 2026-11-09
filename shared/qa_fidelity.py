@@ -22,16 +22,8 @@ Usage::
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
-import shlex
-import subprocess
-import unicodedata
-import sys
-from dataclasses import dataclass
-from datetime import date
-from pathlib import Path
+import argparse, json, re, shlex, subprocess, sys, unicodedata
+from dataclasses import dataclass; from datetime import date; from pathlib import Path
 
 try:
     from shared.keep_check import extract_exact

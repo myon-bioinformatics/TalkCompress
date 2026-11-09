@@ -1,6 +1,5 @@
 """--final-zh-de must not turn a non-compress --mode into compress (DensityZip)."""
-import importlib.util
-import json
+import importlib.util, json
 from pathlib import Path
 
 import pytest

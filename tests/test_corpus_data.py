@@ -1,10 +1,7 @@
 """#135 で追加した口語・文字化け・混在文コーパスの中身の検査（形式・数値の整合は corpus_manifest.check）。"""
 from __future__ import annotations
 
-import json
-import pathlib
-
-import sys
+import json, pathlib, sys
 
 import pytest
 

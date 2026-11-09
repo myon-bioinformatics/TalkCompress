@@ -10,12 +10,7 @@ ambiguity gate for wavy conjunction shortenings).
 
 from __future__ import annotations
 
-import argparse
-import json
-import re
-import unicodedata
-import sys
-import unicodedata
+import argparse, json, re, sys, unicodedata
 from pathlib import Path
 
 _ROOT = Path(__file__).resolve().parents[1]

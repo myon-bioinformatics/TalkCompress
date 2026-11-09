@@ -1,4 +1,4 @@
-# 往復チェック強制時の影響（report-only、記録0件時点）
+# 往復チェック強制時の影響（report-only）
 
 生成: `uv run python scripts/roundtrip.py --write-doc`（採点は o200k_base）。
 
@@ -9,7 +9,7 @@ nl（1億人未満）の現在完了セル採用 0 件は `fixtures/roundtrip.js
 | id | EN | 採用 | lt100m 強制時 |
 |---|---|---|---|
 
-## 全件（`--impact lt100m`、102件）
+## 全件（`--impact lt100m`、92件）
 
 ```
 mx-come-fut-3s-it	it will come	None	->	('verrà', 'it')
@@ -28,10 +28,6 @@ mx-do-perf-dem-these	these have done	None	->	('these hicieron', 'es')
 mx-do-perf-dem-those	those have done	None	->	('those hicieron', 'es')
 mx-do-perf-rel-que-pl	que have done	None	->	('que hicieron', 'es')
 mx-do-perf-rel-which-pl	which have done	None	->	('which hicieron', 'es')
-mx-find-fut-1p	we will find	('najdeme', 'cs')	->	('acharemos', 'pt')
-mx-find-fut-3p	they will find	('najdou', 'cs')	->	('acharão', 'pt')
-mx-find-fut-dem-these	these will find	('these najdou', 'cs')	->	('these acharão', 'pt')
-mx-find-fut-dem-those	those will find	('those najdou', 'cs')	->	('those acharão', 'pt')
 mx-find-past-1s	I found	None	->	('achei', 'pt')
 mx-find-past-3s-he	he found	None	->	('encontró', 'es')
 mx-find-past-3s-it	it found	None	->	('encontró', 'es')
@@ -45,11 +41,6 @@ mx-find-perf-rel-que-pl	que have found	None	->	('que encontraron', 'es')
 mx-find-perf-rel-que-sg	que has found	None	->	('que encontró', 'es')
 mx-find-perf-rel-which-pl	which have found	None	->	('which encontraron', 'es')
 mx-find-perf-rel-which-sg	which has found	None	->	('which encontró', 'es')
-mx-give-fut-1p	we will give	('damy', 'pl')	->	('daremo', 'it')
-mx-give-fut-2	you will give	('dasz', 'pl')	->	('darai', 'it')
-mx-give-fut-3p	they will give	('dají', 'cs')	->	('darán', 'es')
-mx-give-fut-dem-these	these will give	('these dají', 'cs')	->	('these darán', 'es')
-mx-give-fut-dem-those	those will give	('those dají', 'cs')	->	('those darán', 'es')
 mx-give-perf-1s	I have given	None	->	('ai donné', 'fr')
 mx-give-perf-rel-que-pl	que have given	None	->	('que dieron', 'es')
 mx-give-perf-rel-que-sg	que has given	None	->	('que dio', 'es')
@@ -83,7 +74,6 @@ mx-see-perf-rel-which-pl	which have seen	None	->	('which viram', 'pt')
 mx-see-perf-rel-which-sg	which has seen	None	->	('which vio', 'es')
 mx-see-perf-rel-who-sg	who has seen	None	->	('who vio', 'es')
 mx-see-pluperf-3p	they had seen	None	->	('avaient vu', 'fr')
-mx-take-fut-2	you will take	('vezmete', 'cs')	->	('tomarás', 'es')
 mx-take-past-2	you took	None	->	('prîtes', 'fr')
 mx-take-past-3s-he	he took	None	->	('prit', 'fr')
 mx-take-past-3s-it	it took	None	->	('prit', 'fr')
