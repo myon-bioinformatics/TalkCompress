@@ -21,8 +21,8 @@ SNAPSHOT = json.loads((FIX / "roundtrip_judge/pt_sources.json").read_text(encodi
 SOURCES = SNAPSHOT["forms"]
 JUDGE_SHA = "d161afaef0b6f8dea08c5ff5babb69f349a7baea60f697ddaf5e85b36dd369df"
 BASE_OTHER_LANG_HASHES = {
-    "tense_matrix": "f0d10b9e9c87c842deb9ec3a3c52b88ee7a10374ac729f46e51e137873cd7f55",  # after #172 (es reversals)
-    "es_fr_tense": "b6abfe61b846d0442aaf38763f9421f453f4e19b15e1d084d946de7f5bd61176",  # after #172 (es reversals)
+    "tense_matrix": "78992b4cc8accacf30e7e3e3e3475789d0ceaed99ac6257f062811098a466b4d",  # after #172 (es reversals)
+    "es_fr_tense": "d288249633b5540b96df7ace46235374a643688e0c257a093569bb816fa821f1",  # after #172 (es reversals)
     "pt_el_latin_phrases": "37ae65ea2143b97433429ebb183878776273552c3d4a41d9b8f94f60838d497c",  # after #168 (it ciao reversed)
     "pt_el_latin_tense": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
 }
@@ -75,9 +75,9 @@ def test_each_receipt_recomputes_from_immutable_judge_without_inflated_trials():
 
 @pytest.mark.parametrize("name", BASE_OTHER_LANG_HASHES)
 def test_existing_other_language_winners_and_losing_pt_candidates_unchanged(name):
-    # Covers all non-pt entries, including their candidates (31 losing pt
-    # candidates), and it/el/la phrase rows. Hash is from main after #168 / #169.
-    entries = [e for e in read(name)["entries"] if e["lang"] != "pt"]
+    # es/fr/de have their own independently verified reversals (#172–174).
+    # Preserve every other language and its candidates from main after #168/#169.
+    entries = [e for e in read(name)["entries"] if e["lang"] not in {"pt", "es", "fr", "de"}]
     canonical = json.dumps(entries, ensure_ascii=False, sort_keys=True).encode()
     assert hashlib.sha256(canonical).hexdigest() == BASE_OTHER_LANG_HASHES[name]
 

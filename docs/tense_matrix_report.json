@@ -367,8 +367,8 @@
    "tense": "past",
    "verb": "take",
    "src": "I took",
-   "status": "existing",
-   "reason": "already in es_fr_tense / pt_el_latin_tense"
+   "status": "reject",
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "1s",
@@ -3037,6 +3037,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "prends"
+   ],
    "best": "prends",
    "lang": "fr",
    "shape": "simple",
@@ -3049,7 +3052,8 @@
     8,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3614,6 +3618,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "vins"
+   ],
    "best": "vins",
    "lang": "fr",
    "shape": "simple",
@@ -3626,7 +3633,8 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "2",
@@ -3646,7 +3654,7 @@
     "as vu"
    ],
    "roundtrip_reversed": [
-    "viste"
+    "vis"
    ],
    "roundtrip_gated": [
     "zag"
@@ -3677,7 +3685,8 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3705,6 +3714,9 @@
     "number": "2sg-tú",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "pris"
+   ],
    "best": "pris",
    "lang": "fr",
    "shape": "simple",
@@ -3717,7 +3729,8 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3785,6 +3798,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "voulus"
+   ],
    "best": "voulus",
    "lang": "fr",
    "shape": "simple",
@@ -3797,7 +3813,8 @@
     10,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -3933,6 +3950,9 @@
     "number": "2sg-tú",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "sus"
+   ],
    "best": "sus",
    "lang": "fr",
    "shape": "simple",
@@ -3945,7 +3965,8 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every shrinking candidate spells an English word"
   },
   {
    "subject": "2",
@@ -4162,16 +4183,8 @@
    "tense": "perf",
    "verb": "see",
    "src": "you have seen",
-   "crossling_dropped": [
-    "a vu",
-    "as vu"
-   ],
-   "roundtrip_reversed": [
-    "viste"
-   ],
-   "en_best": "you've seen",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "2",
@@ -4288,6 +4301,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir voulu"
+   ],
    "best": "avoir voulu",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4300,7 +4316,8 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -4313,6 +4330,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir eu"
+   ],
    "best": "avoir eu",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4325,7 +4345,8 @@
     10,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -4386,17 +4407,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "you have said",
-   "crossling_dropped": [
-    "a dit",
-    "as dit"
-   ],
-   "roundtrip_reversed": [
-    "dijiste",
-    "dijo"
-   ],
-   "en_best": "you've said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "2",
@@ -4409,6 +4421,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir su"
+   ],
    "best": "avoir su",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4421,7 +4436,8 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -4886,6 +4902,9 @@
     "number": "2sg-usted",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avais su"
+   ],
    "best": "avais su",
    "lang": "fr",
    "shape": "compound",
@@ -4898,7 +4917,8 @@
     11,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "2",
@@ -9187,15 +9207,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "he has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_reversed": [
-    "hizo"
-   ],
-   "en_best": "he's done",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-he",
@@ -9452,15 +9465,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "he has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_reversed": [
-    "dijo"
-   ],
-   "en_best": "he's said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-he",
@@ -12979,15 +12985,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "she has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_reversed": [
-    "hizo"
-   ],
-   "en_best": "she's done",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-she",
@@ -13244,15 +13243,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "she has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_reversed": [
-    "dijo"
-   ],
-   "en_best": "she's said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-she",
@@ -16048,6 +16040,9 @@
    "verb": "go",
    "src": "it will go",
    "en_best": "it'll go",
+   "roundtrip_reversed": [
+    "ira"
+   ],
    "best": "ira",
    "lang": "fr",
    "shape": "simple",
@@ -16060,7 +16055,8 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3s-it",
@@ -16820,15 +16816,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "it has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_reversed": [
-    "hizo"
-   ],
-   "en_best": "it's done",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-it",
@@ -17085,15 +17074,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "it has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_reversed": [
-    "dijo"
-   ],
-   "en_best": "it's said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-it",
@@ -20164,15 +20146,8 @@
    "tense": "past",
    "verb": "think",
    "src": "we thought",
-   "crossling_dropped": [
-    "avons pensé"
-   ],
-   "roundtrip_reversed": [
-    "pensamos"
-   ],
-   "en_best": "we thought",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "1p",
@@ -20435,15 +20410,8 @@
    "tense": "perf",
    "verb": "think",
    "src": "we have thought",
-   "crossling_dropped": [
-    "avons pensé"
-   ],
-   "roundtrip_reversed": [
-    "pensamos"
-   ],
-   "en_best": "we've thought",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "1p",
@@ -23102,6 +23070,9 @@
     "wisten"
    ],
    "en_best": "they knew",
+   "roundtrip_reversed": [
+    "ont su"
+   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -23114,7 +23085,8 @@
     9,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3p",
@@ -23386,6 +23358,9 @@
     "hebben geweten"
    ],
    "en_best": "they've known",
+   "roundtrip_reversed": [
+    "ont su"
+   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -23398,7 +23373,8 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "3p",
@@ -25483,8 +25459,8 @@
     12,
     8
    ],
-   "status": "adopt",
-   "parity_verb": "ira"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -25884,15 +25860,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "this has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_reversed": [
-    "this hizo"
-   ],
-   "en_best": "this has done",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-this",
@@ -26133,15 +26102,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "this has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_reversed": [
-    "this dijo"
-   ],
-   "en_best": "this has said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-this",
@@ -29956,12 +29918,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "these have said",
-   "roundtrip_reversed": [
-    "these dijeron"
-   ],
-   "en_best": "these have said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -29984,8 +29942,8 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "ont su"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -32711,12 +32669,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "those have said",
-   "roundtrip_reversed": [
-    "those dijeron"
-   ],
-   "en_best": "those have said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32739,8 +32693,8 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "ont su"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -35345,15 +35299,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "who has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_reversed": [
-    "who hizo"
-   ],
-   "en_best": "who's done",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-sg",
@@ -35590,15 +35537,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "who has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_reversed": [
-    "who dijo"
-   ],
-   "en_best": "who's said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-sg",
@@ -39589,15 +39529,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "which has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_reversed": [
-    "which hizo"
-   ],
-   "en_best": "which has done",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-sg",
@@ -39834,15 +39767,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "which has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_reversed": [
-    "which dijo"
-   ],
-   "en_best": "which has said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-sg",
@@ -41983,12 +41909,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "which have said",
-   "roundtrip_reversed": [
-    "which dijeron"
-   ],
-   "en_best": "which have said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-pl",
@@ -43282,12 +43204,8 @@
    "tense": "pres",
    "verb": "go",
    "src": "que goes",
-   "roundtrip_reversed": [
-    "que va"
-   ],
-   "en_best": "que goes",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -43330,24 +43248,16 @@
    "tense": "pres",
    "verb": "see",
    "src": "que sees",
-   "roundtrip_reversed": [
-    "que ve"
-   ],
-   "en_best": "que sees",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
    "tense": "pres",
    "verb": "take",
    "src": "que takes",
-   "roundtrip_reversed": [
-    "que toma"
-   ],
-   "en_best": "que takes",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -43462,6 +43372,9 @@
      ]
     }
    ],
+   "roundtrip_reversed": [
+    "que dit"
+   ],
    "best": "que dit",
    "lang": "fr",
    "shape": "simple",
@@ -43474,7 +43387,8 @@
     8,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-sg",
@@ -43774,15 +43688,8 @@
    "tense": "perf",
    "verb": "do",
    "src": "que has done",
-   "crossling_dropped": [
-    "a fait"
-   ],
-   "roundtrip_reversed": [
-    "que hizo"
-   ],
-   "en_best": "que has done",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -44019,15 +43926,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "que has said",
-   "crossling_dropped": [
-    "a dit"
-   ],
-   "roundtrip_reversed": [
-    "que dijo"
-   ],
-   "en_best": "que has said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -45733,12 +45633,8 @@
    "tense": "pres",
    "verb": "give",
    "src": "que give",
-   "roundtrip_reversed": [
-    "que dan"
-   ],
-   "en_best": "que give",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-pl",
@@ -46089,6 +45985,9 @@
     "que hebben gewild"
    ],
    "en_best": "que have wanted",
+   "roundtrip_reversed": [
+    "que ont voulu"
+   ],
    "best": "que ont voulu",
    "lang": "fr",
    "shape": "compound",
@@ -46101,7 +46000,8 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-pl",
@@ -46112,6 +46012,9 @@
     "que hebben gehad"
    ],
    "en_best": "que have had",
+   "roundtrip_reversed": [
+    "que ont eu"
+   ],
    "best": "que ont eu",
    "lang": "fr",
    "shape": "compound",
@@ -46124,7 +46027,8 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-pl",
@@ -46157,12 +46061,8 @@
    "tense": "perf",
    "verb": "say",
    "src": "que have said",
-   "roundtrip_reversed": [
-    "que dijeron"
-   ],
-   "en_best": "que have said",
    "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-pl",
@@ -46173,6 +46073,9 @@
     "que hebben geweten"
    ],
    "en_best": "que have known",
+   "roundtrip_reversed": [
+    "que ont su"
+   ],
    "best": "que ont su",
    "lang": "fr",
    "shape": "compound",
@@ -46185,7 +46088,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "no candidate shrinks both token and utf8"
   },
   {
    "subject": "rel-que-pl",

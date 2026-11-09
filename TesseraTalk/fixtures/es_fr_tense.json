@@ -765,32 +765,6 @@
       "note": "cheapest may prefer el πάρω (1 tok); classical Latin skipped"
     },
     {
-      "id": "take-past-1s",
-      "from": [
-        "I took"
-      ],
-      "to": "pris",
-      "lang": "fr",
-      "tense": "past",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "utf8_before": 6,
-        "utf8_after": 4,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tomé",
-          "lang": "es"
-        },
-        {
-          "form": "pris",
-          "lang": "fr"
-        }
-      ]
-    },
-    {
       "id": "take-pres-1s",
       "from": [
         "I take"
@@ -1578,38 +1552,6 @@
       ]
     },
     {
-      "id": "arrive-past-1s",
-      "from": [
-        "I arrived"
-      ],
-      "to": "arrivé",
-      "lang": "fr",
-      "tense": "past",
-      "candidates": [
-        {
-          "form": "arrivé",
-          "lang": "fr"
-        },
-        {
-          "form": "llegué",
-          "lang": "es"
-        },
-        {
-          "form": "cheguei",
-          "lang": "pt"
-        },
-        {
-          "form": "kwam aan",
-          "lang": "nl"
-        },
-        {
-          "form": "έφτασα",
-          "lang": "el"
-        }
-      ],
-      "note": "tranche3: es/fr/pt 同点 (2tok/7B) → cheapest tie-break"
-    },
-    {
       "id": "live-past-1s",
       "from": [
         "I lived"
@@ -2091,6 +2033,24 @@
       ],
       "roundtrip_reversed": true,
       "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Tried.\", \"Maybe tried today.\", \"She told me that tried.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "take-past-1s",
+      "from": [
+        "I took"
+      ],
+      "to": "pris",
+      "lang": "fr",
+      "why_dropped": "independent blind AI round-trip 0/9 (fr:pris never; shared form scored against first bank entry 'you took', judge restored 'I took'); docs/fr_roundtrip_20261109.md — EN kept, es tomé not promoted"
+    },
+    {
+      "id": "arrive-past-1s",
+      "from": [
+        "I arrived"
+      ],
+      "to": "arrivé",
+      "lang": "fr",
+      "why_dropped": "independent blind AI round-trip 0/9 (fr:arrivé never; judge restored 'He arrived'); docs/fr_roundtrip_20261109.md — EN kept, es/pt/nl/el candidates not promoted"
     }
   ]
 }
