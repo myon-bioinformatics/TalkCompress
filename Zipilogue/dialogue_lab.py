@@ -6,13 +6,7 @@ then fresh receiver calls recover held-out task fields with/without the book.
 """
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
-import re
-import time
-import unicodedata
-import urllib.request
+import argparse, hashlib, json, re, time, unicodedata, urllib.request
 from pathlib import Path
 
 try:

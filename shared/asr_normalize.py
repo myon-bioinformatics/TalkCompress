@@ -8,9 +8,8 @@
 """
 from __future__ import annotations
 
-import re
+import re, unicodedata
 from itertools import product
-import unicodedata
 
 UNCERTAIN_MARK = "(?)"  # 語(?) — XML PI の <?…?> と衝突しない。o200k +1 tok（<?…?> は +2〜3）
 FFFD = "\ufffd"

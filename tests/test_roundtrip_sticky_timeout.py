@@ -1,9 +1,5 @@
 """A recorded timeout must not exclude a form forever (2bot #97 Should 1)."""
-import importlib.util
-import json
-import subprocess
-import sys
-import types
+import importlib.util, json, subprocess, sys, types
 from pathlib import Path
 
 spec = importlib.util.spec_from_file_location("roundtrip_sticky", Path(__file__).resolve().parents[1] / "scripts/roundtrip.py")

@@ -410,7 +410,7 @@ def test_as_a_result_cheapest_logo_after_ergo_reversed():
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
-def test_once_again_prefers_pali():
+def test_once_again_stays_english_after_failed_pali_removed():
     t = _tessera()
     # o200k: " once again" = 2 = " πάλι"; a tie never replaces the source
     out = t.apply_zh_de_phrases("once again")
@@ -466,11 +466,11 @@ def test_classical_ibo_not_in_tense_pairs():
 
 
 def test_tense_tranche2_take_future_wins():
-    """before: I will take … → after: tomaré/tomarei/πάρω (cheapest)."""
+    """I will take selects Spanish tomaré after Greek removal."""
     t = _tessera()
     src = "I will take it tomorrow."
     out = t.apply_es_fr_tense(src)
-    assert any(s in out for s in ("tomaré", "tomarei", "πάρω"))
+    assert "tomaré" in out
     assert "will take" not in out.lower()
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
@@ -492,7 +492,7 @@ def test_tense_tranche2_going_to_take_not_eaten_by_voy():
     out = t.apply_es_fr_tense(raw)
     assert "voy to" not in out.lower()
     assert "vou to" not in out.lower()
-    assert any(s in out for s in ("tomaré", "tomarei", "πάρω"))
+    assert "tomaré" in out
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
@@ -509,7 +509,7 @@ def test_tense_tranche2_try_and_read_prog():
 
 def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
     t = _tessera()
-    expected = {"take": "tomaré", "try": "tentarei", "find": "βρω",
+    expected = {"take": "tomaré", "try": "tentarei", "find": "acharei",
                 "call": "llamaré", "put": "porei", "bring": "trarei"}
     for verb, winner in expected.items():
         for prefix in ("I am going to ", "I'm going to "):
@@ -534,7 +534,7 @@ def test_tense_candidate_priority_is_independent_of_bank_order():
     t = _tessera()
     # Exercise each cost tie-breaker rather than accepting any candidate.
     cases = [
-        ([("tomaré", "es"), ("πάρω", "el")], "tomaré"),  # 2 = 2 tokens; 7 < 8 bytes
+        ([("tomaré", "es"), ("chamarei", "pt")], "tomaré"),  # retained forms: 2 = 2 tokens; 7 < 8 bytes
         ([("pondré", "es"), ("porei", "pt")], "porei"),
         ([("é", "pt"), ("ab", "en")], "é"),
         ([("b", "en"), ("a", "en")], "a"),
@@ -554,7 +554,8 @@ def test_tranche2_and_sibling_combined_final_pass():
     t = _tessera()
     raw = "I'm going to take my mobile phone once again."
     out = t.final_token_pass(raw)
-    assert any(form in out for form in ("tomaré", "tomarei", "πάρω"))
+    # el πάρω reversed (#164); pt cel reversed (#171) -> de Handy for "mobile phone"
+    assert any(form in out for form in ("tomaré", "tomarei"))
     assert "Handy" in out
     assert "once again" in out  # o200k tie (2 = 2): source kept
     assert "voy to" not in out and "vou to" not in out

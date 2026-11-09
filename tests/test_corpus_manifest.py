@@ -1,11 +1,7 @@
 """scripts/corpus_manifest.py と corpus_fetch.py の検証器テスト。"""
 from __future__ import annotations
 
-import copy
-import hashlib
-import io
-import json
-import sys
+import copy, hashlib, io, json, sys
 from pathlib import Path
 
 import pytest

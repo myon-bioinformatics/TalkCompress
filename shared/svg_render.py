@@ -16,15 +16,8 @@ CLI::
 
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
-import re
-import subprocess
-import sys
-import xml.etree.ElementTree as ET
-from importlib.metadata import version
-from pathlib import Path
+import argparse, hashlib, json, re, subprocess, sys, xml.etree.ElementTree as ET
+from importlib.metadata import version; from pathlib import Path
 
 try:
     from shared.svg_dsl import canonicalize

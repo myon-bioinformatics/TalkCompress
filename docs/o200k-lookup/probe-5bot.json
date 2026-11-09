@@ -1,0 +1,2656 @@
+{
+  "head": "84e5dca0028d90db73254af33ac2d9d3ce545790",
+  "python": "3.14.8",
+  "unicode": "16.0.0",
+  "tiktoken": "0.14.0",
+  "encoding": "o200k_base",
+  "samples": [
+    {
+      "text": "!?+$",
+      "codepoints": "U+0021 U+003F U+002B U+0024",
+      "categories": [
+        "Po",
+        "Po",
+        "Sm",
+        "Sc"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "p",
+          "!?+$"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 2,
+      "space_estimate": 1,
+      "space_o200k": 3,
+      "emoji_table": 4,
+      "sym": [
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "___",
+      "codepoints": "U+005F U+005F U+005F",
+      "categories": [
+        "Pc",
+        "Pc",
+        "Pc"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [],
+      "estimate": 0,
+      "o200k": 1,
+      "space_estimate": 0,
+      "space_o200k": 1,
+      "emoji_table": 3,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "☺",
+      "codepoints": "U+263A",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "☺"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 1,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 1,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "☺️",
+      "codepoints": "U+263A U+FE0F",
+      "categories": [
+        "So",
+        "Mn"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "e",
+          "☺️"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 3,
+      "emoji_table": 2,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "☺︎",
+      "codepoints": "U+263A U+FE0E",
+      "categories": [
+        "So",
+        "Mn"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "p",
+          "☺︎"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 2,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 4,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "☹",
+      "codepoints": "U+2639",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "☹"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "☹️",
+      "codepoints": "U+2639 U+FE0F",
+      "categories": [
+        "So",
+        "Mn"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "e",
+          "☹️"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 3,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "❤",
+      "codepoints": "U+2764",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "❤"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "❤️",
+      "codepoints": "U+2764 U+FE0F",
+      "categories": [
+        "So",
+        "Mn"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "e",
+          "❤️"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true,
+        false
+      ]
+    },
+    {
+      "text": "→",
+      "codepoints": "U+2192",
+      "categories": [
+        "Sm"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "→"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "→→",
+      "codepoints": "U+2192 U+2192",
+      "categories": [
+        "Sm",
+        "Sm"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "p",
+          "→→"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 2,
+      "space_estimate": 1,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        true,
+        true
+      ]
+    },
+    {
+      "text": "☺☺",
+      "codepoints": "U+263A U+263A",
+      "categories": [
+        "So",
+        "So"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "p",
+          "☺☺"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 2,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 2,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "©",
+      "codepoints": "U+00A9",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 2,
+      "pretokens": [
+        [
+          "p",
+          "©"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "©️",
+      "codepoints": "U+00A9 U+FE0F",
+      "categories": [
+        "So",
+        "Mn"
+      ],
+      "utf8_bytes": 5,
+      "pretokens": [
+        [
+          "e",
+          "©️"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        true,
+        false
+      ]
+    },
+    {
+      "text": "™",
+      "codepoints": "U+2122",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "™"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "™️",
+      "codepoints": "U+2122 U+FE0F",
+      "categories": [
+        "So",
+        "Mn"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "e",
+          "™️"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        true,
+        false
+      ]
+    },
+    {
+      "text": "∴",
+      "codepoints": "U+2234",
+      "categories": [
+        "Sm"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "∴"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "✅",
+      "codepoints": "U+2705",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "✅"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "☀️",
+      "codepoints": "U+2600 U+FE0F",
+      "categories": [
+        "So",
+        "Mn"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "e",
+          "☀️"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 3,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "︎",
+      "codepoints": "U+FE0E",
+      "categories": [
+        "Mn"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "︎"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 1,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 3,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "️",
+      "codepoints": "U+FE0F",
+      "categories": [
+        "Mn"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "️"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 1,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 1,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "‍",
+      "codepoints": "U+200D",
+      "categories": [
+        "Cf"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "e",
+          "‍"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "‌",
+      "codepoints": "U+200C",
+      "categories": [
+        "Cf"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "‌"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 3,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "é",
+      "codepoints": "U+0065 U+0301",
+      "categories": [
+        "Ll",
+        "Mn"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "w",
+          "é"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 3,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "x́",
+      "codepoints": "U+0078 U+0301",
+      "categories": [
+        "Ll",
+        "Mn"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "w",
+          "x́"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 3,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "x́̂",
+      "codepoints": "U+0078 U+0301 U+0302",
+      "categories": [
+        "Ll",
+        "Mn",
+        "Mn"
+      ],
+      "utf8_bytes": 5,
+      "pretokens": [
+        [
+          "w",
+          "x́̂"
+        ]
+      ],
+      "estimate": 5,
+      "o200k": 3,
+      "space_estimate": 5,
+      "space_o200k": 3,
+      "emoji_table": 5,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "́",
+      "codepoints": "U+0301",
+      "categories": [
+        "Mn"
+      ],
+      "utf8_bytes": 2,
+      "pretokens": [
+        [
+          "p",
+          "́"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 1,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "👍",
+      "codepoints": "U+1F44D",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "e",
+          "👍"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "👍🏽",
+      "codepoints": "U+1F44D U+1F3FD",
+      "categories": [
+        "So",
+        "Sk"
+      ],
+      "utf8_bytes": 8,
+      "pretokens": [
+        [
+          "e",
+          "👍🏽"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 3,
+      "sym": [
+        true,
+        false
+      ]
+    },
+    {
+      "text": "🏽",
+      "codepoints": "U+1F3FD",
+      "categories": [
+        "Sk"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "e",
+          "🏽"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 3,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "👨‍👩‍👧‍👦",
+      "codepoints": "U+1F468 U+200D U+1F469 U+200D U+1F467 U+200D U+1F466",
+      "categories": [
+        "So",
+        "Cf",
+        "So",
+        "Cf",
+        "So",
+        "Cf",
+        "So"
+      ],
+      "utf8_bytes": 25,
+      "pretokens": [
+        [
+          "e",
+          "👨‍👩‍👧‍👦"
+        ]
+      ],
+      "estimate": 11,
+      "o200k": 11,
+      "space_estimate": 11,
+      "space_o200k": 11,
+      "emoji_table": 11,
+      "sym": [
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "text": "👩🏽‍💻",
+      "codepoints": "U+1F469 U+1F3FD U+200D U+1F4BB",
+      "categories": [
+        "So",
+        "Sk",
+        "Cf",
+        "So"
+      ],
+      "utf8_bytes": 15,
+      "pretokens": [
+        [
+          "e",
+          "👩🏽‍💻"
+        ]
+      ],
+      "estimate": 7,
+      "o200k": 7,
+      "space_estimate": 7,
+      "space_o200k": 7,
+      "emoji_table": 7,
+      "sym": [
+        false,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "text": "🧑🏽‍💻",
+      "codepoints": "U+1F9D1 U+1F3FD U+200D U+1F4BB",
+      "categories": [
+        "So",
+        "Sk",
+        "Cf",
+        "So"
+      ],
+      "utf8_bytes": 15,
+      "pretokens": [
+        [
+          "e",
+          "🧑🏽‍💻"
+        ]
+      ],
+      "estimate": 8,
+      "o200k": 8,
+      "space_estimate": 8,
+      "space_o200k": 8,
+      "emoji_table": 8,
+      "sym": [
+        false,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "text": "❤️‍🔥",
+      "codepoints": "U+2764 U+FE0F U+200D U+1F525",
+      "categories": [
+        "So",
+        "Mn",
+        "Cf",
+        "So"
+      ],
+      "utf8_bytes": 13,
+      "pretokens": [
+        [
+          "e",
+          "❤️‍🔥"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 3,
+      "sym": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "text": "🏳️‍🌈",
+      "codepoints": "U+1F3F3 U+FE0F U+200D U+1F308",
+      "categories": [
+        "So",
+        "Mn",
+        "Cf",
+        "So"
+      ],
+      "utf8_bytes": 14,
+      "pretokens": [
+        [
+          "e",
+          "🏳️‍🌈"
+        ]
+      ],
+      "estimate": 6,
+      "o200k": 6,
+      "space_estimate": 6,
+      "space_o200k": 7,
+      "emoji_table": 6,
+      "sym": [
+        false,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "text": "🇯🇵",
+      "codepoints": "U+1F1EF U+1F1F5",
+      "categories": [
+        "So",
+        "So"
+      ],
+      "utf8_bytes": 8,
+      "pretokens": [
+        [
+          "e",
+          "🇯🇵"
+        ]
+      ],
+      "estimate": 4,
+      "o200k": 4,
+      "space_estimate": 4,
+      "space_o200k": 4,
+      "emoji_table": 4,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "🇺🇸",
+      "codepoints": "U+1F1FA U+1F1F8",
+      "categories": [
+        "So",
+        "So"
+      ],
+      "utf8_bytes": 8,
+      "pretokens": [
+        [
+          "e",
+          "🇺🇸"
+        ]
+      ],
+      "estimate": 4,
+      "o200k": 4,
+      "space_estimate": 4,
+      "space_o200k": 4,
+      "emoji_table": 4,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "🇯",
+      "codepoints": "U+1F1EF",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "e",
+          "🇯"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "1️⃣",
+      "codepoints": "U+0031 U+FE0F U+20E3",
+      "categories": [
+        "Nd",
+        "Mn",
+        "Me"
+      ],
+      "utf8_bytes": 7,
+      "pretokens": [
+        [
+          "d",
+          "1"
+        ],
+        [
+          "e",
+          "️⃣"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 3,
+      "emoji_table": 2,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "1⃣",
+      "codepoints": "U+0031 U+20E3",
+      "categories": [
+        "Nd",
+        "Me"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "d",
+          "1"
+        ],
+        [
+          "e",
+          "⃣"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 3,
+      "emoji_table": 2,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "#️⃣",
+      "codepoints": "U+0023 U+FE0F U+20E3",
+      "categories": [
+        "Po",
+        "Mn",
+        "Me"
+      ],
+      "utf8_bytes": 7,
+      "pretokens": [
+        [
+          "p",
+          "#"
+        ],
+        [
+          "e",
+          "️⃣"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "*️⃣",
+      "codepoints": "U+002A U+FE0F U+20E3",
+      "categories": [
+        "Po",
+        "Mn",
+        "Me"
+      ],
+      "utf8_bytes": 7,
+      "pretokens": [
+        [
+          "p",
+          "*"
+        ],
+        [
+          "e",
+          "️⃣"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "12️⃣",
+      "codepoints": "U+0031 U+0032 U+FE0F U+20E3",
+      "categories": [
+        "Nd",
+        "Nd",
+        "Mn",
+        "Me"
+      ],
+      "utf8_bytes": 8,
+      "pretokens": [
+        [
+          "d",
+          "12"
+        ],
+        [
+          "e",
+          "️⃣"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 3,
+      "emoji_table": 3,
+      "sym": [
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
+      "codepoints": "U+1F3F4 U+E0067 U+E0062 U+E0065 U+E006E U+E0067 U+E007F",
+      "categories": [
+        "So",
+        "Cf",
+        "Cf",
+        "Cf",
+        "Cf",
+        "Cf",
+        "Cf"
+      ],
+      "utf8_bytes": 28,
+      "pretokens": [
+        [
+          "e",
+          "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+        ]
+      ],
+      "estimate": 26,
+      "o200k": 26,
+      "space_estimate": 26,
+      "space_o200k": 27,
+      "emoji_table": 26,
+      "sym": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "󠁧",
+      "codepoints": "U+E0067",
+      "categories": [
+        "Cf"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "p",
+          "󠁧"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 4,
+      "space_estimate": 2,
+      "space_o200k": 5,
+      "emoji_table": 4,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "葛󠄀城",
+      "codepoints": "U+845B U+E0100 U+57CE",
+      "categories": [
+        "Lo",
+        "Mn",
+        "Lo"
+      ],
+      "utf8_bytes": 10,
+      "pretokens": [
+        [
+          "k",
+          "葛"
+        ],
+        [
+          "j",
+          "󠄀"
+        ],
+        [
+          "k",
+          "城"
+        ]
+      ],
+      "estimate": 7,
+      "o200k": 6,
+      "space_estimate": 7,
+      "space_o200k": 7,
+      "emoji_table": 10,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "한국어",
+      "codepoints": "U+D55C U+AD6D U+C5B4",
+      "categories": [
+        "Lo",
+        "Lo",
+        "Lo"
+      ],
+      "utf8_bytes": 9,
+      "pretokens": [
+        [
+          "k",
+          "한국어"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 9,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "한국어",
+      "codepoints": "U+1112 U+1161 U+11AB U+1100 U+116E U+11A8 U+110B U+1165",
+      "categories": [
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo"
+      ],
+      "utf8_bytes": 24,
+      "pretokens": [
+        [
+          "k",
+          "한국어"
+        ]
+      ],
+      "estimate": 24,
+      "o200k": 24,
+      "space_estimate": 24,
+      "space_o200k": 25,
+      "emoji_table": 24,
+      "sym": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "ภาษาไทย",
+      "codepoints": "U+0E20 U+0E32 U+0E29 U+0E32 U+0E44 U+0E17 U+0E22",
+      "categories": [
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo"
+      ],
+      "utf8_bytes": 21,
+      "pretokens": [
+        [
+          "c",
+          "ภาษาไทย"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 21,
+      "sym": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "Tiếng Việt",
+      "codepoints": "U+0054 U+0069 U+1EBF U+006E U+0067 U+0020 U+0056 U+0069 U+1EC7 U+0074",
+      "categories": [
+        "Lu",
+        "Ll",
+        "Ll",
+        "Ll",
+        "Ll",
+        "Zs",
+        "Lu",
+        "Ll",
+        "Ll",
+        "Ll"
+      ],
+      "utf8_bytes": 14,
+      "pretokens": [
+        [
+          "w",
+          "Tiếng"
+        ],
+        [
+          "w",
+          "Việt"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 14,
+      "sym": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "Tiếng Việt",
+      "codepoints": "U+0054 U+0069 U+0065 U+0302 U+0301 U+006E U+0067 U+0020 U+0056 U+0069 U+0065 U+0323 U+0302 U+0074",
+      "categories": [
+        "Lu",
+        "Ll",
+        "Ll",
+        "Mn",
+        "Mn",
+        "Ll",
+        "Ll",
+        "Zs",
+        "Lu",
+        "Ll",
+        "Ll",
+        "Mn",
+        "Mn",
+        "Ll"
+      ],
+      "utf8_bytes": 18,
+      "pretokens": [
+        [
+          "w",
+          "Tiếng"
+        ],
+        [
+          "w",
+          "Việt"
+        ]
+      ],
+      "estimate": 9,
+      "o200k": 8,
+      "space_estimate": 9,
+      "space_o200k": 8,
+      "emoji_table": 18,
+      "sym": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "שלום",
+      "codepoints": "U+05E9 U+05DC U+05D5 U+05DD",
+      "categories": [
+        "Lo",
+        "Lo",
+        "Lo",
+        "Lo"
+      ],
+      "utf8_bytes": 8,
+      "pretokens": [
+        [
+          "x",
+          "שלום"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 8,
+      "sym": [
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "مَرْحَبًا",
+      "codepoints": "U+0645 U+064E U+0631 U+0652 U+062D U+064E U+0628 U+064B U+0627",
+      "categories": [
+        "Lo",
+        "Mn",
+        "Lo",
+        "Mn",
+        "Lo",
+        "Mn",
+        "Lo",
+        "Mn",
+        "Lo"
+      ],
+      "utf8_bytes": 18,
+      "pretokens": [
+        [
+          "o",
+          "مَرْحَبًا"
+        ]
+      ],
+      "estimate": 9,
+      "o200k": 6,
+      "space_estimate": 9,
+      "space_o200k": 6,
+      "emoji_table": 18,
+      "sym": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "क़",
+      "codepoints": "U+0915 U+093C",
+      "categories": [
+        "Lo",
+        "Mn"
+      ],
+      "utf8_bytes": 6,
+      "pretokens": [
+        [
+          "i",
+          "क़"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 2,
+      "space_estimate": 1,
+      "space_o200k": 2,
+      "emoji_table": 6,
+      "sym": [
+        false,
+        false
+      ]
+    },
+    {
+      "text": "क्ष",
+      "codepoints": "U+0915 U+094D U+0937",
+      "categories": [
+        "Lo",
+        "Mn",
+        "Lo"
+      ],
+      "utf8_bytes": 9,
+      "pretokens": [
+        [
+          "i",
+          "क्ष"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 9,
+      "sym": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "text": "ක‍ක",
+      "codepoints": "U+0D9A U+200D U+0D9A",
+      "categories": [
+        "Lo",
+        "Cf",
+        "Lo"
+      ],
+      "utf8_bytes": 9,
+      "pretokens": [
+        [
+          "i",
+          "ක"
+        ],
+        [
+          "e",
+          "‍"
+        ],
+        [
+          "i",
+          "ක"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 3,
+      "space_estimate": 2,
+      "space_o200k": 3,
+      "emoji_table": 7,
+      "sym": [
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "text": "☻",
+      "codepoints": "U+263B",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "☻"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "☃",
+      "codepoints": "U+2603",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "☃"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "✈",
+      "codepoints": "U+2708",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "✈"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "⚠",
+      "codepoints": "U+26A0",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "⚠"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "⬆",
+      "codepoints": "U+2B06",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "⬆"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 3,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "♻",
+      "codepoints": "U+267B",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "♻"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "✔",
+      "codepoints": "U+2714",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "✔"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 1,
+      "space_estimate": 1,
+      "space_o200k": 1,
+      "emoji_table": 1,
+      "sym": [
+        true
+      ]
+    },
+    {
+      "text": "✖",
+      "codepoints": "U+2716",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 3,
+      "pretokens": [
+        [
+          "p",
+          "✖"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "🔟",
+      "codepoints": "U+1F51F",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "e",
+          "🔟"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2,
+      "space_estimate": 2,
+      "space_o200k": 2,
+      "emoji_table": 2,
+      "sym": [
+        false
+      ]
+    },
+    {
+      "text": "🫩",
+      "codepoints": "U+1FAE9",
+      "categories": [
+        "So"
+      ],
+      "utf8_bytes": 4,
+      "pretokens": [
+        [
+          "e",
+          "🫩"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3,
+      "space_estimate": 3,
+      "space_o200k": 3,
+      "emoji_table": 3,
+      "sym": [
+        false
+      ]
+    }
+  ],
+  "table_summary": {
+    "emoji_entries": 5599,
+    "emoji_key_lengths": {
+      "1": 5597,
+      "2": 2
+    },
+    "symbol_vocab": 128,
+    "range_costs": [
+      [
+        "0xff01",
+        94
+      ],
+      [
+        "0xff61",
+        63
+      ],
+      [
+        "0x1d400",
+        1024
+      ]
+    ]
+  },
+  "single_table_scan": {
+    "total": 5597,
+    "mismatches": 1566,
+    "by_kind": {
+      "p": 1458,
+      "x": 108
+    },
+    "examples": [
+      {
+        "text": "∀",
+        "codepoints": "U+2200",
+        "categories": [
+          "Sm"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "∀"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 1,
+        "space_estimate": 2,
+        "space_o200k": 2,
+        "emoji_table": 1,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "∆",
+        "codepoints": "U+2206",
+        "categories": [
+          "Sm"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "∆"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 1,
+        "space_estimate": 2,
+        "space_o200k": 2,
+        "emoji_table": 1,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "∙",
+        "codepoints": "U+2219",
+        "categories": [
+          "Sm"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "∙"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 1,
+        "space_estimate": 2,
+        "space_o200k": 2,
+        "emoji_table": 1,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "∞",
+        "codepoints": "U+221E",
+        "categories": [
+          "Sm"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "∞"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 1,
+        "space_estimate": 2,
+        "space_o200k": 2,
+        "emoji_table": 1,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "∨",
+        "codepoints": "U+2228",
+        "categories": [
+          "Sm"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "∨"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 1,
+        "space_estimate": 2,
+        "space_o200k": 2,
+        "emoji_table": 1,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "≈",
+        "codepoints": "U+2248",
+        "categories": [
+          "Sm"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "≈"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 1,
+        "space_estimate": 2,
+        "space_o200k": 2,
+        "emoji_table": 1,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "≫",
+        "codepoints": "U+226B",
+        "categories": [
+          "Sm"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "≫"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 1,
+        "space_estimate": 2,
+        "space_o200k": 2,
+        "emoji_table": 1,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍀",
+        "codepoints": "U+2340",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍀"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍁",
+        "codepoints": "U+2341",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍁"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍂",
+        "codepoints": "U+2342",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍂"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍃",
+        "codepoints": "U+2343",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍃"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍄",
+        "codepoints": "U+2344",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍄"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍅",
+        "codepoints": "U+2345",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍅"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍆",
+        "codepoints": "U+2346",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍆"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍇",
+        "codepoints": "U+2347",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍇"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍈",
+        "codepoints": "U+2348",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍈"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍉",
+        "codepoints": "U+2349",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍉"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍊",
+        "codepoints": "U+234A",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍊"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍋",
+        "codepoints": "U+234B",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍋"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍌",
+        "codepoints": "U+234C",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍌"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍍",
+        "codepoints": "U+234D",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍍"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍎",
+        "codepoints": "U+234E",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍎"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍏",
+        "codepoints": "U+234F",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍏"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍐",
+        "codepoints": "U+2350",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍐"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍑",
+        "codepoints": "U+2351",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍑"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍒",
+        "codepoints": "U+2352",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍒"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍓",
+        "codepoints": "U+2353",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍓"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍔",
+        "codepoints": "U+2354",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍔"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍕",
+        "codepoints": "U+2355",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍕"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      },
+      {
+        "text": "⍖",
+        "codepoints": "U+2356",
+        "categories": [
+          "So"
+        ],
+        "utf8_bytes": 3,
+        "pretokens": [
+          [
+            "p",
+            "⍖"
+          ]
+        ],
+        "estimate": 2,
+        "o200k": 3,
+        "space_estimate": 2,
+        "space_o200k": 3,
+        "emoji_table": 3,
+        "sym": [
+          false
+        ]
+      }
+    ]
+  },
+  "adjacency_samples": [
+    {
+      "text": "!👍",
+      "pretokens": [
+        [
+          "p",
+          "!👍"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 2
+    },
+    {
+      "text": "👍!",
+      "pretokens": [
+        [
+          "e",
+          "👍"
+        ],
+        [
+          "p",
+          "!"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2
+    },
+    {
+      "text": "☺👍",
+      "pretokens": [
+        [
+          "e",
+          "☺👍"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2
+    },
+    {
+      "text": "!❤️",
+      "pretokens": [
+        [
+          "p",
+          "!❤️"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2
+    },
+    {
+      "text": "❤️!",
+      "pretokens": [
+        [
+          "e",
+          "❤️"
+        ],
+        [
+          "p",
+          "!"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2
+    },
+    {
+      "text": "→👍",
+      "pretokens": [
+        [
+          "e",
+          "→👍"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2
+    },
+    {
+      "text": "©👍",
+      "pretokens": [
+        [
+          "p",
+          "©👍"
+        ]
+      ],
+      "estimate": 1,
+      "o200k": 2
+    },
+    {
+      "text": "👍©",
+      "pretokens": [
+        [
+          "e",
+          "👍"
+        ],
+        [
+          "p",
+          "©"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2
+    },
+    {
+      "text": "1️⃣!",
+      "pretokens": [
+        [
+          "d",
+          "1"
+        ],
+        [
+          "e",
+          "️⃣"
+        ],
+        [
+          "p",
+          "!"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3
+    },
+    {
+      "text": "#️⃣👍",
+      "pretokens": [
+        [
+          "p",
+          "#"
+        ],
+        [
+          "e",
+          "️⃣"
+        ],
+        [
+          "e",
+          "👍"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 3
+    },
+    {
+      "text": "👍︎",
+      "pretokens": [
+        [
+          "e",
+          "👍"
+        ],
+        [
+          "p",
+          "︎"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 2
+    },
+    {
+      "text": "☺️︎",
+      "pretokens": [
+        [
+          "e",
+          "☺️"
+        ],
+        [
+          "p",
+          "︎"
+        ]
+      ],
+      "estimate": 4,
+      "o200k": 3
+    },
+    {
+      "text": "a☺b",
+      "pretokens": [
+        [
+          "w",
+          "a"
+        ],
+        [
+          "p",
+          "☺"
+        ],
+        [
+          "w",
+          "b"
+        ]
+      ],
+      "estimate": 4,
+      "o200k": 3
+    },
+    {
+      "text": "ok ☺️",
+      "pretokens": [
+        [
+          "w",
+          "ok"
+        ],
+        [
+          "e",
+          "☺️"
+        ]
+      ],
+      "estimate": 3,
+      "o200k": 4
+    },
+    {
+      "text": "x 🇯🇵 y",
+      "pretokens": [
+        [
+          "w",
+          "x"
+        ],
+        [
+          "e",
+          "🇯🇵"
+        ],
+        [
+          "w",
+          "y"
+        ]
+      ],
+      "estimate": 6,
+      "o200k": 6
+    },
+    {
+      "text": "_",
+      "pretokens": [],
+      "estimate": 0,
+      "o200k": 1
+    },
+    {
+      "text": "a_b",
+      "pretokens": [
+        [
+          "w",
+          "a"
+        ],
+        [
+          "w",
+          "b"
+        ]
+      ],
+      "estimate": 2,
+      "o200k": 2
+    }
+  ]
+}

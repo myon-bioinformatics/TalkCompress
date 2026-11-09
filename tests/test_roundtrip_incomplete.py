@@ -1,8 +1,5 @@
-import copy
-import importlib.util
-import json
+import copy, importlib.util, json, subprocess
 from pathlib import Path
-import subprocess
 
 import pytest
 

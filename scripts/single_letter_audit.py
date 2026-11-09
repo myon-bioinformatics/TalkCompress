@@ -9,9 +9,7 @@
 """
 from __future__ import annotations
 
-import re
-import string
-import sys
+import re, string, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -108,9 +106,10 @@ def hyphen_join(text: str) -> str:
     return _HYPHEN_JOIN.sub("-", text)
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    argv = sys.argv[1:] if argv is None else list(argv)
     fails = run()
-    if "--md" in sys.argv:
+    if "--md" in argv:
         print(md_table(fails))
     for f in fails:
         print(*f, sep="\t")
