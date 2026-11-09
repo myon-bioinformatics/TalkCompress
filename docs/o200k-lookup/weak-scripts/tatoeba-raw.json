@@ -1,0 +1,702 @@
+{
+ "ara": [
+  {
+   "id": 14098687,
+   "text": "بنو آدم أعضاء في جسم واحد، خُلقوا في الأصل من جوهر واحد.",
+   "owner": "Adelpa",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 7009445,
+    "text": "All human beings are members of one frame, since all, at first, from the same essence came.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Adelpa",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14098155,
+   "text": "خير وسيلة للدفاع الهجوم.",
+   "owner": "Adelpa",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 240888,
+    "text": "Attack is the best form of defense.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14097971,
+   "text": "ما هو الطول الموجي للضوء؟",
+   "owner": "Adelpa",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 5118343,
+    "text": "What is the light's wavelength?",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Lindoula",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "hin": [
+  {
+   "id": 13991844,
+   "text": "वह छोकरा होशियार है।",
+   "owner": "sabretou",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 397882,
+    "text": "That boy is smart.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": false
+   }
+  },
+  {
+   "id": 13991842,
+   "text": "सबूत साफ़ है।",
+   "owner": "sabretou",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 268226,
+    "text": "The evidence is clear.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CM",
+    "is_unapproved": false,
+    "is_direct": false
+   }
+  },
+  {
+   "id": 13991682,
+   "text": "मेरी आत्मा आकाश में है।",
+   "owner": "sabretou",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 521636,
+    "text": "My soul is in the sky.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "FeuDRenais",
+    "is_unapproved": false,
+    "is_direct": false
+   }
+  }
+ ],
+ "ben": [
+  {
+   "id": 13873180,
+   "text": "আমার জীবনের লক্ষ্য আমিই ঠিক করব।",
+   "owner": "robingaspi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 8222202,
+    "text": "I'm the one who decides my purpose in life.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "josivangoncalves",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 13873178,
+   "text": "সামি ব্যাংকে যাচ্ছে।",
+   "owner": "robingaspi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 7209531,
+    "text": "Sami is going to the bank.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "OsoHombre",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 13873175,
+   "text": "অনুমান করুন।",
+   "owner": "robingaspi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 2249573,
+    "text": "Make a guess.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "urd": [
+  {
+   "id": 13958878,
+   "text": "تیار رہو۔",
+   "owner": "Roomba_Unit",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 2111960,
+    "text": "Be prepared.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 13958871,
+   "text": "انہوں نے پوچھا کہ آیا انہیں نئے الفاظ لکھنے تھے۔",
+   "owner": "Roomba_Unit",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 872997,
+    "text": "They asked whether they should write down the new words.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CM",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 13958867,
+   "text": "کہا جاتا ہے کہ لیگون کے مرکز پر پانی ایک بھنور بناتا ہے۔",
+   "owner": "Roomba_Unit",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 13958863,
+    "text": "They say that, in the middle of that lagoon, the water forms a whirlpool.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "IdiomHunter",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "tha": [
+  {
+   "id": 13951953,
+   "text": "เราไม่บิน",
+   "owner": "Vortarulo",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 12832931,
+    "text": "We don't fly.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "rul",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 13290381,
+   "text": "ช่วยฉันดันหน่อย",
+   "owner": "NigerianSmiths",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 10553427,
+    "text": "Help me push it.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "AlanF_US",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 13228524,
+   "text": "นี่คือเพื่อนของดิฉัน",
+   "owner": "atitarev",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 675960,
+    "text": "This is my friend.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "kor": [
+  {
+   "id": 14083617,
+   "text": "너는 사과를 좋아합니다.",
+   "owner": "ninefi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 2650901,
+    "text": "You like apples.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "shekitten",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14040202,
+   "text": "재벌적인 뉴스회사들은 대부분 자본주의에 문제점을 무시했다.",
+   "owner": "Qibli",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14040201,
+    "text": "Corporate media have largely ignored the problems of capitalism at large.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Qibli",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14040199,
+   "text": "한류가 지금 온 세상을 횝쓸고 있씁니다.",
+   "owner": "Qibli",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14040200,
+    "text": "Hallyu is sweeping across the world.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Qibli",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "hye": [
+  {
+   "id": 14098671,
+   "text": "Որտե՞ղ է իմ սաղավարտը։",
+   "owner": "Proxima5",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14098322,
+    "text": "Where is my helmet?",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "opalandwoof",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14097853,
+   "text": "Մերին ցույց տվեց ինձ, թե ինչ նկատի ուներ։",
+   "owner": "Proxima5",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 6427015,
+    "text": "Mary showed me what she meant.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CF",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14093288,
+   "text": "Խնդրում ենք մեզ մի քանի օրինակ բերել։",
+   "owner": "Proxima5",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 38454,
+    "text": "Please give us some examples.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "kat": [
+  {
+   "id": 14098399,
+   "text": "მან შროშანები შეუკვეთა.",
+   "owner": "opalandwoof",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 12926396,
+    "text": "He ordered lilies.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Conjuice",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14051872,
+   "text": "სად მუშაობდით?",
+   "owner": "ninefi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 4910960,
+    "text": "Where did you work?",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "minmin123",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14051494,
+   "text": "ვეღარ ვაკეთებ.",
+   "owner": "ninefi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14051233,
+    "text": "I can't do it any longer.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "maaster",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "amh": [
+  {
+   "id": 13630017,
+   "text": "ኢትዮጵያ ትልቅ አገር ናት።",
+   "owner": "ninefi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 9588132,
+    "text": "Ethiopia is a big country.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "lovermann",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 13192426,
+   "text": "Endemin aderk /እንደ ምን አደርክ/",
+   "owner": "Mesi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 2258234,
+    "text": "Good morning.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "_undertoad",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 12977978,
+   "text": "ዛሬ የማይረሳ ቀን ነበር።",
+   "owner": "abiniz",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 12975571,
+    "text": "Today was an unforgettable day.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Tom9358",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "bod": [
+  {
+   "id": 14057608,
+   "text": "ང་ལ་ཞི་མི་གཉིས་ཡོད​།",
+   "owner": "ninefi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 2412739,
+    "text": "I have two cats.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "fjrjdk",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14057586,
+   "text": "ང་སློབ་གྲྭ་ར་འགྲོ་འདོད་མེད​།",
+   "owner": "ninefi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 1860,
+    "text": "I don't want to go to school.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 8858110,
+   "text": "༄༅།།ལོ་གསར་ལ་བཀྲ་ཤིས་བདེ་ལེགས་ཞུ།",
+   "owner": "iiujik",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 361350,
+    "text": "Happy New Year!",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "blay_paul",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "rus": [
+  {
+   "id": 14098755,
+   "text": "Вы сделаете всё, что можете.",
+   "owner": "marafon",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 9631997,
+    "text": "You will do all that you can.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "megamanenm",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14098747,
+   "text": "Безопаснее остаться здесь.",
+   "owner": "marafon",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 954093,
+    "text": "It's safer to stay here.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "CK",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14098745,
+   "text": "Здесь мы будем в большей безопасности.",
+   "owner": "marafon",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 6532463,
+    "text": "We will be safer here.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "sejb",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "ind": [
+  {
+   "id": 14098757,
+   "text": "Hai, sayang!",
+   "owner": "HAGNi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 6586783,
+    "text": "Hello, darling!",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Eccles17",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14098756,
+   "text": "Aku tidak tahu siapa yang mata-mata dan siapa yang bukan.",
+   "owner": "HAGNi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14098106,
+    "text": "I don't know who is and isn't a spy.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "rul",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14098741,
+   "text": "Ia dibutakan oleh kebencian.",
+   "owner": "HAGNi",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14098378,
+    "text": "He was blinded by hatred.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Myrano_",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "tur": [
+  {
+   "id": 14097888,
+   "text": "Elektrik fiyatları yükseldi.",
+   "owner": "Adelpa",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 10729343,
+    "text": "Electricity prices went up.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "sundown",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14097343,
+   "text": "Siyaset, mümkün olanın sanatıdır.",
+   "owner": "Adelpa",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 6199710,
+    "text": "Politics is the art of the possible.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "sundown",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14097086,
+   "text": "Demokrasiye inanıyorum.",
+   "owner": "Adelpa",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 5607286,
+    "text": "I believe in democracy.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "mailohilohi",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ],
+ "vie": [
+  {
+   "id": 14096953,
+   "text": "Nó không đau – giống như muỗi cắn thôi.",
+   "owner": "leucammieuvu",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14096336,
+    "text": "It won't hurt – like a mosquito's sting.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Ooneykcall",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14096952,
+   "text": "Bạn có nhận ra giọng nói này không?",
+   "owner": "leucammieuvu",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14096354,
+    "text": "Do you recognise the voice?",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "Ooneykcall",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  },
+  {
+   "id": 14096951,
+   "text": "Nước Đức không phải chỉ là Berlin.",
+   "owner": "leucammieuvu",
+   "license": "CC BY 2.0 FR",
+   "en": {
+    "id": 14096339,
+    "text": "Germany isn't just Berlin.",
+    "lang": "eng",
+    "script": null,
+    "license": "CC BY 2.0 FR",
+    "owner": "rul",
+    "is_unapproved": false,
+    "is_direct": true
+   }
+  }
+ ]
+}

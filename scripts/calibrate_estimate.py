@@ -331,11 +331,11 @@ def report() -> dict:
     return out
 
 
-def main() -> None:
+def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--report", action="store_true")
-    a = ap.parse_args()
+    a = ap.parse_args(argv)
     if a.write:
         CALIB.write_text(json.dumps(build(), ensure_ascii=False, indent=0, sort_keys=True) + "\n", encoding="utf-8")
         print("wrote", CALIB.relative_to(ROOT))

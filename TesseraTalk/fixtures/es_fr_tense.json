@@ -130,23 +130,6 @@
       }
     },
     {
-      "id": "go-fut-1p",
-      "from": [
-        "we will go"
-      ],
-      "to": "we will go",
-      "lang": "es",
-      "tense": "future",
-      "note": "roundtrip-reversed short form was 'vamos'; EN left (docs/es_roundtrip_20261109.md)",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "utf8_before": 10,
-        "utf8_after": 5,
-        "both_shrink": true
-      }
-    },
-    {
       "id": "go-fut-3p",
       "from": [
         "they will go"
@@ -171,24 +154,6 @@
           "lang": "es"
         }
       ]
-    },
-    {
-      "id": "go-past-3s",
-      "from": [
-        "she went",
-        "he went"
-      ],
-      "to": "she went",
-      "lang": "es",
-      "tense": "past",
-      "note": "roundtrip-reversed short form was 'fue'; EN left (docs/es_roundtrip_20261109.md)",
-      "metrics": {
-        "token_before": 2,
-        "token_after": 1,
-        "utf8_before": 8,
-        "utf8_after": 3,
-        "both_shrink": true
-      }
     },
     {
       "id": "go-cond-1s",
@@ -522,23 +487,6 @@
           "lang": "es"
         }
       ]
-    },
-    {
-      "id": "could-past-1s",
-      "from": [
-        "I could"
-      ],
-      "to": "I could",
-      "lang": "es",
-      "tense": "past",
-      "note": "roundtrip-reversed short form was 'pude'; EN left (docs/es_roundtrip_20261109.md)",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 7,
-        "utf8_after": 4,
-        "both_shrink": true
-      }
     },
     {
       "id": "see-fut-1s",
@@ -1679,6 +1627,58 @@
         }
       ],
       "note": "explicit going-to; compraré 2tok/9B（αγοράσω 2tok/14B は utf8 負け）; nl koop/ga kopen は未来の意味が弱く不採用"
+    },
+    {
+      "id": "go-fut-1p",
+      "from": [
+        "we will go"
+      ],
+      "to": "we will go",
+      "lang": "es",
+      "tense": "future",
+      "note": "roundtrip-reversed short form was 'vamos'; EN left (docs/es_roundtrip_20261109.md)",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 10,
+        "utf8_after": 5,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "go-past-3s",
+      "from": [
+        "she went",
+        "he went"
+      ],
+      "to": "she went",
+      "lang": "es",
+      "tense": "past",
+      "note": "roundtrip-reversed short form was 'fue'; EN left (docs/es_roundtrip_20261109.md)",
+      "metrics": {
+        "token_before": 2,
+        "token_after": 1,
+        "utf8_before": 8,
+        "utf8_after": 3,
+        "both_shrink": true
+      }
+    },
+    {
+      "id": "could-past-1s",
+      "from": [
+        "I could"
+      ],
+      "to": "I could",
+      "lang": "es",
+      "tense": "past",
+      "note": "roundtrip-reversed short form was 'pude'; EN left (docs/es_roundtrip_20261109.md)",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 7,
+        "utf8_after": 4,
+        "both_shrink": true
+      }
     }
   ],
   "examples_not_registered": [
@@ -1903,43 +1903,32 @@
       "why_dropped": "EN homograph guard: every candidate spells an English word (vi) → hand row dropped; tense_matrix supplies the next-cheapest unique form (I came → kwam, I saw → vis)"
     },
     {
-      "id": "take-fut-1s-el",
+      "id": "go-fut-1p",
       "from": [
-        "I will take",
-        "I'll take"
+        "we will go"
       ],
-      "to": "πάρω",
-      "lang": "el",
-      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+      "to": "vamos",
+      "lang": "es",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as we go; source we will go). Short form vamos reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
     },
     {
-      "id": "take-fut-goingto-1s-el",
+      "id": "go-past-3s",
       "from": [
-        "I am going to take",
-        "I'm going to take"
+        "she went",
+        "he went"
       ],
-      "to": "πάρω",
-      "lang": "el",
-      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+      "to": "fue",
+      "lang": "es",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as he went; source she went). Short form fue reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
     },
     {
-      "id": "find-fut-1s-el",
+      "id": "could-past-1s",
       "from": [
-        "I will find"
+        "I could"
       ],
-      "to": "βρω",
-      "lang": "el",
-      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
-    },
-    {
-      "id": "find-fut-goingto-1s-el",
-      "from": [
-        "I am going to find",
-        "I'm going to find"
-      ],
-      "to": "βρω",
-      "lang": "el",
-      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
+      "to": "pude",
+      "lang": "es",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as I was able to; source I could). Short form pude reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
     },
     {
       "id": "go-fut-3sm",
@@ -2030,34 +2019,6 @@
       "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Tried.\", \"Maybe tried today.\", \"She told me that tried.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
     },
     {
-      "id": "go-fut-1p",
-      "from": [
-        "we will go"
-      ],
-      "to": "vamos",
-      "lang": "es",
-      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as we go; source we will go). Short form vamos reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
-    },
-    {
-      "id": "go-past-3s",
-      "from": [
-        "she went",
-        "he went"
-      ],
-      "to": "fue",
-      "lang": "es",
-      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as he went; source she went). Short form fue reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
-    },
-    {
-      "id": "could-past-1s",
-      "from": [
-        "I could"
-      ],
-      "to": "pude",
-      "lang": "es",
-      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as I was able to; source I could). Short form pude reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
-    },
-    {
       "id": "take-past-1s",
       "from": [
         "I took"
@@ -2074,6 +2035,45 @@
       "to": "arrivé",
       "lang": "fr",
       "why_dropped": "independent blind AI round-trip 0/9 (fr:arrivé never; judge restored 'He arrived'); docs/fr_roundtrip_20261109.md — EN kept, es/pt/nl/el candidates not promoted"
+    },
+    {
+      "id": "take-fut-1s-el",
+      "from": [
+        "I will take",
+        "I'll take"
+      ],
+      "to": "πάρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+    },
+    {
+      "id": "take-fut-goingto-1s-el",
+      "from": [
+        "I am going to take",
+        "I'm going to take"
+      ],
+      "to": "πάρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I take); πάρω and tomaré both cost 2 tokens, but πάρω (8 UTF-8 bytes) loses to tomaré (7)."
+    },
+    {
+      "id": "find-fut-1s-el",
+      "from": [
+        "I will find"
+      ],
+      "to": "βρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
+    },
+    {
+      "id": "find-fut-goingto-1s-el",
+      "from": [
+        "I am going to find",
+        "I'm going to find"
+      ],
+      "to": "βρω",
+      "lang": "el",
+      "why_dropped": "AI round-trip exact-match 0/9 for this source (0/18 across both sources; restored as I find)."
     }
   ]
 }
