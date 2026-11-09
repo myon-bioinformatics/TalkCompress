@@ -60,3 +60,21 @@ def test_replay_harness_matches_judge_file():
 
 def test_bank_is_fresh():
     assert tm.main(["--check"]) == 0
+
+
+@pytest.mark.parametrize("fixture", ["es_fr_tense.json", "zh_de_phrases.json"])
+def test_nl_winners_outside_tense_matrix_passed(fixture):
+    bank = json.loads((ROOT / "TesseraTalk/fixtures" / fixture).read_text(encoding="utf-8"))
+    nl = [entry for entry in bank["entries"] if entry["lang"] == "nl"]
+    assert nl
+    for entry in nl:
+        form = entry["to"]
+        assert rt.status(DATA, "nl", form) == "pass", entry
+        cohort = rt.latest_cohort(DATA["records"][rt.key("nl", form)])
+        assert cohort is not None and cohort["complete"]
+        assert cohort["judge_provenance"]["kind"] == "independent_blind_judge"
+        assert cohort["completed"] >= DATA["min_trials"]
+        assert cohort["config"]["seeds"] == [1, 2, 3]
+        assert cohort["config"]["templates"] == DATA["templates"]
+        for target in cohort["targets"]:
+            assert rt.norm(JUDGE[target["converted"]]) == rt.norm(target["source"])

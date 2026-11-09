@@ -1,22 +1,8 @@
-import pytest
-
-pytest.importorskip("playwright.sync_api")
-
-from shared.svg_render import Renderer, l2_check  # noqa: E402
+from shared.svg_render import l2_check
 
 BASE = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">{}</svg>'
 CIRCLE = BASE.format('<circle cx="32" cy="32" r="20" fill="#f00" stroke="#000" stroke-width="2"/>')
 TEXT = BASE.format('<text x="32" y="36" text-anchor="middle" font-family="Noto Sans CJK JP" font-size="8">図</text>')
-
-
-@pytest.fixture(scope="module")
-def renderer():
-    try:
-        r = Renderer()
-    except Exception as exc:  # no browser in this environment
-        pytest.skip(f"chromium unavailable: {exc}")
-    yield r
-    r.close()
 
 
 def test_same_drawing_renders_to_same_pixels(renderer):

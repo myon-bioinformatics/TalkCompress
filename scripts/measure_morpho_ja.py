@@ -26,10 +26,10 @@ def stat(s: str) -> str:
     return f"{len(ENC.encode(s))} / {len(s.encode())}"
 
 
-def main() -> None:
+def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ref")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     text = SAMPLE.read_text().strip()
     print(f"字数 {len(text)}")
     print(f"原文            {stat(text)}")

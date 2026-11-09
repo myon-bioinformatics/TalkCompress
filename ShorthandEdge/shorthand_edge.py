@@ -56,7 +56,7 @@ DEFAULT_MAP: dict[str, str] = {
     "do not disturb": "DND",
     "please": "pls",
     "people": "ppl",
-    "because": "bc",
+    "because": "cuz",
     "before": "b4",
     "great": "gr8",
     "never mind": "nvm",
