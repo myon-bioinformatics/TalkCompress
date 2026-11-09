@@ -38,6 +38,7 @@ TalkCompress は、**誰が、どの共有知識・規則を持てば理解で�
 | 各層の担当・語彙ポリシー | [層の設計](docs/layers.md) |
 | 共有台帳と LLM 同士の交渉 | [Zipilogue](Zipilogue/README.md)、[交渉の診断と実測](docs/zipilogue-negotiation-feedback.md) |
 | トークン・多言語短形の比較 | [tokenizer 間の互換レポート](docs/tokenizer_compat.md)、[人称・時制行列](docs/tense_matrix.md) |
+| トークン数推定（`estimate_tokens`）の較正と限界 | [Unicode 推定器のレビュー](docs/unicode-estimate-review-20261104.md)（自然文向けの目安で、安全な上限ではない）、[不可視制御文字の扱い](docs/invisible-controls-comparison.md) |
 | 保持項目と QA 評価の範囲 | [keep-check](shared/keep_check.py)、[QA fidelity](shared/qa_fidelity.py)、[採点の検証記録](docs/qa-fidelity-validation.md) |
 | 文法・文型による省略と復元 | [文型表記の実験記録](docs/syntax-pattern-encoding.md)、[往復チェックの記録](docs/roundtrip_impact.md) |
 | 図の意味をテキストで往復する実験 | [SVG L3 の手順・実測・限界](docs/l3-run.md) |
@@ -71,6 +72,26 @@ Python 中心で、基本ランタイムの必須依存は現在ありません�
 | C | [ShorthandEdge](ShorthandEdge/) | 層3 — スラング・略語・絵文字・規約・FILLER・UNIQUE_COMPACT・I'll・スペル数字・**合意台帳** |
 | D | [DensityZip](DensityZip/) | 横断 — 入出力・層切替・共通CLI + **density** 指標ファサード（台帳は持たない; Zipilogue/MorphoZip とは別） |
 | E | [MorphoZip](MorphoZip/) | 層4 — 文内多言語・文法最小・語源寄せ・冠詞・助数詞（ℹ️ は C；フィラー除去は既定オフ） |
+
+## 🎞️ ブラウザ証跡
+
+![examples/figures の SVG 6 枚を Chromium で表示（PC 720×480・スマホ 392×848）](docs/evidence/browser.gif)
+
+🗓️ 2026-11-07 · 🧭 Chromium 153 · 🐧 Linux · 受領 [`docs/evidence/browser.json`](docs/evidence/browser.json)
+
+| 🧪 テスト | ✅ | ⛔ | 📝 |
+| --- | ---: | ---: | --- |
+| `tests/test_svg_render.py` · `test_svg_figure.py` · `test_asr_normalize.py` | 91 | 1 | ⛔ は tiktoken の語彙取得（ネットワーク）で、ブラウザとは無関係 |
+| 🎞️ 証跡 GIF | 7 | 0 | |
+
+🧭 CI の `browser` ジョブ（Python 3.14・Chromium・Noto CJK）がこの 2 ファイルを実行します。`TALKCOMPRESS_REQUIRE_BROWSER=1` なのでブラウザが無ければ skip ではなく失敗になります。手元は `uv sync --group browser` → `python -m playwright install --only-shell chromium`。
+👀 `flow_center` は `mode: "center"` の指定どおり中心どうしを結ぶので、線が A / B のラベルに重なります。
+
+🔁 撮り直し:
+
+```sh
+uv run --project ../BrowserTestKit --group pages --group browser python ../BrowserTestKit/tools/evidence_gif.py docs/evidence/browser.gif --serve . --plan docs/evidence/browser.json
+```
 
 ## 開発・CI
 
