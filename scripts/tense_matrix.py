@@ -697,7 +697,12 @@ def audit_banks(t, reg: dict) -> list[dict]:
 def _existing_sources(t) -> set[str]:
     srcs: set[str] = set()
     for loader in (t.load_es_fr_tense_bank, t.load_pt_el_latin_tense_bank):
-        for e in loader()["entries"]:
+        data = loader()
+        # Keep individually reversed sources out of the generated bank too:
+        # removing their handwritten entry must not silently promote another lang.
+        reserved = data["entries"] + [e for e in data.get("examples_not_registered", [])
+                                      if e.get("roundtrip_reversed")]
+        for e in reserved:
             for s in e.get("from") or []:
                 for v in t._subject_aux_variants(str(s)):
                     srcs.add(v.lower())
@@ -738,6 +743,64 @@ def en_baselines(src: str) -> list[str]:
 
 
 ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
+# Individually reversed pt winners, measured with the immutable blind judge.
+# Not language-wide enforcement. A reversed cell stays English: do not promote
+# its next-language candidate (including English-homograph alternatives).
+ROUNDTRIP_REVERSED = frozenset({
+    ("pt", "acharam"),
+    ("pt", "dei"),
+    ("pt", "disseram"),
+    ("pt", "fizeram"),
+    ("pt", "foi"),
+    ("pt", "foste"),
+    ("pt", "pensaram"),
+    ("pt", "que acha"),
+    ("pt", "que deram"),
+    ("pt", "que deu"),
+    ("pt", "que fizeram"),
+    ("pt", "que foi"),
+    ("pt", "que foram"),
+    ("pt", "que vem"),
+    ("pt", "quiseram"),
+    ("pt", "these acharam"),
+    ("pt", "these deram"),
+    ("pt", "these disseram"),
+    ("pt", "these fizeram"),
+    ("pt", "these foram"),
+    ("pt", "these pensaram"),
+    ("pt", "these quiseram"),
+    ("pt", "these tiveram"),
+    ("pt", "these tomaram"),
+    ("pt", "these vieram"),
+    ("pt", "these viram"),
+    ("pt", "this deu"),
+    ("pt", "this foi"),
+    ("pt", "those acharam"),
+    ("pt", "those deram"),
+    ("pt", "those disseram"),
+    ("pt", "those fizeram"),
+    ("pt", "those foram"),
+    ("pt", "those pensaram"),
+    ("pt", "those quiseram"),
+    ("pt", "those tiveram"),
+    ("pt", "those tomaram"),
+    ("pt", "those vieram"),
+    ("pt", "those viram"),
+    ("pt", "tiveram"),
+    ("pt", "tomaram"),
+    ("pt", "vieram"),
+    ("pt", "viram"),
+    ("pt", "virá"),
+    ("pt", "which deram"),
+    ("pt", "which deu"),
+    ("pt", "which fizeram"),
+    ("pt", "which foi"),
+    ("pt", "which foram"),
+    ("pt", "who deram"),
+    ("pt", "who deu"),
+    ("pt", "who foi"),
+    ("pt", "who foram"),
+})
 _RT_DATA: dict = {}
 
 
@@ -746,7 +809,9 @@ def _rt_ok(form: str, lang: str, gate=None) -> bool:
         sys.path.insert(0, str(ROOT / "scripts"))
         import roundtrip as rt
 
-        if rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form) != "pass":
+        if "d" not in _RT_DATA:
+            _RT_DATA["d"] = rt.load()
+        if rt.status(_RT_DATA["d"], lang, form) != "pass":
             return False
     return gate is None or gate(form, lang)
 
@@ -755,7 +820,9 @@ def _rt_status(form: str, lang: str) -> str:
     sys.path.insert(0, str(ROOT / "scripts"))
     import roundtrip as rt
 
-    return rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form)
+    if "d" not in _RT_DATA:
+        _RT_DATA["d"] = rt.load()
+    return rt.status(_RT_DATA["d"], lang, form)
 
 
 def restore_nl(cell: dict, cands: list[dict], held: list[dict], en_tok: int, tok) -> list[dict]:
@@ -952,6 +1019,15 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 c.update(status="reject", reason="no progressive-preserving candidate shrinks both token and utf8 (EN kept)")
             else:
                 c.update(status="reject", reason="no candidate shrinks both token and utf8")
+    # Reverse ADOPTED winners only, after the original ranking/parity decision.
+    # Dropping any candidate earlier would also erase cells won by other langs
+    # and alter passing members of parity classes. Never rerank a reversed cell.
+    for cell in cells:
+        entry = cell.get("_entry")
+        if entry and (entry["lang"], entry["to"]) in ROUNDTRIP_REVERSED:
+            cell.pop("_entry")
+            cell.update(status="reject", candidates=[], roundtrip_reversed=[entry["to"]],
+                        reason="independent blind round-trip failed; EN kept (no fallback promotion)")
     entries.extend(c.pop("_entry") for c in cells if "_entry" in c)
     bank = {
         "version": 1,
