@@ -64,7 +64,8 @@ def test_es_fr_fand_recorded_as_not_registered():
 
 
 def test_zh_entries_untouched_count():
-    assert sum(1 for e in PHRASES["entries"] if e["lang"] == "zh") == 62
+    # 62 → 37 after the zh round-trip gate (#169); this PR does not touch zh entries.
+    assert sum(1 for e in PHRASES["entries"] if e["lang"] == "zh") == 37
 
 
 def test_roundtrip_enforced_langs_unchanged():

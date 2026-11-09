@@ -6,20 +6,20 @@
 
 | tokenizer | pin | 勝ち | / 採用 |
 |---|---|---|---|
-| o200k_base | tiktoken@0.14.0 | 744 | 744 |
-| cl100k_base | tiktoken@0.14.0 | 574 | 744 |
-| qwen2.5 | Qwen/Qwen2.5-0.5B@060db6499f32 | 591 | 744 |
-| qwen3 | Qwen/Qwen3-0.6B@c1899de289a0 | 591 | 744 |
-| llama3.2 | unsloth/Llama-3.2-1B@9535bd9b1d1d | 585 | 744 |
-| mistral-v0.3 | unsloth/mistral-7b-v0.3@9ea1b83f5ced | 511 | 744 |
-| deepseek-v3 | deepseek-ai/DeepSeek-V3@e815299b0bcb | 592 | 744 |
+| o200k_base | tiktoken@0.14.0 | 679 | 679 |
+| cl100k_base | tiktoken@0.14.0 | 523 | 679 |
+| qwen2.5 | Qwen/Qwen2.5-0.5B@060db6499f32 | 540 | 679 |
+| qwen3 | Qwen/Qwen3-0.6B@c1899de289a0 | 540 | 679 |
+| llama3.2 | unsloth/Llama-3.2-1B@9535bd9b1d1d | 534 | 679 |
+| mistral-v0.3 | unsloth/mistral-7b-v0.3@9ea1b83f5ced | 463 | 679 |
+| deepseek-v3 | deepseek-ai/DeepSeek-V3@e815299b0bcb | 543 | 679 |
 
 | 区分 | セル数 |
 |---|---|
-| all | 497 |
-| o200k only | 128 |
-| 6/7 | 68 |
+| all | 449 |
+| o200k only | 114 |
+| 6/7 | 67 |
 | 2/7 | 15 |
 | 4/7 | 13 |
 | 3/7 | 12 |
-| 5/7 | 11 |
+| 5/7 | 9 |

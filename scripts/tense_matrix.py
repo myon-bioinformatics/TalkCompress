@@ -697,7 +697,12 @@ def audit_banks(t, reg: dict) -> list[dict]:
 def _existing_sources(t) -> set[str]:
     srcs: set[str] = set()
     for loader in (t.load_es_fr_tense_bank, t.load_pt_el_latin_tense_bank):
-        for e in loader()["entries"]:
+        data = loader()
+        # Keep individually reversed sources out of the generated bank too:
+        # removing their handwritten entry must not silently promote another lang.
+        reserved = data["entries"] + [e for e in data.get("examples_not_registered", [])
+                                      if e.get("roundtrip_reversed")]
+        for e in reserved:
             for s in e.get("from") or []:
                 for v in t._subject_aux_variants(str(s)):
                     srcs.add(v.lower())
@@ -738,62 +743,128 @@ def en_baselines(src: str) -> list[str]:
 
 
 ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
-# Individually reversed (lang, form) winners whose independent blind AI round-trip
-# failed (docs/de_roundtrip_20261109.md). Not language-wide enforcement: other
-# forms of the same language stay report-only. A cell whose candidates include a
-# reversed form stays English (no next-language candidate is promoted).
+# Individually reversed (lang, form) winners, measured with the immutable blind judge.
+# Not language-wide enforcement. A reversed cell stays English: do not promote
+# its next-language candidate (including English-homograph alternatives).
 ROUNDTRIP_REVERSED = frozenset({
-    ("de", 'dachte'),
-    ("de", 'fand'),
-    ("de", 'kamst'),
-    ("de", 'nahm'),
-    ("de", 'nahmst'),
-    ("de", 'que dachte'),
-    ("de", 'que dachten'),
-    ("de", 'que denkt'),
-    ("de", 'que fand'),
-    ("de", 'que fanden'),
-    ("de", 'que kam'),
-    ("de", 'que kamen'),
-    ("de", 'que nahm'),
-    ("de", 'que nahmen'),
-    ("de", 'que sah'),
-    ("de", 'que sahen'),
-    ("de", 'taten'),
-    ("de", 'tatest'),
-    ("de", 'these dachten'),
-    ("de", 'these fanden'),
-    ("de", 'these kamen'),
-    ("de", 'these nahmen'),
-    ("de", 'these sahen'),
-    ("de", 'this dachte'),
-    ("de", 'this fand'),
-    ("de", 'this kam'),
-    ("de", 'this nahm'),
-    ("de", 'this sah'),
-    ("de", 'those dachten'),
-    ("de", 'those fanden'),
-    ("de", 'those kamen'),
-    ("de", 'those nahmen'),
-    ("de", 'those sahen'),
-    ("de", 'which dachte'),
-    ("de", 'which dachten'),
-    ("de", 'which fand'),
-    ("de", 'which fanden'),
-    ("de", 'which kam'),
-    ("de", 'which kamen'),
-    ("de", 'which nahm'),
-    ("de", 'which nahmen'),
-    ("de", 'which sah'),
-    ("de", 'which sahen'),
-    ("de", 'who dachte'),
-    ("de", 'who fand'),
-    ("de", 'who fanden'),
-    ("de", 'who kam'),
-    ("de", 'who kamen'),
-    ("de", 'who nahm'),
-    ("de", 'who sah'),
+    # it (#168, docs/it_roundtrip_20261108.md): any-candidate reverse (see below).
+    ("it", "que sa"),
+    ("it", "que dà"),
+    # pt (#171): adopted-winner reverse only.
+    ("pt", "acharam"),
+    ("pt", "dei"),
+    ("pt", "disseram"),
+    ("pt", "fizeram"),
+    ("pt", "foi"),
+    ("pt", "foste"),
+    ("pt", "pensaram"),
+    ("pt", "que acha"),
+    ("pt", "que deram"),
+    ("pt", "que deu"),
+    ("pt", "que fizeram"),
+    ("pt", "que foi"),
+    ("pt", "que foram"),
+    ("pt", "que vem"),
+    ("pt", "quiseram"),
+    ("pt", "these acharam"),
+    ("pt", "these deram"),
+    ("pt", "these disseram"),
+    ("pt", "these fizeram"),
+    ("pt", "these foram"),
+    ("pt", "these pensaram"),
+    ("pt", "these quiseram"),
+    ("pt", "these tiveram"),
+    ("pt", "these tomaram"),
+    ("pt", "these vieram"),
+    ("pt", "these viram"),
+    ("pt", "this deu"),
+    ("pt", "this foi"),
+    ("pt", "those acharam"),
+    ("pt", "those deram"),
+    ("pt", "those disseram"),
+    ("pt", "those fizeram"),
+    ("pt", "those foram"),
+    ("pt", "those pensaram"),
+    ("pt", "those quiseram"),
+    ("pt", "those tiveram"),
+    ("pt", "those tomaram"),
+    ("pt", "those vieram"),
+    ("pt", "those viram"),
+    ("pt", "tiveram"),
+    ("pt", "tomaram"),
+    ("pt", "vieram"),
+    ("pt", "viram"),
+    ("pt", "virá"),
+    ("pt", "which deram"),
+    ("pt", "which deu"),
+    ("pt", "which fizeram"),
+    ("pt", "which foi"),
+    ("pt", "which foram"),
+    ("pt", "who deram"),
+    ("pt", "who deu"),
+    ("pt", "who foi"),
+    ("pt", "who foram"),
+    # de (#174, docs/de_roundtrip_20261109.md): ranking-time reverse (see below).
+    ("de", "dachte"),
+    ("de", "fand"),
+    ("de", "kamst"),
+    ("de", "nahm"),
+    ("de", "nahmst"),
+    ("de", "que dachte"),
+    ("de", "que dachten"),
+    ("de", "que denkt"),
+    ("de", "que fand"),
+    ("de", "que fanden"),
+    ("de", "que kam"),
+    ("de", "que kamen"),
+    ("de", "que nahm"),
+    ("de", "que nahmen"),
+    ("de", "que sah"),
+    ("de", "que sahen"),
+    ("de", "taten"),
+    ("de", "tatest"),
+    ("de", "these dachten"),
+    ("de", "these fanden"),
+    ("de", "these kamen"),
+    ("de", "these nahmen"),
+    ("de", "these sahen"),
+    ("de", "this dachte"),
+    ("de", "this fand"),
+    ("de", "this kam"),
+    ("de", "this nahm"),
+    ("de", "this sah"),
+    ("de", "those dachten"),
+    ("de", "those fanden"),
+    ("de", "those kamen"),
+    ("de", "those nahmen"),
+    ("de", "those sahen"),
+    ("de", "which dachte"),
+    ("de", "which dachten"),
+    ("de", "which fand"),
+    ("de", "which fanden"),
+    ("de", "which kam"),
+    ("de", "which kamen"),
+    ("de", "which nahm"),
+    ("de", "which nahmen"),
+    ("de", "which sah"),
+    ("de", "which sahen"),
+    ("de", "who dachte"),
+    ("de", "who fand"),
+    ("de", "who fanden"),
+    ("de", "who kam"),
+    ("de", "who kamen"),
+    ("de", "who nahm"),
+    ("de", "who sah"),
 })
+# Languages whose reversed forms empty the whole cell as soon as they appear as a
+# candidate (#168, it). Every other language is reversed only when it is the
+# adopted winner (post-ranking, #171), so a reversed form that is merely listed
+# as a candidate never wipes a cell won by another language.
+ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS = frozenset({"it"})
+# Languages reversed at ranking time (#174 de): after the nl / homograph gates, a
+# reversed prefer_on_tie winner that beats EN empties the cell (no promotion);
+# otherwise only the reversed candidates are dropped so other-language winners stay.
+ROUNDTRIP_REVERSED_TIE_WINNER_LANGS = frozenset({"de"})
 _RT_DATA: dict = {}
 
 
@@ -802,7 +873,9 @@ def _rt_ok(form: str, lang: str, gate=None) -> bool:
         sys.path.insert(0, str(ROOT / "scripts"))
         import roundtrip as rt
 
-        if rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form) != "pass":
+        if "d" not in _RT_DATA:
+            _RT_DATA["d"] = rt.load()
+        if rt.status(_RT_DATA["d"], lang, form) != "pass":
             return False
     return gate is None or gate(form, lang)
 
@@ -811,7 +884,9 @@ def _rt_status(form: str, lang: str) -> str:
     sys.path.insert(0, str(ROOT / "scripts"))
     import roundtrip as rt
 
-    return rt.status(_RT_DATA.setdefault("d", rt.load()), lang, form)
+    if "d" not in _RT_DATA:
+        _RT_DATA["d"] = rt.load()
+    return rt.status(_RT_DATA["d"], lang, form)
 
 
 def restore_nl(cell: dict, cands: list[dict], held: list[dict], en_tok: int, tok) -> list[dict]:
@@ -874,7 +949,12 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
-                if True:  # nl always gated (#29); others only with an explicit gate                if True:  # nl always gated (#29); others only with an explicit gate
+                rev = [c["form"] for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED
+                       and c["lang"] in ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS]
+                if rev:
+                    cell["roundtrip_reversed"] = rev
+                    cands = []
+                if True:  # nl always gated (#29); others only with an explicit gate
                     # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
                     gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
                     if gated:
@@ -910,13 +990,14 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     cands = [c for c in cands if c["number"] in ("2sg-tú", "2pl-vosotros/vous", "2-neutral")]
                 if nl_hold:
                     cands = restore_nl(cell, cands, nl_hold, st, tok)
-                # Individually reversed winners (#168): after nl/homograph gates, if the
+                # Individually reversed de winners (#174): after nl/homograph gates, if the
                 # prefer_on_tie winner is reversed, clear the cell (EN stays, no promotion).
                 # Losing reversed candidates are dropped alone so other languages keep their
                 # origin/main winners.
-                rev = [c for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED]
-                if rev:
-                    cell["roundtrip_reversed"] = [c["form"] for c in rev]
+                rev_de = [c for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED
+                          and c["lang"] in ROUNDTRIP_REVERSED_TIE_WINNER_LANGS]
+                if rev_de:
+                    cell["roundtrip_reversed"] = cell.get("roundtrip_reversed", []) + [c["form"] for c in rev_de]
                     if cands:
                         scored0 = sorted(
                             cands,
@@ -927,12 +1008,12 @@ def build(gate=None) -> tuple[dict, dict, str]:
                             [(c["form"], c["lang"]) for c in scored0],
                             lambda f: (tok(f), u8(f)),
                         )
-                        if pick0 in {(c["form"], c["lang"]) for c in rev} and (
+                        if pick0 in {(c["form"], c["lang"]) for c in rev_de} and (
                             tok(pick0[0]), u8(pick0[0])
                         ) < (st, su):
                             cands = []
                         else:
-                            cands = [c for c in cands if (c["lang"], c["form"]) not in ROUNDTRIP_REVERSED]
+                            cands = [c for c in cands if c not in rev_de]
                 if not cands:
                     cell.update(status="reject", reason="EN homograph collision: every candidate spells an English word")
                     continue
@@ -1031,6 +1112,15 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 c.update(status="reject", reason="no progressive-preserving candidate shrinks both token and utf8 (EN kept)")
             else:
                 c.update(status="reject", reason="no candidate shrinks both token and utf8")
+    # Reverse ADOPTED winners only, after the original ranking/parity decision.
+    # Dropping any candidate earlier would also erase cells won by other langs
+    # and alter passing members of parity classes. Never rerank a reversed cell.
+    for cell in cells:
+        entry = cell.get("_entry")
+        if entry and (entry["lang"], entry["to"]) in ROUNDTRIP_REVERSED:
+            cell.pop("_entry")
+            cell.update(status="reject", candidates=[], roundtrip_reversed=[entry["to"]],
+                        reason="independent blind round-trip failed; EN kept (no fallback promotion)")
     entries.extend(c.pop("_entry") for c in cells if "_entry" in c)
     bank = {
         "version": 1,
