@@ -1,0 +1,638 @@
+General
+-----------
+
+The date format used is international standard ISO 8601 which is YYYY-MM-DD. 
+This format is unambiguous and sorts in a consistent manner unlike all other formats.
+
+
+BCI-AV 2026-09-12 release notes
+-------------------------------
+This is a minor update containing some corrections of version 2026-07-22
+
+
+BCI-AV 2026-07-22 release notes
+-------------------------------
+
+This version has complete translations for English, Swedish, Norwegian, German, Afrikaans, Polish, and Esperanto. A special thanks to our volunteer translators for their hard work. The rest of the translations are ongoing. 
+
+- 143 new Blissymbol has been added
+- 3 Blissymbols duplicate have been removed
+- 78 glosses have been modified
+- 1 Blissymbol graphics have been modified
+
+Symbols Added
+
+24666	indicator_(continuous_form)
+28098	resource	
+29701	service_user
+29702	tennis_ball
+29703	sportsperson,athlete
+29704	loser_(game)
+29705	winner_(game)
+29706	victory
+29707	competitive
+29708	competitor
+29709	sports_equipment
+29710	safety_equipment
+29711	stopwatch
+29712	dental_guard
+29713	bicycle_chain
+29714	bicycle_brake
+29715	bicycle_wheel
+29716	bicycle_tyre,bicycle_tire
+29717	bicycle_racing,bicycle_race
+29718	sports_field
+29719	Paralympics,Special_Olympics
+29725	citizen
+29726	citizenship
+29727	term,reign
+29728	torture
+29729	torture-(to)
+29730	refugee,asylum-seeker
+29731	immigration
+29732	immigrate-(to)
+29733	immigrant
+29734	emigration
+29735	emigrate-(to)
+29736	emigrant
+29740	head_teacher
+29741	evolution_(science,biology)
+29742	evolution_(general)
+29743	immune_system,immune_defence
+29744	ecosystem
+29747	electron
+29748	proton
+29749	neutron
+29750	circumference
+29751	sum_(mathematics)
+29752	product_(mathematics)
+29753	difference_(mathematics)
+29754	quotient_(mathematics)
+29755	ozone_layer
+29756	ozone_(gas)
+29757	oxygen_(gas)
+29758	carbon_dioxide_(gas)
+29760	computer_science,computer_studies
+29761	social_studies,social_science
+29762	art_(class)
+29763	music_(class)
+29764	memorise-(to)
+29765	cooperation
+29766	cooperate-(to)
+29767	school_yard,playground_(school)
+29769	demonstration_(instruction)
+29770	divine
+29771	monk
+29772	nun
+29773	monastery,convent
+29780	Maundy_Thursday
+29781	Palm_Sunday
+29782	Pentecost_day,Whitsun
+29783	pilgrimage
+29784	Eid_al-Adha,Id_al-Adha
+29785	Eid_al-Fitr,Id_al-Fitr
+29790	train_driver,engine_driver
+29791	gold_(colour)
+29792	silver_(colour)
+29793	bronze_(colour)
+29794	TV_room
+29795	computer_room
+29796	hobby_room
+29797	opera_house
+29801	arm_fracture
+29802	leg_fracture
+29803	high_blood_pressure
+29804	low_blood_pressure
+29805	burn
+29806	scar
+29807	scab
+29808	diabetes
+29809	autoimmune_disease
+29810	immune_system
+29811	HIV_virus
+29812	AIDS
+29813	respiratory_disease,asthma
+29814	respiratory_disorder
+29815	language_impairment,language_disorder
+29816	seizure_(epileptic),fit_(epileptic)
+29817	epilepsy
+29818	physical_violence,physical_abuse
+29819	mental_abuse,emotional_abuse
+29820	throat_infection,pharyngitis
+29821	sore_throat
+29822	tooth_damage
+29823	toothache
+29824	headache
+29825	back_pain,pain_in_back
+29826	earache
+29827	ear_infection
+29828	symptom_(disease)
+29829	joint_dislocation
+29830	hip_dislocation
+29831	joint_injury
+29832	sting_(insect),insect_bite
+29833	sting-(to)
+29840	misunderstand-(to)
+29841	complain,grumble,whine-(to)_(people)
+29842	whine-(to)_(dog)
+29843	swear-(to)
+29844	comment-(to)
+29845	send_(digital)-(to)
+29846	text_(writing)
+29847	edit-(to)_(text)
+29848	text,write_(digital)-(to)
+29849	volume_(sound)
+29850	Coca_Cola,Coke_(drink)
+29851	muesli
+29852	seafood
+29853	ice_cream_kiosk
+29855	used
+29856	blunt
+29860	ballet_dancer
+29861	ballet_shoes
+29862	string_of_lights
+29863	entertainment
+29864	march,parade_(general)
+29865	week_schedule
+29866	day_schedule
+29867	shopping_street,high_street
+29868	home_office
+29869	emergency_exit
+29870	downtown,city_centre
+29875	pastry_chef,pastry_cook
+29876	receptionist
+29877	workshop,course_(educational)
+29878	contact_lens
+29879	media
+29880	media_(digital)
+
+
+Symbols Removed (duplicates)
+
+29310	fishing,angling => 14191
+29311	sport_fishing,fishing,angling_(sport) => 22058
+29273	hurricane,cyclone,typhoon => 23887
+
+
+Symbol Drawings Changed
+
+29105	whine-(to)_(dog)
+
+
+Glosses Changed
+
+13349	citizen_(OLD)
+14191	fishing,angling
+14949	international,multinational
+15182	leader,director,guide,coach_(2)
+21054	leader,director,guide,coach_(1)
+22058	sport_fishing,fishing,angling_(sport)
+23887	hurricane,cyclone,typhoon
+24515	substance,element  
+24962	coarse_slang,swear_word,swearing							
+25375	social_network,social_media
+26105	defeat,loss_(competition)
+27014	bone_fracture,broken_bone
+
+23006	act_in_favour_of,act_in_favor_of_(legal)-(to)
+25422	armoured_force,armored_force,tank_force
+12659	behaviour,behavior
+20771	chocolate_flavouring,chocolate_flavoring
+13173	chocolate_flavouring,chocolate_flavoring,cocoa,cacao_powder_(OLD)
+13377	colour,color
+26145	colouring_book,coloring_book
+13604	crayon,coloured_pencil,colored_pencil,marker
+23847	district,area,neighbourhood,neighborhood_(country)
+23848	district,city_district,neighbourhood,neighborhood_(town)
+14158	favourite,favorite
+14198	flavouring,flavoring,condiment,seasoning
+22309	flavouring,flavoring,seasoning_(liquid)
+22310	flavouring,flavoring,seasoning_(powder)
+14678	harbour,harbor
+22322	herb_flavouring,herb_flavoring
+22321	herb_flavouring,herb_flavoring_(powder)
+15165	labour,labor
+24919	malodour,malodor,stench
+22334	maple_syrup_flavouring,maple_syrup_flavoring
+15705	neighbour,neighbor
+17019	smell,give_off_odour,give_off_odor-(to)
+17017	smell,odour,odor
+21622	suit_of_armour,suit_of_armor
+	
+12357	aeroplane,airplane,plane
+27007	anaesthesia,anesthesia,numbness
+27008	anaesthetic,anesthetic
+25430	appendix,caecum,cecum
+21570	archaeologist,archeologist
+21554	archaeology,archeology
+24419	bruise,contusion,haematoma,hematoma
+13103	caesarean_section,cesarean_section,C-section
+21580	gynaecologist,gynecologist
+21577	orthopaedist,orthopedist
+21574	paediatrician,pediatrician
+	
+12404	apologise,apologize,regret_(express)-(to)
+13395	conception,fertilisation,fertilised_egg,fertilization,fertilized_egg
+14430	generalisation,generalization
+15935	organise,organize,arrange-(to)
+17262	sterilisation,sterilization
+17527	terrorise-(to),terrorize-(to) 
+20526	tasty,good,appetising,appetizing
+21346	evangelise,evangelize-(to)
+21347	evangelise,evangelize_(christian)-(to)
+22054	synchronised_diving,synchronized_diving,synchro_diving_(sport)
+22056	synchronised_swimming,synchronized_swimming_(sport)
+22118	appetiser,appetizer,starter,entree
+23953	spray,vaporise,vaporize-(to)
+23954	spray_bottle,vaporiser,vaporizer,spray_can
+23963	synthesiser,synthesizer,keyboard
+24110	fertilised,fertilized
+24185	manure,fertiliser,fertilizer
+24419	bruise,contusion,haematoma,hematoma
+24940	spray,vaporisation,vaporization
+25348	organisation,organising,organization,organizing 
+26326	realise,realize-(to)
+27027	conceptualise,conceptualize-(to)
+28042	implementation,realisation,realization
+29402	ethanol,sanitiser,sanitizer,alcohol_(chemical)
+29403	hand_sanitiser,hand_sanitizer
+29544	moisturiser,moisturizer
+29764	memorise,memorize-(to)
+	
+15464	centre,center
+23237	theatre,theater
+15670	movie_theatre,movie_theater
+	
+25479	oesophagus,esophagus,gullet
+
+
+
+
+BCI-AV 2025-02-15 release notes
+-------------------------------
+This release primarily consists of translation additions and corrections/modifications:
+
+- 1 Blissymbol has been added
+- 1 Blissymbol has been removed
+- 30 glosses have been modified
+- 6 Blissymbol graphics have been modified
+
+
+Symbols Added
+
+29580	alternating
+
+
+Symbols Removed due to duplication
+
+29603	sprout-(to)
+
+
+Symbol Drawings Corrected
+
+25256	alternating_current,AC
+29098	trapezoid,trapezium
+29318	travelator_(up_and_down_a_slope)
+29405	minimum_(2)
+29406	fewest,least,minimum_(2)
+29407	fewer,less_(2)
+
+
+
+Glosses Changed
+
+12610	back_and_forth,backward_and_forward,to_and_fro,alternation
+12916	bubble(s)
+13676	difficult,hard,challenging
+23641	dilapidated,ruined_(building)_(2)
+24020	bark,woof-(to)
+24194	moo,low-(to)
+24309	that_(conjunction)
+24668	indicator_(female)_(OLD)
+24669	indicator_(first_person)_(OLD)
+24671	indicator_(indefinite_form)_(OLD)
+24672	indicator_(neutral)_(OLD)
+24673	indicator_(object_form)_(OLD)
+24676	indicator_(possessive_form)_(OLD)
+24678	indicator_(second_person)_(OLD)
+24679	indicator_(third_person)_(OLD)
+25254	expand,stretch-(to)
+25255	stretchy,elastic
+25257	stretch,expansion
+25605	dilapidated,ruined_(building)_(1)
+25684	combine_harvester
+27076	joke_(general)-(to)
+27077	joke_(general)
+27078	joke_(spoken)
+29003	alternate-(to)_(OLD)
+29004	alternation_(OLD)
+29033	elastic_cord,elastic_band
+29105	whine-(to)
+29311	sport_fishing,fishing,angling_(sport)
+29550	orderly
+29553	positively
+
+
+
+
+BCI-AV 2024-10-30 release notes
+-------------------------------
+
+This release contains the vocabulary updates from the ongoing SKOG project.
+
+- 236 Blissymbols have been added bringing the total BCI-AV symbol count to 6,417
+- 29 glosses have been modified or corrected
+- translations for languages other than English, Norwegian, and Afrikaans are incomplete but ongoing
+- 2 symbols, 29318 travelator_(up_and_down_a_slope) and 29098 trapezoid,trapezium have small drawing changes needed that will be provided as a patch in the near future
+- 29405 minimum_(2), 29406 fewest,least,minimum_(2), and 29407 fewer,less_(2) have more obvious drawing errors that will also be corrected in a soon upcoming patch
+
+Resolved issues
+--------------
+
+- Spring (29201-29276) done
+  - image for x is actually y
+  - issue with Moslem moon-star changes requiring _OLD or just update image
+- Leisure (29301-29342) done
+- Easter (29401-29426) done
+  - 29401 woof is regloss of 24020 woof
+  - 29418 minimum, 29408 fewer, and 29409 fewest have error in image
+  - 29419 moo is regloss of 24194
+  - 29425 whine is image change for 29105
+  - 29426 yap-(to) says regloss but can't find original
+- Autumn (29501-29571) png 188s done 
+  - combine_harwester -> combine_harvester
+  - rough,coars -> rough,coarse
+  - _(OLD) gloss additions
+    - 27015 bored_(OLD)
+    - 24827 boring,dull,depressing_(OLD)
+    - 17186 smooth_(OLD)
+- Nature and Transport (29601-29642) done
+
+---
+Glyph changes
+
+29105 whine
+
+---
+Gloss corrections
+
+sound_of_animal.animal_sound -> sound_of_animal,animal_sound 
+
+
+
+BCI-AV 2022-12-14 release notes
+-------------------------------
+
+This release contains the vocabulary updates from the International Panel meeting in Ghent and Easter 2022 online.
+
+- 193 Blissymbols have been added
+- 39 English glosses of existing Blissymbols have been changed with corrections, alternate spellings, and synonyms
+- 1 Blissymbol has been removed due to incompletely developed symbol
+- translations for languages other than English, Swedish, and Afrikaans are incomplete
+
+
+Below is a list of symbol removals, gloss changes, and additions:
+
+
+Blissymbols Removed
+
+24666	indicator_(continuous_form)
+
+
+Glosses Changed
+
+8497	one_(digit),1,modifier_(first_person)
+8498	two_(digit),2,modifier_(second_person)
+8499	three_(digit),3,modifier_(third_person)
+9010	indicator_(thing,plural)
+12324	about,concerning,regarding,in_relation_to,of,on
+12366	alphabet,letters_(lowercase)_(Latin_alphabet)
+13094	but,except,except_for_(preposition)
+13371	coat,jacket
+13667	development_(OLD)
+15185	fewest,least,minimum
+15973	party
+17981	unless,except_(conjunction)
+21554	archeology,archaeology
+21570	archeologist,archaeologist
+21574	pediatrician,paediatrician
+21577	orthopedist,orthopaedist
+21580	gynecologist,gynaecologist
+22374	reflect,consider,regard-(to)
+22840	court,field,sport_field
+23409	attachment,fastening,joint,seam,appendix,annex
+23493	eye_controller,eye_gaze_controller
+24495	outcome,result,consequence
+24668	indicator_(female)_OLD
+24669	indicator_(first_person)_OLD
+24671	indicator_(indefinite_form)_OLD
+24672	indicator_(neutral)_OLD
+24673	indicator_(object_form)_OLD
+24676	indicator_(possessive_form)_OLD
+24678	indicator_(second_person)_OLD
+24679	indicator_(third_person)_OLD
+25011	alphabet,letters_(uppercase)_(Latin_alphabet)
+25390	working_uniform
+25458	indicator_(diminutive_form)_OLD
+25913	millipede,millepede
+26145	coloring_book,colouring_book
+27022	children's_rights
+27078	joke_(general)-(to)
+27093	navigate_(general)-(to)
+
+
+Blissymbols Added
+
+28001	aim,intention
+28002	allowable,permissable
+28003	allowed,permitted
+28004	amusement_park,theme_park
+28005	arm_support
+28007	audience
+28008	basketball_player
+28009	carnival
+28010	climate_change
+28011	climate_emergency
+28012	development
+28013	discriminate-(to)
+28014	discriminate_(person)-(to)
+28015	discriminated_(person)
+28016	discrimination
+28017	discrimination_(person)
+28018	discriminatory
+28019	ensure,guarantee-(to)
+28020	event_dressing_up,carnival
+28021	eye_pointing
+28022	eye_pointing_(digital)
+28023	fancy_dress_party
+28024	festival
+28025	football_field,soccer_field
+28026	football_game,match,soccer_game
+28027	football_player,soccer_player
+28028	global_warming
+28029	goalpost
+28030	goal_keeper
+28031	goal_net
+28032	goal_(result),score
+28033	goal,target
+28034	handball_court
+28035	handball_game
+28036	handball_player
+28037	head_support
+28038	homeland,nationality_(loyalty)
+28039	hoodie
+28040	ice_hockey_rink
+28041	implement-(to)
+28042	implementation,realization
+28043	indicator_(continuous_form)
+28044	indicator_(plural,definite)
+28045	indicator_(thing,definite)
+28046	indicator_(thing,plural,definite)
+28047	insure-(to)
+28048	listener
+28049	long_lasting,durable
+28050	manner,manners
+28051	manner,way,mode,style_(habit)
+28052	modifier_(diminutive_form)
+28053	modifier_(feminine_form)
+28055	modifier_(masculine_form)
+28056	modifier_(neuter_form)
+28057	modifier_(object_form,direct_object,accusative)
+28058	music_festival
+28059	nationality_(official)
+28060	negative_outcome
+28061	neck_support
+28062	paint_box
+28063	penalty_(sport)
+28064	positive_outcome
+28065	pride_parade,festival_of_equality
+28066	punishment
+28067	realistic
+28068	realize-(to)
+28069	red_card,penalty_card_(sports)
+28070	reference,references,source,sources
+28071	reference_list
+28072	reward
+28073	roller_coaster
+28074	rugby_field,football_field_(N.A.)
+28075	seam_(fabric)
+28076	spectator
+28077	speech_generating_device,voice_output_device,speech_output_device,talker
+28078	sustain-(to)
+28079	suture,join,seam_(medical)
+28080	sweater,jumper,pullover
+28081	uniform
+28082	water_park
+28083	whoops,oops
+28084	yellow_card,penalty_card_(sports)
+29001	address_book,contact_list
+29002	afterwards
+29003	alternate,expand,stretch-(to)
+29004	alternation,expansion,stretching,elastic
+29005	another_time
+29006	applicant
+29007	application
+29008	apply-(to)
+29009	archive
+29010	baby_shop,baby_store
+29011	bag_shop,bag_store,luggage_shop,luggage_store
+29012	beforehand
+29013	bicycle_shop,bicycle_store
+29014	binder,ring_binder
+29015	bungee
+29016	car_dealer,car_dealership
+29017	computer_shop,computer_store,electronics_shop,electronics_store
+29018	concave
+29019	concavity
+29020	cone_(shape)
+29021	convex
+29022	convexity
+29023	Corona_virus
+29024	Covid_19
+29025	cube_(shape)
+29026	cylinder_(shape)
+29027	date(1)
+29028	date(2)
+29029	date(3)
+29030	decagon
+29031	digital_board,interactive_board,smart_board
+29032	direct,directly
+29033	elastic_cord
+29034	electrical_shop,electrical_store
+29035	eraser
+29036	everywhere
+29037	fabric_shop,fabric_store
+29038	filing_cabinet
+29039	global
+29040	glue_stick,glue_tube
+29041	hardware_store_(goods)
+29042	heart_(shape)
+29043	heptagon
+29044	hexagon
+29045	highlighter,marker
+29046	isolation
+29047	jewelry_shop,jewellery_store,jewellers
+29048	job_application,work_application
+29049	job_qualification
+29050	local
+29051	long_time_ago
+29052	lycra,spandex,stretchy_fabric
+29053	maximum
+29054	minimum
+29055	music_shop,music_store
+29056	nail_gun
+29057	notice_board,bulletin_board
+29058	octagon
+29059	parallelogram
+29060	pastry_shop,patisserie
+29061	pentagon
+29062	perfumery
+29063	pet_shop,pet_store
+29064	polygon_(category)
+29065	post-it_note,reminder_note
+29066	project
+29067	pyramid_(shape)
+29068	quadrilateral
+29069	quarantine
+29070	record_shop,record_store,music_shop_music_store
+29071	report
+29072	re-usable,recycable
+29073	re-used,recycled
+29074	rubber_band
+29075	scotch_tape,adhesive_tape
+29076	second_hand
+29077	second_hand_(goods)
+29078	second_hand_clothes_shop,second_hand_clothing_shop
+29079	second_hand_shop,charity_shop,vintage_shop
+29080	semicircle,half_circle_(shape)
+29081	shape_(in_combinations)
+29082	shoe_shop,shoe_store
+29083	shredder_(paper),paper_shredder
+29084	social_distance
+29085	social_distance-(to)
+29086	spiral_binder
+29087	staple_gun
+29088	staple_remover
+29089	stapler
+29090	star_(shape)
+29091	stationery_shop_,stationery_store
+29092	tag,sticker,label
+29093	third_(ordinal)
+29094	this_afternoon
+29095	this_evening
+29096	this_morning
+29097	tiny,mini,minscule,teeny-tiny
+29098	trapezoid,trapezium
+29099	tube_(shape)
+29100	used_car_dealer
+29101	vaccinate
+29102	vaccinated
+29103	vaccination
+29104	vaccine
+29105	whine,whimper-(to)
+29106	whiteboard
+29107	wood_shredder,garden_shredder
+29108	work_interview
+29109	work_schedule
+29110	written_report
+29111	yarn_shop,yarn_store,wool_shop,wool_store
