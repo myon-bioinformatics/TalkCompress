@@ -217,7 +217,10 @@ def test_impact_lt100m_lists_sub100m_only():
     rows = rt.impact(d, "lt100m")
     assert any(eid == "mx-take-fut-2" and old[1] == "cs"
                for eid, _src, old, _new in rows if old)
-    langs = {old[1] for _k, _s, old, _n in rows if old}
+    # Demonstrative parity followers reuse their number-matched pronoun winner, so a
+    # gated pronoun class can move a ge100m dem row too (pt ``this virá`` follows
+    # ``it will come`` after the #171 merge). Direct winners stay sub-100M only.
+    langs = {old[1] for k, _s, old, _n in rows if old and "-dem-" not in k}
     assert langs.isdisjoint(d["ge100m_langs"])
 
 
