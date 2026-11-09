@@ -929,7 +929,12 @@
     10,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "dei"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "1s",
@@ -4026,7 +4031,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "foste"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "2",
@@ -9118,12 +9128,17 @@
     9,
     3
    ],
-   "status": "adopt",
+   "status": "reject",
    "parity_class": [
     "3s-he",
     "3s-she",
     "3s-it"
-   ]
+   ],
+   "candidates": [],
+   "roundtrip_reversed": [
+    "foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-he",
@@ -12905,12 +12920,17 @@
     10,
     3
    ],
-   "status": "adopt",
+   "status": "reject",
    "parity_class": [
     "3s-he",
     "3s-she",
     "3s-it"
-   ]
+   ],
+   "candidates": [],
+   "roundtrip_reversed": [
+    "foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-she",
@@ -16060,7 +16080,12 @@
     10,
     5
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "virá"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-it",
@@ -16320,7 +16345,12 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-it",
@@ -16731,12 +16761,17 @@
     9,
     3
    ],
-   "status": "adopt",
+   "status": "reject",
    "parity_class": [
     "3s-he",
     "3s-she",
     "3s-it"
-   ]
+   ],
+   "candidates": [],
+   "roundtrip_reversed": [
+    "foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3s-it",
@@ -23171,7 +23206,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23686,7 +23726,12 @@
     11,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "vieram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23706,7 +23751,12 @@
     11,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23726,7 +23776,12 @@
     11,
     5
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "viram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23746,7 +23801,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "tomaram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23766,7 +23826,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "acharam"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23786,7 +23851,12 @@
     13,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "quiseram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23806,7 +23876,12 @@
     10,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "tiveram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23829,7 +23904,12 @@
     14,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "pensaram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -23849,7 +23929,12 @@
     11,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "disseram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "3p",
@@ -25748,8 +25833,13 @@
     13,
     8
    ],
-   "status": "adopt",
-   "parity_verb": "foi"
+   "status": "reject",
+   "parity_verb": "foi",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "this foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-this",
@@ -26133,8 +26223,13 @@
     14,
     8
    ],
-   "status": "adopt",
-   "parity_verb": "deu"
+   "status": "reject",
+   "parity_verb": "deu",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "this deu"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-this",
@@ -29648,8 +29743,13 @@
     15,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "foram"
+   "status": "reject",
+   "parity_verb": "foram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these foram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -29696,8 +29796,13 @@
     15,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "fizeram"
+   "status": "reject",
+   "parity_verb": "fizeram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -29911,8 +30016,13 @@
     16,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "deram"
+   "status": "reject",
+   "parity_verb": "deram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these deram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30201,8 +30311,13 @@
     14,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "foram"
+   "status": "reject",
+   "parity_verb": "foram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these foram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30222,8 +30337,13 @@
     14,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "vieram"
+   "status": "reject",
+   "parity_verb": "vieram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these vieram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30243,8 +30363,13 @@
     14,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "fizeram"
+   "status": "reject",
+   "parity_verb": "fizeram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30264,8 +30389,13 @@
     14,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "viram"
+   "status": "reject",
+   "parity_verb": "viram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these viram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30285,8 +30415,13 @@
     15,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "tomaram"
+   "status": "reject",
+   "parity_verb": "tomaram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these tomaram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30306,8 +30441,13 @@
     15,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "acharam"
+   "status": "reject",
+   "parity_verb": "acharam",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these acharam"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30327,8 +30467,13 @@
     16,
     14
    ],
-   "status": "adopt",
-   "parity_verb": "quiseram"
+   "status": "reject",
+   "parity_verb": "quiseram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these quiseram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30348,8 +30493,13 @@
     13,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "tiveram"
+   "status": "reject",
+   "parity_verb": "tiveram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these tiveram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30372,8 +30522,13 @@
     17,
     14
    ],
-   "status": "adopt",
-   "parity_verb": "pensaram"
+   "status": "reject",
+   "parity_verb": "pensaram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these pensaram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30393,8 +30548,13 @@
     14,
     14
    ],
-   "status": "adopt",
-   "parity_verb": "disseram"
+   "status": "reject",
+   "parity_verb": "disseram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these disseram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -30450,8 +30610,13 @@
     15,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "deram"
+   "status": "reject",
+   "parity_verb": "deram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "these deram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-these",
@@ -32333,8 +32498,13 @@
     15,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "foram"
+   "status": "reject",
+   "parity_verb": "foram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those foram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32381,8 +32551,13 @@
     15,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "fizeram"
+   "status": "reject",
+   "parity_verb": "fizeram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32596,8 +32771,13 @@
     16,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "deram"
+   "status": "reject",
+   "parity_verb": "deram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those deram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32886,8 +33066,13 @@
     14,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "foram"
+   "status": "reject",
+   "parity_verb": "foram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those foram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32907,8 +33092,13 @@
     14,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "vieram"
+   "status": "reject",
+   "parity_verb": "vieram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those vieram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32928,8 +33118,13 @@
     14,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "fizeram"
+   "status": "reject",
+   "parity_verb": "fizeram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32949,8 +33144,13 @@
     14,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "viram"
+   "status": "reject",
+   "parity_verb": "viram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those viram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32970,8 +33170,13 @@
     15,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "tomaram"
+   "status": "reject",
+   "parity_verb": "tomaram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those tomaram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -32991,8 +33196,13 @@
     15,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "acharam"
+   "status": "reject",
+   "parity_verb": "acharam",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those acharam"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -33012,8 +33222,13 @@
     16,
     14
    ],
-   "status": "adopt",
-   "parity_verb": "quiseram"
+   "status": "reject",
+   "parity_verb": "quiseram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those quiseram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -33033,8 +33248,13 @@
     13,
     13
    ],
-   "status": "adopt",
-   "parity_verb": "tiveram"
+   "status": "reject",
+   "parity_verb": "tiveram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those tiveram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -33057,8 +33277,13 @@
     17,
     14
    ],
-   "status": "adopt",
-   "parity_verb": "pensaram"
+   "status": "reject",
+   "parity_verb": "pensaram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those pensaram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -33078,8 +33303,13 @@
     14,
     14
    ],
-   "status": "adopt",
-   "parity_verb": "disseram"
+   "status": "reject",
+   "parity_verb": "disseram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those disseram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -33135,8 +33365,13 @@
     15,
     11
    ],
-   "status": "adopt",
-   "parity_verb": "deram"
+   "status": "reject",
+   "parity_verb": "deram",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "those deram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "dem-those",
@@ -35061,7 +35296,12 @@
     10,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "who foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-sg",
@@ -35440,7 +35680,12 @@
     11,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "who deu"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-sg",
@@ -37290,7 +37535,12 @@
     11,
     9
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "who foram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-pl",
@@ -37562,7 +37812,12 @@
     12,
     9
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "who deram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-who-pl",
@@ -39285,7 +39540,12 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "which foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-sg",
@@ -39664,7 +39924,12 @@
     15,
     9
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "which deu"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-sg",
@@ -41514,7 +41779,12 @@
     15,
     11
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "which foram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-pl",
@@ -41560,7 +41830,12 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "which fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-pl",
@@ -41767,7 +42042,12 @@
     16,
     11
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "which deram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-which-pl",
@@ -43030,7 +43310,12 @@
     9,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "que vem"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -43085,7 +43370,12 @@
     9,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "que acha"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -43191,23 +43481,12 @@
    "tense": "pres",
    "verb": "know",
    "src": "que knows",
-   "roundtrip_gated": [
-    "que weet"
+   "roundtrip_reversed": [
+    "que sa"
    ],
    "en_best": "que knows",
-   "best": "que sa",
-   "lang": "it",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    9,
-    6
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43218,23 +43497,12 @@
     "da",
     "dá"
    ],
-   "roundtrip_gated": [
-    "que geeft"
+   "roundtrip_reversed": [
+    "que dà"
    ],
    "en_best": "que gives",
-   "best": "que dà",
-   "lang": "it",
-   "shape": "simple",
-   "number": "",
-   "tok": [
-    2,
-    2
-   ],
-   "utf8": [
-    9,
-    7
-   ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "EN homograph collision: every candidate spells an English word"
   },
   {
    "subject": "rel-que-sg",
@@ -43457,7 +43725,12 @@
     12,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "que foi"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -43836,7 +44109,12 @@
     13,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "que deu"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-sg",
@@ -45675,7 +45953,12 @@
     13,
     9
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "que foram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-pl",
@@ -45721,7 +46004,12 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "que fizeram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-pl",
@@ -45928,7 +46216,12 @@
     14,
     9
    ],
-   "status": "adopt"
+   "status": "reject",
+   "candidates": [],
+   "roundtrip_reversed": [
+    "que deram"
+   ],
+   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
   },
   {
    "subject": "rel-que-pl",

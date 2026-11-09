@@ -114,58 +114,6 @@
       "note": "fui = I went only; I was kept EN (ambiguity gate)"
     },
     {
-      "id": "go-fut-3sm",
-      "from": [
-        "he will go"
-      ],
-      "to": "vai",
-      "lang": "pt",
-      "tense": "future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 10,
-        "utf8_after": 3,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "irá",
-          "lang": "es"
-        },
-        {
-          "form": "vai",
-          "lang": "pt"
-        }
-      ]
-    },
-    {
-      "id": "go-fut-3sf",
-      "from": [
-        "she will go"
-      ],
-      "to": "vai",
-      "lang": "pt",
-      "tense": "future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "utf8_before": 11,
-        "utf8_after": 3,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "irá",
-          "lang": "es"
-        },
-        {
-          "form": "vai",
-          "lang": "pt"
-        }
-      ]
-    },
-    {
       "id": "go-fut-2s",
       "from": [
         "you will go"
@@ -1020,36 +968,6 @@
         "both_shrink": true
       },
       "note": "intentaré is 3 tok (= I will try); pt tentarei wins"
-    },
-    {
-      "id": "try-past-1s",
-      "from": [
-        "I tried"
-      ],
-      "to": "essayé",
-      "lang": "pt",
-      "tense": "past",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "utf8_before": 7,
-        "utf8_after": 6,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tentei",
-          "lang": "pt"
-        },
-        {
-          "form": "intenté",
-          "lang": "es"
-        },
-        {
-          "form": "essayé",
-          "lang": "fr"
-        }
-      ]
     },
     {
       "id": "try-fut-goingto-1s",
@@ -2085,6 +2003,94 @@
       "to": "pude",
       "lang": "es",
       "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as I was able to; source I could). Short form pude reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
+    },
+    {
+      "id": "go-fut-3sm",
+      "from": [
+        "he will go"
+      ],
+      "to": "vai",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 10,
+        "utf8_after": 3,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "irá",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ],
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"He goes.\", \"Maybe he goes today.\", \"She told me that he goes.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "go-fut-3sf",
+      "from": [
+        "she will go"
+      ],
+      "to": "vai",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "utf8_before": 11,
+        "utf8_after": 3,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "irá",
+          "lang": "es"
+        },
+        {
+          "form": "vai",
+          "lang": "pt"
+        }
+      ],
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"He goes.\", \"Maybe he goes today.\", \"She told me that he goes.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "try-past-1s",
+      "from": [
+        "I tried"
+      ],
+      "to": "essayé",
+      "lang": "pt",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 7,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tentei",
+          "lang": "pt"
+        },
+        {
+          "form": "intenté",
+          "lang": "es"
+        },
+        {
+          "form": "essayé",
+          "lang": "fr"
+        }
+      ],
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Tried.\", \"Maybe tried today.\", \"She told me that tried.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
     }
   ]
 }
