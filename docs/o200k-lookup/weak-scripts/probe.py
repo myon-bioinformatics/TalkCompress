@@ -8,8 +8,8 @@ import tiktoken
 
 D = pathlib.Path(__file__).resolve().parent
 R = D.parents[2]
-sys.path.insert(0, str(R / "TesseraTalk"))
-from tessera_talk import estimate_tokens  # noqa: E402
+sys.path.insert(0, str(R / "SentenceCalibratedMosaic"))
+from sentence_calibrated_mosaic import estimate_tokens  # noqa: E402
 
 enc = tiktoken.get_encoding("o200k_base")
 O = lambda s: len(enc.encode(s))
@@ -18,7 +18,7 @@ SCRIPT = {"ara": "Arab", "urd": "Arab", "hin": "Deva", "ben": "Beng", "tha": "Th
           "tur": "Latn", "vie": "Latn"}
 ISO1 = {"ara": "ar", "urd": "ur", "hin": "hi", "ben": "bn", "tha": "th", "kor": "ko", "hye": "hy",
         "kat": "ka", "amh": "am", "bod": "bo", "rus": "ru", "ind": "id", "tur": "tr", "vie": "vi"}
-GE = set(json.loads((R / "TesseraTalk/fixtures/roundtrip.json").read_text())["ge100m_langs"])
+GE = set(json.loads((R / "SentenceCalibratedMosaic/fixtures/roundtrip.json").read_text())["ge100m_langs"])
 # 実装エージェント（GitHubヘルプ5bot）が英訳を見ずに復元し、後で Tatoeba 英訳と意味照合した判定
 HIT = json.loads((D / "roundtrip-judge-5bot.json").read_text())
 
@@ -30,7 +30,7 @@ def walk(x):
         for v in x.values(): walk(v)
     elif isinstance(x, list):
         for v in x: walk(v)
-for p in (R / "TesseraTalk/fixtures").glob("*.json"): walk(json.loads(p.read_text()))
+for p in (R / "SentenceCalibratedMosaic/fixtures").glob("*.json"): walk(json.loads(p.read_text()))
 
 raw = json.loads((D / "tatoeba-raw.json").read_text())
 blind = json.loads((D / "roundtrip-blind-5bot.json").read_text())

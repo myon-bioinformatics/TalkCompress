@@ -1,8 +1,8 @@
-"""MorphoZip を日本語口語サンプル（324 字）にかけ、o200k トークン数とバイト数を測る。
+"""MorphoGrammarMinimal を日本語口語サンプル（324 字）にかけ、o200k トークン数とバイト数を測る。
 
     uv run python scripts/measure_morpho_ja.py [--ref origin/main]
 
---ref を付けると、その git ref の MorphoZip/morpho_zip.py と比べる。
+--ref を付けると、その git ref の MorphoGrammarMinimal/morpho_grammar_minimal.py と比べる。
 """
 import argparse, importlib.util, subprocess, sys, tempfile
 from pathlib import Path
@@ -33,11 +33,11 @@ def main(argv=None) -> None:
     text = SAMPLE.read_text().strip()
     print(f"字数 {len(text)}")
     print(f"原文            {stat(text)}")
-    mods = {"この版": load(ROOT / "MorphoZip/morpho_zip.py", "mz_cur")}
+    mods = {"この版": load(ROOT / "MorphoGrammarMinimal/morpho_grammar_minimal.py", "mz_cur")}
     if args.ref:
-        src = subprocess.run(["git", "show", f"{args.ref}:MorphoZip/morpho_zip.py"],
+        src = subprocess.run(["git", "show", f"{args.ref}:MorphoGrammarMinimal/morpho_grammar_minimal.py"],
                              cwd=ROOT, capture_output=True, text=True, check=True).stdout
-        tmp = Path(tempfile.mkdtemp()) / "morpho_zip.py"
+        tmp = Path(tempfile.mkdtemp()) / "morpho_grammar_minimal.py"
         tmp.write_text(src)
         mods = {args.ref: load(tmp, "mz_ref"), **mods}
     for label, mz in mods.items():

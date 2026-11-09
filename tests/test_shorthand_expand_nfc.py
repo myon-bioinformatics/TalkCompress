@@ -1,9 +1,9 @@
-"""ShorthandEdge.expand must treat NFD input like NFC."""
+"""ShorthandSessionEdge.expand must treat NFD input like NFC."""
 from __future__ import annotations
 
 import unicodedata
 
-from ShorthandEdge import shorthand_edge as S
+from ShorthandSessionEdge import shorthand_session_edge as S
 
 
 def test_expand_nfd_accent_does_not_expose_short():

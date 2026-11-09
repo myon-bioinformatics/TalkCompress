@@ -10,7 +10,7 @@ SAMPLE = ROOT / "examples" / "window_chat.jsonl"
 def _run(*extra: str) -> list[dict]:
     cmd = [
         sys.executable,
-        str(ROOT / "DensityZip" / "density_zip.py"),
+        str(ROOT / "DensityFacadeRoute" / "density_facade_route.py"),
         "--pipeline",
         "C,E",
         "--jsonl",

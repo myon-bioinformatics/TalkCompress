@@ -1,10 +1,10 @@
 """Lexeme policy: fillers, unique-reading preference, light etymon alignment.
 
 Layer ownership (TalkCompress):
-- **C ShorthandEdge**: ``strip_fillers``, ``UNIQUE_COMPACT`` (via ``apply_unique_readings(..., compact=True)``
+- **C ShorthandSessionEdge**: ``strip_fillers``, ``UNIQUE_COMPACT`` (via ``apply_unique_readings(..., compact=True)``
   or ``apply_unique_compact``), same-language EN contractions (``I will``→``I'll``),
   spelled EN number words → digits. Also slang / hereafter / packs.
-- **E MorphoZip**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN`` (comm/cfg/doc…;
+- **E MorphoGrammarMinimal**: ``UNIQUE_READINGS`` long form only (``compact=False``), ``ETYMON_ALIGN`` (comm/cfg/doc…;
   information→ℹ️ is **C** ``family=emoji`` with ML→pivot→emoji), first-person / counters / articles / grammar-min.
   Does **not** strip fillers, apply UNIQUE_COMPACT, contract ``I'll``, or digitize spelled numbers by default.
 - Helpers live here so both layers can import them; callers choose which passes to run.
@@ -53,7 +53,7 @@ FILLERS_EN: tuple[str, ...] = (
     "ah",
     "oh",
     "well",
-    "like",  # discourse "like"; may over-strip — MorphoZip notes
+    "like",  # discourse "like"; may over-strip — MorphoGrammarMinimal notes
     "you know",
     "i mean",
     "sort of",
@@ -390,7 +390,7 @@ _BARE_THOUSAND = re.compile(r"\bthousand\b", re.I)
 def apply_spelled_numbers(text: str) -> str:
     """Best-effort EN number words → digits (zero–twenty, tens, hundred/thousand).
 
-    C (ShorthandEdge) owns this pass. Handles ``three``→``3``,
+    C (ShorthandSessionEdge) owns this pass. Handles ``three``→``3``,
     ``twenty-one`` / ``twenty one``→``21``, ``a hundred`` / ``one hundred``→``100``.
     es / pt / fr sentences are skipped (French ``four`` = oven, not 4).
     """
@@ -431,7 +431,7 @@ EN_CONTRACTION_SPEC: tuple[tuple[str, str, str], ...] = (
     ("theyre", "they are", "they're"),
     ("hes", "he is", "he's"),
     ("its", "it is", "it's"),
-    # that is → i.e. owned by conj-that-is / MorphoZip; do not dual-claim via that's
+    # that is → i.e. owned by conj-that-is / MorphoGrammarMinimal; do not dual-claim via that's
     ("theres", "there is", "there's"),
     ("therere", "there are", "there're"),
     ("dont", "do not", "don't"),
@@ -758,7 +758,7 @@ def emoji_policy_rows() -> list[dict[str, Any]]:
             "rationale": (
                 "言語横断で意味が通る候補があるとき、GPT 系生成と BERT 系双方向/マスクの"
                 "両方で楽になる表層を選ぶ（圧縮候補の中での楽さ）。"
-                "dual metric: トークン（B estimate_tokens）を第一とし、同点なら短い"
+                "dual metric: トークン（TokenCostHeuristic estimate_tokens）を第一とし、同点なら短い"
                 "ビット（E utf8_bits / 在庫時 closed_inventory_bits）→ 文字長 → 先出順。"
                 "表現の揺らぎは一意の canonical emit へ寄せる。"
                 "言語ルールは記述網羅ではなく token/bit 圧縮都合で取り入れる。"
@@ -769,8 +769,8 @@ def emoji_policy_rows() -> list[dict[str, Any]]:
                 "rank_by": ["token", "utf8_bits", "len", "order"],
                 "require_utf8_shrink_vs_sample": True,
                 "helper": "shared.ledger.select_cheapest_form",
-                "token_via": "B TesseraTalk estimate_tokens",
-                "bit_via": "E MorphoZip utf8_bits (default) / closed_inventory_bits",
+                "token_via": "TokenCostHeuristic estimate_tokens",
+                "bit_via": "E MorphoGrammarMinimal utf8_bits (default) / closed_inventory_bits",
                 "easing": "gpt_and_bert_friendly",
                 "on_token_tie": "shorter_utf8_bits",
                 "yuragi": "unique_canonical_emit",
@@ -896,7 +896,7 @@ def emoji_ledger_rows() -> list[dict[str, Any]]:
 
 
 def emoji_default_map() -> dict[str, str]:
-    """Flat long→glyph map for ShorthandEdge DEFAULT_MAP (spec + runtime extras)."""
+    """Flat long→glyph map for ShorthandSessionEdge DEFAULT_MAP (spec + runtime extras)."""
     out: dict[str, str] = {}
     for _sid, _pivot, _lang, forms, dst, _r in EMOJI_SPEC:
         for f in forms:
@@ -1034,7 +1034,7 @@ def apply_unique_readings(text: str, *, compact: bool = False) -> str:
     """Replace polysemous basics with tighter verbs; optionally UNIQUE_COMPACT.
 
     Default ``compact=False`` (E / anti-ambiguity long form). Pass ``compact=True``
-    from C (ShorthandEdge) to also clip ascertain→ascrt etc.
+    from C (ShorthandSessionEdge) to also clip ascertain→ascrt etc.
     """
     out = text
     for long, tight in sorted(UNIQUE_READINGS.items(), key=lambda kv: len(kv[0]), reverse=True):

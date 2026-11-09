@@ -2,8 +2,8 @@
 import json, tempfile, unittest
 from pathlib import Path; from unittest.mock import MagicMock, patch
 
-from Zipilogue.rulebook import RuleBook
-from Zipilogue.session_tokens import LlamaTokenizer, comparison, main
+from RulePeerCodec.rulebook import RuleBook
+from RulePeerCodec.session_tokens import LlamaTokenizer, comparison, main
 
 
 class SessionTokenTests(unittest.TestCase):
@@ -65,7 +65,7 @@ class SessionTokenTests(unittest.TestCase):
     def test_failure_evidence_and_exit_status(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder) / 'report.json'
-            with patch('Zipilogue.session_tokens.prepare', side_effect=OSError('offline')):
+            with patch('RulePeerCodec.session_tokens.prepare', side_effect=OSError('offline')):
                 status = main(['--model-path', 'missing.gguf', '--runtime-id', 'test-only',
                                '--output', str(output)])
             report = json.loads(output.read_text())
@@ -78,7 +78,7 @@ class SessionTokenTests(unittest.TestCase):
     def test_tokenizer_failure_preserves_unmeasured_status(self):
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder) / 'report.json'
-            with patch('Zipilogue.session_tokens.prepare', return_value={'sha256_verified': True}), \
+            with patch('RulePeerCodec.session_tokens.prepare', return_value={'sha256_verified': True}), \
                  patch('urllib.request.urlopen', side_effect=TimeoutError('server down')):
                 status = main(['--model-path', 'test.gguf', '--runtime-id', 'test-only',
                                '--output', str(output)])
@@ -95,7 +95,7 @@ class SessionTokenTests(unittest.TestCase):
             def reply(req, **kwargs):
                 text = json.loads(req.data)['content']
                 return self.response({'tokens': [7] * len(text.split())})
-            with patch('Zipilogue.session_tokens.prepare', return_value={'sha256_verified': True}), \
+            with patch('RulePeerCodec.session_tokens.prepare', return_value={'sha256_verified': True}), \
                  patch('urllib.request.urlopen', side_effect=reply):
                 status = main(['--model-path', 'test.gguf', '--runtime-id', 'test-only',
                                '--output', str(output)])

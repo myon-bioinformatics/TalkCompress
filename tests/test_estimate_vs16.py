@@ -1,7 +1,7 @@
 """テキスト既定の記号 + VS16(U+FE0F)は絵文字の実測表で数える(o200k_base 実測値)。"""
 import pytest
 
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
 
 @pytest.mark.parametrize("text, expected", [
@@ -28,7 +28,7 @@ def test_plain_symbols_unchanged():
 
 def test_vs16_pair_is_emoji_group():
     # 回帰: main では "❤️" が記号(p)扱いで、表の "❤️"=1 が使われていなかった
-    from TesseraTalk import tessera_talk as T
+    from SentenceCalibratedMosaic import sentence_calibrated_mosaic as T
     assert [m.lastgroup for m in T._PRETOKEN.finditer("\u2764\ufe0f")] == ["e"]
 
 

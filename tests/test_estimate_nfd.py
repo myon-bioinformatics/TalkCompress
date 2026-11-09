@@ -4,7 +4,7 @@ import unicodedata
 
 import pytest
 
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
 
 @pytest.mark.parametrize("text, o200k", [

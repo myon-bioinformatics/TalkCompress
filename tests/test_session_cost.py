@@ -1,7 +1,7 @@
 import unittest
 
-from Zipilogue.rulebook import RuleBook
-from Zipilogue.session_cost import measure_session
+from RulePeerCodec.rulebook import RuleBook
+from RulePeerCodec.session_cost import measure_session
 
 
 class SessionCostTests(unittest.TestCase):

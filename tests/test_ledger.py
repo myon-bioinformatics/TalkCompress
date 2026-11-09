@@ -1,4 +1,4 @@
-"""ShorthandEdge (C) agreed-convention ledger: load + C-applied lex."""
+"""ShorthandSessionEdge (C) agreed-convention ledger: load + C-applied lex."""
 
 from __future__ import annotations
 
@@ -18,11 +18,11 @@ def test_ledger_file_exists_and_loads():
 
     path = default_ledger_path()
     assert path.is_file()
-    assert path == ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
-    assert "ShorthandEdge" in str(path)
+    assert path == ROOT / "ShorthandSessionEdge" / "ledger" / "conventions.json"
+    assert "ShorthandSessionEdge" in str(path)
     assert "ConvoHub" not in str(path)
-    assert "DensityZip" not in str(path)
-    assert not (ROOT / "DensityZip" / "ledger").exists()
+    assert "DensityFacadeRoute" not in str(path)
+    assert not (ROOT / "DensityFacadeRoute" / "ledger").exists()
     assert not (ROOT / "ConvoHub").exists()
     data = load_ledger()
     assert data["version"] >= 2
@@ -34,7 +34,7 @@ def test_ledger_file_exists_and_loads():
     assert "policy-base-mix" in ids
     lex = list_conventions(kind="lex", apply_layer="C")
     assert any(c["id"] == "spatial-under" for c in lex)
-    # E MorphoZip closed-POS registrations live as apply_layer=E (metrics/inventory;
+    # E MorphoGrammarMinimal closed-POS registrations live as apply_layer=E (metrics/inventory;
     # rewrite ownership stays on E; C apply_ledger_lex does not consume them).
     e_lex = list_conventions(kind="lex", apply_layer="E")
     assert any(c["id"] == "prep-from" for c in e_lex)
@@ -66,7 +66,7 @@ def test_ledger_lex_under_below_and_凹凸():
 
 
 def test_shorthand_applies_ledger_under_and_凹凸():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     out = s.compress("put it under the table")
     assert "下" in out
     assert "under" not in out.lower()
@@ -89,7 +89,7 @@ def test_shorthand_applies_ledger_under_and_凹凸():
 
 def test_morpho_does_not_apply_ledger_under():
     """E alone should leave under/凹凸 alone (C owns ledger lex)."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress("put it under the table", unique=False, etymon=False, counters=False)
     assert "under" in out.lower()
     assert "下" not in out
@@ -139,7 +139,7 @@ def test_ambiguity_gate_moreover_also():
 
 
 def test_shorthand_prefer_precision_flag():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     short = s.compress("moreover we continue")
     assert "also" in short.lower()
     long = s.compress("moreover we continue", prefer_precision=True)
@@ -169,8 +169,8 @@ def test_lex_dual_metrics_schema_and_samples():
         assert isinstance(m["bit"]["after"], int)
         assert m["bit"]["model"] in ("utf8", "inventory")
         assert "utf8" in m["bit"]
-        assert "TesseraTalk" in m["token"]["via"]
-        assert "MorphoZip" in m["bit"]["via"]
+        assert "TokenCostHeuristic" in m["token"]["via"]
+        assert "MorphoGrammarMinimal" in m["bit"]["via"]
         # Short form should not increase both views for these samples
         assert m["token"]["after"] <= m["token"]["before"]
         assert m["bit"]["utf8"]["after"] <= m["bit"]["utf8"]["before"]
@@ -217,7 +217,7 @@ def test_compute_lex_metrics_inventory_model():
     assert m["bit"]["inventory"]["name"] == "conjunction"
     assert m["bit"]["inventory"]["bits_per"] == m["bit"]["before"] == m["bit"]["after"]
     assert "utf8" in m["bit"]
-    assert m["token"]["via"].startswith("B ")
+    assert m["token"]["via"].startswith("TokenCostHeuristic ")
 
 
 def test_ledger_pos_registrations_dual_metrics():
@@ -726,8 +726,8 @@ def test_that_is_latin_owns_not_contraction():
     """
     from shared.ledger import apply_ledger_lex, list_conventions
     from shared.lex_policy import EN_CONTRACTION_SPEC, apply_en_contractions
-    from ShorthandEdge.shorthand_edge import compress as c_compress
-    from MorphoZip import morpho_zip as m
+    from ShorthandSessionEdge.shorthand_session_edge import compress as c_compress
+    from MorphoGrammarMinimal import morpho_grammar_minimal as m
 
     by_id = {c["id"]: c for c in list_conventions(kind="lex")}
     assert "c-thats" not in by_id
@@ -815,7 +815,7 @@ def test_emoji_family_synced():
     assert INFO_GLYPH not in apply_ledger_lex("インフォメーション")
     assert INFO_GLYPH not in apply_ledger_lex("información")
 
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     assert "♡" not in s.compress("heart")
     assert "🔥" not in s.compress("ファイア")
     assert "🔥" not in s.compress("fire")
@@ -945,7 +945,7 @@ def test_ever_family_no_matter_to_ever():
     bare = apply_ledger_lex("However, we disagree.")
     assert bare.startswith("However")
 
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     out = s.compress("No matter how hard it is, I will go.")
     assert "however" in out.lower()
     assert "no matter how" not in out.lower()
@@ -956,9 +956,9 @@ def test_ever_family_staged_before_final_zh_de_keeps_asap():
     """C then B-final-zh-de: -ever applies; ASAP stays preferred over 尽快."""
     from tests._helpers import ns
 
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
-    d = _load("density_zip", "DensityZip/density_zip.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
+    d = _load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
 
     src = (
         "No matter how hard it is, I will go to the train station "
@@ -992,8 +992,8 @@ def test_ever_family_staged_before_final_zh_de_keeps_asap():
 
 def test_however_hard_not_tho_after_ce():
     """Concessive/degree however (from no matter how or bare) must not become tho via E."""
-    c = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
-    e = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    c = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
+    e = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     # C: no matter how → however
     after_c = c.compress("No matter how hard it is, I will go.")
     assert "however hard" in after_c.lower()
@@ -1111,7 +1111,7 @@ def test_eng_dev_qed_abbrev_tranche():
     assert apply_ledger_lex("iff") == "iff"  # bare iff ties (1→1): not a form
 
     # DEFAULT_MAP / Session compress
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     assert "LGTM" in s.compress("looks good to me")
     assert "PoC" in s.compress("proof of concept")
     assert "QED" in s.compress("quod erat demonstrandum")
@@ -1425,7 +1425,7 @@ def test_light_review_kiss_nan_e2e_aka():
     assert aka["metrics"]["token"]["delta"] < 0
     assert apply_ledger_lex("also known as Bob") == "aka Bob"
 
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     assert "keep it simple" not in s.DEFAULT_MAP
     assert "not a number" not in s.DEFAULT_MAP
     assert "end to end" not in s.DEFAULT_MAP

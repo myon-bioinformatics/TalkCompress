@@ -59,10 +59,10 @@
 
 ### コロンの判定案
 `:` の直前と直後がどちらも英字で、前後にスペースがない場合だけを SVOC と見なす。これで時刻（`10:30`、数字にはさまれる）や見出し（`Note: `、後ろにスペース）と区別できる。
-これは **SVOC コロン構文の未実装案**であり、TalkCompress にコロン処理が一切ないという意味ではない。既存 MorphoZip は `[[keep:...]]` / `` `keep:...` `` 保護スパンを処理する（`MorphoZip/morpho_zip.py` の `_KEEP_SPAN` / `_KEEP_BT`）。`Note:foo` や `mailto:x` のような文字に挟まれたコロンとの衝突も未解決で、提案条件だけで安全性は保証できない。
+これは **SVOC コロン構文の未実装案**であり、TalkCompress にコロン処理が一切ないという意味ではない。既存 MorphoGrammarMinimal は `[[keep:...]]` / `` `keep:...` `` 保護スパンを処理する（`MorphoGrammarMinimal/morpho_grammar_minimal.py` の `_KEEP_SPAN` / `_KEEP_BT`）。`Note:foo` や `mailto:x` のような文字に挟まれたコロンとの衝突も未解決で、提案条件だけで安全性は保証できない。
 
 ### 注意点（未対応）
-- 現行 ShorthandEdge は `give` を `prov` に置き換えるため、SVOO の文（"I prov him a book."）で意味がずれる恐れがある。
+- 現行 ShorthandSessionEdge は `give` を `prov` に置き換えるため、SVOO の文（"I prov him a book."）で意味がずれる恐れがある。
 - SVOO と SVOC（括弧形を使う場合）は括弧内の `,` の有無で区別する想定だが、目的語に `,` を含む場合（"him, her" など）の決めごとはまだない。
 
 ## 4. AI 可読性（著者報告の履歴・未検証）

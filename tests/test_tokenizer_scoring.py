@@ -16,7 +16,7 @@ BANK = json.loads(tm.BANK_PATH.read_text(encoding="utf-8"))
 
 
 def test_runtime_does_not_import_tiktoken():
-    tree = ast.parse((ROOT / "TesseraTalk/tessera_talk.py").read_text(encoding="utf-8"))
+    tree = ast.parse((ROOT / "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py").read_text(encoding="utf-8"))
     names = {a.name.split(".")[0] for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom))
              for a in getattr(n, "names", [])} | {
         (n.module or "").split(".")[0] for n in ast.walk(tree) if isinstance(n, ast.ImportFrom)}

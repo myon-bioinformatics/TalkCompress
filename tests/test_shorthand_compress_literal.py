@@ -1,4 +1,4 @@
-"""ShorthandEdge.compress: 短縮形はリテラル置換、改行は入力どおり保持する。"""
+"""ShorthandSessionEdge.compress: 短縮形はリテラル置換、改行は入力どおり保持する。"""
 from __future__ import annotations
 
 import subprocess, sys
@@ -7,9 +7,9 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "ShorthandEdge"))
+sys.path.insert(0, str(ROOT / "ShorthandSessionEdge"))
 
-from shorthand_edge import Session, compress  # noqa: E402
+from shorthand_session_edge import Session, compress  # noqa: E402
 
 
 @pytest.mark.parametrize(
@@ -41,7 +41,7 @@ def test_single_declaration_and_empty() -> None:
 
 
 def test_cli_does_not_double_trailing_newline() -> None:
-    script = ROOT / "ShorthandEdge" / "shorthand_edge.py"
+    script = ROOT / "ShorthandSessionEdge" / "shorthand_session_edge.py"
     r = subprocess.run(
         [sys.executable, str(script), "compress", "--no-ledger"],
         input="hello\n", capture_output=True, text=True, check=True,
@@ -57,7 +57,7 @@ def test_cli_does_not_double_trailing_newline() -> None:
 def test_main_in_process_keeps_single_newline(monkeypatch, capsys) -> None:
     import io
 
-    from shorthand_edge import main
+    from shorthand_session_edge import main
 
     monkeypatch.setattr(sys, "stdin", io.StringIO("hello\n"))
     assert main(["compress", "--no-ledger"]) == 0
@@ -82,7 +82,7 @@ def test_nonascii_short_is_literal() -> None:
 def test_main_expand_keeps_single_newline(monkeypatch, capsys) -> None:
     import io
 
-    from shorthand_edge import main
+    from shorthand_session_edge import main
 
     monkeypatch.setattr(sys, "stdin", io.StringIO("brb\n"))
     assert main(["expand"]) == 0

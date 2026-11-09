@@ -19,7 +19,7 @@ ROWS = [json.loads(x) for x in NIBBLE.read_text(encoding="utf-8").splitlines() i
 
 
 def _t():
-    return _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def test_nibble_rows_licensed_and_attributed():

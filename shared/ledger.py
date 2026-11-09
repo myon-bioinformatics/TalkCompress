@@ -1,21 +1,21 @@
-"""ShorthandEdge (C) agreed-convention ledger loader.
+"""ShorthandSessionEdge (C) agreed-convention ledger loader.
 
-C owns ``ShorthandEdge/ledger/conventions.json`` as the source of truth for
+C owns ``ShorthandSessionEdge/ledger/conventions.json`` as the source of truth for
 already-decided lex replacements and policy notes (first-round registration).
-ShorthandEdge applies lex entries during compress by default.
+ShorthandSessionEdge applies lex entries during compress by default.
 
-Zipilogue RuleBook (A) remains a separate evolving slang ledger for machine
+RulePeerCodec RuleBook (A) remains a separate evolving slang ledger for machine
 peers; this file is the static human-agreed registry.
 
-D (DensityZip) is orchestration + density façade and does not own this ledger.
+D (DensityFacadeRoute) is orchestration + density façade and does not own this ledger.
 
 Ambiguity gate (C-owned): high-churn conjunction shortenings (moreover→also,
 therefore→so, …) are skipped when the short form already collides in-text, or
 when ``prefer_precision=True``. Furniture ``table``→机/桌 skips SQL/tech context.
 
 Dual metrics (required on ``kind=lex``): registration is usable only when both
-views are recorded — **token** via B TesseraTalk ``estimate_tokens``, and **bit**
-via E MorphoZip ``utf8_bits`` (default) or ``closed_inventory_bits`` when an
+views are recorded — **token** via TokenCostHeuristic ``estimate_tokens``, and **bit**
+via E MorphoGrammarMinimal ``utf8_bits`` (default) or ``closed_inventory_bits`` when an
 inventory applies. Together they narrow candidate short forms. Policy rows may
 omit ``metrics`` / set null. C calls B/E helpers; ownership stays with B/E.
 
@@ -74,7 +74,7 @@ def _ascii_ci(word: str) -> str:
 
 
 _ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_LEDGER_PATH = _ROOT / "ShorthandEdge" / "ledger" / "conventions.json"
+DEFAULT_LEDGER_PATH = _ROOT / "ShorthandSessionEdge" / "ledger" / "conventions.json"
 
 # Default SQL/tech cues for furniture-table skip (also overridable per convention).
 _DEFAULT_SQL_NEAR = (
@@ -111,9 +111,9 @@ _SQL_PHRASE_RE = re.compile(
 
 # --- Dual metrics (token = B, bit = E); C records both on lex registration -----
 
-_TOKEN_VIA = "B TesseraTalk estimate_tokens"
-_BIT_VIA_UTF8 = "E MorphoZip utf8_bits"
-_BIT_VIA_INV = "E MorphoZip closed_inventory_bits"
+_TOKEN_VIA = "TokenCostHeuristic estimate_tokens"
+_BIT_VIA_UTF8 = "E MorphoGrammarMinimal utf8_bits"
+_BIT_VIA_INV = "E MorphoGrammarMinimal closed_inventory_bits"
 
 # Flat 内訳 labels — compact shared forms (1-char when clear). Not deep taxonomy.
 # Long EN/JA prose tags rewrite to these under the same expression rules as lex.
@@ -263,12 +263,16 @@ def _load_layer(mod_name: str, rel: str) -> Any:
     return mod
 
 
-def _tessera() -> Any:
-    return _load_layer("tessera_talk", "TesseraTalk/tessera_talk.py")
+def _estimator() -> Any:
+    return _load_layer("token_cost_heuristic", "TokenCostHeuristic/token_cost_heuristic.py")
+
+
+def _mosaic() -> Any:
+    return _load_layer("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _morpho() -> Any:
-    return _load_layer("morpho_zip", "MorphoZip/morpho_zip.py")
+    return _load_layer("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 
 
 def _ratio(before: int, after: int) -> float | None:
@@ -286,13 +290,13 @@ def compute_lex_metrics(
 ) -> dict[str, Any]:
     """Compute dual metrics for one ``from``→``to`` registration pair.
 
-    - ``token``: B TesseraTalk ``estimate_tokens`` before/after (+ delta/ratio)
-    - ``bit``: E MorphoZip — ``utf8_bits`` always as secondary; when
+    - ``token``: TokenCostHeuristic ``estimate_tokens`` before/after (+ delta/ratio)
+    - ``bit``: E MorphoGrammarMinimal — ``utf8_bits`` always as secondary; when
       ``inventory_name`` is a known closed inventory, primary ``model`` is
       ``inventory`` (ceil(log2 N) per occurrence); otherwise ``utf8``.
       ``inventory_extended`` selects the extended closed pack (wider N).
     """
-    estimate_tokens = _tessera().estimate_tokens
+    estimate_tokens = _estimator().estimate_tokens
     morpho = _morpho()
     before_t = int(estimate_tokens(src))
     after_t = int(estimate_tokens(dst))
@@ -379,7 +383,7 @@ def select_cheapest_form(
     forms = [str(c) for c in candidates if str(c)]
     if not forms:
         raise ValueError("select_cheapest_form: empty candidates")
-    estimate_tokens = _tessera().estimate_tokens
+    estimate_tokens = _estimator().estimate_tokens
     morpho = _morpho()
     scored: list[dict[str, Any]] = []
     for i, form in enumerate(forms):
@@ -805,8 +809,8 @@ def backfill_ledger_metrics(
     p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
     data = load_ledger(p)
     note = (
-        "lex metrics (required): token = B TesseraTalk estimate_tokens; "
-        "bit = E MorphoZip utf8_bits (default) or closed_inventory_bits when "
+        "lex metrics (required): token = TokenCostHeuristic estimate_tokens; "
+        "bit = E MorphoGrammarMinimal utf8_bits (default) or closed_inventory_bits when "
         "inventory applies. Both views narrow registration candidates."
     )
     meta = data.setdefault("meta", {})
@@ -838,7 +842,7 @@ def default_ledger_path() -> Path:
 
 
 def load_ledger(path: str | Path | None = None) -> dict[str, Any]:
-    """Load the ShorthandEdge conventions ledger JSON (source of truth under C)."""
+    """Load the ShorthandSessionEdge conventions ledger JSON (source of truth under C)."""
     p = Path(path) if path is not None else DEFAULT_LEDGER_PATH
     data = json.loads(p.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
@@ -1105,11 +1109,11 @@ def convention_ids(path: str | Path | None = None) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     import argparse
 
-    p = argparse.ArgumentParser(description="TalkCompress ShorthandEdge (C) convention ledger")
+    p = argparse.ArgumentParser(description="TalkCompress ShorthandSessionEdge (C) convention ledger")
     p.add_argument(
         "--path",
         default=None,
-        help="ledger JSON (default: ShorthandEdge/ledger/conventions.json)",
+        help="ledger JSON (default: ShorthandSessionEdge/ledger/conventions.json)",
     )
     p.add_argument("--list", action="store_true", help="list convention ids / summaries")
     p.add_argument("--apply", metavar="TEXT", help="apply C-layer lex replacements to TEXT")

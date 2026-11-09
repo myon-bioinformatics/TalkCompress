@@ -14,7 +14,7 @@ from tests._helpers import load
 
 
 def fixture(name):
-    return json.loads((ROOT / "TesseraTalk/fixtures" / name).read_text(encoding="utf-8"))
+    return json.loads((ROOT / "SentenceCalibratedMosaic/fixtures" / name).read_text(encoding="utf-8"))
 
 
 @pytest.mark.parametrize("form,restored,completed", [
@@ -43,12 +43,12 @@ def test_scoped_greek_evidence(form, restored, completed):
 
 
 def test_parent_judge_table_is_unchanged():
-    path = ROOT / "TesseraTalk/fixtures/roundtrip_judge/el_blind.json"
+    path = ROOT / "SentenceCalibratedMosaic/fixtures/roundtrip_judge/el_blind.json"
     assert hashlib.sha256(path.read_bytes()).hexdigest() == "9457b13a985fde33e5ec438f67a86b95c8c1e06e0d75534f4e8dbcc97fdb163f"
 
 
 def test_failed_future_candidates_removed_and_labels_match_runtime():
-    t = load("tessera_el_gate", "TesseraTalk/tessera_talk.py")
+    t = load("tessera_el_gate", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     bank = fixture("es_fr_tense.json")
     for entry in bank["entries"]:
         if entry["id"] not in {"find-fut-1s", "find-fut-goingto-1s", "take-fut-1s", "take-fut-goingto-1s"}:

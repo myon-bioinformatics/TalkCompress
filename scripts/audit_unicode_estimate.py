@@ -12,7 +12,7 @@ BASE=['한국어','안녕하세요 세계','Tiếng Việt','café','क़','�
 RANDOM_SETS=[('random_bn','কখগঘঙচছজঝঞটঠডঢণতথদধনপফবভমযরলশষসহািীুূেৈোৌ্'),('random_ta','கஙசஞடணதநபமயரலவழளறனாிீுூெேைொோௌ்'),('random_km_my','កខគឃងចឆជញដឋឌតថទនបផពមយរាលិីឹកខကခဂဃငစဆဇညတထဒနပဖဗမယရလဝါိီုူ')]
 SCRIPTS=[('bengali',0x980,0x9ff),('tamil',0xb80,0xbff),('deva',0x900,0x97f),('arabic',0x600,0x6ff),('hebrew',0x590,0x5ff)]
 def load(name,path):
- s=importlib.util.spec_from_file_location(name,path/'TesseraTalk/tessera_talk.py'); m=importlib.util.module_from_spec(s);sys.modules[name]=m;s.loader.exec_module(m);return m
+ s=importlib.util.spec_from_file_location(name,path/'SentenceCalibratedMosaic/sentence_calibrated_mosaic.py'); m=importlib.util.module_from_spec(s);sys.modules[name]=m;s.loader.exec_module(m);return m
 def metrics(xs,enc,models):
  out={}
  for name,m in models:

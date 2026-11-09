@@ -1,7 +1,7 @@
 import sys, unicodedata
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "Zipilogue"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "RulePeerCodec"))
 import dialogue_lab as d  # noqa: E402
 from shared.qa_fidelity import Probe, matches  # noqa: E402
 

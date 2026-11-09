@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import roundtrip as rt  # noqa: E402
 import tense_matrix as tm  # noqa: E402
 
-BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
+BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
 BY_ID = {e["id"]: e for e in BANK["entries"]}
 CONJ = json.loads(tm.CONJ_PATH.read_text(encoding="utf-8"))["conj"]
 

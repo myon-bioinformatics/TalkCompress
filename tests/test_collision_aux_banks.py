@@ -19,7 +19,7 @@ REG = tm.form_registry(json.loads(tm.CONJ_PATH.read_text(encoding="utf-8"))["con
 
 
 def _t():
-    return load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _c(form, lang, shape="compound"):

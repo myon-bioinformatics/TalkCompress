@@ -97,7 +97,7 @@ def test_collisions_report(g):
 
 
 def test_cli_check_is_read_only():
-    before = {p: p.stat().st_mtime_ns for p in (ROOT / "TesseraTalk/fixtures").glob("*.json")}
+    before = {p: p.stat().st_mtime_ns for p in (ROOT / "SentenceCalibratedMosaic/fixtures").glob("*.json")}
     out = subprocess.run([sys.executable, str(ROOT / "scripts/mapping_graph.py"), "--check", "--json"],
                          capture_output=True, text=True, check=True)
     res = json.loads(out.stdout)

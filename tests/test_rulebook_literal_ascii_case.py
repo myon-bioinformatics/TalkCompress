@@ -1,4 +1,4 @@
-"""Zipilogue RuleBook: 置換はリテラル、ASCII 文字の大小無視は ASCII のみ。"""
+"""RulePeerCodec RuleBook: 置換はリテラル、ASCII 文字の大小無視は ASCII のみ。"""
 from __future__ import annotations
 
 import sys
@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "Zipilogue"))
+sys.path.insert(0, str(ROOT / "RulePeerCodec"))
 
 from rulebook import RuleBook  # noqa: E402
 

@@ -4,7 +4,7 @@ Claude's own tokenizer is not published, so nothing here reproduces it. This
 module only lets the rest of TalkCompress ask "how many tokens for this model",
 with the source of the answer named:
 
-- ``estimate``: the stdlib estimator in TesseraTalk (calibrated toward o200k_base).
+- ``estimate``: the stdlib estimator in SentenceCalibratedMosaic (calibrated toward o200k_base).
   A proxy, not a Claude count.
 - ``scaled``: the estimate multiplied by a factor for models that use the newer
   tokenizer. The factor comes from Anthropic's documentation ("approximately 30
@@ -56,10 +56,10 @@ def uses_new_tokenizer(model: str) -> bool:
 
 
 def _estimate(text: str) -> int:
-    tessera = ROOT / "TesseraTalk"
-    if str(tessera) not in sys.path:
-        sys.path.insert(0, str(tessera))
-    from tessera_talk import estimate_tokens
+    est_dir = ROOT / "TokenCostHeuristic"
+    if str(est_dir) not in sys.path:
+        sys.path.insert(0, str(est_dir))
+    from token_cost_heuristic import estimate_tokens
 
     return estimate_tokens(text)
 

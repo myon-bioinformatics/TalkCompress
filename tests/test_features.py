@@ -16,8 +16,8 @@ from tests._helpers import load as _load
 
 def test_layer_ownership_matrix_classic_example():
     """Canonical C vs E alone: I'll/spelled/ℹ️ on C; E keeps long unique + articles."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     classic = "um 私は will find out the information about three animals"
 
     from shared.lex_policy import INFO_GLYPH
@@ -45,7 +45,7 @@ def test_layer_ownership_matrix_classic_example():
 
 
 def test_shorthand_lexicon_load(tmp_path):
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     lex = tmp_path / "lex.json"
     lex.write_text(json.dumps({"continuous delivery": "CDel", "hello world": "hw"}), encoding="utf-8")
     sess = s.Session()
@@ -58,8 +58,8 @@ def test_shorthand_lexicon_load(tmp_path):
 # --- RLE mosaic ---
 
 
-def test_tessera_rle_roundtrip():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_rle_roundtrip():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     src = "Hello there. World is fine. こんにちは。また今度。"
     mosaic = t.compress(src, rle=True)
     # Two EN sentences should share one lang tag at start of run
@@ -73,8 +73,8 @@ def test_tessera_rle_roundtrip():
     assert "こんにちは" in back
 
 
-def test_tessera_rle_and_full_both_expand():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_rle_and_full_both_expand():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     full = "en:Hello.|en:World.|ja:こんにちは。"
     rle = "en:Hello.|World.|ja:こんにちは。"
     assert "Hello" in t.expand(full)
@@ -82,15 +82,15 @@ def test_tessera_rle_and_full_both_expand():
     assert "こんにちは" in t.expand(rle)
 
 
-def test_tessera_stats():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_stats():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     st = t.stats("Hello. こんにちは。")
     assert st["sentences"] >= 2
     assert "en" in st["langs"] or "ja" in st["langs"]
 
 
-def test_tessera_no_rle_still_works():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+def test_mosaic_no_rle_still_works():
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     src = "Hello. World."
     mosaic = t.compress(src, rle=False)
     assert mosaic.count("en:") == 2
@@ -100,7 +100,7 @@ def test_tessera_no_rle_still_works():
 
 
 def test_morpho_counters():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert "3匹" in m.compress("I see 3 animals here")
     assert "2人" in m.compress("there are 2 people waiting")
     assert "5個" in m.compress("pack 5 pieces carefully")
@@ -108,7 +108,7 @@ def test_morpho_counters():
 
 
 def test_morpho_hex_nums():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress("value is 255 here", hex_nums=True, counters=False)
     assert "0xff" in out
     bare = m.compress("value is 255 here", hex_nums=True, hex_prefix=False, counters=False)
@@ -119,7 +119,7 @@ def test_morpho_hex_nums():
 
 
 def test_morpho_pronoun_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     # Case-split + indep. poss in core; deixis separate inventory.
     assert "I" in m.PRONOUN_CANONICAL and "U" in m.PRONOUN_CANONICAL
     assert "mine" in m.PRONOUN_CANONICAL and "ours" in m.PRONOUN_CANONICAL
@@ -184,7 +184,7 @@ def test_morpho_pronoun_inventory():
 
 
 def test_morpho_pronoun_bits():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     # Case-split + indep. poss → N=26 → 5 bits
     assert len(m.PRONOUN_CANONICAL) >= 24
     assert "mine" in m.PRONOUN_CANONICAL
@@ -215,7 +215,7 @@ def test_morpho_pronoun_bits():
 
 
 def test_morpho_deixis_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert "deixis" in m.list_closed_inventories()
     assert len(m.DEIXIS_CANONICAL) == 5
     assert m.deixis_inventory_bits() == 3
@@ -258,11 +258,11 @@ def test_lex_policy_expansions_smoke():
     assert "hmm" not in out.lower()
 
 
-# --- Zipilogue AAD ---
+# --- RulePeerCodec AAD ---
 
 
-def test_zipilogue_aad_mac_separation():
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_aad_mac_separation():
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     key = "shared"
     raw = b"same plaintext"
     env = z.encode(raw, key=key, aad="channel-alpha")
@@ -283,15 +283,15 @@ def test_zipilogue_aad_mac_separation():
     assert raised2
 
 
-def test_zipilogue_empty_aad_roundtrip():
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_empty_aad_roundtrip():
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     env = z.encode(b"hello", key="k", aad="")
     assert z.decode(env, key="k") == b"hello"
     assert z.decode(env, key="k", aad=None) == b"hello"
 
 
-def test_zipilogue_file_cli(tmp_path):
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_file_cli(tmp_path):
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     src = tmp_path / "plain.bin"
     out = tmp_path / "env.txt"
     back = tmp_path / "back.bin"
@@ -304,11 +304,11 @@ def test_zipilogue_file_cli(tmp_path):
     assert back.read_bytes() == b"\x00\x01binary-payload"
 
 
-# --- MorphoZip articles / counters; C owns I'll + spelled nums + ℹ️ ---
+# --- MorphoGrammarMinimal articles / counters; C owns I'll + spelled nums + ℹ️ ---
 
 
 def test_morpho_strips_unquoted_articles_keeps_quoted():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress('see the cat and "the" dog', unique=False, etymon=False, counters=False)
     assert "the cat" not in out.lower()
     assert "the" in out  # from quoted "the"
@@ -322,7 +322,7 @@ def test_morpho_digit_counters_without_spelled_default():
 
     Digit→counter (3 animals→3匹) lives in test_morpho_counters.
     """
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert "three" in m.compress("I see three animals here").lower()
     assert "3匹" not in m.compress("I see three animals here")
     assert "3匹" in m.compress("I see three animals here", spelled_nums=True)
@@ -335,7 +335,7 @@ def test_morpho_digit_counters_without_spelled_default():
 
 
 def test_morpho_does_not_contract_ill_by_default():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress("I will go now", unique=False, etymon=False, counters=False)
     assert "I'll" not in out
     assert "I will" in out
@@ -343,7 +343,7 @@ def test_morpho_does_not_contract_ill_by_default():
 
 def test_shorthand_ill_and_spelled_numbers():
     """Focused C I'll + spelled→digit (full classic matrix → ownership test above)."""
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     out = s.compress("I will go now")
     assert "I'll" in out
     assert "I will" not in out
@@ -356,8 +356,8 @@ def test_morpho_information_to_info_glyph():
     """information→ℹ️ is C family=emoji; E etymon no longer rewrites it."""
     from shared.lex_policy import INFO_GLYPH, apply_etymon_align
 
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     assert apply_etymon_align("information") == "information"
     assert INFO_GLYPH not in m.compress("send the information please")
     assert INFO_GLYPH not in s.compress("send the information please")
@@ -366,11 +366,11 @@ def test_morpho_information_to_info_glyph():
 
 
 
-# --- MorphoZip closed POS inventories (articles/conj/adv/aux/prep) ---
+# --- MorphoGrammarMinimal closed POS inventories (articles/conj/adv/aux/prep) ---
 
 
 def test_morpho_closed_inventory_bits_table():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert set(m.list_closed_inventories()) >= {
         "pronoun",
         "article",
@@ -397,7 +397,7 @@ def test_morpho_closed_inventory_bits_table():
 
 
 def test_morpho_article_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.ARTICLE_CANONICAL == ("∅",)
     assert m.canonicalize_closed("article", "the") == "∅"
     assert m.canonicalize_closed("article", "an") == "∅"
@@ -411,7 +411,7 @@ def test_morpho_article_inventory():
 
 
 def test_morpho_conjunction_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.CONJ_CANONICAL == ("&", "/", "cuz", "therefore")  # ∴ token loser
     out = m.compress("cats and dogs or birds because rain therefore fly", unique=False, etymon=False)
     assert "&" in out and "/" in out and "cuz" in out and "bc" not in out.split() and "therefore" in out  # ∴ removed
@@ -427,7 +427,7 @@ def test_morpho_conjunction_inventory():
 
 
 def test_morpho_adverb_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.ADVERB_CANONICAL == ("tho", "~", "especially")  # esp. token loser
     out = m.compress(
         "However, approximately very particularly ready",
@@ -451,7 +451,7 @@ def test_morpho_adverb_inventory():
 
 
 def test_morpho_auxiliary_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.AUX_CANONICAL == ("can", "will", "must", "may")
     out = m.compress(
         "I could go and I would stay and I should rest and I might leave",
@@ -474,7 +474,7 @@ def test_morpho_auxiliary_inventory():
 
 
 def test_morpho_preposition_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.PREP_CANONICAL == ("with", "for", "←", "@")  # w/, 4 token losers
     out = m.compress(
         "go for lunch from home with friends at noon without fear",
@@ -501,7 +501,7 @@ def test_morpho_preposition_inventory():
 
 
 def test_morpho_prep2_inventory():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.PREP2_CANONICAL == ("of", "无", "内", "前", "after")  # de, 後 token losers
     assert m.prep2_inventory_bits() == 3  # N=5
     out = m.compress(
@@ -531,7 +531,7 @@ def test_morpho_prep2_inventory():
 
 def test_morpho_prep_compounds_and_legal_shorts():
     """Finite prep compounds + legal shorts (not prep2 N-inflation)."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     kw = dict(unique=False, etymon=False, counters=False)
     assert "通" in m.compress("throughout the year", **kw)
     assert "throughout" not in m.compress("throughout the year", **kw).lower()
@@ -565,7 +565,7 @@ def test_morpho_prep_compounds_and_legal_shorts():
 
 def test_morpho_prep_like_finite_set():
     """High-freq prep / prep-like adv finite shorts (not closed-N inflation)."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     kw = dict(unique=False, etymon=False, counters=False)
     assert m.compress("across the river", **kw).startswith("across")
     assert "along" in m.compress("along the road", **kw)
@@ -910,7 +910,7 @@ def test_morpho_prep_like_finite_set():
 
 def test_morpho_relative_pronouns():
     """関係代名詞: which→that / whom→who / long Romance|DE→que; gates hold."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     kw = dict(unique=False, etymon=False, counters=False)
     # EN which→that (restrictive + non-restrictive)
     assert "that" in m.compress("the book which is red", **kw)
@@ -945,7 +945,7 @@ def test_morpho_relative_pronouns():
 
 def test_morpho_objective_gap_fill_closed_thin():
     """Objective gap-fill: det/quant, conj purpose, reciprocal, hedges, colloquial aux."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     kw = dict(unique=False, etymon=False, counters=False)
     # determiners / quantifiers
     assert "∀" not in m.compress("every item counts", **kw)  # token-loser symbol removed
@@ -999,7 +999,7 @@ def test_morpho_objective_gap_fill_closed_thin():
 
 def test_morpho_aux_negation_and_affirmation():
     """Aux neg → !slot; affirmation keeps bare can/will/must/may; I'll stays C."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress(
         "I cannot go and I can't stay and I won't leave and I shouldn't rest "
         "and I mustn't shout and I may not enter and I might not wait",
@@ -1034,7 +1034,7 @@ def test_morpho_aux_negation_and_affirmation():
 
 def test_morpho_adverb_polarity():
     """not/never share polarity markers with aux; always→□ (∀=whatever)."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     out = m.compress("not ready and never late", unique=False, etymon=False, counters=False)
     # never→¬ removed (token loser); sentence-initial not kept
     assert "never" in out and "¬" not in out
@@ -1048,7 +1048,7 @@ def test_morpho_adverb_polarity():
 
 def test_morpho_particle_inventory():
     """JA particles → ∅/→/∈/〜 core (2bit); ext +|&|←; C ledger untouched."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.PARTICLE_CANONICAL == ("∅", "to", "in", "until")  # →/∈/〜 token losers
     assert m.particle_inventory_bits() == 2
     assert m.canonicalize_closed("particle", "に") == "to"
@@ -1078,7 +1078,7 @@ def test_morpho_particle_inventory():
 
 
 def test_morpho_density_closed_summary():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     before = "I could go for lunch with you however very soon"
     after = m.compress(before, unique=False, etymon=False, counters=False)
     d = m.density(before, after)
@@ -1094,7 +1094,7 @@ def test_morpho_density_closed_summary():
 
 def test_morpho_compare_inventory():
     """Language-agnostic ≥/≤; JA/ZH/EN/ES/FR/DE; bare under/below untouched (C)."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.COMPARE_CANONICAL == ("≥", "≤")
     assert m.compare_inventory_bits() == 1
     ja = m.compress("18歳以上 かつ 60歳以下", unique=False, etymon=False, counters=False)
@@ -1132,7 +1132,7 @@ def test_morpho_compare_inventory():
 
 def test_morpho_from_arrow_and_ml_aliases():
     """from/から → ← canonical; fr alias; ES/FR/DE prep+subject fold when bits match."""
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.PREP_CANONICAL == ("with", "for", "←", "@")  # w/, 4 token losers
     assert m.PARTICLE_EXTENDED[-1] == "←"
     en = m.compress("from home", unique=False, etymon=False, counters=False)
@@ -1165,7 +1165,7 @@ def test_morpho_from_arrow_and_ml_aliases():
 def test_complementizer_that_deletion():
     import sys
     from tests._helpers import load
-    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     assert m.compress("I think that he is going") == "I think he is going"
     assert m.compress("She said that we will go") == "She said we will go"
     assert m.compress("I know that she left") == "I know she left"
@@ -1181,7 +1181,7 @@ def test_complementizer_that_deletion():
 
 def test_demonstrative_that_those_to_the():
     from tests._helpers import load
-    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     # determiner + noun → the
     assert m.compress("I like that book") == "I like the book"
     assert m.compress("I read those books") == "I read the books"

@@ -2,7 +2,7 @@
 
 Chunk = preposition + following words (max ``MAX_WORDS``) up to punctuation,
 another preposition, a closed-class word or a non-ASCII symbol.  Applied to
-the *compressed* MorphoZip output (articles there are already dropped) and,
+the *compressed* MorphoGrammarMinimal output (articles there are already dropped) and,
 as a reference, to the raw source (where the bracket form drops articles).
 
 Forms per bracket pair ``LR``:
@@ -148,9 +148,9 @@ def main(argv: list[str] | None = None) -> int:
 
     import tiktoken
 
-    spec = importlib.util.spec_from_file_location("morpho_zip", ROOT / "MorphoZip/morpho_zip.py")
+    spec = importlib.util.spec_from_file_location("morpho_grammar_minimal", ROOT / "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     mz = importlib.util.module_from_spec(spec)
-    sys.modules["morpho_zip"] = mz
+    sys.modules["morpho_grammar_minimal"] = mz
     spec.loader.exec_module(mz)  # type: ignore[union-attr]
     enc = tiktoken.get_encoding("o200k_base")
     res = measure(load_corpus(), mz.compress, lambda t: len(enc.encode(t)))

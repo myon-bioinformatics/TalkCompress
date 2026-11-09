@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
-CORPUS = json.loads((Path(__file__).resolve().parents[1] / "TesseraTalk/fixtures/estimate_rare_corpus.json").read_text(encoding="utf-8"))
+CORPUS = json.loads((Path(__file__).resolve().parents[1] / "SentenceCalibratedMosaic/fixtures/estimate_rare_corpus.json").read_text(encoding="utf-8"))
 
 
 @pytest.mark.parametrize("text, o200k", [
@@ -62,7 +62,7 @@ def test_review_branches_exact(text, o200k):
 
 def test_emoji_cost_byte_fallback():
     # 表にないコードポイントは UTF-8 バイト数。タグ文字 U+E0040 は o200k でも 4 (= 4 バイト)
-    from TesseraTalk.tessera_talk import _emoji_cost
+    from SentenceCalibratedMosaic.sentence_calibrated_mosaic import _emoji_cost
 
     assert _emoji_cost("\U000E0040", {}) == 4
     assert _emoji_cost("\U000E0040\U000E0041", {}) == 8
@@ -70,7 +70,7 @@ def test_emoji_cost_byte_fallback():
 
 def test_thai_window_follows_table():
     # 一致の窓幅は表の最長語から決まる: 最長語より長い語を表に足しても 1 トークンで一致する
-    from TesseraTalk.tessera_talk import _load_calib, _thai_cost
+    from SentenceCalibratedMosaic.sentence_calibrated_mosaic import _load_calib, _thai_cost
 
     cal = _load_calib()
     assert cal["th_max"] == max(map(len, cal["th"])) and cal["th_sp_max"] == max(map(len, cal["th_sp"]))

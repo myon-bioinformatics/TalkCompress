@@ -82,7 +82,7 @@ def _slice_passage(rng: random.Random, passage: dict) -> tuple[str, dict]:
 
 
 def _estimate_tokens(text: str) -> int:
-    t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    t = load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     return int(t.estimate_tokens(text))
 
 
@@ -109,7 +109,7 @@ def test_pd_corpus_random_compress_ce(passages, pd_seed, pd_n):
     rng = random.Random(seed)
     chosen = rng.sample(passages, n)
 
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     args = ns()
 
     results = []
@@ -145,7 +145,7 @@ def test_pd_corpus_random_compress_c_e_final(passages, pd_seed, pd_n):
     rng = random.Random(seed)
     chosen = rng.sample(passages, n)
 
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     args = ns()
 
     for p in chosen:

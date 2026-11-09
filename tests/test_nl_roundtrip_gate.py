@@ -14,8 +14,8 @@ import roundtrip as rt  # noqa: E402
 import tense_matrix as tm  # noqa: E402
 
 DATA = rt.load()
-BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
-JUDGE = json.loads((ROOT / "TesseraTalk/fixtures/roundtrip_judge/nl_blind.json").read_text(encoding="utf-8"))
+BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
+JUDGE = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/roundtrip_judge/nl_blind.json").read_text(encoding="utf-8"))
 
 
 def test_nl_is_enforced_and_lt100m():
@@ -64,7 +64,7 @@ def test_bank_is_fresh():
 
 @pytest.mark.parametrize("fixture", ["es_fr_tense.json", "zh_de_phrases.json"])
 def test_nl_winners_outside_tense_matrix_passed(fixture):
-    bank = json.loads((ROOT / "TesseraTalk/fixtures" / fixture).read_text(encoding="utf-8"))
+    bank = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures" / fixture).read_text(encoding="utf-8"))
     nl = [entry for entry in bank["entries"] if entry["lang"] == "nl"]
     assert nl
     for entry in nl:

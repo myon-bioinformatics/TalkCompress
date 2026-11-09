@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import pytest
-from Zipilogue.dialogue_lab import (Client, corpus, encode, experiment, negotiate,
+from RulePeerCodec.dialogue_lab import (Client, corpus, encode, experiment, negotiate,
                                     receiver_prompt, valid_task, validate_mapping)
 
 
@@ -156,7 +156,7 @@ def test_proposer_gets_same_length_limit_as_validator_and_precise_feedback():
 
 
 def test_candidates_are_repeated_training_only_spans():
-    from Zipilogue.dialogue_lab import phrase_candidates
+    from RulePeerCodec.dialogue_lab import phrase_candidates
     training, _ = corpus()
     candidates = phrase_candidates(training)
     assert candidates == phrase_candidates(training)
@@ -175,7 +175,7 @@ def test_candidates_are_repeated_training_only_spans():
     {'accept': True, 'reason': 'yes', 'issues': [{'rule_index': 0, 'category': 'meaning', 'reason': 'x'}]},
 ])
 def test_vote_contract_rejects_unlocalized_or_contradictory_feedback(vote):
-    from Zipilogue.dialogue_lab import validate_vote
+    from RulePeerCodec.dialogue_lab import validate_vote
     with pytest.raises(ValueError):
         validate_vote(vote, [{'long': 'For service', 'short': 'q1'}])
 
@@ -334,7 +334,7 @@ def test_missing_receiver_log_cannot_reuse_previous_peer_completion():
 
 
 def test_cli_writes_failed_receiver_evidence_and_returns_nonzero(monkeypatch, tmp_path):
-    from Zipilogue import dialogue_lab
+    from RulePeerCodec import dialogue_lab
     client = OfflineResponseClient({'choices': []})
     monkeypatch.setattr(dialogue_lab, 'Client', lambda *args, **kwargs: client)
     output = tmp_path / 'report.json'

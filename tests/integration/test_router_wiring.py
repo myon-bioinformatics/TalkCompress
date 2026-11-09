@@ -1,11 +1,11 @@
-"""結合・総合: DensityZip CLI / budget / window / profile / auto / roles.
+"""結合・総合: DensityFacadeRoute CLI / budget / window / profile / auto / roles.
 
 Router wiring only — not a D product-surface unit suite.
 """
 
 from __future__ import annotations
 
-import json, os, sys
+import json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -16,21 +16,21 @@ from tests._helpers import load, ns  # noqa: E402
 
 
 def test_resolve_layer_aliases():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     assert c.resolve_layer("1") == "A"
-    assert c.resolve_layer("tessera") == "B"
+    assert c.resolve_layer("mosaic") == "B"
     assert c.resolve_layer("C") == "C"
     assert c.resolve_layer("morpho") == "E"
 
 
-def test_route_shorthand_via_density_zip():
-    c = load("density_zip", "DensityZip/density_zip.py")
+def test_route_shorthand_via_density_facade_route():
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     out = c.transform_line("C", "for your information", ns())
     assert "FYI" in out
 
 
-def test_route_jsonl_via_density_zip():
-    c = load("density_zip", "DensityZip/density_zip.py")
+def test_route_jsonl_via_density_facade_route():
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     raw = json.dumps({"role": "user", "text": "thank you"}, ensure_ascii=False)
     out = c.process_jsonl(raw, ns(), default_layer="C")
     obj = json.loads(out)
@@ -38,8 +38,8 @@ def test_route_jsonl_via_density_zip():
     assert "ty" in obj["text"].lower() or obj["text"] == "ty"
 
 
-def test_route_zipilogue_via_density_zip():
-    c = load("density_zip", "DensityZip/density_zip.py")
+def test_route_rule_peer_codec_via_density_facade_route():
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     n = ns(key="route-key", mode="encode")
     env = c.transform_line("A", "hi", n)
     n.mode = "decode"
@@ -48,7 +48,7 @@ def test_route_zipilogue_via_density_zip():
 
 
 def test_convo_lexicon_flag(tmp_path):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     lex = tmp_path / "lex.json"
     lex.write_text(json.dumps({"special phrase": "SP"}), encoding="utf-8")
     out = c.transform_line("C", "use the special phrase now", ns(lexicon=str(lex)))
@@ -56,7 +56,7 @@ def test_convo_lexicon_flag(tmp_path):
 
 
 def test_convo_file_and_out(tmp_path):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     inp = tmp_path / "in.txt"
     outp = tmp_path / "out.txt"
     inp.write_text("for your information", encoding="utf-8")
@@ -66,7 +66,7 @@ def test_convo_file_and_out(tmp_path):
 
 
 def test_budget_shrinks():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     text = "um thank you for your information please let me know as soon as possible"
     out = c.run_budget(text, ns(), budget=40, layers=["C", "E"])
     assert len(out) < len(text)
@@ -74,14 +74,14 @@ def test_budget_shrinks():
 
 
 def test_budget_passthrough_when_under():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     text = "hi"
     out = c.run_budget(text, ns(), budget=100, layers=["C", "E"])
     assert out == text
 
 
 def test_budget_cli_stats(capsys):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(
         [
             "--budget",
@@ -101,7 +101,7 @@ def test_budget_cli_stats(capsys):
 
 
 def test_role_layers_jsonl():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     raw = "\n".join(
         [
             json.dumps({"role": "system", "text": "Keep this exact system prompt."}),
@@ -119,7 +119,7 @@ def test_role_layers_jsonl():
 
 
 def test_role_layers_cli(tmp_path):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     inp = tmp_path / "chat.jsonl"
     inp.write_text(
         json.dumps({"role": "user", "text": "for your information"})
@@ -147,14 +147,14 @@ def test_role_layers_cli(tmp_path):
 
 
 def test_parse_role_layers_plus():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     m = c.parse_role_layers("user=C+E,system=skip")
     assert m["user"] == ["C", "E"]
     assert m["system"] == "identity"
 
 
 def test_auto_returns_nonempty():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     text = "Hello there friend. こんにちは世界。Thanks for your information."
     layers = c.choose_auto_layers(text, ns())
     assert layers
@@ -165,7 +165,7 @@ def test_auto_returns_nonempty():
 
 
 def test_auto_cli(capsys):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(["--auto", "--text", "lol as soon as possible please"])
     assert rc == 0
     out = capsys.readouterr().out.strip()
@@ -174,7 +174,7 @@ def test_auto_cli(capsys):
 
 
 def test_auto_machine_appends_a_when_key():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     layers = c.choose_auto_layers("hello world asap", ns(auto_machine=True, key="secret"))
     assert "A" in layers
 
@@ -183,7 +183,7 @@ def test_convo_lex_policy_flag(tmp_path):
     import shared.lex_policy as lp
 
     backup = lp.dump_policy()
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     pol = tmp_path / "p.json"
     pol.write_text(
         json.dumps({"fillers_en": ["zzzzz"], "fillers_ja": []}),
@@ -199,7 +199,7 @@ def test_convo_lex_policy_flag(tmp_path):
 
 
 def test_window_keeps_last_n():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     raw = "\n".join(
         [
             json.dumps({"role": "user", "text": "one ASAP"}),
@@ -219,7 +219,7 @@ def test_window_keeps_last_n():
 
 
 def test_window_keep_system():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     raw = "\n".join(
         [
             json.dumps({"role": "system", "text": "SYSTEM_PROMPT_KEEP"}),
@@ -242,7 +242,7 @@ def test_window_keep_system():
 
 
 def test_window_budget_drops_oldest():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     raw = "\n".join(
         [
             json.dumps({"role": "user", "text": "AAAAAAAAAA"}),
@@ -262,7 +262,7 @@ def test_window_budget_drops_oldest():
 
 
 def test_apply_window_unit():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rows = [
         {"role": "system", "text": "S"},
         {"role": "user", "text": "a"},
@@ -275,14 +275,14 @@ def test_apply_window_unit():
 
 
 def test_profile_load_mcp_short():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     prof = c.load_profile("mcp-short")
     assert prof.get("pipeline") == "C,E"
     assert prof.get("aggressive_fillers") is True
 
 
 def test_profile_cli_override(capsys):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(
         [
             "--profile",
@@ -299,21 +299,16 @@ def test_profile_cli_override(capsys):
 
 
 def test_profile_machine_needs_key():
-    c = load("density_zip", "DensityZip/density_zip.py")
-    env_key = os.environ.pop("TALKCOMPRESS_ZIP_KEY", None)
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     try:
-        try:
-            c.main(["--profile", "machine", "--text", "hello"])
-            assert False, "expected SystemExit"
-        except SystemExit as e:
-            assert "key" in str(e).lower() or e.code not in (0, None)
-    finally:
-        if env_key is not None:
-            os.environ["TALKCOMPRESS_ZIP_KEY"] = env_key
+        c.main(["--profile", "machine", "--text", "hello"])
+        assert False, "expected SystemExit"
+    except SystemExit as e:
+        assert "key" in str(e).lower() or e.code not in (0, None)
 
 
 def test_min_ratio_fail():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(
         [
             "--layer",
@@ -328,7 +323,7 @@ def test_min_ratio_fail():
 
 
 def test_min_ratio_allow_weak():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(
         [
             "--layer",
@@ -344,7 +339,7 @@ def test_min_ratio_allow_weak():
 
 
 def test_protect_via_convo():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(
         [
             "--layer",
@@ -357,7 +352,7 @@ def test_protect_via_convo():
 
 
 def test_pack_via_convo(capsys):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(
         [
             "--layer",
@@ -374,16 +369,16 @@ def test_pack_via_convo(capsys):
 
 
 def test_fingerprint_key_cli(capsys):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(["--fingerprint-key", "--key", "secret-demo", "--layer", "C", "--text", "x"])
     assert rc == 0
     err = capsys.readouterr().err.strip()
     assert len(err) == 16
 
 
-def test_density_zip_rule_state_without_key(tmp_path):
-    c = load("density_zip", "DensityZip/density_zip.py")
-    rb = load("zipilogue_rulebook", "Zipilogue/rulebook.py")
+def test_density_facade_route_rule_state_without_key(tmp_path):
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
+    rb = load("rule_peer_codec_rulebook", "RulePeerCodec/rulebook.py")
     state = tmp_path / "book.json"
     book = rb.RuleBook.load(state)
     book.declare("alpha beta gamma", "r1")
@@ -396,9 +391,9 @@ def test_density_zip_rule_state_without_key(tmp_path):
     assert "alpha beta gamma" not in out
 
 
-def test_density_zip_translate_min_wires_to_b(capsys):
-    """D only routes --translate-min into TesseraTalk (B)."""
-    h = load("density_zip", "DensityZip/density_zip.py")
+def test_density_facade_route_translate_min_wires_to_b(capsys):
+    """D only routes --translate-min into SentenceCalibratedMosaic (B)."""
+    h = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = h.main(
         ["--layer", "B", "--translate-min", "--text", "Good morning. See you later."]
     )

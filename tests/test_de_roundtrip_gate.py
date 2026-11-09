@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import roundtrip as rt  # noqa: E402
 
 DATA = rt.load()
-FIX = ROOT / "TesseraTalk/fixtures"
+FIX = ROOT / "SentenceCalibratedMosaic/fixtures"
 BANK = json.loads((FIX / "tense_matrix.json").read_text(encoding="utf-8"))
 PHRASES = json.loads((FIX / "zh_de_phrases.json").read_text(encoding="utf-8"))
 ES = json.loads((FIX / "es_fr_tense.json").read_text(encoding="utf-8"))

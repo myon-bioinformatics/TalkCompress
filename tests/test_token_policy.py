@@ -2,7 +2,7 @@
 
 o200k_base で先頭スペース込み (' word') を数える。出力が英語の入力（または
 記号の英語正規形）より多トークンなら NG。同トークンは UTF-8 バイトが真に
-少ない場合のみ許可。対象: MorphoZip の _SUBS / _PHRASE_GRAMMAR /
+少ない場合のみ許可。対象: MorphoGrammarMinimal の _SUBS / _PHRASE_GRAMMAR /
 _COUNTER_SUBS（リテラル入力のみ）、*_CANONICAL / *_EXTENDED 在庫、
 C ledger (conventions.json) の from→to。
 """
@@ -97,7 +97,7 @@ def _english_ref(m, src: str, out: str) -> str | None:
 
 @pytest.fixture(scope="module")
 def m():
-    return load("morpho_zip", "MorphoZip/morpho_zip.py")
+    return load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 
 
 def _alternatives(pattern: str) -> list[str]:
@@ -144,7 +144,7 @@ def collect_canonical_losers(m) -> list[str]:
 
 
 def collect_ledger_losers(m) -> list[str]:
-    data = json.loads((ROOT / "ShorthandEdge/ledger/conventions.json").read_text(encoding="utf-8"))
+    data = json.loads((ROOT / "ShorthandSessionEdge/ledger/conventions.json").read_text(encoding="utf-8"))
     bad = []
     for c in data["conventions"]:
         to = c.get("to")

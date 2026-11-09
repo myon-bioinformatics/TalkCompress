@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import roundtrip as rt
 import tense_matrix as tm
 
-FIX = ROOT / "TesseraTalk/fixtures"
+FIX = ROOT / "SentenceCalibratedMosaic/fixtures"
 JUDGE = FIX / "roundtrip_judge/pt_blind.json"
 SNAPSHOT = json.loads((FIX / "roundtrip_judge/pt_sources.json").read_text(encoding="utf-8"))
 SOURCES = SNAPSHOT["forms"]
@@ -87,7 +87,7 @@ def test_only_failed_pt_entries_removed_no_unmeasured_promotions(name):
     data = rt.load()
     expected = {
         e["id"]: f["entry"]["to"] for f in SOURCES for e in f["source_entries"]
-        if e["file"] == f"TesseraTalk/fixtures/{name}.json" and rt.status(data, "pt", f["entry"]["to"]) == "pass"
+        if e["file"] == f"SentenceCalibratedMosaic/fixtures/{name}.json" and rt.status(data, "pt", f["entry"]["to"]) == "pass"
     }
     got = {e["id"]: e["to"] for e in read(name)["entries"] if e["lang"] == "pt"}
     # #161 (la reversal of ergo / ideo) and #164 (el βρω reversal) promoted pt runner-ups
@@ -128,7 +128,7 @@ def test_quarantined_failure_evidence_and_sources_reserved(name, removed):
     assert all(e["lang"] == "pt" and "0/9" in e["why_dropped"] and "actual restorations" in e["why_dropped"] for e in reversed_entries)
     if name != "pt_el_latin_phrases":
         from tests._helpers import load
-        talk = load("pt_source_guard", "TesseraTalk/tessera_talk.py")
+        talk = load("pt_source_guard", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
         reserved = tm._existing_sources(talk)
         assert all(s.lower() in reserved for e in reversed_entries for s in e["from"])
 

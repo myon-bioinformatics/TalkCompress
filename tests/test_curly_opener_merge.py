@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from MorphoZip.morpho_zip import _CURLY_MERGE_WORDS, compress, normalize_quotes
+from MorphoGrammarMinimal.morpho_grammar_minimal import _CURLY_MERGE_WORDS, compress, normalize_quotes
 
 
 def _manual_o200k():

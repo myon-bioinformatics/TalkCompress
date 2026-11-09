@@ -56,11 +56,12 @@ jobs:
       - name: Compile subproject entries
         run: |
           python -m py_compile \
-            Zipilogue/zipilogue.py \
-            TesseraTalk/tessera_talk.py \
-            ShorthandEdge/shorthand_edge.py \
-            DensityZip/density_zip.py \
-            MorphoZip/morpho_zip.py
+            RulePeerCodec/rule_peer_codec.py \
+            SentenceCalibratedMosaic/sentence_calibrated_mosaic.py \
+            ShorthandSessionEdge/shorthand_session_edge.py \
+            DensityFacadeRoute/density_facade_route.py \
+            MorphoGrammarMinimal/morpho_grammar_minimal.py \
+            TokenCostHeuristic/token_cost_heuristic.py
       - name: Test with JUnit
         run: |
           mkdir -p build/test-results

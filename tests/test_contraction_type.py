@@ -5,7 +5,7 @@ import re
 
 import pytest
 
-from TesseraTalk.tessera_talk import (
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import (
     _contraction_type,
     _subject_aux_variants,
     apply_es_fr_tense,

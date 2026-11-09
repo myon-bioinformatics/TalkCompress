@@ -1,9 +1,9 @@
-"""MorphoZip の既存の日本語崩れ（それから→esoから / してから→しら / えーと削除後の「。、」）。"""
+"""MorphoGrammarMinimal の既存の日本語崩れ（それから→esoから / してから→しら / えーと削除後の「。、」）。"""
 import pytest
 
 from tests._helpers import load
 
-m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 
 
 def c(s: str) -> str:

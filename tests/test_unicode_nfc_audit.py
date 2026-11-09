@@ -1,8 +1,8 @@
 """監査: NFD 入力とアクセント付きラテン文字の扱い。"""
 import unicodedata
 
-from MorphoZip import morpho_zip as M
-from TesseraTalk import tessera_talk as T
+from MorphoGrammarMinimal import morpho_grammar_minimal as M
+from SentenceCalibratedMosaic import sentence_calibrated_mosaic as T
 
 
 def _nfd(s):
@@ -30,7 +30,7 @@ def test_you_u_accent_boundary():
 def test_density_counts_accented_latin():
     import argparse
 
-    from DensityZip import density_zip as D
+    from DensityFacadeRoute import density_facade_route as D
 
     a = argparse.Namespace()
     # アクセント付きラテン文字だけでもラテン文字種として数える（2文字種 → B）
@@ -40,7 +40,7 @@ def test_density_counts_accented_latin():
 
 
 def test_shorthand_suggest_keeps_accented_words():
-    from ShorthandEdge import shorthand_edge as S
+    from ShorthandSessionEdge import shorthand_session_edge as S
 
     longs = {d["long"] for d in S.suggest_hereafter("café latte now. café latte again.")}
     assert "café latte" in longs

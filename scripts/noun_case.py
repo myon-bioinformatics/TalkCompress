@@ -1,4 +1,4 @@
-"""Opt-in experiment: noun-marking case schemes on MorphoZip output (A/B/C).
+"""Opt-in experiment: noun-marking case schemes on MorphoGrammarMinimal output (A/B/C).
 
 Schemes (applied to the *compressed* text only; default behaviour unchanged):
 
@@ -6,7 +6,7 @@ Schemes (applied to the *compressed* text only; default behaviour unchanged):
 * ``B`` — noun first letter capitalised (``book`` → ``Book``)
 * ``C`` — noun ALL CAPS (``book`` → ``BOOK``)
 
-Noun detection is mechanical and reuses existing MorphoZip tables only:
+Noun detection is mechanical and reuses existing MorphoGrammarMinimal tables only:
 
 1. lexicon = nouns listed in ``_COUNTER_SUBS`` (digit+noun counters) and in
    the #37 ``that/those + NOUN`` determiner rule (alternations parsed from the
@@ -48,11 +48,11 @@ _ALT_RE = re.compile(r"\(\?:([a-z|?()]+)\)|\(([a-z|]+)\)")
 
 
 def load_morpho() -> ModuleType:
-    """Import MorphoZip by path (same module the repo tests use)."""
-    name = "morpho_zip"
+    """Import MorphoGrammarMinimal by path (same module the repo tests use)."""
+    name = "morpho_grammar_minimal"
     if name in sys.modules:
         return sys.modules[name]
-    spec = importlib.util.spec_from_file_location(name, ROOT / "MorphoZip/morpho_zip.py")
+    spec = importlib.util.spec_from_file_location(name, ROOT / "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     mod = importlib.util.module_from_spec(spec)
     sys.modules[name] = mod
     spec.loader.exec_module(mod)  # type: ignore[union-attr]
@@ -75,7 +75,7 @@ def expand_alternation(body: str) -> set[str]:
 
 
 def noun_lexicon(mz: ModuleType) -> frozenset[str]:
-    """Nouns already enumerated in MorphoZip rule tables."""
+    """Nouns already enumerated in MorphoGrammarMinimal rule tables."""
     words: set[str] = set()
     for pat, _ in mz._COUNTER_SUBS:
         for m in _ALT_RE.finditer(mz.pattern_source(pat)):

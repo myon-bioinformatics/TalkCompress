@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-BANK = json.loads((ROOT / "TesseraTalk/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
+BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/tense_matrix.json").read_text(encoding="utf-8"))
 ENTRIES = BANK["entries"]
 BY_SRC = {e["from"][0]: e for e in ENTRIES}
 NL_PLURAL = {"deden", "hadden", "wisten", "gingen", "kwamen", "zagen", "namen", "vonden",

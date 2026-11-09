@@ -1,5 +1,5 @@
-"""監査: ShorthandEdge.expand が単語の途中を展開しないこと。"""
-from ShorthandEdge import shorthand_edge as s
+"""監査: ShorthandSessionEdge.expand が単語の途中を展開しないこと。"""
+from ShorthandSessionEdge import shorthand_session_edge as s
 
 
 def test_expand_skips_inside_words():

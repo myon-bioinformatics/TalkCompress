@@ -34,7 +34,7 @@ REJECTED = ["interim", "bona fide", "per capita", "a fortiori", "in memoriam", "
 
 
 def _t():
-    return _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def test_la_scope_flags():

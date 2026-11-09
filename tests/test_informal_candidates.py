@@ -1,4 +1,4 @@
-"""口語クリップ採点台帳（MorphoZip/fixtures/informal_candidates.json）の検証。"""
+"""口語クリップ採点台帳（MorphoGrammarMinimal/fixtures/informal_candidates.json）の検証。"""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from pathlib import Path
 from tests._helpers import load as _load
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = json.loads((ROOT / "MorphoZip/fixtures/informal_candidates.json").read_text(encoding="utf-8"))
+DATA = json.loads((ROOT / "MorphoGrammarMinimal/fixtures/informal_candidates.json").read_text(encoding="utf-8"))
 BECAUSE_FAMILY = {"because", "cuz", "bc", "'cause", "cause", "cos", "coz", "becuz", "b/c", "∵"}
 
 
@@ -17,7 +17,7 @@ def _entry(meaning):
 
 
 def test_measurements_match_official_estimator():
-    tt = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    tt = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     tpl = DATA["sentence_template"]
     for e in DATA["entries"]:
         for c in e["candidates"]:
@@ -45,7 +45,7 @@ def test_because_family_all_scored_and_winner_cuz():
 
 
 def test_winner_matches_engine_and_legacy_aliases():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     e = _entry("because")
     assert e["winner"] in m.CONJ_CANONICAL
     out = m.compress("We left because it rained.", unique=False, etymon=False)
@@ -55,8 +55,8 @@ def test_winner_matches_engine_and_legacy_aliases():
 
 
 def test_ledger_because_row_points_at_winner():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
-    led = json.loads((ROOT / "ShorthandEdge/ledger/conventions.json").read_text(encoding="utf-8"))
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
+    led = json.loads((ROOT / "ShorthandSessionEdge/ledger/conventions.json").read_text(encoding="utf-8"))
     row = next(c for c in led["conventions"] if c["id"] == "e-conj-because")
     assert row["to"] == _entry("because")["winner"]
     for a in row["input_aliases"]:

@@ -2,7 +2,7 @@
 記号 1 つにつき 1 トークン数える。デーヴァナーガリーは Brahmic レート(ceil(len/3))。"""
 import pytest
 
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
 
 @pytest.mark.parametrize("bare, marked", [

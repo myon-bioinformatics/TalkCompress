@@ -18,7 +18,7 @@ def main(argv=None):
     import sys
     from pathlib import Path
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-    from ShorthandEdge.shorthand_edge import compress
+    from ShorthandSessionEdge.shorthand_session_edge import compress
     T=lambda s:len(E.encode(s)); B=lambda s:len(s.encode())
     def camel(a,b): return a+b[0].upper()+b[1:]
     # (subj, verb, particle/comp, rest)

@@ -20,7 +20,7 @@ PD = ROOT / "tests/fixtures/pd_corpus"
 
 
 def _t():
-    return _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _lp():
@@ -175,7 +175,7 @@ def test_take_future_es_wins_tie_on_bytes(src):
 
 def test_bank_to_label_matches_runtime_winner():
     t = _t()
-    bank = json.loads((ROOT / "TesseraTalk/fixtures/es_fr_tense.json").read_text(encoding="utf-8"))
+    bank = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/es_fr_tense.json").read_text(encoding="utf-8"))
     langs = set()
     blocked = t.collision_blocked("es_fr_tense")
     for e in bank["entries"]:

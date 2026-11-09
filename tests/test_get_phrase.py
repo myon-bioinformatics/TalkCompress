@@ -19,8 +19,8 @@ def wins(new: str, old: str) -> bool:
     return nt < ot or (nt == ot and nb < ob)
 
 
-m = load("morpho_zip", "MorphoZip/morpho_zip.py")
-dz = load("density_zip", "DensityZip/density_zip.py")
+m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
+dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
 
 
 def _literal(pat: re.Pattern[str]) -> str:

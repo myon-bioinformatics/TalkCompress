@@ -32,7 +32,7 @@
       "status": "not_applicable"
     },
     {
-      "sample": "s5_todo_zipilogue",
+      "sample": "s5_todo_rule_peer_codec",
       "form": "prose",
       "hits": 1,
       "total": 1,
@@ -74,7 +74,7 @@
       "status": "not_applicable"
     },
     {
-      "sample": "s5_todo_zipilogue",
+      "sample": "s5_todo_rule_peer_codec",
       "form": "bullet",
       "hits": 1,
       "total": 1,
@@ -116,7 +116,7 @@
       "status": "not_applicable"
     },
     {
-      "sample": "s5_todo_zipilogue",
+      "sample": "s5_todo_rule_peer_codec",
       "form": "no_dash",
       "hits": 1,
       "total": 1,

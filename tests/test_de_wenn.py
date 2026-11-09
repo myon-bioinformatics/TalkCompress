@@ -10,12 +10,12 @@ import pytest
 from tests._helpers import load
 
 ROOT = Path(__file__).resolve().parents[1]
-BANK = json.loads((ROOT / "TesseraTalk/fixtures/zh_de_phrases.json").read_text(encoding="utf-8"))
+BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/zh_de_phrases.json").read_text(encoding="utf-8"))
 WENN = next(e for e in BANK["examples_not_registered"] if e["id"] == "wenn")
 
 
 def _t():
-    return load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def _o200k():
@@ -56,7 +56,7 @@ def test_iff_untouched():
 
 
 def test_wenn_only_in_not_registered_of_zh_de():
-    for p in (ROOT / "TesseraTalk/fixtures").glob("*.json"):
+    for p in (ROOT / "SentenceCalibratedMosaic/fixtures").glob("*.json"):
         txt = p.read_text(encoding="utf-8")
         if p.name == "zh_de_phrases.json":
             # id + to inside examples_not_registered; not in live entries

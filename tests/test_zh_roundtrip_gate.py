@@ -80,11 +80,11 @@ RESULTS = [
 
 
 def fixture(name):
-    return json.loads((ROOT / "TesseraTalk/fixtures" / name).read_text(encoding="utf-8"))
+    return json.loads((ROOT / "SentenceCalibratedMosaic/fixtures" / name).read_text(encoding="utf-8"))
 
 
 def test_parent_judge_table_is_unchanged():
-    path = ROOT / "TesseraTalk/fixtures/roundtrip_judge/zh_blind.json"
+    path = ROOT / "SentenceCalibratedMosaic/fixtures/roundtrip_judge/zh_blind.json"
     assert hashlib.sha256(path.read_bytes()).hexdigest() == "bd799e8beb775359b3c85ef109996aa0e4d98c51bf4b671b3aa90722814464a8"
     assert len(json.loads(path.read_text(encoding="utf-8"))) == 186
 
@@ -127,7 +127,7 @@ def test_scoped_zh_evidence(form, eid, restored, completed, loaded):
 
 
 def test_runtime_pairs_after_gate():
-    t = load("tessera_zh_gate", "TesseraTalk/tessera_talk.py")
+    t = load("mosaic_zh_gate", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     zh_entry_forms = {e["to"] for e in fixture("zh_de_phrases.json")["entries"] if e["lang"] == "zh"}
     loaded = {r for _, r, lg in t.zh_de_phrase_pairs() if lg == "zh"} & zh_entry_forms
     assert loaded == {"开源", "全栈", "思维链"}

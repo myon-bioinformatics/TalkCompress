@@ -1,6 +1,6 @@
 """大文字1文字語 A–Z の監査: 例文の型 × 26文字 × 全規則経路を機械的に総当たりする。
 
-型の ``_`` に A–Z を入れ、MorphoZip / ShorthandEdge の各経路に通したあと、その文字が
+型の ``_`` に A–Z を入れ、MorphoGrammarMinimal / ShorthandSessionEdge の各経路に通したあと、その文字が
 単独記号（前に英字なし・後ろに小文字なし）として入力と同数残るかを判定する。
 意図的に残さない組み合わせは ``EXEMPT`` の明示一覧だけ（文頭の冠詞 A）。
 
@@ -15,8 +15,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from MorphoZip.morpho_zip import compress as morpho  # noqa: E402
-from ShorthandEdge.shorthand_edge import compress as shorthand  # noqa: E402
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress as morpho  # noqa: E402
+from ShorthandSessionEdge.shorthand_session_edge import compress as shorthand  # noqa: E402
 
 LETTERS = string.ascii_uppercase
 
@@ -52,12 +52,12 @@ EXEMPT: frozenset[tuple[str, str]] = frozenset(
 )
 
 PIPES = {
-    "MorphoZip": morpho,
-    "MorphoZip(strip+aggr+spelled)": lambda t: morpho(
+    "MorphoGrammarMinimal": morpho,
+    "MorphoGrammarMinimal(strip+aggr+spelled)": lambda t: morpho(
         t, strip=True, aggressive_fillers=True, spelled_nums=True
     ),
-    "ShorthandEdge(ledger)": shorthand,
-    "ShorthandEdge(precision)": lambda t: shorthand(t, prefer_precision=True),
+    "ShorthandSessionEdge(ledger)": shorthand,
+    "ShorthandSessionEdge(precision)": lambda t: shorthand(t, prefer_precision=True),
 }
 
 

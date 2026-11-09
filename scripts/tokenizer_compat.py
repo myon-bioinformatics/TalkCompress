@@ -3,7 +3,7 @@
 Primary scoring of the matrix is o200k_base (scripts/tense_matrix.py). This
 script adds two reporting layers; neither changes any winner:
 
-* ``--agreement``: stdlib ``tessera_talk.estimate_tokens`` vs o200k_base on the
+* ``--agreement``: stdlib ``token_cost_heuristic.estimate_tokens`` vs o200k_base on the
   fixed sample (fixtures/token_agreement_sample.json) and on every matrix string
   (EN source, EN cheapest baseline, adopted / best form). Prints exact-match rate
   and winner-flip count (cells whose adopt/EN verdict differs when the stdlib
@@ -29,7 +29,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import tense_matrix as tm  # noqa: E402
 
-SAMPLE_PATH = ROOT / "TesseraTalk/fixtures/token_agreement_sample.json"
+SAMPLE_PATH = ROOT / "SentenceCalibratedMosaic/fixtures/token_agreement_sample.json"
 COMPAT_JSON = ROOT / "docs/tokenizer-compat.json"
 COMPAT_MD = ROOT / "docs/tokenizer-compat.md"
 CACHE = Path.home() / ".cache/talkcompress/tokenizers"
@@ -52,7 +52,7 @@ def _u8(s: str) -> int:
 def _stdlib():
     from tests._helpers import load
 
-    return load("tessera_talk", "TesseraTalk/tessera_talk.py").estimate_tokens
+    return load("token_cost_heuristic", "TokenCostHeuristic/token_cost_heuristic.py").estimate_tokens
 
 
 def _report_cells() -> list[dict]:

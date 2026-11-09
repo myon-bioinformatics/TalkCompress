@@ -1,5 +1,5 @@
 """監査: rulebook の語境界と Unicode 対応。"""
-from Zipilogue.rulebook import Rule, RuleBook, _bounded, _extract_phrases
+from RulePeerCodec.rulebook import Rule, RuleBook, _bounded, _extract_phrases
 
 
 def _book():

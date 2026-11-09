@@ -1,6 +1,6 @@
 import pytest
 
-from MorphoZip.morpho_zip import compress, strip_articles
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress, strip_articles
 
 
 @pytest.mark.parametrize(

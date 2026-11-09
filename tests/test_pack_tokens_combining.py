@@ -6,7 +6,7 @@ import unicodedata
 
 import pytest
 
-from MorphoZip.morpho_zip import pack_tokens
+from MorphoGrammarMinimal.morpho_grammar_minimal import pack_tokens
 
 
 def _nfc(s: str) -> str:

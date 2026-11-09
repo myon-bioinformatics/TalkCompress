@@ -15,7 +15,7 @@ from pathlib import Path
 import roundtrip as rt
 
 ROOT = Path(__file__).resolve().parents[1]
-FIX = ROOT / "TesseraTalk/fixtures/roundtrip_judge"
+FIX = ROOT / "SentenceCalibratedMosaic/fixtures/roundtrip_judge"
 JUDGE_SHA256 = "d161afaef0b6f8dea08c5ff5babb69f349a7baea60f697ddaf5e85b36dd369df"
 CONVERTED_SHA256 = "73fb04a10d7d26fa7c45453c03e271ed64697f6565e4795369d3588abb4d6551"
 
@@ -35,7 +35,7 @@ def measure(data: dict) -> dict:
            accepted_sources={f["key"]: f["accepted_sources"] for f in forms})
     provenance = {
         "kind": "independent_blind_judge",
-        "judge_file": "TesseraTalk/fixtures/roundtrip_judge/pt_blind.json",
+        "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/pt_blind.json",
         "judge_sha256": JUDGE_SHA256, "converted_only_sha256": CONVERTED_SHA256,
         "origin_main_sha": snapshot["origin_main_sha"],
         "source_acceptance": "any-official-source-v1",

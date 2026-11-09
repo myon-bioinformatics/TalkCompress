@@ -6,7 +6,7 @@ import pytest
 
 from tests._helpers import load
 
-t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
+t = load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
 
 
 def test_u_is_cheaper_by_utf8_at_equal_tokens():

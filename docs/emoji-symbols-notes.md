@@ -1,6 +1,6 @@
 # 絵文字・記号の o200k 評価メモ
 
-台帳（`ShorthandEdge/ledger/conventions.json`）への採用規則（cheapest-form rule: トークン優先、次にバイト）:
+台帳（`ShorthandSessionEdge/ledger/conventions.json`）への採用規則（cheapest-form rule: トークン優先、次にバイト）:
 - o200k で英語より**トークンが少ない**、または
 - **トークン同数で utf8 バイトが厳密に少ない**
 
@@ -53,12 +53,12 @@
 - degrees → °（1 = 1）
 - proportional to → ∝（2 = 2）
 - divided by → ÷（2 = 2）
-- vice versa → ⇄（2 = 2。E 層の MorphoZip 規則も削除済み。⇄ の復号のみ互換のため残置）
+- vice versa → ⇄（2 = 2。E 層の MorphoGrammarMinimal 規則も削除済み。⇄ の復号のみ互換のため残置）
 - 行内の単独形 percent / implies / iff / sqrt（1 = 1）
 
 ## more than / less than
 - `more than → >`、`less than → <` は追加していない
-- この 2 句は、既存の比較クラス（MorphoZip `COMPARE_ALIAS_TO_CANONICAL` と `_PHRASE_GRAMMAR`）で ≥ / ≤ の source として登録済みで、衝突する
+- この 2 句は、既存の比較クラス（MorphoGrammarMinimal `COMPARE_ALIAS_TO_CANONICAL` と `_PHRASE_GRAMMAR`）で ≥ / ≤ の source として登録済みで、衝突する
 - `>` は E 層で `greater than → >` に使用済み
 
 ## 同数・バイト減の再採用（オーナー決定）
@@ -67,7 +67,7 @@
   - percent → %（8→2）
   - degrees → °（8→3）
   - divided by → ÷（11→3）
-  - vice versa → ⇄（11→4。E 層 MorphoZip 規則と台帳行の両方）
+  - vice versa → ⇄（11→4。E 層 MorphoGrammarMinimal 規則と台帳行の両方）
   - implies → ⇒（8→4）
   - sqrt → √（5→4）
   - proportional to / propto → ∝（16 / 7→4）

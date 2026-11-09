@@ -1,6 +1,6 @@
 """Calibrate the stdlib ``estimate_tokens`` toward o200k_base (dev-only; needs tiktoken).
 
-Writes ``TesseraTalk/fixtures/o200k_calib.json``, the small data table that the
+Writes ``TokenCostHeuristic/fixtures/o200k_calib.json``, the small data table that the
 runtime estimator reads (the runtime itself never imports tiktoken):
 
 * ``en_costs``: 2-bit packed o200k cost (1..4, capped) of every word in
@@ -31,10 +31,11 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import tense_matrix as tm  # noqa: E402
 
-FIX = ROOT / "TesseraTalk" / "fixtures"
+FIX = ROOT / "TokenCostHeuristic" / "fixtures"
 CALIB = FIX / "o200k_calib.json"
 WORDLIST = FIX / "en_wordlist.txt"
-NATURAL = FIX / "token_natural_sample.json"
+MOSAIC_FIX = ROOT / "SentenceCalibratedMosaic" / "fixtures"
+NATURAL = MOSAIC_FIX / "token_natural_sample.json"
 
 CONTRACTIONS = [
     f"{p}{s}" for p in ("i", "you", "we", "they", "he", "she", "it", "that", "there", "who", "what")
@@ -167,7 +168,7 @@ def heldout(src: str) -> bool:
 def _est_mod():
     from tests._helpers import load
 
-    return load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    return load("token_cost_heuristic", "TokenCostHeuristic/token_cost_heuristic.py")
 
 
 def _words(wl: Path) -> list[str]:
@@ -201,7 +202,7 @@ def bank_strings() -> set[str]:
                 walk(v, "cand" if key == "candidates" else k)
 
     for b in TRAIN_BANKS:
-        for e in json.loads((FIX / f"{b}.json").read_text(encoding="utf-8"))["entries"]:
+        for e in json.loads((MOSAIC_FIX / f"{b}.json").read_text(encoding="utf-8"))["entries"]:
             walk(e)
     return out
 

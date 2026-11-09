@@ -3,7 +3,7 @@ import unicodedata
 
 import pytest
 
-from MorphoZip.morpho_zip import compress, drop_3sg_after_inventory_pronoun, strip_articles
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress, drop_3sg_after_inventory_pronoun, strip_articles
 from shared.lex_policy import apply_spelled_numbers
 from shared.romance_gate import apply_outside_romance, is_romance
 

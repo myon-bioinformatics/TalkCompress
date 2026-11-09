@@ -1,11 +1,11 @@
-"""Read-only knowledge graph over the TesseraTalk mapping tables (docs/ontology/).
+"""Read-only knowledge graph over the SentenceCalibratedMosaic mapping tables (docs/ontology/).
 
 Builds an in-memory graph (stdlib only, no tiktoken) from the committed data:
 
 * bank fixtures: ``tense_matrix.json``, ``es_fr_tense.json``, ``pt_el_latin_tense.json``,
   ``pt_el_latin_phrases.json``, ``zh_de_phrases.json`` (entries + examples_not_registered)
 * ``docs/tense_matrix_report.json`` (per-cell candidates, reversals, parity follows)
-* ``TesseraTalk/fixtures/roundtrip.json`` (AI round-trip records / cohorts)
+* ``SentenceCalibratedMosaic/fixtures/roundtrip.json`` (AI round-trip records / cohorts)
 * the ``ROUNDTRIP_*`` settings in ``scripts/tense_matrix.py`` (read with ``ast``,
   the module is not imported, so nothing is rebuilt or scored)
 
@@ -31,7 +31,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FIX = ROOT / "TesseraTalk/fixtures"
+FIX = ROOT / "SentenceCalibratedMosaic/fixtures"
 REPORT_PATH = ROOT / "docs/tense_matrix_report.json"
 TM_PATH = ROOT / "scripts/tense_matrix.py"
 BANKS = ("tense_matrix", "es_fr_tense", "pt_el_latin_tense", "pt_el_latin_phrases", "zh_de_phrases")
@@ -127,7 +127,7 @@ def _record_nodes(g: Graph, rtd: dict, lang: str, form: str, fid: str) -> None:
 def build(root: Path = ROOT) -> Graph:
     g = Graph()
     s = read_settings(root / "scripts/tense_matrix.py")
-    rtd = rt.load(root / "TesseraTalk/fixtures/roundtrip.json")
+    rtd = rt.load(root / "SentenceCalibratedMosaic/fixtures/roundtrip.json")
 
     def lang_node(lang: str) -> str:
         return g.add(f"lang:{lang}", "Language", code=lang, ge100m=lang in rtd["ge100m_langs"],
@@ -158,7 +158,7 @@ def build(root: Path = ROOT) -> Graph:
 
     # 1. bank entries = adopted forms (Form adopted for an English source)
     for bank in BANKS:
-        data = json.loads((root / f"TesseraTalk/fixtures/{bank}.json").read_text(encoding="utf-8"))
+        data = json.loads((root / f"SentenceCalibratedMosaic/fixtures/{bank}.json").read_text(encoding="utf-8"))
         for e in data.get("entries", []):
             lang, to, src = e["lang"], e["to"], e["from"][0]
             same = norm_en(to) == norm_en(src)  # EN kept in place (es_fr_tense "I will want")

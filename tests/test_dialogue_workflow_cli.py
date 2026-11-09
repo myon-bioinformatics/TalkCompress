@@ -2,7 +2,7 @@
 import json, subprocess, sys, threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from Zipilogue import dialogue_lab
+from RulePeerCodec import dialogue_lab
 import pytest
 
 
@@ -34,7 +34,7 @@ def test_incomplete_http_outputs_preserve_report_and_exit_failure(tmp_path):
     output = tmp_path / 'nested' / 'report.json'
     try:
         result = subprocess.run([
-            sys.executable, '-m', 'Zipilogue.dialogue_lab', '--base-url',
+            sys.executable, '-m', 'RulePeerCodec.dialogue_lab', '--base-url',
             f'http://127.0.0.1:{server.server_port}', '--groups', '1', '--peers', '2',
             '--rounds', '2', '--timeout', '5', '--model-label', 'fake-length',
             '--output', str(output)], capture_output=True, text=True, timeout=30)

@@ -1,7 +1,7 @@
 """Regression: ``con`` is never rewritten to ``with`` (Romance or English)."""
 import pytest
 
-import morpho_zip as m
+import morpho_grammar_minimal as m
 
 
 def _c(s: str) -> str:

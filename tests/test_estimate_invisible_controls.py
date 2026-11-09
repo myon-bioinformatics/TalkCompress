@@ -1,6 +1,6 @@
 """#147: correction is scoped by block/control, without changing shared tokenization."""
 import pytest
-from TesseraTalk.tessera_talk import estimate_tokens, _pretokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens, _pretokens
 
 
 @pytest.mark.parametrize('text, expected', [

@@ -1,6 +1,6 @@
 # 対応表オントロジーとナレッジグラフ試作（読み取り専用）
 
-TesseraTalk の対応表（英語 → 短い他言語形）について、**概念と関係の意味（オントロジー）** を定め、
+SentenceCalibratedMosaic（旧 TesseraTalk）の対応表（英語 → 短い他言語形）について、**概念と関係の意味（オントロジー）** を定め、
 いまのデータからその意味に沿って **具体的な知識をつないだグラフ（ナレッジグラフ）** を組み立てる。
 
 - 実装: `scripts/mapping_graph.py`（標準ライブラリのみ。tiktoken も tense_matrix の import も不要）

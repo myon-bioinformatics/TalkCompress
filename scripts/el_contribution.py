@@ -64,7 +64,7 @@ def _bank_flips(t) -> list[dict[str, str]]:
 
 
 def measure() -> dict:
-    t = load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    t = load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     texts = _texts()
     a = _run(t, texts, drop_el=False)
     b = _run(t, texts, drop_el=True)

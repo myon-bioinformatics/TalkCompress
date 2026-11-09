@@ -1,6 +1,6 @@
 """結合・総合: pipeline / compare / layer ownership across C→E.
 
-Not DensityZip unit tests — D is only the cross-layer router under test as wiring.
+Not DensityFacadeRoute unit tests — D is only the cross-layer router under test as wiring.
 """
 
 from __future__ import annotations
@@ -16,7 +16,7 @@ from tests._helpers import load, ns  # noqa: E402
 
 
 def test_pipeline_c_then_e():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     text = "um thank you for your information"
     out = c.run_pipeline(["C", "E"], text, ns())
     assert "um" not in out.lower()
@@ -27,7 +27,7 @@ def test_pipeline_c_then_e():
 
 
 def test_pipeline_a_without_key_errors():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     try:
         c.run_pipeline(["A", "C"], "hi", ns(key=None))
         raised = False
@@ -38,7 +38,7 @@ def test_pipeline_a_without_key_errors():
 
 
 def test_parse_pipeline():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     assert c.parse_pipeline("C,E") == ["C", "E"]
     assert c.parse_pipeline("3,4") == ["C", "E"]
     assert c.parse_pipeline("shorthand,morpho") == ["C", "E"]
@@ -48,7 +48,7 @@ def test_pipeline_c_e_classic_three_animals():
     """Canonical C→E pipe for classic example (C/E alone → test_features)."""
     from shared.lex_policy import INFO_GLYPH
 
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     classic = "um 私は will find out the information about three animals"
     pipe = c.run_pipeline(["C", "E"], classic, ns())
     assert "um" not in pipe.lower()
@@ -60,7 +60,7 @@ def test_pipeline_c_e_classic_three_animals():
 
 
 def test_compare_json_shape():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rows = c.compare_layers("thank you for your information about 3 animals", ns())
     assert len(rows) >= 3
     for row in rows:
@@ -76,7 +76,7 @@ def test_compare_json_shape():
 
 
 def test_convo_pipeline_cli():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     buf = io.StringIO()
     old = sys.stdout
     try:
@@ -91,7 +91,7 @@ def test_convo_pipeline_cli():
 
 
 def test_convo_compare_cli():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     buf = io.StringIO()
     old = sys.stdout
     try:
@@ -108,7 +108,7 @@ def test_convo_compare_cli():
 
 
 def test_trace_shape():
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     trace: list = []
     c.run_pipeline(["C", "E"], "um thank you for your information", ns(), trace=trace)
     assert len(trace) == 2
@@ -123,7 +123,7 @@ def test_trace_shape():
 
 
 def test_trace_cli(capsys):
-    c = load("density_zip", "DensityZip/density_zip.py")
+    c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     rc = c.main(["--pipeline", "C,E", "--trace", "--text", "um thank you"])
     assert rc == 0
     err = capsys.readouterr().err

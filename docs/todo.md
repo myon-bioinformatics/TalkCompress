@@ -1,12 +1,12 @@
 # TODO
 
-- **D (DensityZip):** 決定名（2026-10-27）。旧仮名 DispatchHub から改称。横断オーケストレーション + density 指標ファサード（Hub は使わない）。合意台帳は C / ShorthandEdge が所有。Zipilogue (A) / MorphoZip (E) と名前を混同しない。
+- **D (DensityFacadeRoute):** 決定名（2026-10-27）。旧仮名 DispatchHub から改称。横断オーケストレーション + density 指標ファサード（Hub は使わない）。合意台帳は C / ShorthandSessionEdge が所有。RulePeerCodec (A) / MorphoGrammarMinimal (E) と名前を混同しない。
 
-- **D pytest ≈ 0:** DensityZip 専用スイートは持たない。層単体は `tests/test_*.py`（A–E）、またぎは `tests/integration/`（結合・総合）。同一ケースの二重断言は層単体 1 箇所＋integration に揃える。`DensityZip/tests/` は README のみ。
+- **D pytest ≈ 0:** DensityFacadeRoute 専用スイートは持たない。層単体は `tests/test_*.py`（A–E）、またぎは `tests/integration/`（結合・総合）。同一ケースの二重断言は層単体 1 箇所＋integration に揃える。`DensityFacadeRoute/tests/` は README のみ。
 
 - **B live MT:** `--translate-engine=deep` needs `uv sync --group translate` (`deep-translator`). `argos` is documented but not in the default lock (heavy packs).
 
-- **A Zipilogue 実験方針（2026-10-27）:** 軽量ローカルモデル（**llama.cpp または同等の軽量 GGUF** スタック；同クラス。既定では重いフル精度サーバは使わない）で継続会話を回し、間隔をおいてエージェントが独自の共有表現・スラング（RuleBook 成長）を発明するかを観察する。二者だけの脆い構成より、**複数エージェントを並列のグループ**として回す方を優先。最小の制御実験ランナーは `Zipilogue/dialogue_lab.py`。LLM提案→peer批評/承認→20未見タスクの3対照を実装。自由な言語創発や純トークン削減の成功は未確認。
+- **A RulePeerCodec 実験方針（2026-10-27）:** 軽量ローカルモデル（**llama.cpp または同等の軽量 GGUF** スタック；同クラス。既定では重いフル精度サーバは使わない）で継続会話を回し、間隔をおいてエージェントが独自の共有表現・スラング（RuleBook 成長）を発明するかを観察する。二者だけの脆い構成より、**複数エージェントを並列のグループ**として回す方を優先。最小の制御実験ランナーは `RulePeerCodec/dialogue_lab.py`。LLM提案→peer批評/承認→20未見タスクの3対照を実装。自由な言語創発や純トークン削減の成功は未確認。
 
 
 - [ ] E 前置詞 for→`4`: 数字 four との揺らぎを在庫ビットとは別に評価。`for` へ戻すか検討（現状 `4`）。
@@ -17,10 +17,10 @@
 - [ ] E 助動詞・時制: 過去/完了と極性の深い相互作用は未着手。
 - [x] B 短時制 densifier 拡張（going-to ガード + live Romance/pt/el 候補 + FINAL_TENSE_LANGS；tranche2 take/think/try/find/…）。 古典ラテン活用は原則見送り（veniam のみ token 勝ち＋AI 往復で採用、habebo は terei と同 token、ibo は vou と同点、ero は it「I was」と衝突）；存続ラテン略語は C。複合フレーズバンク成長は別スライス可。
 - [x] B sibling pt/el/living-la（`pt_el_latin_phrases.json` + `pt_el_latin_tense.json`）: ZH/DE・ES/FR を書き換えず cheapest に加算。国限定略語/意味落ちは examples_not_registered。
-- [x] E because 表記: `cuz` 採用（同 1 トークン・bc 比 +1 バイトを意味の明瞭さで許容；`bc`/`∵` は入力別名）。候補の採点は `MorphoZip/fixtures/informal_candidates.json`。
+- [x] E because 表記: `cuz` 採用（同 1 トークン・bc 比 +1 バイトを意味の明瞭さで許容；`bc`/`∵` は入力別名）。候補の採点は `MorphoGrammarMinimal/fixtures/informal_candidates.json`。
 - [ ] 他の在庫（for→4 など）の口語・略記候補も informal_candidates.json で採点する（emit は未変更）。
 - [ ] E prep2: of→de / without→无 / within→内 / before→前 / after→後。pack1 と分離（3bit）。C 前後・内外ペアと役割分担を観察。
-- [x] C 台帳 dual metrics: lex に token（B estimate_tokens）+ bit（E utf8_bits / inventory）を必須記録。候補絞り用。
+- [x] C 台帳 dual metrics: lex に token（TokenCostHeuristic estimate_tokens）+ bit（E utf8_bits / inventory）を必須記録。候補絞り用。
 - [x] B 最終トークン削減（`B-final-token`=`B-final-zh-de`）: phrase candidate bank（複合形・ZH densifier・EN acronym を cheapest）/ ES/FR 短時制 + zh|de 文 minify。`--final-token`/`--final-zh-de` / `--auto` 末尾；fixtures `zh_de_phrases.json` + `es_fr_tense.json`。監査汎用化: however→tho 譲歩ゲート、fui 曖昧さ、死んだ je vais 削除、family=spatial。
 - [x] C 台帳: **ビット変化ゼロ**（utf8/primary bit delta=0）の lex を削除。token のみ改善は残さない（私たち→we 等の縮む行は維持）。
 - [x] C 台帳: 100件予算で見送った brb/AFAIK/whereas 等を、ゼロビット剪定後に追加（utf8 縮む分のみ・≤100）。

@@ -1,7 +1,7 @@
 """estimate_tokens: ベトナム語の過大評価修正。声調付き音節はほぼ o200k 1 トークン(tiktoken 実測)。"""
 import pytest
 
-from TesseraTalk.tessera_talk import estimate_tokens
+from SentenceCalibratedMosaic.sentence_calibrated_mosaic import estimate_tokens
 
 
 @pytest.mark.parametrize("text, o200k", [

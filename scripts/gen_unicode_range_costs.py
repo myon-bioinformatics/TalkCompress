@@ -1,4 +1,4 @@
-"""Print the per-code-point o200k cost strings used by ``tessera_talk._RANGE_COSTS``.
+"""Print the per-code-point o200k cost strings used by ``sentence_calibrated_mosaic._RANGE_COSTS``.
 
     uv run python scripts/gen_unicode_range_costs.py
 """

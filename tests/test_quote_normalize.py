@@ -1,4 +1,4 @@
-"""Curly→straight quote normalisation (MorphoZip) and scripts/quote_roundtrip.py."""
+"""Curly→straight quote normalisation (MorphoGrammarMinimal) and scripts/quote_roundtrip.py."""
 
 from __future__ import annotations
 

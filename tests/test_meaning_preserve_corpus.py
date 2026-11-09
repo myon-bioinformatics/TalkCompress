@@ -8,7 +8,7 @@ from tests._helpers import load, ns
 
 
 def _ce(s: str) -> str:
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     return dz.run_pipeline(["C", "E"], s, ns())
 
 
@@ -83,7 +83,7 @@ def test_no_dangling_commas(s):
 def test_meaning_preserve_round2(src, must, forbid):
     from tests._helpers import load, ns
 
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     out = dz.run_pipeline(["C", "E"], src, ns())
     assert must in out and forbid not in out, out
 
@@ -105,12 +105,12 @@ def test_meaning_preserve_round2(src, must, forbid):
 def test_that_the_idiom_exclusions(src, must):
     from tests._helpers import load, ns
 
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     assert must in dz.run_pipeline(["C", "E"], src, ns())
 
 
 def test_of_course_phrase_before_word_level():
-    dz = load("density_zip", "DensityZip/density_zip.py")
+    dz = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")
     for src in ("Of course, I agree.", "He was, of course, late."):
         out = dz.run_pipeline(["C", "E"], src, ns())
         assert "de course" not in out and "sure" in out.lower(), out
@@ -121,7 +121,7 @@ def test_multiword_subs_not_shadowed_by_earlier_word_rules():
     broken by an earlier single-word rule; phrase grammar runs before _SUBS."""
     import re
 
-    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     lit = re.compile(r"^(?:\(\?[a-z]+\))?\\b([A-Za-z' ]+)\\b$")
     bad = []
     for i, (p, _) in enumerate(m._SUBS):
@@ -153,7 +153,7 @@ def test_protect_join_cheapest():
     """Chosen protect_join form is never costlier than the alternative (tokens, then bytes)."""
     tiktoken = pytest.importorskip("tiktoken")
     enc = tiktoken.get_encoding("o200k_base")
-    m = load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
 
     def cost(s):
         return (len(enc.encode(" " + s)), len((" " + s).encode()))

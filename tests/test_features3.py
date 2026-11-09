@@ -1,6 +1,6 @@
 """Round-3 layer-unit tests: protect, packs, fingerprint, policy diff, LID mix.
 
-Window/profile/quality via DensityZip → tests/integration/.
+Window/profile/quality via DensityFacadeRoute → tests/integration/.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_protect_keep_spans():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     text = "um [[keep:thank you for your information]] please"
     out = m.compress(text, aggressive_fillers=True)
     assert "thank you for your information" in out
@@ -26,7 +26,7 @@ def test_protect_keep_spans():
 
 
 def test_protect_regex():
-    m = _load("morpho_zip", "MorphoZip/morpho_zip.py")
+    m = _load("morpho_grammar_minimal", "MorphoGrammarMinimal/morpho_grammar_minimal.py")
     text = "um CODE_BLOCK_XYZ please thank you"
     out = m.compress(text, protect_regexes=[r"CODE_BLOCK_XYZ"])
     assert "CODE_BLOCK_XYZ" in out
@@ -37,7 +37,7 @@ def test_protect_regex():
 
 
 def test_pack_dev_loads():
-    s = _load("shorthand_edge", "ShorthandEdge/shorthand_edge.py")
+    s = _load("shorthand_session_edge", "ShorthandSessionEdge/shorthand_session_edge.py")
     m = s.load_pack("dev")
     assert "pull request" in m or "Pull request".lower() in {k.lower() for k in m}
     sess = s.Session()
@@ -51,7 +51,7 @@ def test_pack_dev_loads():
 
 
 def test_key_fingerprint_stable():
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     a = z.key_fingerprint("secret-demo")
     b = z.key_fingerprint("secret-demo")
     c = z.key_fingerprint("other")
@@ -62,15 +62,15 @@ def test_key_fingerprint_stable():
 
 
 
-def test_zipilogue_fingerprint_mode(capsys):
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_fingerprint_mode(capsys):
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     rc = z.main(["fingerprint", "--key", "secret-demo"])
     assert rc == 0
     assert len(capsys.readouterr().out.strip()) == 16
 
 
-def test_zipilogue_dry_run(capsys):
-    z = _load("zipilogue", "Zipilogue/zipilogue.py")
+def test_rule_peer_codec_dry_run(capsys):
+    z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     rc = z.main(["encode", "--key", "k", "--dry-run", "--stats", "--text", "hello"])
     assert rc == 0
     captured = capsys.readouterr()
@@ -122,7 +122,7 @@ def test_policy_diff_cli(tmp_path, capsys):
 
 
 def test_prefer_ltr_latin_cjk_mix():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     # Latin + CJK without hiragana
     s = "Hello 世界 code."
     lang_default = t.detect_lang(s, prefer_ltr=False)
@@ -137,7 +137,7 @@ def test_prefer_ltr_latin_cjk_mix():
 
 
 def test_script_mix_in_stats():
-    t = _load("tessera_talk", "TesseraTalk/tessera_talk.py")
+    t = _load("sentence_calibrated_mosaic", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     st = t.stats("Hello. 你好。")
     assert "script_mix" in st
     assert st["sentences"] >= 1
