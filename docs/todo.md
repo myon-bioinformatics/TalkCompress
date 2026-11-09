@@ -15,7 +15,7 @@
 - [x] E 助詞 particle: コア ∅|→|∈|〜（2bit）。拡張 +|&|←（から=from スロット；fr は別名・for-real 揺らぎ）。と=& OK。
 - [x] E from canonical: `←`（`fr` 別名のみ）。ML prep/pronoun エイリアス（ES/FR/DE、bits+tokenize 同スロット）。
 - [ ] E 助動詞・時制: 過去/完了と極性の深い相互作用は未着手。
-- [x] B 短時制 densifier 拡張（going-to ガード + live Romance/pt/el 候補 + FINAL_TENSE_LANGS；tranche2 take/think/try/find/…）。 古典ラテン活用は見送り；存続ラテン略語は C。複合フレーズバンク成長は別スライス可。
+- [x] B 短時制 densifier 拡張（going-to ガード + live Romance/pt/el 候補 + FINAL_TENSE_LANGS；tranche2 take/think/try/find/…）。 古典ラテン活用は原則見送り（veniam のみ token 勝ち＋AI 往復で採用、habebo は terei と同 token、ibo は vou と同点、ero は it「I was」と衝突）；存続ラテン略語は C。複合フレーズバンク成長は別スライス可。
 - [x] B sibling pt/el/living-la（`pt_el_latin_phrases.json` + `pt_el_latin_tense.json`）: ZH/DE・ES/FR を書き換えず cheapest に加算。国限定略語/意味落ちは examples_not_registered。
 - [x] E because 表記: `cuz` 採用（同 1 トークン・bc 比 +1 バイトを意味の明瞭さで許容；`bc`/`∵` は入力別名）。候補の採点は `MorphoGrammarMinimal/fixtures/informal_candidates.json`。
 - [ ] 他の在庫（for→4 など）の口語・略記候補も informal_candidates.json で採点する（emit は未変更）。

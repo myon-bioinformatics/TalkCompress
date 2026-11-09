@@ -22,8 +22,8 @@ SOURCES = SNAPSHOT["forms"]
 JUDGE_SHA = "d161afaef0b6f8dea08c5ff5babb69f349a7baea60f697ddaf5e85b36dd369df"
 BASE_OTHER_LANG_HASHES = {
     "tense_matrix": "78992b4cc8accacf30e7e3e3e3475789d0ceaed99ac6257f062811098a466b4d",  # after #172 (es reversals)
-    "es_fr_tense": "efd531651c4a09cb4ddaefb3e1294a0668633d740112fe07b27ad509cd006291",  # after #164 (el reversals)
-    "pt_el_latin_phrases": "98701aadd019cbdb409d7725537f832b99bccced17788e0a34d463c9b4d7731f",  # after #164 (el reversals)
+    "es_fr_tense": "5c4d9e525a8df17eef85c4128698ccd65c5d4f4a4d10610a0d8fc0ef97c4a045",  # after #164 (el reversals) + #161 (la entries / el υπέρ reversal)
+    "pt_el_latin_phrases": "869f7e00ff4b11e188588ec4bf3c61f81609213c0fdde45e980a935c692e8a7b",  # after #164 (el reversals) + #161 (la entries / el υπέρ reversal)
     "pt_el_latin_tense": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
 }
 
@@ -90,12 +90,15 @@ def test_only_failed_pt_entries_removed_no_unmeasured_promotions(name):
         if e["file"] == f"SentenceCalibratedMosaic/fixtures/{name}.json" and rt.status(data, "pt", f["entry"]["to"]) == "pass"
     }
     got = {e["id"]: e["to"] for e in read(name)["entries"] if e["lang"] == "pt"}
-    # #164 (el βρω reversal) promoted pt runner-ups before the pt round-trip (#171) existed;
-    # they are NOT in the pt blind judge and not yet measured. Listed explicitly
-    # so no other unmeasured pt promotion slips in.
-    unmeasured_from_164 = {"find-fut-1s": "acharei", "find-fut-goingto-1s": "acharei"}
-    if name == "es_fr_tense":
-        for k, v in unmeasured_from_164.items():
+    # #161 (la reversal of ergo / ideo) and #164 (el βρω reversal) promoted pt runner-ups
+    # before the pt round-trip (#171) existed; they are NOT in the pt blind judge and not
+    # yet measured. Listed explicitly so no other unmeasured pt promotion slips in.
+    unmeasured = {
+        "pt_el_latin_phrases": {"as-a-result-la-pt-el": "logo", "for-this-reason-la-pt": "por isso"},
+        "es_fr_tense": {"find-fut-1s": "acharei", "find-fut-goingto-1s": "acharei"},
+    }
+    if name in unmeasured:
+        for k, v in unmeasured[name].items():
             assert got.pop(k) == v
     assert got == expected
 

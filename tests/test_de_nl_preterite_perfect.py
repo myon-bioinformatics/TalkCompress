@@ -65,7 +65,7 @@ def test_nl_perfect_winners_require_roundtrip():
 
 
 def test_nl_perfect_listed_in_impact_doc():
-    doc = (ROOT / "docs/roundtrip_impact.md").read_text(encoding="utf-8")
+    doc = (ROOT / "docs/roundtrip-impact.md").read_text(encoding="utf-8")
     for e in BANK["entries"]:
         if e["lang"] == "nl" and e["tense"] == "perf":
             assert e["id"] in doc

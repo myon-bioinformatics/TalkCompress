@@ -671,7 +671,7 @@ def sync_emoji_lex(
         "(two-step apply). Adoption rule (o200k, mid-sentence leading-space): the "
         "emoji must cost fewer tokens than the EN pivot, or tie on tokens with "
         "strictly fewer utf8 bytes (tokens first, then bytes). Rejected emoji/symbols are memo-only in "
-        "docs/emoji_symbols_notes.md, not ledger rows."
+        "docs/emoji-symbols-notes.md, not ledger rows."
     )
     # Drop older emoji note variants so the pivot/priority wording is sole.
     if isinstance(notes, list):

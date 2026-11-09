@@ -21,7 +21,8 @@ fan out to target langs **in parallel**, then rank by shortness + low 揺らぎ
 
 Final token pass (``final_zh_de_token_pass`` / ``--final-zh-de``): last-stage
 cheapest-token candidates — compounds (incl. adj+noun), ZH densifiers, short tense
-conjugations (live Romance es/fr/pt + nl/el via ``FINAL_TENSE_LANGS``; going-to
+conjugations (live Romance es/fr/pt + nl/el, plus one AI-round-tripped Latin
+future veniam, via ``FINAL_TENSE_LANGS``; going-to
 guard on progressive *going), then sentence minify restricted to ``zh|de``. Aims
 to **reduce** ``estimate_tokens``. Wired by DensityFacadeRoute as the pipeline end after
 A–E (``B-final-zh-de``). Prefer both token+utf8 shrink; token-only wins must be
@@ -138,7 +139,7 @@ FINAL_PHRASE_LANGS: frozenset[str] = frozenset({"zh", "de", "en", "ja", "nl", "p
 FINAL_PT_EL_LATIN_PHRASE_LANGS: frozenset[str] = frozenset({"pt", "el", "it", "la"})
 """Sibling phrase bank langs (pt_el_latin_phrases.json): living PT/EL/IT + scholarly Latin."""
 
-FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el"})
+FINAL_TENSE_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el", "la"})
 # Person × tense matrix bank (scripts/tense_matrix.py) also allows live it.
 FINAL_TENSE_MATRIX_LANGS: frozenset[str] = frozenset({"es", "fr", "pt", "nl", "de", "el", "it", "cs", "pl"})
 """Tense densifier bank langs: live Romance + Dutch + German + Greek (classical Latin conjugations skipped)."""
@@ -1212,8 +1213,9 @@ def es_fr_tense_pairs(
     """Return (source_phrase, replacement, lang) for short-tense densifier bank.
 
     Bank file keeps the historical ``es_fr_tense.json`` name; allowed langs are
-    ``FINAL_TENSE_LANGS`` (es/fr/pt/nl/el). Classical Latin conjugations are not
-    registered — prefer live modern Romance / surviving Latin-derived abbrevs (C).
+    ``FINAL_TENSE_LANGS`` (es/fr/pt/nl/de/el/la). Classical Latin conjugations are
+    registered only when they beat the Romance winner on tokens and pass the la AI
+    round-trip (veniam); surviving Latin-derived abbrevs stay C.
     """
     data = load_es_fr_tense_bank(str(path) if path is not None else None)
     return _bank_phrase_pairs(data, allow_langs=set(FINAL_TENSE_LANGS), blocked=collision_blocked("es_fr_tense"))
