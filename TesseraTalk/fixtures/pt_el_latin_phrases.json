@@ -101,38 +101,6 @@
       "note": "ergo = surviving scholarly Latin (not classical conjugation)"
     },
     {
-      "id": "see-you-soon-it-pt-el",
-      "from": [
-        "see you soon"
-      ],
-      "to": "ciao",
-      "lang": "it",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "ciao",
-          "lang": "it",
-          "class": "densifier"
-        },
-        {
-          "form": "até",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "γεια",
-          "lang": "el",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
-      },
-      "note": "ciao living IT; até bare is common BR farewell short"
-    },
-    {
       "id": "more-or-less-la-el",
       "from": [
         "more or less"
@@ -553,6 +521,15 @@
       "note": "bare Latin per dropped — collides with EN per",
       "roundtrip_reversed": true,
       "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"He used to see.\", \"Maybe he used to see today.\", \"She told me that he used to see.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "see-you-soon-it-pt-el",
+      "from": [
+        "see you soon"
+      ],
+      "to": "ciao",
+      "lang": "it",
+      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as hello; source see you soon). Reversed per docs/it_roundtrip_20261108.md; no other candidate promoted."
     }
   ]
 }

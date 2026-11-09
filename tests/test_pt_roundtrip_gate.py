@@ -21,9 +21,9 @@ SNAPSHOT = json.loads((FIX / "roundtrip_judge/pt_sources.json").read_text(encodi
 SOURCES = SNAPSHOT["forms"]
 JUDGE_SHA = "d161afaef0b6f8dea08c5ff5babb69f349a7baea60f697ddaf5e85b36dd369df"
 BASE_OTHER_LANG_HASHES = {
-    "tense_matrix": "6a9beae0f231f83689ed6253758d6f65c81fdd9356ebbf2bd3480f763eec0385",
+    "tense_matrix": "082a8144cee2ffed61cf37395da0a20e5486ddb02fa0453b249630e4a0ca4d59",  # after #168 (it que sa / que dà reversed)
     "es_fr_tense": "beeb3c06593d4451c2ec40fa39479891deaf7e20117f7430ba6836e4fea9fbe0",
-    "pt_el_latin_phrases": "3c9d8c06f7c71189b9cfe1b0782902d63059ff9f8fcf46a44ba8e2ce6c16d2a6",
+    "pt_el_latin_phrases": "37ae65ea2143b97433429ebb183878776273552c3d4a41d9b8f94f60838d497c",  # after #168 (it ciao reversed)
     "pt_el_latin_tense": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
 }
 
@@ -67,8 +67,8 @@ def test_each_receipt_recomputes_from_immutable_judge_without_inflated_trials():
             assert target["restored"] is restored
         statuses.append(rt.status(data, "pt", f["entry"]["to"]))
     assert statuses.count("pass") == 210 and statuses.count("never") == 60
-    latest = data["run_history"][-1]
-    assert latest["config"]["only_lang"] == "pt"
+    # other language cohorts (it / zh from #168 / #169, ...) share run_history
+    latest = [r for r in data["run_history"] if r["config"].get("only_lang") == "pt"][-1]
     assert latest["completed"] == latest["attempted"] == latest["scheduled"] == 2430
     assert latest["duplicate_targets"] == 0
 
@@ -76,7 +76,7 @@ def test_each_receipt_recomputes_from_immutable_judge_without_inflated_trials():
 @pytest.mark.parametrize("name", BASE_OTHER_LANG_HASHES)
 def test_existing_other_language_winners_and_losing_pt_candidates_unchanged(name):
     # Covers all non-pt entries, including their candidates (31 losing pt
-    # candidates), and it/el/la phrase rows. Hash is from the original main.
+    # candidates), and it/el/la phrase rows. Hash is from main after #168 / #169.
     entries = [e for e in read(name)["entries"] if e["lang"] != "pt"]
     canonical = json.dumps(entries, ensure_ascii=False, sort_keys=True).encode()
     assert hashlib.sha256(canonical).hexdigest() == BASE_OTHER_LANG_HASHES[name]
@@ -101,9 +101,11 @@ def test_generated_reversals_are_per_form_and_leave_empty_english_cells():
         if any(e["file"].endswith("/tense_matrix.json") for e in f["source_entries"])
         and rt.status(data, "pt", f["entry"]["to"]) != "pass"
     }
-    assert tm.ROUNDTRIP_REVERSED == failed
+    # ROUNDTRIP_REVERSED is a union across languages (it from #168, ...); pt part only here.
+    assert {r for r in tm.ROUNDTRIP_REVERSED if r[0] == "pt"} == failed
     cells = json.loads((ROOT / "docs/tense_matrix_report.json").read_text(encoding="utf-8"))["cells"]
-    reversed_cells = [c for c in cells if c.get("roundtrip_reversed")]
+    pt_rev = {f for _, f in failed}
+    reversed_cells = [c for c in cells if set(c.get("roundtrip_reversed") or ()) & pt_rev]
     assert len(reversed_cells) == 63
     assert all(c["status"] == "reject" and c["candidates"] == [] for c in reversed_cells)
 

@@ -35,19 +35,19 @@
   }
  },
  "skipped": {},
- "adopted": 749,
+ "adopted": 747,
  "beats_en_count": {
-  "o200k_base": 749,
-  "cl100k_base": 591,
-  "qwen2.5": 608,
-  "qwen3": 608,
-  "llama3.2": 602,
-  "mistral-v0.3": 531,
-  "deepseek-v3": 604
+  "o200k_base": 747,
+  "cl100k_base": 590,
+  "qwen2.5": 607,
+  "qwen3": 607,
+  "llama3.2": 601,
+  "mistral-v0.3": 530,
+  "deepseek-v3": 603
  },
  "categories": {
-  "all": 510,
-  "o200k only": 116,
+  "all": 509,
+  "o200k only": 115,
   "6/7": 74,
   "2/7": 15,
   "4/7": 13,
@@ -10801,32 +10801,6 @@
     "deepseek-v3"
    ],
    "category": "all"
-  },
-  {
-   "id": "mx-know-pres-rel-que-sg",
-   "src": "que knows",
-   "to": "que sa",
-   "lang": "it",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-give-pres-rel-que-sg",
-   "src": "que gives",
-   "to": "que dà",
-   "lang": "it",
-   "beats_en_on": [
-    "o200k_base"
-   ],
-   "category": "o200k only"
   },
   {
    "id": "mx-come-perf-rel-que-sg",

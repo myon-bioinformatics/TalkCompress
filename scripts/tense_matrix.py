@@ -743,10 +743,14 @@ def en_baselines(src: str) -> list[str]:
 
 
 ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
-# Individually reversed pt winners, measured with the immutable blind judge.
+# Individually reversed (lang, form) winners, measured with the immutable blind judge.
 # Not language-wide enforcement. A reversed cell stays English: do not promote
 # its next-language candidate (including English-homograph alternatives).
 ROUNDTRIP_REVERSED = frozenset({
+    # it (#168, docs/it_roundtrip_20261108.md): any-candidate reverse (see below).
+    ("it", "que sa"),
+    ("it", "que dà"),
+    # pt (#171): adopted-winner reverse only.
     ("pt", "acharam"),
     ("pt", "dei"),
     ("pt", "disseram"),
@@ -801,6 +805,11 @@ ROUNDTRIP_REVERSED = frozenset({
     ("pt", "who foi"),
     ("pt", "who foram"),
 })
+# Languages whose reversed forms empty the whole cell as soon as they appear as a
+# candidate (#168, it). Every other language is reversed only when it is the
+# adopted winner (post-ranking, #171), so a reversed form that is merely listed
+# as a candidate never wipes a cell won by another language.
+ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS = frozenset({"it"})
 _RT_DATA: dict = {}
 
 
@@ -885,6 +894,11 @@ def build(gate=None) -> tuple[dict, dict, str]:
                 if keep:
                     for c in cands:
                         c["form"] = f"{surf} {c['form']}"
+                rev = [c["form"] for c in cands if (c["lang"], c["form"]) in ROUNDTRIP_REVERSED
+                       and c["lang"] in ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS]
+                if rev:
+                    cell["roundtrip_reversed"] = rev
+                    cands = []
                 if True:  # nl always gated (#29); others only with an explicit gate
                     # gate per (form, lang): nl ``denkt`` failing must not drop de ``denkt``
                     gated = [c for c in cands if not _rt_ok(c["form"], c["lang"], gate)]
