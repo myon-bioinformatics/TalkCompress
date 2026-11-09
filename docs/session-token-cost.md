@@ -20,7 +20,7 @@ SHA-256 `74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db`.
 python scripts/fetch_l3_model.py qwen-0.5b models/model.gguf
 ```
 
-Start the same pinned server image used by the existing dialogue-lab workflow:
+Start a pinned llama.cpp server:
 
 ```sh
 LLAMA_IMAGE=ghcr.io/ggml-org/llama.cpp@sha256:b32890309c1a33a534a01b0b461e953dc2c5a6bac20213abcf48e22847a19c85
@@ -58,10 +58,7 @@ llama.cpp/build/bin/llama-server -m models/model.gguf \
 ```
 
 No text generation, external API credential, or Python tokenizer dependency is
-needed. The manual `session-token-cost` Actions workflow automates the fixed
-Qwen experiment and uploads source commit, catalog, verified model receipt,
-server/container logs and report even when execution fails. A new manual
-workflow must exist on the default branch before GitHub exposes dispatch.
+needed.
 
 ## Accounting policy
 

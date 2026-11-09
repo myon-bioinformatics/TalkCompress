@@ -51,11 +51,12 @@ def test_shorthand_suggest_keeps_accented_words():
 
 
 def test_zh_de_phrase_latin_word_edges():
-    assert T.apply_zh_de_phrases("thank you very much") == "多谢"
-    for t in ("éthank you very much", "thank you very muché", "thank you very muchñ", _nfd("thank you very muché")):
+    # 多谢 failed the zh round-trip gate; edge checks use the passing 思维链.
+    assert T.apply_zh_de_phrases("chain-of-thought") == "思维链"
+    for t in ("échain-of-thought", "chain-of-thoughté", "chain-of-thoughtñ", _nfd("chain-of-thoughté")):
         assert T.apply_zh_de_phrases(t) == unicodedata.normalize("NFC", t)
-    assert T.apply_zh_de_phrases("thank you very much́") == "thank you very much́"
-    assert T.apply_zh_de_phrases("ḁthank you very much") == "ḁthank you very much"
+    assert T.apply_zh_de_phrases("chain-of-thought́") == "chain-of-thought́"
+    assert T.apply_zh_de_phrases("ḁchain-of-thought") == "ḁchain-of-thought"
 
 
 def test_relative_que_accented_left_edge():

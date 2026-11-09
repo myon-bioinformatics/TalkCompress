@@ -80,7 +80,8 @@ def test_negative_no_misfire(s):
 @pytest.mark.parametrize(
     ("s", "want"),
     [
-        ("This has gone well", "This foi well"),
+        ("This has gone well", "This has gone well"),  # failed pt form removed
+        ("This had found it", "This achara it"),  # passing subject-kept form
         # "van" is an EN word → guard drops it; no other progressive form shrinks.
         ("People who are going home", "People who are going home"),
         ("I'm going to buy it", "compraré it"),
@@ -287,7 +288,8 @@ def test_that_stays_unconverted():
         ("people who are going", "people who are going"),
         ("the book which was read", "the book que was read"),  # which (2 tok) → que (1 tok)
         ("people who went", "people who went"),  # number-neutral verb stays EN
-        ("the man who has gone", "the man who foi"),  # has → sg
+        ("the man who has gone", "the man who has gone"),  # failed pt form removed
+        ("the man who finds it", "the man who acha it"),  # passing singular form
         ("the man that has seen it", "the man que sah it"),  # DET+NOUN+that → que, has → sg
         ("the fact that he left", "the fact that he left"),  # complementizer
         ("the proposition that all men are", "the proposition that all men are"),
