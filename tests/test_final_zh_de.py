@@ -44,11 +44,12 @@ def test_short_de_compound_bahnhof_wins():
 
 def test_adj_noun_zh_compound_wins():
     t = _tessera()
-    src = "high speed rail and green tea"
+    src = "chain-of-thought and green tea"
     out = t.apply_zh_de_phrases(src)
-    # longest-first: high speed rail → 高铁 (not bare high-speed → 高速)
-    assert "高铁" in out
-    assert "高速" not in out
+    # 高铁 / 高速 failed the zh exact round-trip gate and were removed (EN stays);
+    # chain-of-thought → 思维链 passed and still fires.
+    assert "思维链" in out
+    assert "high" not in out
     # o200k: " green tea" = 2 < " 绿茶" = 3 (bare space + 2 chars), so EN stays
     assert "green tea" in out
     assert t.estimate_tokens(out) < t.estimate_tokens(src)
@@ -286,7 +287,7 @@ def test_de_nl_compound_one_word_wins():
     """DE/nl multiword → one-word compound when dual metrics win."""
     t = _tessera()
     cases = [
-        # mobile phone → cel|κιν via sibling (beats Handy); covered in test_cell_phone / handy test
+        # Reversed pt cel entry no longer overrides the unchanged Handy bank.
         ("The swimming pool opens at nine.", "zwembad"),
     ]
     for src, want in cases:
@@ -298,9 +299,10 @@ def test_de_nl_compound_one_word_wins():
 def test_zh_compound_densifier_wins():
     t = _tessera()
     cases = [
-        ("Ride the high speed rail tomorrow.", "高铁"),
-        ("Check your blood pressure daily.", "tensão"),
-        ("Join the large language model talk.", "大模型"),
+        # 高铁 / 大模型 failed the zh round-trip gate (#169); tensão (blood pressure)
+        # failed the pt round-trip gate (#171): neither side's removed form returns.
+        ("Learn the full-stack tomorrow.", "全栈"),
+        ("Join the open-source talk.", "开源"),
     ]
     for src, want in cases:
         out = t.apply_zh_de_phrases(src)
@@ -308,17 +310,15 @@ def test_zh_compound_densifier_wins():
         assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
-def test_hsr_longest_beats_bare_high_speed():
-    """Longest-first: 'high speed rail' → 高铁, not '高速 rail'."""
+def test_hsr_and_high_speed_removed_after_roundtrip_gate():
+    """高铁 / 高速 failed the zh exact round-trip gate (0/9): EN stays, no '高速 rail'."""
     t = _tessera()
     out = t.apply_zh_de_phrases("Ride the high speed rail.")
-    assert "高铁" in out
-    assert "高速" not in out
-    assert "rail" not in out.lower()
+    assert out == "Ride the high speed rail."
 
 
 def test_handy_beats_zh_phone_densifier():
-    """Among ZH/DE bank alone Handy beats 手机; with sibling, pt/el cel|κιν is cheapest."""
+    """Handy remains after the failing pt cel entry is unregistered."""
     t = _tessera()
     # zh/de bank isolation: Handy still beats 手机
     pairs = [(s, r, lang) for s, r, lang in t.zh_de_phrase_pairs() if s.lower() in {"mobile phone", "cell phone"}]
@@ -326,9 +326,9 @@ def test_handy_beats_zh_phone_densifier():
     assert "Handy" in forms and "手机" in forms
     chosen = t._cheapest_repl("mobile phone", [(r, lang) for _, r, lang in pairs])
     assert chosen == "Handy"
-    # full apply (zh/de + sibling): living pt/el short wins on token+bit
+    # Full apply now falls through to the unchanged zh/de winner.
     out = t.apply_zh_de_phrases("Please bring your mobile phone.")
-    assert any(s in out for s in ("cel", "κιν"))
+    assert "Handy" in out
     assert "手机" not in out
     assert "mobile phone" not in out.lower()
 
@@ -393,12 +393,12 @@ def test_pt_el_latin_tense_bank_new_sources_only():
         assert t.estimate_tokens(dst) < t.estimate_tokens(src)
 
 
-def test_cell_phone_maps_to_cel_or_kin():
+def test_cell_phone_falls_through_to_existing_handy():
     t = _tessera()
     raw = "Call me on my cell phone later."
     out = t.apply_zh_de_phrases(raw)
     assert "cell phone" not in out.lower()
-    assert any(s in out for s in ("cel", "κιν"))
+    assert "Handy" in out
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
@@ -427,12 +427,14 @@ def test_sibling_does_not_steal_bahnhof_or_asap():
     assert "gare" not in out.lower()
 
 
-def test_i_will_do_it_maps_to_farei():
+def test_i_will_do_it_preserves_object_via_existing_shorter_row():
     t = _tessera()
     raw = "I will do it tomorrow."
     out = t.apply_es_fr_tense(raw)
-    assert "farei" in out
-    assert "will do it" not in out.lower()
+    # farei lost the object in blind restoration and was unregistered.
+    # The pre-existing I will do row still fires, with its object retained.
+    assert out == "haré it tomorrow."
+    assert "farei" not in out
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
@@ -451,7 +453,7 @@ def test_final_pass_includes_sibling_phrase():
     after = t.estimate_tokens(out)
     # o200k: " per month" = 2 < " /mês" = 3, so "per month" stays
     assert "per month" in out
-    assert "cel" in out or "κιν" in out
+    assert "Handy" in out
     assert after < before
 
 
@@ -523,9 +525,9 @@ def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
 def test_tense_tranche2_and_sibling_longest_sources_coexist():
     t = _tessera()
     raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
-    assert t.apply_es_fr_tense(raw) == "farei; fiz; quero ir; preciso ir; tomaré it."
+    assert t.apply_es_fr_tense(raw) == "haré it; fiz; quero ir; preciso ir; tomaré it."
     raw = "I will take my mobile phone to the train station as soon as possible."
-    assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "tomaré my cel to the Bahnhof ASAP."
+    assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "tomaré my Handy to the Bahnhof ASAP."
 
 
 def test_tense_candidate_priority_is_independent_of_bank_order():
@@ -552,8 +554,9 @@ def test_tranche2_and_sibling_combined_final_pass():
     t = _tessera()
     raw = "I'm going to take my mobile phone once again."
     out = t.final_token_pass(raw)
-    assert "tomaré" in out
-    assert any(form in out for form in ("cel", "κιν"))
+    # el πάρω reversed (#164); pt cel reversed (#171) -> de Handy for "mobile phone"
+    assert any(form in out for form in ("tomaré", "tomarei"))
+    assert "Handy" in out
     assert "once again" in out  # o200k tie (2 = 2): source kept
     assert "voy to" not in out and "vou to" not in out
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
@@ -566,9 +569,9 @@ def test_tranche2_cheapest_for_every_source():
     start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
     stop = next((i for i, e in enumerate(entries) if e["id"] == "arrive-past-1s"), len(entries))
     tranche2 = entries[start:stop]
-    # 35 → 31: try/read/wait/stay progressive → simple present rows were
-    # dropped (aspect loss), see examples_not_registered.
-    assert len(tranche2) == 31
+    # 35 → 31 for aspect loss, then 30 after pt-labeled essayé failed the
+    # independent roundtrip (entry moved to examples_not_registered).
+    assert len(tranche2) == 30
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
         for src in entry["from"]:
@@ -615,3 +618,9 @@ def test_o200k_ties_keep_english_source():
         assert t.apply_es_fr_tense(src) == src
     for src in ("washing machine", "traffic light", "traffic jam", "open source", "police station"):
         assert t.apply_zh_de_phrases(src) == src
+
+
+def test_reversed_pt_blood_pressure_stays_english():
+    t = _tessera()
+    raw = "Check your blood pressure daily."
+    assert t.apply_zh_de_phrases(raw) == raw
