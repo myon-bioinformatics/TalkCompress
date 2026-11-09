@@ -26,7 +26,7 @@ Add ``--json`` for machine-readable output.
 
 from __future__ import annotations
 
-import argparse, ast, json, re, sys
+import argparse, ast, json, sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -331,11 +331,11 @@ def collisions(g: Graph) -> dict[str, list[dict]]:
     # take-fut-1s: to ``tomaré`` labelled el, candidate ``tomaré`` labelled es)
     mislabel = []
     for a in g.of_type("Adoption"):
-        aid = a["id"]
+
         for cid in g.inc(f"en:{a['source']}", "forSource"):
             c = g.nodes[cid]
             if c["form"] == a["form"] and c["lang"] != a["lang"] and c["origin"].endswith("#" + a["entry_id"]):
-                mislabel.append({"id": aid, "label": a["lang"], "candidate_lang": c["lang"], "entry": c["origin"]})
+                mislabel.append({"id": a["id"], "label": a["lang"], "candidate_lang": c["lang"], "entry": c["origin"]})
     lexical, tense_merge = [], []
     for fid, ms in sorted(by_form.items()):
         if len(ms) < 2:
