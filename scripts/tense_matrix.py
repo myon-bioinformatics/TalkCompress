@@ -738,6 +738,21 @@ def en_baselines(src: str) -> list[str]:
 
 
 ROUNDTRIP_ENFORCED_LANGS = frozenset({"nl"})
+# Individually reversed (lang, form) winners whose independent blind AI round-trip
+# failed (docs/fr_roundtrip_20261109.md). Not language-wide enforcement: other
+# forms of the same language stay report-only. A cell whose ranked winner is a
+# reversed form stays English (no next-language candidate is promoted); a reversed
+# form that only loses in a cell changes nothing, so other languages' winners stay.
+ROUNDTRIP_REVERSED = frozenset({
+    ("fr", "prends"), ("fr", "vins"), ("fr", "vis"), ("fr", "pris"), ("fr", "voulus"), ("fr", "sus"),
+    ("fr", "avoir voulu"), ("fr", "avoir eu"), ("fr", "avoir su"), ("fr", "avais su"), ("fr", "ira"),
+    ("fr", "ont su"), ("fr", "que dit"), ("fr", "que ont voulu"), ("fr", "que ont eu"), ("fr", "que ont su"),
+})
+# EN sources whose sibling-bank (es_fr_tense.json) fr winner was reversed by the same
+# blind round-trip and moved to ``examples_not_registered``. Without this the matrix
+# would treat the source as new and promote a next-language candidate (de ``nahm``);
+# reversal keeps English instead.
+ROUNDTRIP_REVERSED_SOURCES = frozenset({"i took"})  # "I arrived" is not a matrix cell
 _RT_DATA: dict = {}
 
 
@@ -802,6 +817,9 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     continue
                 if src.lower() in existing:
                     cell.update(status="existing", reason="already in es_fr_tense / pt_el_latin_tense")
+                    continue
+                if src.lower() in ROUNDTRIP_REVERSED_SOURCES:
+                    cell.update(status="reject", reason="sibling-bank fr winner reversed by blind AI round-trip; EN kept")
                     continue
                 cands = _candidates(conj, person, tense, verb, num)
                 if keep or person in ("3s", "3p"):
@@ -873,6 +891,11 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     scored.remove(w)
                     scored.insert(0, w)
                 best = scored[0]
+                # reversed winner: EN kept; stays in its parity class so number-matched
+                # demonstratives do not keep the same verb form on their own
+                reversed_best = (best["lang"], best["form"]) in ROUNDTRIP_REVERSED
+                if reversed_best:
+                    cell["roundtrip_reversed"] = [best["form"]]
                 cell.update(
                     best=best["form"], lang=best["lang"], shape=best["shape"], number=best["number"],
                     tok=[st, tok(best["form"])], utf8=[su, u8(best["form"])],
@@ -882,7 +905,7 @@ def build(gate=None) -> tuple[dict, dict, str]:
                     "src": src, "label": label, "best": best, "scored": scored, "kind": kind,
                     "num_key": (person, num), "keepc": shrink, "st": st, "su": su,
                     "homo_shrinks": any((tok(h["form"]), u8(h["form"])) < (st, su) for h in homo),
-                    "cls": _parity_class(sub),
+                    "cls": _parity_class(sub), "reversed": reversed_best,
                 }
     # class-level decision: adopt iff for EVERY member token strictly shrinks and
     # utf8 never grows, and utf8 strictly shrinks for at least one member
@@ -920,6 +943,8 @@ def build(gate=None) -> tuple[dict, dict, str]:
             continue
         def ok(c):
             p = c["_pending"]
+            if p["reversed"]:
+                return False
             return (tok(p["best"]["form"]), u8(p["best"]["form"])) < (p["st"], p["su"])
         oks = [ok(c) for c in members]
         adopt = all(oks)
@@ -944,6 +969,8 @@ def build(gate=None) -> tuple[dict, dict, str]:
                         "scored_by": "o200k_base",
                     }
                 )
+            elif p["reversed"]:
+                c.update(status="reject", reason="independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept")
             elif p["homo_shrinks"]:
                 c.update(status="reject", reason="EN homograph collision: every shrinking candidate spells an English word")
             elif len(members) > 1 and any(oks) and not all(oks):

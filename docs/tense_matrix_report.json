@@ -367,8 +367,8 @@
    "tense": "past",
    "verb": "take",
    "src": "I took",
-   "status": "existing",
-   "reason": "already in es_fr_tense / pt_el_latin_tense"
+   "status": "reject",
+   "reason": "sibling-bank fr winner reversed by blind AI round-trip; EN kept"
   },
   {
    "subject": "1s",
@@ -3032,6 +3032,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "prends"
+   ],
    "best": "prends",
    "lang": "fr",
    "shape": "simple",
@@ -3044,7 +3047,8 @@
     8,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -3609,6 +3613,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "vins"
+   ],
    "best": "vins",
    "lang": "fr",
    "shape": "simple",
@@ -3621,7 +3628,8 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -3657,6 +3665,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "vis"
+   ],
    "best": "vis",
    "lang": "fr",
    "shape": "simple",
@@ -3669,7 +3680,8 @@
     7,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -3697,6 +3709,9 @@
     "number": "2sg-tú",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "pris"
+   ],
    "best": "pris",
    "lang": "fr",
    "shape": "simple",
@@ -3709,7 +3724,8 @@
     8,
     4
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -3777,6 +3793,9 @@
     "number": "2sg-usted",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "voulus"
+   ],
    "best": "voulus",
    "lang": "fr",
    "shape": "simple",
@@ -3789,7 +3808,8 @@
     10,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -3921,6 +3941,9 @@
     "number": "2sg-tú",
     "tok": 1
    },
+   "roundtrip_reversed": [
+    "sus"
+   ],
    "best": "sus",
    "lang": "fr",
    "shape": "simple",
@@ -3933,7 +3956,8 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -4304,6 +4328,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir voulu"
+   ],
    "best": "avoir voulu",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4316,7 +4343,8 @@
     13,
     11
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -4329,6 +4357,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir eu"
+   ],
    "best": "avoir eu",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4341,7 +4372,8 @@
     10,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -4460,6 +4492,9 @@
     "number": "2-neutral",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avoir su"
+   ],
    "best": "avoir su",
    "lang": "fr",
    "shape": "inf-perfect",
@@ -4472,7 +4507,8 @@
     12,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -4937,6 +4973,9 @@
     "number": "2sg-usted",
     "tok": 2
    },
+   "roundtrip_reversed": [
+    "avais su"
+   ],
    "best": "avais su",
    "lang": "fr",
    "shape": "compound",
@@ -4949,7 +4988,8 @@
     11,
     8
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "2",
@@ -16239,6 +16279,9 @@
    "verb": "go",
    "src": "it will go",
    "en_best": "it'll go",
+   "roundtrip_reversed": [
+    "ira"
+   ],
    "best": "ira",
    "lang": "fr",
    "shape": "simple",
@@ -16251,7 +16294,8 @@
     8,
     3
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "3s-it",
@@ -23372,6 +23416,9 @@
     "wisten"
    ],
    "en_best": "they knew",
+   "roundtrip_reversed": [
+    "ont su"
+   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -23384,7 +23431,8 @@
     9,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "3p",
@@ -23651,6 +23699,9 @@
     "hebben geweten"
    ],
    "en_best": "they've known",
+   "roundtrip_reversed": [
+    "ont su"
+   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -23663,7 +23714,8 @@
     13,
     6
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "3p",
@@ -25703,8 +25755,8 @@
     12,
     8
    ],
-   "status": "adopt",
-   "parity_verb": "ira"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-this",
@@ -30266,8 +30318,8 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "ont su"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-these",
@@ -32963,8 +33015,8 @@
     16,
     12
    ],
-   "status": "adopt",
-   "parity_verb": "ont su"
+   "status": "reject",
+   "reason": "parity: number-matched pronouns stay EN (EN kept)"
   },
   {
    "subject": "dem-those",
@@ -43751,6 +43803,9 @@
      ]
     }
    ],
+   "roundtrip_reversed": [
+    "que dit"
+   ],
    "best": "que dit",
    "lang": "fr",
    "shape": "simple",
@@ -43763,7 +43818,8 @@
     8,
     7
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "rel-que-sg",
@@ -46459,6 +46515,9 @@
     "que hebben gewild"
    ],
    "en_best": "que have wanted",
+   "roundtrip_reversed": [
+    "que ont voulu"
+   ],
    "best": "que ont voulu",
    "lang": "fr",
    "shape": "compound",
@@ -46471,7 +46530,8 @@
     15,
     13
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "rel-que-pl",
@@ -46482,6 +46542,9 @@
     "que hebben gehad"
    ],
    "en_best": "que have had",
+   "roundtrip_reversed": [
+    "que ont eu"
+   ],
    "best": "que ont eu",
    "lang": "fr",
    "shape": "compound",
@@ -46494,7 +46557,8 @@
     12,
     10
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "rel-que-pl",
@@ -46554,6 +46618,9 @@
     "que hebben geweten"
    ],
    "en_best": "que have known",
+   "roundtrip_reversed": [
+    "que ont su"
+   ],
    "best": "que ont su",
    "lang": "fr",
    "shape": "compound",
@@ -46566,7 +46633,8 @@
     14,
     10
    ],
-   "status": "adopt"
+   "status": "reject",
+   "reason": "independent blind AI round-trip failed (ROUNDTRIP_REVERSED); EN kept"
   },
   {
    "subject": "rel-que-pl",

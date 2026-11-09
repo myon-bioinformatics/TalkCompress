@@ -564,11 +564,14 @@ def test_tranche2_cheapest_for_every_source():
     t = _tessera()
     entries = t.load_es_fr_tense_bank()["entries"]
     start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
-    stop = next((i for i, e in enumerate(entries) if e["id"] == "arrive-past-1s"), len(entries))
+    # tranche 2 ends before live-past-1s (arrive-past-1s, its former last row, was
+    # reversed by the fr blind round-trip: docs/fr_roundtrip_20261109.md)
+    stop = next((i for i, e in enumerate(entries) if e["id"] == "live-past-1s"), len(entries))
     tranche2 = entries[start:stop]
     # 35 → 31: try/read/wait/stay progressive → simple present rows were
     # dropped (aspect loss), see examples_not_registered.
-    assert len(tranche2) == 31
+    # 31 → 30: fr take-past-1s (pris) reversed by the blind round-trip (0/9).
+    assert len(tranche2) == 30
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
         for src in entry["from"]:
