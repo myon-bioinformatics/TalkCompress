@@ -1,0 +1,126 @@
+[
+  {
+    "name": "bci-id-gloss.txt",
+    "url": "https://www.blissymbolics.net/BCI-AV_2026-09-12/BCI-AV_SKOG_2026-09-12_id_to_gloss_map.txt",
+    "sha256": "77a16fdb2339b8b756ee3155913b056e765a0bc0dc6b418afd49585c7efc5001",
+    "bytes": 144769,
+    "status": "ok"
+  },
+  {
+    "name": "bci-release.txt",
+    "url": "https://www.blissymbolics.net/BCI-AV_2026-09-12/BCI-AV_SKOG_2026-09-12_release_notes.txt",
+    "sha256": "f2974027660da300f04cec4fbd04b86e19c377e6612e334f3a04a03610b2e5db",
+    "bytes": 17617,
+    "status": "ok"
+  },
+  {
+    "name": "bci-license.html",
+    "url": "https://blissymbolics.org/index.php/licensing",
+    "sha256": "aaedd30d10041454b683814ac2024fbddadf1150158a643a5c69a1fbe80d904e",
+    "bytes": 22378,
+    "status": "ok"
+  },
+  {
+    "name": "oracc-atf.html",
+    "url": "https://oracc.museum.upenn.edu/doc/help/editinginatf/index.html",
+    "status": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1029)>"
+  },
+  {
+    "name": "oracc-license.html",
+    "url": "https://oracc.museum.upenn.edu/doc/about/licensing/index.html",
+    "status": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1029)>"
+  },
+  {
+    "name": "brf.dis",
+    "url": "https://raw.githubusercontent.com/liblouis/liblouis/master/tables/en-us-brf.dis",
+    "sha256": "47ff9400f4b8a0206b0c1942e13c32b539d17ec099dcd1097873a1b9f5cb8b3c",
+    "bytes": 2438,
+    "status": "ok"
+  },
+  {
+    "name": "liblouis-COPYING",
+    "url": "https://raw.githubusercontent.com/liblouis/liblouis/master/COPYING",
+    "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "bytes": 35147,
+    "status": "ok"
+  },
+  {
+    "name": "liblouis-COPYING.LESSER",
+    "url": "https://raw.githubusercontent.com/liblouis/liblouis/master/COPYING.LESSER",
+    "sha256": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+    "bytes": 26530,
+    "status": "ok"
+  },
+  {
+    "name": "katex-expressions.txt",
+    "url": "https://raw.githubusercontent.com/KaTeX/KaTeX/main/test/screenshotter/ss_data.yaml",
+    "sha256": "a5b1fb7b123dea398d04ffddef530a26af9e5f099244be2675f11aceb3f5baba",
+    "bytes": 22385,
+    "status": "ok"
+  },
+  {
+    "name": "katex-LICENSE",
+    "url": "https://raw.githubusercontent.com/KaTeX/KaTeX/main/LICENSE",
+    "sha256": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3",
+    "bytes": 1107,
+    "status": "ok"
+  },
+  {
+    "name": "jsesh-signs.xml",
+    "url": "https://raw.githubusercontent.com/rosmord/jsesh/master/jsesh/src/main/resources/jsesh/glyphs/resources/signs_description.xml",
+    "sha256": "4701c34ee0012c50b0a291027c0ed48b4389404a4cb92a81808fcc4d4c85d8cd",
+    "bytes": 1729415,
+    "status": "ok"
+  },
+  {
+    "name": "jsesh-README.md",
+    "url": "https://raw.githubusercontent.com/rosmord/jsesh/master/README.md",
+    "sha256": "5210c8828a4ca85233643ea0856d0f02a0279667f35ea0eedb56440ca6d291f7",
+    "bytes": 11313,
+    "status": "ok"
+  },
+  {
+    "name": "dcode-mdc.html",
+    "url": "https://www.dcode.fr/hieroglyphs-mdc",
+    "status": "HTTP Error 403: Forbidden"
+  },
+  {
+    "name": "cc-by-4.0.txt",
+    "url": "https://creativecommons.org/licenses/by/4.0/legalcode.txt",
+    "status": "HTTP Error 403: Forbidden"
+  },
+  {
+    "name": "cc-by-sa-3.0.txt",
+    "url": "https://creativecommons.org/licenses/by-sa/3.0/legalcode.txt",
+    "status": "HTTP Error 403: Forbidden"
+  },
+  {
+    "name": "abcjs-slurs.js",
+    "url": "https://raw.githubusercontent.com/paulrosen/abcjs/main/tests/visual/slurs.test.js",
+    "sha256": "a59dadc6412ba38347eac2fadb18bbbe121f7e8e57861c870fc7b5de9c224d4c",
+    "bytes": 1679,
+    "status": "ok"
+  },
+  {
+    "name": "abcjs-LICENSE",
+    "url": "https://raw.githubusercontent.com/paulrosen/abcjs/main/LICENSE.md",
+    "sha256": "d7bdcd152b978adee22a2f9b92a4d72c4ec2c20a86512766c7c210b462b54702",
+    "bytes": 1135,
+    "status": "ok"
+  },
+  {
+    "name": "oracc-indexed-excerpts.json",
+    "url": "https://oracc.museum.upenn.edu/doc/help/editinginatf/primer/index.html",
+    "sha256": "9fd647226bb32a084cf7c6c7e8719717039f199027d0be3aa6b17a3bcd4a716a",
+    "bytes": 5033,
+    "status": "ok",
+    "retrieval": "indexed-excerpt transcription; hash is local excerpt snapshot, NOT original HTML"
+  },
+  {
+    "name": "bci-av-2026.html",
+    "url": "https://blissymbolics.org/index.php/bci-av-2026",
+    "sha256": "0c8a2f5d07ff729e20332fc487e0daa6f9da3b1806a9bdd7a49d268c72b036eb",
+    "bytes": 23685,
+    "status": "ok"
+  }
+]

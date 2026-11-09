@@ -765,7 +765,7 @@ def sync_symbol_lex(
     symbol_note = (
         "family=symbol (C-only): open math/symbol shortenings not in E closed POS "
         "(≠ ∞ ± % ° ⇒ ⇔ ∝ √ × ÷ …). Prefer over emoji when meaning is clear "
-        "(policy-short-form-priority). Skip E-owned ~/≒/= /≥/≤/∴/bc/∀. Dual "
+        "(policy-short-form-priority). Skip E-owned ~/≒/= /≥/≤/∴/cuz/∀. Dual "
         "metrics; utf8 must shrink. Cross-lang cheapest via select_cheapest_form."
     )
     if isinstance(notes, list):
