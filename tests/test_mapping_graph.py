@@ -83,7 +83,9 @@ def test_source_query_lists_all_languages(g):
     rows = mg.by_source(g, "I will take")
     langs = {(r["role"], r["lang"], r["form"]) for r in rows}
     # #164 で tomaré の lang ラベルを es に直し、往復 0/9 の πάρω (el) を外した。
-    assert ("adopted", "es", "tomaré") in langs and ("candidate", "pt", "tomarei") in langs
+    # 2026-11-10: es tomaré も独立ブラインド往復 0/9 で外した（pt tomarei は昇格させない）。
+    assert ("reversed", "es", "tomaré") in langs
+    assert not any(r[0] == "adopted" for r in langs)
     assert ("not_registered", "el", "πάρω") in langs
     assert all(r["status"] in mg.STATUSES for r in rows)
 

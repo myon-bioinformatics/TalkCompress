@@ -402,12 +402,12 @@ def test_cell_phone_falls_through_to_existing_handy():
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
-def test_as_a_result_cheapest_logo_after_ergo_reversed():
+def test_as_a_result_stays_english_after_logo_reversed():
+    # ergo (la) reversed in #161; pt logo then failed the blind round-trip 0/9
+    # (docs/es_pt_remaining_roundtrip_20261110.md): EN kept, el άρα not promoted.
     t = _mosaic()
     raw = "as a result"
-    out = t.apply_zh_de_phrases(raw)
-    assert out in {"logo", "άρα"}
-    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+    assert t.apply_zh_de_phrases(raw) == raw
 
 
 def test_once_again_stays_english_after_failed_pali_removed():
@@ -466,13 +466,10 @@ def test_classical_ibo_not_in_tense_pairs():
 
 
 def test_tense_tranche2_take_future_wins():
-    """I will take selects Spanish tomaré after Greek removal."""
+    """es tomaré failed the blind round-trip 0/9 (2026-11-10): EN kept, pt tomarei not promoted."""
     t = _mosaic()
     src = "I will take it tomorrow."
-    out = t.apply_es_fr_tense(src)
-    assert "tomaré" in out
-    assert "will take" not in out.lower()
-    assert t.estimate_tokens(out) < t.estimate_tokens(src)
+    assert t.apply_es_fr_tense(src) == src
 
 
 def test_tense_tranche2_think_past_wins():
@@ -492,8 +489,7 @@ def test_tense_tranche2_going_to_take_not_eaten_by_voy():
     out = t.apply_es_fr_tense(raw)
     assert "voy to" not in out.lower()
     assert "vou to" not in out.lower()
-    assert "tomaré" in out
-    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+    assert out == raw  # tomaré reversed (0/9); no next-language promotion
 
 
 def test_tense_tranche2_try_and_read_prog():
@@ -509,11 +505,13 @@ def test_tense_tranche2_try_and_read_prog():
 
 def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
     t = _mosaic()
-    expected = {"take": "tomaré", "try": "tentarei", "find": "acharei",
+    # take / find: tomaré / acharei (0/9) reversed 2026-11-10, EN kept.
+    expected = {"take": None, "try": "tentarei", "find": None,
                 "call": "llamaré", "put": "porei", "bring": "trarei"}
     for verb, winner in expected.items():
         for prefix in ("I am going to ", "I'm going to "):
-            assert t.apply_es_fr_tense(prefix + verb + " now.") == winner + " now."
+            raw = prefix + verb + " now."
+            assert t.apply_es_fr_tense(raw) == (raw if winner is None else winner + " now.")
     # I am -> sou/soy is dropped by the EN-homograph guard (sou, soy are EN
     # words), and the motion verb must not become voy/vou: input stays EN.
     assert t.apply_es_fr_tense("I am going to inspect now.") == "I am going to inspect now."
@@ -525,9 +523,9 @@ def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
 def test_tense_tranche2_and_sibling_longest_sources_coexist():
     t = _mosaic()
     raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
-    assert t.apply_es_fr_tense(raw) == "haré it; fiz; quero ir; preciso ir; tomaré it."
+    assert t.apply_es_fr_tense(raw) == "haré it; fiz; quero ir; preciso ir; I'm going to take it."
     raw = "I will take my mobile phone to the train station as soon as possible."
-    assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "tomaré my Handy to the Bahnhof ASAP."
+    assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "I will take my Handy to the Bahnhof ASAP."
 
 
 def test_tense_candidate_priority_is_independent_of_bank_order():
@@ -554,8 +552,9 @@ def test_tranche2_and_sibling_combined_final_pass():
     t = _mosaic()
     raw = "I'm going to take my mobile phone once again."
     out = t.final_token_pass(raw)
-    # el πάρω reversed (#164); pt cel reversed (#171) -> de Handy for "mobile phone"
-    assert any(form in out for form in ("tomaré", "tomarei"))
+    # el πάρω reversed (#164); es tomaré reversed (0/9, 2026-11-10) -> EN kept, no tomarei;
+    # pt cel reversed (#171) -> de Handy for "mobile phone"
+    assert "I'm going to take" in out and "tomarei" not in out
     assert "Handy" in out
     assert "once again" in out  # o200k tie (2 = 2): source kept
     assert "voy to" not in out and "vou to" not in out
@@ -566,7 +565,9 @@ def test_tranche2_cheapest_for_every_source():
     """Check the selected surface, not only membership among candidates."""
     t = _mosaic()
     entries = t.load_es_fr_tense_bank()["entries"]
-    start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
+    # take-fut-1s / take-fut-goingto-1s (tomaré 0/9) and find-fut-* (acharei 0/9)
+    # were reversed 2026-11-10; tranche 2 now starts at take-pres-1s.
+    start = next(i for i, e in enumerate(entries) if e["id"] == "take-pres-1s")
     # tranche 2 ends before live-past-1s (arrive-past-1s, its former last row, was
     # reversed by the fr blind round-trip: docs/fr_roundtrip_20261109.md)
     stop = next((i for i, e in enumerate(entries) if e["id"] == "live-past-1s"), len(entries))
@@ -576,7 +577,9 @@ def test_tranche2_cheapest_for_every_source():
     # 31 → 30: fr take-past-1s (pris) reversed by the blind round-trip (0/9).
     # 30 → 29: pt-labeled essayé failed the independent roundtrip (#171).
     # 29 → 28: find-past-1s (fand) reversed after de independent blind round-trip 0/9 (#174).
-    assert len(tranche2) == 28
+    # 28 → 24: take-fut-1s / take-fut-goingto-1s / find-fut-1s / find-fut-goingto-1s reversed
+    # (docs/es_pt_remaining_roundtrip_20261110.md).
+    assert len(tranche2) == 24
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
         for src in entry["from"]:

@@ -140,37 +140,15 @@ def test_going_to_guard_contracted():
 # --- Post-roundtrip runtime winners ---------------------------------------------
 
 @pytest.mark.parametrize(
-    "src,winner",
-    [
-        ("I will find", "acharei"),
-        ("I am going to find", "acharei"),
-    ],
+    "src",
+    ["I will find", "I am going to find", "I'm going to find", "I will take", "I am going to take",
+     "I'll take", "I will take it", "I'll take it", "I will find it", "I'll find it"],
 )
-def test_find_fallback_wins_cheapest(src, winner):
+def test_reversed_take_find_futures_stay_english(src):
+    """pt acharei and es tomaré (both 0/9) failed the blind round-trip (2026-11-10):
+    EN is kept and no runner-up (pt tomarei, el βρω/πάρω) is promoted."""
     t = _t()
-    out = t.apply_es_fr_tense(src)
-    assert out == winner
-    assert t.estimate_tokens(out) < t.estimate_tokens(src)
-
-
-@pytest.mark.parametrize(
-    "full,short,winner",
-    [("I will take it", "I'll take it", "tomaré it"), ("I will find it", "I'll find it", "acharei it")],
-)
-def test_contracted_future_ties_stay_english(full, short, winner):
-    """o200k: " I'll take it" = 3 = " tomaré it"; the full form (4) still converts."""
-    t = _t()
-    assert t.apply_es_fr_tense(full) == winner
-    assert t.apply_es_fr_tense(short) == short
-    assert t.estimate_tokens(short) == t.estimate_tokens(winner) < t.estimate_tokens(full)
-
-
-@pytest.mark.parametrize("src", ["I will take", "I am going to take"])
-def test_take_future_es_wins_tie_on_bytes(src):
-    """After failed Greek removal, the retained tomaré wins (2 tokens, 7 bytes)."""
-    t = _t()
-    assert t.apply_es_fr_tense(src) == "tomaré"
-    assert t.apply_es_fr_tense("I'll take") == "I'll take"
+    assert t.apply_es_fr_tense(src) == src
 
 
 def test_bank_to_label_matches_runtime_winner():

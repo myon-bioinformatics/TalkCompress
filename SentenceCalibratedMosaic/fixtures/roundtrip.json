@@ -165380,6 +165380,1127 @@
       "timeouts": 0,
       "execution_errors": 0,
       "attempted": 9
+    },
+    "es:tomaré": {
+      "lang": "es",
+      "form": "tomaré",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Tomaré.",
+        "Tomaré.",
+        "Tomaré.",
+        "Maybe tomaré today.",
+        "Maybe tomaré today."
+      ],
+      "legacy_snapshot": {
+        "lang": "es",
+        "form": "tomaré",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "88f42cf1-2491-453a-8676-6b298d996a70",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "1be71d7fec5230fc9aa997be952a949d5fb474445b3a0b01c8a8717066a944ae",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "89e5737c9aae0bcb6129adb584d6a7a3c3e82a652b34acb87d1f8c48b0d8adfd"
+          },
+          "targets": [
+            {
+              "target_id": "133d5f07edc938857fd38017d9cb84babd64c03b3023ecfd81304319043c4eb9",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take.",
+              "converted": "Tomaré.",
+              "seed": "1",
+              "prompt_sha256": "12108b2af271723806e08e33635971ccf764e4f8790bad870c1eaa591c594166",
+              "accepted_sources": [
+                "I will take.",
+                "I'll take.",
+                "I am going to take.",
+                "I'm going to take."
+              ],
+              "status": "completed",
+              "response": "I will take it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ba517f0f19e7f4fc4622354823b892611ab0e5639f7d3f7cfe41df3af072cd36",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take.",
+              "converted": "Tomaré.",
+              "seed": "2",
+              "prompt_sha256": "12108b2af271723806e08e33635971ccf764e4f8790bad870c1eaa591c594166",
+              "accepted_sources": [
+                "I will take.",
+                "I'll take.",
+                "I am going to take.",
+                "I'm going to take."
+              ],
+              "status": "completed",
+              "response": "I will take it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4cc381d53211c32fe9bcbf629d9a394d7e94663240dbcd3e194a21985fd691cb",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take.",
+              "converted": "Tomaré.",
+              "seed": "3",
+              "prompt_sha256": "12108b2af271723806e08e33635971ccf764e4f8790bad870c1eaa591c594166",
+              "accepted_sources": [
+                "I will take.",
+                "I'll take.",
+                "I am going to take.",
+                "I'm going to take."
+              ],
+              "status": "completed",
+              "response": "I will take it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ca599519f0d7315c4c2bf554ff9ec30f2c520b8e236100353831de70b92c8f6f",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take today.",
+              "converted": "Maybe tomaré today.",
+              "seed": "1",
+              "prompt_sha256": "2dcde84cbf321bda9c708326f8e0c6cbfba9e21bdbfb98428d600e7d83e7d1dd",
+              "accepted_sources": [
+                "Maybe I will take today.",
+                "Maybe I'll take today.",
+                "Maybe I am going to take today.",
+                "Maybe I'm going to take today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take it today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "cc279d5c828668a08f97fda02e187f54c45618a696f4c07cb6a8799b50829959",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take today.",
+              "converted": "Maybe tomaré today.",
+              "seed": "2",
+              "prompt_sha256": "2dcde84cbf321bda9c708326f8e0c6cbfba9e21bdbfb98428d600e7d83e7d1dd",
+              "accepted_sources": [
+                "Maybe I will take today.",
+                "Maybe I'll take today.",
+                "Maybe I am going to take today.",
+                "Maybe I'm going to take today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take it today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "18a83eb8b004fb7ebbd5686edf2a7a25cd1533698d2291788270bae622f691d8",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take today.",
+              "converted": "Maybe tomaré today.",
+              "seed": "3",
+              "prompt_sha256": "2dcde84cbf321bda9c708326f8e0c6cbfba9e21bdbfb98428d600e7d83e7d1dd",
+              "accepted_sources": [
+                "Maybe I will take today.",
+                "Maybe I'll take today.",
+                "Maybe I am going to take today.",
+                "Maybe I'm going to take today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take it today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "90e63e7866cd873ca7ce97071238c139dfe24decd16d3e9e670d850d7db35fb4",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take.",
+              "converted": "She told me that tomaré.",
+              "seed": "1",
+              "prompt_sha256": "2e121c5a1cabbe79c56037f9e77503a914cc9c38c245e7c98f6687ed165b9892",
+              "accepted_sources": [
+                "She told me that I will take.",
+                "She told me that I'll take.",
+                "She told me that I am going to take.",
+                "She told me that I'm going to take."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "7033700ae7f35a4c53342f68f1fc218299faccb53328725c1197a8c119bcb9ec",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take.",
+              "converted": "She told me that tomaré.",
+              "seed": "2",
+              "prompt_sha256": "2e121c5a1cabbe79c56037f9e77503a914cc9c38c245e7c98f6687ed165b9892",
+              "accepted_sources": [
+                "She told me that I will take.",
+                "She told me that I'll take.",
+                "She told me that I am going to take.",
+                "She told me that I'm going to take."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4add730bc69f0a6d2609dd80875aadc274dcac980114cbf488e1d43ed7449b85",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take.",
+              "converted": "She told me that tomaré.",
+              "seed": "3",
+              "prompt_sha256": "2e121c5a1cabbe79c56037f9e77503a914cc9c38c245e7c98f6687ed165b9892",
+              "accepted_sources": [
+                "She told me that I will take.",
+                "She told me that I'll take.",
+                "She told me that I am going to take.",
+                "She told me that I'm going to take."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "133d5f07edc938857fd38017d9cb84babd64c03b3023ecfd81304319043c4eb9",
+            "ba517f0f19e7f4fc4622354823b892611ab0e5639f7d3f7cfe41df3af072cd36",
+            "4cc381d53211c32fe9bcbf629d9a394d7e94663240dbcd3e194a21985fd691cb",
+            "ca599519f0d7315c4c2bf554ff9ec30f2c520b8e236100353831de70b92c8f6f",
+            "cc279d5c828668a08f97fda02e187f54c45618a696f4c07cb6a8799b50829959",
+            "18a83eb8b004fb7ebbd5686edf2a7a25cd1533698d2291788270bae622f691d8",
+            "90e63e7866cd873ca7ce97071238c139dfe24decd16d3e9e670d850d7db35fb4",
+            "7033700ae7f35a4c53342f68f1fc218299faccb53328725c1197a8c119bcb9ec",
+            "4add730bc69f0a6d2609dd80875aadc274dcac980114cbf488e1d43ed7449b85"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_blind.json",
+            "judge_sha256": "631387708c3c72c403b8c9582e1ce80fabfa7b8b2ab0cebae1d492734ecfa67f",
+            "raw_reply_sha256": "1c6c4c121d20e9fc3873de6a2785ebbbcde86bb231ab250aad63ad306f77fca3",
+            "converted_only_sha256": "0c6dca355c5fe95f007140de4894a115b9350b9807758776c9b4bf2af2b80b46",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1",
+            "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
+            "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "pt:acharei": {
+      "lang": "pt",
+      "form": "acharei",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Acharei.",
+        "Acharei.",
+        "Acharei.",
+        "Maybe acharei today.",
+        "Maybe acharei today."
+      ],
+      "legacy_snapshot": {
+        "lang": "pt",
+        "form": "acharei",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "88f42cf1-2491-453a-8676-6b298d996a70",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "1be71d7fec5230fc9aa997be952a949d5fb474445b3a0b01c8a8717066a944ae",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "89e5737c9aae0bcb6129adb584d6a7a3c3e82a652b34acb87d1f8c48b0d8adfd"
+          },
+          "targets": [
+            {
+              "target_id": "fcfa28eec0433c4547093f2239e6f844d21fbcc4beb29f22185cb1c417740015",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find.",
+              "converted": "Acharei.",
+              "seed": "1",
+              "prompt_sha256": "50b318b633db556fa8578fa7e03107308bfdbc829ca35077e6d1b896e33a27e3",
+              "accepted_sources": [
+                "I will find.",
+                "I am going to find.",
+                "I'm going to find."
+              ],
+              "status": "completed",
+              "response": "I will find it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "523623c410373f16d26e2217ab7ff0699e3464a4dd3cc309bd5ed8726784c13f",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find.",
+              "converted": "Acharei.",
+              "seed": "2",
+              "prompt_sha256": "50b318b633db556fa8578fa7e03107308bfdbc829ca35077e6d1b896e33a27e3",
+              "accepted_sources": [
+                "I will find.",
+                "I am going to find.",
+                "I'm going to find."
+              ],
+              "status": "completed",
+              "response": "I will find it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "1d811834eee9bdc76fce7bbd2b102f87fb547db987a44600a6dc5e0c9118c8ca",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find.",
+              "converted": "Acharei.",
+              "seed": "3",
+              "prompt_sha256": "50b318b633db556fa8578fa7e03107308bfdbc829ca35077e6d1b896e33a27e3",
+              "accepted_sources": [
+                "I will find.",
+                "I am going to find.",
+                "I'm going to find."
+              ],
+              "status": "completed",
+              "response": "I will find it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "347d4fdef426073e9495bbba548038f14f10c6fa2c8de85af797b60983b2e99c",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find today.",
+              "converted": "Maybe acharei today.",
+              "seed": "1",
+              "prompt_sha256": "db2cb5c168a36c08e9cc318ab8c8809928ba412719485e0bf0ebd841c433a594",
+              "accepted_sources": [
+                "Maybe I will find today.",
+                "Maybe I am going to find today.",
+                "Maybe I'm going to find today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find it today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "6c6939e3d4c3b245813a35e621e0cbfabc2f43a43213de0543d03818e34e1d5f",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find today.",
+              "converted": "Maybe acharei today.",
+              "seed": "2",
+              "prompt_sha256": "db2cb5c168a36c08e9cc318ab8c8809928ba412719485e0bf0ebd841c433a594",
+              "accepted_sources": [
+                "Maybe I will find today.",
+                "Maybe I am going to find today.",
+                "Maybe I'm going to find today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find it today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "eaa8e2d606299566183f59420baf59b673b4bef8c29e66473a375d779274183e",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find today.",
+              "converted": "Maybe acharei today.",
+              "seed": "3",
+              "prompt_sha256": "db2cb5c168a36c08e9cc318ab8c8809928ba412719485e0bf0ebd841c433a594",
+              "accepted_sources": [
+                "Maybe I will find today.",
+                "Maybe I am going to find today.",
+                "Maybe I'm going to find today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find it today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "0d33774620f841900271c9d95a85c4a45f14d35b2e02be081724410c9352d216",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find.",
+              "converted": "She told me that acharei.",
+              "seed": "1",
+              "prompt_sha256": "6924ecfc076de68a18ed4df783520c0e0b51357c216768ae101393eb93b22582",
+              "accepted_sources": [
+                "She told me that I will find.",
+                "She told me that I am going to find.",
+                "She told me that I'm going to find."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "1847ceac5ca3aa127b06a6e3d50938aa0f2968bc923e07ee7e3343bc5bfc9d32",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find.",
+              "converted": "She told me that acharei.",
+              "seed": "2",
+              "prompt_sha256": "6924ecfc076de68a18ed4df783520c0e0b51357c216768ae101393eb93b22582",
+              "accepted_sources": [
+                "She told me that I will find.",
+                "She told me that I am going to find.",
+                "She told me that I'm going to find."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "c9d180feaea72d57a86eb8f0bbd625b627d0ef616f527e67210a4701b3415325",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find.",
+              "converted": "She told me that acharei.",
+              "seed": "3",
+              "prompt_sha256": "6924ecfc076de68a18ed4df783520c0e0b51357c216768ae101393eb93b22582",
+              "accepted_sources": [
+                "She told me that I will find.",
+                "She told me that I am going to find.",
+                "She told me that I'm going to find."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find it.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "fcfa28eec0433c4547093f2239e6f844d21fbcc4beb29f22185cb1c417740015",
+            "523623c410373f16d26e2217ab7ff0699e3464a4dd3cc309bd5ed8726784c13f",
+            "1d811834eee9bdc76fce7bbd2b102f87fb547db987a44600a6dc5e0c9118c8ca",
+            "347d4fdef426073e9495bbba548038f14f10c6fa2c8de85af797b60983b2e99c",
+            "6c6939e3d4c3b245813a35e621e0cbfabc2f43a43213de0543d03818e34e1d5f",
+            "eaa8e2d606299566183f59420baf59b673b4bef8c29e66473a375d779274183e",
+            "0d33774620f841900271c9d95a85c4a45f14d35b2e02be081724410c9352d216",
+            "1847ceac5ca3aa127b06a6e3d50938aa0f2968bc923e07ee7e3343bc5bfc9d32",
+            "c9d180feaea72d57a86eb8f0bbd625b627d0ef616f527e67210a4701b3415325"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_blind.json",
+            "judge_sha256": "631387708c3c72c403b8c9582e1ce80fabfa7b8b2ab0cebae1d492734ecfa67f",
+            "raw_reply_sha256": "1c6c4c121d20e9fc3873de6a2785ebbbcde86bb231ab250aad63ad306f77fca3",
+            "converted_only_sha256": "0c6dca355c5fe95f007140de4894a115b9350b9807758776c9b4bf2af2b80b46",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1",
+            "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
+            "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "pt:logo": {
+      "lang": "pt",
+      "form": "logo",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Logo.",
+        "Logo.",
+        "Logo.",
+        "Maybe logo today.",
+        "Maybe logo today."
+      ],
+      "legacy_snapshot": {
+        "lang": "pt",
+        "form": "logo",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "88f42cf1-2491-453a-8676-6b298d996a70",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "1be71d7fec5230fc9aa997be952a949d5fb474445b3a0b01c8a8717066a944ae",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "89e5737c9aae0bcb6129adb584d6a7a3c3e82a652b34acb87d1f8c48b0d8adfd"
+          },
+          "targets": [
+            {
+              "target_id": "082ae4f3bd79b14aaf8c73f02f2257d1f2426a47b8308c56748d0ccfc56ea701",
+              "lang": "pt",
+              "form": "logo",
+              "source": "As a result.",
+              "converted": "Logo.",
+              "seed": "1",
+              "prompt_sha256": "46eb00b07acc01deaecd7581031e18f187ff4a17c05a06c949a8db0eaf614a0b",
+              "accepted_sources": [
+                "As a result."
+              ],
+              "status": "completed",
+              "response": "Soon.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "72094dc2cfb371a243e9df5774599b9e77100dc058921b2a554181ac815aaa25",
+              "lang": "pt",
+              "form": "logo",
+              "source": "As a result.",
+              "converted": "Logo.",
+              "seed": "2",
+              "prompt_sha256": "46eb00b07acc01deaecd7581031e18f187ff4a17c05a06c949a8db0eaf614a0b",
+              "accepted_sources": [
+                "As a result."
+              ],
+              "status": "completed",
+              "response": "Soon.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5131e916d21965ac126e4ca25dd8f0eb5c86f92a799534ff97b09bca2fc22b52",
+              "lang": "pt",
+              "form": "logo",
+              "source": "As a result.",
+              "converted": "Logo.",
+              "seed": "3",
+              "prompt_sha256": "46eb00b07acc01deaecd7581031e18f187ff4a17c05a06c949a8db0eaf614a0b",
+              "accepted_sources": [
+                "As a result."
+              ],
+              "status": "completed",
+              "response": "Soon.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "e69d9971f370c0ba966e47c53d47fe1d853c4fee938a57e18298016e36ba6646",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe as a result today.",
+              "converted": "Maybe logo today.",
+              "seed": "1",
+              "prompt_sha256": "a8027104b9a8718779284384d291d6f145e2e3f91240b34f40bd583fb0192b3a",
+              "accepted_sources": [
+                "Maybe as a result today."
+              ],
+              "status": "completed",
+              "response": "Maybe later today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "fa90be95604d791c0030b66489e9737e097fa206e293e81df0f4fe9dab689ea1",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe as a result today.",
+              "converted": "Maybe logo today.",
+              "seed": "2",
+              "prompt_sha256": "a8027104b9a8718779284384d291d6f145e2e3f91240b34f40bd583fb0192b3a",
+              "accepted_sources": [
+                "Maybe as a result today."
+              ],
+              "status": "completed",
+              "response": "Maybe later today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "37d1d354f06233c3a27b051f14420cd6e1d98460ad79c785b06c716aaafbc7a7",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe as a result today.",
+              "converted": "Maybe logo today.",
+              "seed": "3",
+              "prompt_sha256": "a8027104b9a8718779284384d291d6f145e2e3f91240b34f40bd583fb0192b3a",
+              "accepted_sources": [
+                "Maybe as a result today."
+              ],
+              "status": "completed",
+              "response": "Maybe later today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "639080adfa7aa2d010fa3a9b782aa7f3a015d9613fb441832af4cb02d3a2f00a",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that as a result.",
+              "converted": "She told me that logo.",
+              "seed": "1",
+              "prompt_sha256": "4c43b8cbae57829a0f0de4dfa465fb4c2215a06cdb560c40d8c9761f45606a0c",
+              "accepted_sources": [
+                "She told me that as a result."
+              ],
+              "status": "completed",
+              "response": "She told me that soon.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "f354b4243cb53fe5ba69069c6443e16df678ee3e04582b265ee8cc7c3522936d",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that as a result.",
+              "converted": "She told me that logo.",
+              "seed": "2",
+              "prompt_sha256": "4c43b8cbae57829a0f0de4dfa465fb4c2215a06cdb560c40d8c9761f45606a0c",
+              "accepted_sources": [
+                "She told me that as a result."
+              ],
+              "status": "completed",
+              "response": "She told me that soon.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "8901eab27bbab34161c4a21ab7415fb11f893df3e14ec69889dbba35bba3a1d1",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that as a result.",
+              "converted": "She told me that logo.",
+              "seed": "3",
+              "prompt_sha256": "4c43b8cbae57829a0f0de4dfa465fb4c2215a06cdb560c40d8c9761f45606a0c",
+              "accepted_sources": [
+                "She told me that as a result."
+              ],
+              "status": "completed",
+              "response": "She told me that soon.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "082ae4f3bd79b14aaf8c73f02f2257d1f2426a47b8308c56748d0ccfc56ea701",
+            "72094dc2cfb371a243e9df5774599b9e77100dc058921b2a554181ac815aaa25",
+            "5131e916d21965ac126e4ca25dd8f0eb5c86f92a799534ff97b09bca2fc22b52",
+            "e69d9971f370c0ba966e47c53d47fe1d853c4fee938a57e18298016e36ba6646",
+            "fa90be95604d791c0030b66489e9737e097fa206e293e81df0f4fe9dab689ea1",
+            "37d1d354f06233c3a27b051f14420cd6e1d98460ad79c785b06c716aaafbc7a7",
+            "639080adfa7aa2d010fa3a9b782aa7f3a015d9613fb441832af4cb02d3a2f00a",
+            "f354b4243cb53fe5ba69069c6443e16df678ee3e04582b265ee8cc7c3522936d",
+            "8901eab27bbab34161c4a21ab7415fb11f893df3e14ec69889dbba35bba3a1d1"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_blind.json",
+            "judge_sha256": "631387708c3c72c403b8c9582e1ce80fabfa7b8b2ab0cebae1d492734ecfa67f",
+            "raw_reply_sha256": "1c6c4c121d20e9fc3873de6a2785ebbbcde86bb231ab250aad63ad306f77fca3",
+            "converted_only_sha256": "0c6dca355c5fe95f007140de4894a115b9350b9807758776c9b4bf2af2b80b46",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1",
+            "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
+            "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
+    },
+    "pt:por isso": {
+      "lang": "pt",
+      "form": "por isso",
+      "trials": 9,
+      "restored": 0,
+      "failures": [
+        "Por isso.",
+        "Por isso.",
+        "Por isso.",
+        "Maybe por isso today.",
+        "Maybe por isso today."
+      ],
+      "legacy_snapshot": {
+        "lang": "pt",
+        "form": "por isso",
+        "trials": 0,
+        "restored": 0,
+        "failures": []
+      },
+      "cohorts": [
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "88f42cf1-2491-453a-8676-6b298d996a70",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s}.",
+              "Maybe {s} today.",
+              "She told me that {s}."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "1be71d7fec5230fc9aa997be952a949d5fb474445b3a0b01c8a8717066a944ae",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "89e5737c9aae0bcb6129adb584d6a7a3c3e82a652b34acb87d1f8c48b0d8adfd"
+          },
+          "targets": [
+            {
+              "target_id": "13c9a638a86e5311d242205e91414823de1d18a222965f2401f0575ae659149e",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "For this reason.",
+              "converted": "Por isso.",
+              "seed": "1",
+              "prompt_sha256": "27654a9971edfbe2571baead934e81b8a1b498fe87c2fee3af991ebb6bba514f",
+              "accepted_sources": [
+                "For this reason."
+              ],
+              "status": "completed",
+              "response": "That's why.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "8c17e038fd289bc440cfb76c13f5cd28f547303c5a64f90dc04763b71ff0f8f9",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "For this reason.",
+              "converted": "Por isso.",
+              "seed": "2",
+              "prompt_sha256": "27654a9971edfbe2571baead934e81b8a1b498fe87c2fee3af991ebb6bba514f",
+              "accepted_sources": [
+                "For this reason."
+              ],
+              "status": "completed",
+              "response": "That's why.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "e91234c91613a78897eb509d02a9a5ad2cdec1b3774ed02dd69af1cef144b56b",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "For this reason.",
+              "converted": "Por isso.",
+              "seed": "3",
+              "prompt_sha256": "27654a9971edfbe2571baead934e81b8a1b498fe87c2fee3af991ebb6bba514f",
+              "accepted_sources": [
+                "For this reason."
+              ],
+              "status": "completed",
+              "response": "That's why.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "da9a618c31a343fbe7ababb0199c99583d6f4931995b29567407df643ba84c4e",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe for this reason today.",
+              "converted": "Maybe por isso today.",
+              "seed": "1",
+              "prompt_sha256": "af609134a2fc951e5862a602b629b07f3e48dbcae8745ffb0e29211153724bf1",
+              "accepted_sources": [
+                "Maybe for this reason today."
+              ],
+              "status": "completed",
+              "response": "Maybe that's why today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "47ef52a8bd0ec8dc191b7a0a85a294962f363dfb62fd5228de24c85956c5fa98",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe for this reason today.",
+              "converted": "Maybe por isso today.",
+              "seed": "2",
+              "prompt_sha256": "af609134a2fc951e5862a602b629b07f3e48dbcae8745ffb0e29211153724bf1",
+              "accepted_sources": [
+                "Maybe for this reason today."
+              ],
+              "status": "completed",
+              "response": "Maybe that's why today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "61295d1f101d2c62c766af640c0e6e54178a538a7d8ef2e2cb0857fdacf22f38",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe for this reason today.",
+              "converted": "Maybe por isso today.",
+              "seed": "3",
+              "prompt_sha256": "af609134a2fc951e5862a602b629b07f3e48dbcae8745ffb0e29211153724bf1",
+              "accepted_sources": [
+                "Maybe for this reason today."
+              ],
+              "status": "completed",
+              "response": "Maybe that's why today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ea075eb355363b98f0acd5a854dc63718f52379b54e97128ac77ebedf3572a26",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that for this reason.",
+              "converted": "She told me that por isso.",
+              "seed": "1",
+              "prompt_sha256": "57d35039ba6754f1b343729a75de0e3781847a430dc049fc83fb4fee8e4fa436",
+              "accepted_sources": [
+                "She told me that for this reason."
+              ],
+              "status": "completed",
+              "response": "She told me that that's why.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "054eafd4f0ba8c8845d432def6ee51ab055c1ecab9a67407198a3d3a3a834d7e",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that for this reason.",
+              "converted": "She told me that por isso.",
+              "seed": "2",
+              "prompt_sha256": "57d35039ba6754f1b343729a75de0e3781847a430dc049fc83fb4fee8e4fa436",
+              "accepted_sources": [
+                "She told me that for this reason."
+              ],
+              "status": "completed",
+              "response": "She told me that that's why.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5ea2dd22812926b4de130a16f09cc4953e786d76eb11638849d0ad4f3babb7ba",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that for this reason.",
+              "converted": "She told me that por isso.",
+              "seed": "3",
+              "prompt_sha256": "57d35039ba6754f1b343729a75de0e3781847a430dc049fc83fb4fee8e4fa436",
+              "accepted_sources": [
+                "She told me that for this reason."
+              ],
+              "status": "completed",
+              "response": "She told me that that's why.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 9,
+          "completed": 9,
+          "expected_target_ids": [
+            "13c9a638a86e5311d242205e91414823de1d18a222965f2401f0575ae659149e",
+            "8c17e038fd289bc440cfb76c13f5cd28f547303c5a64f90dc04763b71ff0f8f9",
+            "e91234c91613a78897eb509d02a9a5ad2cdec1b3774ed02dd69af1cef144b56b",
+            "da9a618c31a343fbe7ababb0199c99583d6f4931995b29567407df643ba84c4e",
+            "47ef52a8bd0ec8dc191b7a0a85a294962f363dfb62fd5228de24c85956c5fa98",
+            "61295d1f101d2c62c766af640c0e6e54178a538a7d8ef2e2cb0857fdacf22f38",
+            "ea075eb355363b98f0acd5a854dc63718f52379b54e97128ac77ebedf3572a26",
+            "054eafd4f0ba8c8845d432def6ee51ab055c1ecab9a67407198a3d3a3a834d7e",
+            "5ea2dd22812926b4de130a16f09cc4953e786d76eb11638849d0ad4f3babb7ba"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_blind.json",
+            "judge_sha256": "631387708c3c72c403b8c9582e1ce80fabfa7b8b2ab0cebae1d492734ecfa67f",
+            "raw_reply_sha256": "1c6c4c121d20e9fc3873de6a2785ebbbcde86bb231ab250aad63ad306f77fca3",
+            "converted_only_sha256": "0c6dca355c5fe95f007140de4894a115b9350b9807758776c9b4bf2af2b80b46",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1",
+            "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
+            "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
+          }
+        }
+      ],
+      "accounting_version": 4,
+      "completed": 9,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "attempted": 9
     }
   },
   "required": [],
@@ -166848,6 +167969,82 @@
       "execution_errors": 0,
       "complete": true,
       "verifiable": true
+    },
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "88f42cf1-2491-453a-8676-6b298d996a70",
+      "config": {
+        "only_lang": null,
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s}.",
+          "Maybe {s} today.",
+          "She told me that {s}."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "1be71d7fec5230fc9aa997be952a949d5fb474445b3a0b01c8a8717066a944ae",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1",
+        "source_acceptance": "any-official-source-v1",
+        "accepted_sources_sha256": "89e5737c9aae0bcb6129adb584d6a7a3c3e82a652b34acb87d1f8c48b0d8adfd"
+      },
+      "selected_forms": [
+        "es:tomaré",
+        "pt:acharei",
+        "pt:logo",
+        "pt:por isso"
+      ],
+      "duplicate_targets": 0,
+      "requested": 36,
+      "scheduled": 36,
+      "attempted": 36,
+      "completed": 36,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true,
+      "judge_provenance": {
+        "kind": "independent_blind_judge",
+        "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_blind.json",
+        "judge_sha256": "631387708c3c72c403b8c9582e1ce80fabfa7b8b2ab0cebae1d492734ecfa67f",
+        "raw_reply_sha256": "1c6c4c121d20e9fc3873de6a2785ebbbcde86bb231ab250aad63ad306f77fca3",
+        "converted_only_sha256": "0c6dca355c5fe95f007140de4894a115b9350b9807758776c9b4bf2af2b80b46",
+        "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+        "source_acceptance": "any-official-source-v1",
+        "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
+        "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
+      }
     }
   ]
 }
