@@ -402,12 +402,12 @@ def test_cell_phone_falls_through_to_existing_handy():
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
-def test_as_a_result_cheapest_logo_after_ergo_reversed():
+def test_as_a_result_stays_english_after_logo_reversed():
+    # ergo (la) reversed in #161; pt logo then failed the blind round-trip 0/9, also in
+    # designed contexts (docs/es_pt_remaining_roundtrip_20261110.md): EN kept, el άρα not promoted.
     t = _mosaic()
     raw = "as a result"
-    out = t.apply_zh_de_phrases(raw)
-    assert out in {"logo", "άρα"}
-    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+    assert t.apply_zh_de_phrases(raw) == raw
 
 
 def test_once_again_stays_english_after_failed_pali_removed():
@@ -525,7 +525,9 @@ def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
 def test_tense_tranche2_and_sibling_longest_sources_coexist():
     t = _mosaic()
     raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
-    assert t.apply_es_fr_tense(raw) == "haré it; fiz; quero ir; preciso ir; tomaré it."
+    # I did it → fiz it: do-it-past-1s (object-dropping fiz) is unregistered like do-it-fut-1s;
+    # do-past-1s (I did → fiz) still applies and the object stays.
+    assert t.apply_es_fr_tense(raw) == "haré it; fiz it; quero ir; preciso ir; tomaré it."
     raw = "I will take my mobile phone to the train station as soon as possible."
     assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "tomaré my Handy to the Bahnhof ASAP."
 

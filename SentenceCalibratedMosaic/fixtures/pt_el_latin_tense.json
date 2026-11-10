@@ -10,26 +10,6 @@
   ],
   "entries": [
     {
-      "id": "do-it-past-1s",
-      "from": [
-        "I did it"
-      ],
-      "to": "fiz",
-      "lang": "pt",
-      "tense": "past",
-      "candidates": [
-        {
-          "form": "fiz",
-          "lang": "pt"
-        }
-      ],
-      "metrics": {
-        "token_before": 3,
-        "token_after": 1,
-        "both_shrink": true
-      }
-    },
-    {
       "id": "want-go-pres-1s",
       "from": [
         "I want to go"
@@ -150,6 +130,28 @@
       "note": "object pronoun dropped as in spoken PT; es_fr has I will do→haré without it",
       "roundtrip_reversed": true,
       "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"I will do.\", \"Maybe I will do today.\", \"She told me that I will do.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
+    },
+    {
+      "id": "do-it-past-1s",
+      "from": [
+        "I did it"
+      ],
+      "to": "fiz",
+      "lang": "pt",
+      "tense": "past",
+      "candidates": [
+        {
+          "form": "fiz",
+          "lang": "pt"
+        }
+      ],
+      "metrics": {
+        "token_before": 3,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "note": "object pronoun dropped as in spoken PT; es_fr_tense do-past-1s keeps I did→fiz, so I did it now becomes fiz it (object kept)",
+      "why_dropped": "Meaning do-it:past unrestorable: pt:fiz passed the pt gate 9/9 only via the alternate official source 'I did.' (first source 'I have done.' 0/9, 'I did it.' 0/9); actual restorations of the identical converted text: [\"I did.\", \"Maybe I did today.\", \"She told me that I did.\"] — the object 'it' is never recovered (same failure as do-it-fut-1s farei). fiz stays for do:past (I did, exact 9/9) and do:perf (I have done, documented tense merge). Evidence: roundtrip.json pt:fiz (unchanged). See docs/pt_fiz_meanings.md."
     }
   ]
 }
