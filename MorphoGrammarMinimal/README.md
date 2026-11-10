@@ -13,7 +13,7 @@
 
 - 一人称 → `I`（私は/僕は/俺は…を潰す）
 - **代名詞 case-split 在庫（5-bit 設計）**（下記）
-- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・助詞・比較）→ 下記。接続 → `&` `/` `cuz` `therefore`；前置1 → `w/` `4` `←` `@`；前置2 → `de` `无` `内` `前` `後`；助詞 → `∅` `→` `∈` `〜`；比較 → `≥` `≤`。極性 `!`/`¬` は在庫幅とは別の **1bit フラグ**
+- 閉じた品詞在庫（冠詞・接続詞・副詞・助動詞・前置 pack1/prep2・助詞・比較）→ 下記。接続 → `&` `/` `cuz` `therefore`；前置1 → `with` `for` `←` `@`（`w/` / `4` は入力別名・o200k では token loser）；前置2 → `de` `无` `内` `前` `後`；助詞 → `∅` `→` `∈` `〜`；比較 → `≥` `≤`。極性 `!`/`¬` は在庫幅とは別の **1bit フラグ**
 - whatever 系 → `∀` / `∀loc` / `∀who` … / hereafter → `∴→`
 - 助数詞: JA 既存は維持。EN 数量句も実験的に短くする（`3 animals` → `3匹`, `2 people` → `2人` など）。桁化済みの数字が前提（スペル数字→桁は C）
 - 冠詞: 引用なしの `the`/`a`/`an` は落とす。`"the"` / `'the'` は内側の語だけ残す（引用符は外す）。`--keep-articles` で無効化
@@ -57,13 +57,13 @@
 | 接続詞 conjunction | & / cuz / therefore | 4 | 2 | and→& or→/ **because→cuz**（bc/∵ は入力別名）therefore は英語のまま（∴ は token loser） | `… because …` → `… cuz …` |
 | 副詞 adverb | tho / ~ / ˅ / esp. | 4 | 2 | however→tho approx→~ very→˅ esp.→esp.；拡張 □=always / oft=often；**never→¬ not→!**（極性は助動詞と共有・在庫外1bit）。∀ は whatever 用 | `however very` → `tho ˅`；`always never` → `□ ¬` |
 | 助動詞 auxiliary | can / will / must / may | 4 | 2 | could→can should→must might→may（**would は will に写像しない**：時制・法が変わるため）；**I'll は C**；否定 `can't/won't/shouldn't/mustn't/may not`→`!can/!will/!must/!may`；`don't/not`→`!`；肯定は素の can/will/must/may。**極性 `!` = 在庫幅とは別1bit** | `I could` → `I can`；`I won't` → `I !will` |
-| 前置詞 preposition | w/ / 4 / ← / @ | 4 | 2 | with→w/ for→4 **from→←** at→@；`fr` は別名のみ（colloquial **for real** 揺らぎ）。ML: con/avec/mit・para/pour/für・desde/depuis/aus・bei。**under/above は C** | `for lunch from home at noon` → `4 lunch ← home @ noon` |
+| 前置詞 preposition | with / for / ← / @ | 4 | 2 | with と for は英語のまま（`w/`・`4` は o200k 文中で token loser、入力別名）。**from→←** at→＠；`fr` は別名のみ（colloquial **for real** 揺らぎ）。ML: con/avec/mit・para/pour/für・desde/depuis/aus・bei。**under/above は C** | `for lunch from home at noon` → `for lunch ← home ＠ noon` |
 | 前置詞2 prep2 | de / 无 / 内 / 前 / 後 | 5 | **3** | of→de；without→**无**（`w/o`/`sin`/`sans`/`ohne` 別名）；within→内（dentro/innerhalb）；before→前（antes/avant/vor）；after→後（después/après/nach）。pack1 分離で 2bit 維持。C 前後/内外は触らない | `of … without … before …` → `de … 无 … 前 …` |
 | 助詞 particle | ∅ / → / ∈ / 〜 | 4 | 2 | は/が/を/ねよさ→∅；に/へ→→；で→∈；まで→〜。拡張 も→+ と→& **から→←**。**と=& はトークン観点 OK**；から=← は前置 from と共有（`fr` 別名のみ） | `学校に行く` → `学校→行く`；`東京から` → `東京←` |
 | 比較 compare | ≥ / ≤ | 2 | **1** | **言語非依存**: JA/ZH 以上/以下；EN more than/at least/…；ES más de/al menos/…；FR plus/moins de；DE mehr/weniger als → 同じ ≥/≤。≒/=（approx-equal/equal）。単独 under/below/above は C | `18歳以上` / `más de 3` → `≥` |
 | 極性 polarity | ! / ¬ | — | **1**/標 | 在庫幅ではないフラグ。助動詞否定・副詞 not/never で共有。肯定 = マーカー無し | `!can` は aux 2bit + 極性1bit |
 
-> **for→4 の注意**: `4` は数字 four と表現の揺らぎが出うる。ビット在庫（2bit）とは別評価。目的の for 相当は EN `for` に加え ES/FR/DE `para`/`pour`/`für`、JA `ために`/`為に`、ZH `为了`→`4`（裸の `为`/`por` は曖昧のため見送り）。`ために` は助詞 `に→→` より先に適用。
+> **for / 4 の注意**: emit は `for`。`4` は o200k 文中（tiktoken 0.14.0、先頭スペース）で 2 トークン、`for` は 1 トークン（公式 estimate_tokens は両方 1 で見逃す）。数字 four や「4 hours」等とも衝突する。ビット在庫（2bit）とは別評価。採点は [`fixtures/informal_candidates.json`](fixtures/informal_candidates.json)。目的の for 相当は EN `for` に加え ES/FR/DE `para`/`pour`/`für`、JA `ために`/`為に`、ZH `为了`→`for`（裸の `为`/`por` は曖昧のため見送り）。`ために` は助詞 `に→→` より先に適用。
 
 > **from→← / fr の注意**: canonical 短形は **`←`**（`→`＝に/へ と対；LTR 1 字）。`fr` は別名として残すが、colloquial EN **for real** との揺らぎがあるため **出力は ← を優先**（`fr` への自動短縮はしない）。
 
@@ -73,7 +73,7 @@
 
 **because / cuz:** `because→cuz` 採用（2026-11-08）。because / bc / cuz はいずれも o200k 1 トークン（7 / 2 / 3 バイト）。`bc` は 1 バイト少ないが British Columbia / before Christ などと紛れるため、同トークンなら意味の明瞭さを優先して +1 バイトを許容。旧出力の `bc` と `∵` は入力別名として `cuz` に寄せ、展開も because に戻す。
 
-**口語クリップ採点台帳:** 閉じた在庫の意味について口語・略記の候補（cuz / cos / b/c …）は [`fixtures/informal_candidates.json`](fixtures/informal_candidates.json) に実測トークン・バイトと reject 理由付きで記録する。「否定せず」「見送り可」とコメントに書くだけで採点集合から外すのは不可。`tests/test_informal_candidates.py` が公式 `estimate_tokens` との一致と勝者を検証する。
+**口語クリップ採点台帳:** 閉じた在庫の意味について口語・略記の候補（cuz / 4 / w/ / w/o / tho / esp. / oft / fr など）は [`fixtures/informal_candidates.json`](fixtures/informal_candidates.json) に実測トークン・バイトと reject 理由付きで記録する。tokens は公式 `estimate_tokens`、参照実測は tiktoken 0.14.0 の o200k_base（文中は先頭スペース付き）。採点の第一は o200k、第二はバイト。公式推定とずれる例: 文中の `4`（推定 1、o200k 2）、`especially`（推定 3、o200k 1）。「否定せず」「見送り可」とコメントに書くだけで採点集合から外すのは不可。AI 可読性は未測定。`tests/test_informal_candidates.py` が実測値と、勝者が現行 emit と一致すること（emit は変えない）を検証する。
 
 **助動詞・副詞 × not（検証パス実装）:** 否定 `can't/won't/shouldn't/mustn't/may not/don't`→`!…` / `!`；肯定は素の can/will/must/may。副詞 `not→!` `never→¬`。極性は `polarity_bit_cost`（1bit/マーカー）。時制の深い畳み込みは未着手。I'll は C 所有のまま。
 

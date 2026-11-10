@@ -1,5 +1,12 @@
 {
-  "_doc": "口語・略記クリップの採点台帳。閉じた在庫の意味ごとに候補表層を実測（TokenCostHeuristic estimate_tokens → utf8 bytes）し、emit 以外には reject 理由を書く。コメントで「否定せず」「見送り可」と書くだけでは不可 — 採点集合から外す前にここへ記録すること。tests/test_informal_candidates.py が実測値と一致を検証する。",
+  "_doc": "口語・略記クリップの採点台帳。閉じた在庫の意味ごとに候補表層を実測する。tokens / sentence_tokens は公式の TokenCostHeuristic / SentenceCalibratedMosaic estimate_tokens（実行時は stdlib のみ）。o200k_tokens / o200k_sentence_tokens は参照実測: tiktoken 0.14.0 の o200k_base。o200k_tokens は文中を想定して先頭半角スペース付き（' '+form）。これは scripts/tense_matrix.py と docs/emoji-symbols-notes.md と同じ慣習。o200k_sentence_tokens は各 entry の sentence_template（無ければトップレベル）に差し込んだ文の実測。公式推定と o200k がずれることがある（とくに especially や文中の 4）。採点と勝者判定は o200k（文中）を第一、utf-8 バイトを第二とする。emit 以外には reject 理由を書く。コメントで「否定せず」「見送り可」と書くだけでは不可 — 採点集合から外す前にここへ記録すること。AI 可読性（圧縮文を英語へ戻せるか）は未測定。tests/test_informal_candidates.py が実測値と一致を検証する。",
+  "scoring": {
+    "estimate_tokens": "TokenCostHeuristic estimate_tokens（SentenceCalibratedMosaic 経由の再エクスポート）。公式・実行時経路。裸の form と文全体。",
+    "o200k_base": "tiktoken 0.14.0 の o200k_base。参照実測。o200k_tokens は先頭スペース付き、o200k_sentence_tokens は文全体。uv run --with tiktoken で再現する。",
+    "bytes": "UTF-8 バイト数（len(form.encode('utf-8'))）",
+    "ai_readability": "未測定。モデル判定による往復（文を変換して英語へ戻す）は行っていない。"
+  },
+  "ai_readability": "未測定",
   "sentence_template": "We left {form} it rained.",
   "entries": [
     {
@@ -7,18 +14,413 @@
       "inventory": "conjunction",
       "source": "because",
       "winner": "cuz",
-      "policy": "token 同数なら意味の明瞭さを優先し、数バイト増は許容（myon 2026-10-31 / 2026-11-08 決定）",
+      "sentence_template": "We left {form} it rained.",
+      "ai_readability": "未測定",
+      "policy": "token 同数なら意味の明瞭さを優先し、数バイト増は許容（myon 2026-10-31 / 2026-11-08 決定）。勝者判定の第一は o200k 文中トークン。",
       "candidates": [
-        {"form": "because", "tokens": 1, "bytes": 7, "sentence_tokens": 7, "reject": "原形。cuz と同トークンで +4 バイト"},
-        {"form": "cuz", "tokens": 1, "bytes": 3, "sentence_tokens": 7, "reject": null},
-        {"form": "bc", "tokens": 1, "bytes": 2, "sentence_tokens": 7, "reject": "同トークン・1 バイト少ないが、British Columbia / before Christ 等と衝突する曖昧略記で読みにくい。旧 emit なので入力別名として残す"},
-        {"form": "'cause", "tokens": 2, "bytes": 6, "sentence_tokens": 8, "reject": "トークン増"},
-        {"form": "cause", "tokens": 1, "bytes": 5, "sentence_tokens": 7, "reject": "名詞・動詞 cause（原因・引き起こす）と衝突し復元不能。cuz より +2 バイト"},
-        {"form": "cos", "tokens": 1, "bytes": 3, "sentence_tokens": 7, "reject": "cosine の cos と衝突。英国口語で地域依存"},
-        {"form": "coz", "tokens": 1, "bytes": 3, "sentence_tokens": 7, "reject": "cuz と同コストだが綴り揺れ（cousin の coz とも衝突）。表記を cuz 一本に寄せる"},
-        {"form": "becuz", "tokens": 1, "bytes": 5, "sentence_tokens": 7, "reject": "cuz より +2 バイトで利得なし"},
-        {"form": "b/c", "tokens": 3, "bytes": 3, "sentence_tokens": 9, "reject": "トークン増（/ は or 在庫とも衝突）"},
-        {"form": "∵", "tokens": 2, "bytes": 3, "sentence_tokens": 8, "reject": "トークン増（数学記号は token loser）。入力別名として残す"}
+        {
+          "form": "because",
+          "tokens": 1,
+          "bytes": 7,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": "原形。cuz と同トークンで +4 バイト"
+        },
+        {
+          "form": "cuz",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": null
+        },
+        {
+          "form": "bc",
+          "tokens": 1,
+          "bytes": 2,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": "同トークン・1 バイト少ないが、British Columbia / before Christ 等と衝突する曖昧略記で読みにくい。旧 emit なので入力別名として残す"
+        },
+        {
+          "form": "'cause",
+          "tokens": 2,
+          "bytes": 6,
+          "sentence_tokens": 8,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 8,
+          "reject": "トークン増"
+        },
+        {
+          "form": "cause",
+          "tokens": 1,
+          "bytes": 5,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": "名詞・動詞 cause（原因・引き起こす）と衝突し復元不能。cuz より +2 バイト"
+        },
+        {
+          "form": "cos",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": "cosine の cos と衝突。英国口語で地域依存"
+        },
+        {
+          "form": "coz",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": "cuz と同コストだが綴り揺れ（cousin の coz とも衝突）。表記を cuz 一本に寄せる"
+        },
+        {
+          "form": "becuz",
+          "tokens": 1,
+          "bytes": 5,
+          "sentence_tokens": 7,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 8,
+          "reject": "o200k 文中 2 トークン（公式 estimate_tokens は 1 と過少）。cuz よりトークン増かつ +2 バイトで利得なし"
+        },
+        {
+          "form": "b/c",
+          "tokens": 3,
+          "bytes": 3,
+          "sentence_tokens": 9,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 8,
+          "reject": "トークン増（/ は or 在庫とも衝突）"
+        },
+        {
+          "form": "∵",
+          "tokens": 2,
+          "bytes": 3,
+          "sentence_tokens": 8,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 8,
+          "reject": "トークン増（数学記号は token loser）。入力別名として残す"
+        }
+      ]
+    },
+    {
+      "meaning": "for",
+      "inventory": "preposition",
+      "source": "for",
+      "winner": "for",
+      "sentence_template": "I made this {form} you.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一、バイトを第二。4 は公式 estimate_tokens では for と同 1 トークンだが、o200k 文中（先頭スペース）では 2 トークンで負け、かつ数字 four と衝突する。emit は for のまま（変更しない）。",
+      "candidates": [
+        {
+          "form": "for",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 6,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 6,
+          "reject": null
+        },
+        {
+          "form": "4",
+          "tokens": 1,
+          "bytes": 1,
+          "sentence_tokens": 6,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 7,
+          "reject": "o200k 文中 2 トークン（公式 estimate_tokens は裸・文とも 1 で見逃す）。数字 four や「4 hours」等の数量とも衝突する。旧表層・入力別名として残すが emit には使わない"
+        },
+        {
+          "form": "4r",
+          "tokens": 2,
+          "bytes": 2,
+          "sentence_tokens": 7,
+          "o200k_tokens": 3,
+          "o200k_sentence_tokens": 8,
+          "reject": "トークン増（o200k 文中 3）"
+        },
+        {
+          "form": "fo",
+          "tokens": 1,
+          "bytes": 2,
+          "sentence_tokens": 6,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 6,
+          "reject": "同トークン・1 バイト少ないが、不完全綴りで読みにくく、他語の断片とも紛れる"
+        },
+        {
+          "form": "fer",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 6,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 6,
+          "reject": "for と同トークン同バイト。方言綴りで利得なし"
+        },
+        {
+          "form": "f",
+          "tokens": 1,
+          "bytes": 1,
+          "sentence_tokens": 6,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 6,
+          "reject": "同トークン・2 バイト少ないが、文字 f や他の略語と衝突し復元不能"
+        }
+      ]
+    },
+    {
+      "meaning": "with",
+      "inventory": "preposition",
+      "source": "with",
+      "winner": "with",
+      "sentence_template": "I went {form} them.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一。w/ はトークン増のため不採用。emit は with のまま（変更しない）。",
+      "candidates": [
+        {
+          "form": "with",
+          "tokens": 1,
+          "bytes": 4,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": null
+        },
+        {
+          "form": "w/",
+          "tokens": 2,
+          "bytes": 2,
+          "sentence_tokens": 6,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 6,
+          "reject": "トークン増（o200k 文中 2）。旧表層・入力別名として残すが emit には使わない"
+        },
+        {
+          "form": "w",
+          "tokens": 1,
+          "bytes": 1,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": "同トークン・3 バイト少ないが、文字 w や西向き・その他の略語と衝突し復元不能"
+        }
+      ]
+    },
+    {
+      "meaning": "without",
+      "inventory": "prep2",
+      "source": "without",
+      "winner": "无",
+      "sentence_template": "I left {form} them.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一、バイトを第二。无 は without と同 1 トークンでバイト減。w/o はトークン増。emit は 无 のまま（変更しない）。",
+      "candidates": [
+        {
+          "form": "without",
+          "tokens": 1,
+          "bytes": 7,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": "原形。无 と同トークンで +4 バイト"
+        },
+        {
+          "form": "w/o",
+          "tokens": 3,
+          "bytes": 3,
+          "sentence_tokens": 7,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 6,
+          "reject": "トークン増（o200k 文中 2、公式 estimate_tokens は 3）。入力別名として残す"
+        },
+        {
+          "form": "无",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": null
+        }
+      ]
+    },
+    {
+      "meaning": "though",
+      "inventory": "adverb",
+      "source": "though",
+      "winner": "tho",
+      "sentence_template": "We left {form} it rained.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一、バイトを第二。tho は though と同 1 トークンでバイト減。口語 EN クリップ（外国語ではない）。emit は tho のまま（変更しない）。",
+      "candidates": [
+        {
+          "form": "though",
+          "tokens": 1,
+          "bytes": 6,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": "原形。tho と同トークンで +3 バイト"
+        },
+        {
+          "form": "tho",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 7,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 7,
+          "reject": null
+        },
+        {
+          "form": "altho",
+          "tokens": 1,
+          "bytes": 5,
+          "sentence_tokens": 7,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 8,
+          "reject": "o200k 文中 2 トークン（公式 estimate_tokens は 1 と過少）。トークン増"
+        }
+      ]
+    },
+    {
+      "meaning": "especially",
+      "inventory": "adverb",
+      "source": "especially",
+      "winner": "especially",
+      "sentence_template": "I like tea, {form} green tea.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一。especially と esp は o200k 同 1 トークン。公式 estimate_tokens は especially を 3 と過大評価する。同トークンなら意味の明瞭さを優先（cuz と同じ方針）。esp. はトークン増。emit は especially のまま（変更しない）。",
+      "candidates": [
+        {
+          "form": "especially",
+          "tokens": 3,
+          "bytes": 10,
+          "sentence_tokens": 10,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 8,
+          "reject": null
+        },
+        {
+          "form": "esp.",
+          "tokens": 2,
+          "bytes": 4,
+          "sentence_tokens": 9,
+          "o200k_tokens": 2,
+          "o200k_sentence_tokens": 9,
+          "reject": "トークン増（o200k 文中 2）。入力別名として残す"
+        },
+        {
+          "form": "esp",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 8,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 8,
+          "reject": "同トークン・7 バイト少ないが、especially / Esperanto / Spain / ESP 等と衝突する曖昧略記。入力別名として残す"
+        }
+      ]
+    },
+    {
+      "meaning": "often",
+      "inventory": "adverb",
+      "source": "often",
+      "winner": "oft",
+      "sentence_template": "We {form} leave early.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一、バイトを第二。oft は often と同 1 トークンでバイト減。拡張副詞在庫の表層。emit は oft のまま（変更しない）。",
+      "candidates": [
+        {
+          "form": "often",
+          "tokens": 1,
+          "bytes": 5,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": "原形。oft と同トークンで +2 バイト"
+        },
+        {
+          "form": "oft",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": null
+        }
+      ]
+    },
+    {
+      "meaning": "from",
+      "inventory": "preposition",
+      "source": "from",
+      "winner": "←",
+      "sentence_template": "We came {form} home.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一、バイトを第二。← は from と同 1 トークンでバイト減。fr はさらに 1 バイト少ないが colloquial EN for real と衝突するため出力には使わない（既存方針）。emit は ← のまま（変更しない）。",
+      "candidates": [
+        {
+          "form": "from",
+          "tokens": 1,
+          "bytes": 4,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": "原形。← と同トークンで +1 バイト"
+        },
+        {
+          "form": "fr",
+          "tokens": 1,
+          "bytes": 2,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": "同トークン・← より 1 バイト少ないが、口語 EN の for real と衝突する。入力別名のみ（自動短縮しない）"
+        },
+        {
+          "form": "←",
+          "tokens": 1,
+          "bytes": 3,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": null
+        }
+      ]
+    },
+    {
+      "meaning": "at",
+      "inventory": "preposition",
+      "source": "at",
+      "winner": "@",
+      "sentence_template": "Meet me {form} noon.",
+      "ai_readability": "未測定",
+      "policy": "o200k 文中トークンを第一、バイトを第二。＠ は at と同 1 トークンでバイト減。メンションやメール番地との揺らぎはあり得るが、本採点では emit を変えない。",
+      "candidates": [
+        {
+          "form": "at",
+          "tokens": 1,
+          "bytes": 2,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": "原形。＠ と同トークンで +1 バイト"
+        },
+        {
+          "form": "@",
+          "tokens": 1,
+          "bytes": 1,
+          "sentence_tokens": 5,
+          "o200k_tokens": 1,
+          "o200k_sentence_tokens": 5,
+          "reject": null
+        }
       ]
     }
   ]
