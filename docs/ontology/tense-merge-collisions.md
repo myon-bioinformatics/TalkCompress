@@ -7,31 +7,31 @@
 
 ## 件数
 
-`tense_merge`: 22 形（de 9 / pt 9 / es 3 / fr 1）。
+`tense_merge`: 23 形（pt 10 / de 9 / es 3 / fr 1）。
 
 | lang | 形の数 |
 |---|---|
 | de | 9 |
 | es | 3 |
 | fr | 1 |
-| pt | 9 |
+| pt | 10 |
 
 統合している時制の組み合わせ:
 
 | 時制 | 形の数 | 形 |
 |---|---|---|
-| 過去＋現在完了 | 17 | `de:dachten`、`de:dachtest`、`de:fanden`、`de:kam`、`de:kamen`、`de:nahmen`、`de:sagten`、`de:sah`、`de:sahen`、`es:dije`、`es:dijeron`、`es:fui`、`pt:achaste`、`pt:demos`、`pt:deste`、`pt:deu`、`pt:fomos` |
+| 過去＋現在完了 | 18 | `de:dachten`、`de:dachtest`、`de:fanden`、`de:kam`、`de:kamen`、`de:nahmen`、`de:sagten`、`de:sah`、`de:sahen`、`es:dije`、`es:dijeron`、`es:fui`、`pt:achaste`、`pt:demos`、`pt:deste`、`pt:deu`、`pt:fiz`、`pt:fomos` |
 | 過去＋現在完了＋過去完了 | 2 | `pt:deram`、`pt:foram` |
 | 現在＋未来 | 2 | `pt:vou`、`pt:vão` |
 | 現在＋過去 | 1 | `fr:dit` |
 
-同じ `--collisions` の他の分類（参考）: `cross_language` 0、`lang_label_mismatch` 1、`multi_meaning` 1。
+同じ `--collisions` の他の分類（参考）: `cross_language` 0、`lang_label_mismatch` 0、`multi_meaning` 0。
 
 ## 往復で確かめた読み
 
 往復の判定は形ごとの最新コホートで行い、復元させた英語はコホートの `targets[].source` に残る。
-上の 22 形が採用されている英語は計 75 行で、そのうち最新コホートで復元対象だったのは 22 行。
-最新コホートが測っていない時制を含む形は 22 形ある。その時制の英語へ AI が戻せるかは、往復ではまだ確かめていない。
+上の 23 形が採用されている英語は計 77 行で、そのうち最新コホートで復元対象だったのは 23 行。
+最新コホートが測っていない時制を含む形は 23 形ある。その時制の英語へ AI が戻せるかは、往復ではまだ確かめていない。
 
 ## 一覧
 
@@ -55,6 +55,7 @@
 | `pt:deram` | 過去＋現在完了＋過去完了 | they gave（mx-give-past-3p）<br>they have given（mx-give-perf-3p） ※未測定<br>they had given（mx-give-pluperf-3p） ※未測定 | they gave | pass | 9/9 |
 | `pt:deste` | 過去＋現在完了 | you gave（mx-give-past-2）<br>you have given（mx-give-perf-2） ※未測定 | you gave | pass | 9/9 |
 | `pt:deu` | 過去＋現在完了 | he gave（mx-give-past-3s-he）<br>it gave（mx-give-past-3s-it） ※未測定<br>she gave（mx-give-past-3s-she） ※未測定<br>he has given（mx-give-perf-3s-he） ※未測定<br>it has given（mx-give-perf-3s-it） ※未測定<br>she has given（mx-give-perf-3s-she） ※未測定 | he gave | pass | 9/9 |
+| `pt:fiz` | 過去＋現在完了 | i did（do-past-1s） ※未測定<br>i have done（mx-do-perf-1s） | i have done | pass | 9/9 |
 | `pt:fomos` | 過去＋現在完了 | we went（mx-go-past-1p）<br>we have gone（mx-go-perf-1p） ※未測定 | we went | pass | 9/9 |
 | `pt:foram` | 過去＋現在完了＋過去完了 | they went（mx-go-past-3p）<br>they have gone（mx-go-perf-3p） ※未測定<br>they had gone（mx-go-pluperf-3p） ※未測定 | they went | pass | 9/9 |
 | `pt:vou` | 現在＋未来 | i go（go-pres-1s） ※未測定<br>i will go（go-fut-1s）<br>i am going to go（go-fut-goingto-1s） ※未測定 | i will go | pass | 9/9 |

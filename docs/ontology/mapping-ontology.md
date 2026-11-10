@@ -102,6 +102,8 @@ ID の考え方:
 追従は機械的に導けるが、**追従先の形が AI に読めるかは往復で確かめるまで事実ではない**。
 例: `this virá` は数一致追従で採用されているが、追従元 `virá` は pt で reversed（#171）。
 グラフはこれを「追従元が外された追従」として列挙するだけで、外すかどうかの判断はしない（挙動を変えない）。
+→ その後 `scripts/tense_matrix.py` 側で、追従元（`parity_verb`）が reversed の追従セルも英語維持にした
+（`this virá` 自体の往復は 9/9 だが、数一致規則として代名詞クラスが英語なら指示詞も英語。token は 3→3 で節約 0）。
 
 依存と因果も同じで、「追従元が失敗した ⇒ 追従先も読めない」とは断定しない。調査対象を絞るのに使う。
 
@@ -174,6 +176,9 @@ uv run python scripts/mapping_graph.py --node form:pt:foi       # 1 ノードと
 - `lang_label_mismatch`: 3 件（`es_fr_tense` の `take-fut-1s` / `take-fut-goingto-1s` は `tomaré` が `lang: el`、
   `leave-fut-goingto-1s` は `vou sair` が `lang: es`）。データは直していない（別 PR で判断）。
   → その後 #164 で `tomaré` の 2 件は `lang: es` に修正済み。残りは `vou sair` の 1 件。
+  → `vou sair` も `lang: pt` に修正済み（runtime 勝者は pt。`lang_label_mismatch` 0 件）。
+- `multi_meaning`: `pt:fiz`（do-it:past / do:past / do:perf）。→ do-it:past を外し、残りは tense_merge
+  （判断と往復の根拠は `docs/pt_fiz_meanings.md`）。
 - de（#174）、nl 6 形（#163）、cs/pl（#165）、el（#164）、la（#161）はこのベースでは未測定として出る。
   #161/#164 の `logo`・`por isso`・`acharei`（pt）、`tomaré`（es）は、このベースでは **採用形ではなく候補** として
   存在し、いずれも `untested`。
