@@ -114,10 +114,12 @@ def test_bank_matches_gate(key):
         assert len(live) == 1 and "why_dropped" not in live[0] and "roundtrip_reversed" not in live[0]
         assert not [e for e in bank["examples_not_registered"] if e["id"] == live[0]["id"]]
     elif key == "la:inter alia":
-        # among others stays reversed; the among other things entry and its 9/9 record are untouched
-        assert [e["from"] for e in live] == [["among other things"]]
+        # This context study (among others, 2/9) is gate-invisible. The bank entry for among others
+        # was restored on main by the owner-approved form-level re-score (#182: the inter alia
+        # record passes 9/9 and among others is one of its official sources), so both sources are live.
+        assert sorted(e["from"] for e in live) == [["among other things"], ["among others"]]
         assert rt.status(DATA, "la", "inter alia") == "pass"
-        assert [e["from"] for e in bank["examples_not_registered"] if e.get("to") == form] == [["among others"]]
+        assert not [e for e in bank["examples_not_registered"] if e.get("to") == form and e["from"] == ["among others"]]
     else:
         assert not live
         assert [e for e in bank["examples_not_registered"] if e.get("lang") == lang and e.get("to") == form]

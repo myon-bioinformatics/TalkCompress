@@ -367,31 +367,16 @@
    "tense": "past",
    "verb": "take",
    "src": "I took",
-   "status": "reject",
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "status": "existing",
+   "reason": "already in es_fr_tense / pt_el_latin_tense"
   },
   {
    "subject": "1s",
    "tense": "past",
    "verb": "find",
    "src": "I found",
-   "roundtrip_gated": [
-    "vond"
-   ],
-   "en_best": "I found",
-   "homograph_dropped": [
-    {
-     "form": "ho trovato",
-     "en": [
-      "ho"
-     ]
-    }
-   ],
-   "roundtrip_reversed": [
-    "fand"
-   ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "status": "existing",
+   "reason": "already in es_fr_tense / pt_el_latin_tense"
   },
   {
    "subject": "1s",
@@ -688,11 +673,19 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "fand"
+   "best": "fand",
+   "lang": "de",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    2,
+    1
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    10,
+    4
+   ],
+   "status": "adopt"
   },
   {
    "subject": "1s",
@@ -3028,9 +3021,6 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "roundtrip_reversed": [
-    "prends"
-   ],
    "best": "prends",
    "lang": "fr",
    "shape": "simple",
@@ -3043,8 +3033,7 @@
     8,
     6
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3610,7 +3599,7 @@
     "tok": 1
    },
    "roundtrip_reversed": [
-    "vins"
+    "kamst"
    ],
    "best": "vins",
    "lang": "fr",
@@ -3624,8 +3613,7 @@
     8,
     4
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3645,7 +3633,7 @@
     "as vu"
    ],
    "roundtrip_reversed": [
-    "vis"
+    "viste"
    ],
    "roundtrip_gated": [
     "zag"
@@ -3676,8 +3664,7 @@
     7,
     3
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3706,7 +3693,7 @@
     "tok": 1
    },
    "roundtrip_reversed": [
-    "pris"
+    "nahmst"
    ],
    "best": "pris",
    "lang": "fr",
@@ -3720,8 +3707,7 @@
     8,
     4
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3789,9 +3775,6 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "roundtrip_reversed": [
-    "voulus"
-   ],
    "best": "voulus",
    "lang": "fr",
    "shape": "simple",
@@ -3804,8 +3787,7 @@
     10,
     6
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3941,9 +3923,6 @@
     "number": "2sg-tú",
     "tok": 1
    },
-   "roundtrip_reversed": [
-    "sus"
-   ],
    "best": "sus",
    "lang": "fr",
    "shape": "simple",
@@ -3956,8 +3935,7 @@
     8,
     3
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -4867,9 +4845,6 @@
     "number": "2sg-usted",
     "tok": 2
    },
-   "roundtrip_reversed": [
-    "avais su"
-   ],
    "best": "avais su",
    "lang": "fr",
    "shape": "compound",
@@ -4882,8 +4857,7 @@
     11,
     8
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -8833,11 +8807,24 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "fand"
+   "best": "fand",
+   "lang": "de",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    1
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    8,
+    4
+   ],
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -9239,11 +9226,24 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "fand"
+   "best": "fand",
+   "lang": "de",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    2,
+    1
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    10,
+    4
+   ],
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-he",
@@ -12533,11 +12533,24 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "fand"
+   "best": "fand",
+   "lang": "de",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    1
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    9,
+    4
+   ],
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -12939,11 +12952,24 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "fand"
+   "best": "fand",
+   "lang": "de",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    2,
+    1
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    11,
+    4
+   ],
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-she",
@@ -15849,9 +15875,6 @@
    "verb": "go",
    "src": "it will go",
    "en_best": "it'll go",
-   "roundtrip_reversed": [
-    "ira"
-   ],
    "best": "ira",
    "lang": "fr",
    "shape": "simple",
@@ -15864,8 +15887,7 @@
     8,
     3
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "3s-it",
@@ -15885,12 +15907,7 @@
     10,
     5
    ],
-   "status": "reject",
-   "candidates": [],
-   "roundtrip_reversed": [
-    "virá"
-   ],
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "status": "adopt"
   },
   {
    "subject": "3s-it",
@@ -16286,11 +16303,24 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "fand"
+   "best": "fand",
+   "lang": "de",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    1
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    8,
+    4
+   ],
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -16692,11 +16722,24 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "fand"
+   "best": "fand",
+   "lang": "de",
+   "shape": "simple-preterite",
+   "number": "",
+   "tok": [
+    2,
+    1
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    10,
+    4
+   ],
+   "status": "adopt",
+   "parity_class": [
+    "3s-he",
+    "3s-she",
+    "3s-it"
+   ]
   },
   {
    "subject": "3s-it",
@@ -22793,9 +22836,6 @@
     "wisten"
    ],
    "en_best": "they knew",
-   "roundtrip_reversed": [
-    "ont su"
-   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -22808,8 +22848,7 @@
     9,
     6
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "3p",
@@ -23081,9 +23120,6 @@
     "hebben geweten"
    ],
    "en_best": "they've known",
-   "roundtrip_reversed": [
-    "ont su"
-   ],
    "best": "ont su",
    "lang": "fr",
    "shape": "compound",
@@ -23096,8 +23132,7 @@
     13,
     6
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "3p",
@@ -25182,8 +25217,8 @@
     12,
     8
    ],
-   "status": "reject",
-   "reason": "parity: number-matched pronouns stay EN (EN kept)"
+   "status": "adopt",
+   "parity_verb": "ira"
   },
   {
    "subject": "dem-this",
@@ -29575,8 +29610,8 @@
     16,
     12
    ],
-   "status": "reject",
-   "reason": "parity: number-matched pronouns stay EN (EN kept)"
+   "status": "adopt",
+   "parity_verb": "ont su"
   },
   {
    "subject": "dem-these",
@@ -32281,8 +32316,8 @@
     16,
     12
    ],
-   "status": "reject",
-   "reason": "parity: number-matched pronouns stay EN (EN kept)"
+   "status": "adopt",
+   "parity_verb": "ont su"
   },
   {
    "subject": "dem-those",
@@ -42656,8 +42691,23 @@
    "tense": "pres",
    "verb": "go",
    "src": "que goes",
-   "status": "reject",
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "roundtrip_gated": [
+    "que gaat"
+   ],
+   "en_best": "que goes",
+   "best": "que va",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    6
+   ],
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
@@ -42680,12 +42730,7 @@
     9,
     7
    ],
-   "status": "reject",
-   "candidates": [],
-   "roundtrip_reversed": [
-    "que vem"
-   ],
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
@@ -42700,16 +42745,46 @@
    "tense": "pres",
    "verb": "see",
    "src": "que sees",
-   "status": "reject",
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "roundtrip_gated": [
+    "que ziet"
+   ],
+   "en_best": "que sees",
+   "best": "que ve",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    6
+   ],
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
    "tense": "pres",
    "verb": "take",
    "src": "que takes",
-   "status": "reject",
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "roundtrip_gated": [
+    "que neemt"
+   ],
+   "en_best": "que takes",
+   "best": "que toma",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    9,
+    8
+   ],
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
@@ -42732,12 +42807,7 @@
     9,
     8
    ],
-   "status": "reject",
-   "candidates": [],
-   "roundtrip_reversed": [
-    "que acha"
-   ],
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
@@ -42787,11 +42857,19 @@
     "que denkt"
    ],
    "en_best": "que thinks",
-   "roundtrip_reversed": [
-    "que denkt"
+   "best": "que denkt",
+   "lang": "de",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "utf8": [
+    10,
+    9
+   ],
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
@@ -42816,9 +42894,6 @@
      ]
     }
    ],
-   "roundtrip_reversed": [
-    "que dit"
-   ],
    "best": "que dit",
    "lang": "fr",
    "shape": "simple",
@@ -42831,20 +42906,30 @@
     8,
     7
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
    "tense": "pres",
    "verb": "know",
    "src": "que knows",
-   "roundtrip_reversed": [
-    "que sa"
+   "roundtrip_gated": [
+    "que weet"
    ],
    "en_best": "que knows",
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "best": "que sa",
+   "lang": "it",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    9,
+    6
+   ],
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
@@ -42855,12 +42940,23 @@
     "da",
     "dá"
    ],
-   "roundtrip_reversed": [
-    "que dà"
+   "roundtrip_gated": [
+    "que geeft"
    ],
    "en_best": "que gives",
-   "status": "reject",
-   "reason": "EN homograph collision: every candidate spells an English word"
+   "best": "que dà",
+   "lang": "it",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    9,
+    7
+   ],
+   "status": "adopt"
   },
   {
    "subject": "rel-que-sg",
@@ -45037,8 +45133,23 @@
    "tense": "pres",
    "verb": "give",
    "src": "que give",
-   "status": "reject",
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "roundtrip_gated": [
+    "que geven"
+   ],
+   "en_best": "que give",
+   "best": "que dan",
+   "lang": "es",
+   "shape": "simple",
+   "number": "",
+   "tok": [
+    2,
+    2
+   ],
+   "utf8": [
+    8,
+    7
+   ],
+   "status": "adopt"
   },
   {
    "subject": "rel-que-pl",
@@ -45357,9 +45468,6 @@
     "que hebben gewild"
    ],
    "en_best": "que have wanted",
-   "roundtrip_reversed": [
-    "que ont voulu"
-   ],
    "best": "que ont voulu",
    "lang": "fr",
    "shape": "compound",
@@ -45372,8 +45480,7 @@
     15,
     13
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "rel-que-pl",
@@ -45384,9 +45491,6 @@
     "que hebben gehad"
    ],
    "en_best": "que have had",
-   "roundtrip_reversed": [
-    "que ont eu"
-   ],
    "best": "que ont eu",
    "lang": "fr",
    "shape": "compound",
@@ -45399,8 +45503,7 @@
     12,
     10
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "rel-que-pl",
@@ -45437,9 +45540,6 @@
     "que hebben geweten"
    ],
    "en_best": "que have known",
-   "roundtrip_reversed": [
-    "que ont su"
-   ],
    "best": "que ont su",
    "lang": "fr",
    "shape": "compound",
@@ -45452,8 +45552,7 @@
     14,
     10
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "rel-que-pl",

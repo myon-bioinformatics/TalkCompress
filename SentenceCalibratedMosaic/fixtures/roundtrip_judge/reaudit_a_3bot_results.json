@@ -1,0 +1,1014 @@
+{
+ "kind": "context_roundtrip_study",
+ "gating": "exact norm-nfc-v1; reference only in roundtrip.json (not written)",
+ "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+ "command": "uv run python scripts/roundtrip_replay.py reaudit_a_3bot",
+ "thresholds": {
+  "lt100m": 0.9,
+  "ge100m": 0.6
+ },
+ "min_trials": 9,
+ "results": {
+  "fr:vis": {
+   "lang": "fr",
+   "form": "vis",
+   "status": "pass",
+   "exact": 8,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 24,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Vis the accident yourself, didn't you?.": {
+     "source": "You saw the accident yourself, didn't you?.",
+     "response": "You saw the accident yourself, didn't you?",
+     "restored": true,
+     "matched_source": "You saw the accident yourself, didn't you?.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe vis the accident yourself, didn't you? today.": {
+     "source": "Maybe you saw the accident yourself, didn't you? today.",
+     "response": "Maybe you saw the accident yourself today, didn't you?",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "She told me that vis the accident yourself, didn't you?.": {
+     "source": "She told me that you saw the accident yourself, didn't you?.",
+     "response": "She told me that you saw the accident yourself, didn't you?",
+     "restored": true,
+     "matched_source": "She told me that you saw the accident yourself, didn't you?.",
+     "meaning_match_ref": "same"
+    },
+    "Where were you when vis the fire?.": {
+     "source": "Where were you when you saw the fire?.",
+     "response": "Where were you when you saw the fire?",
+     "restored": true,
+     "matched_source": "Where were you when you saw the fire?.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe where were you when vis the fire? today.": {
+     "source": "Maybe where were you when you saw the fire? today.",
+     "response": "Maybe where were you when you saw the fire? today.",
+     "restored": true,
+     "matched_source": "Maybe where were you when you saw the fire? today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that where were you when vis the fire?.": {
+     "source": "She told me that where were you when you saw the fire?.",
+     "response": "She told me that where were you when you saw the fire?",
+     "restored": true,
+     "matched_source": "She told me that where were you when you saw the fire?.",
+     "meaning_match_ref": "same"
+    },
+    "You told me vis her at the station.": {
+     "source": "You told me you saw her at the station.",
+     "response": "You told me you saw her at the station.",
+     "restored": true,
+     "matched_source": "You told me you saw her at the station.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe you told me vis her at the station today.": {
+     "source": "Maybe you told me you saw her at the station today.",
+     "response": "Maybe you told me you saw her at the station today.",
+     "restored": true,
+     "matched_source": "Maybe you told me you saw her at the station today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that you told me vis her at the station.": {
+     "source": "She told me that you told me you saw her at the station.",
+     "response": "She told me that you told me you saw her at the station.",
+     "restored": true,
+     "matched_source": "She told me that you told me you saw her at the station.",
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "fr:vins": {
+   "lang": "fr",
+   "form": "vins",
+   "status": "pass",
+   "exact": 7,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 21,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Vins too late, so you missed the speech.": {
+     "source": "You came too late, so you missed the speech.",
+     "response": "You came too late, so you missed the speech.",
+     "restored": true,
+     "matched_source": "You came too late, so you missed the speech.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe vins too late, so you missed the speech today.": {
+     "source": "Maybe you came too late, so you missed the speech today.",
+     "response": "Maybe you came too late, so you missed the speech today.",
+     "restored": true,
+     "matched_source": "Maybe you came too late, so you missed the speech today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that vins too late, so you missed the speech.": {
+     "source": "She told me that you came too late, so you missed the speech.",
+     "response": "She told me that you came too late, so you missed the speech.",
+     "restored": true,
+     "matched_source": "She told me that you came too late, so you missed the speech.",
+     "meaning_match_ref": "same"
+    },
+    "You said vins by train last week.": {
+     "source": "You said you came by train last week.",
+     "response": "You said you came by train last week.",
+     "restored": true,
+     "matched_source": "You said you came by train last week.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe you said vins by train last week today.": {
+     "source": "Maybe you said you came by train last week today.",
+     "response": "Maybe you said you came by train last week today.",
+     "restored": true,
+     "matched_source": "Maybe you said you came by train last week today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that you said vins by train last week.": {
+     "source": "She told me that you said you came by train last week.",
+     "response": "She told me that you said you came by train last week.",
+     "restored": true,
+     "matched_source": "She told me that you said you came by train last week.",
+     "meaning_match_ref": "same"
+    },
+    "Why vins alone, without your sister?.": {
+     "source": "Why you came alone, without your sister?.",
+     "response": "Why did you come alone, without your sister?",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "Maybe why vins alone, without your sister? today.": {
+     "source": "Maybe why you came alone, without your sister? today.",
+     "response": "Maybe why you came alone, without your sister? today.",
+     "restored": true,
+     "matched_source": "Maybe why you came alone, without your sister? today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that why vins alone, without your sister?.": {
+     "source": "She told me that why you came alone, without your sister?.",
+     "response": "She told me, \"Why did you come alone, without your sister?\"",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "fr:sus": {
+   "lang": "fr",
+   "form": "sus",
+   "status": "pass",
+   "exact": 6,
+   "meaning_same": 6,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 18,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Sus the answer before anyone else, and you said nothing.": {
+     "source": "You knew the answer before anyone else, and you said nothing.",
+     "response": "You knew the answer before anyone else, and you said nothing.",
+     "restored": true,
+     "matched_source": "You knew the answer before anyone else, and you said nothing.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe sus the answer before anyone else, and you said nothing today.": {
+     "source": "Maybe you knew the answer before anyone else, and you said nothing today.",
+     "response": "Maybe you knew the answer before anyone else, and you said nothing today.",
+     "restored": true,
+     "matched_source": "Maybe you knew the answer before anyone else, and you said nothing today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that sus the answer before anyone else, and you said nothing.": {
+     "source": "She told me that you knew the answer before anyone else, and you said nothing.",
+     "response": "She told me that you knew the answer before anyone else, and you said nothing.",
+     "restored": true,
+     "matched_source": "She told me that you knew the answer before anyone else, and you said nothing.",
+     "meaning_match_ref": "same"
+    },
+    "When sus the truth, you called me.": {
+     "source": "When you knew the truth, you called me.",
+     "response": "When you suspected the truth, you called me.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    },
+    "Maybe when sus the truth, you called me today.": {
+     "source": "Maybe when you knew the truth, you called me today.",
+     "response": "Maybe when you knew the truth, you called me today.",
+     "restored": true,
+     "matched_source": "Maybe when you knew the truth, you called me today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that when sus the truth, you called me.": {
+     "source": "She told me that when you knew the truth, you called me.",
+     "response": "She told me that when you knew the truth, you called me.",
+     "restored": true,
+     "matched_source": "She told me that when you knew the truth, you called me.",
+     "meaning_match_ref": "same"
+    },
+    "You admitted sus it all along.": {
+     "source": "You admitted you knew it all along.",
+     "response": "You admitted you suspected it all along.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    },
+    "Maybe you admitted sus it all along today.": {
+     "source": "Maybe you admitted you knew it all along today.",
+     "response": "Maybe you admitted you suspected it all along today.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    },
+    "She told me that you admitted sus it all along.": {
+     "source": "She told me that you admitted you knew it all along.",
+     "response": "She told me that you admitted you knew it all along.",
+     "restored": true,
+     "matched_source": "She told me that you admitted you knew it all along.",
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "fr:voulus": {
+   "lang": "fr",
+   "form": "voulus",
+   "status": "pass",
+   "exact": 9,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 27,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Voulus to leave early, so you asked the boss.": {
+     "source": "You wanted to leave early, so you asked the boss.",
+     "response": "You wanted to leave early, so you asked the boss.",
+     "restored": true,
+     "matched_source": "You wanted to leave early, so you asked the boss.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe voulus to leave early, so you asked the boss today.": {
+     "source": "Maybe you wanted to leave early, so you asked the boss today.",
+     "response": "Maybe you wanted to leave early, so you asked the boss today.",
+     "restored": true,
+     "matched_source": "Maybe you wanted to leave early, so you asked the boss today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that voulus to leave early, so you asked the boss.": {
+     "source": "She told me that you wanted to leave early, so you asked the boss.",
+     "response": "She told me that you wanted to leave early, so you asked the boss.",
+     "restored": true,
+     "matched_source": "She told me that you wanted to leave early, so you asked the boss.",
+     "meaning_match_ref": "same"
+    },
+    "You said voulus a bigger room.": {
+     "source": "You said you wanted a bigger room.",
+     "response": "You said you wanted a bigger room.",
+     "restored": true,
+     "matched_source": "You said you wanted a bigger room.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe you said voulus a bigger room today.": {
+     "source": "Maybe you said you wanted a bigger room today.",
+     "response": "Maybe you said you wanted a bigger room today.",
+     "restored": true,
+     "matched_source": "Maybe you said you wanted a bigger room today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that you said voulus a bigger room.": {
+     "source": "She told me that you said you wanted a bigger room.",
+     "response": "She told me that you said you wanted a bigger room.",
+     "restored": true,
+     "matched_source": "She told me that you said you wanted a bigger room.",
+     "meaning_match_ref": "same"
+    },
+    "When voulus to quit, you told no one.": {
+     "source": "When you wanted to quit, you told no one.",
+     "response": "When you wanted to quit, you told no one.",
+     "restored": true,
+     "matched_source": "When you wanted to quit, you told no one.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe when voulus to quit, you told no one today.": {
+     "source": "Maybe when you wanted to quit, you told no one today.",
+     "response": "Maybe when you wanted to quit, you told no one today.",
+     "restored": true,
+     "matched_source": "Maybe when you wanted to quit, you told no one today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that when voulus to quit, you told no one.": {
+     "source": "She told me that when you wanted to quit, you told no one.",
+     "response": "She told me that when you wanted to quit, you told no one.",
+     "restored": true,
+     "matched_source": "She told me that when you wanted to quit, you told no one.",
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "fr:prends": {
+   "lang": "fr",
+   "form": "prends",
+   "status": "pass",
+   "exact": 6,
+   "meaning_same": 6,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 18,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Prends the bus every day, don't you?.": {
+     "source": "You take the bus every day, don't you?.",
+     "response": "You take the bus every day, don't you?",
+     "restored": true,
+     "matched_source": "You take the bus every day, don't you?.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe prends the bus every day, don't you? today.": {
+     "source": "Maybe you take the bus every day, don't you? today.",
+     "response": "Maybe you take the bus every day, don't you? today.",
+     "restored": true,
+     "matched_source": "Maybe you take the bus every day, don't you? today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that prends the bus every day, don't you?.": {
+     "source": "She told me that you take the bus every day, don't you?.",
+     "response": "She told me that you take the bus every day, don't you?",
+     "restored": true,
+     "matched_source": "She told me that you take the bus every day, don't you?.",
+     "meaning_match_ref": "same"
+    },
+    "If prends the red one, I'll take the blue one.": {
+     "source": "If you take the red one, I'll take the blue one.",
+     "response": "If you take the red one, I'll take the blue one.",
+     "restored": true,
+     "matched_source": "If you take the red one, I'll take the blue one.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe if prends the red one, I'll take the blue one today.": {
+     "source": "Maybe if you take the red one, I'll take the blue one today.",
+     "response": "Maybe if you take the red one, I'll take the blue one today.",
+     "restored": true,
+     "matched_source": "Maybe if you take the red one, I'll take the blue one today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that if prends the red one, I'll take the blue one.": {
+     "source": "She told me that if you take the red one, I'll take the blue one.",
+     "response": "She told me that if you take the red one, I'll take the blue one.",
+     "restored": true,
+     "matched_source": "She told me that if you take the red one, I'll take the blue one.",
+     "meaning_match_ref": "same"
+    },
+    "You always say prends too long in the shower.": {
+     "source": "You always say you take too long in the shower.",
+     "response": "You always say I take too long in the shower.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    },
+    "Maybe you always say prends too long in the shower today.": {
+     "source": "Maybe you always say you take too long in the shower today.",
+     "response": "Maybe you always say I take too long in the shower today.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    },
+    "She told me that you always say prends too long in the shower.": {
+     "source": "She told me that you always say you take too long in the shower.",
+     "response": "She told me that you always say I take too long in the shower.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    }
+   }
+  },
+  "fr:avais su": {
+   "lang": "fr",
+   "form": "avais su",
+   "status": "pass",
+   "exact": 9,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 27,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Avais su it before you met him, you told me.": {
+     "source": "You had known it before you met him, you told me.",
+     "response": "You had known it before you met him, you told me.",
+     "restored": true,
+     "matched_source": "You had known it before you met him, you told me.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe avais su it before you met him, you told me today.": {
+     "source": "Maybe you had known it before you met him, you told me today.",
+     "response": "Maybe you had known it before you met him, you told me today.",
+     "restored": true,
+     "matched_source": "Maybe you had known it before you met him, you told me today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that avais su it before you met him, you told me.": {
+     "source": "She told me that you had known it before you met him, you told me.",
+     "response": "She told me that you had known it before you met him, you told me.",
+     "restored": true,
+     "matched_source": "She told me that you had known it before you met him, you told me.",
+     "meaning_match_ref": "same"
+    },
+    "If avais su the price, you would not have come.": {
+     "source": "If you had known the price, you would not have come.",
+     "response": "If you had known the price, you would not have come.",
+     "restored": true,
+     "matched_source": "If you had known the price, you would not have come.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe if avais su the price, you would not have come today.": {
+     "source": "Maybe if you had known the price, you would not have come today.",
+     "response": "Maybe if you had known the price, you would not have come today.",
+     "restored": true,
+     "matched_source": "Maybe if you had known the price, you would not have come today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that if avais su the price, you would not have come.": {
+     "source": "She told me that if you had known the price, you would not have come.",
+     "response": "She told me that if you had known the price, you would not have come.",
+     "restored": true,
+     "matched_source": "She told me that if you had known the price, you would not have come.",
+     "meaning_match_ref": "same"
+    },
+    "You admitted avais su the truth for weeks.": {
+     "source": "You admitted you had known the truth for weeks.",
+     "response": "You admitted you had known the truth for weeks.",
+     "restored": true,
+     "matched_source": "You admitted you had known the truth for weeks.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe you admitted avais su the truth for weeks today.": {
+     "source": "Maybe you admitted you had known the truth for weeks today.",
+     "response": "Maybe you admitted you had known the truth for weeks today.",
+     "restored": true,
+     "matched_source": "Maybe you admitted you had known the truth for weeks today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that you admitted avais su the truth for weeks.": {
+     "source": "She told me that you admitted you had known the truth for weeks.",
+     "response": "She told me that you admitted you had known the truth for weeks.",
+     "restored": true,
+     "matched_source": "She told me that you admitted you had known the truth for weeks.",
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "fr:ira": {
+   "lang": "fr",
+   "form": "ira",
+   "status": "pass",
+   "exact": 9,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 27,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "The parcel is ready; ira out with the morning post.": {
+     "source": "The parcel is ready; it will go out with the morning post.",
+     "response": "The parcel is ready; it will go out with the morning post.",
+     "restored": true,
+     "matched_source": "The parcel is ready; it will go out with the morning post.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe the parcel is ready; ira out with the morning post today.": {
+     "source": "Maybe the parcel is ready; it will go out with the morning post today.",
+     "response": "Maybe the parcel is ready; it will go out with the morning post today.",
+     "restored": true,
+     "matched_source": "Maybe the parcel is ready; it will go out with the morning post today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that the parcel is ready; ira out with the morning post.": {
+     "source": "She told me that the parcel is ready; it will go out with the morning post.",
+     "response": "She told me that the parcel is ready; it will go out with the morning post.",
+     "restored": true,
+     "matched_source": "She told me that the parcel is ready; it will go out with the morning post.",
+     "meaning_match_ref": "same"
+    },
+    "The old machine is broken, so ira to the dump.": {
+     "source": "The old machine is broken, so it will go to the dump.",
+     "response": "The old machine is broken, so it will go to the dump.",
+     "restored": true,
+     "matched_source": "The old machine is broken, so it will go to the dump.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe the old machine is broken, so ira to the dump today.": {
+     "source": "Maybe the old machine is broken, so it will go to the dump today.",
+     "response": "Maybe the old machine is broken, so it will go to the dump today.",
+     "restored": true,
+     "matched_source": "Maybe the old machine is broken, so it will go to the dump today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that the old machine is broken, so ira to the dump.": {
+     "source": "She told me that the old machine is broken, so it will go to the dump.",
+     "response": "She told me that the old machine is broken, so it will go to the dump.",
+     "restored": true,
+     "matched_source": "She told me that the old machine is broken, so it will go to the dump.",
+     "meaning_match_ref": "same"
+    },
+    "The meeting room is booked, but ira unused if nobody comes.": {
+     "source": "The meeting room is booked, but it will go unused if nobody comes.",
+     "response": "The meeting room is booked, but it will go unused if nobody comes.",
+     "restored": true,
+     "matched_source": "The meeting room is booked, but it will go unused if nobody comes.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe the meeting room is booked, but ira unused if nobody comes today.": {
+     "source": "Maybe the meeting room is booked, but it will go unused if nobody comes today.",
+     "response": "Maybe the meeting room is booked, but it will go unused if nobody comes today.",
+     "restored": true,
+     "matched_source": "Maybe the meeting room is booked, but it will go unused if nobody comes today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that the meeting room is booked, but ira unused if nobody comes.": {
+     "source": "She told me that the meeting room is booked, but it will go unused if nobody comes.",
+     "response": "She told me that the meeting room is booked, but it will go unused if nobody comes.",
+     "restored": true,
+     "matched_source": "She told me that the meeting room is booked, but it will go unused if nobody comes.",
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "fr:arrivé": {
+   "lang": "fr",
+   "form": "arrivé",
+   "status": "pass",
+   "exact": 6,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 18,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "I was the first one: arrivé at eight and opened the doors.": {
+     "source": "I was the first one: I arrived at eight and opened the doors.",
+     "response": "I was the first one: I arrived at eight and opened the doors.",
+     "restored": true,
+     "matched_source": "I was the first one: I arrived at eight and opened the doors.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe I was the first one: arrivé at eight and opened the doors today.": {
+     "source": "Maybe I was the first one: I arrived at eight and opened the doors today.",
+     "response": "Maybe I was the first one: I arrived at eight and opened the doors today.",
+     "restored": true,
+     "matched_source": "Maybe I was the first one: I arrived at eight and opened the doors today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that I was the first one: arrivé at eight and opened the doors.": {
+     "source": "She told me that I was the first one: I arrived at eight and opened the doors.",
+     "response": "She told me that I was the first one: I arrived at eight and opened the doors.",
+     "restored": true,
+     "matched_source": "She told me that I was the first one: I arrived at eight and opened the doors.",
+     "meaning_match_ref": "same"
+    },
+    "When arrivé at the hotel, my room was not ready.": {
+     "source": "When I arrived at the hotel, my room was not ready.",
+     "response": "When I arrived at the hotel, my room was not ready.",
+     "restored": true,
+     "matched_source": "When I arrived at the hotel, my room was not ready.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe when arrivé at the hotel, my room was not ready today.": {
+     "source": "Maybe when I arrived at the hotel, my room was not ready today.",
+     "response": "Maybe when I arrived at the hotel, my room was not ready today.",
+     "restored": true,
+     "matched_source": "Maybe when I arrived at the hotel, my room was not ready today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that when arrivé at the hotel, my room was not ready.": {
+     "source": "She told me that when I arrived at the hotel, my room was not ready.",
+     "response": "She told me that when I arrived at the hotel, my room was not ready.",
+     "restored": true,
+     "matched_source": "She told me that when I arrived at the hotel, my room was not ready.",
+     "meaning_match_ref": "same"
+    },
+    "I was so tired after arrivé home late.": {
+     "source": "I was so tired after I arrived home late.",
+     "response": "I was so tired after arriving home late.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "Maybe I was so tired after arrivé home late today.": {
+     "source": "Maybe I was so tired after I arrived home late today.",
+     "response": "Maybe I was so tired after arriving home late today.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "She told me that I was so tired after arrivé home late.": {
+     "source": "She told me that I was so tired after I arrived home late.",
+     "response": "She told me that I was so tired after arriving home late.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "pt:virá": {
+   "lang": "pt",
+   "form": "virá",
+   "status": "pass",
+   "exact": 9,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 27,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "The package is late, but virá tomorrow.": {
+     "source": "The package is late, but it will come tomorrow.",
+     "response": "The package is late, but it will come tomorrow.",
+     "restored": true,
+     "matched_source": "The package is late, but it will come tomorrow.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe the package is late, but virá tomorrow today.": {
+     "source": "Maybe the package is late, but it will come tomorrow today.",
+     "response": "Maybe the package is late, but it will come tomorrow today.",
+     "restored": true,
+     "matched_source": "Maybe the package is late, but it will come tomorrow today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that the package is late, but virá tomorrow.": {
+     "source": "She told me that the package is late, but it will come tomorrow.",
+     "response": "She told me that the package is late, but it will come tomorrow.",
+     "restored": true,
+     "matched_source": "She told me that the package is late, but it will come tomorrow.",
+     "meaning_match_ref": "same"
+    },
+    "The rain stopped, but forecasters say virá back tonight.": {
+     "source": "The rain stopped, but forecasters say it will come back tonight.",
+     "response": "The rain stopped, but forecasters say it will come back tonight.",
+     "restored": true,
+     "matched_source": "The rain stopped, but forecasters say it will come back tonight.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe the rain stopped, but forecasters say virá back tonight today.": {
+     "source": "Maybe the rain stopped, but forecasters say it will come back tonight today.",
+     "response": "Maybe the rain stopped, but forecasters say it will come back tonight today.",
+     "restored": true,
+     "matched_source": "Maybe the rain stopped, but forecasters say it will come back tonight today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that the rain stopped, but forecasters say virá back tonight.": {
+     "source": "She told me that the rain stopped, but forecasters say it will come back tonight.",
+     "response": "She told me that the rain stopped, but forecasters say it will come back tonight.",
+     "restored": true,
+     "matched_source": "She told me that the rain stopped, but forecasters say it will come back tonight.",
+     "meaning_match_ref": "same"
+    },
+    "The bill is due; virá in the mail on Monday.": {
+     "source": "The bill is due; it will come in the mail on Monday.",
+     "response": "The bill is due; it will come in the mail on Monday.",
+     "restored": true,
+     "matched_source": "The bill is due; it will come in the mail on Monday.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe the bill is due; virá in the mail on Monday today.": {
+     "source": "Maybe the bill is due; it will come in the mail on Monday today.",
+     "response": "Maybe the bill is due; it will come in the mail on Monday today.",
+     "restored": true,
+     "matched_source": "Maybe the bill is due; it will come in the mail on Monday today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that the bill is due; virá in the mail on Monday.": {
+     "source": "She told me that the bill is due; it will come in the mail on Monday.",
+     "response": "She told me that the bill is due; it will come in the mail on Monday.",
+     "restored": true,
+     "matched_source": "She told me that the bill is due; it will come in the mail on Monday.",
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "pt:essayé": {
+   "lang": "pt",
+   "form": "essayé",
+   "status": "pass",
+   "exact": 6,
+   "meaning_same": 7,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 18,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Don't blame me, essayé three times before giving up.": {
+     "source": "Don't blame me, I tried three times before giving up.",
+     "response": "Don't blame me, I tried three times before giving up.",
+     "restored": true,
+     "matched_source": "Don't blame me, I tried three times before giving up.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe don't blame me, essayé three times before giving up today.": {
+     "source": "Maybe don't blame me, I tried three times before giving up today.",
+     "response": "Maybe don't blame me, I tried three times before giving up today.",
+     "restored": true,
+     "matched_source": "Maybe don't blame me, I tried three times before giving up today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that don't blame me, essayé three times before giving up.": {
+     "source": "She told me that don't blame me, I tried three times before giving up.",
+     "response": "She told me not to blame her, she tried three times before giving up.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "Essayé the soup myself and it was too salty.": {
+     "source": "I tried the soup myself and it was too salty.",
+     "response": "I tried the soup myself and it was too salty.",
+     "restored": true,
+     "matched_source": "I tried the soup myself and it was too salty.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe essayé the soup myself and it was too salty today.": {
+     "source": "Maybe I tried the soup myself and it was too salty today.",
+     "response": "I tried the soup myself and it was too salty today.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    },
+    "She told me that essayé the soup myself and it was too salty.": {
+     "source": "She told me that I tried the soup myself and it was too salty.",
+     "response": "She told me that I tried the soup myself and it was too salty.",
+     "restored": true,
+     "matched_source": "She told me that I tried the soup myself and it was too salty.",
+     "meaning_match_ref": "same"
+    },
+    "Yesterday essayé to call you but the line was busy.": {
+     "source": "Yesterday I tried to call you but the line was busy.",
+     "response": "Yesterday I tried to call you but the line was busy.",
+     "restored": true,
+     "matched_source": "Yesterday I tried to call you but the line was busy.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe yesterday essayé to call you but the line was busy today.": {
+     "source": "Maybe yesterday I tried to call you but the line was busy today.",
+     "response": "Maybe yesterday I tried to call you but the line was busy today.",
+     "restored": true,
+     "matched_source": "Maybe yesterday I tried to call you but the line was busy today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that yesterday essayé to call you but the line was busy.": {
+     "source": "She told me that yesterday I tried to call you but the line was busy.",
+     "response": "She told me that yesterday she tried to call you but the line was busy.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    }
+   }
+  },
+  "pt:farei": {
+   "lang": "pt",
+   "form": "farei",
+   "status": "fail",
+   "exact": 4,
+   "meaning_same": 8,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 12,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "The report is not finished, but farei tonight.": {
+     "source": "The report is not finished, but I will do it tonight.",
+     "response": "The report is not finished, but I will do it tonight.",
+     "restored": true,
+     "matched_source": "The report is not finished, but I will do it tonight.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe the report is not finished, but farei tonight today.": {
+     "source": "Maybe the report is not finished, but I will do it tonight today.",
+     "response": "Maybe the report is not finished, but I will do it tonight.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "different"
+    },
+    "She told me that the report is not finished, but farei tonight.": {
+     "source": "She told me that the report is not finished, but I will do it tonight.",
+     "response": "She told me that the report is not finished, but I will do it tonight.",
+     "restored": true,
+     "matched_source": "She told me that the report is not finished, but I will do it tonight.",
+     "meaning_match_ref": "same"
+    },
+    "Don't worry about the dishes, farei after dinner.": {
+     "source": "Don't worry about the dishes, I will do it after dinner.",
+     "response": "Don't worry about the dishes, I'll do them after dinner.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "Maybe don't worry about the dishes, farei after dinner today.": {
+     "source": "Maybe don't worry about the dishes, I will do it after dinner today.",
+     "response": "Maybe don't worry about the dishes, I'll do them after dinner today.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "She told me that don't worry about the dishes, farei after dinner.": {
+     "source": "She told me that don't worry about the dishes, I will do it after dinner.",
+     "response": "She told me not to worry about the dishes, she would do them after dinner.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "If nobody wants that job, farei myself.": {
+     "source": "If nobody wants that job, I will do it myself.",
+     "response": "If nobody wants that job, I'll do it myself.",
+     "restored": true,
+     "matched_source": "If nobody wants that job, I'll do it myself.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe if nobody wants that job, farei myself today.": {
+     "source": "Maybe if nobody wants that job, I will do it myself today.",
+     "response": "Maybe if nobody wants that job, I will do it myself today.",
+     "restored": true,
+     "matched_source": "Maybe if nobody wants that job, I will do it myself today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that if nobody wants that job, farei myself.": {
+     "source": "She told me that if nobody wants that job, I will do it myself.",
+     "response": "She told me that if nobody wants that job, she would do it herself.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "es:pensamos": {
+   "lang": "es",
+   "form": "pensamos",
+   "status": "pass",
+   "exact": 9,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 27,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Yesterday pensamos it would rain, but it didn't.": {
+     "source": "Yesterday we thought it would rain, but it didn't.",
+     "response": "Yesterday we thought it would rain, but it didn't.",
+     "restored": true,
+     "matched_source": "Yesterday we thought it would rain, but it didn't.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe yesterday pensamos it would rain, but it didn't today.": {
+     "source": "Maybe yesterday we thought it would rain, but it didn't today.",
+     "response": "Maybe yesterday we thought it would rain, but it didn't today.",
+     "restored": true,
+     "matched_source": "Maybe yesterday we thought it would rain, but it didn't today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that yesterday pensamos it would rain, but it didn't.": {
+     "source": "She told me that yesterday we thought it would rain, but it didn't.",
+     "response": "She told me that yesterday we thought it would rain, but it didn't.",
+     "restored": true,
+     "matched_source": "She told me that yesterday we thought it would rain, but it didn't.",
+     "meaning_match_ref": "same"
+    },
+    "Last year pensamos about moving to Lisbon.": {
+     "source": "Last year we thought about moving to Lisbon.",
+     "response": "Last year we thought about moving to Lisbon.",
+     "restored": true,
+     "matched_source": "Last year we thought about moving to Lisbon.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe last year pensamos about moving to Lisbon today.": {
+     "source": "Maybe last year we thought about moving to Lisbon today.",
+     "response": "Maybe last year we thought about moving to Lisbon today.",
+     "restored": true,
+     "matched_source": "Maybe last year we thought about moving to Lisbon today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that last year pensamos about moving to Lisbon.": {
+     "source": "She told me that last year we thought about moving to Lisbon.",
+     "response": "She told me that last year we thought about moving to Lisbon.",
+     "restored": true,
+     "matched_source": "She told me that last year we thought about moving to Lisbon.",
+     "meaning_match_ref": "same"
+    },
+    "At first pensamos the shop was closed.": {
+     "source": "At first we thought the shop was closed.",
+     "response": "At first we thought the shop was closed.",
+     "restored": true,
+     "matched_source": "At first we thought the shop was closed.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe at first pensamos the shop was closed today.": {
+     "source": "Maybe at first we thought the shop was closed today.",
+     "response": "Maybe at first we thought the shop was closed today.",
+     "restored": true,
+     "matched_source": "Maybe at first we thought the shop was closed today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that at first pensamos the shop was closed.": {
+     "source": "She told me that at first we thought the shop was closed.",
+     "response": "She told me that at first we thought the shop was closed.",
+     "restored": true,
+     "matched_source": "She told me that at first we thought the shop was closed.",
+     "meaning_match_ref": "same"
+    }
+   }
+  },
+  "zh:几点": {
+   "lang": "zh",
+   "form": "几点",
+   "status": "fail",
+   "exact": 4,
+   "meaning_same": 9,
+   "sentences": 9,
+   "completed": 27,
+   "restored": 12,
+   "complete": true,
+   "gate_visible": false,
+   "targets": {
+    "Excuse me, 几点? My phone died.": {
+     "source": "Excuse me, what time is it? My phone died.",
+     "response": "Excuse me, what time is it? My phone died.",
+     "restored": true,
+     "matched_source": "Excuse me, what time is it? My phone died.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe excuse me, 几点? My phone died today.": {
+     "source": "Maybe excuse me, what time is it? My phone died today.",
+     "response": "Maybe excuse me, what time is it? My phone died today.",
+     "restored": true,
+     "matched_source": "Maybe excuse me, what time is it? My phone died today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that excuse me, 几点? My phone died.": {
+     "source": "She told me that excuse me, what time is it? My phone died.",
+     "response": "She told me, \"Excuse me, what time is it? My phone died.\"",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "几点 now? I need to leave by six.": {
+     "source": "What time is it now? I need to leave by six.",
+     "response": "What time is it now? I need to leave by six.",
+     "restored": true,
+     "matched_source": "What time is it now? I need to leave by six.",
+     "meaning_match_ref": "same"
+    },
+    "Maybe 几点 now? I need to leave by six today.": {
+     "source": "Maybe what time is it now? I need to leave by six today.",
+     "response": "Maybe what time is it now? I need to leave by six today.",
+     "restored": true,
+     "matched_source": "Maybe what time is it now? I need to leave by six today.",
+     "meaning_match_ref": "same"
+    },
+    "She told me that 几点 now? I need to leave by six.": {
+     "source": "She told me that what time is it now? I need to leave by six.",
+     "response": "She asked me what time it is now. I need to leave by six.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "Can you check 几点? The meeting starts soon.": {
+     "source": "Can you check what time is it? The meeting starts soon.",
+     "response": "Can you check what time it is? The meeting starts soon.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "Maybe can you check 几点? The meeting starts soon today.": {
+     "source": "Maybe can you check what time is it? The meeting starts soon today.",
+     "response": "Maybe you can check what time it is? The meeting starts soon today.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    },
+    "She told me that can you check 几点? The meeting starts soon.": {
+     "source": "She told me that can you check what time is it? The meeting starts soon.",
+     "response": "She asked me to check what time it is because the meeting starts soon.",
+     "restored": false,
+     "matched_source": null,
+     "meaning_match_ref": "same"
+    }
+   }
+  }
+ }
+}

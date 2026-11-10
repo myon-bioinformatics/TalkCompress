@@ -1,0 +1,603 @@
+{
+ "kind": "reference_only_meaning_match",
+ "gating": false,
+ "judge": "NOT independent: judged by the executor bot that built the sentences and had read the key (expected English); no separate meaning-judge call was made. Rule: same unless a participant/doer, the verb meaning, or a template word (Maybe/today) changes; reported-speech rewording (She told me not to..., She asked me...) counts as same.",
+ "pairs_sha256": "d7dfb0b4ad1737cc4b7c8bd10c76f7ef66136fdd76e88fe3009513dbf7037405",
+ "answers_sha256": "b2a5a42416c3d756f35d2442c3ff17a934a27a7d57322863bf1f7044179c0c43",
+ "by_converted": {
+  "Maybe you admitted avais su the truth for weeks today.": {
+   "expected": "Maybe you admitted you had known the truth for weeks today.",
+   "response": "Maybe you admitted you had known the truth for weeks today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the package is late, but virá tomorrow today.": {
+   "expected": "Maybe the package is late, but it will come tomorrow today.",
+   "response": "Maybe the package is late, but it will come tomorrow today.",
+   "meaning_match_ref": "same"
+  },
+  "At first pensamos the shop was closed.": {
+   "expected": "At first we thought the shop was closed.",
+   "response": "At first we thought the shop was closed.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the report is not finished, but farei tonight.": {
+   "expected": "She told me that the report is not finished, but I will do it tonight.",
+   "response": "She told me that the report is not finished, but I will do it tonight.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe prends the bus every day, don't you? today.": {
+   "expected": "Maybe you take the bus every day, don't you? today.",
+   "response": "Maybe you take the bus every day, don't you? today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the meeting room is booked, but ira unused if nobody comes today.": {
+   "expected": "Maybe the meeting room is booked, but it will go unused if nobody comes today.",
+   "response": "Maybe the meeting room is booked, but it will go unused if nobody comes today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe if avais su the price, you would not have come today.": {
+   "expected": "Maybe if you had known the price, you would not have come today.",
+   "response": "Maybe if you had known the price, you would not have come today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that yesterday essayé to call you but the line was busy.": {
+   "expected": "She told me that yesterday I tried to call you but the line was busy.",
+   "response": "She told me that yesterday she tried to call you but the line was busy.",
+   "meaning_match_ref": "different",
+   "note": "I tried -> she tried (doer changed)"
+  },
+  "Don't blame me, essayé three times before giving up.": {
+   "expected": "Don't blame me, I tried three times before giving up.",
+   "response": "Don't blame me, I tried three times before giving up.",
+   "meaning_match_ref": "same"
+  },
+  "You said voulus a bigger room.": {
+   "expected": "You said you wanted a bigger room.",
+   "response": "You said you wanted a bigger room.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe vins too late, so you missed the speech today.": {
+   "expected": "Maybe you came too late, so you missed the speech today.",
+   "response": "Maybe you came too late, so you missed the speech today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that avais su it before you met him, you told me.": {
+   "expected": "She told me that you had known it before you met him, you told me.",
+   "response": "She told me that you had known it before you met him, you told me.",
+   "meaning_match_ref": "same"
+  },
+  "You admitted avais su the truth for weeks.": {
+   "expected": "You admitted you had known the truth for weeks.",
+   "response": "You admitted you had known the truth for weeks.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe avais su it before you met him, you told me today.": {
+   "expected": "Maybe you had known it before you met him, you told me today.",
+   "response": "Maybe you had known it before you met him, you told me today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe you admitted sus it all along today.": {
+   "expected": "Maybe you admitted you knew it all along today.",
+   "response": "Maybe you admitted you suspected it all along today.",
+   "meaning_match_ref": "different",
+   "note": "knew -> suspected"
+  },
+  "She told me that excuse me, 几点? My phone died.": {
+   "expected": "She told me that excuse me, what time is it? My phone died.",
+   "response": "She told me, \"Excuse me, what time is it? My phone died.\"",
+   "meaning_match_ref": "same"
+  },
+  "She told me that yesterday pensamos it would rain, but it didn't.": {
+   "expected": "She told me that yesterday we thought it would rain, but it didn't.",
+   "response": "She told me that yesterday we thought it would rain, but it didn't.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that you told me vis her at the station.": {
+   "expected": "She told me that you told me you saw her at the station.",
+   "response": "She told me that you told me you saw her at the station.",
+   "meaning_match_ref": "same"
+  },
+  "If avais su the price, you would not have come.": {
+   "expected": "If you had known the price, you would not have come.",
+   "response": "If you had known the price, you would not have come.",
+   "meaning_match_ref": "same"
+  },
+  "The meeting room is booked, but ira unused if nobody comes.": {
+   "expected": "The meeting room is booked, but it will go unused if nobody comes.",
+   "response": "The meeting room is booked, but it will go unused if nobody comes.",
+   "meaning_match_ref": "same"
+  },
+  "Essayé the soup myself and it was too salty.": {
+   "expected": "I tried the soup myself and it was too salty.",
+   "response": "I tried the soup myself and it was too salty.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the report is not finished, but farei tonight today.": {
+   "expected": "Maybe the report is not finished, but I will do it tonight today.",
+   "response": "Maybe the report is not finished, but I will do it tonight.",
+   "meaning_match_ref": "different",
+   "note": "today dropped"
+  },
+  "Maybe 几点 now? I need to leave by six today.": {
+   "expected": "Maybe what time is it now? I need to leave by six today.",
+   "response": "Maybe what time is it now? I need to leave by six today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the meeting room is booked, but ira unused if nobody comes.": {
+   "expected": "She told me that the meeting room is booked, but it will go unused if nobody comes.",
+   "response": "She told me that the meeting room is booked, but it will go unused if nobody comes.",
+   "meaning_match_ref": "same"
+  },
+  "几点 now? I need to leave by six.": {
+   "expected": "What time is it now? I need to leave by six.",
+   "response": "What time is it now? I need to leave by six.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe yesterday essayé to call you but the line was busy today.": {
+   "expected": "Maybe yesterday I tried to call you but the line was busy today.",
+   "response": "Maybe yesterday I tried to call you but the line was busy today.",
+   "meaning_match_ref": "same"
+  },
+  "Why vins alone, without your sister?.": {
+   "expected": "Why you came alone, without your sister?.",
+   "response": "Why did you come alone, without your sister?",
+   "meaning_match_ref": "same"
+  },
+  "She told me that if nobody wants that job, farei myself.": {
+   "expected": "She told me that if nobody wants that job, I will do it myself.",
+   "response": "She told me that if nobody wants that job, she would do it herself.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that you said vins by train last week.": {
+   "expected": "She told me that you said you came by train last week.",
+   "response": "She told me that you said you came by train last week.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the bill is due; virá in the mail on Monday today.": {
+   "expected": "Maybe the bill is due; it will come in the mail on Monday today.",
+   "response": "Maybe the bill is due; it will come in the mail on Monday today.",
+   "meaning_match_ref": "same"
+  },
+  "If nobody wants that job, farei myself.": {
+   "expected": "If nobody wants that job, I will do it myself.",
+   "response": "If nobody wants that job, I'll do it myself.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the rain stopped, but forecasters say virá back tonight.": {
+   "expected": "She told me that the rain stopped, but forecasters say it will come back tonight.",
+   "response": "She told me that the rain stopped, but forecasters say it will come back tonight.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that vins too late, so you missed the speech.": {
+   "expected": "She told me that you came too late, so you missed the speech.",
+   "response": "She told me that you came too late, so you missed the speech.",
+   "meaning_match_ref": "same"
+  },
+  "You always say prends too long in the shower.": {
+   "expected": "You always say you take too long in the shower.",
+   "response": "You always say I take too long in the shower.",
+   "meaning_match_ref": "different",
+   "note": "subject changed (you take -> I take)"
+  },
+  "Don't worry about the dishes, farei after dinner.": {
+   "expected": "Don't worry about the dishes, I will do it after dinner.",
+   "response": "Don't worry about the dishes, I'll do them after dinner.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe voulus to leave early, so you asked the boss today.": {
+   "expected": "Maybe you wanted to leave early, so you asked the boss today.",
+   "response": "Maybe you wanted to leave early, so you asked the boss today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that when voulus to quit, you told no one.": {
+   "expected": "She told me that when you wanted to quit, you told no one.",
+   "response": "She told me that when you wanted to quit, you told no one.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that you said voulus a bigger room.": {
+   "expected": "She told me that you said you wanted a bigger room.",
+   "response": "She told me that you said you wanted a bigger room.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe you said vins by train last week today.": {
+   "expected": "Maybe you said you came by train last week today.",
+   "response": "Maybe you said you came by train last week today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the parcel is ready; ira out with the morning post.": {
+   "expected": "She told me that the parcel is ready; it will go out with the morning post.",
+   "response": "She told me that the parcel is ready; it will go out with the morning post.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the old machine is broken, so ira to the dump today.": {
+   "expected": "Maybe the old machine is broken, so it will go to the dump today.",
+   "response": "Maybe the old machine is broken, so it will go to the dump today.",
+   "meaning_match_ref": "same"
+  },
+  "The old machine is broken, so ira to the dump.": {
+   "expected": "The old machine is broken, so it will go to the dump.",
+   "response": "The old machine is broken, so it will go to the dump.",
+   "meaning_match_ref": "same"
+  },
+  "Avais su it before you met him, you told me.": {
+   "expected": "You had known it before you met him, you told me.",
+   "response": "You had known it before you met him, you told me.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe vis the accident yourself, didn't you? today.": {
+   "expected": "Maybe you saw the accident yourself, didn't you? today.",
+   "response": "Maybe you saw the accident yourself today, didn't you?",
+   "meaning_match_ref": "same"
+  },
+  "Maybe why vins alone, without your sister? today.": {
+   "expected": "Maybe why you came alone, without your sister? today.",
+   "response": "Maybe why you came alone, without your sister? today.",
+   "meaning_match_ref": "same"
+  },
+  "You admitted sus it all along.": {
+   "expected": "You admitted you knew it all along.",
+   "response": "You admitted you suspected it all along.",
+   "meaning_match_ref": "different",
+   "note": "knew -> suspected"
+  },
+  "Maybe when arrivé at the hotel, my room was not ready today.": {
+   "expected": "Maybe when I arrived at the hotel, my room was not ready today.",
+   "response": "Maybe when I arrived at the hotel, my room was not ready today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe don't worry about the dishes, farei after dinner today.": {
+   "expected": "Maybe don't worry about the dishes, I will do it after dinner today.",
+   "response": "Maybe don't worry about the dishes, I'll do them after dinner today.",
+   "meaning_match_ref": "same"
+  },
+  "Yesterday pensamos it would rain, but it didn't.": {
+   "expected": "Yesterday we thought it would rain, but it didn't.",
+   "response": "Yesterday we thought it would rain, but it didn't.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that you admitted sus it all along.": {
+   "expected": "She told me that you admitted you knew it all along.",
+   "response": "She told me that you admitted you knew it all along.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that sus the answer before anyone else, and you said nothing.": {
+   "expected": "She told me that you knew the answer before anyone else, and you said nothing.",
+   "response": "She told me that you knew the answer before anyone else, and you said nothing.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe if nobody wants that job, farei myself today.": {
+   "expected": "Maybe if nobody wants that job, I will do it myself today.",
+   "response": "Maybe if nobody wants that job, I will do it myself today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that you always say prends too long in the shower.": {
+   "expected": "She told me that you always say you take too long in the shower.",
+   "response": "She told me that you always say I take too long in the shower.",
+   "meaning_match_ref": "different",
+   "note": "subject changed (you take -> I take)"
+  },
+  "Can you check 几点? The meeting starts soon.": {
+   "expected": "Can you check what time is it? The meeting starts soon.",
+   "response": "Can you check what time it is? The meeting starts soon.",
+   "meaning_match_ref": "same"
+  },
+  "The bill is due; virá in the mail on Monday.": {
+   "expected": "The bill is due; it will come in the mail on Monday.",
+   "response": "The bill is due; it will come in the mail on Monday.",
+   "meaning_match_ref": "same"
+  },
+  "Voulus to leave early, so you asked the boss.": {
+   "expected": "You wanted to leave early, so you asked the boss.",
+   "response": "You wanted to leave early, so you asked the boss.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that prends the bus every day, don't you?.": {
+   "expected": "She told me that you take the bus every day, don't you?.",
+   "response": "She told me that you take the bus every day, don't you?",
+   "meaning_match_ref": "same"
+  },
+  "Maybe you told me vis her at the station today.": {
+   "expected": "Maybe you told me you saw her at the station today.",
+   "response": "Maybe you told me you saw her at the station today.",
+   "meaning_match_ref": "same"
+  },
+  "The parcel is ready; ira out with the morning post.": {
+   "expected": "The parcel is ready; it will go out with the morning post.",
+   "response": "The parcel is ready; it will go out with the morning post.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe at first pensamos the shop was closed today.": {
+   "expected": "Maybe at first we thought the shop was closed today.",
+   "response": "Maybe at first we thought the shop was closed today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that why vins alone, without your sister?.": {
+   "expected": "She told me that why you came alone, without your sister?.",
+   "response": "She told me, \"Why did you come alone, without your sister?\"",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I was so tired after arrivé home late today.": {
+   "expected": "Maybe I was so tired after I arrived home late today.",
+   "response": "Maybe I was so tired after arriving home late today.",
+   "meaning_match_ref": "same"
+  },
+  "Sus the answer before anyone else, and you said nothing.": {
+   "expected": "You knew the answer before anyone else, and you said nothing.",
+   "response": "You knew the answer before anyone else, and you said nothing.",
+   "meaning_match_ref": "same"
+  },
+  "The package is late, but virá tomorrow.": {
+   "expected": "The package is late, but it will come tomorrow.",
+   "response": "The package is late, but it will come tomorrow.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that at first pensamos the shop was closed.": {
+   "expected": "She told me that at first we thought the shop was closed.",
+   "response": "She told me that at first we thought the shop was closed.",
+   "meaning_match_ref": "same"
+  },
+  "Where were you when vis the fire?.": {
+   "expected": "Where were you when you saw the fire?.",
+   "response": "Where were you when you saw the fire?",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the parcel is ready; ira out with the morning post today.": {
+   "expected": "Maybe the parcel is ready; it will go out with the morning post today.",
+   "response": "Maybe the parcel is ready; it will go out with the morning post today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe where were you when vis the fire? today.": {
+   "expected": "Maybe where were you when you saw the fire? today.",
+   "response": "Maybe where were you when you saw the fire? today.",
+   "meaning_match_ref": "same"
+  },
+  "You said vins by train last week.": {
+   "expected": "You said you came by train last week.",
+   "response": "You said you came by train last week.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that when sus the truth, you called me.": {
+   "expected": "She told me that when you knew the truth, you called me.",
+   "response": "She told me that when you knew the truth, you called me.",
+   "meaning_match_ref": "same"
+  },
+  "I was so tired after arrivé home late.": {
+   "expected": "I was so tired after I arrived home late.",
+   "response": "I was so tired after arriving home late.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I was the first one: arrivé at eight and opened the doors today.": {
+   "expected": "Maybe I was the first one: I arrived at eight and opened the doors today.",
+   "response": "Maybe I was the first one: I arrived at eight and opened the doors today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that don't worry about the dishes, farei after dinner.": {
+   "expected": "She told me that don't worry about the dishes, I will do it after dinner.",
+   "response": "She told me not to worry about the dishes, she would do them after dinner.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe when sus the truth, you called me today.": {
+   "expected": "Maybe when you knew the truth, you called me today.",
+   "response": "Maybe when you knew the truth, you called me today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that essayé the soup myself and it was too salty.": {
+   "expected": "She told me that I tried the soup myself and it was too salty.",
+   "response": "She told me that I tried the soup myself and it was too salty.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that where were you when vis the fire?.": {
+   "expected": "She told me that where were you when you saw the fire?.",
+   "response": "She told me that where were you when you saw the fire?",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the package is late, but virá tomorrow.": {
+   "expected": "She told me that the package is late, but it will come tomorrow.",
+   "response": "She told me that the package is late, but it will come tomorrow.",
+   "meaning_match_ref": "same"
+  },
+  "If prends the red one, I'll take the blue one.": {
+   "expected": "If you take the red one, I'll take the blue one.",
+   "response": "If you take the red one, I'll take the blue one.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe don't blame me, essayé three times before giving up today.": {
+   "expected": "Maybe don't blame me, I tried three times before giving up today.",
+   "response": "Maybe don't blame me, I tried three times before giving up today.",
+   "meaning_match_ref": "same"
+  },
+  "When voulus to quit, you told no one.": {
+   "expected": "When you wanted to quit, you told no one.",
+   "response": "When you wanted to quit, you told no one.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I was the first one: arrivé at eight and opened the doors.": {
+   "expected": "She told me that I was the first one: I arrived at eight and opened the doors.",
+   "response": "She told me that I was the first one: I arrived at eight and opened the doors.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe if prends the red one, I'll take the blue one today.": {
+   "expected": "Maybe if you take the red one, I'll take the blue one today.",
+   "response": "Maybe if you take the red one, I'll take the blue one today.",
+   "meaning_match_ref": "same"
+  },
+  "You told me vis her at the station.": {
+   "expected": "You told me you saw her at the station.",
+   "response": "You told me you saw her at the station.",
+   "meaning_match_ref": "same"
+  },
+  "The report is not finished, but farei tonight.": {
+   "expected": "The report is not finished, but I will do it tonight.",
+   "response": "The report is not finished, but I will do it tonight.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that when arrivé at the hotel, my room was not ready.": {
+   "expected": "She told me that when I arrived at the hotel, my room was not ready.",
+   "response": "She told me that when I arrived at the hotel, my room was not ready.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that if prends the red one, I'll take the blue one.": {
+   "expected": "She told me that if you take the red one, I'll take the blue one.",
+   "response": "She told me that if you take the red one, I'll take the blue one.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the rain stopped, but forecasters say virá back tonight today.": {
+   "expected": "Maybe the rain stopped, but forecasters say it will come back tonight today.",
+   "response": "Maybe the rain stopped, but forecasters say it will come back tonight today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe excuse me, 几点? My phone died today.": {
+   "expected": "Maybe excuse me, what time is it? My phone died today.",
+   "response": "Maybe excuse me, what time is it? My phone died today.",
+   "meaning_match_ref": "same"
+  },
+  "When sus the truth, you called me.": {
+   "expected": "When you knew the truth, you called me.",
+   "response": "When you suspected the truth, you called me.",
+   "meaning_match_ref": "different",
+   "note": "knew -> suspected"
+  },
+  "Maybe you always say prends too long in the shower today.": {
+   "expected": "Maybe you always say you take too long in the shower today.",
+   "response": "Maybe you always say I take too long in the shower today.",
+   "meaning_match_ref": "different",
+   "note": "subject changed (you take -> I take)"
+  },
+  "She told me that vis the accident yourself, didn't you?.": {
+   "expected": "She told me that you saw the accident yourself, didn't you?.",
+   "response": "She told me that you saw the accident yourself, didn't you?",
+   "meaning_match_ref": "same"
+  },
+  "Maybe essayé the soup myself and it was too salty today.": {
+   "expected": "Maybe I tried the soup myself and it was too salty today.",
+   "response": "I tried the soup myself and it was too salty today.",
+   "meaning_match_ref": "different",
+   "note": "Maybe dropped"
+  },
+  "She told me that don't blame me, essayé three times before giving up.": {
+   "expected": "She told me that don't blame me, I tried three times before giving up.",
+   "response": "She told me not to blame her, she tried three times before giving up.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe last year pensamos about moving to Lisbon today.": {
+   "expected": "Maybe last year we thought about moving to Lisbon today.",
+   "response": "Maybe last year we thought about moving to Lisbon today.",
+   "meaning_match_ref": "same"
+  },
+  "Vins too late, so you missed the speech.": {
+   "expected": "You came too late, so you missed the speech.",
+   "response": "You came too late, so you missed the speech.",
+   "meaning_match_ref": "same"
+  },
+  "I was the first one: arrivé at eight and opened the doors.": {
+   "expected": "I was the first one: I arrived at eight and opened the doors.",
+   "response": "I was the first one: I arrived at eight and opened the doors.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I was so tired after arrivé home late.": {
+   "expected": "She told me that I was so tired after I arrived home late.",
+   "response": "She told me that I was so tired after arriving home late.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the old machine is broken, so ira to the dump.": {
+   "expected": "She told me that the old machine is broken, so it will go to the dump.",
+   "response": "She told me that the old machine is broken, so it will go to the dump.",
+   "meaning_match_ref": "same"
+  },
+  "Yesterday essayé to call you but the line was busy.": {
+   "expected": "Yesterday I tried to call you but the line was busy.",
+   "response": "Yesterday I tried to call you but the line was busy.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe when voulus to quit, you told no one today.": {
+   "expected": "Maybe when you wanted to quit, you told no one today.",
+   "response": "Maybe when you wanted to quit, you told no one today.",
+   "meaning_match_ref": "same"
+  },
+  "When arrivé at the hotel, my room was not ready.": {
+   "expected": "When I arrived at the hotel, my room was not ready.",
+   "response": "When I arrived at the hotel, my room was not ready.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe can you check 几点? The meeting starts soon today.": {
+   "expected": "Maybe can you check what time is it? The meeting starts soon today.",
+   "response": "Maybe you can check what time it is? The meeting starts soon today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that can you check 几点? The meeting starts soon.": {
+   "expected": "She told me that can you check what time is it? The meeting starts soon.",
+   "response": "She asked me to check what time it is because the meeting starts soon.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe yesterday pensamos it would rain, but it didn't today.": {
+   "expected": "Maybe yesterday we thought it would rain, but it didn't today.",
+   "response": "Maybe yesterday we thought it would rain, but it didn't today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that voulus to leave early, so you asked the boss.": {
+   "expected": "She told me that you wanted to leave early, so you asked the boss.",
+   "response": "She told me that you wanted to leave early, so you asked the boss.",
+   "meaning_match_ref": "same"
+  },
+  "Vis the accident yourself, didn't you?.": {
+   "expected": "You saw the accident yourself, didn't you?.",
+   "response": "You saw the accident yourself, didn't you?",
+   "meaning_match_ref": "same"
+  },
+  "Maybe sus the answer before anyone else, and you said nothing today.": {
+   "expected": "Maybe you knew the answer before anyone else, and you said nothing today.",
+   "response": "Maybe you knew the answer before anyone else, and you said nothing today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that last year pensamos about moving to Lisbon.": {
+   "expected": "She told me that last year we thought about moving to Lisbon.",
+   "response": "She told me that last year we thought about moving to Lisbon.",
+   "meaning_match_ref": "same"
+  },
+  "Prends the bus every day, don't you?.": {
+   "expected": "You take the bus every day, don't you?.",
+   "response": "You take the bus every day, don't you?",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the bill is due; virá in the mail on Monday.": {
+   "expected": "She told me that the bill is due; it will come in the mail on Monday.",
+   "response": "She told me that the bill is due; it will come in the mail on Monday.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe you said voulus a bigger room today.": {
+   "expected": "Maybe you said you wanted a bigger room today.",
+   "response": "Maybe you said you wanted a bigger room today.",
+   "meaning_match_ref": "same"
+  },
+  "The rain stopped, but forecasters say virá back tonight.": {
+   "expected": "The rain stopped, but forecasters say it will come back tonight.",
+   "response": "The rain stopped, but forecasters say it will come back tonight.",
+   "meaning_match_ref": "same"
+  },
+  "Last year pensamos about moving to Lisbon.": {
+   "expected": "Last year we thought about moving to Lisbon.",
+   "response": "Last year we thought about moving to Lisbon.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that if avais su the price, you would not have come.": {
+   "expected": "She told me that if you had known the price, you would not have come.",
+   "response": "She told me that if you had known the price, you would not have come.",
+   "meaning_match_ref": "same"
+  },
+  "Excuse me, 几点? My phone died.": {
+   "expected": "Excuse me, what time is it? My phone died.",
+   "response": "Excuse me, what time is it? My phone died.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that you admitted avais su the truth for weeks.": {
+   "expected": "She told me that you admitted you had known the truth for weeks.",
+   "response": "She told me that you admitted you had known the truth for weeks.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that 几点 now? I need to leave by six.": {
+   "expected": "She told me that what time is it now? I need to leave by six.",
+   "response": "She asked me what time it is now. I need to leave by six.",
+   "meaning_match_ref": "same"
+  }
+ }
+}

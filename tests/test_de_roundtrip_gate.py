@@ -20,8 +20,10 @@ PHRASES = json.loads((FIX / "zh_de_phrases.json").read_text(encoding="utf-8"))
 ES = json.loads((FIX / "es_fr_tense.json").read_text(encoding="utf-8"))
 JUDGE = json.loads((FIX / "roundtrip_judge/de_blind.json").read_text(encoding="utf-8"))
 
-PASS_FORMS = ['kam', 'sah', 'dachtest', 'denkt', 'nehmen', 'finden', 'wollen', 'denken', 'sagen', 'kamen', 'sahen', 'nahmen', 'fanden', 'wollten', 'sagten', 'dachten', 'who denkt', 'which denkt', 'Bahnhof', 'Datenschutz', 'Handy', 'Ampel', 'Stau', 'Lenkrad', 'Mikrowelle', 'Klimawandel', 'Haustür', 'Kraftwerk', 'Kernenergie', 'Geburtsurkunde', 'Telefonnummer', 'Erderwärmung']
-FAIL_FORMS = ['nahm', 'fand', 'dachte', 'kamst', 'tatest', 'nahmst', 'taten', 'this kam', 'this sah', 'this nahm', 'this fand', 'this dachte', 'these kamen', 'these sahen', 'these nahmen', 'these fanden', 'these dachten', 'those kamen', 'those sahen', 'those nahmen', 'those fanden', 'those dachten', 'who kam', 'who sah', 'who nahm', 'who fand', 'who dachte', 'who kamen', 'who fanden', 'which kam', 'which sah', 'which nahm', 'which fand', 'which dachte', 'which kamen', 'which sahen', 'which nahmen', 'which fanden', 'which dachten', 'que denkt', 'que kam', 'que sah', 'que nahm', 'que fand', 'que dachte', 'que kamen', 'que sahen', 'que nahmen', 'que fanden', 'que dachten', 'Tankstelle', 'Parkplatz', 'wenn']
+PASS_FORMS = ['kam', 'sah', 'dachtest', 'denkt', 'nehmen', 'finden', 'wollen', 'denken', 'sagen', 'kamen', 'sahen', 'nahmen', 'fanden', 'wollten', 'sagten', 'dachten', 'who denkt', 'which denkt', 'Bahnhof', 'Datenschutz', 'Handy', 'Ampel', 'Stau', 'Lenkrad', 'Mikrowelle', 'Klimawandel', 'Haustür', 'Kraftwerk', 'Kernenergie', 'Geburtsurkunde', 'Telefonnummer', 'Erderwärmung',
+              # re-scored with every official source / leading que≡that (docs/roundtrip_rescore_20261110.md)
+              'fand', 'que denkt']
+FAIL_FORMS = ['nahm', 'dachte', 'kamst', 'tatest', 'nahmst', 'taten', 'this kam', 'this sah', 'this nahm', 'this fand', 'this dachte', 'these kamen', 'these sahen', 'these nahmen', 'these fanden', 'these dachten', 'those kamen', 'those sahen', 'those nahmen', 'those fanden', 'those dachten', 'who kam', 'who sah', 'who nahm', 'who fand', 'who dachte', 'who kamen', 'who fanden', 'which kam', 'which sah', 'which nahm', 'which fand', 'which dachte', 'which kamen', 'which sahen', 'which nahmen', 'which fanden', 'which dachten', 'que kam', 'que sah', 'que nahm', 'que fand', 'que dachte', 'que kamen', 'que sahen', 'que nahmen', 'que fanden', 'que dachten', 'Tankstelle', 'Parkplatz', 'wenn']
 
 
 def test_de_is_ge100m():
@@ -31,7 +33,7 @@ def test_de_is_ge100m():
 def test_every_remaining_de_winner_passed_independent_blind_roundtrip():
     forms = {e["to"] for bank in (BANK, PHRASES, ES) for e in bank["entries"] if e.get("lang") == "de"}
     assert forms == set(PASS_FORMS)
-    assert len(forms) == 32
+    assert len(forms) == 34  # 32 + fand / que denkt (re-score)
     for form in forms:
         assert rt.status(DATA, "de", form) == "pass", form
         cohort = rt.latest_cohort(DATA["records"][rt.key("de", form)])
@@ -58,18 +60,23 @@ def test_zh_de_failures_recorded_as_not_registered():
         assert dropped[eid]["to"] == form and "0/9" in dropped[eid]["why_dropped"]
 
 
-def test_es_fr_fand_recorded_as_not_registered():
-    dropped = next(e for e in ES["examples_not_registered"] if e["id"] == "find-past-1s")
-    assert dropped["to"] == "fand" and "0/9" in dropped["why_dropped"]
+def test_es_fr_fand_restored_after_rescore():
+    # I found -> fand was reversed at 0/9 against from[0] 'I have found'; the judge restored
+    # 'I found', an official source of the same form, so the re-score passes 9/9.
+    restored = next(e for e in ES["entries"] if e["id"] == "find-past-1s")
+    assert (restored["to"], restored["lang"]) == ("fand", "de")
+    assert not any(e["id"] == "find-past-1s" for e in ES["examples_not_registered"])
 
 
 def test_zh_entries_untouched_count():
-    # 62 → 37 after the zh round-trip gate (#169); +4 (明白 / 电话 / 餐厅 / 心脏病) restored by
+    # 62 → 37 after the zh round-trip gate (#169); 37 → 42 after the accepted-sources
+    # re-score restored 高速 / 短期 / 小学 / 高铁 / 微调; +4 (明白 / 电话 / 餐厅 / 心脏病) restored by
     # the reaudit_b_4bot context round-trip.
-    assert sum(1 for e in PHRASES["entries"] if e["lang"] == "zh") == 41
+    assert sum(1 for e in PHRASES["entries"] if e["lang"] == "zh") == 46
 
 
 def test_roundtrip_enforced_langs_unchanged():
     import tense_matrix as tm
     assert tm.ROUNDTRIP_ENFORCED_LANGS == frozenset({"nl"})
-    assert ("de", "fand") in tm.ROUNDTRIP_REVERSED
+    assert ("de", "fand") not in tm.ROUNDTRIP_REVERSED  # rescued by the re-score
+    assert ("de", "nahm") in tm.ROUNDTRIP_REVERSED

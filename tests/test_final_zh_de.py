@@ -310,11 +310,13 @@ def test_zh_compound_densifier_wins():
         assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
-def test_hsr_and_high_speed_removed_after_roundtrip_gate():
-    """高铁 / 高速 failed the zh exact round-trip gate (0/9): EN stays, no '高速 rail'."""
+def test_hsr_restored_after_accepted_sources_rescore():
+    """高铁 / 高速 were 0/9 against from[0] only; the judge wrote the hyphenated official
+    source (high-speed rail / high-speed), so the re-score passes and longest-first 高铁 wins."""
     t = _mosaic()
     out = t.apply_zh_de_phrases("Ride the high speed rail.")
-    assert out == "Ride the high speed rail."
+    assert out == "Ride the 高铁."
+    assert "高速 rail" not in out
 
 
 def test_handy_beats_zh_phone_densifier():
@@ -402,12 +404,12 @@ def test_cell_phone_falls_through_to_existing_handy():
     assert t.estimate_tokens(out) < t.estimate_tokens(raw)
 
 
-def test_as_a_result_cheapest_logo_after_ergo_reversed():
+def test_as_a_result_stays_english_after_logo_reversed():
+    # ergo (la) reversed in #161; pt logo then failed the blind round-trip 0/9, also in
+    # designed contexts (docs/es_pt_remaining_roundtrip_20261110.md): EN kept, el άρα not promoted.
     t = _mosaic()
     raw = "as a result"
-    out = t.apply_zh_de_phrases(raw)
-    assert out in {"logo", "άρα"}
-    assert t.estimate_tokens(out) < t.estimate_tokens(raw)
+    assert t.apply_zh_de_phrases(raw) == raw
 
 
 def test_once_again_stays_english_after_failed_pali_removed():
@@ -525,7 +527,9 @@ def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
 def test_tense_tranche2_and_sibling_longest_sources_coexist():
     t = _mosaic()
     raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
-    assert t.apply_es_fr_tense(raw) == "haré it; fiz; quero ir; preciso ir; tomaré it."
+    # I did it → fiz it: do-it-past-1s (object-dropping fiz) is unregistered like do-it-fut-1s;
+    # do-past-1s (I did → fiz) still applies and the object stays.
+    assert t.apply_es_fr_tense(raw) == "haré it; fiz it; quero ir; preciso ir; tomaré it."
     raw = "I will take my mobile phone to the train station as soon as possible."
     assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "tomaré my Handy to the Bahnhof ASAP."
 
@@ -567,8 +571,8 @@ def test_tranche2_cheapest_for_every_source():
     t = _mosaic()
     entries = t.load_es_fr_tense_bank()["entries"]
     start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
-    # tranche 2 ends before live-past-1s (arrive-past-1s, its former last row, was
-    # reversed by the fr blind round-trip: docs/fr_roundtrip_20261109.md)
+    # tranche 2 ends before live-past-1s (arrive-past-1s is its last row again: reversed
+    # by the fr blind round-trip, re-enabled by the 3bot in-context round-trip)
     stop = next((i for i, e in enumerate(entries) if e["id"] == "live-past-1s"), len(entries))
     tranche2 = entries[start:stop]
     # 35 → 31: try/read/wait/stay progressive → simple present rows were
@@ -576,7 +580,10 @@ def test_tranche2_cheapest_for_every_source():
     # 31 → 30: fr take-past-1s (pris) reversed by the blind round-trip (0/9).
     # 30 → 29: pt-labeled essayé failed the independent roundtrip (#171).
     # 29 → 28: find-past-1s (fand) reversed after de independent blind round-trip 0/9 (#174).
-    assert len(tranche2) == 28
+    # 28 → 30: try-past-1s (essayé, relabelled fr) and arrive-past-1s (arrivé) re-enabled
+    # by the 3bot in-context round-trip (docs/reaudit_a_3bot_roundtrip_20261110.md).
+    # 30 → 32: take-past-1s (pris) / find-past-1s (fand) restored by the accepted-sources re-score.
+    assert len(tranche2) == 32
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
         for src in entry["from"]:

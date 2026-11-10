@@ -28,8 +28,7 @@ NEW_LA = {
 }
 NEW_LA_TENSE = {"I will come": "veniam"}
 REVERSED = {"once again": "iterum", "as a result": "ergo", "more or less": "circa", "face to face": "coram",
-            "day by day": "cotidie", "for this reason": "ideo", "in favor of": "pro", "with respect to": "re",
-            "among others": "inter alia"}
+            "day by day": "cotidie", "for this reason": "ideo", "in favor of": "pro", "with respect to": "re"}
 REJECTED = ["interim", "bona fide", "per capita", "a fortiori", "in memoriam", "seriatim", "sua sponte"]
 
 
@@ -122,9 +121,19 @@ def test_code_switched_sentences(src, want):
 @pytest.mark.parametrize(("src", "form"), sorted(REVERSED.items()))
 def test_pre_gate_la_failures_reversed(src, form):
     t = _t()
-    assert rt.status(RT, "la", form) == "pass" if form == "inter alia" else rt.status(RT, "la", form) != "pass"
+    assert rt.status(RT, "la", form) != "pass"
     assert (src, form, "la") not in set(t.pt_el_latin_phrase_pairs())
     assert form not in t.apply_zh_de_phrases(f"We did it {src} today.").replace(src, "")
+
+
+def test_among_others_restored_but_tie_keeps_english():
+    """among-others-la is adopted again (form-level re-score, docs/roundtrip_rescore_20261110.md);
+    'among others' and 'inter alia' tie (2 = 2), so the strict-cut rule keeps EN at runtime."""
+    t = _t()
+    assert rt.status(RT, "la", "inter alia") == "pass"
+    assert t.estimate_tokens("among others") == t.estimate_tokens("inter alia")
+    assert ("among others", "inter alia", "la") not in set(t.pt_el_latin_phrase_pairs())
+    assert t.apply_zh_de_phrases("We did it among others today.") == "We did it among others today."
 
 
 def test_gradatim_kept():

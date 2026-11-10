@@ -67,6 +67,7 @@
 - exact は 64/270 文、meaning（参考）は 260/270 文です。
 - 英語 source を共有する組（iterum / πάλι、pro / υπέρ、cotidie / quotidie）は、どちらも合格していません。winner の調停はありません。
 - la inter alia（source `among others`）は 2/9 でした。採用中の `among other things` entry と、その 9/9 の record には触れていません。
+  - 追記（main 取り込み時）: その後 #182 で、myon の承認により形単位の再採点ルールで `among others` → `inter alia` が main に戻りました。この文脈 study（2/9）はゲートが読まない参考記録で、bank は #182 の状態のままです。
 
 ## 変更
 

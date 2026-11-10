@@ -35,21 +35,21 @@
   }
  },
  "skipped": {},
- "adopted": 633,
+ "adopted": 667,
  "beats_en_count": {
-  "o200k_base": 633,
-  "cl100k_base": 484,
-  "qwen2.5": 501,
-  "qwen3": 501,
-  "llama3.2": 491,
-  "mistral-v0.3": 425,
-  "deepseek-v3": 498
+  "o200k_base": 667,
+  "cl100k_base": 512,
+  "qwen2.5": 529,
+  "qwen3": 529,
+  "llama3.2": 519,
+  "mistral-v0.3": 452,
+  "deepseek-v3": 528
  },
  "categories": {
-  "all": 411,
-  "o200k only": 113,
-  "6/7": 66,
-  "2/7": 13,
+  "all": 438,
+  "o200k only": 117,
+  "6/7": 67,
+  "2/7": 15,
   "4/7": 13,
   "5/7": 9,
   "3/7": 8
@@ -219,6 +219,22 @@
    "id": "mx-see-perf-1s",
    "src": "I have seen",
    "to": "sah",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-find-perf-1s",
+   "src": "I have found",
+   "to": "fand",
    "lang": "de",
    "beats_en_on": [
     "o200k_base",
@@ -918,6 +934,22 @@
    "category": "all"
   },
   {
+   "id": "mx-take-pres-2",
+   "src": "you take",
+   "to": "prends",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-find-pres-2",
    "src": "you find",
    "to": "trovi",
@@ -1189,6 +1221,54 @@
    "category": "all"
   },
   {
+   "id": "mx-come-past-2",
+   "src": "you came",
+   "to": "vins",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-see-past-2",
+   "src": "you saw",
+   "to": "vis",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-take-past-2",
+   "src": "you took",
+   "to": "pris",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-find-past-2",
    "src": "you found",
    "to": "achaste",
@@ -1202,6 +1282,17 @@
     "deepseek-v3"
    ],
    "category": "6/7"
+  },
+  {
+   "id": "mx-want-past-2",
+   "src": "you wanted",
+   "to": "voulus",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "deepseek-v3"
+   ],
+   "category": "2/7"
   },
   {
    "id": "mx-think-past-2",
@@ -1222,6 +1313,22 @@
     "o200k_base"
    ],
    "category": "o200k only"
+  },
+  {
+   "id": "mx-know-past-2",
+   "src": "you knew",
+   "to": "sus",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
   },
   {
    "id": "mx-give-past-2",
@@ -1436,6 +1543,22 @@
    "src": "you had said",
    "to": "disseras",
    "lang": "pt",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-know-pluperf-2",
+   "src": "you had known",
+   "to": "avais su",
+   "lang": "fr",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -2074,6 +2197,22 @@
    "category": "all"
   },
   {
+   "id": "mx-find-past-3s-he",
+   "src": "he found",
+   "to": "fand",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-want-past-3s-he",
    "src": "he wanted",
    "to": "quis",
@@ -2157,6 +2296,22 @@
    "id": "mx-see-perf-3s-he",
    "src": "he has seen",
    "to": "sah",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-find-perf-3s-he",
+   "src": "he has found",
+   "to": "fand",
    "lang": "de",
    "beats_en_on": [
     "o200k_base",
@@ -3235,6 +3390,22 @@
    "category": "all"
   },
   {
+   "id": "mx-find-past-3s-she",
+   "src": "she found",
+   "to": "fand",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-want-past-3s-she",
    "src": "she wanted",
    "to": "quis",
@@ -3318,6 +3489,22 @@
    "id": "mx-see-perf-3s-she",
    "src": "she has seen",
    "to": "sah",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-find-perf-3s-she",
+   "src": "she has found",
+   "to": "fand",
    "lang": "de",
    "beats_en_on": [
     "o200k_base",
@@ -4240,6 +4427,38 @@
    "category": "all"
   },
   {
+   "id": "mx-go-fut-3s-it",
+   "src": "it will go",
+   "to": "ira",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-come-fut-3s-it",
+   "src": "it will come",
+   "to": "virá",
+   "lang": "pt",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-do-fut-3s-it",
    "src": "it will do",
    "to": "fera",
@@ -4416,6 +4635,22 @@
    "category": "all"
   },
   {
+   "id": "mx-find-past-3s-it",
+   "src": "it found",
+   "to": "fand",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-want-past-3s-it",
    "src": "it wanted",
    "to": "quis",
@@ -4499,6 +4734,22 @@
    "id": "mx-see-perf-3s-it",
    "src": "it has seen",
    "to": "sah",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-find-perf-3s-it",
+   "src": "it has found",
+   "to": "fand",
    "lang": "de",
    "beats_en_on": [
     "o200k_base",
@@ -6624,6 +6875,22 @@
    "category": "3/7"
   },
   {
+   "id": "mx-know-past-3p",
+   "src": "they knew",
+   "to": "ont su",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-give-past-3p",
    "src": "they gave",
    "to": "deram",
@@ -6771,6 +7038,22 @@
    "src": "they have said",
    "to": "dijeron",
    "lang": "es",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-know-perf-3p",
+   "src": "they have known",
+   "to": "ont su",
+   "lang": "fr",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -7443,6 +7726,22 @@
    "src": "they will be giving",
    "to": "estarán dando",
    "lang": "es",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-go-fut-dem-this",
+   "src": "this will go",
+   "to": "this ira",
+   "lang": "fr",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -8199,6 +8498,22 @@
    "category": "all"
   },
   {
+   "id": "mx-know-perf-dem-these",
+   "src": "these have known",
+   "to": "these ont su",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-go-futperf-dem-these",
    "src": "these will have gone",
    "to": "these terão ido",
@@ -8642,6 +8957,22 @@
    "id": "mx-have-perf-dem-those",
    "src": "those have had",
    "to": "those ont eu",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-know-perf-dem-those",
+   "src": "those have known",
+   "to": "those ont su",
    "lang": "fr",
    "beats_en_on": [
     "o200k_base",
@@ -9271,6 +9602,74 @@
    "category": "all"
   },
   {
+   "id": "mx-go-pres-rel-que-sg",
+   "src": "que goes",
+   "to": "que va",
+   "lang": "es",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-come-pres-rel-que-sg",
+   "src": "que comes",
+   "to": "que vem",
+   "lang": "pt",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "deepseek-v3"
+   ],
+   "category": "6/7"
+  },
+  {
+   "id": "mx-see-pres-rel-que-sg",
+   "src": "que sees",
+   "to": "que ve",
+   "lang": "es",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-take-pres-rel-que-sg",
+   "src": "que takes",
+   "to": "que toma",
+   "lang": "es",
+   "beats_en_on": [
+    "o200k_base",
+    "deepseek-v3"
+   ],
+   "category": "2/7"
+  },
+  {
+   "id": "mx-find-pres-rel-que-sg",
+   "src": "que finds",
+   "to": "que acha",
+   "lang": "pt",
+   "beats_en_on": [
+    "o200k_base"
+   ],
+   "category": "o200k only"
+  },
+  {
    "id": "mx-want-pres-rel-que-sg",
    "src": "que wants",
    "to": "que wil",
@@ -9284,6 +9683,116 @@
     "deepseek-v3"
    ],
    "category": "6/7"
+  },
+  {
+   "id": "mx-think-pres-rel-que-sg",
+   "src": "que thinks",
+   "to": "que denkt",
+   "lang": "de",
+   "beats_en_on": [
+    "o200k_base"
+   ],
+   "category": "o200k only"
+  },
+  {
+   "id": "mx-say-pres-rel-que-sg",
+   "src": "que says",
+   "to": "que dit",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-know-pres-rel-que-sg",
+   "src": "que knows",
+   "to": "que sa",
+   "lang": "it",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-give-pres-rel-que-sg",
+   "src": "que gives",
+   "to": "que dà",
+   "lang": "it",
+   "beats_en_on": [
+    "o200k_base"
+   ],
+   "category": "o200k only"
+  },
+  {
+   "id": "mx-give-pres-rel-que-pl",
+   "src": "que give",
+   "to": "que dan",
+   "lang": "es",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-want-perf-rel-que-pl",
+   "src": "que have wanted",
+   "to": "que ont voulu",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base"
+   ],
+   "category": "o200k only"
+  },
+  {
+   "id": "mx-have-perf-rel-que-pl",
+   "src": "que have had",
+   "to": "que ont eu",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-know-perf-rel-que-pl",
+   "src": "que have known",
+   "to": "que ont su",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
   }
  ]
 }
