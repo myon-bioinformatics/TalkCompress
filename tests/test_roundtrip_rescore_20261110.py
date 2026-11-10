@@ -127,14 +127,24 @@ def test_suspected_over_reversals_stay_reversed(lang, form):
     assert (lang, form) in tm.ROUNDTRIP_REVERSED
 
 
-def test_la_records_marked_unmeasured_not_invented():
+def test_la_quotidie_marked_unmeasured_not_invented():
     bank = json.loads((FIX / "pt_el_latin_phrases.json").read_text(encoding="utf-8"))
     nr = {e["id"]: e for e in bank["examples_not_registered"]}
-    for eid in ("among-others-inter-alia", "day-by-day-la-quotidie"):
-        assert nr[eid]["roundtrip_status"] == "untested"
-        assert nr[eid]["roundtrip_note"]
+    assert nr["day-by-day-la-quotidie"]["roundtrip_status"] == "untested"
+    assert nr["day-by-day-la-quotidie"]["roundtrip_note"]
     assert rt.key("la", "quotidie") not in DATA["records"]
     assert not any(e["id"] in nr for e in bank["entries"])
+
+
+def test_la_inter_alia_among_others_restored_by_form_level_rule():
+    """Owner-approved: inter alia passed 9/9 and 'among others' is an official source of that form."""
+    bank = json.loads((FIX / "pt_el_latin_phrases.json").read_text(encoding="utf-8"))
+    snap = json.loads(SNAP.read_text(encoding="utf-8"))
+    assert "among others" in snap["forms"]["la:inter alia"]["accepted_sources"]
+    assert rt.status(DATA, "la", "inter alia") == "pass"
+    live = {e["id"]: e for e in bank["entries"]}
+    assert (live["among-others-la"]["from"], live["among-others-la"]["to"]) == (["among others"], "inter alia")
+    assert not any(e["id"] == "among-others-inter-alia" for e in bank["examples_not_registered"])
 
 
 def test_enforced_langs_unchanged():

@@ -49,7 +49,7 @@
 | es | dijo | 0/9 | 0/9 | 回答 “he said”。公式は he/she/it has said のみ | 反転のまま |
 | es | dijiste | 0/9 | 0/9 | 回答 “you said”。公式は you have said のみ | 反転のまま |
 | es | pensamos | 0/9 | 0/9 | 回答 “we think”。公式は we thought / we have thought | 反転のまま |
-| la | inter alia | 9/9 | 9/9 | レコードは among other things のみを測定 | among-others-la は反転のまま・untested |
+| la | inter alia（among others） | 9/9 | 9/9 | 形のレコードが 9/9（among other things で測定）。among others はこの形の公式ソース | 復元（形単位ルール、myon 承認） |
 | la | quotidie | — | — | レコードなし、la_blind.json にも文なし | 反転のまま・untested |
 
 * 付随して、cdb8953 で採用されていた parity follower（fr these / those ont su）が tense_matrix に戻った。
@@ -57,8 +57,11 @@
 * zh 書店 / 超市 / 前端 / 截图 は回答の綴りが公式 `from` にないため 0/9 のまま。
 * その他の que 形（es que hizo / que dijo / que dijeron、pt que deram 等、de que kam 等、nl que nam 等）は
   equivalence を適用しても 0/9 のまま。
-* **la の注記**：「among others」は合格した形 `inter alia` の公式ソースでもあるため、形単位のルールなら
-  復元の対象になり得る。ただし指示どおり反転のまま `roundtrip_status: "untested"` とした。
+* **la inter alia**：myon の承認（「la inter alia は戻していい」）を受け、形単位の any-official-source
+  ルールで `among-others-la` を採用に戻した（1602fce のエントリそのまま、examples_not_registered の行は削除）。
+  `inter alia` のレコードは among other things で 9/9 pass しており、among others は同じ形の公式ソースである。
+  ただし「among others」と「inter alia」は stdlib の推定でも o200k でも 2 = 2 の同点で、厳密に削減する
+  ルールによりランタイムでは英語のまま残る（生成物にも差分なし）。quotidie は untested・反転のまま。
 
 ## 言語別集計（latest cohort、再採点後）
 

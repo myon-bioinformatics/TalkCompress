@@ -24,7 +24,9 @@ BASE_OTHER_LANG_HASHES = {
     # after #172 (es reversals) + it que sa / que dà restored by the que≡that re-score (2026-11-10)
     "tense_matrix": "d962f1bb29cee5937def2bf27f4b168409ae5274935491ed6d391f1c6672b18b",
     "es_fr_tense": "5c4d9e525a8df17eef85c4128698ccd65c5d4f4a4d10610a0d8fc0ef97c4a045",  # after #164 (el reversals) + #161 (la entries / el υπέρ reversal)
-    "pt_el_latin_phrases": "869f7e00ff4b11e188588ec4bf3c61f81609213c0fdde45e980a935c692e8a7b",  # after #164 (el reversals) + #161 (la entries / el υπέρ reversal)
+    # after #164 (el reversals) + #161 (la entries / el υπέρ reversal) + la among-others-la restored
+    # by the form-level re-score (owner-approved, docs/roundtrip_rescore_20261110.md)
+    "pt_el_latin_phrases": "cee068f80af710eb80028c67809339e7e27ac8c59e6bbd4ca6886bd4bb795ddc",
     "pt_el_latin_tense": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
 }
 
