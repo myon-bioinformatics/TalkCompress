@@ -23,6 +23,13 @@ Record-only callers may omit evaluation policy, but such cohorts cannot receive
 a verified rate or gate result. Status applies the current requested policy;
 the creation-time policy snapshot remains available for historical replay.
 
+Each new invocation and each cohort it appends also carry ``provenance``:
+``origin_main_sha`` (the local ``origin/main`` commit from ``git rev-parse``, no
+fetch; ``None`` when git or the ref is unavailable) and ``timestamp`` (the run's
+start as timezone-aware ISO 8601, UTC). Existing records are not backfilled and
+provenance never affects scoring. Tests inject ``provenance=`` into ``run()`` or
+monkeypatch ``origin_main_sha`` / ``utc_now``.
+
 Usage::
 
     uv run python scripts/roundtrip.py --status               # per-form status counts
@@ -37,7 +44,7 @@ committed bank is never gated by this script.
 from __future__ import annotations
 
 import argparse, copy, hashlib, json, math, os, re, subprocess, sys, unicodedata, uuid
-from concurrent.futures import ThreadPoolExecutor; from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor; from datetime import datetime, timezone; from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -48,6 +55,50 @@ PROMPT = (
     "(subject pronouns may be dropped). Rewrite it as the original plain English sentence. "
     "Reply with the sentence only.\n\n{c}"
 )
+
+
+SHA40 = re.compile(r"[0-9a-f]{40}")
+
+
+def origin_main_sha(root: Path = ROOT) -> str | None:
+    """Commit of the local ``origin/main`` ref (``git rev-parse``; never fetches)."""
+    # Popen, not run(): callers' fakes of subprocess.run stand in for the restore command only.
+    try:
+        with subprocess.Popen(["git", "-C", str(root), "rev-parse", "--verify", "--quiet", "origin/main^{commit}"],
+                              stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                              text=True) as p:
+            out, _ = p.communicate(timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    sha = out.strip()
+    return sha if p.returncode == 0 and SHA40.fullmatch(sha) else None
+
+
+def utc_now() -> str:
+    """Timezone-aware ISO 8601 timestamp in UTC (seconds precision)."""
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def valid_provenance(value) -> bool:
+    """``{"origin_main_sha": 40-hex | None, "timestamp": tz-aware ISO 8601}``."""
+    if not isinstance(value, dict) or set(value) != {"origin_main_sha", "timestamp"}:
+        return False
+    sha = value["origin_main_sha"]
+    if sha is not None and (not isinstance(sha, str) or not SHA40.fullmatch(sha)):
+        return False
+    ts = value["timestamp"]
+    if not isinstance(ts, str):
+        return False
+    try:
+        parsed = datetime.fromisoformat(ts)
+    except ValueError:
+        return False
+    return parsed.tzinfo is not None and parsed.utcoffset() is not None
+
+
+def run_provenance() -> dict:
+    """Provenance for a run starting now: local origin/main SHA and UTC start time."""
+    return {"origin_main_sha": origin_main_sha(), "timestamp": utc_now()}
 
 
 def load(path: Path = DATA_PATH) -> dict:
@@ -289,7 +340,7 @@ def _valid_policy(data: dict, *, required: bool = False) -> bool:
 
 def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
         entries: list[dict] | None = None, timeout: float = 120,
-        accepted_sources: dict[str, list[str]] | None = None) -> dict:
+        accepted_sources: dict[str, list[str]] | None = None, provenance: dict | None = None) -> dict:
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout must be finite and positive")
     if not _valid_policy(data):
@@ -311,6 +362,8 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
                for k, v in accepted_sources.items())
     ):
         raise ValueError("accepted_sources must map form keys to nonempty source lists")
+    if provenance is not None and not valid_provenance(provenance):
+        raise ValueError("provenance needs origin_main_sha (40-hex or None) and a timezone-aware ISO 8601 timestamp")
     prompt_template = PROMPT
     config = {"only_lang": only_lang, "timeout": timeout, "workers": workers,
               "templates": copy.deepcopy(data["templates"]), "seeds": copy.deepcopy(data["seeds"]),
@@ -367,13 +420,17 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
                 "restored": matched is not None, "first_source_match": first_match,
                 "matched_source": matched, "matched_via_alternate": matched is not None and not first_match}
 
+    provenance = run_provenance() if provenance is None else copy.deepcopy(provenance)  # run start
+    if not valid_provenance(provenance):
+        raise ValueError("run provenance is malformed")
     expected_targets = {k: [target_id for target_id, t in targets.items() if key(t["lang"], t["form"]) == k] for k in selected}
     with ThreadPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(one, targets.items()))
     invocation = {"accounting_version": 4, "evaluation_scope": "latest_cohort", "run_id": run_id, "config": config,
                   "selected_forms": list(selected), "duplicate_targets": duplicate_targets,
                   "requested": len(results) + duplicate_targets, "scheduled": len(results),
-                  "attempted": len(results), "completed": 0, "timeouts": 0, "execution_errors": 0}
+                  "attempted": len(results), "completed": 0, "timeouts": 0, "execution_errors": 0,
+                  "provenance": copy.deepcopy(provenance)}
     for k, form in selected.items():
         rec = data["records"].setdefault(k, {**form, "trials": 0, "restored": 0, "failures": []})
         prior_attempted = rec.get("attempted", rec["trials"] + rec.get("timeouts", 0) + rec.get("execution_errors", 0))
@@ -391,7 +448,8 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
                   "targets": attempts, "attempted": len(attempts), "completed": completed,
                   "expected_target_ids": expected_targets[k],
                   "timeouts": timeouts, "execution_errors": errors, "restored": restored,
-                  "complete": bool(attempts) and completed == len(attempts)}
+                  "complete": bool(attempts) and completed == len(attempts),
+                  "provenance": copy.deepcopy(provenance)}
         rec["cohorts"].append(cohort)
         rec["accounting_version"] = 4
         rec["trials"] += completed

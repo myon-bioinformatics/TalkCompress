@@ -21,7 +21,7 @@ SentenceCalibratedMosaic（旧 TesseraTalk）の対応表（英語 → 短い他
 | `Form` | 形（言語つき表記） | `form:<lang>:<form>` | `status`（下記） |
 | `Adoption` | 採用形（ある英語に対して採用された形） | `adopt:<lang>:<form>:<英語>` | `bank`、`entry_id`、`meaning`、`en_kept` |
 | `Candidate` | 候補 | `cand:<lang>:<form>:<英語>` | `origin`（バンク#id / report）、`not_registered`、`gated` |
-| `RoundtripRecord` | 往復記録 | `rt:<lang>:<form>:<run_id>`（v4 以前は `:legacy`） | `evaluator`、`measured_at_main`、`timestamp`、`completed`、`restored`、`latest` |
+| `RoundtripRecord` | 往復記録 | `rt:<lang>:<form>:<run_id>`（v4 以前は `:legacy`） | `evaluator`、`measured_at_main`、`run_origin_main_sha`、`timestamp`、`completed`、`restored`、`measured_sources`、`latest` |
 | `ReversalDecision` | 外した理由 | `rev:<lang>:<form>` / `revsrc:<英語>` | `strategy`、`setting` |
 | `ParityFollow` | 数一致追従 | `parity:<subject>:<tense>:<verb>` | `follower_form`、`base_form`、`base_reversed` |
 
@@ -82,6 +82,8 @@ ID の考え方:
 | `examples_not_registered[].roundtrip_reversed` | `ReversalDecision`（`strategy=fixture_not_registered`）＋ `Candidate.rejectedBy` |
 | `roundtrip.json` の `records[*].cohorts` | コホートごとに 1 つの `RoundtripRecord`。`latest=True` が判定対象（v4 会計） |
 | `roundtrip.json` の `run_history[*].judge_provenance` | `evaluator`（例 `independent_blind_judge`、無ければ `cmd:<command_sha256 先頭12桁>`）と `measured_at_main`（`origin_main_sha`） |
+| `roundtrip.json` の `records[*].cohorts[*].provenance`（無ければ `run_history[*].provenance`） | `run_origin_main_sha`（run 時のローカル `origin/main`）と `timestamp`（run 開始時刻、タイムゾーン付き ISO 8601）。`measured_at_main` は judge の SHA が無いときこれを使う |
+| `records[*].cohorts[*].targets[*].source` | `measured_sources`（テンプレートの `{s}` を戻した、最新コホートが実際に復元させた英語） |
 | `ROUNDTRIP_ENFORCED_LANGS = {nl}` | Language の `roundtrip_enforced=True`。nl の `roundtrip_gated` 候補は `Candidate(gated=True)` |
 | `required: []` | 変更なし（グラフは強制しない） |
 | `tense_matrix_report.json` の `parity_verb` | `ParityFollow`（`followsVerbOf` で追従元の Form へ） |
@@ -112,8 +114,17 @@ ID の考え方:
 - `timestamp`: どの run にも無い（全件未記録）。
 - `evaluator`: v4 コホートはコマンド digest か judge 種別、legacy（nl）は不明。
 
-測定後に形が変わったか（測った main と今の main の差）を機械的に検出するには、今後の往復 run で
-`origin_main_sha` と時刻を記録するのが前提になる（本 PR ではデータを変えない）。
+`scripts/roundtrip.py` の `run()` は、これ以降の各 run で `run_history[*]` と追加する各コホートに
+`provenance: {"origin_main_sha": ..., "timestamp": ...}` を書く。
+
+- `origin_main_sha`: `git rev-parse --verify origin/main^{commit}` の 40 桁 SHA（fetch はしない。ローカルの追跡参照が古ければ古い SHA になる）。git や参照が無ければ `null`。
+- `timestamp`: run 開始時刻（UTC、`2026-11-10T09:55:00+00:00` の形式）。
+- 採点（`rate` / `status` / ゲート）には使わない。既存の記録は遡って埋めない。
+- テストでは `run(..., provenance={...})` で注入するか、`roundtrip.origin_main_sha` / `roundtrip.utc_now` を monkeypatch する。
+
+グラフは `provenance` を `RoundtripRecord.run_origin_main_sha` / `timestamp` として読む（形式が正しいものだけ）。
+`measured_at_main` は judge の SHA（pt のブラインド判定のソース固定時点）を優先し、無ければ run 時の SHA を使う。
+`--check` の `records without main sha` / `without timestamp` は、新しい run の分だけ減っていく。
 
 ## 6. ツール
 
@@ -123,6 +134,7 @@ uv run python scripts/mapping_graph.py --untested --lang de     # 記録の無�
 uv run python scripts/mapping_graph.py --source "I will take"   # 一つの英語に対する全言語の採用・候補と status
 uv run python scripts/mapping_graph.py --parity-reversed        # 追従元が reversed の数一致追従
 uv run python scripts/mapping_graph.py --collisions             # 同じ形の他言語・他の意味
+uv run python scripts/mapping_graph.py --collisions --markdown  # tense_merge の一覧（docs/ontology/tense-merge-collisions.md）
 uv run python scripts/mapping_graph.py --node form:pt:foi       # 1 ノードと辺
 ```
 
@@ -132,6 +144,8 @@ uv run python scripts/mapping_graph.py --node form:pt:foi       # 1 ノードと
 - `lang_label_mismatch`: 採用行の `lang` と、同じ行の候補リストで同じ表記に付いた言語が食い違う。
 - `multi_meaning`: 同じ `lang:form` が別の動詞（意味）にも採用されている。
 - `tense_merge`: 同じ動詞の別時制に同じ形（例: 過去形を現在完了にも使う）。情報のみ。
+  一覧と、最新コホートがどの時制の英語を測ったかは [tense-merge-collisions.md](tense-merge-collisions.md)
+  （`--collisions --markdown` で生成）。
 
 `--check` が非 0 で終わるのは、グラフ自体が矛盾する場合（同じ ID が別クラス、行き先の無い辺、数一致追従の循環）だけ。
 未測定や衝突は報告するが失敗にはしない。
