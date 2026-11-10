@@ -13,7 +13,7 @@ nl（1億人未満）の現在完了セル採用 0 件は `fixtures/roundtrip.js
 
 ```
 mx-come-fut-3s-it	it will come	None	->	('verrà', 'it')
-mx-come-fut-dem-this	this will come	('this virá', 'pt')	->	('this verrà', 'it')
+mx-come-fut-dem-this	this will come	None	->	('this verrà', 'it')
 mx-come-past-2	you came	None	->	('vieste', 'pt')
 mx-come-perf-2	you have come	None	->	('vieste', 'pt')
 mx-come-perf-rel-que-pl	que have come	None	->	('que vieram', 'pt')
