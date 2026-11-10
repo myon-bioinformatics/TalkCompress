@@ -9,7 +9,7 @@
 - **A RulePeerCodec 実験方針（2026-10-27）:** 軽量ローカルモデル（**llama.cpp または同等の軽量 GGUF** スタック；同クラス。既定では重いフル精度サーバは使わない）で継続会話を回し、間隔をおいてエージェントが独自の共有表現・スラング（RuleBook 成長）を発明するかを観察する。二者だけの脆い構成より、**複数エージェントを並列のグループ**として回す方を優先。最小の制御実験ランナーは `RulePeerCodec/dialogue_lab.py`。LLM提案→peer批評/承認→20未見タスクの3対照を実装。自由な言語創発や純トークン削減の成功は未確認。
 
 
-- [ ] E 前置詞 for→`4`: 数字 four との揺らぎを在庫ビットとは別に評価。`for` へ戻すか検討（現状 `4`）。
+- [x] E 前置詞 for→`4`: o200k 文中（tiktoken 0.14.0、先頭スペース）で `4` は 2 トークン、`for` は 1 トークン。公式 estimate_tokens は両方 1 で見逃す。数字 four との衝突もあり、emit は `for` のまま（採点は `MorphoGrammarMinimal/fixtures/informal_candidates.json`）。
 
 - [x] E 助動詞・副詞 × **not / 肯定**: 否定 `!can/!will/!must/!may`・`don't/not→!`・`never→¬`；肯定は素形；極性1bit（`polarity_bit_cost`）。時制の深い畳み込みは残 TODO。I'll は C。
 - [x] E 助詞 particle: コア ∅|→|∈|〜（2bit）。拡張 +|&|←（から=from スロット；fr は別名・for-real 揺らぎ）。と=& OK。
@@ -18,7 +18,7 @@
 - [x] B 短時制 densifier 拡張（going-to ガード + live Romance/pt/el 候補 + FINAL_TENSE_LANGS；tranche2 take/think/try/find/…）。 古典ラテン活用は原則見送り（veniam のみ token 勝ち＋AI 往復で採用、habebo は terei と同 token、ibo は vou と同点、ero は it「I was」と衝突）；存続ラテン略語は C。複合フレーズバンク成長は別スライス可。
 - [x] B sibling pt/el/living-la（`pt_el_latin_phrases.json` + `pt_el_latin_tense.json`）: ZH/DE・ES/FR を書き換えず cheapest に加算。国限定略語/意味落ちは examples_not_registered。
 - [x] E because 表記: `cuz` 採用（同 1 トークン・bc 比 +1 バイトを意味の明瞭さで許容；`bc`/`∵` は入力別名）。候補の採点は `MorphoGrammarMinimal/fixtures/informal_candidates.json`。
-- [ ] 他の在庫（for→4 など）の口語・略記候補も informal_candidates.json で採点する（emit は未変更）。
+- [x] 他の在庫（for→4 など）の口語・略記候補も informal_candidates.json で採点した（emit は未変更）。for / with / without / though / especially / often / from / at を追加。AI 可読性は未測定。7 モデルの workflow_dispatch 実行と #87 クローズは未着手（承認待ち）。
 - [ ] E prep2: of→de / without→无 / within→内 / before→前 / after→後。pack1 と分離（3bit）。C 前後・内外ペアと役割分担を観察。
 - [x] C 台帳 dual metrics: lex に token（TokenCostHeuristic estimate_tokens）+ bit（E utf8_bits / inventory）を必須記録。候補絞り用。
 - [x] B 最終トークン削減（`B-final-token`=`B-final-zh-de`）: phrase candidate bank（複合形・ZH densifier・EN acronym を cheapest）/ ES/FR 短時制 + zh|de 文 minify。`--final-token`/`--final-zh-de` / `--auto` 末尾；fixtures `zh_de_phrases.json` + `es_fr_tense.json`。監査汎用化: however→tho 譲歩ゲート、fui 曖昧さ、死んだ je vais 削除、family=spatial。
