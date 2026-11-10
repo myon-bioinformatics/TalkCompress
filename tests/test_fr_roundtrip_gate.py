@@ -24,14 +24,20 @@ REPORT = {c["src"]: c for c in json.loads((ROOT / "docs/tense_matrix_report.json
 
 # prends / vins / vis / voulus / sus / avais su / ira (and es_fr arrivé) were reversed here
 # first, then re-enabled by the 3bot in-context round-trip (docs/reaudit_a_3bot_roundtrip_20261110.md).
-REVERSED_TM = ["pris", "avoir voulu", "avoir eu", "avoir su",
-               "ont su", "que dit", "que ont voulu", "que ont eu", "que ont su"]
-REVERSED_ES_FR = {"take-past-1s": "pris"}
+# pris / ont su / que dit / que ont voulu / que ont eu / que ont su were reversed here first, then
+# restored by the re-score (docs/roundtrip_rescore_20261110.md).
+REVERSED_TM = ["avoir voulu", "avoir eu", "avoir su"]
+# es_fr take-past-1s (pris, re-score) and arrive-past-1s (arrivé, 3bot reaudit) are both restored.
+RESTORED_ES_FR = {"take-past-1s": "pris", "arrive-past-1s": "arrivé"}
 # fr forms re-enabled by a passing context cohort; roundtrip.json still holds their bare 0/9
 # (essayé: no fr record), the context cohort lives in roundtrip_judge/reaudit_a_3bot_results.json
 REAUDIT = {f for lang, f in reaudit.restored() if lang == "fr"}
-# passed themselves (9/9) but number parity follows the reversed pronoun winner (ont su)
-PARITY_EN = {"these have known": "these ont su", "those have known": "those ont su"}
+# Re-score (docs/roundtrip_rescore_20261110.md): pris / ont su matched another official source of
+# the same form; que dit / que ont voulu / que ont eu / que ont su matched with leading que≡that.
+RESCUED_TM = ["pris", "ont su", "que dit", "que ont voulu", "que ont eu", "que ont su"]
+# parity followers adopted again with their restored base (ont su: re-score; ira: 3bot reaudit)
+PARITY_RESTORED = {"these have known": "these ont su", "those have known": "those ont su",
+                   "this will go": "this ira"}
 
 
 def _fr_forms() -> set[str]:
@@ -49,7 +55,8 @@ def test_policy_scope_unchanged():
 
 def test_every_fr_winner_passed_independent_blind_roundtrip():
     forms = _fr_forms()
-    assert len(forms) == 103 and REAUDIT <= forms
+    # 93 + 6 rescued + these / those ont su (parity) + 10 reaudit (incl. this ira, essayé)
+    assert len(forms) == 111 and REAUDIT <= forms
     for form in forms - REAUDIT:
         assert rt.status(DATA, "fr", form) == "pass", form
         cohort = rt.latest_cohort(DATA["records"][rt.key("fr", form)])
@@ -65,7 +72,7 @@ def test_all_113_fr_forms_recorded():
     recs = [k for k in DATA["records"] if k.startswith("fr:")]
     assert len(recs) == 113
     st = [rt.status(DATA, "fr", DATA["records"][k]["form"]) for k in recs]
-    assert st.count("pass") == 96 and st.count("never") == 17
+    assert st.count("pass") == 102 and st.count("never") == 11
 
 
 @pytest.mark.parametrize("form", REVERSED_TM)
@@ -74,26 +81,39 @@ def test_failed_fr_forms_reversed(form):
     assert form not in _fr_forms()
 
 
-@pytest.mark.parametrize("eid,form", sorted(REVERSED_ES_FR.items()))
-def test_es_fr_reversal_recorded_as_not_registered(eid, form):
-    assert all(e["id"] != eid for e in ES_FR["entries"])
-    dropped = next(e for e in ES_FR["examples_not_registered"] if e["id"] == eid)
-    assert dropped["to"] == form and dropped["lang"] == "fr" and "0/9" in dropped["why_dropped"]
+@pytest.mark.parametrize("eid,form", sorted(RESTORED_ES_FR.items()))
+def test_es_fr_reversals_restored(eid, form):
+    entry = next(e for e in ES_FR["entries"] if e["id"] == eid)
+    assert (entry["to"], entry["lang"]) == (form, "fr")
+    assert all(e["id"] != eid for e in ES_FR["examples_not_registered"])
 
 
-@pytest.mark.parametrize("src", ["I took"])
-def test_reversed_es_fr_sources_stay_english(src):
-    # no next-language candidate (e.g. de ``nahm``) is promoted by the matrix
-    assert all(src not in e["from"] for e in BANK["entries"])
-    assert src not in REPORT or REPORT[src]["status"] == "reject"
-    assert tm.build()[0]["entries"] == BANK["entries"]
-
-
-@pytest.mark.parametrize("src,form", sorted(PARITY_EN.items()))
-def test_parity_followers_stay_english(src, form):
+@pytest.mark.parametrize("form", RESCUED_TM)
+def test_rescued_fr_forms_adopted_again(form):
     assert rt.status(DATA, "fr", form) == "pass"
+    assert form in _fr_forms()
+    assert ("fr", form) not in tm.ROUNDTRIP_REVERSED
+
+
+def test_es_fr_pris_restored_after_rescore():
+    # judge restored 'I took' for Pris.; the cohort had been scored against 'you took' only
+    restored = next(e for e in ES_FR["entries"] if e["id"] == "take-past-1s")
+    assert (restored["to"], restored["lang"]) == ("pris", "fr")
+    assert all(e["id"] != "take-past-1s" for e in ES_FR["examples_not_registered"])
+
+
+@pytest.mark.parametrize("src,form", sorted(PARITY_RESTORED.items()))
+def test_parity_followers_restored_with_base(src, form):
+    assert rt.status(DATA, "fr", form) == "pass"
+    assert any(src in e["from"] and e["to"] == form for e in BANK["entries"])
+
+
+@pytest.mark.parametrize("src", ["I took", "I arrived"])
+def test_restored_es_fr_sources_not_duplicated_by_matrix(src):
+    # pris / arrivé live in es_fr_tense again; the matrix promotes no other candidate (e.g. de ``nahm``)
     assert all(src not in e["from"] for e in BANK["entries"])
-    assert REPORT[src]["status"] == "reject"
+    assert src not in REPORT or REPORT[src]["status"] in ("reject", "existing")
+    assert tm.build()[0]["entries"] == BANK["entries"]
 
 
 def test_reaudit_forms_adopted_on_the_context_cohort_only():

@@ -60,7 +60,11 @@ def test_status_matches_roundtrip_and_no_record_is_untested(g):
 def test_summary_counts_cover_every_adopted_form(g):
     summary = mg.status_summary(g)
     assert sum(sum(c.values()) for c in summary.values()) == len(mg.adopted_forms(g))
-    assert summary["pt"]["pass"] == 210
+    # 210 → 211: pt acharei passed the 2026-11-10 designed-context round-trip (9/9).
+    # 211 → 210: ``this virá`` (follower of reversed ``virá``) is no longer adopted (#178).
+    # 210 → 212: + que acha / que vem (que≡that re-score).
+    # 212 → 213: this virá adopted again (its base virá re-enabled by #181).
+    assert summary["pt"]["pass"] == 213
 
 
 def test_reversal_is_linked_to_its_records(g):
@@ -97,7 +101,12 @@ def test_collisions_report(g):
     assert set(col) == {"cross_language", "lang_label_mismatch", "multi_meaning", "tense_merge"}
     ids = {r["id"] for r in col["lang_label_mismatch"]}
     assert "adopt:el:tomaré:i will take" not in ids  # #164 で es に修正済み
-    assert "adopt:es:vou sair:i am going to leave" in ids
+    # vou sair (leave-fut-goingto-1s) is Portuguese: label fixed to pt, no mismatch left.
+    assert "adopt:es:vou sair:i am going to leave" not in ids
+    assert col["lang_label_mismatch"] == []
+    # fiz no longer spans do-it:past (unregistered); do:past / do:perf is a tense merge.
+    assert col["multi_meaning"] == []
+    assert {"id": "form:pt:fiz", "meanings": ["do:past", "do:perf"]} in col["tense_merge"]
 
 
 def test_cli_check_is_read_only():
