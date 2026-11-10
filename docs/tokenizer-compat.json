@@ -35,21 +35,21 @@
   }
  },
  "skipped": {},
- "adopted": 657,
+ "adopted": 667,
  "beats_en_count": {
-  "o200k_base": 657,
-  "cl100k_base": 503,
-  "qwen2.5": 520,
-  "qwen3": 520,
-  "llama3.2": 510,
-  "mistral-v0.3": 443,
-  "deepseek-v3": 518
+  "o200k_base": 667,
+  "cl100k_base": 512,
+  "qwen2.5": 529,
+  "qwen3": 529,
+  "llama3.2": 519,
+  "mistral-v0.3": 452,
+  "deepseek-v3": 528
  },
  "categories": {
-  "all": 429,
+  "all": 438,
   "o200k only": 117,
   "6/7": 67,
-  "2/7": 14,
+  "2/7": 15,
   "4/7": 13,
   "5/7": 9,
   "3/7": 8
@@ -934,6 +934,22 @@
    "category": "all"
   },
   {
+   "id": "mx-take-pres-2",
+   "src": "you take",
+   "to": "prends",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-find-pres-2",
    "src": "you find",
    "to": "trovi",
@@ -1205,6 +1221,38 @@
    "category": "all"
   },
   {
+   "id": "mx-come-past-2",
+   "src": "you came",
+   "to": "vins",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-see-past-2",
+   "src": "you saw",
+   "to": "vis",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
    "id": "mx-take-past-2",
    "src": "you took",
    "to": "pris",
@@ -1236,6 +1284,17 @@
    "category": "6/7"
   },
   {
+   "id": "mx-want-past-2",
+   "src": "you wanted",
+   "to": "voulus",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "deepseek-v3"
+   ],
+   "category": "2/7"
+  },
+  {
    "id": "mx-think-past-2",
    "src": "you thought",
    "to": "dachtest",
@@ -1254,6 +1313,22 @@
     "o200k_base"
    ],
    "category": "o200k only"
+  },
+  {
+   "id": "mx-know-past-2",
+   "src": "you knew",
+   "to": "sus",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
   },
   {
    "id": "mx-give-past-2",
@@ -1468,6 +1543,22 @@
    "src": "you had said",
    "to": "disseras",
    "lang": "pt",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-know-pluperf-2",
+   "src": "you had known",
+   "to": "avais su",
+   "lang": "fr",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -4324,6 +4415,38 @@
    "src": "it gives",
    "to": "dà",
    "lang": "it",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-go-fut-3s-it",
+   "src": "it will go",
+   "to": "ira",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-come-fut-3s-it",
+   "src": "it will come",
+   "to": "virá",
+   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
@@ -7603,6 +7726,38 @@
    "src": "they will be giving",
    "to": "estarán dando",
    "lang": "es",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-go-fut-dem-this",
+   "src": "this will go",
+   "to": "this ira",
+   "lang": "fr",
+   "beats_en_on": [
+    "o200k_base",
+    "cl100k_base",
+    "qwen2.5",
+    "qwen3",
+    "llama3.2",
+    "mistral-v0.3",
+    "deepseek-v3"
+   ],
+   "category": "all"
+  },
+  {
+   "id": "mx-come-fut-dem-this",
+   "src": "this will come",
+   "to": "this virá",
+   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",

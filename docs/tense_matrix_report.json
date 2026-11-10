@@ -3021,9 +3021,6 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "roundtrip_reversed": [
-    "prends"
-   ],
    "best": "prends",
    "lang": "fr",
    "shape": "simple",
@@ -3036,8 +3033,7 @@
     8,
     6
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3603,7 +3599,7 @@
     "tok": 1
    },
    "roundtrip_reversed": [
-    "vins"
+    "kamst"
    ],
    "best": "vins",
    "lang": "fr",
@@ -3617,8 +3613,7 @@
     8,
     4
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3638,7 +3633,7 @@
     "as vu"
    ],
    "roundtrip_reversed": [
-    "vis"
+    "viste"
    ],
    "roundtrip_gated": [
     "zag"
@@ -3669,8 +3664,7 @@
     7,
     3
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3781,9 +3775,6 @@
     "number": "2sg-usted",
     "tok": 1
    },
-   "roundtrip_reversed": [
-    "voulus"
-   ],
    "best": "voulus",
    "lang": "fr",
    "shape": "simple",
@@ -3796,8 +3787,7 @@
     10,
     6
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -3933,9 +3923,6 @@
     "number": "2sg-tú",
     "tok": 1
    },
-   "roundtrip_reversed": [
-    "sus"
-   ],
    "best": "sus",
    "lang": "fr",
    "shape": "simple",
@@ -3948,8 +3935,7 @@
     8,
     3
    ],
-   "status": "reject",
-   "reason": "EN homograph collision: every shrinking candidate spells an English word"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -4859,9 +4845,6 @@
     "number": "2sg-usted",
     "tok": 2
    },
-   "roundtrip_reversed": [
-    "avais su"
-   ],
    "best": "avais su",
    "lang": "fr",
    "shape": "compound",
@@ -4874,8 +4857,7 @@
     11,
     8
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "2",
@@ -15893,9 +15875,6 @@
    "verb": "go",
    "src": "it will go",
    "en_best": "it'll go",
-   "roundtrip_reversed": [
-    "ira"
-   ],
    "best": "ira",
    "lang": "fr",
    "shape": "simple",
@@ -15908,8 +15887,7 @@
     8,
     3
    ],
-   "status": "reject",
-   "reason": "no candidate shrinks both token and utf8"
+   "status": "adopt"
   },
   {
    "subject": "3s-it",
@@ -15929,12 +15907,7 @@
     10,
     5
    ],
-   "status": "reject",
-   "candidates": [],
-   "roundtrip_reversed": [
-    "virá"
-   ],
-   "reason": "independent blind round-trip failed; EN kept (no fallback promotion)"
+   "status": "adopt"
   },
   {
    "subject": "3s-it",
@@ -25244,8 +25217,8 @@
     12,
     8
    ],
-   "status": "reject",
-   "reason": "parity: number-matched pronouns stay EN (EN kept)"
+   "status": "adopt",
+   "parity_verb": "ira"
   },
   {
    "subject": "dem-this",
@@ -25265,9 +25238,8 @@
     14,
     10
    ],
-   "status": "reject",
-   "parity_verb": "virá",
-   "reason": "parity: number-matched pronoun verb winner reversed (EN kept)"
+   "status": "adopt",
+   "parity_verb": "virá"
   },
   {
    "subject": "dem-this",

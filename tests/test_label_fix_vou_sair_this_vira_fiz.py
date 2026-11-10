@@ -1,4 +1,4 @@
-"""Data-label fixes: vou sair (pt label), this virá (parity follower of reversed virá), fiz (meanings)."""
+"""Data-label fixes: vou sair (pt label), this virá (parity follower of virá), fiz (meanings)."""
 from __future__ import annotations
 
 import json
@@ -54,18 +54,27 @@ def test_vou_sair_evidence_is_the_es_keyed_surface_record():
     assert rt.key("es", "saldré") not in data["records"]
 
 
-# 2. this virá: demonstrative parity follower of the reversed pt virá stays EN.
-def test_this_vira_follower_of_reversed_base_is_not_adopted():
-    assert ("pt", "virá") in tm.ROUNDTRIP_REVERSED
+# 2. this virá: demonstrative parity follower of pt virá. #178 kept it EN while virá was
+# reversed; #181 (3bot in-context round-trip, virá 9/9) re-enabled virá, so the follower is
+# adopted again. The follower guard in tense_matrix.build() stays for any other reversed base.
+def test_this_vira_adopted_again_with_restored_base():
+    assert ("pt", "virá") not in tm.ROUNDTRIP_REVERSED
     assert ("pt", "this virá") not in tm.ROUNDTRIP_REVERSED  # its own round-trip passed 9/9
     assert rt.status(rt.load(), "pt", "this virá") == "pass"
     bank = _read("tense_matrix")
-    assert not [e for e in bank["entries"] if e["to"] == "this virá"]
+    assert [e["from"] for e in bank["entries"] if e["to"] == "this virá"] == [["this will come"]]
     cells = json.loads((ROOT / "docs/tense_matrix_report.json").read_text(encoding="utf-8"))["cells"]
     cell = next(c for c in cells if c["src"] == "this will come")
+    assert cell["status"] == "adopt" and cell["parity_verb"] == "virá"
+
+
+def test_follower_guard_still_fires_if_base_is_reversed(monkeypatch):
+    monkeypatch.setattr(tm, "ROUNDTRIP_REVERSED", tm.ROUNDTRIP_REVERSED | {("pt", "virá")})
+    bank, report, _ = tm.build()
+    assert not [e for e in bank["entries"] if e["to"] == "this virá"]
+    cell = next(c for c in report["cells"] if c["src"] == "this will come")
     assert cell["status"] == "reject" and cell["parity_verb"] == "virá"
     assert cell["reason"] == "parity: number-matched pronoun verb winner reversed (EN kept)"
-    assert _t().apply_es_fr_tense("Maybe this will come today.") == "Maybe this will come today."
 
 
 def test_no_adopted_follower_of_a_reversed_base():

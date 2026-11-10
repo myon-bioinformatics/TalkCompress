@@ -1023,6 +1023,37 @@
       "note": "intentaré is 3 tok (= I will try); pt tentarei wins"
     },
     {
+      "id": "try-past-1s",
+      "from": [
+        "I tried"
+      ],
+      "to": "essayé",
+      "lang": "fr",
+      "tense": "past",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 7,
+        "utf8_after": 6,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tentei",
+          "lang": "pt"
+        },
+        {
+          "form": "intenté",
+          "lang": "es"
+        },
+        {
+          "form": "essayé",
+          "lang": "fr"
+        }
+      ],
+      "note": "lang label fixed pt → fr (essayé is the French candidate; pt is tentei); restored after the 3bot in-context blind round-trip 6/9 (docs/reaudit_a_3bot_roundtrip_20261110.md). metrics are still those of the original tentei row: essayé is 7 UTF-8 bytes like I tried, so it shrinks o200k tokens only"
+    },
+    {
       "id": "try-fut-goingto-1s",
       "from": [
         "I am going to try",
@@ -1623,6 +1654,38 @@
       ]
     },
     {
+      "id": "arrive-past-1s",
+      "from": [
+        "I arrived"
+      ],
+      "to": "arrivé",
+      "lang": "fr",
+      "tense": "past",
+      "candidates": [
+        {
+          "form": "arrivé",
+          "lang": "fr"
+        },
+        {
+          "form": "llegué",
+          "lang": "es"
+        },
+        {
+          "form": "cheguei",
+          "lang": "pt"
+        },
+        {
+          "form": "kwam aan",
+          "lang": "nl"
+        },
+        {
+          "form": "έφτασα",
+          "lang": "el"
+        }
+      ],
+      "note": "tranche3: es/fr/pt 同点 (2tok/7B) → cheapest tie-break; restored after the 3bot in-context blind round-trip 6/9 (docs/reaudit_a_3bot_roundtrip_20261110.md)"
+    },
+    {
       "id": "live-past-1s",
       "from": [
         "I lived"
@@ -2012,38 +2075,6 @@
       "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"He goes.\", \"Maybe he goes today.\", \"She told me that he goes.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
     },
     {
-      "id": "try-past-1s",
-      "from": [
-        "I tried"
-      ],
-      "to": "essayé",
-      "lang": "pt",
-      "tense": "past",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "utf8_before": 7,
-        "utf8_after": 6,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tentei",
-          "lang": "pt"
-        },
-        {
-          "form": "intenté",
-          "lang": "es"
-        },
-        {
-          "form": "essayé",
-          "lang": "fr"
-        }
-      ],
-      "roundtrip_reversed": true,
-      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Tried.\", \"Maybe tried today.\", \"She told me that tried.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
-    },
-    {
       "id": "go-fut-1p",
       "from": [
         "we will go"
@@ -2060,15 +2091,6 @@
       "to": "pude",
       "lang": "es",
       "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as I was able to; source I could). Short form pude reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
-    },
-    {
-      "id": "arrive-past-1s",
-      "from": [
-        "I arrived"
-      ],
-      "to": "arrivé",
-      "lang": "fr",
-      "why_dropped": "independent blind AI round-trip 0/9 (fr:arrivé never; judge restored 'He arrived'); docs/fr_roundtrip_20261109.md — EN kept, es/pt/nl/el candidates not promoted"
     },
     {
       "id": "take-fut-1s-el",

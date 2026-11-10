@@ -571,8 +571,8 @@ def test_tranche2_cheapest_for_every_source():
     t = _mosaic()
     entries = t.load_es_fr_tense_bank()["entries"]
     start = next(i for i, e in enumerate(entries) if e["id"] == "take-fut-1s")
-    # tranche 2 ends before live-past-1s (arrive-past-1s, its former last row, was
-    # reversed by the fr blind round-trip: docs/fr_roundtrip_20261109.md)
+    # tranche 2 ends before live-past-1s (arrive-past-1s is its last row again: reversed
+    # by the fr blind round-trip, re-enabled by the 3bot in-context round-trip)
     stop = next((i for i, e in enumerate(entries) if e["id"] == "live-past-1s"), len(entries))
     tranche2 = entries[start:stop]
     # 35 → 31: try/read/wait/stay progressive → simple present rows were
@@ -580,8 +580,10 @@ def test_tranche2_cheapest_for_every_source():
     # 31 → 30: fr take-past-1s (pris) reversed by the blind round-trip (0/9).
     # 30 → 29: pt-labeled essayé failed the independent roundtrip (#171).
     # 29 → 28: find-past-1s (fand) reversed after de independent blind round-trip 0/9 (#174).
-    # 28 → 30: take-past-1s (pris) / find-past-1s (fand) restored by the accepted-sources re-score.
-    assert len(tranche2) == 30
+    # 28 → 30: try-past-1s (essayé, relabelled fr) and arrive-past-1s (arrivé) re-enabled
+    # by the 3bot in-context round-trip (docs/reaudit_a_3bot_roundtrip_20261110.md).
+    # 30 → 32: take-past-1s (pris) / find-past-1s (fand) restored by the accepted-sources re-score.
+    assert len(tranche2) == 32
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
         for src in entry["from"]:

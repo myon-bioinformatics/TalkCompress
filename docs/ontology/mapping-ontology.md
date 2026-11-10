@@ -102,6 +102,8 @@ ID の考え方:
 グラフはこれを「追従元が外された追従」として列挙するだけで、外すかどうかの判断はしない（挙動を変えない）。
 → その後 `scripts/tense_matrix.py` 側で、追従元（`parity_verb`）が reversed の追従セルも英語維持にした
 （`this virá` 自体の往復は 9/9 だが、数一致規則として代名詞クラスが英語なら指示詞も英語。token は 3→3 で節約 0）。
+→ さらにその後 #181（3bot の文脈付き往復、`virá` 9/9）で `virá` のリバースが取り消されたため、`this virá` は再び採用。
+追従元 reversed の追従セルを英語維持にする規則自体は `tense_matrix.py` に残している（他の reversed 追従元に効く）。
 
 依存と因果も同じで、「追従元が失敗した ⇒ 追従先も読めない」とは断定しない。調査対象を絞るのに使う。
 
@@ -159,6 +161,7 @@ uv run python scripts/mapping_graph.py --node form:pt:foi       # 1 ノードと
 
 - reversed なのに採用に残っている形: 0 件。
 - 追従元が reversed の数一致追従: 22 件（うち採用のまま 1 件: `this virá`）。
+  → #181 で `virá` のリバースが取り消され、`this virá` は「追従元が reversed」から外れて採用に戻った。
 - `lang_label_mismatch`: 3 件（`es_fr_tense` の `take-fut-1s` / `take-fut-goingto-1s` は `tomaré` が `lang: el`、
   `leave-fut-goingto-1s` は `vou sair` が `lang: es`）。データは直していない（別 PR で判断）。
   → その後 #164 で `tomaré` の 2 件は `lang: es` に修正済み。残りは `vou sair` の 1 件。

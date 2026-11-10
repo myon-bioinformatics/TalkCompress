@@ -24,7 +24,9 @@ def g():
 def test_settings_read_without_import():
     s = mg.read_settings()
     assert s["ROUNDTRIP_ENFORCED_LANGS"] == frozenset({"nl"})
-    assert ("pt", "virá") in s["ROUNDTRIP_REVERSED"]
+    assert ("pt", "foi") in s["ROUNDTRIP_REVERSED"]
+    # virá re-enabled by the 3bot in-context round-trip (docs/reaudit_a_3bot_roundtrip_20261110.md)
+    assert ("pt", "virá") not in s["ROUNDTRIP_REVERSED"]
     assert "i took" in s["ROUNDTRIP_REVERSED_SOURCES"]
     assert s["ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS"] == frozenset({"it"})
     assert s["ROUNDTRIP_REVERSED_DROP_CANDIDATE_LANGS"] == frozenset({"es"})
@@ -61,14 +63,15 @@ def test_summary_counts_cover_every_adopted_form(g):
     # 210 → 211: pt acharei passed the 2026-11-10 designed-context round-trip (9/9).
     # 211 → 210: ``this virá`` (follower of reversed ``virá``) is no longer adopted (#178).
     # 210 → 212: + que acha / que vem (que≡that re-score).
-    assert summary["pt"]["pass"] == 212
+    # 212 → 213: this virá adopted again (its base virá re-enabled by #181).
+    assert summary["pt"]["pass"] == 213
 
 
 def test_reversal_is_linked_to_its_records(g):
-    rev = g.nodes["rev:pt:virá"]
+    rev = g.nodes["rev:pt:foi"]
     assert rev["strategy"] == "adopted_winner_only"
-    assert g.out("rev:pt:virá", "basedOn")
-    assert all(g.nodes[r]["type"] == "RoundtripRecord" for r in g.out("rev:pt:virá", "basedOn"))
+    assert g.out("rev:pt:foi", "basedOn")
+    assert all(g.nodes[r]["type"] == "RoundtripRecord" for r in g.out("rev:pt:foi", "basedOn"))
     assert "en:i took" in g.out("revsrc:i took", "keepsEnglish")
 
 
@@ -79,9 +82,9 @@ def test_no_reversed_form_is_still_adopted():
 def test_parity_followers_of_reversed_base(g):
     rows = mg.parity_reversed(g)
     assert rows and all(g.nodes[r["id"]]["base_reversed"] for r in rows)
-    # this virá was the last adopted follower; it now stays EN like the other 21.
-    assert len(rows) == 22
-    assert not [r["follower_form"] for r in rows if r["cell_status"] == "adopt"]
+    # ``this virá`` was the only adopted one; its base virá is no longer reversed
+    assert set() == {r["follower_form"] for r in rows if r["cell_status"] == "adopt"}
+    assert "this virá" not in {r["follower_form"] for r in rows}
 
 
 def test_source_query_lists_all_languages(g):
