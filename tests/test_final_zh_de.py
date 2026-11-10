@@ -310,11 +310,13 @@ def test_zh_compound_densifier_wins():
         assert t.estimate_tokens(out) < t.estimate_tokens(src)
 
 
-def test_hsr_and_high_speed_removed_after_roundtrip_gate():
-    """高铁 / 高速 failed the zh exact round-trip gate (0/9): EN stays, no '高速 rail'."""
+def test_hsr_restored_after_accepted_sources_rescore():
+    """高铁 / 高速 were 0/9 against from[0] only; the judge wrote the hyphenated official
+    source (high-speed rail / high-speed), so the re-score passes and longest-first 高铁 wins."""
     t = _mosaic()
     out = t.apply_zh_de_phrases("Ride the high speed rail.")
-    assert out == "Ride the high speed rail."
+    assert out == "Ride the 高铁."
+    assert "高速 rail" not in out
 
 
 def test_handy_beats_zh_phone_densifier():
@@ -576,7 +578,8 @@ def test_tranche2_cheapest_for_every_source():
     # 31 → 30: fr take-past-1s (pris) reversed by the blind round-trip (0/9).
     # 30 → 29: pt-labeled essayé failed the independent roundtrip (#171).
     # 29 → 28: find-past-1s (fand) reversed after de independent blind round-trip 0/9 (#174).
-    assert len(tranche2) == 28
+    # 28 → 30: take-past-1s (pris) / find-past-1s (fand) restored by the accepted-sources re-score.
+    assert len(tranche2) == 30
     pairs = t.es_fr_tense_pairs() + t.pt_el_latin_tense_pairs()
     for entry in tranche2:
         for src in entry["from"]:

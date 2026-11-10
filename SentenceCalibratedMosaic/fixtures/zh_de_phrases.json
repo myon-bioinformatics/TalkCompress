@@ -231,6 +231,36 @@
       "note": "cheapest: BTW ≺ 顺便; overlaps C c-btw"
     },
     {
+      "id": "high-speed-zh",
+      "from": [
+        "high speed",
+        "high-speed"
+      ],
+      "to": "高速",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "short-term-zh",
+      "from": [
+        "short term",
+        "short-term"
+      ],
+      "to": "短期",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
       "id": "green-tea-zh",
       "from": [
         "green tea"
@@ -843,6 +873,23 @@
       "class": "densifier"
     },
     {
+      "id": "primary-school-zh",
+      "from": [
+        "primary school",
+        "elementary school"
+      ],
+      "to": "小学",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 112,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
       "id": "subway-zh",
       "from": [
         "subway station",
@@ -971,6 +1018,25 @@
         "both_shrink": true
       },
       "class": "densifier"
+    },
+    {
+      "id": "hsr-zh",
+      "from": [
+        "high speed rail",
+        "high-speed rail",
+        "bullet train"
+      ],
+      "to": "高铁",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 120,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier",
+      "note": "longest-first beats bare high-speed→高速"
     },
     {
       "id": "convenience-zh",
@@ -1114,6 +1180,23 @@
         "token_after": 3,
         "utf8_bits_before": 128,
         "utf8_bits_after": 72,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "finetune-zh",
+      "from": [
+        "fine tuning",
+        "fine-tuning"
+      ],
+      "to": "微调",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
         "both_shrink": true
       },
       "class": "densifier"
@@ -1351,26 +1434,6 @@
       "why_dropped": "AI round-trip exact-match 0/9 (restored as What time; scored on from[0] 'what time is it'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
     },
     {
-      "id": "high-speed-zh",
-      "from": [
-        "high speed",
-        "high-speed"
-      ],
-      "to": "高速",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as High-speed; scored on from[0] 'high speed'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
-    },
-    {
-      "id": "short-term-zh",
-      "from": [
-        "short term",
-        "short-term"
-      ],
-      "to": "短期",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as Short-term; scored on from[0] 'short term'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
-    },
-    {
       "id": "fuehrerschein",
       "from": [
         "driving licence",
@@ -1398,27 +1461,6 @@
       "to": "餐厅",
       "lang": "zh",
       "why_dropped": "AI round-trip exact-match 0/9 (restored as Restaurant; scored on from[0] 'dining room'); ge100m threshold 0.6 not met. Remaining listed candidates do not beat EN on o200k (eetkamer=3 vs EN 3), so EN stays."
-    },
-    {
-      "id": "primary-school-zh",
-      "from": [
-        "primary school",
-        "elementary school"
-      ],
-      "to": "小学",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as Elementary school; scored on from[0] 'primary school'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
-    },
-    {
-      "id": "hsr-zh",
-      "from": [
-        "high speed rail",
-        "high-speed rail",
-        "bullet train"
-      ],
-      "to": "高铁",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as High-speed rail; scored on from[0] 'high speed rail'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
     },
     {
       "id": "bookstore-zh",
@@ -1509,16 +1551,6 @@
       "to": "大模型",
       "lang": "zh",
       "why_dropped": "AI round-trip exact-match 0/9 (restored as Large model; scored on from[0] 'large language model'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
-    },
-    {
-      "id": "finetune-zh",
-      "from": [
-        "fine tuning",
-        "fine-tuning"
-      ],
-      "to": "微调",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as Fine-tuning; scored on from[0] 'fine tuning'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
     },
     {
       "id": "ratelimit-zh",

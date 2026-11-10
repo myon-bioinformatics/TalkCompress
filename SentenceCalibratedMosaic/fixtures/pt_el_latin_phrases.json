@@ -837,7 +837,9 @@
       ],
       "to": "quotidie",
       "lang": "la",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as daily) — reversed (<100M gate)"
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as daily) — reversed (<100M gate)",
+      "roundtrip_status": "untested",
+      "roundtrip_note": "No la:quotidie record in roundtrip.json and no quotidie sentence in roundtrip_judge/la_blind.json. The 0/9 in why_dropped is not backed by a recorded cohort; kept reversed as before (docs/roundtrip_rescore_20261110.md)."
     },
     {
       "id": "among-others-inter-alia",
@@ -846,7 +848,9 @@
       ],
       "to": "inter alia",
       "lang": "la",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as among other things) — reversed"
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as among other things) — reversed",
+      "roundtrip_status": "untested",
+      "roundtrip_note": "No source-specific record in roundtrip.json: the only la:inter alia cohort is the adopted 'among other things' entry (9/9 pass). The 0/9 in why_dropped is not backed by a recorded cohort for the 'among others' source; kept reversed as before (docs/roundtrip_rescore_20261110.md)."
     },
     {
       "id": "for-this-reason-la-pt-ideo",

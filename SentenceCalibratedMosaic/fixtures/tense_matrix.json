@@ -205,6 +205,23 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-find-perf-1s",
+   "from": [
+    "I have found"
+   ],
+   "to": "fand",
+   "lang": "de",
+   "tense": "perf",
+   "subject": "1s",
+   "candidates": [
+    {
+     "form": "fand",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-want-perf-1s",
    "from": [
     "I have wanted"
@@ -1310,6 +1327,23 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-take-past-2",
+   "from": [
+    "you took"
+   ],
+   "to": "pris",
+   "lang": "fr",
+   "tense": "past",
+   "subject": "2",
+   "candidates": [
+    {
+     "form": "pris",
+     "lang": "fr"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-find-past-2",
    "from": [
     "you found"
@@ -2330,6 +2364,23 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-find-past-3s-he",
+   "from": [
+    "he found"
+   ],
+   "to": "fand",
+   "lang": "de",
+   "tense": "past",
+   "subject": "3s-he",
+   "candidates": [
+    {
+     "form": "fand",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-want-past-3s-he",
    "from": [
     "he wanted"
@@ -2426,6 +2477,23 @@
    "candidates": [
     {
      "form": "sah",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-find-perf-3s-he",
+   "from": [
+    "he has found"
+   ],
+   "to": "fand",
+   "lang": "de",
+   "tense": "perf",
+   "subject": "3s-he",
+   "candidates": [
+    {
+     "form": "fand",
      "lang": "de"
     }
    ],
@@ -3622,6 +3690,23 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-find-past-3s-she",
+   "from": [
+    "she found"
+   ],
+   "to": "fand",
+   "lang": "de",
+   "tense": "past",
+   "subject": "3s-she",
+   "candidates": [
+    {
+     "form": "fand",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-want-past-3s-she",
    "from": [
     "she wanted"
@@ -3718,6 +3803,23 @@
    "candidates": [
     {
      "form": "sah",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-find-perf-3s-she",
+   "from": [
+    "she has found"
+   ],
+   "to": "fand",
+   "lang": "de",
+   "tense": "perf",
+   "subject": "3s-she",
+   "candidates": [
+    {
+     "form": "fand",
      "lang": "de"
     }
    ],
@@ -4914,6 +5016,23 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-find-past-3s-it",
+   "from": [
+    "it found"
+   ],
+   "to": "fand",
+   "lang": "de",
+   "tense": "past",
+   "subject": "3s-it",
+   "candidates": [
+    {
+     "form": "fand",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-want-past-3s-it",
    "from": [
     "it wanted"
@@ -5010,6 +5129,23 @@
    "candidates": [
     {
      "form": "sah",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-find-perf-3s-it",
+   "from": [
+    "it has found"
+   ],
+   "to": "fand",
+   "lang": "de",
+   "tense": "perf",
+   "subject": "3s-it",
+   "candidates": [
+    {
+     "form": "fand",
      "lang": "de"
     }
    ],
@@ -7396,6 +7532,23 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-know-past-3p",
+   "from": [
+    "they knew"
+   ],
+   "to": "ont su",
+   "lang": "fr",
+   "tense": "past",
+   "subject": "3p",
+   "candidates": [
+    {
+     "form": "ont su",
+     "lang": "fr"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-give-past-3p",
    "from": [
     "they gave"
@@ -7561,6 +7714,23 @@
     {
      "form": "dijeron",
      "lang": "es"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-know-perf-3p",
+   "from": [
+    "they have known"
+   ],
+   "to": "ont su",
+   "lang": "fr",
+   "tense": "perf",
+   "subject": "3p",
+   "candidates": [
+    {
+     "form": "ont su",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"
@@ -9334,6 +9504,23 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-know-perf-dem-these",
+   "from": [
+    "these have known"
+   ],
+   "to": "these ont su",
+   "lang": "fr",
+   "tense": "perf",
+   "subject": "dem-these",
+   "candidates": [
+    {
+     "form": "these ont su",
+     "lang": "fr"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-go-futperf-dem-these",
    "from": [
     "these will have gone"
@@ -9940,6 +10127,23 @@
    "candidates": [
     {
      "form": "those ont eu",
+     "lang": "fr"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-know-perf-dem-those",
+   "from": [
+    "those have known"
+   ],
+   "to": "those ont su",
+   "lang": "fr",
+   "tense": "perf",
+   "subject": "dem-those",
+   "candidates": [
+    {
+     "form": "those ont su",
      "lang": "fr"
     }
    ],
@@ -10762,6 +10966,91 @@
    "scored_by": "o200k_base"
   },
   {
+   "id": "mx-go-pres-rel-que-sg",
+   "from": [
+    "que goes"
+   ],
+   "to": "que va",
+   "lang": "es",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que va",
+     "lang": "es"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-come-pres-rel-que-sg",
+   "from": [
+    "que comes"
+   ],
+   "to": "que vem",
+   "lang": "pt",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que vem",
+     "lang": "pt"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-see-pres-rel-que-sg",
+   "from": [
+    "que sees"
+   ],
+   "to": "que ve",
+   "lang": "es",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que ve",
+     "lang": "es"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-take-pres-rel-que-sg",
+   "from": [
+    "que takes"
+   ],
+   "to": "que toma",
+   "lang": "es",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que toma",
+     "lang": "es"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-find-pres-rel-que-sg",
+   "from": [
+    "que finds"
+   ],
+   "to": "que acha",
+   "lang": "pt",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que acha",
+     "lang": "pt"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
    "id": "mx-want-pres-rel-que-sg",
    "from": [
     "que wants"
@@ -10774,6 +11063,142 @@
     {
      "form": "que wil",
      "lang": "nl"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-think-pres-rel-que-sg",
+   "from": [
+    "que thinks"
+   ],
+   "to": "que denkt",
+   "lang": "de",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que denkt",
+     "lang": "de"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-say-pres-rel-que-sg",
+   "from": [
+    "que says"
+   ],
+   "to": "que dit",
+   "lang": "fr",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que dit",
+     "lang": "fr"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-know-pres-rel-que-sg",
+   "from": [
+    "que knows"
+   ],
+   "to": "que sa",
+   "lang": "it",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que sa",
+     "lang": "it"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-give-pres-rel-que-sg",
+   "from": [
+    "que gives"
+   ],
+   "to": "que dà",
+   "lang": "it",
+   "tense": "pres",
+   "subject": "rel-que-sg",
+   "candidates": [
+    {
+     "form": "que dà",
+     "lang": "it"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-give-pres-rel-que-pl",
+   "from": [
+    "que give"
+   ],
+   "to": "que dan",
+   "lang": "es",
+   "tense": "pres",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que dan",
+     "lang": "es"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-want-perf-rel-que-pl",
+   "from": [
+    "que have wanted"
+   ],
+   "to": "que ont voulu",
+   "lang": "fr",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que ont voulu",
+     "lang": "fr"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-have-perf-rel-que-pl",
+   "from": [
+    "que have had"
+   ],
+   "to": "que ont eu",
+   "lang": "fr",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que ont eu",
+     "lang": "fr"
+    }
+   ],
+   "scored_by": "o200k_base"
+  },
+  {
+   "id": "mx-know-perf-rel-que-pl",
+   "from": [
+    "que have known"
+   ],
+   "to": "que ont su",
+   "lang": "fr",
+   "tense": "perf",
+   "subject": "rel-que-pl",
+   "candidates": [
+    {
+     "form": "que ont su",
+     "lang": "fr"
     }
    ],
    "scored_by": "o200k_base"

@@ -58,7 +58,7 @@ def test_status_matches_roundtrip_and_no_record_is_untested(g):
 def test_summary_counts_cover_every_adopted_form(g):
     summary = mg.status_summary(g)
     assert sum(sum(c.values()) for c in summary.values()) == len(mg.adopted_forms(g))
-    assert summary["pt"]["pass"] == 210
+    assert summary["pt"]["pass"] == 212  # + que acha / que vem (que≡that re-score)
 
 
 def test_reversal_is_linked_to_its_records(g):

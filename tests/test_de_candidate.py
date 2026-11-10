@@ -40,12 +40,13 @@ def test_tie_goes_to_de(s, want):
     assert _t().apply_es_fr_tense(s) == want
 
 
-def test_fand_reversed_leaves_english():
-    """he found / I found used shared surface fand; independent blind round-trip was 0/9."""
+def test_fand_restored_after_rescore():
+    """he found / I found share surface fand. The recorded blind answer 'I found' is an official
+    source of fand, so the any-official-source re-score passes 9/9 and the reversal is undone."""
     t = _t()
-    assert "he found" not in BY_SRC
-    assert t.apply_es_fr_tense("he found") == "he found"
-    assert t.apply_es_fr_tense("I found") == "I found"
+    assert BY_SRC["he found"]["to"] == "fand" and BY_SRC["he found"]["lang"] == "de"
+    assert t.apply_es_fr_tense("he found") == "fand"
+    assert t.apply_es_fr_tense("I found") == "fand"
 
 
 @pytest.mark.parametrize(
