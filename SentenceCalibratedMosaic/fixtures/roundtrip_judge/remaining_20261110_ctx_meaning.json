@@ -1,0 +1,189 @@
+{
+ "kind": "reference_only_meaning_match",
+ "gating": false,
+ "judge": "Separate fresh context-free agent, given only numbered A/B pairs (A = expected English, B = restoration judge answer); asked whether they mean the same",
+ "pairs_sha256": "0ef30a8965deddb4e34a7f3c3503cd33343f91978dd6fb1aa40dc89e45fb24b0",
+ "answers_sha256": "e3f3c035740e313818c392b0e12fa75b8ae3710a5cc0f3522eeb7fb204018669",
+ "by_converted": {
+  "Maybe acharei a better job today.": {
+   "expected": "Maybe I will find a better job today.",
+   "response": "Maybe I will find a better job today.",
+   "meaning_match_ref": "same"
+  },
+  "The price went up and por isso I will wait.": {
+   "expected": "The price went up and for this reason I will wait.",
+   "response": "The price went up, so I will wait.",
+   "meaning_match_ref": "same"
+  },
+  "Tomaré your advice.": {
+   "expected": "I will take your advice.",
+   "response": "I will take your advice.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe she is sick and por isso she will stay in bed today.": {
+   "expected": "Maybe she is sick and for this reason she will stay in bed today.",
+   "response": "Maybe she is sick, so she will stay in bed today.",
+   "meaning_match_ref": "same"
+  },
+  "Tomaré the bus.": {
+   "expected": "I will take the bus.",
+   "response": "I will take the bus.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the price went up and por isso I will wait.": {
+   "expected": "She told me that the price went up and for this reason I will wait.",
+   "response": "She told me that the price went up, so I will wait.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe tomaré the bus today.": {
+   "expected": "Maybe I will take the bus today.",
+   "response": "Maybe I will take the bus today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe acharei your phone today.": {
+   "expected": "Maybe I will find your phone today.",
+   "response": "Maybe I will find your phone today.",
+   "meaning_match_ref": "same"
+  },
+  "It rained all night and logo the roads are flooded.": {
+   "expected": "It rained all night and as a result the roads are flooded.",
+   "response": "It rained all night, so the roads are flooded.",
+   "meaning_match_ref": "same"
+  },
+  "Tomaré the blue one.": {
+   "expected": "I will take the blue one.",
+   "response": "I will take the blue one.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that tomaré your advice.": {
+   "expected": "She told me that I will take your advice.",
+   "response": "She told me that I will take your advice.",
+   "meaning_match_ref": "same"
+  },
+  "Acharei your phone.": {
+   "expected": "I will find your phone.",
+   "response": "I will find your phone.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he lost his keys and logo he is locked out.": {
+   "expected": "She told me that he lost his keys and as a result he is locked out.",
+   "response": "She told me that he lost his keys, so he is locked out.",
+   "meaning_match_ref": "same"
+  },
+  "Acharei the key.": {
+   "expected": "I will find the key.",
+   "response": "I will find the key.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that tomaré the bus.": {
+   "expected": "She told me that I will take the bus.",
+   "response": "She told me that I will take the bus.",
+   "meaning_match_ref": "same"
+  },
+  "The shop is closed and por isso we are going home.": {
+   "expected": "The shop is closed and for this reason we are going home.",
+   "response": "The shop is closed, so we are going home.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe it rained all night and logo the roads are flooded today.": {
+   "expected": "Maybe it rained all night and as a result the roads are flooded today.",
+   "response": "Maybe it rained all night, so the roads are flooded today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that acharei a better job.": {
+   "expected": "She told me that I will find a better job.",
+   "response": "She told me that I will find a better job.",
+   "meaning_match_ref": "same"
+  },
+  "The bus broke down and logo we were late.": {
+   "expected": "The bus broke down and as a result we were late.",
+   "response": "The bus broke down, so we were late.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the price went up and por isso I will wait today.": {
+   "expected": "Maybe the price went up and for this reason I will wait today.",
+   "response": "Maybe the price went up, so I will wait today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe tomaré the blue one today.": {
+   "expected": "Maybe I will take the blue one today.",
+   "response": "Maybe I will take the blue one today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that she is sick and por isso she will stay in bed.": {
+   "expected": "She told me that she is sick and for this reason she will stay in bed.",
+   "response": "She told me that she is sick, so she will stay in bed.",
+   "meaning_match_ref": "same"
+  },
+  "Acharei a better job.": {
+   "expected": "I will find a better job.",
+   "response": "I will find a better job.",
+   "meaning_match_ref": "same"
+  },
+  "He lost his keys and logo he is locked out.": {
+   "expected": "He lost his keys and as a result he is locked out.",
+   "response": "He lost his keys, so he is locked out.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the shop is closed and por isso we are going home.": {
+   "expected": "She told me that the shop is closed and for this reason we are going home.",
+   "response": "She told me that the shop is closed, so we are going home.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the shop is closed and por isso we are going home today.": {
+   "expected": "Maybe the shop is closed and for this reason we are going home today.",
+   "response": "Maybe the shop is closed, so we are going home today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe he lost his keys and logo he is locked out today.": {
+   "expected": "Maybe he lost his keys and as a result he is locked out today.",
+   "response": "Maybe he lost his keys, so he is locked out today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe tomaré your advice today.": {
+   "expected": "Maybe I will take your advice today.",
+   "response": "Maybe I will take your advice today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe acharei the key today.": {
+   "expected": "Maybe I will find the key today.",
+   "response": "Maybe I will find the key today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that acharei your phone.": {
+   "expected": "She told me that I will find your phone.",
+   "response": "She told me that I will find your phone.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that tomaré the blue one.": {
+   "expected": "She told me that I will take the blue one.",
+   "response": "She told me that I will take the blue one.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the bus broke down and logo we were late.": {
+   "expected": "She told me that the bus broke down and as a result we were late.",
+   "response": "She told me that the bus broke down, so we were late.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that it rained all night and logo the roads are flooded.": {
+   "expected": "She told me that it rained all night and as a result the roads are flooded.",
+   "response": "She told me that it rained all night, so the roads are flooded.",
+   "meaning_match_ref": "same"
+  },
+  "She is sick and por isso she will stay in bed.": {
+   "expected": "She is sick and for this reason she will stay in bed.",
+   "response": "She is sick, so she will stay in bed.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that acharei the key.": {
+   "expected": "She told me that I will find the key.",
+   "response": "She told me that I will find the key.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the bus broke down and logo we were late today.": {
+   "expected": "Maybe the bus broke down and as a result we were late today.",
+   "response": "Maybe the bus broke down, so we were late today.",
+   "meaning_match_ref": "same"
+  }
+ }
+}

@@ -38,32 +38,6 @@
       }
     },
     {
-      "id": "as-a-result-la-pt-el",
-      "from": [
-        "as a result"
-      ],
-      "to": "logo",
-      "lang": "pt",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "logo",
-          "lang": "pt",
-          "class": "densifier"
-        },
-        {
-          "form": "άρα",
-          "lang": "el",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 4,
-        "token_after": 1,
-        "both_shrink": true
-      }
-    },
-    {
       "id": "more-or-less-la-el",
       "from": [
         "more or less"
@@ -150,27 +124,6 @@
       "metrics": {
         "token_before": 4,
         "token_after": 3,
-        "both_shrink": true
-      }
-    },
-    {
-      "id": "for-this-reason-la-pt",
-      "from": [
-        "for this reason"
-      ],
-      "to": "por isso",
-      "lang": "pt",
-      "class": "densifier",
-      "candidates": [
-        {
-          "form": "por isso",
-          "lang": "pt",
-          "class": "densifier"
-        }
-      ],
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
         "both_shrink": true
       }
     },
@@ -897,6 +850,57 @@
       "to": "υπέρ",
       "lang": "el",
       "why_dropped": "AI round-trip exact-match 0/9 (restored as in favor) — reversed; evidence recorded on PR #164 head 9a5799f. No other candidate left, entry removed (EN kept)"
+    },
+    {
+      "id": "as-a-result-la-pt-el",
+      "from": [
+        "as a result"
+      ],
+      "to": "logo",
+      "lang": "pt",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "logo",
+          "lang": "pt",
+          "class": "densifier"
+        },
+        {
+          "form": "άρα",
+          "lang": "el",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 1,
+        "both_shrink": true
+      },
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Soon.\", \"Maybe later today.\", \"She told me that soon.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json (docs/es_pt_remaining_roundtrip_20261110.md)."
+    },
+    {
+      "id": "for-this-reason-la-pt",
+      "from": [
+        "for this reason"
+      ],
+      "to": "por isso",
+      "lang": "pt",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "por isso",
+          "lang": "pt",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "roundtrip_reversed": true,
+      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"That's why.\", \"Maybe that's why today.\", \"She told me that that's why.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json (docs/es_pt_remaining_roundtrip_20261110.md)."
     }
   ]
 }

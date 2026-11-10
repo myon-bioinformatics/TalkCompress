@@ -1,0 +1,186 @@
+{
+  "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+  "note": "4 adopted forms promoted by #161/#164 before/after their language round-trips and never measured; frozen before the gate",
+  "forms": [
+    {
+      "key": "es:tomaré",
+      "entry": {
+        "id": "take-fut-1s",
+        "from": [
+          "I will take",
+          "I'll take"
+        ],
+        "to": "tomaré",
+        "lang": "es",
+        "tense": "future",
+        "metrics": {
+          "token_before": 3,
+          "token_after": 2,
+          "utf8_before": 11,
+          "utf8_after": 7,
+          "both_shrink": true
+        },
+        "candidates": [
+          {
+            "form": "tomaré",
+            "lang": "es"
+          },
+          {
+            "form": "tomarei",
+            "lang": "pt"
+          }
+        ],
+        "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take."
+      },
+      "accepted_sources": [
+        "I will take",
+        "I'll take",
+        "I am going to take",
+        "I'm going to take"
+      ],
+      "source_entries": [
+        {
+          "file": "SentenceCalibratedMosaic/fixtures/es_fr_tense.json",
+          "id": "take-fut-1s",
+          "from": [
+            "I will take",
+            "I'll take"
+          ]
+        },
+        {
+          "file": "SentenceCalibratedMosaic/fixtures/es_fr_tense.json",
+          "id": "take-fut-goingto-1s",
+          "from": [
+            "I am going to take",
+            "I'm going to take"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "pt:acharei",
+      "entry": {
+        "id": "find-fut-1s",
+        "from": [
+          "I will find"
+        ],
+        "to": "acharei",
+        "lang": "pt",
+        "tense": "future",
+        "metrics": {
+          "token_before": 3,
+          "token_after": 2,
+          "utf8_before": 11,
+          "utf8_after": 7,
+          "both_shrink": true
+        },
+        "candidates": [
+          {
+            "form": "acharei",
+            "lang": "pt"
+          }
+        ],
+        "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained."
+      },
+      "accepted_sources": [
+        "I will find",
+        "I am going to find",
+        "I'm going to find"
+      ],
+      "source_entries": [
+        {
+          "file": "SentenceCalibratedMosaic/fixtures/es_fr_tense.json",
+          "id": "find-fut-1s",
+          "from": [
+            "I will find"
+          ]
+        },
+        {
+          "file": "SentenceCalibratedMosaic/fixtures/es_fr_tense.json",
+          "id": "find-fut-goingto-1s",
+          "from": [
+            "I am going to find",
+            "I'm going to find"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "pt:logo",
+      "entry": {
+        "id": "as-a-result-la-pt-el",
+        "from": [
+          "as a result"
+        ],
+        "to": "logo",
+        "lang": "pt",
+        "class": "densifier",
+        "candidates": [
+          {
+            "form": "logo",
+            "lang": "pt",
+            "class": "densifier"
+          },
+          {
+            "form": "άρα",
+            "lang": "el",
+            "class": "densifier"
+          }
+        ],
+        "metrics": {
+          "token_before": 4,
+          "token_after": 1,
+          "both_shrink": true
+        }
+      },
+      "accepted_sources": [
+        "as a result"
+      ],
+      "source_entries": [
+        {
+          "file": "SentenceCalibratedMosaic/fixtures/pt_el_latin_phrases.json",
+          "id": "as-a-result-la-pt-el",
+          "from": [
+            "as a result"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "pt:por isso",
+      "entry": {
+        "id": "for-this-reason-la-pt",
+        "from": [
+          "for this reason"
+        ],
+        "to": "por isso",
+        "lang": "pt",
+        "class": "densifier",
+        "candidates": [
+          {
+            "form": "por isso",
+            "lang": "pt",
+            "class": "densifier"
+          }
+        ],
+        "metrics": {
+          "token_before": 4,
+          "token_after": 2,
+          "both_shrink": true
+        }
+      },
+      "accepted_sources": [
+        "for this reason"
+      ],
+      "source_entries": [
+        {
+          "file": "SentenceCalibratedMosaic/fixtures/pt_el_latin_phrases.json",
+          "id": "for-this-reason-la-pt",
+          "from": [
+            "for this reason"
+          ]
+        }
+      ]
+    }
+  ]
+}

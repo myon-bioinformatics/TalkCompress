@@ -772,13 +772,13 @@
         "I'm going to leave"
       ],
       "to": "vou sair",
-      "lang": "es",
+      "lang": "pt",
       "tense": "future",
       "metrics": {
         "token_before": 7,
         "token_after": 2,
         "utf8_before": 19,
-        "utf8_after": 7,
+        "utf8_after": 8,
         "both_shrink": true
       },
       "candidates": [
@@ -791,7 +791,7 @@
           "lang": "pt"
         }
       ],
-      "note": "explicit going-to; not progressive voy"
+      "note": "explicit going-to; not progressive voy. runtime winner vou sair is Portuguese (lang pt; o200k 2 tok / 8 B beats es saldré 3 / 7 and voy a salir 3 / 11)"
     },
     {
       "id": "take-fut-1s",

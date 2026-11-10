@@ -25265,8 +25265,9 @@
     14,
     10
    ],
-   "status": "adopt",
-   "parity_verb": "virá"
+   "status": "reject",
+   "parity_verb": "virá",
+   "reason": "parity: number-matched pronoun verb winner reversed (EN kept)"
   },
   {
    "subject": "dem-this",

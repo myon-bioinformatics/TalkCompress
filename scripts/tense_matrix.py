@@ -1182,6 +1182,9 @@ def build(gate=None) -> tuple[dict, dict, str]:
             cell.pop("_entry")
             cell.update(status="reject", candidates=[], roundtrip_reversed=[entry["to"]],
                         reason="independent blind round-trip failed; EN kept (no fallback promotion)")
+        elif entry and (entry["lang"], cell.get("parity_verb")) in ROUNDTRIP_REVERSED:  # followed base reversed
+            cell.pop("_entry")
+            cell.update(status="reject", reason="parity: number-matched pronoun verb winner reversed (EN kept)")
     entries.extend(c.pop("_entry") for c in cells if "_entry" in c)
     bank = {
         "version": 1,
