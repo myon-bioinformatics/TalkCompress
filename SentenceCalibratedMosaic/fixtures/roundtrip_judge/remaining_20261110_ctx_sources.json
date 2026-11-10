@@ -1,0 +1,492 @@
+{
+ "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+ "branch_head_at_design": "1f2b041a59a2323adcd1026c0f1cf35b7473ae21",
+ "request_sha256": "cabb6f387ce7a4f341501d7e9a1d2af4e3fc91d48ac5777139f74462cb8fd54c",
+ "shuffle": "random.Random(20261110)",
+ "official_templates": [
+  "{s}.",
+  "Maybe {s} today.",
+  "She told me that {s}."
+ ],
+ "note": "Contexts designed by the PR author so the adopted English meaning is the natural reading; the adopted English word itself never appears in the request. Per-form templates = each context sentence with the adopted phrase replaced by {s}, wrapped in the 3 official templates.",
+ "forms": {
+  "es:tomaré": {
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "contexts": [
+    "I will take the bus",
+    "I will take the blue one",
+    "I will take your advice"
+   ],
+   "templates": [
+    "{s} the bus.",
+    "Maybe {s} the bus today.",
+    "She told me that {s} the bus.",
+    "{s} the blue one.",
+    "Maybe {s} the blue one today.",
+    "She told me that {s} the blue one.",
+    "{s} your advice.",
+    "Maybe {s} your advice today.",
+    "She told me that {s} your advice."
+   ]
+  },
+  "pt:acharei": {
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "contexts": [
+    "I will find the key",
+    "I will find a better job",
+    "I will find your phone"
+   ],
+   "templates": [
+    "{s} the key.",
+    "Maybe {s} the key today.",
+    "She told me that {s} the key.",
+    "{s} a better job.",
+    "Maybe {s} a better job today.",
+    "She told me that {s} a better job.",
+    "{s} your phone.",
+    "Maybe {s} your phone today.",
+    "She told me that {s} your phone."
+   ]
+  },
+  "pt:logo": {
+   "form": "logo",
+   "adopted_source": "as a result",
+   "contexts": [
+    "the bus broke down and as a result we were late",
+    "it rained all night and as a result the roads are flooded",
+    "he lost his keys and as a result he is locked out"
+   ],
+   "templates": [
+    "the bus broke down and {s} we were late.",
+    "Maybe the bus broke down and {s} we were late today.",
+    "She told me that the bus broke down and {s} we were late.",
+    "it rained all night and {s} the roads are flooded.",
+    "Maybe it rained all night and {s} the roads are flooded today.",
+    "She told me that it rained all night and {s} the roads are flooded.",
+    "he lost his keys and {s} he is locked out.",
+    "Maybe he lost his keys and {s} he is locked out today.",
+    "She told me that he lost his keys and {s} he is locked out."
+   ]
+  },
+  "pt:por isso": {
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "contexts": [
+    "the shop is closed and for this reason we are going home",
+    "she is sick and for this reason she will stay in bed",
+    "the price went up and for this reason I will wait"
+   ],
+   "templates": [
+    "the shop is closed and {s} we are going home.",
+    "Maybe the shop is closed and {s} we are going home today.",
+    "She told me that the shop is closed and {s} we are going home.",
+    "she is sick and {s} she will stay in bed.",
+    "Maybe she is sick and {s} she will stay in bed today.",
+    "She told me that she is sick and {s} she will stay in bed.",
+    "the price went up and {s} I will wait.",
+    "Maybe the price went up and {s} I will wait today.",
+    "She told me that the price went up and {s} I will wait."
+   ]
+  }
+ },
+ "sentences": [
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I will find a better job today.",
+   "converted": "Maybe acharei a better job today.",
+   "n": 1
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The price went up and for this reason I will wait.",
+   "converted": "The price went up and por isso I will wait.",
+   "n": 2
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I will take your advice.",
+   "converted": "Tomaré your advice.",
+   "n": 3
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe she is sick and for this reason she will stay in bed today.",
+   "converted": "Maybe she is sick and por isso she will stay in bed today.",
+   "n": 4
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I will take the bus.",
+   "converted": "Tomaré the bus.",
+   "n": 5
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the price went up and for this reason I will wait.",
+   "converted": "She told me that the price went up and por isso I will wait.",
+   "n": 6
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I will take the bus today.",
+   "converted": "Maybe tomaré the bus today.",
+   "n": 7
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I will find your phone today.",
+   "converted": "Maybe acharei your phone today.",
+   "n": 8
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "It rained all night and as a result the roads are flooded.",
+   "converted": "It rained all night and logo the roads are flooded.",
+   "n": 9
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I will take the blue one.",
+   "converted": "Tomaré the blue one.",
+   "n": 10
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I will take your advice.",
+   "converted": "She told me that tomaré your advice.",
+   "n": 11
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I will find your phone.",
+   "converted": "Acharei your phone.",
+   "n": 12
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that he lost his keys and as a result he is locked out.",
+   "converted": "She told me that he lost his keys and logo he is locked out.",
+   "n": 13
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I will find the key.",
+   "converted": "Acharei the key.",
+   "n": 14
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I will take the bus.",
+   "converted": "She told me that tomaré the bus.",
+   "n": 15
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The shop is closed and for this reason we are going home.",
+   "converted": "The shop is closed and por isso we are going home.",
+   "n": 16
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe it rained all night and as a result the roads are flooded today.",
+   "converted": "Maybe it rained all night and logo the roads are flooded today.",
+   "n": 17
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I will find a better job.",
+   "converted": "She told me that acharei a better job.",
+   "n": 18
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The bus broke down and as a result we were late.",
+   "converted": "The bus broke down and logo we were late.",
+   "n": 19
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the price went up and for this reason I will wait today.",
+   "converted": "Maybe the price went up and por isso I will wait today.",
+   "n": 20
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I will take the blue one today.",
+   "converted": "Maybe tomaré the blue one today.",
+   "n": 21
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that she is sick and for this reason she will stay in bed.",
+   "converted": "She told me that she is sick and por isso she will stay in bed.",
+   "n": 22
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I will find a better job.",
+   "converted": "Acharei a better job.",
+   "n": 23
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "He lost his keys and as a result he is locked out.",
+   "converted": "He lost his keys and logo he is locked out.",
+   "n": 24
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the shop is closed and for this reason we are going home.",
+   "converted": "She told me that the shop is closed and por isso we are going home.",
+   "n": 25
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the shop is closed and for this reason we are going home today.",
+   "converted": "Maybe the shop is closed and por isso we are going home today.",
+   "n": 26
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe he lost his keys and as a result he is locked out today.",
+   "converted": "Maybe he lost his keys and logo he is locked out today.",
+   "n": 27
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I will take your advice today.",
+   "converted": "Maybe tomaré your advice today.",
+   "n": 28
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I will find the key today.",
+   "converted": "Maybe acharei the key today.",
+   "n": 29
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I will find your phone.",
+   "converted": "She told me that acharei your phone.",
+   "n": 30
+  },
+  {
+   "key": "es:tomaré",
+   "form": "tomaré",
+   "adopted_source": "I will take",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I will take the blue one.",
+   "converted": "She told me that tomaré the blue one.",
+   "n": 31
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the bus broke down and as a result we were late.",
+   "converted": "She told me that the bus broke down and logo we were late.",
+   "n": 32
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that it rained all night and as a result the roads are flooded.",
+   "converted": "She told me that it rained all night and logo the roads are flooded.",
+   "n": 33
+  },
+  {
+   "key": "pt:por isso",
+   "form": "por isso",
+   "adopted_source": "for this reason",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "She is sick and for this reason she will stay in bed.",
+   "converted": "She is sick and por isso she will stay in bed.",
+   "n": 34
+  },
+  {
+   "key": "pt:acharei",
+   "form": "acharei",
+   "adopted_source": "I will find",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I will find the key.",
+   "converted": "She told me that acharei the key.",
+   "n": 35
+  },
+  {
+   "key": "pt:logo",
+   "form": "logo",
+   "adopted_source": "as a result",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the bus broke down and as a result we were late today.",
+   "converted": "Maybe the bus broke down and logo we were late today.",
+   "n": 36
+  }
+ ]
+}

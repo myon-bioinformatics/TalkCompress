@@ -58,8 +58,9 @@ def test_status_matches_roundtrip_and_no_record_is_untested(g):
 def test_summary_counts_cover_every_adopted_form(g):
     summary = mg.status_summary(g)
     assert sum(sum(c.values()) for c in summary.values()) == len(mg.adopted_forms(g))
-    # 210 → 209: ``this virá`` (follower of reversed ``virá``) is no longer adopted.
-    assert summary["pt"]["pass"] == 209
+    # 210 → 211: pt acharei passed the 2026-11-10 designed-context round-trip (9/9).
+    # 211 → 210: ``this virá`` (follower of reversed ``virá``) is no longer adopted (#178).
+    assert summary["pt"]["pass"] == 210
 
 
 def test_reversal_is_linked_to_its_records(g):

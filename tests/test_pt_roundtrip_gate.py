@@ -91,20 +91,21 @@ def test_only_failed_pt_entries_removed_no_unmeasured_promotions(name):
     }
     got = {e["id"]: e["to"] for e in read(name)["entries"] if e["lang"] == "pt"}
     # #161 (la reversal of ergo / ideo) and #164 (el βρω reversal) promoted pt runner-ups
-    # before the pt round-trip (#171) existed; they are NOT in the pt blind judge and not
-    # yet measured. Listed explicitly so no other unmeasured pt promotion slips in.
+    # before the pt round-trip (#171) existed; they are NOT in the pt blind judge. Measured
+    # separately on 2026-11-10: acharei passed in designed contexts (kept), logo / por isso
+    # failed (reversed). Listed explicitly so no other unmeasured pt promotion slips in.
+    measured_later = {"es_fr_tense": {"find-fut-1s": "acharei", "find-fut-goingto-1s": "acharei"}}
+    for k, v in measured_later.get(name, {}).items():
+        assert got.pop(k) == v and rt.status(data, "pt", v) == "pass"
     unmeasured = {
-        "pt_el_latin_phrases": {"as-a-result-la-pt-el": "logo", "for-this-reason-la-pt": "por isso"},
-        "es_fr_tense": {"find-fut-1s": "acharei", "find-fut-goingto-1s": "acharei",
-                        # mislabelled es until relabelled pt; surface measured 9/9 only under es:vou sair
-                        "leave-fut-goingto-1s": "vou sair"},
+        # mislabelled es until relabelled pt; surface measured 9/9 only under es:vou sair
+        "es_fr_tense": {"leave-fut-goingto-1s": "vou sair"},
     }
     # Passing pt forms removed later for a reason other than their own round-trip:
     # this virá follows reversed virá (parity); do-it-past-1s fiz never restores "it".
     removed_later = {"tense_matrix": {"mx-come-fut-dem-this"}, "pt_el_latin_tense": {"do-it-past-1s"}}
-    if name in unmeasured:
-        for k, v in unmeasured[name].items():
-            assert got.pop(k) == v
+    for k, v in unmeasured.get(name, {}).items():
+        assert got.pop(k) == v
     for k in removed_later.get(name, ()):
         assert expected.pop(k) and k not in got
     assert got == expected
@@ -127,7 +128,8 @@ def test_generated_reversals_are_per_form_and_leave_empty_english_cells():
     assert all(c["status"] == "reject" and c["candidates"] == [] for c in reversed_cells)
 
 
-@pytest.mark.parametrize("name,removed", [("es_fr_tense", 3), ("pt_el_latin_phrases", 4), ("pt_el_latin_tense", 1)])
+# pt_el_latin_phrases 4 → 6: logo / por isso reversed on 2026-11-10 (0/9 bare and in context).
+@pytest.mark.parametrize("name,removed", [("es_fr_tense", 3), ("pt_el_latin_phrases", 6), ("pt_el_latin_tense", 1)])
 def test_quarantined_failure_evidence_and_sources_reserved(name, removed):
     data = read(name)
     reversed_entries = [e for e in data["examples_not_registered"] if e.get("roundtrip_reversed")]
