@@ -19,6 +19,7 @@ Usage::
     uv run python scripts/mapping_graph.py --source "I will take"   # every language for one EN source
     uv run python scripts/mapping_graph.py --parity-reversed        # parity followers of reversed bases
     uv run python scripts/mapping_graph.py --collisions             # same form, other lang / meaning
+    uv run python scripts/mapping_graph.py --collisions --markdown  # tense_merge report (docs/ontology/)
     uv run python scripts/mapping_graph.py --node form:pt:foi       # one node and its edges
 
 Add ``--json`` for machine-readable output.
@@ -26,7 +27,7 @@ Add ``--json`` for machine-readable output.
 
 from __future__ import annotations
 
-import argparse, ast, json, sys
+import argparse, ast, json, re, sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -101,6 +102,37 @@ def meaning_key(bank: str, entry: dict) -> str:
     return f"{'-'.join(parts[:idx]) or eid}:{tense}"
 
 
+def run_provenance(cohort: dict, history_entry: dict | None) -> dict:
+    """``origin_main_sha`` / ``timestamp`` written by ``roundtrip.run`` (cohort first, then run_history).
+
+    Only well-formed values (``rt.valid_provenance``) are read; older cohorts have none.
+    """
+    for p in (cohort.get("provenance"), (history_entry or {}).get("provenance")):
+        if rt.valid_provenance(p):
+            return p
+    return {"origin_main_sha": None, "timestamp": None}
+
+
+def measured_sources(cohort: dict) -> list[str]:
+    """English sources a cohort actually asked the restorer to recover (template slot ``{s}``)."""
+    pats = []
+    # most literal text first, so "{s}." does not swallow "Maybe {s} today."
+    templates = [t for t in cohort.get("config", {}).get("templates", []) if isinstance(t, str)]
+    for t in sorted(templates, key=lambda t: (-len(t), t)):
+        if t.count("{s}") == 1:
+            head, tail = t.split("{s}")
+            pats.append(re.compile(re.escape(head) + "(.+?)" + re.escape(tail), re.IGNORECASE | re.DOTALL))
+    out = set()
+    for target in cohort.get("targets", []):
+        src = target.get("source")
+        for pat in pats if isinstance(src, str) else ():
+            m = pat.fullmatch(src)
+            if m:
+                out.add(norm_en(m.group(1)))
+                break
+    return sorted(out)
+
+
 def _record_nodes(g: Graph, rtd: dict, lang: str, form: str, fid: str) -> None:
     rec = rtd["records"].get(rt.key(lang, form))
     if not rec:
@@ -109,18 +141,21 @@ def _record_nodes(g: Graph, rtd: dict, lang: str, form: str, fid: str) -> None:
     cohorts = rec.get("cohorts") or []
     if not cohorts:  # legacy (pre-v4) aggregate record
         rid = g.add(f"rt:{lang}:{form}:legacy", "RoundtripRecord", run_id=None, evaluator=None,
-                    measured_at_main=None, timestamp=None, completed=rec.get("trials", 0),
-                    restored=rec.get("restored", 0), latest=True)
+                    measured_at_main=None, run_origin_main_sha=None, timestamp=None, completed=rec.get("trials", 0),
+                    restored=rec.get("restored", 0), measured_sources=[], latest=True)
         g.link(rid, "verifies", fid)
         return
     for i, c in enumerate(cohorts):
         prov = (hist.get(c["run_id"]) or {}).get("judge_provenance") or {}
+        run_prov = run_provenance(c, hist.get(c["run_id"]))
         done = [t for t in c.get("targets", []) if t.get("status") == "completed"]
+        # a judge's own snapshot SHA (pt) wins over the run-time origin/main SHA
         rid = g.add(f"rt:{lang}:{form}:{c['run_id']}", "RoundtripRecord", run_id=c["run_id"],
                     evaluator=prov.get("kind") or "cmd:" + c["config"]["command_sha256"][:12],
-                    measured_at_main=prov.get("origin_main_sha"), timestamp=None,
+                    measured_at_main=prov.get("origin_main_sha") or run_prov["origin_main_sha"],
+                    run_origin_main_sha=run_prov["origin_main_sha"], timestamp=run_prov["timestamp"],
                     completed=len(done), restored=sum(1 for t in done if t.get("restored")),
-                    latest=i == len(cohorts) - 1)
+                    measured_sources=measured_sources(c), latest=i == len(cohorts) - 1)
         g.link(rid, "verifies", fid)
 
 
@@ -331,6 +366,87 @@ def collisions(g: Graph) -> dict[str, list[dict]]:
     return {"cross_language": cross, "lang_label_mismatch": mislabel, "multi_meaning": lexical, "tense_merge": tense_merge}
 
 
+TENSE_LABELS = {"past": "過去", "perf": "現在完了", "pluperf": "過去完了", "pres": "現在", "fut": "未来"}
+TENSE_ORDER = ("pres", "past", "perf", "pluperf", "fut")
+
+
+def _tense_rank(t: str) -> tuple[int, str]:
+    return (TENSE_ORDER.index(t) if t in TENSE_ORDER else len(TENSE_ORDER), t)
+
+
+def _tenses(meanings: list[str]) -> tuple[str, ...]:
+    return tuple(sorted({m.rsplit(":", 1)[1] for m in meanings}, key=_tense_rank))
+
+
+def tense_merge_rows(g: Graph) -> list[dict]:
+    """One row per ``tense_merge`` form: adopted EN sources and what its latest round-trip measured."""
+    rows = []
+    for item in collisions(g)["tense_merge"]:
+        fid = item["id"]
+        f = g.nodes[fid]
+        adoptions = sorted((g.nodes[a] for a in g.inc(fid, "usesForm")),
+                           key=lambda a: (_tense_rank(a["meaning"].rsplit(":", 1)[1]), a["entry_id"]))
+        latest = next((g.nodes[r] for r in g.inc(fid, "verifies") if g.nodes[r]["latest"]), None)
+        measured = set(latest["measured_sources"]) if latest else set()
+        rows.append({
+            "id": fid, "lang": f["lang"], "form": f["form"], "meanings": item["meanings"],
+            "tenses": list(_tenses(item["meanings"])), "status": f["status"],
+            "sources": [{"source": a["source"], "meaning": a["meaning"], "entry_id": a["entry_id"],
+                         "measured": a["source"] in measured} for a in adoptions],
+            "measured_sources": sorted(measured),
+            "latest": None if latest is None else {"run_id": latest["run_id"], "completed": latest["completed"],
+                                                   "restored": latest["restored"]},
+        })
+    return rows
+
+
+def tense_merge_doc(g: Graph) -> str:
+    """Markdown report for docs/ontology/tense-merge-collisions.md (printed, never written here)."""
+    rows = tense_merge_rows(g)
+    col = {k: len(v) for k, v in collisions(g).items()}
+    by_lang = Counter(r["lang"] for r in rows)
+    by_tenses = Counter(tuple(r["tenses"]) for r in rows)
+    label = lambda ts: "＋".join(TENSE_LABELS.get(t, t) for t in ts)  # noqa: E731
+    n_src = sum(len(r["sources"]) for r in rows)
+    n_measured = sum(s["measured"] for r in rows for s in r["sources"])
+    unmeasured_meaning = sum(1 for r in rows
+                             if {s["meaning"] for s in r["sources"] if not s["measured"]}
+                             - {s["meaning"] for s in r["sources"] if s["measured"]})
+    out = [
+        "# 時制を統合した採用形（`--collisions` の `tense_merge`）", "",
+        "生成: `uv run python scripts/mapping_graph.py --collisions --markdown > docs/ontology/tense-merge-collisions.md`。",
+        "手で直さず再生成する（`tests/test_mapping_graph.py` が生成結果との一致を確認する）。", "",
+        "`tense_merge` は、同じ `lang:form` が同じ動詞の別時制の英語にも採用されている形。"
+        "グラフは報告するだけで、採用は変えない（[mapping-ontology.md](mapping-ontology.md) 6 節）。", "",
+        "## 件数", "",
+        f"`tense_merge`: {len(rows)} 形（"
+        + " / ".join(f"{lang} {n}" for lang, n in sorted(by_lang.items(), key=lambda kv: (-kv[1], kv[0]))) + "）。", "",
+        "| lang | 形の数 |", "|---|---|",
+        *[f"| {lang} | {n} |" for lang, n in sorted(by_lang.items())], "",
+        "統合している時制の組み合わせ:", "",
+        "| 時制 | 形の数 | 形 |", "|---|---|---|",
+        *[f"| {label(ts)} | {n} | " + "、".join(f"`{r['lang']}:{r['form']}`" for r in rows if tuple(r["tenses"]) == ts) + " |"
+          for ts, n in sorted(by_tenses.items(), key=lambda kv: (-kv[1], kv[0]))], "",
+        "同じ `--collisions` の他の分類（参考）: "
+        + "、".join(f"`{k}` {col[k]}" for k in ("cross_language", "lang_label_mismatch", "multi_meaning")) + "。", "",
+        "## 往復で確かめた読み", "",
+        "往復の判定は形ごとの最新コホートで行い、復元させた英語はコホートの `targets[].source` に残る。",
+        f"上の {len(rows)} 形が採用されている英語は計 {n_src} 行で、そのうち最新コホートで復元対象だったのは {n_measured} 行。",
+        f"最新コホートが測っていない時制を含む形は {unmeasured_meaning} 形ある。"
+        "その時制の英語へ AI が戻せるかは、往復ではまだ確かめていない。", "",
+        "## 一覧", "",
+        "| lang:form | 時制 | 採用している英語 | 最新コホートで復元させた英語 | status | 最新 restored/completed |",
+        "|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        srcs = "<br>".join(f"{s['source']}（{s['entry_id']}）" + ("" if s["measured"] else " ※未測定") for s in r["sources"])
+        latest = "記録なし" if r["latest"] is None else f"{r['latest']['restored']}/{r['latest']['completed']}"
+        measured = "、".join(r["measured_sources"]) or "—"
+        out.append(f"| `{r['lang']}:{r['form']}` | {label(r['tenses'])} | {srcs} | {measured} | {r['status']} | {latest} |")
+    out += ["", "※未測定: その英語を復元対象にしたコホートが最新記録に無い行。", ""]
+    return "\n".join(out)
+
+
 def check(g: Graph) -> dict:
     s = read_settings()
     rtd = rt.load()
@@ -380,7 +496,11 @@ def main(argv: list[str] | None = None) -> int:
     q.add_argument("--node", metavar="ID")
     ap.add_argument("--lang")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--markdown", action="store_true",
+                    help="with --collisions: print the tense_merge report (docs/ontology/tense-merge-collisions.md)")
     a = ap.parse_args(argv)
+    if a.markdown and not a.collisions:
+        ap.error("--markdown needs --collisions")
     try:
         g = build()
     except GraphError as exc:
@@ -398,6 +518,9 @@ def main(argv: list[str] | None = None) -> int:
     elif a.parity_reversed:
         res = parity_reversed(g)
     elif a.collisions:
+        if a.markdown:
+            sys.stdout.write(tense_merge_doc(g))
+            return 0
         res = collisions(g)
     else:
         if a.node not in g.nodes:
