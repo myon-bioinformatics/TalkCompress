@@ -24,7 +24,9 @@ def g():
 def test_settings_read_without_import():
     s = mg.read_settings()
     assert s["ROUNDTRIP_ENFORCED_LANGS"] == frozenset({"nl"})
-    assert ("pt", "virá") in s["ROUNDTRIP_REVERSED"]
+    assert ("pt", "foi") in s["ROUNDTRIP_REVERSED"]
+    # virá re-enabled by the 3bot in-context round-trip (docs/reaudit_a_3bot_roundtrip_20261110.md)
+    assert ("pt", "virá") not in s["ROUNDTRIP_REVERSED"]
     assert "i took" in s["ROUNDTRIP_REVERSED_SOURCES"]
     assert s["ROUNDTRIP_REVERSED_ANY_CANDIDATE_LANGS"] == frozenset({"it"})
     assert s["ROUNDTRIP_REVERSED_DROP_CANDIDATE_LANGS"] == frozenset({"es"})
@@ -62,10 +64,10 @@ def test_summary_counts_cover_every_adopted_form(g):
 
 
 def test_reversal_is_linked_to_its_records(g):
-    rev = g.nodes["rev:pt:virá"]
+    rev = g.nodes["rev:pt:foi"]
     assert rev["strategy"] == "adopted_winner_only"
-    assert g.out("rev:pt:virá", "basedOn")
-    assert all(g.nodes[r]["type"] == "RoundtripRecord" for r in g.out("rev:pt:virá", "basedOn"))
+    assert g.out("rev:pt:foi", "basedOn")
+    assert all(g.nodes[r]["type"] == "RoundtripRecord" for r in g.out("rev:pt:foi", "basedOn"))
     assert "en:i took" in g.out("revsrc:i took", "keepsEnglish")
 
 
@@ -76,7 +78,9 @@ def test_no_reversed_form_is_still_adopted():
 def test_parity_followers_of_reversed_base(g):
     rows = mg.parity_reversed(g)
     assert rows and all(g.nodes[r["id"]]["base_reversed"] for r in rows)
-    assert {"this virá"} == {r["follower_form"] for r in rows if r["cell_status"] == "adopt"}
+    # ``this virá`` was the only adopted one; its base virá is no longer reversed
+    assert set() == {r["follower_form"] for r in rows if r["cell_status"] == "adopt"}
+    assert "this virá" not in {r["follower_form"] for r in rows}
 
 
 def test_source_query_lists_all_languages(g):

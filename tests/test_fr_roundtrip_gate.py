@@ -11,6 +11,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import reaudit_a_3bot_roundtrip as reaudit  # noqa: E402
 import roundtrip as rt  # noqa: E402
 import tense_matrix as tm  # noqa: E402
 
@@ -21,11 +22,16 @@ ES_FR = json.loads((FIX / "es_fr_tense.json").read_text(encoding="utf-8"))
 JUDGE = json.loads((FIX / "roundtrip_judge/fr_blind.json").read_text(encoding="utf-8"))
 REPORT = {c["src"]: c for c in json.loads((ROOT / "docs/tense_matrix_report.json").read_text(encoding="utf-8"))["cells"]}
 
-REVERSED_TM = ["prends", "vins", "vis", "pris", "voulus", "sus", "avoir voulu", "avoir eu", "avoir su",
-               "avais su", "ira", "ont su", "que dit", "que ont voulu", "que ont eu", "que ont su"]
-REVERSED_ES_FR = {"take-past-1s": "pris", "arrive-past-1s": "arrivé"}
-# passed themselves (9/9) but number parity follows the reversed pronoun winner (ira / ont su)
-PARITY_EN = {"this will go": "this ira", "these have known": "these ont su", "those have known": "those ont su"}
+# prends / vins / vis / voulus / sus / avais su / ira (and es_fr arrivé) were reversed here
+# first, then re-enabled by the 3bot in-context round-trip (docs/reaudit_a_3bot_roundtrip_20261110.md).
+REVERSED_TM = ["pris", "avoir voulu", "avoir eu", "avoir su",
+               "ont su", "que dit", "que ont voulu", "que ont eu", "que ont su"]
+REVERSED_ES_FR = {"take-past-1s": "pris"}
+# fr forms re-enabled by a passing context cohort; roundtrip.json still holds their bare 0/9
+# (essayé: no fr record), the context cohort lives in roundtrip_judge/reaudit_a_3bot_results.json
+REAUDIT = {f for lang, f in reaudit.restored() if lang == "fr"}
+# passed themselves (9/9) but number parity follows the reversed pronoun winner (ont su)
+PARITY_EN = {"these have known": "these ont su", "those have known": "those ont su"}
 
 
 def _fr_forms() -> set[str]:
@@ -43,8 +49,8 @@ def test_policy_scope_unchanged():
 
 def test_every_fr_winner_passed_independent_blind_roundtrip():
     forms = _fr_forms()
-    assert len(forms) == 93
-    for form in forms:
+    assert len(forms) == 103 and REAUDIT <= forms
+    for form in forms - REAUDIT:
         assert rt.status(DATA, "fr", form) == "pass", form
         cohort = rt.latest_cohort(DATA["records"][rt.key("fr", form)])
         assert cohort["complete"] and cohort["completed"] >= DATA["min_trials"]
@@ -62,7 +68,7 @@ def test_all_113_fr_forms_recorded():
     assert st.count("pass") == 96 and st.count("never") == 17
 
 
-@pytest.mark.parametrize("form", REVERSED_TM + ["arrivé"])
+@pytest.mark.parametrize("form", REVERSED_TM)
 def test_failed_fr_forms_reversed(form):
     assert rt.status(DATA, "fr", form) == "never"
     assert form not in _fr_forms()
@@ -75,7 +81,7 @@ def test_es_fr_reversal_recorded_as_not_registered(eid, form):
     assert dropped["to"] == form and dropped["lang"] == "fr" and "0/9" in dropped["why_dropped"]
 
 
-@pytest.mark.parametrize("src", ["I took", "I arrived"])
+@pytest.mark.parametrize("src", ["I took"])
 def test_reversed_es_fr_sources_stay_english(src):
     # no next-language candidate (e.g. de ``nahm``) is promoted by the matrix
     assert all(src not in e["from"] for e in BANK["entries"])
@@ -88,3 +94,15 @@ def test_parity_followers_stay_english(src, form):
     assert rt.status(DATA, "fr", form) == "pass"
     assert all(src not in e["from"] for e in BANK["entries"])
     assert REPORT[src]["status"] == "reject"
+
+
+def test_reaudit_forms_adopted_on_the_context_cohort_only():
+    assert REAUDIT == {"vis", "vins", "sus", "voulus", "prends", "avais su", "ira", "arrivé", "essayé"}
+    res = json.loads(reaudit.RESULTS.read_text(encoding="utf-8"))["results"]
+    for form in REAUDIT:
+        key = "pt:essayé" if form == "essayé" else f"fr:{form}"
+        assert res[key]["status"] == "pass" and res[key]["exact"] >= 6
+        # gate-visible roundtrip.json is not rewritten by this study (owned by the 2bot audit)
+        assert rt.status(DATA, "fr", form) == ("unverified" if form == "essayé" else "never")
+    assert rt.status(DATA, "fr", "this ira") == "pass"
+    assert any(e["from"] == ["this will go"] and e["to"] == "this ira" for e in BANK["entries"])

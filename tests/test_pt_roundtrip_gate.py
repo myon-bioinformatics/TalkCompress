@@ -12,6 +12,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
+import reaudit_a_3bot_roundtrip as reaudit_a
 import roundtrip as rt
 import tense_matrix as tm
 
@@ -26,6 +27,11 @@ BASE_OTHER_LANG_HASHES = {
     "pt_el_latin_phrases": "869f7e00ff4b11e188588ec4bf3c61f81609213c0fdde45e980a935c692e8a7b",  # after #164 (el reversals) + #161 (la entries / el υπέρ reversal)
     "pt_el_latin_tense": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
 }
+
+
+# pt forms re-enabled on a passing in-context cohort kept outside roundtrip.json
+# (docs/reaudit_a_3bot_roundtrip_20261110.md); their pt record is still the bare 0/9.
+REAUDIT = reaudit_a.restored()
 
 
 def read(name):
@@ -87,7 +93,8 @@ def test_only_failed_pt_entries_removed_no_unmeasured_promotions(name):
     data = rt.load()
     expected = {
         e["id"]: f["entry"]["to"] for f in SOURCES for e in f["source_entries"]
-        if e["file"] == f"SentenceCalibratedMosaic/fixtures/{name}.json" and rt.status(data, "pt", f["entry"]["to"]) == "pass"
+        if e["file"] == f"SentenceCalibratedMosaic/fixtures/{name}.json"
+        and (rt.status(data, "pt", f["entry"]["to"]) == "pass" or ("pt", f["entry"]["to"]) in REAUDIT)
     }
     got = {e["id"]: e["to"] for e in read(name)["entries"] if e["lang"] == "pt"}
     # #161 (la reversal of ergo / ideo) and #164 (el βρω reversal) promoted pt runner-ups
@@ -110,17 +117,19 @@ def test_generated_reversals_are_per_form_and_leave_empty_english_cells():
         ("pt", f["entry"]["to"]) for f in SOURCES
         if any(e["file"].endswith("/tense_matrix.json") for e in f["source_entries"])
         and rt.status(data, "pt", f["entry"]["to"]) != "pass"
+        and ("pt", f["entry"]["to"]) not in REAUDIT
     }
     # ROUNDTRIP_REVERSED is a union across languages (it from #168, ...); pt part only here.
     assert {r for r in tm.ROUNDTRIP_REVERSED if r[0] == "pt"} == failed
     cells = json.loads((ROOT / "docs/tense_matrix_report.json").read_text(encoding="utf-8"))["cells"]
     pt_rev = {f for _, f in failed}
     reversed_cells = [c for c in cells if set(c.get("roundtrip_reversed") or ()) & pt_rev]
-    assert len(reversed_cells) == 63
+    assert len(reversed_cells) == 62  # 63 -> 62: virá (it will come) re-enabled
     assert all(c["status"] == "reject" and c["candidates"] == [] for c in reversed_cells)
 
 
-@pytest.mark.parametrize("name,removed", [("es_fr_tense", 3), ("pt_el_latin_phrases", 4), ("pt_el_latin_tense", 1)])
+# es_fr_tense 3 -> 2: essayé (pt label, French form) re-enabled as fr by the 3bot reaudit
+@pytest.mark.parametrize("name,removed", [("es_fr_tense", 2), ("pt_el_latin_phrases", 4), ("pt_el_latin_tense", 1)])
 def test_quarantined_failure_evidence_and_sources_reserved(name, removed):
     data = read(name)
     reversed_entries = [e for e in data["examples_not_registered"] if e.get("roundtrip_reversed")]

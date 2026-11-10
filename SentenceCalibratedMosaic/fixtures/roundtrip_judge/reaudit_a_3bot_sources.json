@@ -1,0 +1,1722 @@
+{
+ "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+ "request_sha256": "cbde18d7863e6b42d720f36deca7291608199a2f57369823f972cc20a1d994f2",
+ "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+ "raw_answers_sha256": "12f60d8429fa59c67581f73c9cd1bcf05c999c3d10f05e328e67303983232a6a",
+ "input_sha256": "647dd326311f0057d5170ba259bda0402b5354cf03a480645c84dcdb816bad93",
+ "shuffle": "sorted by sha256(converted sentence utf-8)",
+ "official_templates": [
+  "{s}.",
+  "Maybe {s} today.",
+  "She told me that {s}."
+ ],
+ "note": "Contexts come from the 3bot reaudit proposed_contexts (author-designed, not from a corpus); first letter lowercased like #179 unless the context starts with {s} or I. Each context is wrapped in the 3 official templates verbatim, so some sentences are unnatural (e.g. \"...didn't you?.\" / \"...? today.\"). One fresh context-free judge call per sentence (117 calls) with the official scripts/roundtrip.py PROMPT; replies carry no id and were mapped back to sentences by content (template marker + context English, Hungarian assignment), see request_id.",
+ "forms": {
+  "fr:vis": {
+   "form": "vis",
+   "adopted_source": "you saw",
+   "accepted_sources": [
+    "you saw"
+   ],
+   "contexts": [
+    "you saw the accident yourself, didn't you?",
+    "where were you when you saw the fire?",
+    "you told me you saw her at the station"
+   ],
+   "templates": [
+    "{s} the accident yourself, didn't you?.",
+    "Maybe {s} the accident yourself, didn't you? today.",
+    "She told me that {s} the accident yourself, didn't you?.",
+    "where were you when {s} the fire?.",
+    "Maybe where were you when {s} the fire? today.",
+    "She told me that where were you when {s} the fire?.",
+    "you told me {s} her at the station.",
+    "Maybe you told me {s} her at the station today.",
+    "She told me that you told me {s} her at the station."
+   ]
+  },
+  "fr:vins": {
+   "form": "vins",
+   "adopted_source": "you came",
+   "accepted_sources": [
+    "you came"
+   ],
+   "contexts": [
+    "you came too late, so you missed the speech",
+    "you said you came by train last week",
+    "why you came alone, without your sister?"
+   ],
+   "templates": [
+    "{s} too late, so you missed the speech.",
+    "Maybe {s} too late, so you missed the speech today.",
+    "She told me that {s} too late, so you missed the speech.",
+    "you said {s} by train last week.",
+    "Maybe you said {s} by train last week today.",
+    "She told me that you said {s} by train last week.",
+    "why {s} alone, without your sister?.",
+    "Maybe why {s} alone, without your sister? today.",
+    "She told me that why {s} alone, without your sister?."
+   ]
+  },
+  "fr:sus": {
+   "form": "sus",
+   "adopted_source": "you knew",
+   "accepted_sources": [
+    "you knew"
+   ],
+   "contexts": [
+    "you knew the answer before anyone else, and you said nothing",
+    "when you knew the truth, you called me",
+    "you admitted you knew it all along"
+   ],
+   "templates": [
+    "{s} the answer before anyone else, and you said nothing.",
+    "Maybe {s} the answer before anyone else, and you said nothing today.",
+    "She told me that {s} the answer before anyone else, and you said nothing.",
+    "when {s} the truth, you called me.",
+    "Maybe when {s} the truth, you called me today.",
+    "She told me that when {s} the truth, you called me.",
+    "you admitted {s} it all along.",
+    "Maybe you admitted {s} it all along today.",
+    "She told me that you admitted {s} it all along."
+   ]
+  },
+  "fr:voulus": {
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "accepted_sources": [
+    "you wanted"
+   ],
+   "contexts": [
+    "you wanted to leave early, so you asked the boss",
+    "you said you wanted a bigger room",
+    "when you wanted to quit, you told no one"
+   ],
+   "templates": [
+    "{s} to leave early, so you asked the boss.",
+    "Maybe {s} to leave early, so you asked the boss today.",
+    "She told me that {s} to leave early, so you asked the boss.",
+    "you said {s} a bigger room.",
+    "Maybe you said {s} a bigger room today.",
+    "She told me that you said {s} a bigger room.",
+    "when {s} to quit, you told no one.",
+    "Maybe when {s} to quit, you told no one today.",
+    "She told me that when {s} to quit, you told no one."
+   ]
+  },
+  "fr:prends": {
+   "form": "prends",
+   "adopted_source": "you take",
+   "accepted_sources": [
+    "you take"
+   ],
+   "contexts": [
+    "you take the bus every day, don't you?",
+    "if you take the red one, I'll take the blue one",
+    "you always say you take too long in the shower"
+   ],
+   "templates": [
+    "{s} the bus every day, don't you?.",
+    "Maybe {s} the bus every day, don't you? today.",
+    "She told me that {s} the bus every day, don't you?.",
+    "if {s} the red one, I'll take the blue one.",
+    "Maybe if {s} the red one, I'll take the blue one today.",
+    "She told me that if {s} the red one, I'll take the blue one.",
+    "you always say {s} too long in the shower.",
+    "Maybe you always say {s} too long in the shower today.",
+    "She told me that you always say {s} too long in the shower."
+   ]
+  },
+  "fr:avais su": {
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "accepted_sources": [
+    "you had known"
+   ],
+   "contexts": [
+    "you had known it before you met him, you told me",
+    "if you had known the price, you would not have come",
+    "you admitted you had known the truth for weeks"
+   ],
+   "templates": [
+    "{s} it before you met him, you told me.",
+    "Maybe {s} it before you met him, you told me today.",
+    "She told me that {s} it before you met him, you told me.",
+    "if {s} the price, you would not have come.",
+    "Maybe if {s} the price, you would not have come today.",
+    "She told me that if {s} the price, you would not have come.",
+    "you admitted {s} the truth for weeks.",
+    "Maybe you admitted {s} the truth for weeks today.",
+    "She told me that you admitted {s} the truth for weeks."
+   ]
+  },
+  "fr:ira": {
+   "form": "ira",
+   "adopted_source": "it will go",
+   "accepted_sources": [
+    "it will go"
+   ],
+   "contexts": [
+    "the parcel is ready; it will go out with the morning post",
+    "the old machine is broken, so it will go to the dump",
+    "the meeting room is booked, but it will go unused if nobody comes"
+   ],
+   "templates": [
+    "the parcel is ready; {s} out with the morning post.",
+    "Maybe the parcel is ready; {s} out with the morning post today.",
+    "She told me that the parcel is ready; {s} out with the morning post.",
+    "the old machine is broken, so {s} to the dump.",
+    "Maybe the old machine is broken, so {s} to the dump today.",
+    "She told me that the old machine is broken, so {s} to the dump.",
+    "the meeting room is booked, but {s} unused if nobody comes.",
+    "Maybe the meeting room is booked, but {s} unused if nobody comes today.",
+    "She told me that the meeting room is booked, but {s} unused if nobody comes."
+   ]
+  },
+  "fr:arrivé": {
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "accepted_sources": [
+    "I arrived"
+   ],
+   "contexts": [
+    "I was the first one: I arrived at eight and opened the doors",
+    "when I arrived at the hotel, my room was not ready",
+    "I was so tired after I arrived home late"
+   ],
+   "templates": [
+    "I was the first one: {s} at eight and opened the doors.",
+    "Maybe I was the first one: {s} at eight and opened the doors today.",
+    "She told me that I was the first one: {s} at eight and opened the doors.",
+    "when {s} at the hotel, my room was not ready.",
+    "Maybe when {s} at the hotel, my room was not ready today.",
+    "She told me that when {s} at the hotel, my room was not ready.",
+    "I was so tired after {s} home late.",
+    "Maybe I was so tired after {s} home late today.",
+    "She told me that I was so tired after {s} home late."
+   ]
+  },
+  "pt:virá": {
+   "form": "virá",
+   "adopted_source": "it will come",
+   "accepted_sources": [
+    "it will come"
+   ],
+   "contexts": [
+    "the package is late, but it will come tomorrow",
+    "the rain stopped, but forecasters say it will come back tonight",
+    "the bill is due; it will come in the mail on Monday"
+   ],
+   "templates": [
+    "the package is late, but {s} tomorrow.",
+    "Maybe the package is late, but {s} tomorrow today.",
+    "She told me that the package is late, but {s} tomorrow.",
+    "the rain stopped, but forecasters say {s} back tonight.",
+    "Maybe the rain stopped, but forecasters say {s} back tonight today.",
+    "She told me that the rain stopped, but forecasters say {s} back tonight.",
+    "the bill is due; {s} in the mail on Monday.",
+    "Maybe the bill is due; {s} in the mail on Monday today.",
+    "She told me that the bill is due; {s} in the mail on Monday."
+   ]
+  },
+  "pt:essayé": {
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "accepted_sources": [
+    "I tried"
+   ],
+   "contexts": [
+    "don't blame me, I tried three times before giving up",
+    "I tried the soup myself and it was too salty",
+    "yesterday I tried to call you but the line was busy"
+   ],
+   "templates": [
+    "don't blame me, {s} three times before giving up.",
+    "Maybe don't blame me, {s} three times before giving up today.",
+    "She told me that don't blame me, {s} three times before giving up.",
+    "{s} the soup myself and it was too salty.",
+    "Maybe {s} the soup myself and it was too salty today.",
+    "She told me that {s} the soup myself and it was too salty.",
+    "yesterday {s} to call you but the line was busy.",
+    "Maybe yesterday {s} to call you but the line was busy today.",
+    "She told me that yesterday {s} to call you but the line was busy."
+   ]
+  },
+  "pt:farei": {
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "accepted_sources": [
+    "I will do it",
+    "I'll do it"
+   ],
+   "contexts": [
+    "the report is not finished, but I will do it tonight",
+    "don't worry about the dishes, I will do it after dinner",
+    "if nobody wants that job, I will do it myself"
+   ],
+   "templates": [
+    "the report is not finished, but {s} tonight.",
+    "Maybe the report is not finished, but {s} tonight today.",
+    "She told me that the report is not finished, but {s} tonight.",
+    "don't worry about the dishes, {s} after dinner.",
+    "Maybe don't worry about the dishes, {s} after dinner today.",
+    "She told me that don't worry about the dishes, {s} after dinner.",
+    "if nobody wants that job, {s} myself.",
+    "Maybe if nobody wants that job, {s} myself today.",
+    "She told me that if nobody wants that job, {s} myself."
+   ]
+  },
+  "es:pensamos": {
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "accepted_sources": [
+    "we thought"
+   ],
+   "contexts": [
+    "yesterday we thought it would rain, but it didn't",
+    "last year we thought about moving to Lisbon",
+    "at first we thought the shop was closed"
+   ],
+   "templates": [
+    "yesterday {s} it would rain, but it didn't.",
+    "Maybe yesterday {s} it would rain, but it didn't today.",
+    "She told me that yesterday {s} it would rain, but it didn't.",
+    "last year {s} about moving to Lisbon.",
+    "Maybe last year {s} about moving to Lisbon today.",
+    "She told me that last year {s} about moving to Lisbon.",
+    "at first {s} the shop was closed.",
+    "Maybe at first {s} the shop was closed today.",
+    "She told me that at first {s} the shop was closed."
+   ]
+  },
+  "zh:几点": {
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "accepted_sources": [
+    "what time is it"
+   ],
+   "contexts": [
+    "excuse me, what time is it? My phone died",
+    "what time is it now? I need to leave by six",
+    "can you check what time is it? The meeting starts soon"
+   ],
+   "templates": [
+    "excuse me, {s}? My phone died.",
+    "Maybe excuse me, {s}? My phone died today.",
+    "She told me that excuse me, {s}? My phone died.",
+    "{s} now? I need to leave by six.",
+    "Maybe {s} now? I need to leave by six today.",
+    "She told me that {s} now? I need to leave by six.",
+    "can you check {s}? The meeting starts soon.",
+    "Maybe can you check {s}? The meeting starts soon today.",
+    "She told me that can you check {s}? The meeting starts soon."
+   ]
+  }
+ },
+ "sentences": [
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you admitted you had known the truth for weeks today.",
+   "converted": "Maybe you admitted avais su the truth for weeks today.",
+   "n": 1,
+   "request_id": "s001"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the package is late, but it will come tomorrow today.",
+   "converted": "Maybe the package is late, but virá tomorrow today.",
+   "n": 2,
+   "request_id": "s002"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "At first we thought the shop was closed.",
+   "converted": "At first pensamos the shop was closed.",
+   "n": 3,
+   "request_id": "s003"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the report is not finished, but I will do it tonight.",
+   "converted": "She told me that the report is not finished, but farei tonight.",
+   "n": 4,
+   "request_id": "s004"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you take the bus every day, don't you? today.",
+   "converted": "Maybe prends the bus every day, don't you? today.",
+   "n": 5,
+   "request_id": "s005"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the meeting room is booked, but it will go unused if nobody comes today.",
+   "converted": "Maybe the meeting room is booked, but ira unused if nobody comes today.",
+   "n": 6,
+   "request_id": "s006"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe if you had known the price, you would not have come today.",
+   "converted": "Maybe if avais su the price, you would not have come today.",
+   "n": 7,
+   "request_id": "s007"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that yesterday I tried to call you but the line was busy.",
+   "converted": "She told me that yesterday essayé to call you but the line was busy.",
+   "n": 8,
+   "request_id": "s008"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Don't blame me, I tried three times before giving up.",
+   "converted": "Don't blame me, essayé three times before giving up.",
+   "n": 9,
+   "request_id": "s009"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You said you wanted a bigger room.",
+   "converted": "You said voulus a bigger room.",
+   "n": 10,
+   "request_id": "s010"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you came too late, so you missed the speech today.",
+   "converted": "Maybe vins too late, so you missed the speech today.",
+   "n": 11,
+   "request_id": "s011"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you had known it before you met him, you told me.",
+   "converted": "She told me that avais su it before you met him, you told me.",
+   "n": 12,
+   "request_id": "s012"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You admitted you had known the truth for weeks.",
+   "converted": "You admitted avais su the truth for weeks.",
+   "n": 13,
+   "request_id": "s013"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you had known it before you met him, you told me today.",
+   "converted": "Maybe avais su it before you met him, you told me today.",
+   "n": 14,
+   "request_id": "s014"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you admitted you knew it all along today.",
+   "converted": "Maybe you admitted sus it all along today.",
+   "n": 15,
+   "request_id": "s015"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that excuse me, what time is it? My phone died.",
+   "converted": "She told me that excuse me, 几点? My phone died.",
+   "n": 16,
+   "request_id": "s016"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that yesterday we thought it would rain, but it didn't.",
+   "converted": "She told me that yesterday pensamos it would rain, but it didn't.",
+   "n": 17,
+   "request_id": "s017"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you told me you saw her at the station.",
+   "converted": "She told me that you told me vis her at the station.",
+   "n": 18,
+   "request_id": "s018"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "If you had known the price, you would not have come.",
+   "converted": "If avais su the price, you would not have come.",
+   "n": 19,
+   "request_id": "s019"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The meeting room is booked, but it will go unused if nobody comes.",
+   "converted": "The meeting room is booked, but ira unused if nobody comes.",
+   "n": 20,
+   "request_id": "s020"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I tried the soup myself and it was too salty.",
+   "converted": "Essayé the soup myself and it was too salty.",
+   "n": 21,
+   "request_id": "s021"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the report is not finished, but I will do it tonight today.",
+   "converted": "Maybe the report is not finished, but farei tonight today.",
+   "n": 22,
+   "request_id": "s022"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe what time is it now? I need to leave by six today.",
+   "converted": "Maybe 几点 now? I need to leave by six today.",
+   "n": 23,
+   "request_id": "s023"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the meeting room is booked, but it will go unused if nobody comes.",
+   "converted": "She told me that the meeting room is booked, but ira unused if nobody comes.",
+   "n": 24,
+   "request_id": "s024"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "What time is it now? I need to leave by six.",
+   "converted": "几点 now? I need to leave by six.",
+   "n": 25,
+   "request_id": "s025"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe yesterday I tried to call you but the line was busy today.",
+   "converted": "Maybe yesterday essayé to call you but the line was busy today.",
+   "n": 26,
+   "request_id": "s026"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Why you came alone, without your sister?.",
+   "converted": "Why vins alone, without your sister?.",
+   "n": 27,
+   "request_id": "s027"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that if nobody wants that job, I will do it myself.",
+   "converted": "She told me that if nobody wants that job, farei myself.",
+   "n": 28,
+   "request_id": "s028"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you said you came by train last week.",
+   "converted": "She told me that you said vins by train last week.",
+   "n": 29,
+   "request_id": "s029"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the bill is due; it will come in the mail on Monday today.",
+   "converted": "Maybe the bill is due; virá in the mail on Monday today.",
+   "n": 30,
+   "request_id": "s030"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "If nobody wants that job, I will do it myself.",
+   "converted": "If nobody wants that job, farei myself.",
+   "n": 31,
+   "request_id": "s031"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the rain stopped, but forecasters say it will come back tonight.",
+   "converted": "She told me that the rain stopped, but forecasters say virá back tonight.",
+   "n": 32,
+   "request_id": "s032"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you came too late, so you missed the speech.",
+   "converted": "She told me that vins too late, so you missed the speech.",
+   "n": 33,
+   "request_id": "s033"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You always say you take too long in the shower.",
+   "converted": "You always say prends too long in the shower.",
+   "n": 34,
+   "request_id": "s034"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Don't worry about the dishes, I will do it after dinner.",
+   "converted": "Don't worry about the dishes, farei after dinner.",
+   "n": 35,
+   "request_id": "s035"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you wanted to leave early, so you asked the boss today.",
+   "converted": "Maybe voulus to leave early, so you asked the boss today.",
+   "n": 36,
+   "request_id": "s036"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that when you wanted to quit, you told no one.",
+   "converted": "She told me that when voulus to quit, you told no one.",
+   "n": 37,
+   "request_id": "s037"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you said you wanted a bigger room.",
+   "converted": "She told me that you said voulus a bigger room.",
+   "n": 38,
+   "request_id": "s038"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you said you came by train last week today.",
+   "converted": "Maybe you said vins by train last week today.",
+   "n": 39,
+   "request_id": "s039"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the parcel is ready; it will go out with the morning post.",
+   "converted": "She told me that the parcel is ready; ira out with the morning post.",
+   "n": 40,
+   "request_id": "s040"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the old machine is broken, so it will go to the dump today.",
+   "converted": "Maybe the old machine is broken, so ira to the dump today.",
+   "n": 41,
+   "request_id": "s041"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The old machine is broken, so it will go to the dump.",
+   "converted": "The old machine is broken, so ira to the dump.",
+   "n": 42,
+   "request_id": "s042"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You had known it before you met him, you told me.",
+   "converted": "Avais su it before you met him, you told me.",
+   "n": 43,
+   "request_id": "s043"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you saw the accident yourself, didn't you? today.",
+   "converted": "Maybe vis the accident yourself, didn't you? today.",
+   "n": 44,
+   "request_id": "s044"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe why you came alone, without your sister? today.",
+   "converted": "Maybe why vins alone, without your sister? today.",
+   "n": 45,
+   "request_id": "s045"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You admitted you knew it all along.",
+   "converted": "You admitted sus it all along.",
+   "n": 46,
+   "request_id": "s046"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe when I arrived at the hotel, my room was not ready today.",
+   "converted": "Maybe when arrivé at the hotel, my room was not ready today.",
+   "n": 47,
+   "request_id": "s047"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe don't worry about the dishes, I will do it after dinner today.",
+   "converted": "Maybe don't worry about the dishes, farei after dinner today.",
+   "n": 48,
+   "request_id": "s048"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Yesterday we thought it would rain, but it didn't.",
+   "converted": "Yesterday pensamos it would rain, but it didn't.",
+   "n": 49,
+   "request_id": "s049"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you admitted you knew it all along.",
+   "converted": "She told me that you admitted sus it all along.",
+   "n": 50,
+   "request_id": "s050"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you knew the answer before anyone else, and you said nothing.",
+   "converted": "She told me that sus the answer before anyone else, and you said nothing.",
+   "n": 51,
+   "request_id": "s051"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe if nobody wants that job, I will do it myself today.",
+   "converted": "Maybe if nobody wants that job, farei myself today.",
+   "n": 52,
+   "request_id": "s052"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you always say you take too long in the shower.",
+   "converted": "She told me that you always say prends too long in the shower.",
+   "n": 53,
+   "request_id": "s053"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Can you check what time is it? The meeting starts soon.",
+   "converted": "Can you check 几点? The meeting starts soon.",
+   "n": 54,
+   "request_id": "s054"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The bill is due; it will come in the mail on Monday.",
+   "converted": "The bill is due; virá in the mail on Monday.",
+   "n": 55,
+   "request_id": "s055"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You wanted to leave early, so you asked the boss.",
+   "converted": "Voulus to leave early, so you asked the boss.",
+   "n": 56,
+   "request_id": "s056"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you take the bus every day, don't you?.",
+   "converted": "She told me that prends the bus every day, don't you?.",
+   "n": 57,
+   "request_id": "s057"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you told me you saw her at the station today.",
+   "converted": "Maybe you told me vis her at the station today.",
+   "n": 58,
+   "request_id": "s058"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The parcel is ready; it will go out with the morning post.",
+   "converted": "The parcel is ready; ira out with the morning post.",
+   "n": 59,
+   "request_id": "s059"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe at first we thought the shop was closed today.",
+   "converted": "Maybe at first pensamos the shop was closed today.",
+   "n": 60,
+   "request_id": "s060"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that why you came alone, without your sister?.",
+   "converted": "She told me that why vins alone, without your sister?.",
+   "n": 61,
+   "request_id": "s061"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I was so tired after I arrived home late today.",
+   "converted": "Maybe I was so tired after arrivé home late today.",
+   "n": 62,
+   "request_id": "s062"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You knew the answer before anyone else, and you said nothing.",
+   "converted": "Sus the answer before anyone else, and you said nothing.",
+   "n": 63,
+   "request_id": "s063"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The package is late, but it will come tomorrow.",
+   "converted": "The package is late, but virá tomorrow.",
+   "n": 64,
+   "request_id": "s064"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that at first we thought the shop was closed.",
+   "converted": "She told me that at first pensamos the shop was closed.",
+   "n": 65,
+   "request_id": "s065"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Where were you when you saw the fire?.",
+   "converted": "Where were you when vis the fire?.",
+   "n": 66,
+   "request_id": "s066"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the parcel is ready; it will go out with the morning post today.",
+   "converted": "Maybe the parcel is ready; ira out with the morning post today.",
+   "n": 67,
+   "request_id": "s067"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe where were you when you saw the fire? today.",
+   "converted": "Maybe where were you when vis the fire? today.",
+   "n": 68,
+   "request_id": "s068"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You said you came by train last week.",
+   "converted": "You said vins by train last week.",
+   "n": 69,
+   "request_id": "s069"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that when you knew the truth, you called me.",
+   "converted": "She told me that when sus the truth, you called me.",
+   "n": 70,
+   "request_id": "s070"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I was so tired after I arrived home late.",
+   "converted": "I was so tired after arrivé home late.",
+   "n": 71,
+   "request_id": "s071"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I was the first one: I arrived at eight and opened the doors today.",
+   "converted": "Maybe I was the first one: arrivé at eight and opened the doors today.",
+   "n": 72,
+   "request_id": "s072"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that don't worry about the dishes, I will do it after dinner.",
+   "converted": "She told me that don't worry about the dishes, farei after dinner.",
+   "n": 73,
+   "request_id": "s073"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe when you knew the truth, you called me today.",
+   "converted": "Maybe when sus the truth, you called me today.",
+   "n": 74,
+   "request_id": "s074"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I tried the soup myself and it was too salty.",
+   "converted": "She told me that essayé the soup myself and it was too salty.",
+   "n": 75,
+   "request_id": "s075"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that where were you when you saw the fire?.",
+   "converted": "She told me that where were you when vis the fire?.",
+   "n": 76,
+   "request_id": "s076"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the package is late, but it will come tomorrow.",
+   "converted": "She told me that the package is late, but virá tomorrow.",
+   "n": 77,
+   "request_id": "s077"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "If you take the red one, I'll take the blue one.",
+   "converted": "If prends the red one, I'll take the blue one.",
+   "n": 78,
+   "request_id": "s078"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe don't blame me, I tried three times before giving up today.",
+   "converted": "Maybe don't blame me, essayé three times before giving up today.",
+   "n": 79,
+   "request_id": "s079"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "When you wanted to quit, you told no one.",
+   "converted": "When voulus to quit, you told no one.",
+   "n": 80,
+   "request_id": "s080"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I was the first one: I arrived at eight and opened the doors.",
+   "converted": "She told me that I was the first one: arrivé at eight and opened the doors.",
+   "n": 81,
+   "request_id": "s081"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe if you take the red one, I'll take the blue one today.",
+   "converted": "Maybe if prends the red one, I'll take the blue one today.",
+   "n": 82,
+   "request_id": "s082"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You told me you saw her at the station.",
+   "converted": "You told me vis her at the station.",
+   "n": 83,
+   "request_id": "s083"
+  },
+  {
+   "key": "pt:farei",
+   "form": "farei",
+   "adopted_source": "I will do it",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The report is not finished, but I will do it tonight.",
+   "converted": "The report is not finished, but farei tonight.",
+   "n": 84,
+   "request_id": "s084"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that when I arrived at the hotel, my room was not ready.",
+   "converted": "She told me that when arrivé at the hotel, my room was not ready.",
+   "n": 85,
+   "request_id": "s085"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that if you take the red one, I'll take the blue one.",
+   "converted": "She told me that if prends the red one, I'll take the blue one.",
+   "n": 86,
+   "request_id": "s086"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe the rain stopped, but forecasters say it will come back tonight today.",
+   "converted": "Maybe the rain stopped, but forecasters say virá back tonight today.",
+   "n": 87,
+   "request_id": "s087"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe excuse me, what time is it? My phone died today.",
+   "converted": "Maybe excuse me, 几点? My phone died today.",
+   "n": 88,
+   "request_id": "s088"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "When you knew the truth, you called me.",
+   "converted": "When sus the truth, you called me.",
+   "n": 89,
+   "request_id": "s089"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you always say you take too long in the shower today.",
+   "converted": "Maybe you always say prends too long in the shower today.",
+   "n": 90,
+   "request_id": "s090"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you saw the accident yourself, didn't you?.",
+   "converted": "She told me that vis the accident yourself, didn't you?.",
+   "n": 91,
+   "request_id": "s091"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe I tried the soup myself and it was too salty today.",
+   "converted": "Maybe essayé the soup myself and it was too salty today.",
+   "n": 92,
+   "request_id": "s092"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that don't blame me, I tried three times before giving up.",
+   "converted": "She told me that don't blame me, essayé three times before giving up.",
+   "n": 93,
+   "request_id": "s093"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe last year we thought about moving to Lisbon today.",
+   "converted": "Maybe last year pensamos about moving to Lisbon today.",
+   "n": 94,
+   "request_id": "s094"
+  },
+  {
+   "key": "fr:vins",
+   "form": "vins",
+   "adopted_source": "you came",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You came too late, so you missed the speech.",
+   "converted": "Vins too late, so you missed the speech.",
+   "n": 95,
+   "request_id": "s095"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "I was the first one: I arrived at eight and opened the doors.",
+   "converted": "I was the first one: arrivé at eight and opened the doors.",
+   "n": 96,
+   "request_id": "s096"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that I was so tired after I arrived home late.",
+   "converted": "She told me that I was so tired after arrivé home late.",
+   "n": 97,
+   "request_id": "s097"
+  },
+  {
+   "key": "fr:ira",
+   "form": "ira",
+   "adopted_source": "it will go",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the old machine is broken, so it will go to the dump.",
+   "converted": "She told me that the old machine is broken, so ira to the dump.",
+   "n": 98,
+   "request_id": "s098"
+  },
+  {
+   "key": "pt:essayé",
+   "form": "essayé",
+   "adopted_source": "I tried",
+   "context_id": 2,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Yesterday I tried to call you but the line was busy.",
+   "converted": "Yesterday essayé to call you but the line was busy.",
+   "n": 99,
+   "request_id": "s099"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe when you wanted to quit, you told no one today.",
+   "converted": "Maybe when voulus to quit, you told no one today.",
+   "n": 100,
+   "request_id": "s100"
+  },
+  {
+   "key": "fr:arrivé",
+   "form": "arrivé",
+   "adopted_source": "I arrived",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "When I arrived at the hotel, my room was not ready.",
+   "converted": "When arrivé at the hotel, my room was not ready.",
+   "n": 101,
+   "request_id": "s101"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 2,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe can you check what time is it? The meeting starts soon today.",
+   "converted": "Maybe can you check 几点? The meeting starts soon today.",
+   "n": 102,
+   "request_id": "s102"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that can you check what time is it? The meeting starts soon.",
+   "converted": "She told me that can you check 几点? The meeting starts soon.",
+   "n": 103,
+   "request_id": "s103"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe yesterday we thought it would rain, but it didn't today.",
+   "converted": "Maybe yesterday pensamos it would rain, but it didn't today.",
+   "n": 104,
+   "request_id": "s104"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 0,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you wanted to leave early, so you asked the boss.",
+   "converted": "She told me that voulus to leave early, so you asked the boss.",
+   "n": 105,
+   "request_id": "s105"
+  },
+  {
+   "key": "fr:vis",
+   "form": "vis",
+   "adopted_source": "you saw",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You saw the accident yourself, didn't you?.",
+   "converted": "Vis the accident yourself, didn't you?.",
+   "n": 106,
+   "request_id": "s106"
+  },
+  {
+   "key": "fr:sus",
+   "form": "sus",
+   "adopted_source": "you knew",
+   "context_id": 0,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you knew the answer before anyone else, and you said nothing today.",
+   "converted": "Maybe sus the answer before anyone else, and you said nothing today.",
+   "n": 107,
+   "request_id": "s107"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that last year we thought about moving to Lisbon.",
+   "converted": "She told me that last year pensamos about moving to Lisbon.",
+   "n": 108,
+   "request_id": "s108"
+  },
+  {
+   "key": "fr:prends",
+   "form": "prends",
+   "adopted_source": "you take",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "You take the bus every day, don't you?.",
+   "converted": "Prends the bus every day, don't you?.",
+   "n": 109,
+   "request_id": "s109"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that the bill is due; it will come in the mail on Monday.",
+   "converted": "She told me that the bill is due; virá in the mail on Monday.",
+   "n": 110,
+   "request_id": "s110"
+  },
+  {
+   "key": "fr:voulus",
+   "form": "voulus",
+   "adopted_source": "you wanted",
+   "context_id": 1,
+   "template_id": 1,
+   "template": "Maybe {s} today.",
+   "source_sentence": "Maybe you said you wanted a bigger room today.",
+   "converted": "Maybe you said voulus a bigger room today.",
+   "n": 111,
+   "request_id": "s111"
+  },
+  {
+   "key": "pt:virá",
+   "form": "virá",
+   "adopted_source": "it will come",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "The rain stopped, but forecasters say it will come back tonight.",
+   "converted": "The rain stopped, but forecasters say virá back tonight.",
+   "n": 112,
+   "request_id": "s112"
+  },
+  {
+   "key": "es:pensamos",
+   "form": "pensamos",
+   "adopted_source": "we thought",
+   "context_id": 1,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Last year we thought about moving to Lisbon.",
+   "converted": "Last year pensamos about moving to Lisbon.",
+   "n": 113,
+   "request_id": "s113"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that if you had known the price, you would not have come.",
+   "converted": "She told me that if avais su the price, you would not have come.",
+   "n": 114,
+   "request_id": "s114"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 0,
+   "template_id": 0,
+   "template": "{s}.",
+   "source_sentence": "Excuse me, what time is it? My phone died.",
+   "converted": "Excuse me, 几点? My phone died.",
+   "n": 115,
+   "request_id": "s115"
+  },
+  {
+   "key": "fr:avais su",
+   "form": "avais su",
+   "adopted_source": "you had known",
+   "context_id": 2,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that you admitted you had known the truth for weeks.",
+   "converted": "She told me that you admitted avais su the truth for weeks.",
+   "n": 116,
+   "request_id": "s116"
+  },
+  {
+   "key": "zh:几点",
+   "form": "几点",
+   "adopted_source": "what time is it",
+   "context_id": 1,
+   "template_id": 2,
+   "template": "She told me that {s}.",
+   "source_sentence": "She told me that what time is it now? I need to leave by six.",
+   "converted": "She told me that 几点 now? I need to leave by six.",
+   "n": 117,
+   "request_id": "s117"
+  }
+ ]
+}
