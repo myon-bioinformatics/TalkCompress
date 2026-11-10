@@ -60,7 +60,8 @@ def test_summary_counts_cover_every_adopted_form(g):
     assert sum(sum(c.values()) for c in summary.values()) == len(mg.adopted_forms(g))
     # 210 → 211: pt acharei passed the 2026-11-10 designed-context round-trip (9/9).
     # 211 → 210: ``this virá`` (follower of reversed ``virá``) is no longer adopted (#178).
-    assert summary["pt"]["pass"] == 210
+    # 210 → 212: + que acha / que vem (que≡that re-score).
+    assert summary["pt"]["pass"] == 212
 
 
 def test_reversal_is_linked_to_its_records(g):

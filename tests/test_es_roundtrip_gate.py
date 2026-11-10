@@ -34,17 +34,15 @@ REVERSED = [
     "which hizo",
     "which dijo",
     "which dijeron",
-    "que va",
-    "que ve",
-    "que toma",
     "que hizo",
     "que dijo",
-    "que dan",
     "que dijeron",
     "vamos",
-    "fue",
     "pude",
 ]
+# Re-score (docs/roundtrip_rescore_20261110.md): fue's judge answer 'he went' is from[1] of its own
+# entry; que va / ve / toma / dan matched with the owner-approved leading que≡that equivalence.
+RESCUED = ["que va", "que ve", "que toma", "que dan", "fue"]
 
 
 def _es_entries():
@@ -72,8 +70,10 @@ def test_every_short_es_winner_passed_independent_blind_roundtrip():
     forms -= measured_in_context
     # 100 → 99: #161 replaced es ``vendré`` (I will come) with la ``veniam``.
     # 99 → 98: ``vou sair`` (leave-fut-goingto-1s) is Portuguese; its label is now pt.
+    # 98 → 103: the accepted-sources / que≡that re-score restored RESCUED.
     assert "vou sair" not in forms
-    assert len(forms) == 98
+    assert set(RESCUED) <= forms
+    assert len(forms) == 103
     for form in forms:
         assert rt.status(DATA, "es", form) == "pass", form
         cohort = rt.latest_cohort(DATA["records"][rt.key("es", form)])
@@ -91,7 +91,13 @@ def test_failed_es_forms_reversed(form):
     assert all(not (e.get("lang") == "es" and e["to"] == form) for e in _es_entries())
 
 
-@pytest.mark.parametrize("form,eid", [("vamos", "go-fut-1p"), ("fue", "go-past-3s"), ("pude", "could-past-1s")])
+def test_fue_entry_restored_after_rescore():
+    restored = next(e for e in ES_FR["entries"] if e["id"] == "go-past-3s")
+    assert (restored["to"], restored["lang"], restored["from"]) == ("fue", "es", ["she went", "he went"])
+    assert not any(e["id"] == "go-past-3s" for e in ES_FR["examples_not_registered"])
+
+
+@pytest.mark.parametrize("form,eid", [("vamos", "go-fut-1p"), ("pude", "could-past-1s")])
 def test_es_fr_short_forms_recorded_as_not_registered(form, eid):
     dropped = next(e for e in ES_FR["examples_not_registered"] if e["id"] == eid and e["to"] == form)
     assert "0/9" in dropped["why_dropped"]

@@ -21,9 +21,12 @@ SNAPSHOT = json.loads((FIX / "roundtrip_judge/pt_sources.json").read_text(encodi
 SOURCES = SNAPSHOT["forms"]
 JUDGE_SHA = "d161afaef0b6f8dea08c5ff5babb69f349a7baea60f697ddaf5e85b36dd369df"
 BASE_OTHER_LANG_HASHES = {
-    "tense_matrix": "78992b4cc8accacf30e7e3e3e3475789d0ceaed99ac6257f062811098a466b4d",  # after #172 (es reversals)
+    # after #172 (es reversals) + it que sa / que dà restored by the que≡that re-score (2026-11-10)
+    "tense_matrix": "d962f1bb29cee5937def2bf27f4b168409ae5274935491ed6d391f1c6672b18b",
     "es_fr_tense": "5c4d9e525a8df17eef85c4128698ccd65c5d4f4a4d10610a0d8fc0ef97c4a045",  # after #164 (el reversals) + #161 (la entries / el υπέρ reversal)
-    "pt_el_latin_phrases": "869f7e00ff4b11e188588ec4bf3c61f81609213c0fdde45e980a935c692e8a7b",  # after #164 (el reversals) + #161 (la entries / el υπέρ reversal)
+    # after #164 (el reversals) + #161 (la entries / el υπέρ reversal) + la among-others-la restored
+    # by the form-level re-score (owner-approved, docs/roundtrip_rescore_20261110.md)
+    "pt_el_latin_phrases": "cee068f80af710eb80028c67809339e7e27ac8c59e6bbd4ca6886bd4bb795ddc",
     "pt_el_latin_tense": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
 }
 
@@ -63,10 +66,15 @@ def test_each_receipt_recomputes_from_immutable_judge_without_inflated_trials():
             for source in f["accepted_sources"]:
                 expected += [en for en, cv in rt.sentences(data, source, f["entry"]["to"]) if cv == target["converted"]]
             assert set(target["accepted_sources"]) == set(expected)
-            restored = any(rt.norm(target["response"]) == rt.norm(en) for en in expected)
+            # latest cohort = 2026-11-10 re-score with the owner-approved leading que≡that equivalence
+            assert cohort["config"]["marker_equivalence"] == rt.MARKER_EQUIVALENCE
+            equivalent = [v for en in target["accepted_sources"] for v in rt.leading_que_that(en, data["templates"])]
+            assert target["equivalent_sources"] == equivalent
+            restored = any(rt.norm(target["response"]) == rt.norm(en) for en in expected + equivalent)
             assert target["restored"] is restored
         statuses.append(rt.status(data, "pt", f["entry"]["to"]))
-    assert statuses.count("pass") == 210 and statuses.count("never") == 60
+    # 210 / 60 → 212 / 58: que acha / que vem pass with leading que≡that
+    assert statuses.count("pass") == 212 and statuses.count("never") == 58
     # other language cohorts (it / zh from #168 / #169, ...) share run_history
     latest = [r for r in data["run_history"] if r["config"].get("only_lang") == "pt"][-1]
     assert latest["completed"] == latest["attempted"] == latest["scheduled"] == 2430
@@ -124,7 +132,7 @@ def test_generated_reversals_are_per_form_and_leave_empty_english_cells():
     cells = json.loads((ROOT / "docs/tense_matrix_report.json").read_text(encoding="utf-8"))["cells"]
     pt_rev = {f for _, f in failed}
     reversed_cells = [c for c in cells if set(c.get("roundtrip_reversed") or ()) & pt_rev]
-    assert len(reversed_cells) == 63
+    assert len(reversed_cells) == 61  # 63 − que acha / que vem cells (re-score)
     assert all(c["status"] == "reject" and c["candidates"] == [] for c in reversed_cells)
 
 
@@ -145,15 +153,20 @@ def test_quarantined_failure_evidence_and_sources_reserved(name, removed):
 def test_alt_only_passes_are_transparently_documented():
     data = rt.load()
     alternate = []
+    marker = []
     strict = total = 0
     for f in SOURCES:
         c = data["records"][f["key"]]["cohorts"][-1]
         first = sum(t["first_source_match"] for t in c["targets"])
         strict += first
         total += c["restored"]
-        if c["restored"] >= 6 and first < 6:
+        if any(t["matched_via_marker_equivalence"] for t in c["targets"]):
+            marker.append(f["entry"]["to"])
+        elif c["restored"] >= 6 and first < 6:
             alternate.append(f["entry"]["to"])
-    assert len(alternate) == 21 and strict == 1701 and total == 1890
+    # 1890 → 1908: que acha / que vem (9 + 9) pass only via leading que≡that (2026-11-10 re-score)
+    assert sorted(marker) == ["que acha", "que vem"]
+    assert len(alternate) == 21 and strict == 1701 and total == 1908
     results = (FIX / "roundtrip_judge/pt_results.md").read_text(encoding="utf-8")
     assert all(f"`{form}`" in results for form in alternate)
 

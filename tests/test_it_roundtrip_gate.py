@@ -26,7 +26,9 @@ def test_it_is_ge100m():
 
 def test_every_it_winner_passed_independent_blind_roundtrip():
     forms = {e["to"] for bank in (BANK, PHRASES) for e in bank["entries"] if e["lang"] == "it"}
-    assert len(forms) == 28
+    # 28 → 30: que sa / que dà passed the leading que≡that re-score (docs/roundtrip_rescore_20261110.md)
+    assert {"que sa", "que dà"} <= forms
+    assert len(forms) == 30
     for form in forms:
         assert rt.status(DATA, "it", form) == "pass", form
         cohort = rt.latest_cohort(DATA["records"][rt.key("it", form)])
@@ -38,7 +40,7 @@ def test_every_it_winner_passed_independent_blind_roundtrip():
             assert t["converted"] in JUDGE
 
 
-@pytest.mark.parametrize("form", ["que sa", "que dà", "ciao"])
+@pytest.mark.parametrize("form", ["ciao"])
 def test_failed_it_forms_reversed(form):
     assert rt.status(DATA, "it", form) == "never"
     assert all(not (e["lang"] == "it" and e["to"] == form) for b in (BANK, PHRASES) for e in b["entries"])
