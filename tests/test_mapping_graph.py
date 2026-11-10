@@ -58,7 +58,8 @@ def test_status_matches_roundtrip_and_no_record_is_untested(g):
 def test_summary_counts_cover_every_adopted_form(g):
     summary = mg.status_summary(g)
     assert sum(sum(c.values()) for c in summary.values()) == len(mg.adopted_forms(g))
-    assert summary["pt"]["pass"] == 210
+    # 210 → 209: ``this virá`` (follower of reversed ``virá``) is no longer adopted.
+    assert summary["pt"]["pass"] == 209
 
 
 def test_reversal_is_linked_to_its_records(g):
@@ -76,7 +77,9 @@ def test_no_reversed_form_is_still_adopted():
 def test_parity_followers_of_reversed_base(g):
     rows = mg.parity_reversed(g)
     assert rows and all(g.nodes[r["id"]]["base_reversed"] for r in rows)
-    assert {"this virá"} == {r["follower_form"] for r in rows if r["cell_status"] == "adopt"}
+    # this virá was the last adopted follower; it now stays EN like the other 21.
+    assert len(rows) == 22
+    assert not [r["follower_form"] for r in rows if r["cell_status"] == "adopt"]
 
 
 def test_source_query_lists_all_languages(g):
@@ -93,7 +96,12 @@ def test_collisions_report(g):
     assert set(col) == {"cross_language", "lang_label_mismatch", "multi_meaning", "tense_merge"}
     ids = {r["id"] for r in col["lang_label_mismatch"]}
     assert "adopt:el:tomaré:i will take" not in ids  # #164 で es に修正済み
-    assert "adopt:es:vou sair:i am going to leave" in ids
+    # vou sair (leave-fut-goingto-1s) is Portuguese: label fixed to pt, no mismatch left.
+    assert "adopt:es:vou sair:i am going to leave" not in ids
+    assert col["lang_label_mismatch"] == []
+    # fiz no longer spans do-it:past (unregistered); do:past / do:perf is a tense merge.
+    assert col["multi_meaning"] == []
+    assert {"id": "form:pt:fiz", "meanings": ["do:past", "do:perf"]} in col["tense_merge"]
 
 
 def test_cli_check_is_read_only():

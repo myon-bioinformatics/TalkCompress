@@ -95,11 +95,18 @@ def test_only_failed_pt_entries_removed_no_unmeasured_promotions(name):
     # yet measured. Listed explicitly so no other unmeasured pt promotion slips in.
     unmeasured = {
         "pt_el_latin_phrases": {"as-a-result-la-pt-el": "logo", "for-this-reason-la-pt": "por isso"},
-        "es_fr_tense": {"find-fut-1s": "acharei", "find-fut-goingto-1s": "acharei"},
+        "es_fr_tense": {"find-fut-1s": "acharei", "find-fut-goingto-1s": "acharei",
+                        # mislabelled es until relabelled pt; surface measured 9/9 only under es:vou sair
+                        "leave-fut-goingto-1s": "vou sair"},
     }
+    # Passing pt forms removed later for a reason other than their own round-trip:
+    # this virá follows reversed virá (parity); do-it-past-1s fiz never restores "it".
+    removed_later = {"tense_matrix": {"mx-come-fut-dem-this"}, "pt_el_latin_tense": {"do-it-past-1s"}}
     if name in unmeasured:
         for k, v in unmeasured[name].items():
             assert got.pop(k) == v
+    for k in removed_later.get(name, ()):
+        assert expected.pop(k) and k not in got
     assert got == expected
 
 

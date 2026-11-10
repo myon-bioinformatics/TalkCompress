@@ -69,7 +69,9 @@ def test_every_short_es_winner_passed_independent_blind_roundtrip():
     assert unmeasured_from_164 <= forms
     forms -= unmeasured_from_164
     # 100 → 99: #161 replaced es ``vendré`` (I will come) with la ``veniam``.
-    assert len(forms) == 99
+    # 99 → 98: ``vou sair`` (leave-fut-goingto-1s) is Portuguese; its label is now pt.
+    assert "vou sair" not in forms
+    assert len(forms) == 98
     for form in forms:
         assert rt.status(DATA, "es", form) == "pass", form
         cohort = rt.latest_cohort(DATA["records"][rt.key("es", form)])

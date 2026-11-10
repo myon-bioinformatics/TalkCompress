@@ -35,18 +35,18 @@
   }
  },
  "skipped": {},
- "adopted": 633,
+ "adopted": 632,
  "beats_en_count": {
-  "o200k_base": 633,
-  "cl100k_base": 484,
-  "qwen2.5": 501,
-  "qwen3": 501,
-  "llama3.2": 491,
-  "mistral-v0.3": 425,
-  "deepseek-v3": 498
+  "o200k_base": 632,
+  "cl100k_base": 483,
+  "qwen2.5": 500,
+  "qwen3": 500,
+  "llama3.2": 490,
+  "mistral-v0.3": 424,
+  "deepseek-v3": 497
  },
  "categories": {
-  "all": 411,
+  "all": 410,
   "o200k only": 113,
   "6/7": 66,
   "2/7": 13,
@@ -7443,22 +7443,6 @@
    "src": "they will be giving",
    "to": "estarán dando",
    "lang": "es",
-   "beats_en_on": [
-    "o200k_base",
-    "cl100k_base",
-    "qwen2.5",
-    "qwen3",
-    "llama3.2",
-    "mistral-v0.3",
-    "deepseek-v3"
-   ],
-   "category": "all"
-  },
-  {
-   "id": "mx-come-fut-dem-this",
-   "src": "this will come",
-   "to": "this virá",
-   "lang": "pt",
    "beats_en_on": [
     "o200k_base",
     "cl100k_base",
