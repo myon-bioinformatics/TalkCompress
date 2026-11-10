@@ -70,8 +70,9 @@ def test_es_fr_fand_restored_after_rescore():
 
 def test_zh_entries_untouched_count():
     # 62 → 37 after the zh round-trip gate (#169); 37 → 42 after the accepted-sources
-    # re-score restored 高速 / 短期 / 小学 / 高铁 / 微调.
-    assert sum(1 for e in PHRASES["entries"] if e["lang"] == "zh") == 42
+    # re-score restored 高速 / 短期 / 小学 / 高铁 / 微调; +4 (明白 / 电话 / 餐厅 / 心脏病) restored by
+    # the reaudit_b_4bot context round-trip.
+    assert sum(1 for e in PHRASES["entries"] if e["lang"] == "zh") == 46
 
 
 def test_roundtrip_enforced_langs_unchanged():

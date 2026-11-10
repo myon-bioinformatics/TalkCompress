@@ -537,17 +537,17 @@
       "from": [
         "I could"
       ],
-      "to": "I could",
+      "to": "pude",
       "lang": "es",
       "tense": "past",
-      "note": "roundtrip-reversed short form was 'pude'; EN left (docs/es_roundtrip_20261109.md)",
       "metrics": {
         "token_before": 3,
         "token_after": 1,
         "utf8_before": 7,
         "utf8_after": 4,
         "both_shrink": true
-      }
+      },
+      "note": "past ability; live Romance (not classical potui)"
     },
     {
       "id": "see-fut-1s",
@@ -2082,15 +2082,6 @@
       "to": "vamos",
       "lang": "es",
       "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as we go; source we will go). Short form vamos reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
-    },
-    {
-      "id": "could-past-1s",
-      "from": [
-        "I could"
-      ],
-      "to": "pude",
-      "lang": "es",
-      "why_dropped": "Independent blind AI round-trip exact-match 0/9 (restored as I was able to; source I could). Short form pude reversed per docs/es_roundtrip_20261109.md; EN left in bank (no other candidate promoted)."
     },
     {
       "id": "take-fut-1s-el",

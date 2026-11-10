@@ -1,0 +1,1751 @@
+{
+ "kind": "reference_only_meaning_match",
+ "gating": false,
+ "judge": "30 separate fresh context-free judges, each given only its own file of 9 shuffled {pid, reference, candidate} pairs (reference = expected English, candidate = restoration judge answer); no form, language or converted sentence",
+ "criterion": "For each pair, answer same or different. 'same' = the candidate conveys the same proposition as the reference (paraphrase/wording differences OK); changed, missing or added meaning = different.",
+ "shuffle": "random.Random(202611102)",
+ "files": {
+  "m01": {
+   "answers_sha256": "fa7040a045fcee2813e9f5a55f3f9bce250cce8705492c416fef5718ed7d478a",
+   "pairs_sha256": "a8e326de8b12ae947de3aa6782ff529dc06e5934767afbf231c5f95a70dbfe67"
+  },
+  "m02": {
+   "answers_sha256": "3338cc68726c5a7e1a543d83dc62919e80e8a1c8b53f51c1570f68eea0b3b854",
+   "pairs_sha256": "d750f35fca191551e19974a2a47095c1bfdd213b5398da9d86ae6f5ad252b923"
+  },
+  "m03": {
+   "answers_sha256": "ed357bfd13fdec4b1870da37e73287cbff0ec482d15acecdb6f0f8680472e47f",
+   "pairs_sha256": "c937082b592efbd3263b70a2dfff0b123853d0c569f5c9242642fa81912b4663"
+  },
+  "m04": {
+   "answers_sha256": "e70f65a1e1623fc33f85a01b2767910f67d779cfbc1a497fe73761def6e1773a",
+   "pairs_sha256": "a49fb4b81def37ad66a612a34992f0971e8950278ad828405369fb65e97e303a"
+  },
+  "m05": {
+   "answers_sha256": "5630a718b53abd5b22868f16aa8031165ffbd563a562d1fbbffdd4c1142528df",
+   "pairs_sha256": "26d7fbbea9383332a51a42dd9abaa775047386f6531ae29e40a3636c0ab75185"
+  },
+  "m06": {
+   "answers_sha256": "26c2236a3926ff74fcf274fbfea6ef47cc183811c03a57e637887aa09c214d69",
+   "pairs_sha256": "b25f4aae1ab18713ad12fdc878ff04eaf56efc999e24dcd64687b0b87f2f387a"
+  },
+  "m07": {
+   "answers_sha256": "de5d717d846041ed46fbe3a9b339eda490078d9bc01bf4195ef9fe87e182d85a",
+   "pairs_sha256": "1f78e7fbd9d12e7e739fd009e52831e7ce2a74bd4ca01ad7db6858b1a3db1ebb"
+  },
+  "m08": {
+   "answers_sha256": "f60d2771d999c415ca06c60dc1516272b1d08e37ac81513e2d0bcc16b0d901ec",
+   "pairs_sha256": "9d53934050fc4ce3b61dad449fb7de734fd09760cae2c3a66e466ab13488771d"
+  },
+  "m09": {
+   "answers_sha256": "2eaa4bb9c2c5b0a1ec13f9a3a8e0cee8b0c89c96e466db56a6d1b716bd3e2cff",
+   "pairs_sha256": "fad1491cbc112ec2fdbdd79b0ecf11f481b37d250b3973b1d3cf662bcfcd4807"
+  },
+  "m10": {
+   "answers_sha256": "baffafc3d955606e6bb6b69650093dfc87a10b2b68077f0568a2bdbbfe76583c",
+   "pairs_sha256": "9866130684724d930eee19c00630441f235013f11f05814345e561a91fad361a"
+  },
+  "m11": {
+   "answers_sha256": "4d5658ca1b4f909aa18fa6a32cbe3af15a0a9d3d03a720db486284bf47aaf16c",
+   "pairs_sha256": "0e37db0e7b27b6a0a35092d153e93431a73a3224bcc18bb40f0b60814200c1b1"
+  },
+  "m12": {
+   "answers_sha256": "a6ef845f09f87133fa438eb5b959727f91ed7778d0a939b6eab20c4a0802369f",
+   "pairs_sha256": "ef21e9c7b9f4b1c53abd17f7cc5a4dda2985694684373c61d471400194574796"
+  },
+  "m13": {
+   "answers_sha256": "37be9b7d18e87f7ff6ee03bf7abba675b508105bbbdbe435df4c21fff90ba60b",
+   "pairs_sha256": "25e75cdfcf0e674e24025ef2d3c420d09738f1b5a4a5f6b43c62d706def81410"
+  },
+  "m14": {
+   "answers_sha256": "e36fb7eeb35d3a068dc4cd49848bea509e884d2b7f872a19a342fa1a619e897f",
+   "pairs_sha256": "917030786f570d4817d24a56218db262ded8f2e71c8f18fc5106398f55bb8dc4"
+  },
+  "m15": {
+   "answers_sha256": "eb9ae3f461a65fcd4b8c47bfe37a7d176bddeb1f154cb970b26e8148579b4056",
+   "pairs_sha256": "78d206906b9843006766a45150f3e7a2144f5d68d7cff1bd43cc66861a8d83c1"
+  },
+  "m16": {
+   "answers_sha256": "711240b5b6e1e7e8b5c597c4fdc3e218dbe53b827eaa25a0107b5adae4f3f81c",
+   "pairs_sha256": "fa411053e19a0fa901680fe7607ffa820b426a26ba892383c56f5857601e3eb5"
+  },
+  "m17": {
+   "answers_sha256": "bc86b6334c3bf0c253678af02a40241b7e79406fcb750b098eb8b9a1b7c8e9c2",
+   "pairs_sha256": "2385dc4e24e0438670442fdf72a4a6cab140c2703961c01b8ba9e136899206de"
+  },
+  "m18": {
+   "answers_sha256": "293329f60df5d52c5b9147c64f510d0ee4b962a08180f2f6593f87eaeb1d7aab",
+   "pairs_sha256": "5ae4b3f82596af373ee67fa81408ae7f25847dd67f2db10f5d957eb9ba0de0a6"
+  },
+  "m19": {
+   "answers_sha256": "6a5083c9f52a8881d863244ac9c3718fa5c450ede72c32d6abc012c1eccf9ba9",
+   "pairs_sha256": "3b85d26aacc3cd41a6f59f6ab6a2ebfa7c6631bf083a4b1062bdb690935d4d74"
+  },
+  "m20": {
+   "answers_sha256": "e2f6e6019d055a2ea74ebf81ac6ba419d210cc19770ebc51249933b614894f98",
+   "pairs_sha256": "86c92757e49897a43690a4492e78004309c492e1ac9395b8b34bf4a49cefff30"
+  },
+  "m21": {
+   "answers_sha256": "f590bc43b1fbb18917d7b67607a89657ab410d2ebb150159f9c0449d65b0a304",
+   "pairs_sha256": "795ea6ed1a4759d83a7ed145e24df13b9647ddb55d1952bf16d778704b866f87"
+  },
+  "m22": {
+   "answers_sha256": "6b11f24773d8621c79d988f50346c3233eef66da14d0a3e45a90e177a3c893fb",
+   "pairs_sha256": "fd29e361ccacb4fc5030f8d1bd677717bd8eb4ecf79be2fc0c86ae53957bb22a"
+  },
+  "m23": {
+   "answers_sha256": "4504143a05567da67c8adc6c07871cf048a9f1e9e92c18be0a2a88dcc3bc3504",
+   "pairs_sha256": "63f09fa592c3723c5a146529a10ad2557bd524cbbdd46eb02fea4ba978b0e7cd"
+  },
+  "m24": {
+   "answers_sha256": "68fb1752c8c7a3ba69f67c7dc104e9fb780d3c329aae3bf26066a7457bf0987f",
+   "pairs_sha256": "28efde848388565763e5dff73b3e33e70579aee566d2e7d3eb36b5b01b5b7e95"
+  },
+  "m25": {
+   "answers_sha256": "6cc2405a8d3624a52513b27a126fe265f1452471e1dbc3f1b45dec28c34bcf1e",
+   "pairs_sha256": "39be361c0bb0c2ca73d97dfcc7dd73f6512961e5319171888a609bba3c0898b6"
+  },
+  "m26": {
+   "answers_sha256": "32917a707997dbde6af5725f7535de2e5a2b840aed9716ee1721eac5fe0884cb",
+   "pairs_sha256": "fbe55abb3dc7bec18b85ead6f596ae2b74e7c6b71bbb8d041ecbc266fbe37cb2"
+  },
+  "m27": {
+   "answers_sha256": "a62db1c6a3fbc237f39a26c97335c7f511d23deece4d651243af7c0563a23669",
+   "pairs_sha256": "03f6b2840a894d498c83b8bab5f384fb3cefdf5945c1d561118fac5ccef27089"
+  },
+  "m28": {
+   "answers_sha256": "373c55ff4fb54fd0c6a5af3859fb3e4b84f573641433d4b1f52a2d8f61f66ba5",
+   "pairs_sha256": "40c4625f2b7870fcc2d98b052dff5fd148a9dae7caf710e0c1dbfde0fd383b0b"
+  },
+  "m29": {
+   "answers_sha256": "1a995c17fc769dee2202d4405275a640e0be6c336cce92e16e62f3396bde04b8",
+   "pairs_sha256": "00a996d91cf95e96406b29cba11fe751ea6149c5d4c8c5eca959fb7d63d8e62d"
+  },
+  "m30": {
+   "answers_sha256": "b858b026d4203d3611a45fb2e45d02f9d65730db7d50c5bc0ee904411eaf2433",
+   "pairs_sha256": "0187adb34866c76989c53b9126b7ac5f3cf08a452677c13214a0184cde1ab5a1"
+  }
+ },
+ "by_converted": {
+  "She told me that yesterday pude not sleep at all.": {
+   "pid": "p182",
+   "expected": "She told me that yesterday I could not sleep at all.",
+   "response": "She told me that yesterday I could not sleep at all.",
+   "meaning_match_ref": "same"
+  },
+  "I changed my 邮箱, here is the new one.": {
+   "pid": "p060",
+   "expected": "I changed my email address, here is the new one.",
+   "response": "I changed my email, here is the new one.",
+   "meaning_match_ref": "same"
+  },
+  "The 餐厅 has a big wooden table.": {
+   "pid": "p265",
+   "expected": "The dining room has a big wooden table.",
+   "response": "The restaurant has a big wooden table.",
+   "meaning_match_ref": "different"
+  },
+  "She told me that quotidie, the baby grows stronger.": {
+   "pid": "p236",
+   "expected": "She told me that day by day, the baby grows stronger.",
+   "response": "She told me that every day, the baby grows stronger.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the trip takes circa three hours today.": {
+   "pid": "p155",
+   "expected": "Maybe the trip takes more or less three hours today.",
+   "response": "Maybe the trip takes about three hours today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he took my Parkplatz again.": {
+   "pid": "p101",
+   "expected": "She told me that he took my parking place again.",
+   "response": "She told me that he took my parking spot again.",
+   "meaning_match_ref": "same"
+  },
+  "We had questions re the contract.": {
+   "pid": "p036",
+   "expected": "We had questions with respect to the contract.",
+   "response": "We had questions about the contract.",
+   "meaning_match_ref": "same"
+  },
+  "She survived a 心脏病 last year.": {
+   "pid": "p067",
+   "expected": "She survived a heart attack last year.",
+   "response": "She survived a heart attack last year.",
+   "meaning_match_ref": "same"
+  },
+  "Things are getting better quotidie.": {
+   "pid": "p114",
+   "expected": "Things are getting better day by day.",
+   "response": "Things are getting better every day.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe please send the invoice to my 邮箱 today.": {
+   "pid": "p070",
+   "expected": "Maybe please send the invoice to my email address today.",
+   "response": "Maybe please send the invoice to my email today.",
+   "meaning_match_ref": "same"
+  },
+  "Salt raises your tensão.": {
+   "pid": "p142",
+   "expected": "Salt raises your blood pressure.",
+   "response": "Salt raises your blood pressure.",
+   "meaning_match_ref": "same"
+  },
+  "They planted a tree in memoriam the victims.": {
+   "pid": "p252",
+   "expected": "They planted a tree in memory of the victims.",
+   "response": "They planted a tree in memory of the victims.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he was late iterum, the third time this week.": {
+   "pid": "p227",
+   "expected": "She told me that he was late once again, the third time this week.",
+   "response": "She told me that he was late again, the third time this week.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that can you give me your 电话.": {
+   "pid": "p213",
+   "expected": "She told me that can you give me your phone number.",
+   "response": "She asked me if I could give her my phone number.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe quotidie, the baby grows stronger today.": {
+   "pid": "p231",
+   "expected": "Maybe day by day, the baby grows stronger today.",
+   "response": "Maybe daily, the baby grows stronger today.",
+   "meaning_match_ref": "same"
+  },
+  "What is the 电话 of the hotel.": {
+   "pid": "p170",
+   "expected": "What is the phone number of the hotel.",
+   "response": "What is the phone number of the hotel.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we discussed it coram at the café today.": {
+   "pid": "p239",
+   "expected": "Maybe we discussed it face to face at the café today.",
+   "response": "Maybe we discussed it in person at the café today.",
+   "meaning_match_ref": "same"
+  },
+  "We need two litres of water per capita.": {
+   "pid": "p104",
+   "expected": "We need two litres of water for each person.",
+   "response": "We need two litres of water per capita.",
+   "meaning_match_ref": "same"
+  },
+  "Quotidie, the baby grows stronger.": {
+   "pid": "p019",
+   "expected": "Day by day, the baby grows stronger.",
+   "response": "Every day, the baby grows stronger.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe measure your tensão every morning today.": {
+   "pid": "p103",
+   "expected": "Maybe measure your blood pressure every morning today.",
+   "response": "Maybe measure your blood pressure every morning today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that 明白 your point, but I disagree.": {
+   "pid": "p138",
+   "expected": "She told me that I understand your point, but I disagree.",
+   "response": "She told me that she understood your point, but I disagree.",
+   "meaning_match_ref": "different"
+  },
+  "明白 your point, but I disagree.": {
+   "pid": "p205",
+   "expected": "I understand your point, but I disagree.",
+   "response": "I understand your point, but I disagree.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I'd rather tell him coram than by email.": {
+   "pid": "p044",
+   "expected": "She told me that I'd rather tell him face to face than by email.",
+   "response": "She told me that I'd rather tell him in person than by email.",
+   "meaning_match_ref": "same"
+  },
+  "We will review the items seriatim.": {
+   "pid": "p035",
+   "expected": "We will review the items one after another.",
+   "response": "We will review the items seriatim.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the court raised the issue sua sponte.": {
+   "pid": "p208",
+   "expected": "She told me that the court raised the issue of one's own accord.",
+   "response": "She told me that the court raised the issue sua sponte.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that cotidie, the baby grows stronger.": {
+   "pid": "p179",
+   "expected": "She told me that day by day, the baby grows stronger.",
+   "response": "She told me that every day, the baby grows stronger.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe it costs circa ten euros today.": {
+   "pid": "p040",
+   "expected": "Maybe it costs more or less ten euros today.",
+   "response": "Maybe it costs about ten euros today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe our flat has a kitchen and a small 餐厅 today.": {
+   "pid": "p093",
+   "expected": "Maybe our flat has a kitchen and a small dining room today.",
+   "response": "Maybe our flat has a kitchen and a small dining room today.",
+   "meaning_match_ref": "same"
+  },
+  "Sales fell; ergo, the shop closed.": {
+   "pid": "p120",
+   "expected": "Sales fell; as a result, the shop closed.",
+   "response": "Sales fell; therefore, the shop closed.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe wenn you finish the report, send it to me today.": {
+   "pid": "p261",
+   "expected": "Maybe if and when you finish the report, send it to me today.",
+   "response": "Maybe when you finish the report, send it to me today.",
+   "meaning_match_ref": "same"
+  },
+  "The printer jammed iterum.": {
+   "pid": "p098",
+   "expected": "The printer jammed once again.",
+   "response": "The printer jammed again.",
+   "meaning_match_ref": "same"
+  },
+  "Wenn it rains, the match will be moved.": {
+   "pid": "p112",
+   "expected": "If and when it rains, the match will be moved.",
+   "response": "If it rains, the match will be moved.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the judge ruled pro the tenant.": {
+   "pid": "p216",
+   "expected": "She told me that the judge ruled in favor of the tenant.",
+   "response": "She told me that the judge ruled for the tenant.",
+   "meaning_match_ref": "same"
+  },
+  "We redesigned the 界面 for mobile.": {
+   "pid": "p086",
+   "expected": "We redesigned the user interface for mobile.",
+   "response": "We redesigned the interface for mobile.",
+   "meaning_match_ref": "same"
+  },
+  "He took my Parkplatz again.": {
+   "pid": "p119",
+   "expected": "He took my parking place again.",
+   "response": "He took my parking spot again.",
+   "meaning_match_ref": "same"
+  },
+  "He missed the train and ergo the meeting.": {
+   "pid": "p161",
+   "expected": "He missed the train and as a result the meeting.",
+   "response": "He missed the train and therefore the meeting.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that sales fell; ergo, the shop closed.": {
+   "pid": "p127",
+   "expected": "She told me that sales fell; as a result, the shop closed.",
+   "response": "She told me that sales fell; therefore, the shop closed.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the country spends more per capita on health than its neighbours.": {
+   "pid": "p109",
+   "expected": "She told me that the country spends more for each person on health than its neighbours.",
+   "response": "She told me that the country spends more per capita on health than its neighbours.",
+   "meaning_match_ref": "same"
+  },
+  "The office is closed for repairs; interim, use the back door.": {
+   "pid": "p246",
+   "expected": "The office is closed for repairs; in the meantime, use the back door.",
+   "response": "The office is closed for repairs; meanwhile, use the back door.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we eat breakfast in the 餐厅 of our house.": {
+   "pid": "p012",
+   "expected": "She told me that we eat breakfast in the dining room of our house.",
+   "response": "She told me that we eat breakfast in the dining room of our house.",
+   "meaning_match_ref": "same"
+  },
+  "Iterum, the team lost at home.": {
+   "pid": "p249",
+   "expected": "Once again, the team lost at home.",
+   "response": "Again, the team lost at home.",
+   "meaning_match_ref": "same"
+  },
+  "Turn left after the Tankstelle.": {
+   "pid": "p220",
+   "expected": "Turn left after the filling station.",
+   "response": "Turn left after the gas station.",
+   "meaning_match_ref": "same"
+  },
+  "明白 why you are upset.": {
+   "pid": "p196",
+   "expected": "I understand why you are upset.",
+   "response": "I understand why you are upset.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we redesigned the 界面 for mobile today.": {
+   "pid": "p221",
+   "expected": "Maybe we redesigned the user interface for mobile today.",
+   "response": "Maybe we redesigned the interface for mobile today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the new 界面 is easier to use.": {
+   "pid": "p270",
+   "expected": "She told me that the new user interface is easier to use.",
+   "response": "She told me that the new interface is easier to use.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I wrote her 电话 on a napkin.": {
+   "pid": "p069",
+   "expected": "She told me that I wrote her phone number on a napkin.",
+   "response": "She told me that I wrote her phone number on a napkin.",
+   "meaning_match_ref": "same"
+  },
+  "Last night pude hear the neighbours.": {
+   "pid": "p046",
+   "expected": "Last night I could hear the neighbours.",
+   "response": "Last night I could hear the neighbours.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we had questions re the contract today.": {
+   "pid": "p177",
+   "expected": "Maybe we had questions with respect to the contract today.",
+   "response": "Maybe we had questions re the contract today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe sales fell; ergo, the shop closed today.": {
+   "pid": "p202",
+   "expected": "Maybe sales fell; as a result, the shop closed today.",
+   "response": "Maybe sales fell; therefore, the shop closed today.",
+   "meaning_match_ref": "same"
+  },
+  "When I was young pude run for hours.": {
+   "pid": "p129",
+   "expected": "When I was young I could run for hours.",
+   "response": "When I was young I could run for hours.",
+   "meaning_match_ref": "same"
+  },
+  "The court raised the issue sua sponte.": {
+   "pid": "p118",
+   "expected": "The court raised the issue of one's own accord.",
+   "response": "The court raised the issue sua sponte.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we stopped at the Tankstelle to fill up the tank today.": {
+   "pid": "p183",
+   "expected": "Maybe we stopped at the filling station to fill up the tank today.",
+   "response": "Maybe we stopped at the gas station to fill up the tank today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the shop is closed, and ideo we are going home.": {
+   "pid": "p033",
+   "expected": "She told me that the shop is closed, and for this reason we are going home.",
+   "response": "She told me that the shop is closed, and therefore we are going home.",
+   "meaning_match_ref": "same"
+  },
+  "Can you give me your 电话.": {
+   "pid": "p003",
+   "expected": "Can you give me your phone number.",
+   "response": "Can you give me your phone number.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe yesterday pude not sleep at all today.": {
+   "pid": "p226",
+   "expected": "Maybe yesterday I could not sleep at all today.",
+   "response": "Maybe yesterday I could not sleep at all today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that wenn it rains, the match will be moved.": {
+   "pid": "p122",
+   "expected": "She told me that if and when it rains, the match will be moved.",
+   "response": "She told me that if it rains, the match will be moved.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we redesigned the 界面 for mobile.": {
+   "pid": "p059",
+   "expected": "She told me that we redesigned the user interface for mobile.",
+   "response": "She told me that we redesigned the interface for mobile.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe my cel battery is dead today.": {
+   "pid": "p266",
+   "expected": "Maybe my cell phone battery is dead today.",
+   "response": "Maybe my cell battery is dead today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I am υπέρ a shorter week today.": {
+   "pid": "p159",
+   "expected": "Maybe I am in favor of a shorter week today.",
+   "response": "Maybe I am for a shorter week today.",
+   "meaning_match_ref": "same"
+  },
+  "The doctor said my tensão is too high.": {
+   "pid": "p206",
+   "expected": "The doctor said my blood pressure is too high.",
+   "response": "The doctor said my blood pressure is too high.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe yes, 明白 the plan now today.": {
+   "pid": "p230",
+   "expected": "Maybe yes, I understand the plan now today.",
+   "response": "Maybe yes, I understand the plan now today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that they met coram for the first time.": {
+   "pid": "p257",
+   "expected": "She told me that they met face to face for the first time.",
+   "response": "She told me that they met in person for the first time.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe she survived a 心脏病 last year today.": {
+   "pid": "p125",
+   "expected": "Maybe she survived a heart attack last year today.",
+   "response": "Maybe she survived a heart attack last year today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that things are getting better quotidie.": {
+   "pid": "p244",
+   "expected": "She told me that things are getting better day by day.",
+   "response": "She told me that things are getting better daily.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe she is on leave, and interim I am covering for her today.": {
+   "pid": "p115",
+   "expected": "Maybe she is on leave, and in the meantime I am covering for her today.",
+   "response": "Maybe she is on leave, and meanwhile I am covering for her today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe she apologised sua sponte, without being asked today.": {
+   "pid": "p091",
+   "expected": "Maybe she apologised of one's own accord, without being asked today.",
+   "response": "Maybe she apologised sua sponte, without being asked today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe he left the company sua sponte today.": {
+   "pid": "p262",
+   "expected": "Maybe he left the company of one's own accord today.",
+   "response": "Maybe he left the company of his own accord today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe most people voted υπέρ the new park today.": {
+   "pid": "p128",
+   "expected": "Maybe most people voted in favor of the new park today.",
+   "response": "Maybe most people voted for the new park today.",
+   "meaning_match_ref": "same"
+  },
+  "I am pro a shorter week.": {
+   "pid": "p054",
+   "expected": "I am in favor of a shorter week.",
+   "response": "I am for a shorter week.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe turn off your cel during the film today.": {
+   "pid": "p264",
+   "expected": "Maybe turn off your cell phone during the film today.",
+   "response": "Maybe turn off your cell during the film today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe 明白 why you are upset today.": {
+   "pid": "p198",
+   "expected": "Maybe I understand why you are upset today.",
+   "response": "Maybe I understand why you are upset today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the report covers, inter alia, the budget and the staff.": {
+   "pid": "p248",
+   "expected": "She told me that the report covers, among others, the budget and the staff.",
+   "response": "She told me that the report covers, inter alia, the budget and the staff.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that she met, inter alia, the mayor and two ministers.": {
+   "pid": "p030",
+   "expected": "She told me that she met, among others, the mayor and two ministers.",
+   "response": "She told me that she met, among others, the mayor and two ministers.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that chest pain can be a sign of a 心脏病.": {
+   "pid": "p099",
+   "expected": "She told me that chest pain can be a sign of a heart attack.",
+   "response": "She told me that chest pain can be a sign of a heart attack.",
+   "meaning_match_ref": "same"
+  },
+  "Turn off your cel during the film.": {
+   "pid": "p223",
+   "expected": "Turn off your cell phone during the film.",
+   "response": "Turn off your phone during the film.",
+   "meaning_match_ref": "same"
+  },
+  "Measure your tensão every morning.": {
+   "pid": "p263",
+   "expected": "Measure your blood pressure every morning.",
+   "response": "Measure your blood pressure every morning.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that she practised cotidie until the exam.": {
+   "pid": "p251",
+   "expected": "She told me that she practised day by day until the exam.",
+   "response": "She told me that she practised daily until the exam.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that it is raining and ideo the match is off.": {
+   "pid": "p140",
+   "expected": "She told me that it is raining and for this reason the match is off.",
+   "response": "She told me that it is raining and therefore the match is off.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the judges gave their opinions seriatim.": {
+   "pid": "p137",
+   "expected": "She told me that the judges gave their opinions one after another.",
+   "response": "She told me that the judges gave their opinions seriatim.",
+   "meaning_match_ref": "same"
+  },
+  "The judge ruled υπέρ the tenant.": {
+   "pid": "p163",
+   "expected": "The judge ruled in favor of the tenant.",
+   "response": "The judge ruled in favor of the tenant.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the printer jammed πάλι today.": {
+   "pid": "p171",
+   "expected": "Maybe the printer jammed once again today.",
+   "response": "Maybe the printer jammed again today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that she practised quotidie until the exam.": {
+   "pid": "p056",
+   "expected": "She told me that she practised day by day until the exam.",
+   "response": "She told me that she practised daily until the exam.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe 明白 your point, but I disagree today.": {
+   "pid": "p025",
+   "expected": "Maybe I understand your point, but I disagree today.",
+   "response": "Maybe I understand your point, but I disagree today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he had a 心脏病 and was rushed to hospital.": {
+   "pid": "p269",
+   "expected": "She told me that he had a heart attack and was rushed to hospital.",
+   "response": "She told me that he had a heart attack and was rushed to hospital.",
+   "meaning_match_ref": "same"
+  },
+  "The country spends more per capita on health than its neighbours.": {
+   "pid": "p153",
+   "expected": "The country spends more for each person on health than its neighbours.",
+   "response": "The country spends more per capita on health than its neighbours.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe he was late iterum, the third time this week today.": {
+   "pid": "p184",
+   "expected": "Maybe he was late once again, the third time this week today.",
+   "response": "Maybe he was late again, the third time this week today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I left my cel at home, so call my office today.": {
+   "pid": "p203",
+   "expected": "Maybe I left my cell phone at home, so call my office today.",
+   "response": "Maybe I left my cell at home, so call my office today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe there are no updates re the budget today.": {
+   "pid": "p039",
+   "expected": "Maybe there are no updates with respect to the budget today.",
+   "response": "Maybe there are no updates re the budget today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe users complained about the 界面 today.": {
+   "pid": "p052",
+   "expected": "Maybe users complained about the user interface today.",
+   "response": "Maybe users complained about the interface today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the trip takes circa three hours.": {
+   "pid": "p049",
+   "expected": "She told me that the trip takes more or less three hours.",
+   "response": "She told me that the trip takes about three hours.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the judge ruled pro the tenant today.": {
+   "pid": "p218",
+   "expected": "Maybe the judge ruled in favor of the tenant today.",
+   "response": "Maybe the judge ruled for the tenant today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe she practised cotidie until the exam today.": {
+   "pid": "p007",
+   "expected": "Maybe she practised day by day until the exam today.",
+   "response": "Maybe she practised daily until the exam today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we had questions re the contract.": {
+   "pid": "p005",
+   "expected": "She told me that we had questions with respect to the contract.",
+   "response": "She told me that we had questions regarding the contract.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that most people voted pro the new park.": {
+   "pid": "p064",
+   "expected": "She told me that most people voted in favor of the new park.",
+   "response": "She told me that most people voted for the new park.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the office is closed for repairs; interim, use the back door today.": {
+   "pid": "p201",
+   "expected": "Maybe the office is closed for repairs; in the meantime, use the back door today.",
+   "response": "Maybe the office is closed for repairs; meanwhile, use the back door today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I changed my 邮箱, here is the new one today.": {
+   "pid": "p066",
+   "expected": "Maybe I changed my email address, here is the new one today.",
+   "response": "Maybe I changed my email, here is the new one today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the road was closed and ergo we were late today.": {
+   "pid": "p023",
+   "expected": "Maybe the road was closed and as a result we were late today.",
+   "response": "Maybe the road was closed and so we were late today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that most people voted υπέρ the new park.": {
+   "pid": "p164",
+   "expected": "She told me that most people voted in favor of the new park.",
+   "response": "She told me that most people voted for the new park.",
+   "meaning_match_ref": "same"
+  },
+  "He was late πάλι, the third time this week.": {
+   "pid": "p116",
+   "expected": "He was late once again, the third time this week.",
+   "response": "He was late again, the third time this week.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the judge ruled υπέρ the tenant today.": {
+   "pid": "p117",
+   "expected": "Maybe the judge ruled in favor of the tenant today.",
+   "response": "Maybe the judge ruled for the tenant today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I found a Parkplatz right in front of the shop.": {
+   "pid": "p002",
+   "expected": "She told me that I found a parking place right in front of the shop.",
+   "response": "She told me that I found a parking space right in front of the shop.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we eat breakfast in the 餐厅 of our house today.": {
+   "pid": "p017",
+   "expected": "Maybe we eat breakfast in the dining room of our house today.",
+   "response": "Maybe we eat breakfast in the dining room of our house today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that she is on leave, and interim I am covering for her.": {
+   "pid": "p124",
+   "expected": "She told me that she is on leave, and in the meantime I am covering for her.",
+   "response": "She told me that she is on leave, and meanwhile I am covering for her.",
+   "meaning_match_ref": "same"
+  },
+  "If it was expensive then, it is a fortiori now.": {
+   "pid": "p075",
+   "expected": "If it was expensive then, it is all the more so now.",
+   "response": "If it was expensive then, it is a fortiori now.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe what is the 电话 of the hotel today.": {
+   "pid": "p154",
+   "expected": "Maybe what is the phone number of the hotel today.",
+   "response": "Maybe what is the phone number of the hotel today.",
+   "meaning_match_ref": "same"
+  },
+  "There are no updates re the budget.": {
+   "pid": "p010",
+   "expected": "There are no updates with respect to the budget.",
+   "response": "There are no updates re the budget.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the printer jammed iterum.": {
+   "pid": "p160",
+   "expected": "She told me that the printer jammed once again.",
+   "response": "She told me that the printer jammed again.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that if it was expensive then, it is a fortiori now.": {
+   "pid": "p259",
+   "expected": "She told me that if it was expensive then, it is all the more so now.",
+   "response": "She told me that if it was expensive then, it is even more so now.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that my cel battery is dead.": {
+   "pid": "p224",
+   "expected": "She told me that my cell phone battery is dead.",
+   "response": "She told me that my cell battery is dead.",
+   "meaning_match_ref": "same"
+  },
+  "He left the company sua sponte.": {
+   "pid": "p143",
+   "expected": "He left the company of one's own accord.",
+   "response": "He left the company of his own accord.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that there were circa fifty people there.": {
+   "pid": "p199",
+   "expected": "She told me that there were more or less fifty people there.",
+   "response": "She told me that there were about fifty people there.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe iterum, the team lost at home today.": {
+   "pid": "p200",
+   "expected": "Maybe once again, the team lost at home today.",
+   "response": "Maybe again, the team lost at home today.",
+   "meaning_match_ref": "same"
+  },
+  "We discussed, inter alia, the new contract.": {
+   "pid": "p232",
+   "expected": "We discussed, among others, the new contract.",
+   "response": "We discussed, among other things, the new contract.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe income per capita rose last year today.": {
+   "pid": "p152",
+   "expected": "Maybe income for each person rose last year today.",
+   "response": "Maybe income per capita rose last year today.",
+   "meaning_match_ref": "same"
+  },
+  "If he can't lift it, then a fortiori I can't.": {
+   "pid": "p148",
+   "expected": "If he can't lift it, then all the more so I can't.",
+   "response": "If he can't lift it, then all the more so I can't.",
+   "meaning_match_ref": "same"
+  },
+  "I found a Parkplatz right in front of the shop.": {
+   "pid": "p001",
+   "expected": "I found a parking place right in front of the shop.",
+   "response": "I found a parking space right in front of the shop.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that type your 邮箱 to log in.": {
+   "pid": "p238",
+   "expected": "She told me that type your email address to log in.",
+   "response": "She told me to type your email to log in.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we will review the items seriatim.": {
+   "pid": "p123",
+   "expected": "She told me that we will review the items one after another.",
+   "response": "She told me that we will review the items seriatim.",
+   "meaning_match_ref": "same"
+  },
+  "He had a 心脏病 and was rushed to hospital.": {
+   "pid": "p141",
+   "expected": "He had a heart attack and was rushed to hospital.",
+   "response": "He had a heart attack and was rushed to hospital.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the office is closed for repairs; interim, use the back door.": {
+   "pid": "p178",
+   "expected": "She told me that the office is closed for repairs; in the meantime, use the back door.",
+   "response": "She told me that the office is closed for repairs; meanwhile, use the back door.",
+   "meaning_match_ref": "same"
+  },
+  "The printer jammed πάλι.": {
+   "pid": "p268",
+   "expected": "The printer jammed once again.",
+   "response": "The printer jammed again.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the judges gave their opinions seriatim today.": {
+   "pid": "p168",
+   "expected": "Maybe the judges gave their opinions one after another today.",
+   "response": "Maybe the judges gave their opinions seriatim today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the report covers, inter alia, the budget and the staff today.": {
+   "pid": "p106",
+   "expected": "Maybe the report covers, among others, the budget and the staff today.",
+   "response": "Maybe the report covers, among other things, the budget and the staff today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that call me wenn the parcel arrives.": {
+   "pid": "p121",
+   "expected": "She told me that call me if and when the parcel arrives.",
+   "response": "She told me that she would call me when the parcel arrives.",
+   "meaning_match_ref": "different"
+  },
+  "She told me that turn off your cel during the film.": {
+   "pid": "p097",
+   "expected": "She told me that turn off your cell phone during the film.",
+   "response": "She told me to turn off my cell during the film.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I am υπέρ a shorter week.": {
+   "pid": "p047",
+   "expected": "She told me that I am in favor of a shorter week.",
+   "response": "She told me that I am in favor of a shorter week.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that it costs circa ten euros.": {
+   "pid": "p013",
+   "expected": "She told me that it costs more or less ten euros.",
+   "response": "She told me that it costs about ten euros.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we discussed it coram at the café.": {
+   "pid": "p169",
+   "expected": "She told me that we discussed it face to face at the café.",
+   "response": "She told me that we discussed it in person at the café.",
+   "meaning_match_ref": "same"
+  },
+  "She practised quotidie until the exam.": {
+   "pid": "p018",
+   "expected": "She practised day by day until the exam.",
+   "response": "She practised daily until the exam.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe most people voted pro the new park today.": {
+   "pid": "p020",
+   "expected": "Maybe most people voted in favor of the new park today.",
+   "response": "Maybe most people voted for the new park today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that 明白 why you are upset.": {
+   "pid": "p147",
+   "expected": "She told me that I understand why you are upset.",
+   "response": "She told me that she understands why you are upset.",
+   "meaning_match_ref": "different"
+  },
+  "She told me that he was sick; ideo, he stayed in bed.": {
+   "pid": "p043",
+   "expected": "She told me that he was sick; for this reason, he stayed in bed.",
+   "response": "She told me that he was sick; therefore, he stayed in bed.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the judge ruled υπέρ the tenant.": {
+   "pid": "p063",
+   "expected": "She told me that the judge ruled in favor of the tenant.",
+   "response": "She told me that the judge ruled in favor of the tenant.",
+   "meaning_match_ref": "same"
+  },
+  "The concert was held in memoriam her late husband.": {
+   "pid": "p096",
+   "expected": "The concert was held in memory of her late husband.",
+   "response": "The concert was held in memory of her late husband.",
+   "meaning_match_ref": "same"
+  },
+  "She is on leave, and interim I am covering for her.": {
+   "pid": "p193",
+   "expected": "She is on leave, and in the meantime I am covering for her.",
+   "response": "She is on leave, and in the meantime I am covering for her.",
+   "meaning_match_ref": "same"
+  },
+  "We discussed it coram at the café.": {
+   "pid": "p209",
+   "expected": "We discussed it face to face at the café.",
+   "response": "We discussed it in person at the café.",
+   "meaning_match_ref": "same"
+  },
+  "Children need sleep, and teenagers a fortiori.": {
+   "pid": "p144",
+   "expected": "Children need sleep, and teenagers all the more so.",
+   "response": "Children need sleep, and teenagers all the more so.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe he missed the train and ergo the meeting today.": {
+   "pid": "p253",
+   "expected": "Maybe he missed the train and as a result the meeting today.",
+   "response": "Maybe he missed the train and ergo the meeting today.",
+   "meaning_match_ref": "same"
+  },
+  "He was sick; ideo, he stayed in bed.": {
+   "pid": "p240",
+   "expected": "He was sick; for this reason, he stayed in bed.",
+   "response": "He was sick; therefore, he stayed in bed.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the shop is closed, and ideo we are going home today.": {
+   "pid": "p258",
+   "expected": "Maybe the shop is closed, and for this reason we are going home today.",
+   "response": "Maybe the shop is closed, and so we are going home today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that πάλι, the team lost at home.": {
+   "pid": "p233",
+   "expected": "She told me that once again, the team lost at home.",
+   "response": "She told me that again, the team lost at home.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he wrote the poem in memoriam his teacher.": {
+   "pid": "p130",
+   "expected": "She told me that he wrote the poem in memory of his teacher.",
+   "response": "She told me that he wrote the poem in memoriam his teacher.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the concert was held in memoriam her late husband.": {
+   "pid": "p111",
+   "expected": "She told me that the concert was held in memory of her late husband.",
+   "response": "She told me that the concert was held in memory of her late husband.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that when I was young pude run for hours.": {
+   "pid": "p207",
+   "expected": "She told me that when I was young I could run for hours.",
+   "response": "She told me that when I was young I could run for hours.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we discussed, inter alia, the new contract today.": {
+   "pid": "p050",
+   "expected": "Maybe we discussed, among others, the new contract today.",
+   "response": "Maybe we discussed, among other things, the new contract today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe wenn it rains, the match will be moved today.": {
+   "pid": "p211",
+   "expected": "Maybe if and when it rains, the match will be moved today.",
+   "response": "Maybe if it rains, the match will be moved today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I am pro a shorter week today.": {
+   "pid": "p034",
+   "expected": "Maybe I am in favor of a shorter week today.",
+   "response": "Maybe I am for a shorter week today.",
+   "meaning_match_ref": "same"
+  },
+  "The new 界面 is easier to use.": {
+   "pid": "p078",
+   "expected": "The new user interface is easier to use.",
+   "response": "The new interface is easier to use.",
+   "meaning_match_ref": "same"
+  },
+  "Chest pain can be a sign of a 心脏病.": {
+   "pid": "p085",
+   "expected": "Chest pain can be a sign of a heart attack.",
+   "response": "Chest pain can be a sign of a heart attack.",
+   "meaning_match_ref": "same"
+  },
+  "Yes, 明白 the plan now.": {
+   "pid": "p214",
+   "expected": "Yes, I understand the plan now.",
+   "response": "Yes, I understand the plan now.",
+   "meaning_match_ref": "same"
+  },
+  "There were circa fifty people there.": {
+   "pid": "p008",
+   "expected": "There were more or less fifty people there.",
+   "response": "There were about fifty people there.",
+   "meaning_match_ref": "same"
+  },
+  "He was late iterum, the third time this week.": {
+   "pid": "p260",
+   "expected": "He was late once again, the third time this week.",
+   "response": "He was late again, the third time this week.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe they planted a tree in memoriam the victims today.": {
+   "pid": "p062",
+   "expected": "Maybe they planted a tree in memory of the victims today.",
+   "response": "Maybe they planted a tree in memory of the victims today.",
+   "meaning_match_ref": "same"
+  },
+  "I wrote her 电话 on a napkin.": {
+   "pid": "p057",
+   "expected": "I wrote her phone number on a napkin.",
+   "response": "I wrote her number on a napkin.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that they planted a tree in memoriam the victims.": {
+   "pid": "p190",
+   "expected": "She told me that they planted a tree in memory of the victims.",
+   "response": "She told me that they planted a tree in memory of the victims.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we discussed, inter alia, the new contract.": {
+   "pid": "p080",
+   "expected": "She told me that we discussed, among others, the new contract.",
+   "response": "She told me that we discussed, inter alia, the new contract.",
+   "meaning_match_ref": "same"
+  },
+  "Cotidie, the baby grows stronger.": {
+   "pid": "p051",
+   "expected": "Day by day, the baby grows stronger.",
+   "response": "Every day, the baby grows stronger.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that turn left after the Tankstelle.": {
+   "pid": "p245",
+   "expected": "She told me that turn left after the filling station.",
+   "response": "She told me to turn left after the gas station.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe there were circa fifty people there today.": {
+   "pid": "p131",
+   "expected": "Maybe there were more or less fifty people there today.",
+   "response": "Maybe there were about fifty people there today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe he had a 心脏病 and was rushed to hospital today.": {
+   "pid": "p045",
+   "expected": "Maybe he had a heart attack and was rushed to hospital today.",
+   "response": "Maybe he had a heart attack and was rushed to hospital today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the 餐厅 has a big wooden table.": {
+   "pid": "p041",
+   "expected": "She told me that the dining room has a big wooden table.",
+   "response": "She told me that the restaurant has a big wooden table.",
+   "meaning_match_ref": "different"
+  },
+  "Maybe he was sick; ideo, he stayed in bed today.": {
+   "pid": "p077",
+   "expected": "Maybe he was sick; for this reason, he stayed in bed today.",
+   "response": "Maybe he was sick; therefore, he stayed in bed today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe she practised quotidie until the exam today.": {
+   "pid": "p073",
+   "expected": "Maybe she practised day by day until the exam today.",
+   "response": "Maybe she practised daily until the exam today.",
+   "meaning_match_ref": "same"
+  },
+  "He wrote the poem in memoriam his teacher.": {
+   "pid": "p076",
+   "expected": "He wrote the poem in memory of his teacher.",
+   "response": "He wrote the poem in memory of his teacher.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the Tankstelle on the motorway sells snacks today.": {
+   "pid": "p058",
+   "expected": "Maybe the filling station on the motorway sells snacks today.",
+   "response": "Maybe the petrol station on the motorway sells snacks today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that salt raises your tensão.": {
+   "pid": "p055",
+   "expected": "She told me that salt raises your blood pressure.",
+   "response": "She told me that salt raises your blood pressure.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe πάλι, the team lost at home today.": {
+   "pid": "p229",
+   "expected": "Maybe once again, the team lost at home today.",
+   "response": "Maybe again, the team lost at home today.",
+   "meaning_match_ref": "same"
+  },
+  "Users complained about the 界面.": {
+   "pid": "p185",
+   "expected": "Users complained about the user interface.",
+   "response": "Users complained about the interface.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the new system starts in May; interim, keep using the old one.": {
+   "pid": "p215",
+   "expected": "She told me that the new system starts in May; in the meantime, keep using the old one.",
+   "response": "She told me that the new system starts in May; in the meantime, keep using the old one.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the printer jammed πάλι.": {
+   "pid": "p167",
+   "expected": "She told me that the printer jammed once again.",
+   "response": "She told me that the printer jammed again.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I changed my 邮箱, here is the new one.": {
+   "pid": "p222",
+   "expected": "She told me that I changed my email address, here is the new one.",
+   "response": "She told me that I changed my email, here is the new one.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we stopped at the Tankstelle to fill up the tank.": {
+   "pid": "p107",
+   "expected": "She told me that we stopped at the filling station to fill up the tank.",
+   "response": "She told me that we stopped at the gas station to fill up the tank.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I found a Parkplatz right in front of the shop today.": {
+   "pid": "p088",
+   "expected": "Maybe I found a parking place right in front of the shop today.",
+   "response": "Maybe I found a parking spot right in front of the shop today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that there is no free Parkplatz on this street.": {
+   "pid": "p243",
+   "expected": "She told me that there is no free parking place on this street.",
+   "response": "She told me that there is no free parking space on this street.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe type your 邮箱 to log in today.": {
+   "pid": "p006",
+   "expected": "Maybe type your email address to log in today.",
+   "response": "Maybe type your email to log in today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I am writing re your invoice.": {
+   "pid": "p027",
+   "expected": "She told me that I am writing with respect to your invoice.",
+   "response": "She told me that I am writing re your invoice.",
+   "meaning_match_ref": "same"
+  },
+  "The report covers, inter alia, the budget and the staff.": {
+   "pid": "p188",
+   "expected": "The report covers, among others, the budget and the staff.",
+   "response": "The report covers, among other things, the budget and the staff.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the doctor said my tensão is too high today.": {
+   "pid": "p156",
+   "expected": "Maybe the doctor said my blood pressure is too high today.",
+   "response": "Maybe the doctor said my blood pressure is too high today.",
+   "meaning_match_ref": "same"
+  },
+  "It costs circa ten euros.": {
+   "pid": "p089",
+   "expected": "It costs more or less ten euros.",
+   "response": "It costs about ten euros.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the printer jammed iterum today.": {
+   "pid": "p237",
+   "expected": "Maybe the printer jammed once again today.",
+   "response": "Maybe the printer jammed again today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe when I was young pude run for hours today.": {
+   "pid": "p149",
+   "expected": "Maybe when I was young I could run for hours today.",
+   "response": "Maybe when I was young I could run for hours today.",
+   "meaning_match_ref": "same"
+  },
+  "We stopped at the Tankstelle to fill up the tank.": {
+   "pid": "p053",
+   "expected": "We stopped at the filling station to fill up the tank.",
+   "response": "We stopped at the gas station to fill up the tank.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the guests came in seriatim today.": {
+   "pid": "p031",
+   "expected": "Maybe the guests came in one after another today.",
+   "response": "Maybe the guests came in one by one today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he was late πάλι, the third time this week.": {
+   "pid": "p146",
+   "expected": "She told me that he was late once again, the third time this week.",
+   "response": "She told me that he was late again, the third time this week.",
+   "meaning_match_ref": "same"
+  },
+  "The Tankstelle on the motorway sells snacks.": {
+   "pid": "p028",
+   "expected": "The filling station on the motorway sells snacks.",
+   "response": "The petrol station on the motorway sells snacks.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I'd rather tell him coram than by email today.": {
+   "pid": "p105",
+   "expected": "Maybe I'd rather tell him face to face than by email today.",
+   "response": "Maybe I'd rather tell him in person than by email today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe children need sleep, and teenagers a fortiori today.": {
+   "pid": "p083",
+   "expected": "Maybe children need sleep, and teenagers all the more so today.",
+   "response": "Maybe children need sleep, and teenagers even more so today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that users complained about the 界面.": {
+   "pid": "p212",
+   "expected": "She told me that users complained about the user interface.",
+   "response": "She told me that users complained about the interface.",
+   "meaning_match_ref": "same"
+  },
+  "Πάλι, the team lost at home.": {
+   "pid": "p032",
+   "expected": "Once again, the team lost at home.",
+   "response": "Again, the team lost at home.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we need two litres of water per capita today.": {
+   "pid": "p204",
+   "expected": "Maybe we need two litres of water for each person today.",
+   "response": "Maybe we need two litres of water per capita today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he missed the train and ergo the meeting.": {
+   "pid": "p021",
+   "expected": "She told me that he missed the train and as a result the meeting.",
+   "response": "She told me that he missed the train and therefore the meeting.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe things are getting better cotidie today.": {
+   "pid": "p081",
+   "expected": "Maybe things are getting better day by day today.",
+   "response": "Maybe things are getting better today.",
+   "meaning_match_ref": "different"
+  },
+  "I am writing re your invoice.": {
+   "pid": "p194",
+   "expected": "I am writing with respect to your invoice.",
+   "response": "I am writing regarding your invoice.",
+   "meaning_match_ref": "same"
+  },
+  "The judges gave their opinions seriatim.": {
+   "pid": "p166",
+   "expected": "The judges gave their opinions one after another.",
+   "response": "The judges gave their opinions seriatim.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that what is the 电话 of the hotel.": {
+   "pid": "p192",
+   "expected": "She told me that what is the phone number of the hotel.",
+   "response": "She told me that what is the phone number of the hotel.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that children need sleep, and teenagers a fortiori.": {
+   "pid": "p024",
+   "expected": "She told me that children need sleep, and teenagers all the more so.",
+   "response": "She told me that children need sleep, and teenagers a fortiori.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe they met coram for the first time today.": {
+   "pid": "p068",
+   "expected": "Maybe they met face to face for the first time today.",
+   "response": "Maybe they met in person for the first time today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the new 界面 is easier to use today.": {
+   "pid": "p219",
+   "expected": "Maybe the new user interface is easier to use today.",
+   "response": "Maybe the new interface is easier to use today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that she apologised sua sponte, without being asked.": {
+   "pid": "p191",
+   "expected": "She told me that she apologised of one's own accord, without being asked.",
+   "response": "She told me that she apologised of her own accord, without being asked.",
+   "meaning_match_ref": "same"
+  },
+  "The judge ruled pro the tenant.": {
+   "pid": "p247",
+   "expected": "The judge ruled in favor of the tenant.",
+   "response": "The judge ruled for the tenant.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the Tankstelle on the motorway sells snacks.": {
+   "pid": "p136",
+   "expected": "She told me that the filling station on the motorway sells snacks.",
+   "response": "She told me that the petrol station on the motorway sells snacks.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe it is raining and ideo the match is off today.": {
+   "pid": "p197",
+   "expected": "Maybe it is raining and for this reason the match is off today.",
+   "response": "Maybe it is raining and therefore the match is off today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the court raised the issue sua sponte today.": {
+   "pid": "p180",
+   "expected": "Maybe the court raised the issue of one's own accord today.",
+   "response": "Maybe the court raised the issue sua sponte today.",
+   "meaning_match_ref": "same"
+  },
+  "It is raining and ideo the match is off.": {
+   "pid": "p187",
+   "expected": "It is raining and for this reason the match is off.",
+   "response": "It is raining and therefore the match is off.",
+   "meaning_match_ref": "same"
+  },
+  "There is no free Parkplatz on this street.": {
+   "pid": "p074",
+   "expected": "There is no free parking place on this street.",
+   "response": "There is no free parking space on this street.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that yes, 明白 the plan now.": {
+   "pid": "p256",
+   "expected": "She told me that yes, I understand the plan now.",
+   "response": "She told me that yes, she understood the plan now.",
+   "meaning_match_ref": "different"
+  },
+  "Type your 邮箱 to log in.": {
+   "pid": "p176",
+   "expected": "Type your email address to log in.",
+   "response": "Type your email to log in.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the new system starts in May; interim, keep using the old one today.": {
+   "pid": "p126",
+   "expected": "Maybe the new system starts in May; in the meantime, keep using the old one today.",
+   "response": "Maybe the new system starts in May; meanwhile, keep using the old one today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that he left the company sua sponte.": {
+   "pid": "p004",
+   "expected": "She told me that he left the company of one's own accord.",
+   "response": "She told me that he left the company of his own accord.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that our flat has a kitchen and a small 餐厅.": {
+   "pid": "p181",
+   "expected": "She told me that our flat has a kitchen and a small dining room.",
+   "response": "She told me that our flat has a kitchen and a small dining room.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that she survived a 心脏病 last year.": {
+   "pid": "p267",
+   "expected": "She told me that she survived a heart attack last year.",
+   "response": "She told me that she survived a heart attack last year.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the 餐厅 has a big wooden table today.": {
+   "pid": "p254",
+   "expected": "Maybe the dining room has a big wooden table today.",
+   "response": "Maybe the restaurant has a big wooden table today.",
+   "meaning_match_ref": "different"
+  },
+  "Maybe can you give me your 电话 today.": {
+   "pid": "p108",
+   "expected": "Maybe can you give me your phone number today.",
+   "response": "Maybe can you give me your phone number today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the country spends more per capita on health than its neighbours today.": {
+   "pid": "p172",
+   "expected": "Maybe the country spends more for each person on health than its neighbours today.",
+   "response": "Maybe the country spends more per capita on health than its neighbours today.",
+   "meaning_match_ref": "same"
+  },
+  "The road was closed and ergo we were late.": {
+   "pid": "p189",
+   "expected": "The road was closed and as a result we were late.",
+   "response": "The road was closed and therefore we were late.",
+   "meaning_match_ref": "same"
+  },
+  "The guests came in seriatim.": {
+   "pid": "p022",
+   "expected": "The guests came in one after another.",
+   "response": "The guests came in one after another.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the doctor said my tensão is too high.": {
+   "pid": "p029",
+   "expected": "She told me that the doctor said my blood pressure is too high.",
+   "response": "She told me that the doctor said my blood pressure is too high.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe turn left after the Tankstelle today.": {
+   "pid": "p065",
+   "expected": "Maybe turn left after the filling station today.",
+   "response": "Maybe turn left after the gas station today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe chest pain can be a sign of a 心脏病 today.": {
+   "pid": "p234",
+   "expected": "Maybe chest pain can be a sign of a heart attack today.",
+   "response": "Maybe chest pain can be a sign of a heart attack today.",
+   "meaning_match_ref": "same"
+  },
+  "The new system starts in May; interim, keep using the old one.": {
+   "pid": "p132",
+   "expected": "The new system starts in May; in the meantime, keep using the old one.",
+   "response": "The new system starts in May; in the meantime, keep using the old one.",
+   "meaning_match_ref": "same"
+  },
+  "Yesterday pude not sleep at all.": {
+   "pid": "p072",
+   "expected": "Yesterday I could not sleep at all.",
+   "response": "Yesterday I could not sleep at all.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I am pro a shorter week.": {
+   "pid": "p250",
+   "expected": "She told me that I am in favor of a shorter week.",
+   "response": "She told me that I am for a shorter week.",
+   "meaning_match_ref": "same"
+  },
+  "Call me wenn the parcel arrives.": {
+   "pid": "p133",
+   "expected": "Call me if and when the parcel arrives.",
+   "response": "Call me when the parcel arrives.",
+   "meaning_match_ref": "same"
+  },
+  "I'd rather tell him coram than by email.": {
+   "pid": "p241",
+   "expected": "I'd rather tell him face to face than by email.",
+   "response": "I'd rather tell him in person than by email.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that things are getting better cotidie.": {
+   "pid": "p135",
+   "expected": "She told me that things are getting better day by day.",
+   "response": "She told me that things are getting better every day.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe she met, inter alia, the mayor and two ministers today.": {
+   "pid": "p139",
+   "expected": "Maybe she met, among others, the mayor and two ministers today.",
+   "response": "Maybe she met, inter alia, the mayor and two ministers today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe the concert was held in memoriam her late husband today.": {
+   "pid": "p217",
+   "expected": "Maybe the concert was held in memory of her late husband today.",
+   "response": "Maybe the concert was held in memory of her late husband today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe call me wenn the parcel arrives today.": {
+   "pid": "p048",
+   "expected": "Maybe call me if and when the parcel arrives today.",
+   "response": "Maybe call me when the parcel arrives today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe if he can't lift it, then a fortiori I can't today.": {
+   "pid": "p134",
+   "expected": "Maybe if he can't lift it, then all the more so I can't today.",
+   "response": "Maybe if he can't lift it, then a fortiori I can't today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe cotidie, the baby grows stronger today.": {
+   "pid": "p042",
+   "expected": "Maybe day by day, the baby grows stronger today.",
+   "response": "Maybe daily, the baby grows stronger today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe he wrote the poem in memoriam his teacher today.": {
+   "pid": "p173",
+   "expected": "Maybe he wrote the poem in memory of his teacher today.",
+   "response": "Maybe he wrote the poem in memory of his teacher today.",
+   "meaning_match_ref": "same"
+  },
+  "Please send the invoice to my 邮箱.": {
+   "pid": "p186",
+   "expected": "Please send the invoice to my email address.",
+   "response": "Please send the invoice to my email.",
+   "meaning_match_ref": "same"
+  },
+  "The trip takes circa three hours.": {
+   "pid": "p082",
+   "expected": "The trip takes more or less three hours.",
+   "response": "The trip takes about three hours.",
+   "meaning_match_ref": "same"
+  },
+  "My cel battery is dead.": {
+   "pid": "p158",
+   "expected": "My cell phone battery is dead.",
+   "response": "My cell battery is dead.",
+   "meaning_match_ref": "same"
+  },
+  "I am υπέρ a shorter week.": {
+   "pid": "p210",
+   "expected": "I am in favor of a shorter week.",
+   "response": "I am for a shorter week.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that if he can't lift it, then a fortiori I can't.": {
+   "pid": "p150",
+   "expected": "She told me that if he can't lift it, then all the more so I can't.",
+   "response": "She told me that if he can't lift it, then a fortiori I can't.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that wenn you finish the report, send it to me.": {
+   "pid": "p084",
+   "expected": "She told me that if and when you finish the report, send it to me.",
+   "response": "She told me that when you finish the report, send it to me.",
+   "meaning_match_ref": "different"
+  },
+  "Maybe there is no free Parkplatz on this street today.": {
+   "pid": "p092",
+   "expected": "Maybe there is no free parking place on this street today.",
+   "response": "Maybe there is no free parking space on this street today.",
+   "meaning_match_ref": "same"
+  },
+  "She practised cotidie until the exam.": {
+   "pid": "p175",
+   "expected": "She practised day by day until the exam.",
+   "response": "She practised daily until the exam.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that measure your tensão every morning.": {
+   "pid": "p242",
+   "expected": "She told me that measure your blood pressure every morning.",
+   "response": "She told me to measure my blood pressure every morning.",
+   "meaning_match_ref": "same"
+  },
+  "She apologised sua sponte, without being asked.": {
+   "pid": "p071",
+   "expected": "She apologised of one's own accord, without being asked.",
+   "response": "She apologised sua sponte, without being asked.",
+   "meaning_match_ref": "same"
+  },
+  "Wenn you finish the report, send it to me.": {
+   "pid": "p011",
+   "expected": "If and when you finish the report, send it to me.",
+   "response": "When you finish the report, send it to me.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe he took my Parkplatz again today.": {
+   "pid": "p015",
+   "expected": "Maybe he took my parking place again today.",
+   "response": "Maybe he took my parking spot again today.",
+   "meaning_match_ref": "same"
+  },
+  "I left my cel at home, so call my office.": {
+   "pid": "p174",
+   "expected": "I left my cell phone at home, so call my office.",
+   "response": "I left my cell at home, so call my office.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe we will review the items seriatim today.": {
+   "pid": "p162",
+   "expected": "Maybe we will review the items one after another today.",
+   "response": "Maybe we will review the items seriatim today.",
+   "meaning_match_ref": "same"
+  },
+  "Our flat has a kitchen and a small 餐厅.": {
+   "pid": "p061",
+   "expected": "Our flat has a kitchen and a small dining room.",
+   "response": "Our flat has a kitchen and a small dining room.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that income per capita rose last year.": {
+   "pid": "p026",
+   "expected": "She told me that income for each person rose last year.",
+   "response": "She told me that income per capita rose last year.",
+   "meaning_match_ref": "same"
+  },
+  "We eat breakfast in the 餐厅 of our house.": {
+   "pid": "p195",
+   "expected": "We eat breakfast in the dining room of our house.",
+   "response": "We eat breakfast in the dining room of our house.",
+   "meaning_match_ref": "same"
+  },
+  "Income per capita rose last year.": {
+   "pid": "p014",
+   "expected": "Income for each person rose last year.",
+   "response": "Income per capita rose last year.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe if it was expensive then, it is a fortiori now today.": {
+   "pid": "p095",
+   "expected": "Maybe if it was expensive then, it is all the more so now today.",
+   "response": "Maybe if it was expensive then, it is even more so today.",
+   "meaning_match_ref": "same"
+  },
+  "She met, inter alia, the mayor and two ministers.": {
+   "pid": "p228",
+   "expected": "She met, among others, the mayor and two ministers.",
+   "response": "She met, among others, the mayor and two ministers.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe things are getting better quotidie today.": {
+   "pid": "p102",
+   "expected": "Maybe things are getting better day by day today.",
+   "response": "Maybe things are getting better today.",
+   "meaning_match_ref": "different"
+  },
+  "Maybe he was late πάλι, the third time this week today.": {
+   "pid": "p094",
+   "expected": "Maybe he was late once again, the third time this week today.",
+   "response": "Maybe he was late again, the third time this week today.",
+   "meaning_match_ref": "same"
+  },
+  "The shop is closed, and ideo we are going home.": {
+   "pid": "p087",
+   "expected": "The shop is closed, and for this reason we are going home.",
+   "response": "The shop is closed, and therefore we are going home.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that we need two litres of water per capita.": {
+   "pid": "p016",
+   "expected": "She told me that we need two litres of water for each person.",
+   "response": "She told me that we need two litres of water per capita.",
+   "meaning_match_ref": "same"
+  },
+  "They met coram for the first time.": {
+   "pid": "p090",
+   "expected": "They met face to face for the first time.",
+   "response": "They met in person for the first time.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe last night pude hear the neighbours today.": {
+   "pid": "p145",
+   "expected": "Maybe last night I could hear the neighbours today.",
+   "response": "Maybe last night I could hear the neighbours today.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I wrote her 电话 on a napkin today.": {
+   "pid": "p225",
+   "expected": "Maybe I wrote her phone number on a napkin today.",
+   "response": "Maybe I wrote her phone number on a napkin today.",
+   "meaning_match_ref": "same"
+  },
+  "Most people voted υπέρ the new park.": {
+   "pid": "p038",
+   "expected": "Most people voted in favor of the new park.",
+   "response": "Most people voted for the new park.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the guests came in seriatim.": {
+   "pid": "p165",
+   "expected": "She told me that the guests came in one after another.",
+   "response": "She told me that the guests came in one by one.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that last night pude hear the neighbours.": {
+   "pid": "p113",
+   "expected": "She told me that last night I could hear the neighbours.",
+   "response": "She told me that last night I could hear the neighbours.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that please send the invoice to my 邮箱.": {
+   "pid": "p079",
+   "expected": "She told me that please send the invoice to my email address.",
+   "response": "She told me that please send the invoice to my email.",
+   "meaning_match_ref": "same"
+  },
+  "Things are getting better cotidie.": {
+   "pid": "p255",
+   "expected": "Things are getting better day by day.",
+   "response": "Things are getting better every day.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that there are no updates re the budget.": {
+   "pid": "p110",
+   "expected": "She told me that there are no updates with respect to the budget.",
+   "response": "She told me that there are no updates re the budget.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that the road was closed and ergo we were late.": {
+   "pid": "p009",
+   "expected": "She told me that the road was closed and as a result we were late.",
+   "response": "She told me that the road was closed and so we were late.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe I am writing re your invoice today.": {
+   "pid": "p037",
+   "expected": "Maybe I am writing with respect to your invoice today.",
+   "response": "Maybe I am writing re your invoice today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that I left my cel at home, so call my office.": {
+   "pid": "p151",
+   "expected": "She told me that I left my cell phone at home, so call my office.",
+   "response": "She told me that I left my cell at home, so call my office.",
+   "meaning_match_ref": "same"
+  },
+  "Maybe salt raises your tensão today.": {
+   "pid": "p235",
+   "expected": "Maybe salt raises your blood pressure today.",
+   "response": "Maybe salt raises your blood pressure today.",
+   "meaning_match_ref": "same"
+  },
+  "She told me that iterum, the team lost at home.": {
+   "pid": "p157",
+   "expected": "She told me that once again, the team lost at home.",
+   "response": "She told me that again, the team lost at home.",
+   "meaning_match_ref": "same"
+  },
+  "Most people voted pro the new park.": {
+   "pid": "p100",
+   "expected": "Most people voted in favor of the new park.",
+   "response": "Most people voted for the new park.",
+   "meaning_match_ref": "same"
+  }
+ }
+}

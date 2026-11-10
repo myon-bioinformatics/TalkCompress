@@ -1,0 +1,1357 @@
+{
+ "kind": "independent_blind_judge_raw",
+ "answers_dir_concat_sha256": "9790a394c12d3d13f7727a2546e57dc1cbd912669524764e55d25e9bc4128c2b",
+ "note": "Verbatim file contents of each per-sentence judge reply (one fresh context-free call per sentence). The replay map reaudit_b_4bot_blind.json holds the same text with surrounding whitespace stripped.",
+ "by_id": {
+  "s001": {
+   "converted": "She told me that yesterday pude not sleep at all.",
+   "raw": "She told me that yesterday I could not sleep at all.",
+   "raw_sha256": "5aab5e6c15bf1ec42edfd700764c8c33e538fc388f80b2320962a1a9e5e2c142"
+  },
+  "s002": {
+   "converted": "I changed my 邮箱, here is the new one.",
+   "raw": "I changed my email, here is the new one.",
+   "raw_sha256": "35284a84bf2cb0f06b63305a6aa6570e59b8a3cb1b426bedaa936cd8daa3aec2"
+  },
+  "s003": {
+   "converted": "The 餐厅 has a big wooden table.",
+   "raw": "The restaurant has a big wooden table.",
+   "raw_sha256": "43c51d0d94f83a73d5d5a39912ad2172f358e6f92dc3efc1f0893a10634485ca"
+  },
+  "s004": {
+   "converted": "She told me that quotidie, the baby grows stronger.",
+   "raw": "She told me that every day, the baby grows stronger.",
+   "raw_sha256": "d980ea5e29f18b65b9480f873e4e883a67ba5350dd0bb5392f61c05fbe546baa"
+  },
+  "s005": {
+   "converted": "Maybe the trip takes circa three hours today.",
+   "raw": "Maybe the trip takes about three hours today.",
+   "raw_sha256": "eeb661091a24733c3fb5bce627c6ae346d4bbc9abcbe86515a6d32e833952819"
+  },
+  "s006": {
+   "converted": "She told me that he took my Parkplatz again.",
+   "raw": "She told me that he took my parking spot again.",
+   "raw_sha256": "25aca48621c8f447d785684b2df871b409c12bce9ec3a821b2de255ea8055f2f"
+  },
+  "s007": {
+   "converted": "We had questions re the contract.",
+   "raw": "We had questions about the contract.",
+   "raw_sha256": "9d2056d4ea4556accbe0b2585cf066a2baab34c1d76b80f25b21aaa8ad6b9b85"
+  },
+  "s008": {
+   "converted": "She survived a 心脏病 last year.",
+   "raw": "She survived a heart attack last year.",
+   "raw_sha256": "521a145cf15596d6318b4ac59f8f4b43f034016a24b9453cda04610b3d0b5bdb"
+  },
+  "s009": {
+   "converted": "Things are getting better quotidie.",
+   "raw": "Things are getting better every day.",
+   "raw_sha256": "837942c56ce650e4c82a3a6e88923a47ec981aa58e1b8517cbafbc4d9b0e191c"
+  },
+  "s010": {
+   "converted": "Maybe please send the invoice to my 邮箱 today.",
+   "raw": "Maybe please send the invoice to my email today.",
+   "raw_sha256": "214610d886e688e80cd5fb49e9703eeacd2ed3bc858cafff722fd2e6f5688438"
+  },
+  "s011": {
+   "converted": "Salt raises your tensão.",
+   "raw": "Salt raises your blood pressure.",
+   "raw_sha256": "f237eac4d6abe6a1220331882ffff75665ff2fa050e2dedab683c6f6b5206f9f"
+  },
+  "s012": {
+   "converted": "They planted a tree in memoriam the victims.",
+   "raw": "They planted a tree in memory of the victims.",
+   "raw_sha256": "22c8d91b2be4468751fe85cffd07134791f1ebbea685b3f92d8569987f510dd6"
+  },
+  "s013": {
+   "converted": "She told me that he was late iterum, the third time this week.",
+   "raw": "She told me that he was late again, the third time this week.",
+   "raw_sha256": "bac0770ee0f0d790546f284a9b4eab4177eeaedbf425595b73c33add28c89157"
+  },
+  "s014": {
+   "converted": "She told me that can you give me your 电话.",
+   "raw": "She asked me if I could give her my phone number.",
+   "raw_sha256": "7b8d945d588f53d352231c890b134b0993d7dd80f95c07de1c85b618262c1bdc"
+  },
+  "s015": {
+   "converted": "Maybe quotidie, the baby grows stronger today.",
+   "raw": "Maybe daily, the baby grows stronger today.",
+   "raw_sha256": "10c9360302ff7cdd2b03797fff48772edde3e459922b6ca09025bec46e9ba1e6"
+  },
+  "s016": {
+   "converted": "What is the 电话 of the hotel.",
+   "raw": "What is the phone number of the hotel.",
+   "raw_sha256": "9937514b8d53d3e001104b0ecebf82d73bf0fee94e81efef35f7e797543293a7"
+  },
+  "s017": {
+   "converted": "Maybe we discussed it coram at the café today.",
+   "raw": "Maybe we discussed it in person at the café today.",
+   "raw_sha256": "00eac5f009df156cce56bd85600d356aff8079fdaaafa9cdd2a791222528bc44"
+  },
+  "s018": {
+   "converted": "We need two litres of water per capita.",
+   "raw": "We need two litres of water per capita.",
+   "raw_sha256": "43421c8e7b38e91a2375dc6d32867915f19d7a6a1c374e8ef62537f61a1a56f6"
+  },
+  "s019": {
+   "converted": "Quotidie, the baby grows stronger.",
+   "raw": "Every day, the baby grows stronger.",
+   "raw_sha256": "d63ceff974447b698a116e44f760efaa2b8a6e519bc6fd874670a669e963f081"
+  },
+  "s020": {
+   "converted": "Maybe measure your tensão every morning today.",
+   "raw": "Maybe measure your blood pressure every morning today.",
+   "raw_sha256": "cd95bb52b7e75b37a208f93f3db7d82beecbf271fc0b443656aa89b9df9f9594"
+  },
+  "s021": {
+   "converted": "She told me that 明白 your point, but I disagree.",
+   "raw": "She told me that she understood your point, but I disagree.",
+   "raw_sha256": "95e5c8b89185b63a3687812d943b7eb9e88494bbccf26cb2fa289daa7f816e35"
+  },
+  "s022": {
+   "converted": "明白 your point, but I disagree.",
+   "raw": "I understand your point, but I disagree.",
+   "raw_sha256": "41f654491c790a7406f2ff0f4a31dc02a04a2d6407092a32cbb24347241078fe"
+  },
+  "s023": {
+   "converted": "She told me that I'd rather tell him coram than by email.",
+   "raw": "She told me that I'd rather tell him in person than by email.",
+   "raw_sha256": "3de6f7ada1d939448257e128a901ed4e5ae67c897dbb48f2cbc32f824b815e77"
+  },
+  "s024": {
+   "converted": "We will review the items seriatim.",
+   "raw": "We will review the items seriatim.",
+   "raw_sha256": "9a1c6f71f18a56e7f1b7632f3b5e84bd8921d0a90edc8333378b934137e7d1b4"
+  },
+  "s025": {
+   "converted": "She told me that the court raised the issue sua sponte.",
+   "raw": "She told me that the court raised the issue sua sponte.",
+   "raw_sha256": "10004a79e7b33f3e7764aa353044d89bb4b59fdf4b48f078c400bb2541f48f9c"
+  },
+  "s026": {
+   "converted": "She told me that cotidie, the baby grows stronger.",
+   "raw": "She told me that every day, the baby grows stronger.",
+   "raw_sha256": "d980ea5e29f18b65b9480f873e4e883a67ba5350dd0bb5392f61c05fbe546baa"
+  },
+  "s027": {
+   "converted": "Maybe it costs circa ten euros today.",
+   "raw": "Maybe it costs about ten euros today.",
+   "raw_sha256": "45595853438a3454254e715a935d2a4d68d4742c31ba15389d9657b3357ff4b1"
+  },
+  "s028": {
+   "converted": "Maybe our flat has a kitchen and a small 餐厅 today.",
+   "raw": "Maybe our flat has a kitchen and a small dining room today.",
+   "raw_sha256": "ba7338b2781bbc752f7917e672a96b7bc4e95a4459bce76c95e61ef111cc08d2"
+  },
+  "s029": {
+   "converted": "Sales fell; ergo, the shop closed.",
+   "raw": "Sales fell; therefore, the shop closed.",
+   "raw_sha256": "f5e24276cfaf2140cef4c86b7265e069c0e3c8d53b6414983104770255c66328"
+  },
+  "s030": {
+   "converted": "Maybe wenn you finish the report, send it to me today.",
+   "raw": "Maybe when you finish the report, send it to me today.",
+   "raw_sha256": "a86c837fe85728c4b93b310bb731b92bc7ea6e5c1152ae27ff389425a53a2130"
+  },
+  "s031": {
+   "converted": "The printer jammed iterum.",
+   "raw": "The printer jammed again.",
+   "raw_sha256": "427b8c3c5d8bee23c8a185505b58c7ca250c92ecc9f9305c36725b3ff72036a3"
+  },
+  "s032": {
+   "converted": "Wenn it rains, the match will be moved.",
+   "raw": "If it rains, the match will be moved.",
+   "raw_sha256": "07130637ef4317da2631e5ca0e7c25f8811e6c23bd47f2ee7b39798f8de25972"
+  },
+  "s033": {
+   "converted": "She told me that the judge ruled pro the tenant.",
+   "raw": "She told me that the judge ruled for the tenant.",
+   "raw_sha256": "74a47efab615282ee3c956d27fda2d24a0c22e56aa9486d2fd3ae433ce5b48a7"
+  },
+  "s034": {
+   "converted": "We redesigned the 界面 for mobile.",
+   "raw": "We redesigned the interface for mobile.",
+   "raw_sha256": "67abe29272891103b58e239becfaea1a6c131707feb00cb70a69df65d801e10a"
+  },
+  "s035": {
+   "converted": "He took my Parkplatz again.",
+   "raw": "He took my parking spot again.",
+   "raw_sha256": "680c171bb7ef3d637927c825f4d3a23834abe13ce74c0e51993f8081673656bb"
+  },
+  "s036": {
+   "converted": "He missed the train and ergo the meeting.",
+   "raw": "He missed the train and therefore the meeting.",
+   "raw_sha256": "2b45eec5b74aaba1b3b119119322394af9f8a72e222cb3c3226a0d3d141c2c47"
+  },
+  "s037": {
+   "converted": "She told me that sales fell; ergo, the shop closed.",
+   "raw": "She told me that sales fell; therefore, the shop closed.",
+   "raw_sha256": "013da69b3393cc8a24d8094db9cefcce2d0ef79d05e5e0b00c7f273fede14a0d"
+  },
+  "s038": {
+   "converted": "She told me that the country spends more per capita on health than its neighbours.",
+   "raw": "She told me that the country spends more per capita on health than its neighbours.",
+   "raw_sha256": "b24f2fc3341c51c58c6561c141d22786ba326f5fe1bfebc4389fe87f4f4e94a4"
+  },
+  "s039": {
+   "converted": "The office is closed for repairs; interim, use the back door.",
+   "raw": "The office is closed for repairs; meanwhile, use the back door.",
+   "raw_sha256": "3937f60a091019095eb5ef97c30b1ee1529d7b8824c1ce5b3aaacfdc5b6ac08c"
+  },
+  "s040": {
+   "converted": "She told me that we eat breakfast in the 餐厅 of our house.",
+   "raw": "She told me that we eat breakfast in the dining room of our house.",
+   "raw_sha256": "c8eb6212a389d325f9d2ddb022b7b934226ca305b8dd5181e283e235775e9d59"
+  },
+  "s041": {
+   "converted": "Iterum, the team lost at home.",
+   "raw": "Again, the team lost at home.",
+   "raw_sha256": "af1874167d12dfbf3abcf76164cf516479ae15e3b8426242396c586fa7fa9494"
+  },
+  "s042": {
+   "converted": "Turn left after the Tankstelle.",
+   "raw": "Turn left after the gas station.",
+   "raw_sha256": "e618659bebc32802eda03da9d6dd57183e80c47a14d65d58db3ab54b0af22768"
+  },
+  "s043": {
+   "converted": "明白 why you are upset.",
+   "raw": "I understand why you are upset.",
+   "raw_sha256": "566a57ea4e3b7a5aa909bdd44f108fe38f5e4ca1313f5d0912c4441d8b10ac56"
+  },
+  "s044": {
+   "converted": "Maybe we redesigned the 界面 for mobile today.",
+   "raw": "Maybe we redesigned the interface for mobile today.",
+   "raw_sha256": "0ff178aa92170bc1308f129d2a3a0f02144b2afa41b8013012de4c47411dd960"
+  },
+  "s045": {
+   "converted": "She told me that the new 界面 is easier to use.",
+   "raw": "She told me that the new interface is easier to use.",
+   "raw_sha256": "f46c23d13fe4441a4963b52a7a9ecd26500c7b501f99369482efb6774e2c9422"
+  },
+  "s046": {
+   "converted": "She told me that I wrote her 电话 on a napkin.",
+   "raw": "She told me that I wrote her phone number on a napkin.",
+   "raw_sha256": "9e1ff350ff21a220c37f9064626d1fc3c8abe3b6126bbd80337adc35c7a23748"
+  },
+  "s047": {
+   "converted": "Last night pude hear the neighbours.",
+   "raw": "Last night I could hear the neighbours.",
+   "raw_sha256": "5469316323e5075311e2dfd3c592f932f7d766b0a7e5f95110c61e2516866046"
+  },
+  "s048": {
+   "converted": "Maybe we had questions re the contract today.",
+   "raw": "Maybe we had questions re the contract today.",
+   "raw_sha256": "8d15ac4578ff9f6577b39d6f4159dabc495fa7bf770a4f9f536077f06af63e69"
+  },
+  "s049": {
+   "converted": "Maybe sales fell; ergo, the shop closed today.",
+   "raw": "Maybe sales fell; therefore, the shop closed today.",
+   "raw_sha256": "216612b10b51669e9065cfa45c9e2226cfbe04d9c8e9a0a8cb31e289b5432f37"
+  },
+  "s050": {
+   "converted": "When I was young pude run for hours.",
+   "raw": "When I was young I could run for hours.",
+   "raw_sha256": "500309dbe038f7a9382a94e52cf07ea3b412d5d9a5c3e25dc2adf7ce1f72c703"
+  },
+  "s051": {
+   "converted": "The court raised the issue sua sponte.",
+   "raw": "The court raised the issue sua sponte.",
+   "raw_sha256": "8ad0752b81e0c569779b1f964c1cadf657a3e2b2c5a1fe8765dbfa8bf4aa998d"
+  },
+  "s052": {
+   "converted": "Maybe we stopped at the Tankstelle to fill up the tank today.",
+   "raw": "Maybe we stopped at the gas station to fill up the tank today.",
+   "raw_sha256": "523a4d2c2e62dfff03471db6123a3e5125a18c64aa835b9edce11bcdafc3e865"
+  },
+  "s053": {
+   "converted": "She told me that the shop is closed, and ideo we are going home.",
+   "raw": "She told me that the shop is closed, and therefore we are going home.",
+   "raw_sha256": "947ffdc8fbedf852a6ccb0357bb30b9fc3d0b9eadee1618c2c578bf140f02e53"
+  },
+  "s054": {
+   "converted": "Can you give me your 电话.",
+   "raw": "Can you give me your phone number.",
+   "raw_sha256": "7520bfab4b3036a225fce2ddcc410b213e1425f53aef89903de3de557bec9ad8"
+  },
+  "s055": {
+   "converted": "Maybe yesterday pude not sleep at all today.",
+   "raw": "Maybe yesterday I could not sleep at all today.",
+   "raw_sha256": "5be68b98b8bf9ad6365b3745f3c0b2102c5e2436c6c7d2876f7d356314bac61d"
+  },
+  "s056": {
+   "converted": "She told me that wenn it rains, the match will be moved.",
+   "raw": "She told me that if it rains, the match will be moved.",
+   "raw_sha256": "25d3c03c6930b121eaf905dbbf13281ba771ffd684c7706d43288ef45d40a553"
+  },
+  "s057": {
+   "converted": "She told me that we redesigned the 界面 for mobile.",
+   "raw": "She told me that we redesigned the interface for mobile.",
+   "raw_sha256": "a82c5fcc91a4fc044a2ca19a3cd8cbb71fe6d077a7f8ccde16cfe77d78137990"
+  },
+  "s058": {
+   "converted": "Maybe my cel battery is dead today.",
+   "raw": "Maybe my cell battery is dead today.",
+   "raw_sha256": "467ad3d66a09a41dc558dd24e0828b69d82bf9dc10ccd020db6a27f0332560d6"
+  },
+  "s059": {
+   "converted": "Maybe I am υπέρ a shorter week today.",
+   "raw": "Maybe I am for a shorter week today.",
+   "raw_sha256": "dbfb2859806cb1310f6eb3e13c25d303688139cc11bf7790297150c1c05c7780"
+  },
+  "s060": {
+   "converted": "The doctor said my tensão is too high.",
+   "raw": "The doctor said my blood pressure is too high.",
+   "raw_sha256": "3d054eb3872218308b051f27b8da5bd0bbf0f30230095a7de308f461d6e4d2a7"
+  },
+  "s061": {
+   "converted": "Maybe yes, 明白 the plan now today.",
+   "raw": "Maybe yes, I understand the plan now today.",
+   "raw_sha256": "8a09c3de437b1d06e9b172b3417d20d9ced5c79a145ca5eb584a5529f916067b"
+  },
+  "s062": {
+   "converted": "She told me that they met coram for the first time.",
+   "raw": "She told me that they met in person for the first time.",
+   "raw_sha256": "63aa16a8b55948aee1bc12338326a9e9586114540affe3d40667b9f6e84dd12c"
+  },
+  "s063": {
+   "converted": "Maybe she survived a 心脏病 last year today.",
+   "raw": "Maybe she survived a heart attack last year today.",
+   "raw_sha256": "d115f159024d174e4f915dcf3e6bbff63517d6aab413f5182e2bc821cfb6ae56"
+  },
+  "s064": {
+   "converted": "She told me that things are getting better quotidie.",
+   "raw": "She told me that things are getting better daily.",
+   "raw_sha256": "d9d233af4d103b68b9af65d6fe10bb149687299a55ace7eb0e41c88cc63c7dee"
+  },
+  "s065": {
+   "converted": "Maybe she is on leave, and interim I am covering for her today.",
+   "raw": "Maybe she is on leave, and meanwhile I am covering for her today.",
+   "raw_sha256": "1e39c3dabbc387221670f6f4f8670b77c3e46153c4066affddb95382f40b3e44"
+  },
+  "s066": {
+   "converted": "Maybe she apologised sua sponte, without being asked today.",
+   "raw": "Maybe she apologised sua sponte, without being asked today.",
+   "raw_sha256": "04f3949f4f1f6f357318a24629c05abfadeaa5adc5ac023bcb3adef126ab4d5c"
+  },
+  "s067": {
+   "converted": "Maybe he left the company sua sponte today.",
+   "raw": "Maybe he left the company of his own accord today.",
+   "raw_sha256": "d92bbdea66a9b74cfe09adab3812e5ed037a497fdb21c0077e7530ffe8b6668e"
+  },
+  "s068": {
+   "converted": "Maybe most people voted υπέρ the new park today.",
+   "raw": "Maybe most people voted for the new park today.",
+   "raw_sha256": "be954d3f0d4d0efe0dbd93265dccbb932b64e91b9b03ea2c685162fe241765e5"
+  },
+  "s069": {
+   "converted": "I am pro a shorter week.",
+   "raw": "I am for a shorter week.",
+   "raw_sha256": "84d39cdae3ad8446689084250e17bda377f87edfd05052fd9ab18992eeb7049f"
+  },
+  "s070": {
+   "converted": "Maybe turn off your cel during the film today.",
+   "raw": "Maybe turn off your cell during the film today.",
+   "raw_sha256": "0580e2f29457b866f4d2955a5f692529180ee097e6da74f1357717de535dae8f"
+  },
+  "s071": {
+   "converted": "Maybe 明白 why you are upset today.",
+   "raw": "Maybe I understand why you are upset today.",
+   "raw_sha256": "8f330558acbf3ef4bfefea0743f0664a25274cb5d48ee40973bec7bf80b927ea"
+  },
+  "s072": {
+   "converted": "She told me that the report covers, inter alia, the budget and the staff.",
+   "raw": "She told me that the report covers, inter alia, the budget and the staff.",
+   "raw_sha256": "efbb69ed57f64a117b14e3b67cf288539e2ff9dc4e6bdc9f3649aeb0a7eb85a7"
+  },
+  "s073": {
+   "converted": "She told me that she met, inter alia, the mayor and two ministers.",
+   "raw": "She told me that she met, among others, the mayor and two ministers.",
+   "raw_sha256": "66e127d8f896b6b7dcfdeaece6c6f1d656890c099a24e1cd40aa33d97ab87c7e"
+  },
+  "s074": {
+   "converted": "She told me that chest pain can be a sign of a 心脏病.",
+   "raw": "She told me that chest pain can be a sign of a heart attack.",
+   "raw_sha256": "6c6e77010f2c651faa92efe6d8dd3cd02db5a8e11dd8a9c65af91494e0d3a7fc"
+  },
+  "s075": {
+   "converted": "Turn off your cel during the film.",
+   "raw": "Turn off your phone during the film.",
+   "raw_sha256": "88cd4ded780755456e7fe64a97029cb67f4059a02f531b764df6e61f7ec392b3"
+  },
+  "s076": {
+   "converted": "Measure your tensão every morning.",
+   "raw": "Measure your blood pressure every morning.",
+   "raw_sha256": "262f15f196a4d5e7314fee0455a21ee765a654d504352f2efec9606b59d64c0c"
+  },
+  "s077": {
+   "converted": "She told me that she practised cotidie until the exam.",
+   "raw": "She told me that she practised daily until the exam.",
+   "raw_sha256": "1bfad52af46d39af5b1ddd0254ff552ee1f83f543598a8c3f1ffeac5e96437c0"
+  },
+  "s078": {
+   "converted": "She told me that it is raining and ideo the match is off.",
+   "raw": "She told me that it is raining and therefore the match is off.",
+   "raw_sha256": "f55921d048204b6ff9a9b1f78e71055753674fbe0cadf69d94e17f32613a0360"
+  },
+  "s079": {
+   "converted": "She told me that the judges gave their opinions seriatim.",
+   "raw": "She told me that the judges gave their opinions seriatim.",
+   "raw_sha256": "a816437a632cfc50a02b2120583b6e9182ad36e85ffe88a41742ae8e7ed69992"
+  },
+  "s080": {
+   "converted": "The judge ruled υπέρ the tenant.",
+   "raw": "The judge ruled in favor of the tenant.",
+   "raw_sha256": "7b76516cc234ff27426dfde6cff825337be836be7c1fe6e7b80729b448309a97"
+  },
+  "s081": {
+   "converted": "Maybe the printer jammed πάλι today.",
+   "raw": "Maybe the printer jammed again today.",
+   "raw_sha256": "79388d3f002cdc7c8172d0005499e47b0aaf2aa7f21712f88856a63b350eec64"
+  },
+  "s082": {
+   "converted": "She told me that she practised quotidie until the exam.",
+   "raw": "She told me that she practised daily until the exam.",
+   "raw_sha256": "1bfad52af46d39af5b1ddd0254ff552ee1f83f543598a8c3f1ffeac5e96437c0"
+  },
+  "s083": {
+   "converted": "Maybe 明白 your point, but I disagree today.",
+   "raw": "Maybe I understand your point, but I disagree today.",
+   "raw_sha256": "693132e0f1da44d58a76243598ccfb7c415f58e74355f5f900a5a066146aefee"
+  },
+  "s084": {
+   "converted": "She told me that he had a 心脏病 and was rushed to hospital.",
+   "raw": "She told me that he had a heart attack and was rushed to hospital.",
+   "raw_sha256": "29ca67a265a4b1177de91932ab71e823b1ac6022a8e465df3b4045cea11850b0"
+  },
+  "s085": {
+   "converted": "The country spends more per capita on health than its neighbours.",
+   "raw": "The country spends more per capita on health than its neighbours.",
+   "raw_sha256": "7dba32571ab04f63e274130615ec095998149a35440193921c58b2bf9b98bb8e"
+  },
+  "s086": {
+   "converted": "Maybe he was late iterum, the third time this week today.",
+   "raw": "Maybe he was late again, the third time this week today.",
+   "raw_sha256": "2453cd4b86ca765d996a2dd30d0edde2519a26c5b630bb9586c79a9bb071810b"
+  },
+  "s087": {
+   "converted": "Maybe I left my cel at home, so call my office today.",
+   "raw": "Maybe I left my cell at home, so call my office today.",
+   "raw_sha256": "ea1a8f94d3a971a954c0b81197a1e6a1a9a595c3f13da46db27da8fcf1a15301"
+  },
+  "s088": {
+   "converted": "Maybe there are no updates re the budget today.",
+   "raw": "Maybe there are no updates re the budget today.",
+   "raw_sha256": "3860d75e7c0a233198e790542d32f20ad2f0ea75a44becbc4064f5b979654e28"
+  },
+  "s089": {
+   "converted": "Maybe users complained about the 界面 today.",
+   "raw": "Maybe users complained about the interface today.",
+   "raw_sha256": "69950f77b0fcc32cb68a22695e32ff975724413e97422ed0f153796e202a6714"
+  },
+  "s090": {
+   "converted": "She told me that the trip takes circa three hours.",
+   "raw": "She told me that the trip takes about three hours.",
+   "raw_sha256": "2c378f31544033bb22421d1fb79369ae7bc10709bfbc4efd2d55b6133d5a7ccd"
+  },
+  "s091": {
+   "converted": "Maybe the judge ruled pro the tenant today.",
+   "raw": "Maybe the judge ruled for the tenant today.",
+   "raw_sha256": "f01d6ee578a33305dbe516c8ede3f418cf6086cd0a56ec2b8d989e2ad0c26542"
+  },
+  "s092": {
+   "converted": "Maybe she practised cotidie until the exam today.",
+   "raw": "Maybe she practised daily until the exam today.",
+   "raw_sha256": "a19001a624141445d7d70c2ffa397afdc719c9efae18ae94e6797fe632a1ef48"
+  },
+  "s093": {
+   "converted": "She told me that we had questions re the contract.",
+   "raw": "She told me that we had questions regarding the contract.",
+   "raw_sha256": "81ab72c76b45885bdb9274d09f17d46024559a677586a1d6db3e1423c86ea59c"
+  },
+  "s094": {
+   "converted": "She told me that most people voted pro the new park.",
+   "raw": "She told me that most people voted for the new park.",
+   "raw_sha256": "7a3f5268e39a8a08608efc14e7b636c5e7a0c6c90476e9ac8397bc722622369c"
+  },
+  "s095": {
+   "converted": "Maybe the office is closed for repairs; interim, use the back door today.",
+   "raw": "Maybe the office is closed for repairs; meanwhile, use the back door today.",
+   "raw_sha256": "7649b2fc2d3d9d639e0292de5be9d913796eea2c21921ca4dff5d402f11fb0fd"
+  },
+  "s096": {
+   "converted": "Maybe I changed my 邮箱, here is the new one today.",
+   "raw": "Maybe I changed my email, here is the new one today.",
+   "raw_sha256": "b13fcfbe2a1f1ad842a47f3d8cf15c2e13365f38ec31b0112822deeceb081a45"
+  },
+  "s097": {
+   "converted": "Maybe the road was closed and ergo we were late today.",
+   "raw": "Maybe the road was closed and so we were late today.",
+   "raw_sha256": "f4cfe92804194cfd670cbbbaeada9a20ffc4b6ee45fbbfec279900ff225e3571"
+  },
+  "s098": {
+   "converted": "She told me that most people voted υπέρ the new park.",
+   "raw": "She told me that most people voted for the new park.",
+   "raw_sha256": "7a3f5268e39a8a08608efc14e7b636c5e7a0c6c90476e9ac8397bc722622369c"
+  },
+  "s099": {
+   "converted": "He was late πάλι, the third time this week.",
+   "raw": "He was late again, the third time this week.",
+   "raw_sha256": "613de003fc278cd993ad51d584f4cd941ad9ec93f4cff91edbc957b3c71ef278"
+  },
+  "s100": {
+   "converted": "Maybe the judge ruled υπέρ the tenant today.",
+   "raw": "Maybe the judge ruled for the tenant today.",
+   "raw_sha256": "f01d6ee578a33305dbe516c8ede3f418cf6086cd0a56ec2b8d989e2ad0c26542"
+  },
+  "s101": {
+   "converted": "She told me that I found a Parkplatz right in front of the shop.",
+   "raw": "She told me that I found a parking space right in front of the shop.",
+   "raw_sha256": "112805c6426f519c5af731307189de7904135c9ad52e5656204be9792383ec51"
+  },
+  "s102": {
+   "converted": "Maybe we eat breakfast in the 餐厅 of our house today.",
+   "raw": "Maybe we eat breakfast in the dining room of our house today.",
+   "raw_sha256": "85dd4e91d86e0998b35320ab754b1ece2ef15a27c873ba899761b3d7939d6295"
+  },
+  "s103": {
+   "converted": "She told me that she is on leave, and interim I am covering for her.",
+   "raw": "She told me that she is on leave, and meanwhile I am covering for her.",
+   "raw_sha256": "1fe1d83d9641760426267bab25bdd2184b49490867afc0b7c60ba7ea510cee91"
+  },
+  "s104": {
+   "converted": "If it was expensive then, it is a fortiori now.",
+   "raw": "If it was expensive then, it is a fortiori now.",
+   "raw_sha256": "1e3c0ead52232be151ec480ba3d9ef60df9367dc7a1f3bac81d1d443cea33ae1"
+  },
+  "s105": {
+   "converted": "Maybe what is the 电话 of the hotel today.",
+   "raw": "Maybe what is the phone number of the hotel today.",
+   "raw_sha256": "0716de8236fda7514d9ddd50f4232a14660713b17cd6f92ef58bb937289ec0e4"
+  },
+  "s106": {
+   "converted": "There are no updates re the budget.",
+   "raw": "There are no updates re the budget.",
+   "raw_sha256": "f996c5605a7162565b0cefd44c9a8b3270811a3a6cf9223e5ae52ae37b209c1a"
+  },
+  "s107": {
+   "converted": "She told me that the printer jammed iterum.",
+   "raw": "She told me that the printer jammed again.",
+   "raw_sha256": "a52bc72434ee4a06c780b1b936f9cd81b2ddbd48d893df61cc1941e1c36bc4b2"
+  },
+  "s108": {
+   "converted": "She told me that if it was expensive then, it is a fortiori now.",
+   "raw": "She told me that if it was expensive then, it is even more so now.",
+   "raw_sha256": "9704d0968282981c85eae4ca287549f2b460e8ee185fe284422cb7a4e053d624"
+  },
+  "s109": {
+   "converted": "She told me that my cel battery is dead.",
+   "raw": "She told me that my cell battery is dead.",
+   "raw_sha256": "6d30f77be7ea44c39a767144ffac678334ec57dc9034d1404e0a38ac3cb478fe"
+  },
+  "s110": {
+   "converted": "He left the company sua sponte.",
+   "raw": "He left the company of his own accord.",
+   "raw_sha256": "f3893481f8cde7c55e4d8376896d4b06425abb462c20f35749d57c172886a044"
+  },
+  "s111": {
+   "converted": "She told me that there were circa fifty people there.",
+   "raw": "She told me that there were about fifty people there.",
+   "raw_sha256": "1a59a49298bc6d057e93e0be3779d1d8d5e8629e459bb647caf7fa3435a86d77"
+  },
+  "s112": {
+   "converted": "Maybe iterum, the team lost at home today.",
+   "raw": "Maybe again, the team lost at home today.",
+   "raw_sha256": "9df15062185030ccb635dc21089a6215a212401e900b78b423afc0d029763d15"
+  },
+  "s113": {
+   "converted": "We discussed, inter alia, the new contract.",
+   "raw": "We discussed, among other things, the new contract.",
+   "raw_sha256": "ab187964bcfdc45af50552c89efc47f53fdf76102944052160247f11ccf7a84f"
+  },
+  "s114": {
+   "converted": "Maybe income per capita rose last year today.",
+   "raw": "Maybe income per capita rose last year today.",
+   "raw_sha256": "305a90d3cbafb0da14e61ad04c9ce0e148c8e8896751b04484c122fd48f8b9ce"
+  },
+  "s115": {
+   "converted": "If he can't lift it, then a fortiori I can't.",
+   "raw": "If he can't lift it, then all the more so I can't.",
+   "raw_sha256": "916a36e8ff8938ba3a844220a154cf067f4f7c6eac7a7295095b6edf80f1a162"
+  },
+  "s116": {
+   "converted": "I found a Parkplatz right in front of the shop.",
+   "raw": "I found a parking space right in front of the shop.",
+   "raw_sha256": "face7623f8ab0d5af4cf88148d4f072288c4f99434a67832ee0481d674c0da52"
+  },
+  "s117": {
+   "converted": "She told me that type your 邮箱 to log in.",
+   "raw": "She told me to type your email to log in.",
+   "raw_sha256": "e91dc65d86df98e50f2c75391567a89eb03d6c3515d1ff285eb10436748eb9f3"
+  },
+  "s118": {
+   "converted": "She told me that we will review the items seriatim.",
+   "raw": "She told me that we will review the items seriatim.",
+   "raw_sha256": "c65e5e7ee29c430d5572bc7f1b0f1fbed0b53de4294122a3f484e607867666c6"
+  },
+  "s119": {
+   "converted": "He had a 心脏病 and was rushed to hospital.",
+   "raw": "He had a heart attack and was rushed to hospital.",
+   "raw_sha256": "4feb47abddc669026d9a5a1650e564f83786770f0eaa64675d5e4f7ce227a797"
+  },
+  "s120": {
+   "converted": "She told me that the office is closed for repairs; interim, use the back door.",
+   "raw": "She told me that the office is closed for repairs; meanwhile, use the back door.",
+   "raw_sha256": "8e0a8f841ec7a18dcfbac36898dad2907cb3e2c5b231719328a7dcf800c624c2"
+  },
+  "s121": {
+   "converted": "The printer jammed πάλι.",
+   "raw": "The printer jammed again.",
+   "raw_sha256": "427b8c3c5d8bee23c8a185505b58c7ca250c92ecc9f9305c36725b3ff72036a3"
+  },
+  "s122": {
+   "converted": "Maybe the judges gave their opinions seriatim today.",
+   "raw": "Maybe the judges gave their opinions seriatim today.",
+   "raw_sha256": "1e9b26ff73d7b0b125bec2288647dc255b10c2c5c1402acb4ba92d3e03778564"
+  },
+  "s123": {
+   "converted": "Maybe the report covers, inter alia, the budget and the staff today.",
+   "raw": "Maybe the report covers, among other things, the budget and the staff today.",
+   "raw_sha256": "319871fe71b557e2dfec7b40f4c070d1e71a976ccdd29eced23fa40c329a90bd"
+  },
+  "s124": {
+   "converted": "She told me that call me wenn the parcel arrives.",
+   "raw": "She told me that she would call me when the parcel arrives.",
+   "raw_sha256": "d8c6228a5f22c295b53d67d85743c51da2f24e8c1d38204ada197cac07a0f2cb"
+  },
+  "s125": {
+   "converted": "She told me that turn off your cel during the film.",
+   "raw": "She told me to turn off my cell during the film.",
+   "raw_sha256": "bf977fc660d259f6982d82e6d89addd1a4e33c5e86cfdb552b2cc33deb323eab"
+  },
+  "s126": {
+   "converted": "She told me that I am υπέρ a shorter week.",
+   "raw": "She told me that I am in favor of a shorter week.",
+   "raw_sha256": "2c3a44f0b56c20b06bd42846cd3b2e980026d36df9c07da640dead8b90588a6a"
+  },
+  "s127": {
+   "converted": "She told me that it costs circa ten euros.",
+   "raw": "She told me that it costs about ten euros.",
+   "raw_sha256": "a1dfc42c810f4bfa2141abaacfc4e214f59d9c8ec53d4a42833fe27df8bb527f"
+  },
+  "s128": {
+   "converted": "She told me that we discussed it coram at the café.",
+   "raw": "She told me that we discussed it in person at the café.",
+   "raw_sha256": "1d683e36cc0a9d54bca112e3b00df15beb0a831ff076d6c4308cd19559894271"
+  },
+  "s129": {
+   "converted": "She practised quotidie until the exam.",
+   "raw": "She practised daily until the exam.",
+   "raw_sha256": "afb0cc17f1f188bd6ed4ae6a011f90441d356dae8e7792ce77b8467f784a30c2"
+  },
+  "s130": {
+   "converted": "Maybe most people voted pro the new park today.",
+   "raw": "Maybe most people voted for the new park today.",
+   "raw_sha256": "be954d3f0d4d0efe0dbd93265dccbb932b64e91b9b03ea2c685162fe241765e5"
+  },
+  "s131": {
+   "converted": "She told me that 明白 why you are upset.",
+   "raw": "She told me that she understands why you are upset.",
+   "raw_sha256": "fef54d78dd13259a70f4fd4e69350ef7a7dfef67691a9155684e4b6312f4b5df"
+  },
+  "s132": {
+   "converted": "She told me that he was sick; ideo, he stayed in bed.",
+   "raw": "She told me that he was sick; therefore, he stayed in bed.",
+   "raw_sha256": "94ae006cfa469ddf5b005da6ec6690c0a76d4c85a5ded8c9221eb9ca0138c8ec"
+  },
+  "s133": {
+   "converted": "She told me that the judge ruled υπέρ the tenant.",
+   "raw": "She told me that the judge ruled in favor of the tenant.",
+   "raw_sha256": "db9e3553e5f13094d9c081507b02ce94abe0b1fe5d3c3eb44135376ca03c1e6f"
+  },
+  "s134": {
+   "converted": "The concert was held in memoriam her late husband.",
+   "raw": "The concert was held in memory of her late husband.",
+   "raw_sha256": "2d5fcb617736eae75c46754221849838e00e403235240232ebaf77e15102cd3c"
+  },
+  "s135": {
+   "converted": "She is on leave, and interim I am covering for her.",
+   "raw": "She is on leave, and in the meantime I am covering for her.",
+   "raw_sha256": "426344ec77c0d12e01831fb1cb43d14f56806751c6af231f2e05b8810b6e2884"
+  },
+  "s136": {
+   "converted": "We discussed it coram at the café.",
+   "raw": "We discussed it in person at the café.",
+   "raw_sha256": "f30e2e8b6b4123fb91f3ad1d05718ac558cc0dce175bcde87609a801ec9de9fb"
+  },
+  "s137": {
+   "converted": "Children need sleep, and teenagers a fortiori.",
+   "raw": "Children need sleep, and teenagers all the more so.",
+   "raw_sha256": "d59ddd5a003593d1aa68d00873c088bfa813df7f938d79ba7702af1292aaf2e1"
+  },
+  "s138": {
+   "converted": "Maybe he missed the train and ergo the meeting today.",
+   "raw": "Maybe he missed the train and ergo the meeting today.",
+   "raw_sha256": "277f6ad065f9648eceed558cd352045dab9d42235434e1c56262eaee8e9f9230"
+  },
+  "s139": {
+   "converted": "He was sick; ideo, he stayed in bed.",
+   "raw": "He was sick; therefore, he stayed in bed.",
+   "raw_sha256": "43bb12399e839f5f529a6cc07a3a48f70ae00000c86285d3cc5f57438a2e5fe9"
+  },
+  "s140": {
+   "converted": "Maybe the shop is closed, and ideo we are going home today.",
+   "raw": "Maybe the shop is closed, and so we are going home today.",
+   "raw_sha256": "ef1526b6e9b9b07a97fbc15e024fd2f9553fe30a658be76b17634a6f29930e55"
+  },
+  "s141": {
+   "converted": "She told me that πάλι, the team lost at home.",
+   "raw": "She told me that again, the team lost at home.",
+   "raw_sha256": "61d73dd0eddce27d88e8ef05ef9465ce1126bb497783b296fe615e630dcbdda6"
+  },
+  "s142": {
+   "converted": "She told me that he wrote the poem in memoriam his teacher.",
+   "raw": "She told me that he wrote the poem in memoriam his teacher.",
+   "raw_sha256": "3d33cd633a8d41d8798163f6e5ecc294f2358de65bcca8ed9e3e35482405429a"
+  },
+  "s143": {
+   "converted": "She told me that the concert was held in memoriam her late husband.",
+   "raw": "She told me that the concert was held in memory of her late husband.",
+   "raw_sha256": "1b34dbe11b6b1340461d6bf2e161fd5a3c5fa26fac07d66e47340ab1ecb4f7f0"
+  },
+  "s144": {
+   "converted": "She told me that when I was young pude run for hours.",
+   "raw": "She told me that when I was young I could run for hours.",
+   "raw_sha256": "ca01f1dabfc81621784a9bfdcdc39ef356bb8b0451e81cb87404e9900ce72b36"
+  },
+  "s145": {
+   "converted": "Maybe we discussed, inter alia, the new contract today.",
+   "raw": "Maybe we discussed, among other things, the new contract today.",
+   "raw_sha256": "d7ab6cecd4c698178a0c536b2c4b401d4341f45ca2e8203f1e17116f74a35058"
+  },
+  "s146": {
+   "converted": "Maybe wenn it rains, the match will be moved today.",
+   "raw": "Maybe if it rains, the match will be moved today.",
+   "raw_sha256": "86eb50b8cd3e10b223497ddc771582686ad5508c6ca4608f8ef5cc368fbc621d"
+  },
+  "s147": {
+   "converted": "Maybe I am pro a shorter week today.",
+   "raw": "Maybe I am for a shorter week today.",
+   "raw_sha256": "dbfb2859806cb1310f6eb3e13c25d303688139cc11bf7790297150c1c05c7780"
+  },
+  "s148": {
+   "converted": "The new 界面 is easier to use.",
+   "raw": "The new interface is easier to use.",
+   "raw_sha256": "eb0b25d35d110d933473de68ac5c78351543b5ed09cfb88856c260243d2788b6"
+  },
+  "s149": {
+   "converted": "Chest pain can be a sign of a 心脏病.",
+   "raw": "Chest pain can be a sign of a heart attack.",
+   "raw_sha256": "9d80f5b4fcfa5178ff68779548cc336696634de0cf32a71584459ec89d031ac0"
+  },
+  "s150": {
+   "converted": "Yes, 明白 the plan now.",
+   "raw": "Yes, I understand the plan now.",
+   "raw_sha256": "09bc69d1d372b73170434085aa783b4cedc10585958fad99c245641dec532af5"
+  },
+  "s151": {
+   "converted": "There were circa fifty people there.",
+   "raw": "There were about fifty people there.",
+   "raw_sha256": "c2898676f312d4f96ec753bde3704b15628a207efdb935a02cab5d0d7856d43b"
+  },
+  "s152": {
+   "converted": "He was late iterum, the third time this week.",
+   "raw": "He was late again, the third time this week.",
+   "raw_sha256": "613de003fc278cd993ad51d584f4cd941ad9ec93f4cff91edbc957b3c71ef278"
+  },
+  "s153": {
+   "converted": "Maybe they planted a tree in memoriam the victims today.",
+   "raw": "Maybe they planted a tree in memory of the victims today.",
+   "raw_sha256": "2958f1372b72f000b3d457772ec59e54f655b63229d93e64436383c2745f27f7"
+  },
+  "s154": {
+   "converted": "I wrote her 电话 on a napkin.",
+   "raw": "I wrote her number on a napkin.",
+   "raw_sha256": "f65daf1d9a28da2101b68e2e64d1c80a0d86931eae2d7accd910bef043bbc43f"
+  },
+  "s155": {
+   "converted": "She told me that they planted a tree in memoriam the victims.",
+   "raw": "She told me that they planted a tree in memory of the victims.",
+   "raw_sha256": "09f9e2bd423104ea9874ce002832f6d86308cb0b5008c16b478b914b6dce173e"
+  },
+  "s156": {
+   "converted": "She told me that we discussed, inter alia, the new contract.",
+   "raw": "She told me that we discussed, inter alia, the new contract.",
+   "raw_sha256": "b48b24550a26d3197948949bf99491a3a08777d3cc20574e906892a457bfde94"
+  },
+  "s157": {
+   "converted": "Cotidie, the baby grows stronger.",
+   "raw": "Every day, the baby grows stronger.",
+   "raw_sha256": "d63ceff974447b698a116e44f760efaa2b8a6e519bc6fd874670a669e963f081"
+  },
+  "s158": {
+   "converted": "She told me that turn left after the Tankstelle.",
+   "raw": "She told me to turn left after the gas station.",
+   "raw_sha256": "58ebe70558a9392480ad06fa69345616b78ffeeec492d92b88f0728cb10aabff"
+  },
+  "s159": {
+   "converted": "Maybe there were circa fifty people there today.",
+   "raw": "Maybe there were about fifty people there today.",
+   "raw_sha256": "75540e32e522a0d7c3a8025ad7c3d6ec3956fd0f571401c54cbe67c085eef5f8"
+  },
+  "s160": {
+   "converted": "Maybe he had a 心脏病 and was rushed to hospital today.",
+   "raw": "Maybe he had a heart attack and was rushed to hospital today.",
+   "raw_sha256": "9f764d6fec6ee58645caa84f878e847abb26cf3b2f10a8416a31ea478422c241"
+  },
+  "s161": {
+   "converted": "She told me that the 餐厅 has a big wooden table.",
+   "raw": "She told me that the restaurant has a big wooden table.",
+   "raw_sha256": "c8f8fd2e85dd855a7d7f1f49de87725b49e2a2a6b11241d2817eea46cf799312"
+  },
+  "s162": {
+   "converted": "Maybe he was sick; ideo, he stayed in bed today.",
+   "raw": "Maybe he was sick; therefore, he stayed in bed today.",
+   "raw_sha256": "59e954e667f9c178b5e1f51c62af4aac09fb1b12e88407c8f72ae4c771b83719"
+  },
+  "s163": {
+   "converted": "Maybe she practised quotidie until the exam today.",
+   "raw": "Maybe she practised daily until the exam today.",
+   "raw_sha256": "a19001a624141445d7d70c2ffa397afdc719c9efae18ae94e6797fe632a1ef48"
+  },
+  "s164": {
+   "converted": "He wrote the poem in memoriam his teacher.",
+   "raw": "He wrote the poem in memory of his teacher.",
+   "raw_sha256": "4649e76e936879eb2d3902afd3a6dab9629641b69f9ff643a9a2199d6a99e289"
+  },
+  "s165": {
+   "converted": "Maybe the Tankstelle on the motorway sells snacks today.",
+   "raw": "Maybe the petrol station on the motorway sells snacks today.",
+   "raw_sha256": "ccf3acd6bd6b54166a6ae3b905d52a1b98a252480775a3151aa56c24d5475638"
+  },
+  "s166": {
+   "converted": "She told me that salt raises your tensão.",
+   "raw": "She told me that salt raises your blood pressure.",
+   "raw_sha256": "8230891d5d4d3d3d2719db778c9e9d19df71aebd34057dd7dcae85535065d915"
+  },
+  "s167": {
+   "converted": "Maybe πάλι, the team lost at home today.",
+   "raw": "Maybe again, the team lost at home today.",
+   "raw_sha256": "9df15062185030ccb635dc21089a6215a212401e900b78b423afc0d029763d15"
+  },
+  "s168": {
+   "converted": "Users complained about the 界面.",
+   "raw": "Users complained about the interface.",
+   "raw_sha256": "46b1bd65520137b247d97d6b187168b24a4acf3b770126223b77d0a0b343b068"
+  },
+  "s169": {
+   "converted": "She told me that the new system starts in May; interim, keep using the old one.",
+   "raw": "She told me that the new system starts in May; in the meantime, keep using the old one.",
+   "raw_sha256": "a48474cfd426a0f60cd35069fc7d5546fab440cde421370d26ea972684874b35"
+  },
+  "s170": {
+   "converted": "She told me that the printer jammed πάλι.",
+   "raw": "She told me that the printer jammed again.",
+   "raw_sha256": "a52bc72434ee4a06c780b1b936f9cd81b2ddbd48d893df61cc1941e1c36bc4b2"
+  },
+  "s171": {
+   "converted": "She told me that I changed my 邮箱, here is the new one.",
+   "raw": "She told me that I changed my email, here is the new one.",
+   "raw_sha256": "3f9a0733212401ac31255f15ce4d3d3415cbfd076292faaa7eb7f64639358365"
+  },
+  "s172": {
+   "converted": "She told me that we stopped at the Tankstelle to fill up the tank.",
+   "raw": "She told me that we stopped at the gas station to fill up the tank.",
+   "raw_sha256": "ec39f7c220d242e7ccbbb417ecb8915632246c1c86cdff2832661d6995c2805b"
+  },
+  "s173": {
+   "converted": "Maybe I found a Parkplatz right in front of the shop today.",
+   "raw": "Maybe I found a parking spot right in front of the shop today.",
+   "raw_sha256": "828508f0c3af418ac0f986456113ffcd21bad327d3543f92bf5e6161aa2c1ab9"
+  },
+  "s174": {
+   "converted": "She told me that there is no free Parkplatz on this street.",
+   "raw": "She told me that there is no free parking space on this street.",
+   "raw_sha256": "0aefa8858110ac933ec4b9c7a9b1c49ea5b155757a431826f7df0881a13fc3d3"
+  },
+  "s175": {
+   "converted": "Maybe type your 邮箱 to log in today.",
+   "raw": "Maybe type your email to log in today.",
+   "raw_sha256": "e3ab5f46228cff2fb760b4c85949245248519a5ea7fa1c6100bc6362569c210d"
+  },
+  "s176": {
+   "converted": "She told me that I am writing re your invoice.",
+   "raw": "She told me that I am writing re your invoice.",
+   "raw_sha256": "5317fbffee38976dd8672b57d278e9003c2af467c4deef7ef5a0ba0bad058ad2"
+  },
+  "s177": {
+   "converted": "The report covers, inter alia, the budget and the staff.",
+   "raw": "The report covers, among other things, the budget and the staff.",
+   "raw_sha256": "dd89eae7c518f3425148456d8a6b580db7cb7eaf92865b60f0ba0d945fdaf9ae"
+  },
+  "s178": {
+   "converted": "Maybe the doctor said my tensão is too high today.",
+   "raw": "Maybe the doctor said my blood pressure is too high today.",
+   "raw_sha256": "fbea6fd646ec45c1b0e9c1e3ee84a561eeeffe79f65fd726a8fc4a251df01c32"
+  },
+  "s179": {
+   "converted": "It costs circa ten euros.",
+   "raw": "It costs about ten euros.",
+   "raw_sha256": "bac941f4e15c9b0621f1630bbfa081bad277634a87608036d1156a1fca1984c7"
+  },
+  "s180": {
+   "converted": "Maybe the printer jammed iterum today.",
+   "raw": "Maybe the printer jammed again today.",
+   "raw_sha256": "79388d3f002cdc7c8172d0005499e47b0aaf2aa7f21712f88856a63b350eec64"
+  },
+  "s181": {
+   "converted": "Maybe when I was young pude run for hours today.",
+   "raw": "Maybe when I was young I could run for hours today.",
+   "raw_sha256": "03024d89e1f1c5e80ef81e8cb47cb5f6e0eabfe62480b56ee34888110846b243"
+  },
+  "s182": {
+   "converted": "We stopped at the Tankstelle to fill up the tank.",
+   "raw": "We stopped at the gas station to fill up the tank.",
+   "raw_sha256": "246f9c1bba07de02e1c070323ffc07640bb5f9e896bfe537ae9ec5416aa9f7e2"
+  },
+  "s183": {
+   "converted": "Maybe the guests came in seriatim today.",
+   "raw": "Maybe the guests came in one by one today.",
+   "raw_sha256": "657aba80d22478054ee37edcb82d6d14fc86866cb9ee0ac6dcc11f05f4ac4c77"
+  },
+  "s184": {
+   "converted": "She told me that he was late πάλι, the third time this week.",
+   "raw": "She told me that he was late again, the third time this week.",
+   "raw_sha256": "bac0770ee0f0d790546f284a9b4eab4177eeaedbf425595b73c33add28c89157"
+  },
+  "s185": {
+   "converted": "The Tankstelle on the motorway sells snacks.",
+   "raw": "The petrol station on the motorway sells snacks.",
+   "raw_sha256": "f75bf2aca99bbee970771391cf132bb77a3503e1337d136c089cf52be5bac61b"
+  },
+  "s186": {
+   "converted": "Maybe I'd rather tell him coram than by email today.",
+   "raw": "Maybe I'd rather tell him in person than by email today.",
+   "raw_sha256": "ad0dbf9c44ba085c4ac005933510972021d312070469271e92ff1b140611ad5d"
+  },
+  "s187": {
+   "converted": "Maybe children need sleep, and teenagers a fortiori today.",
+   "raw": "Maybe children need sleep, and teenagers even more so today.",
+   "raw_sha256": "263a63f55d1a328769712682fa44618d5fa52e4d39c5818b62e9781ab5fa8fc3"
+  },
+  "s188": {
+   "converted": "She told me that users complained about the 界面.",
+   "raw": "She told me that users complained about the interface.",
+   "raw_sha256": "2feadba5a2407ed9bc277c8d7f02494136ddcaf817ac03ee7d3a7fbcad5323e6"
+  },
+  "s189": {
+   "converted": "Πάλι, the team lost at home.",
+   "raw": "Again, the team lost at home.",
+   "raw_sha256": "af1874167d12dfbf3abcf76164cf516479ae15e3b8426242396c586fa7fa9494"
+  },
+  "s190": {
+   "converted": "Maybe we need two litres of water per capita today.",
+   "raw": "Maybe we need two litres of water per capita today.",
+   "raw_sha256": "4af98e05aaf1e4279f32c4cabc6b152d2c09fbc7591806ac576dabd631af3ea3"
+  },
+  "s191": {
+   "converted": "She told me that he missed the train and ergo the meeting.",
+   "raw": "She told me that he missed the train and therefore the meeting.",
+   "raw_sha256": "273cd6c5a08449e9d10636d5c4f17150e095e035bdd128677e41b0b63092cc74"
+  },
+  "s192": {
+   "converted": "Maybe things are getting better cotidie today.",
+   "raw": "Maybe things are getting better today.",
+   "raw_sha256": "81741cd78b40d81aff3f8873db0c5a12e0cd0e4f5eda9474936f0f07cc4ecd9e"
+  },
+  "s193": {
+   "converted": "I am writing re your invoice.",
+   "raw": "I am writing regarding your invoice.",
+   "raw_sha256": "415002060746dd54defae27aaf0eec81df125a4ed645ce5da12ea02bf079b126"
+  },
+  "s194": {
+   "converted": "The judges gave their opinions seriatim.",
+   "raw": "The judges gave their opinions seriatim.",
+   "raw_sha256": "466dccc663e110e87262b4e4fd85fce6850e015866e109de488f91e50c46de47"
+  },
+  "s195": {
+   "converted": "She told me that what is the 电话 of the hotel.",
+   "raw": "She told me that what is the phone number of the hotel.",
+   "raw_sha256": "3986adb52bd09e911115c97ee833eb8a4bbda7a3176677d9a7f5c52a6c2ae028"
+  },
+  "s196": {
+   "converted": "She told me that children need sleep, and teenagers a fortiori.",
+   "raw": "She told me that children need sleep, and teenagers a fortiori.",
+   "raw_sha256": "9de2995be848d00d28330aa7aa73c2a05ba83e40d6c40d9ea4520b47e599b489"
+  },
+  "s197": {
+   "converted": "Maybe they met coram for the first time today.",
+   "raw": "Maybe they met in person for the first time today.",
+   "raw_sha256": "1aec2871e1724f265affbfbdb96fcf5247afb8dc50f07993821c6cbccb230cd7"
+  },
+  "s198": {
+   "converted": "Maybe the new 界面 is easier to use today.",
+   "raw": "Maybe the new interface is easier to use today.",
+   "raw_sha256": "899159ca56d244e40c379ea2a95860ac618a219a08c3b450143c0e2f3a590b59"
+  },
+  "s199": {
+   "converted": "She told me that she apologised sua sponte, without being asked.",
+   "raw": "She told me that she apologised of her own accord, without being asked.",
+   "raw_sha256": "65b7bd9dad824777b486729d076f941b8c88aa1458e2b40f8e836689a4d76ef8"
+  },
+  "s200": {
+   "converted": "The judge ruled pro the tenant.",
+   "raw": "The judge ruled for the tenant.",
+   "raw_sha256": "97a43c901852be74db2d16f215d920a8a1f3bcf90229317bfb5cd432c51b9c36"
+  },
+  "s201": {
+   "converted": "She told me that the Tankstelle on the motorway sells snacks.",
+   "raw": "She told me that the petrol station on the motorway sells snacks.",
+   "raw_sha256": "b36b4983b38c1a935a21eecd2dc8165e1c2b247649f2a2b2263a4d666ffe42bb"
+  },
+  "s202": {
+   "converted": "Maybe it is raining and ideo the match is off today.",
+   "raw": "Maybe it is raining and therefore the match is off today.",
+   "raw_sha256": "0501d1d7cc599523b3c7e180917766ffe8960d80a1bfb941f1ae891d7d5ccb57"
+  },
+  "s203": {
+   "converted": "Maybe the court raised the issue sua sponte today.",
+   "raw": "Maybe the court raised the issue sua sponte today.",
+   "raw_sha256": "169d11090f44c0f4347c4f4db674158d1a1f314fcd4f230308f40a494f35de04"
+  },
+  "s204": {
+   "converted": "It is raining and ideo the match is off.",
+   "raw": "It is raining and therefore the match is off.",
+   "raw_sha256": "98f1307a8c622ee3b0dd8dbbc2e2cfa5716adb06db8e6967a6d2d8220d92e6c9"
+  },
+  "s205": {
+   "converted": "There is no free Parkplatz on this street.",
+   "raw": "There is no free parking space on this street.",
+   "raw_sha256": "fdd03d1cd6843d840be893319f3443f9c8ce2f700327f6673f3501b1489c2750"
+  },
+  "s206": {
+   "converted": "She told me that yes, 明白 the plan now.",
+   "raw": "She told me that yes, she understood the plan now.",
+   "raw_sha256": "222c5a9e20d916359052ffd459f460fc62e45dd17e8da800f4506abb99b2baeb"
+  },
+  "s207": {
+   "converted": "Type your 邮箱 to log in.",
+   "raw": "Type your email to log in.",
+   "raw_sha256": "8b6c818e9622a1e49569c09fc61d7081c1734982aad6535b652d41b3004149ed"
+  },
+  "s208": {
+   "converted": "Maybe the new system starts in May; interim, keep using the old one today.",
+   "raw": "Maybe the new system starts in May; meanwhile, keep using the old one today.",
+   "raw_sha256": "265e7d25dcb51226e4ec6d7190b6686a1c6ea41f9a245684d367a83435d54a31"
+  },
+  "s209": {
+   "converted": "She told me that he left the company sua sponte.",
+   "raw": "She told me that he left the company of his own accord.",
+   "raw_sha256": "f8875233777ca18665889c2f189ae01928248fd142315a7bc9d85b56aca61a7a"
+  },
+  "s210": {
+   "converted": "She told me that our flat has a kitchen and a small 餐厅.",
+   "raw": "She told me that our flat has a kitchen and a small dining room.",
+   "raw_sha256": "2107f149dcff394a01fd84f0b4f1752499fb58f24d6674f57242e147220a2996"
+  },
+  "s211": {
+   "converted": "She told me that she survived a 心脏病 last year.",
+   "raw": "She told me that she survived a heart attack last year.",
+   "raw_sha256": "10f84ea1b83ab936f17bcefaad56aca77ca09a0d6e90328a247b5a685b09dc90"
+  },
+  "s212": {
+   "converted": "Maybe the 餐厅 has a big wooden table today.",
+   "raw": "Maybe the restaurant has a big wooden table today.",
+   "raw_sha256": "ba12f6026f5f875f1854b2185aa23e90f558010aaa5477faf285a78d81ad93ab"
+  },
+  "s213": {
+   "converted": "Maybe can you give me your 电话 today.",
+   "raw": "Maybe can you give me your phone number today.",
+   "raw_sha256": "09500bdf660cf82ef4f5d902d0d694e42e4e1db0d67189465e0a46258e15449e"
+  },
+  "s214": {
+   "converted": "Maybe the country spends more per capita on health than its neighbours today.",
+   "raw": "Maybe the country spends more per capita on health than its neighbours today.",
+   "raw_sha256": "87cd34f81da05a493705808525ffbd1880ed63e48ed9e2b384d896d3af5a8577"
+  },
+  "s215": {
+   "converted": "The road was closed and ergo we were late.",
+   "raw": "The road was closed and therefore we were late.",
+   "raw_sha256": "954d54e9919389e4c60f09f01faeade0df93bd9d56154febb84a6f0a7aeba481"
+  },
+  "s216": {
+   "converted": "The guests came in seriatim.",
+   "raw": "The guests came in one after another.",
+   "raw_sha256": "8948a32118ccfd899cc708ffa4f9fa1a7293d622f6aaca7aa5d9f9c23ed80bb0"
+  },
+  "s217": {
+   "converted": "She told me that the doctor said my tensão is too high.",
+   "raw": "She told me that the doctor said my blood pressure is too high.",
+   "raw_sha256": "4b00ca2dc6e97f514a38df18ae81a5a1f40fe4fc6d2d18388c2fbba98c01f7e4"
+  },
+  "s218": {
+   "converted": "Maybe turn left after the Tankstelle today.",
+   "raw": "Maybe turn left after the gas station today.",
+   "raw_sha256": "89579dade737660d49d49d2947a60002fbd2d6ff4b38caa1e8ea1896fc4a985e"
+  },
+  "s219": {
+   "converted": "Maybe chest pain can be a sign of a 心脏病 today.",
+   "raw": "Maybe chest pain can be a sign of a heart attack today.",
+   "raw_sha256": "2135faac107a32fa402a1ef26f2577bb44a0d986499d22a3696d64bc3552cad8"
+  },
+  "s220": {
+   "converted": "The new system starts in May; interim, keep using the old one.",
+   "raw": "The new system starts in May; in the meantime, keep using the old one.",
+   "raw_sha256": "8690ad633883513d5c9c8287551e670762c65c90913fe6964a4b6fff8bcfd7b4"
+  },
+  "s221": {
+   "converted": "Yesterday pude not sleep at all.",
+   "raw": "Yesterday I could not sleep at all.",
+   "raw_sha256": "5cb68afd3305c56c1ee3c460057e30227c02259aa2a6f13799c13f4d5df50d49"
+  },
+  "s222": {
+   "converted": "She told me that I am pro a shorter week.",
+   "raw": "She told me that I am for a shorter week.",
+   "raw_sha256": "2be3fb874b3b431deeb5848f36a404f7829c934e8172737c308e2d517b295c6c"
+  },
+  "s223": {
+   "converted": "Call me wenn the parcel arrives.",
+   "raw": "Call me when the parcel arrives.",
+   "raw_sha256": "961d4fcf606bff89920326173397588f94e5c6817763ae9f9f034c9503e42884"
+  },
+  "s224": {
+   "converted": "I'd rather tell him coram than by email.",
+   "raw": "I'd rather tell him in person than by email.",
+   "raw_sha256": "85571d601de3a4b566350e3e579a4566f627b5a33dde82e1116e564ddbebbf4b"
+  },
+  "s225": {
+   "converted": "She told me that things are getting better cotidie.",
+   "raw": "She told me that things are getting better every day.",
+   "raw_sha256": "5afd991a603413d518764b1f49ce627085cdca8a25c53df0624cffe5b3a65193"
+  },
+  "s226": {
+   "converted": "Maybe she met, inter alia, the mayor and two ministers today.",
+   "raw": "Maybe she met, inter alia, the mayor and two ministers today.",
+   "raw_sha256": "e19caff43d1fd1106dd4a453e118c4bfe70cfd95609141316dced271b8b35bc4"
+  },
+  "s227": {
+   "converted": "Maybe the concert was held in memoriam her late husband today.",
+   "raw": "Maybe the concert was held in memory of her late husband today.",
+   "raw_sha256": "7c9ae534c69c9cd6d7898f21ab0d3c1cca3b33d8af11356b3bb88eabed4a570a"
+  },
+  "s228": {
+   "converted": "Maybe call me wenn the parcel arrives today.",
+   "raw": "Maybe call me when the parcel arrives today.",
+   "raw_sha256": "a82012d2a600dce1e2379f1b5c96ecf541c4116746b1e9d141fd9fd8d24fe1df"
+  },
+  "s229": {
+   "converted": "Maybe if he can't lift it, then a fortiori I can't today.",
+   "raw": "Maybe if he can't lift it, then a fortiori I can't today.",
+   "raw_sha256": "5c919ef5bee9823c03af750988b838de22836fcdee034fe450cef8c5d456fcc5"
+  },
+  "s230": {
+   "converted": "Maybe cotidie, the baby grows stronger today.",
+   "raw": "Maybe daily, the baby grows stronger today.",
+   "raw_sha256": "10c9360302ff7cdd2b03797fff48772edde3e459922b6ca09025bec46e9ba1e6"
+  },
+  "s231": {
+   "converted": "Maybe he wrote the poem in memoriam his teacher today.",
+   "raw": "Maybe he wrote the poem in memory of his teacher today.",
+   "raw_sha256": "da7d8a0e6bffd8048a39b7850c852e29eef488ddfb62dee9ad603268c262291a"
+  },
+  "s232": {
+   "converted": "Please send the invoice to my 邮箱.",
+   "raw": "Please send the invoice to my email.",
+   "raw_sha256": "25452ca9b6ca193406bd55ff4879c89a0263be7c67de7ceeeb8d2a531b8f81c9"
+  },
+  "s233": {
+   "converted": "The trip takes circa three hours.",
+   "raw": "The trip takes about three hours.",
+   "raw_sha256": "7a27074d4bff28ffb2426bf6244a9abe0ee435a84e851c59a84432ae3f9d575f"
+  },
+  "s234": {
+   "converted": "My cel battery is dead.",
+   "raw": "My cell battery is dead.",
+   "raw_sha256": "07937cac9cd43849274bff7d2eb650d3e8218b132d77646f0d1b1e4986779372"
+  },
+  "s235": {
+   "converted": "I am υπέρ a shorter week.",
+   "raw": "I am for a shorter week.",
+   "raw_sha256": "84d39cdae3ad8446689084250e17bda377f87edfd05052fd9ab18992eeb7049f"
+  },
+  "s236": {
+   "converted": "She told me that if he can't lift it, then a fortiori I can't.",
+   "raw": "She told me that if he can't lift it, then a fortiori I can't.",
+   "raw_sha256": "a06cc54c681d344cba51af2a2f9233aecd17a5fd9cbd2595911204672b040547"
+  },
+  "s237": {
+   "converted": "She told me that wenn you finish the report, send it to me.",
+   "raw": "She told me that when you finish the report, send it to me.",
+   "raw_sha256": "4e01ab92b31e6763b44847413a8e2aed2009e5194cfbf08c175e9a97c8527360"
+  },
+  "s238": {
+   "converted": "Maybe there is no free Parkplatz on this street today.",
+   "raw": "Maybe there is no free parking space on this street today.",
+   "raw_sha256": "dfea8f4bbdc7377514de09fa633804f8550c3a4cd6fbcbba3d21a7761d8b2079"
+  },
+  "s239": {
+   "converted": "She practised cotidie until the exam.",
+   "raw": "She practised daily until the exam.",
+   "raw_sha256": "afb0cc17f1f188bd6ed4ae6a011f90441d356dae8e7792ce77b8467f784a30c2"
+  },
+  "s240": {
+   "converted": "She told me that measure your tensão every morning.",
+   "raw": "She told me to measure my blood pressure every morning.",
+   "raw_sha256": "d4fa03ded07b6b2149029e164eab6fa8d9a025f02e9398a22a80db450d6d7343"
+  },
+  "s241": {
+   "converted": "She apologised sua sponte, without being asked.",
+   "raw": "She apologised sua sponte, without being asked.",
+   "raw_sha256": "53c1cf6f4ad4c3dbde7a2145e53c294d8816a4e8bebc1bfae4bd6e26e07ba7e2"
+  },
+  "s242": {
+   "converted": "Wenn you finish the report, send it to me.",
+   "raw": "When you finish the report, send it to me.",
+   "raw_sha256": "4f991134ebc03db34ae7757ea4f842098cd56a73b35140d6cb4ac6191248e75b"
+  },
+  "s243": {
+   "converted": "Maybe he took my Parkplatz again today.",
+   "raw": "Maybe he took my parking spot again today.",
+   "raw_sha256": "e52721ac82194b7d3c5d226d7abe6880d4f49bf76d27aaeea523a95f426d87b9"
+  },
+  "s244": {
+   "converted": "I left my cel at home, so call my office.",
+   "raw": "I left my cell at home, so call my office.",
+   "raw_sha256": "9a0c35bf5a0a297c0235121a1038b3c123eb94a27e8bd81e54f961dd58e510ac"
+  },
+  "s245": {
+   "converted": "Maybe we will review the items seriatim today.",
+   "raw": "Maybe we will review the items seriatim today.",
+   "raw_sha256": "65021625f026f34bc568a57593471b5056097e80ff79472783cbf4c03b1159a0"
+  },
+  "s246": {
+   "converted": "Our flat has a kitchen and a small 餐厅.",
+   "raw": "Our flat has a kitchen and a small dining room.",
+   "raw_sha256": "a0f0ae3f82680c9446752877fb9c6aac574a77c3394eb348d767bd4a240ae86b"
+  },
+  "s247": {
+   "converted": "She told me that income per capita rose last year.",
+   "raw": "She told me that income per capita rose last year.",
+   "raw_sha256": "03b0f17b149e3745894d83bdde5e8d4c4493e0ceef5e384b54e5b4852aaf362c"
+  },
+  "s248": {
+   "converted": "We eat breakfast in the 餐厅 of our house.",
+   "raw": "We eat breakfast in the dining room of our house.",
+   "raw_sha256": "3fb8105a5b7027de2c25210d2454c492906c44dbef941ee2568c193d6553edf2"
+  },
+  "s249": {
+   "converted": "Income per capita rose last year.",
+   "raw": "Income per capita rose last year.",
+   "raw_sha256": "9d411f4896e003dc4bad6b9bd7bc03e45b1e04995b7960c491b28fa84df40854"
+  },
+  "s250": {
+   "converted": "Maybe if it was expensive then, it is a fortiori now today.",
+   "raw": "Maybe if it was expensive then, it is even more so today.",
+   "raw_sha256": "1318a2ac6235109c37cca4e555dea79183fd578fa973db022c784d15cc120877"
+  },
+  "s251": {
+   "converted": "She met, inter alia, the mayor and two ministers.",
+   "raw": "She met, among others, the mayor and two ministers.",
+   "raw_sha256": "797eaa58e00cc0f1957aaa00d1d27f1511154ab9404f39d38c81683c38c39d00"
+  },
+  "s252": {
+   "converted": "Maybe things are getting better quotidie today.",
+   "raw": "Maybe things are getting better today.",
+   "raw_sha256": "81741cd78b40d81aff3f8873db0c5a12e0cd0e4f5eda9474936f0f07cc4ecd9e"
+  },
+  "s253": {
+   "converted": "Maybe he was late πάλι, the third time this week today.",
+   "raw": "Maybe he was late again, the third time this week today.",
+   "raw_sha256": "2453cd4b86ca765d996a2dd30d0edde2519a26c5b630bb9586c79a9bb071810b"
+  },
+  "s254": {
+   "converted": "The shop is closed, and ideo we are going home.",
+   "raw": "The shop is closed, and therefore we are going home.",
+   "raw_sha256": "60c153ebd9c9d5f030f696820a6ac1b7cd19657c4a311dc2378ce4d7473bfe81"
+  },
+  "s255": {
+   "converted": "She told me that we need two litres of water per capita.",
+   "raw": "She told me that we need two litres of water per capita.",
+   "raw_sha256": "99a56ac854b48341b8bb4179de3034bdb2af05e4ee04d1813b0b6bca67b4763e"
+  },
+  "s256": {
+   "converted": "They met coram for the first time.",
+   "raw": "They met in person for the first time.",
+   "raw_sha256": "8f4796b08e759bb07c2a9ddf5a907023caeb61f4a994e84d680b3973a5acc6bd"
+  },
+  "s257": {
+   "converted": "Maybe last night pude hear the neighbours today.",
+   "raw": "Maybe last night I could hear the neighbours today.",
+   "raw_sha256": "c34879b0b26f281ea3e24bfcf6e4136b25bee96ff1aac75d9b9c09143efd6022"
+  },
+  "s258": {
+   "converted": "Maybe I wrote her 电话 on a napkin today.",
+   "raw": "Maybe I wrote her phone number on a napkin today.",
+   "raw_sha256": "d1b67c1893e2317e9e861eee4ea7c45f3d32773294196d9fbe951775bf610946"
+  },
+  "s259": {
+   "converted": "Most people voted υπέρ the new park.",
+   "raw": "Most people voted for the new park.",
+   "raw_sha256": "2c754b731049d45e92bb8b2f2cc0265c8421496245b3647899892cad9e25ebcd"
+  },
+  "s260": {
+   "converted": "She told me that the guests came in seriatim.",
+   "raw": "She told me that the guests came in one by one.",
+   "raw_sha256": "edebb363bc0448664ecef6d459d4532177d891adaa813bc79e7cb99462dfc784"
+  },
+  "s261": {
+   "converted": "She told me that last night pude hear the neighbours.",
+   "raw": "She told me that last night I could hear the neighbours.",
+   "raw_sha256": "5cc0dadea1e1e51ec68509434e813c7ebf4aca84a4afba852f5acd922abf5d29"
+  },
+  "s262": {
+   "converted": "She told me that please send the invoice to my 邮箱.",
+   "raw": "She told me that please send the invoice to my email.",
+   "raw_sha256": "7d1d573891dd667b4a844861b7caadeeb0a1cfad6145a7d874eaf3361ee9a9c0"
+  },
+  "s263": {
+   "converted": "Things are getting better cotidie.",
+   "raw": "Things are getting better every day.",
+   "raw_sha256": "837942c56ce650e4c82a3a6e88923a47ec981aa58e1b8517cbafbc4d9b0e191c"
+  },
+  "s264": {
+   "converted": "She told me that there are no updates re the budget.",
+   "raw": "She told me that there are no updates re the budget.",
+   "raw_sha256": "d9c1a7a7347c49665d89cfdaaa2c15ec217098f0ef1f6c99d1479577534bbe8c"
+  },
+  "s265": {
+   "converted": "She told me that the road was closed and ergo we were late.",
+   "raw": "She told me that the road was closed and so we were late.",
+   "raw_sha256": "eabcd36a0cda8a283712188b640452b6330602576a25b39ddefb2be978a4216b"
+  },
+  "s266": {
+   "converted": "Maybe I am writing re your invoice today.",
+   "raw": "Maybe I am writing re your invoice today.",
+   "raw_sha256": "23e1d3c6e0691144f0e5db643afb5ed297ef43a46cc3a6c23eb3311161a3569b"
+  },
+  "s267": {
+   "converted": "She told me that I left my cel at home, so call my office.",
+   "raw": "She told me that I left my cell at home, so call my office.",
+   "raw_sha256": "132da23ad397c6a529ddc3013694a202bd38ba6ca5240595bc1f7018e43016c9"
+  },
+  "s268": {
+   "converted": "Maybe salt raises your tensão today.",
+   "raw": "Maybe salt raises your blood pressure today.",
+   "raw_sha256": "cefa4a52168b40fffd79a59a30ced5a928a58361d227fe16d8eee2e26b6bd4c8"
+  },
+  "s269": {
+   "converted": "She told me that iterum, the team lost at home.",
+   "raw": "She told me that again, the team lost at home.",
+   "raw_sha256": "61d73dd0eddce27d88e8ef05ef9465ce1126bb497783b296fe615e630dcbdda6"
+  },
+  "s270": {
+   "converted": "Most people voted pro the new park.",
+   "raw": "Most people voted for the new park.",
+   "raw_sha256": "2c754b731049d45e92bb8b2f2cc0265c8421496245b3647899892cad9e25ebcd"
+  }
+ }
+}

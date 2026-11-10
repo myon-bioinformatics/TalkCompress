@@ -124,6 +124,15 @@ def test_only_failed_pt_entries_removed_no_unmeasured_promotions(name):
         assert got.pop(k) == v
     for k in removed_later.get(name, ()):
         assert expected.pop(k) and k not in got
+    # Bare 0/9 in roundtrip.json (untouched); reversal undone by the reaudit_b_4bot context
+    # round-trip (roundtrip_judge/reaudit_b_4bot_results.json).
+    context_undone = {"pt_el_latin_phrases": {"blood-pressure-el-pt": "tensão"}}
+    if name in context_undone:
+        ctx = json.loads((FIX / "roundtrip_judge/reaudit_b_4bot_results.json").read_text(encoding="utf-8"))["forms"]
+        for k, v in context_undone[name].items():
+            assert got.pop(k) == v
+            assert rt.status(data, "pt", v) == "never"
+            assert ctx[f"pt:{v}"]["status"] == "pass" and ctx[f"pt:{v}"]["reversal_undone"]
     assert got == expected
 
 
@@ -147,8 +156,9 @@ def test_generated_reversals_are_per_form_and_leave_empty_english_cells():
 
 
 # es_fr_tense 3 -> 2: essayé (pt label, French form) re-enabled as fr by the 3bot reaudit
-# pt_el_latin_phrases 4 → 6: logo / por isso reversed on 2026-11-10 (0/9 bare and in context).
-@pytest.mark.parametrize("name,removed", [("es_fr_tense", 2), ("pt_el_latin_phrases", 6), ("pt_el_latin_tense", 1)])
+# pt_el_latin_phrases 4 → 6: logo / por isso reversed on 2026-11-10 (0/9 bare and in context);
+# 6 → 5: tensão reversal undone by the reaudit_b_4bot context round-trip.
+@pytest.mark.parametrize("name,removed", [("es_fr_tense", 2), ("pt_el_latin_phrases", 5), ("pt_el_latin_tense", 1)])
 def test_quarantined_failure_evidence_and_sources_reserved(name, removed):
     data = read(name)
     reversed_entries = [e for e in data["examples_not_registered"] if e.get("roundtrip_reversed")]

@@ -264,7 +264,7 @@ def test_tense_before_after_examples():
         ("I saw", ("sah",)),
         ("I will say", ("diré",)),
         ("I said", ("dije",)),
-        # I could → pude reversed (docs/es_roundtrip_20261109.md); EN left
+        ("I could", ("pude",)),  # reversal undone by the reaudit_b_4bot context round-trip
         ("I would like", ("gostaria", "quisiera")),
         ("I am going to go", ("vou", "iré", "irei", "πάω")),
         ("I'm going to leave", ("saldré", "vou sair")),
@@ -632,7 +632,7 @@ def test_o200k_ties_keep_english_source():
         assert t.apply_zh_de_phrases(src) == src
 
 
-def test_reversed_pt_blood_pressure_stays_english():
+def test_pt_blood_pressure_reversal_undone_by_context_roundtrip():
+    # tensão passed the reaudit_b_4bot context round-trip (8/9 >= 0.6), so it is adopted again.
     t = _mosaic()
-    raw = "Check your blood pressure daily."
-    assert t.apply_zh_de_phrases(raw) == raw
+    assert t.apply_zh_de_phrases("Check your blood pressure daily.") == "Check your tensão daily."

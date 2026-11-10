@@ -117,6 +117,23 @@
       "class": "densifier"
     },
     {
+      "id": "understand-zh",
+      "from": [
+        "I understand",
+        "i understand"
+      ],
+      "to": "明白",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
       "id": "tomorrow-zh",
       "from": [
         "see you tomorrow"
@@ -711,6 +728,52 @@
       "note": "cheapest: 血压 ≺ Blutdruck ≺ bloeddruk"
     },
     {
+      "id": "herzinfarkt",
+      "from": [
+        "heart attack"
+      ],
+      "to": "心脏病",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "utf8_bits_before": 96,
+        "utf8_bits_after": 72,
+        "both_shrink": true,
+        "vs_心脏病": {
+          "token": 3,
+          "utf8": 72
+        },
+        "vs_hartaanval": {
+          "token": 3,
+          "utf8": 80
+        },
+        "vs_Herzinfarkt": {
+          "token": 3,
+          "utf8": 88
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "心脏病",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "hartaanval",
+          "lang": "nl",
+          "class": "compound"
+        },
+        {
+          "form": "Herzinfarkt",
+          "lang": "de",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 心脏病 ≺ hartaanval ≺ Herzinfarkt"
+    },
+    {
       "id": "suchmaschine",
       "from": [
         "search engine"
@@ -839,6 +902,43 @@
           "class": "compound"
         }
       ]
+    },
+    {
+      "id": "eetkamer",
+      "from": [
+        "dining room"
+      ],
+      "to": "餐厅",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_bits_before": 88,
+        "utf8_bits_after": 48,
+        "both_shrink": true,
+        "vs_餐厅": {
+          "token": 2,
+          "utf8": 48
+        },
+        "vs_eetkamer": {
+          "token": 2,
+          "utf8": 64
+        }
+      },
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "餐厅",
+          "lang": "zh",
+          "class": "densifier"
+        },
+        {
+          "form": "eetkamer",
+          "lang": "nl",
+          "class": "compound"
+        }
+      ],
+      "note": "cheapest: 餐厅 ≺ eetkamer"
     },
     {
       "id": "high-school-zh",
@@ -1113,6 +1213,22 @@
         "token_before": 3,
         "token_after": 2,
         "utf8_bits_before": 104,
+        "utf8_bits_after": 48,
+        "both_shrink": true
+      },
+      "class": "densifier"
+    },
+    {
+      "id": "phone-zh",
+      "from": [
+        "phone number"
+      ],
+      "to": "电话",
+      "lang": "zh",
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "utf8_bits_before": 96,
         "utf8_bits_after": 48,
         "both_shrink": true
       },
@@ -1415,16 +1531,6 @@
       "why_dropped": "AI round-trip exact-match 0/9 (restored as Just a moment; scored on from[0] 'wait a moment'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
     },
     {
-      "id": "understand-zh",
-      "from": [
-        "I understand",
-        "i understand"
-      ],
-      "to": "明白",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as Understood; scored on from[0] 'I understand'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
-    },
-    {
       "id": "time-zh",
       "from": [
         "what time is it"
@@ -1443,24 +1549,6 @@
       "to": "驾照",
       "lang": "zh",
       "why_dropped": "AI round-trip exact-match 0/9 (restored as Driver's license; scored on from[0] 'driving licence'); ge100m threshold 0.6 not met. Remaining listed candidates do not beat EN on o200k (Führerschein=3 vs EN 3), so EN stays."
-    },
-    {
-      "id": "herzinfarkt",
-      "from": [
-        "heart attack"
-      ],
-      "to": "心脏病",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as Heart disease; scored on from[0] 'heart attack'); ge100m threshold 0.6 not met. Remaining listed candidates do not beat EN on o200k (hartaanval=3, Herzinfarkt=4 vs EN 2), so EN stays."
-    },
-    {
-      "id": "eetkamer",
-      "from": [
-        "dining room"
-      ],
-      "to": "餐厅",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as Restaurant; scored on from[0] 'dining room'); ge100m threshold 0.6 not met. Remaining listed candidates do not beat EN on o200k (eetkamer=3 vs EN 3), so EN stays."
     },
     {
       "id": "bookstore-zh",
@@ -1497,15 +1585,6 @@
       "to": "邮箱",
       "lang": "zh",
       "why_dropped": "AI round-trip exact-match 0/9 (restored as Mailbox; scored on from[0] 'email address'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
-    },
-    {
-      "id": "phone-zh",
-      "from": [
-        "phone number"
-      ],
-      "to": "电话",
-      "lang": "zh",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as Phone; scored on from[0] 'phone number'); ge100m threshold 0.6 not met. No other listed candidate, so EN stays."
     },
     {
       "id": "flash-drive-zh",
