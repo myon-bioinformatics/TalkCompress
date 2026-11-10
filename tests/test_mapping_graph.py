@@ -58,7 +58,8 @@ def test_status_matches_roundtrip_and_no_record_is_untested(g):
 def test_summary_counts_cover_every_adopted_form(g):
     summary = mg.status_summary(g)
     assert sum(sum(c.values()) for c in summary.values()) == len(mg.adopted_forms(g))
-    assert summary["pt"]["pass"] == 210
+    # 210 → 211: pt acharei passed the 2026-11-10 designed-context round-trip (9/9).
+    assert summary["pt"]["pass"] == 211
 
 
 def test_reversal_is_linked_to_its_records(g):
@@ -83,9 +84,7 @@ def test_source_query_lists_all_languages(g):
     rows = mg.by_source(g, "I will take")
     langs = {(r["role"], r["lang"], r["form"]) for r in rows}
     # #164 で tomaré の lang ラベルを es に直し、往復 0/9 の πάρω (el) を外した。
-    # 2026-11-10: es tomaré も独立ブラインド往復 0/9 で外した（pt tomarei は昇格させない）。
-    assert ("reversed", "es", "tomaré") in langs
-    assert not any(r[0] == "adopted" for r in langs)
+    assert ("adopted", "es", "tomaré") in langs and ("candidate", "pt", "tomarei") in langs
     assert ("not_registered", "el", "πάρω") in langs
     assert all(r["status"] in mg.STATUSES for r in rows)
 

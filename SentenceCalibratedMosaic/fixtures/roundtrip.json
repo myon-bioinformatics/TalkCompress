@@ -165384,8 +165384,8 @@
     "es:tomaré": {
       "lang": "es",
       "form": "tomaré",
-      "trials": 9,
-      "restored": 0,
+      "trials": 36,
+      "restored": 27,
       "failures": [
         "Tomaré.",
         "Tomaré.",
@@ -165669,19 +165669,623 @@
             "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
             "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
           }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "c869185a-2837-4cad-8ae4-bbb9149010da",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s} the bus.",
+              "Maybe {s} the bus today.",
+              "She told me that {s} the bus.",
+              "{s} the blue one.",
+              "Maybe {s} the blue one today.",
+              "She told me that {s} the blue one.",
+              "{s} your advice.",
+              "Maybe {s} your advice today.",
+              "She told me that {s} your advice."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "c877ac478fa31cbdcb49f802454dd3b69f07d4735a85557efc645ab29411ddb4",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "a161082e0fce4e2a743cadc09033b2b27f18667b9a737a405313b3714ed4be8e"
+          },
+          "targets": [
+            {
+              "target_id": "5c9aede25e038fce8b8fd3dacd7944f8d1764ad251a3004711b16dbbdfc90634",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take the bus.",
+              "converted": "Tomaré the bus.",
+              "seed": "1",
+              "prompt_sha256": "81cfe5ffb40ca35df4e51848fd0ae6357b2baa18fb01f65523a70fc6d49f3037",
+              "accepted_sources": [
+                "I will take the bus."
+              ],
+              "status": "completed",
+              "response": "I will take the bus.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take the bus.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "6ff7b505964fc260c6f929632af2edffb29202ca23f664e27b3e8be0e459b9b1",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take the bus.",
+              "converted": "Tomaré the bus.",
+              "seed": "2",
+              "prompt_sha256": "81cfe5ffb40ca35df4e51848fd0ae6357b2baa18fb01f65523a70fc6d49f3037",
+              "accepted_sources": [
+                "I will take the bus."
+              ],
+              "status": "completed",
+              "response": "I will take the bus.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take the bus.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "29b3338784d454a35f1d3b4d48affc8701f9aa810fed03bd3cd453fe2e7d7086",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take the bus.",
+              "converted": "Tomaré the bus.",
+              "seed": "3",
+              "prompt_sha256": "81cfe5ffb40ca35df4e51848fd0ae6357b2baa18fb01f65523a70fc6d49f3037",
+              "accepted_sources": [
+                "I will take the bus."
+              ],
+              "status": "completed",
+              "response": "I will take the bus.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take the bus.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "bb2d0c73c326c6251d19fabc69c17151586edc1ec81234ef61c4c630608adca4",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take the bus today.",
+              "converted": "Maybe tomaré the bus today.",
+              "seed": "1",
+              "prompt_sha256": "492cb4d59e39c519bac7a428df281837c1b08ee5402bcea21aec873f4392e7e3",
+              "accepted_sources": [
+                "Maybe I will take the bus today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take the bus today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take the bus today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "9b69304686076d89706ae989b43b5a5e60abfaf5c8b1946f9d532b39fe84abcf",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take the bus today.",
+              "converted": "Maybe tomaré the bus today.",
+              "seed": "2",
+              "prompt_sha256": "492cb4d59e39c519bac7a428df281837c1b08ee5402bcea21aec873f4392e7e3",
+              "accepted_sources": [
+                "Maybe I will take the bus today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take the bus today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take the bus today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ee5286d54a7ad5d5ba3525a011cfc35955242bdc8ff5c91d14595cc3ca85da88",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take the bus today.",
+              "converted": "Maybe tomaré the bus today.",
+              "seed": "3",
+              "prompt_sha256": "492cb4d59e39c519bac7a428df281837c1b08ee5402bcea21aec873f4392e7e3",
+              "accepted_sources": [
+                "Maybe I will take the bus today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take the bus today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take the bus today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4c3026640443f28d3b3e4e9df11ecbc634b0a39127ef200cc79d92908d829819",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take the bus.",
+              "converted": "She told me that tomaré the bus.",
+              "seed": "1",
+              "prompt_sha256": "6f4d59bbfd22619f58a8f7a8f9df075363d881655d072aa6b9f19e2cf3b84f3f",
+              "accepted_sources": [
+                "She told me that I will take the bus."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take the bus.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take the bus.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ed7c32634e452e163b392a71c3fab1403ed20b1466a10f0542fe50c432091de5",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take the bus.",
+              "converted": "She told me that tomaré the bus.",
+              "seed": "2",
+              "prompt_sha256": "6f4d59bbfd22619f58a8f7a8f9df075363d881655d072aa6b9f19e2cf3b84f3f",
+              "accepted_sources": [
+                "She told me that I will take the bus."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take the bus.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take the bus.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "8966c0e83bf8bc8175d2197f056465c219e5458b95fd326b0aa9d05db894c80b",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take the bus.",
+              "converted": "She told me that tomaré the bus.",
+              "seed": "3",
+              "prompt_sha256": "6f4d59bbfd22619f58a8f7a8f9df075363d881655d072aa6b9f19e2cf3b84f3f",
+              "accepted_sources": [
+                "She told me that I will take the bus."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take the bus.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take the bus.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4caf9ed577c222008db864a0540560a5d7f462fa71c945b4249a048bd5c4bfd7",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take the blue one.",
+              "converted": "Tomaré the blue one.",
+              "seed": "1",
+              "prompt_sha256": "97a00d1e2a30969332330a599e95b603128cb62d92de58e6a1861c591b7c3960",
+              "accepted_sources": [
+                "I will take the blue one."
+              ],
+              "status": "completed",
+              "response": "I will take the blue one.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take the blue one.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "bbcd256f71c2104202b5819e9d51dd5bfe18657170f9cde000f970302e42e178",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take the blue one.",
+              "converted": "Tomaré the blue one.",
+              "seed": "2",
+              "prompt_sha256": "97a00d1e2a30969332330a599e95b603128cb62d92de58e6a1861c591b7c3960",
+              "accepted_sources": [
+                "I will take the blue one."
+              ],
+              "status": "completed",
+              "response": "I will take the blue one.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take the blue one.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "bab9a74e4c959192956ae20438fbc66531a7d1d6f0b4beb78b578d230e42e12d",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take the blue one.",
+              "converted": "Tomaré the blue one.",
+              "seed": "3",
+              "prompt_sha256": "97a00d1e2a30969332330a599e95b603128cb62d92de58e6a1861c591b7c3960",
+              "accepted_sources": [
+                "I will take the blue one."
+              ],
+              "status": "completed",
+              "response": "I will take the blue one.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take the blue one.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "cc5c7dad2035cbfdcb754488b0434ab51d1541dddf366dfddce157f875b80b9a",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take the blue one today.",
+              "converted": "Maybe tomaré the blue one today.",
+              "seed": "1",
+              "prompt_sha256": "e14d10b058a362231e198787d6596f8dd2f6b38a3bf8c84f6c3e22e5d3692022",
+              "accepted_sources": [
+                "Maybe I will take the blue one today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take the blue one today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take the blue one today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "a29d86f73876a3fe0eb0a080399ca18e155494cf7cac96774b075b343e02c433",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take the blue one today.",
+              "converted": "Maybe tomaré the blue one today.",
+              "seed": "2",
+              "prompt_sha256": "e14d10b058a362231e198787d6596f8dd2f6b38a3bf8c84f6c3e22e5d3692022",
+              "accepted_sources": [
+                "Maybe I will take the blue one today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take the blue one today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take the blue one today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5271d8cc46c3bd5836274260527f1cde0882a00df257506136a66ac00f79c5be",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take the blue one today.",
+              "converted": "Maybe tomaré the blue one today.",
+              "seed": "3",
+              "prompt_sha256": "e14d10b058a362231e198787d6596f8dd2f6b38a3bf8c84f6c3e22e5d3692022",
+              "accepted_sources": [
+                "Maybe I will take the blue one today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take the blue one today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take the blue one today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "b11f3e58769036ef3decc7cfc133274dbdeef7a1ec84d6b9166faafd703b19d8",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take the blue one.",
+              "converted": "She told me that tomaré the blue one.",
+              "seed": "1",
+              "prompt_sha256": "d7796b859c160ad739d7772dc5f8bd3d3cfe4bffcdde6c75ba8df698c57c9923",
+              "accepted_sources": [
+                "She told me that I will take the blue one."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take the blue one.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take the blue one.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ae5b7ec18ce7700274333009d7b82291372b891ab4861d55dd5dd9c923a93b2f",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take the blue one.",
+              "converted": "She told me that tomaré the blue one.",
+              "seed": "2",
+              "prompt_sha256": "d7796b859c160ad739d7772dc5f8bd3d3cfe4bffcdde6c75ba8df698c57c9923",
+              "accepted_sources": [
+                "She told me that I will take the blue one."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take the blue one.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take the blue one.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "45178d07df09ef982682c870e2ff2985ac982c2fb74c74d84474d8863df3ca33",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take the blue one.",
+              "converted": "She told me that tomaré the blue one.",
+              "seed": "3",
+              "prompt_sha256": "d7796b859c160ad739d7772dc5f8bd3d3cfe4bffcdde6c75ba8df698c57c9923",
+              "accepted_sources": [
+                "She told me that I will take the blue one."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take the blue one.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take the blue one.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "d1054e669e139674c7cd691c4be25235cae4bd9d6a8c20e948fa0f556a66ec31",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take your advice.",
+              "converted": "Tomaré your advice.",
+              "seed": "1",
+              "prompt_sha256": "3e4b979ae0508afb3c5a4977efbd3dc964486212f8952fb67cb3b15282143470",
+              "accepted_sources": [
+                "I will take your advice."
+              ],
+              "status": "completed",
+              "response": "I will take your advice.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take your advice.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "2fd889068155fda0328d0351eabc69c073e639ab9f65fbf731a76540d54507d6",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take your advice.",
+              "converted": "Tomaré your advice.",
+              "seed": "2",
+              "prompt_sha256": "3e4b979ae0508afb3c5a4977efbd3dc964486212f8952fb67cb3b15282143470",
+              "accepted_sources": [
+                "I will take your advice."
+              ],
+              "status": "completed",
+              "response": "I will take your advice.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take your advice.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "d0af998561a3604fe2fdbe3fe63db2711b95ba243c70651b7335254d22589279",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "I will take your advice.",
+              "converted": "Tomaré your advice.",
+              "seed": "3",
+              "prompt_sha256": "3e4b979ae0508afb3c5a4977efbd3dc964486212f8952fb67cb3b15282143470",
+              "accepted_sources": [
+                "I will take your advice."
+              ],
+              "status": "completed",
+              "response": "I will take your advice.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will take your advice.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "06abc0b1d5d85ee1d0f8a2b71b3caa8b6306e6f5974cf49b5fbee2059947d01e",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take your advice today.",
+              "converted": "Maybe tomaré your advice today.",
+              "seed": "1",
+              "prompt_sha256": "aac655f5fabdd5ffd801ef1ff1dc7cc1aedebb4abc020f7ac47f7f8279c85153",
+              "accepted_sources": [
+                "Maybe I will take your advice today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take your advice today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take your advice today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4826dafcba4a0bc878ac83aa7d7139a10c5d9c525f07fe1567e8a54dc501dc85",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take your advice today.",
+              "converted": "Maybe tomaré your advice today.",
+              "seed": "2",
+              "prompt_sha256": "aac655f5fabdd5ffd801ef1ff1dc7cc1aedebb4abc020f7ac47f7f8279c85153",
+              "accepted_sources": [
+                "Maybe I will take your advice today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take your advice today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take your advice today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4d511f53e3e8563b9fd1593a6c728b7355fccc309c0ee4ca39d4f1994a29dacd",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "Maybe I will take your advice today.",
+              "converted": "Maybe tomaré your advice today.",
+              "seed": "3",
+              "prompt_sha256": "aac655f5fabdd5ffd801ef1ff1dc7cc1aedebb4abc020f7ac47f7f8279c85153",
+              "accepted_sources": [
+                "Maybe I will take your advice today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will take your advice today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will take your advice today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "c61c737e23049910ab58ae1c3f740a6495577e85d595859293a6aea7fc4e8658",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take your advice.",
+              "converted": "She told me that tomaré your advice.",
+              "seed": "1",
+              "prompt_sha256": "40115f57ee461915203b539f08ede716dbca1318394f5b334cf30e8c7cc53236",
+              "accepted_sources": [
+                "She told me that I will take your advice."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take your advice.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take your advice.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "e169c1963c906f223f94570554619493060c95a06b8b3c73c75205fc162b9ff1",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take your advice.",
+              "converted": "She told me that tomaré your advice.",
+              "seed": "2",
+              "prompt_sha256": "40115f57ee461915203b539f08ede716dbca1318394f5b334cf30e8c7cc53236",
+              "accepted_sources": [
+                "She told me that I will take your advice."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take your advice.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take your advice.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "b38eaf38c9c134119ae0fef5e5850d2d545c73488b2de53eba0ca0d33040731a",
+              "lang": "es",
+              "form": "tomaré",
+              "source": "She told me that I will take your advice.",
+              "converted": "She told me that tomaré your advice.",
+              "seed": "3",
+              "prompt_sha256": "40115f57ee461915203b539f08ede716dbca1318394f5b334cf30e8c7cc53236",
+              "accepted_sources": [
+                "She told me that I will take your advice."
+              ],
+              "status": "completed",
+              "response": "She told me that I will take your advice.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will take your advice.",
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 27,
+          "completed": 27,
+          "expected_target_ids": [
+            "5c9aede25e038fce8b8fd3dacd7944f8d1764ad251a3004711b16dbbdfc90634",
+            "6ff7b505964fc260c6f929632af2edffb29202ca23f664e27b3e8be0e459b9b1",
+            "29b3338784d454a35f1d3b4d48affc8701f9aa810fed03bd3cd453fe2e7d7086",
+            "bb2d0c73c326c6251d19fabc69c17151586edc1ec81234ef61c4c630608adca4",
+            "9b69304686076d89706ae989b43b5a5e60abfaf5c8b1946f9d532b39fe84abcf",
+            "ee5286d54a7ad5d5ba3525a011cfc35955242bdc8ff5c91d14595cc3ca85da88",
+            "4c3026640443f28d3b3e4e9df11ecbc634b0a39127ef200cc79d92908d829819",
+            "ed7c32634e452e163b392a71c3fab1403ed20b1466a10f0542fe50c432091de5",
+            "8966c0e83bf8bc8175d2197f056465c219e5458b95fd326b0aa9d05db894c80b",
+            "4caf9ed577c222008db864a0540560a5d7f462fa71c945b4249a048bd5c4bfd7",
+            "bbcd256f71c2104202b5819e9d51dd5bfe18657170f9cde000f970302e42e178",
+            "bab9a74e4c959192956ae20438fbc66531a7d1d6f0b4beb78b578d230e42e12d",
+            "cc5c7dad2035cbfdcb754488b0434ab51d1541dddf366dfddce157f875b80b9a",
+            "a29d86f73876a3fe0eb0a080399ca18e155494cf7cac96774b075b343e02c433",
+            "5271d8cc46c3bd5836274260527f1cde0882a00df257506136a66ac00f79c5be",
+            "b11f3e58769036ef3decc7cfc133274dbdeef7a1ec84d6b9166faafd703b19d8",
+            "ae5b7ec18ce7700274333009d7b82291372b891ab4861d55dd5dd9c923a93b2f",
+            "45178d07df09ef982682c870e2ff2985ac982c2fb74c74d84474d8863df3ca33",
+            "d1054e669e139674c7cd691c4be25235cae4bd9d6a8c20e948fa0f556a66ec31",
+            "2fd889068155fda0328d0351eabc69c073e639ab9f65fbf731a76540d54507d6",
+            "d0af998561a3604fe2fdbe3fe63db2711b95ba243c70651b7335254d22589279",
+            "06abc0b1d5d85ee1d0f8a2b71b3caa8b6306e6f5974cf49b5fbee2059947d01e",
+            "4826dafcba4a0bc878ac83aa7d7139a10c5d9c525f07fe1567e8a54dc501dc85",
+            "4d511f53e3e8563b9fd1593a6c728b7355fccc309c0ee4ca39d4f1994a29dacd",
+            "c61c737e23049910ab58ae1c3f740a6495577e85d595859293a6aea7fc4e8658",
+            "e169c1963c906f223f94570554619493060c95a06b8b3c73c75205fc162b9ff1",
+            "b38eaf38c9c134119ae0fef5e5850d2d545c73488b2de53eba0ca0d33040731a"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 27,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "scope": "designed_context",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_blind.json",
+            "judge_sha256": "8bfefa6279cce2078a4e471a083e1aaf23669a06e354dc35b093adb62874d8f3",
+            "raw_reply_sha256": "cdd34ac2b296c9b3563af00caa0045c802853f6ef3d53e2cc41b453c0d01599a",
+            "request_sha256": "cabb6f387ce7a4f341501d7e9a1d2af4e3fc91d48ac5777139f74462cb8fd54c",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1 (in-context adopted English only)",
+            "judge": "Fresh context-free independent strong-model agent, single call with the official PROMPT + 36 numbered shuffled converted sentences",
+            "disclosure": "Contexts were designed by the PR author. One 36-sentence call lets the judge cross-infer between sentences. Deterministic replay: one answer per sentence reused over three seeds.",
+            "meaning_match_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_meaning.json",
+            "meaning_match_sha256": "cffc9ff5df209268d89a9ba2d5136bfae764c32322b24e7e4f3608f535706c57"
+          },
+          "meaning_match_ref": {
+            "Tomaré the bus.": "same",
+            "Maybe tomaré the bus today.": "same",
+            "She told me that tomaré the bus.": "same",
+            "Tomaré the blue one.": "same",
+            "Maybe tomaré the blue one today.": "same",
+            "She told me that tomaré the blue one.": "same",
+            "Tomaré your advice.": "same",
+            "Maybe tomaré your advice today.": "same",
+            "She told me that tomaré your advice.": "same"
+          }
         }
       ],
       "accounting_version": 4,
-      "completed": 9,
+      "completed": 36,
       "timeouts": 0,
       "execution_errors": 0,
-      "attempted": 9
+      "attempted": 36
     },
     "pt:acharei": {
       "lang": "pt",
       "form": "acharei",
-      "trials": 9,
-      "restored": 0,
+      "trials": 36,
+      "restored": 27,
       "failures": [
         "Acharei.",
         "Acharei.",
@@ -165956,13 +166560,617 @@
             "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
             "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
           }
+        },
+        {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "d07f2f8d-0dac-4689-8c88-a47454c63ed4",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "{s} the key.",
+              "Maybe {s} the key today.",
+              "She told me that {s} the key.",
+              "{s} a better job.",
+              "Maybe {s} a better job today.",
+              "She told me that {s} a better job.",
+              "{s} your phone.",
+              "Maybe {s} your phone today.",
+              "She told me that {s} your phone."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "c877ac478fa31cbdcb49f802454dd3b69f07d4735a85557efc645ab29411ddb4",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "0358cc8410c75062a4ba98078d7a7aebf3262b55254ba7ea7eb614c8eb2c1376"
+          },
+          "targets": [
+            {
+              "target_id": "24413881b95307fc46114e8a00259df3e3ab3c6a25dbfe89541c97867fb4e6c5",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find the key.",
+              "converted": "Acharei the key.",
+              "seed": "1",
+              "prompt_sha256": "4e48c42dcf3e55449d26a94c723c78d8eb410da55421bd5ed8e29e14a9fd06ce",
+              "accepted_sources": [
+                "I will find the key."
+              ],
+              "status": "completed",
+              "response": "I will find the key.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find the key.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "28642e50ad8402c47d82d2e8e995aae7814f037f63ca94c56a55b30a5e8a93f0",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find the key.",
+              "converted": "Acharei the key.",
+              "seed": "2",
+              "prompt_sha256": "4e48c42dcf3e55449d26a94c723c78d8eb410da55421bd5ed8e29e14a9fd06ce",
+              "accepted_sources": [
+                "I will find the key."
+              ],
+              "status": "completed",
+              "response": "I will find the key.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find the key.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "2be4441ae9ebdfc48e399de5880eac7c64159dc527b7b8e9a48bd11cb1ed03d4",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find the key.",
+              "converted": "Acharei the key.",
+              "seed": "3",
+              "prompt_sha256": "4e48c42dcf3e55449d26a94c723c78d8eb410da55421bd5ed8e29e14a9fd06ce",
+              "accepted_sources": [
+                "I will find the key."
+              ],
+              "status": "completed",
+              "response": "I will find the key.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find the key.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ff9c3d05142b8233465ac4bad5761cc426fad52d7b281e23db34b813d495d019",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find the key today.",
+              "converted": "Maybe acharei the key today.",
+              "seed": "1",
+              "prompt_sha256": "d7df3aa192432273a2bccd26a12c38896bd189d5f3bb9203b7a3373ad8f94921",
+              "accepted_sources": [
+                "Maybe I will find the key today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find the key today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find the key today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "8e377b2f6aa4adc24a3c1ef4c4dc52008d5a327571881e840ed6fc33977a95aa",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find the key today.",
+              "converted": "Maybe acharei the key today.",
+              "seed": "2",
+              "prompt_sha256": "d7df3aa192432273a2bccd26a12c38896bd189d5f3bb9203b7a3373ad8f94921",
+              "accepted_sources": [
+                "Maybe I will find the key today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find the key today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find the key today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "67075831fb98362592d088f6b3e76fd9bb817bb5d0748378e4cc4a3f94b62c43",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find the key today.",
+              "converted": "Maybe acharei the key today.",
+              "seed": "3",
+              "prompt_sha256": "d7df3aa192432273a2bccd26a12c38896bd189d5f3bb9203b7a3373ad8f94921",
+              "accepted_sources": [
+                "Maybe I will find the key today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find the key today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find the key today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5c6991e36ee81272c9ff46eafa329ba965ac1876162fdc29adfa036bcc26a985",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find the key.",
+              "converted": "She told me that acharei the key.",
+              "seed": "1",
+              "prompt_sha256": "9817198f40fd730c791d50ea3757d109ccdbc9109a4c1d0aca718eb13d43761c",
+              "accepted_sources": [
+                "She told me that I will find the key."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find the key.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find the key.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "7dee598ae27672dad45501ee132ae50bfef1c688fa0cc2a5681a3dc0873b8cf5",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find the key.",
+              "converted": "She told me that acharei the key.",
+              "seed": "2",
+              "prompt_sha256": "9817198f40fd730c791d50ea3757d109ccdbc9109a4c1d0aca718eb13d43761c",
+              "accepted_sources": [
+                "She told me that I will find the key."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find the key.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find the key.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "0ceaa1048cb6552e5781bb586235e7fbf34157dbd7d1fc3e630deccf07402b21",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find the key.",
+              "converted": "She told me that acharei the key.",
+              "seed": "3",
+              "prompt_sha256": "9817198f40fd730c791d50ea3757d109ccdbc9109a4c1d0aca718eb13d43761c",
+              "accepted_sources": [
+                "She told me that I will find the key."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find the key.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find the key.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "89e7380def4dbbee72c53dd6951db4f43b0a81f39641ae6889af938b94c3c0b4",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find a better job.",
+              "converted": "Acharei a better job.",
+              "seed": "1",
+              "prompt_sha256": "10bb892b7cf15689d8fa71e57525eac4585e739454c1d735b56a371db1023a11",
+              "accepted_sources": [
+                "I will find a better job."
+              ],
+              "status": "completed",
+              "response": "I will find a better job.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find a better job.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "37989b5f8aee2d5094389c01e101936dda60ab1f4fd4778425ded60cb51433c3",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find a better job.",
+              "converted": "Acharei a better job.",
+              "seed": "2",
+              "prompt_sha256": "10bb892b7cf15689d8fa71e57525eac4585e739454c1d735b56a371db1023a11",
+              "accepted_sources": [
+                "I will find a better job."
+              ],
+              "status": "completed",
+              "response": "I will find a better job.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find a better job.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "2d3125de53379d977de1f19ac17c25220d85ac3925c4ea8066e4e9691575edd4",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find a better job.",
+              "converted": "Acharei a better job.",
+              "seed": "3",
+              "prompt_sha256": "10bb892b7cf15689d8fa71e57525eac4585e739454c1d735b56a371db1023a11",
+              "accepted_sources": [
+                "I will find a better job."
+              ],
+              "status": "completed",
+              "response": "I will find a better job.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find a better job.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "843c06f23777a5fcb52384a7e85edeb9a04d63cee875d75c08d507ea4cd0ddf4",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find a better job today.",
+              "converted": "Maybe acharei a better job today.",
+              "seed": "1",
+              "prompt_sha256": "65728de4f295abda695e537ef54f337e125a0506e3b7cac6b5839273c026bf59",
+              "accepted_sources": [
+                "Maybe I will find a better job today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find a better job today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find a better job today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ce43054a3b1f46caa2ec0d89eb9af8732a7aeaf309947111162405c90800104f",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find a better job today.",
+              "converted": "Maybe acharei a better job today.",
+              "seed": "2",
+              "prompt_sha256": "65728de4f295abda695e537ef54f337e125a0506e3b7cac6b5839273c026bf59",
+              "accepted_sources": [
+                "Maybe I will find a better job today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find a better job today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find a better job today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "b0e51f6abd6d91cab73959f4f898924b32905f9ceea4e4f45197f9f9b88c4104",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find a better job today.",
+              "converted": "Maybe acharei a better job today.",
+              "seed": "3",
+              "prompt_sha256": "65728de4f295abda695e537ef54f337e125a0506e3b7cac6b5839273c026bf59",
+              "accepted_sources": [
+                "Maybe I will find a better job today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find a better job today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find a better job today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "87cb141adfe8a19f36c295e200d3f06e089dfce22fee1cda64522453507bc956",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find a better job.",
+              "converted": "She told me that acharei a better job.",
+              "seed": "1",
+              "prompt_sha256": "0725aaf82d0e627f96984bcf322dc5b794d0c571d714f37dd96a68d0c77b391d",
+              "accepted_sources": [
+                "She told me that I will find a better job."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find a better job.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find a better job.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "af7231b722e9b73c745056cebe3e45d7f303514a8ebe48c593ca0ed8efc6b9ce",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find a better job.",
+              "converted": "She told me that acharei a better job.",
+              "seed": "2",
+              "prompt_sha256": "0725aaf82d0e627f96984bcf322dc5b794d0c571d714f37dd96a68d0c77b391d",
+              "accepted_sources": [
+                "She told me that I will find a better job."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find a better job.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find a better job.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "857e7d31288ce03eec2eac1c4c27558cbf5c8124b92314abad25f8e1684532c4",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find a better job.",
+              "converted": "She told me that acharei a better job.",
+              "seed": "3",
+              "prompt_sha256": "0725aaf82d0e627f96984bcf322dc5b794d0c571d714f37dd96a68d0c77b391d",
+              "accepted_sources": [
+                "She told me that I will find a better job."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find a better job.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find a better job.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "850cc6a83bae90bb2b56a54b0e1e026c99c6afa84e4af09ffa92659e294c4759",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find your phone.",
+              "converted": "Acharei your phone.",
+              "seed": "1",
+              "prompt_sha256": "bb8994065bb66e1461aaaffdc2c8212f6ce8b7abeb35f7a968128c15a2f56fda",
+              "accepted_sources": [
+                "I will find your phone."
+              ],
+              "status": "completed",
+              "response": "I will find your phone.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find your phone.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "111a939151865e5844d5c244a61df13898dd201e54f579e6ff8b7fbbbfb0723f",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find your phone.",
+              "converted": "Acharei your phone.",
+              "seed": "2",
+              "prompt_sha256": "bb8994065bb66e1461aaaffdc2c8212f6ce8b7abeb35f7a968128c15a2f56fda",
+              "accepted_sources": [
+                "I will find your phone."
+              ],
+              "status": "completed",
+              "response": "I will find your phone.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find your phone.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "7eebac1b76f7c54f77ad6c5ed3954c897f0adc812c7583e06339e4466a046500",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "I will find your phone.",
+              "converted": "Acharei your phone.",
+              "seed": "3",
+              "prompt_sha256": "bb8994065bb66e1461aaaffdc2c8212f6ce8b7abeb35f7a968128c15a2f56fda",
+              "accepted_sources": [
+                "I will find your phone."
+              ],
+              "status": "completed",
+              "response": "I will find your phone.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "I will find your phone.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "a8c240499905d7845081f74ec6124130ac1b372b96ce51f10afdd10f125e3f55",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find your phone today.",
+              "converted": "Maybe acharei your phone today.",
+              "seed": "1",
+              "prompt_sha256": "f45e33a67d69a9073608165cacb9dc1af3e6f34f6581e464b7b22bae82a62ca1",
+              "accepted_sources": [
+                "Maybe I will find your phone today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find your phone today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find your phone today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "c1de625dc622cf83b55d26eb5a1952e9b20f556138539a01e284a278ff53a797",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find your phone today.",
+              "converted": "Maybe acharei your phone today.",
+              "seed": "2",
+              "prompt_sha256": "f45e33a67d69a9073608165cacb9dc1af3e6f34f6581e464b7b22bae82a62ca1",
+              "accepted_sources": [
+                "Maybe I will find your phone today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find your phone today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find your phone today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "6a2765f8af6029c8988c34979debc2e77a7a14f59b7167ed87ded1770853581b",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "Maybe I will find your phone today.",
+              "converted": "Maybe acharei your phone today.",
+              "seed": "3",
+              "prompt_sha256": "f45e33a67d69a9073608165cacb9dc1af3e6f34f6581e464b7b22bae82a62ca1",
+              "accepted_sources": [
+                "Maybe I will find your phone today."
+              ],
+              "status": "completed",
+              "response": "Maybe I will find your phone today.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "Maybe I will find your phone today.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "02e268dec84347e3c0b23789776b0b1022339b0ca7e390392e11a0d507923277",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find your phone.",
+              "converted": "She told me that acharei your phone.",
+              "seed": "1",
+              "prompt_sha256": "32264b2eda7a28974ec573f1ac41588857cb1520c1931791193f975e6e61e738",
+              "accepted_sources": [
+                "She told me that I will find your phone."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find your phone.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find your phone.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4f2b66a210395d1fb73faed71f250ae070eaaec2812bb2d35ccafa717d0065a7",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find your phone.",
+              "converted": "She told me that acharei your phone.",
+              "seed": "2",
+              "prompt_sha256": "32264b2eda7a28974ec573f1ac41588857cb1520c1931791193f975e6e61e738",
+              "accepted_sources": [
+                "She told me that I will find your phone."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find your phone.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find your phone.",
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "80d262ef596109878c389726affd815be8a8c94da26b8878720727cf1c9f95d8",
+              "lang": "pt",
+              "form": "acharei",
+              "source": "She told me that I will find your phone.",
+              "converted": "She told me that acharei your phone.",
+              "seed": "3",
+              "prompt_sha256": "32264b2eda7a28974ec573f1ac41588857cb1520c1931791193f975e6e61e738",
+              "accepted_sources": [
+                "She told me that I will find your phone."
+              ],
+              "status": "completed",
+              "response": "She told me that I will find your phone.",
+              "restored": true,
+              "first_source_match": true,
+              "matched_source": "She told me that I will find your phone.",
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 27,
+          "completed": 27,
+          "expected_target_ids": [
+            "24413881b95307fc46114e8a00259df3e3ab3c6a25dbfe89541c97867fb4e6c5",
+            "28642e50ad8402c47d82d2e8e995aae7814f037f63ca94c56a55b30a5e8a93f0",
+            "2be4441ae9ebdfc48e399de5880eac7c64159dc527b7b8e9a48bd11cb1ed03d4",
+            "ff9c3d05142b8233465ac4bad5761cc426fad52d7b281e23db34b813d495d019",
+            "8e377b2f6aa4adc24a3c1ef4c4dc52008d5a327571881e840ed6fc33977a95aa",
+            "67075831fb98362592d088f6b3e76fd9bb817bb5d0748378e4cc4a3f94b62c43",
+            "5c6991e36ee81272c9ff46eafa329ba965ac1876162fdc29adfa036bcc26a985",
+            "7dee598ae27672dad45501ee132ae50bfef1c688fa0cc2a5681a3dc0873b8cf5",
+            "0ceaa1048cb6552e5781bb586235e7fbf34157dbd7d1fc3e630deccf07402b21",
+            "89e7380def4dbbee72c53dd6951db4f43b0a81f39641ae6889af938b94c3c0b4",
+            "37989b5f8aee2d5094389c01e101936dda60ab1f4fd4778425ded60cb51433c3",
+            "2d3125de53379d977de1f19ac17c25220d85ac3925c4ea8066e4e9691575edd4",
+            "843c06f23777a5fcb52384a7e85edeb9a04d63cee875d75c08d507ea4cd0ddf4",
+            "ce43054a3b1f46caa2ec0d89eb9af8732a7aeaf309947111162405c90800104f",
+            "b0e51f6abd6d91cab73959f4f898924b32905f9ceea4e4f45197f9f9b88c4104",
+            "87cb141adfe8a19f36c295e200d3f06e089dfce22fee1cda64522453507bc956",
+            "af7231b722e9b73c745056cebe3e45d7f303514a8ebe48c593ca0ed8efc6b9ce",
+            "857e7d31288ce03eec2eac1c4c27558cbf5c8124b92314abad25f8e1684532c4",
+            "850cc6a83bae90bb2b56a54b0e1e026c99c6afa84e4af09ffa92659e294c4759",
+            "111a939151865e5844d5c244a61df13898dd201e54f579e6ff8b7fbbbfb0723f",
+            "7eebac1b76f7c54f77ad6c5ed3954c897f0adc812c7583e06339e4466a046500",
+            "a8c240499905d7845081f74ec6124130ac1b372b96ce51f10afdd10f125e3f55",
+            "c1de625dc622cf83b55d26eb5a1952e9b20f556138539a01e284a278ff53a797",
+            "6a2765f8af6029c8988c34979debc2e77a7a14f59b7167ed87ded1770853581b",
+            "02e268dec84347e3c0b23789776b0b1022339b0ca7e390392e11a0d507923277",
+            "4f2b66a210395d1fb73faed71f250ae070eaaec2812bb2d35ccafa717d0065a7",
+            "80d262ef596109878c389726affd815be8a8c94da26b8878720727cf1c9f95d8"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 27,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "scope": "designed_context",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_blind.json",
+            "judge_sha256": "8bfefa6279cce2078a4e471a083e1aaf23669a06e354dc35b093adb62874d8f3",
+            "raw_reply_sha256": "cdd34ac2b296c9b3563af00caa0045c802853f6ef3d53e2cc41b453c0d01599a",
+            "request_sha256": "cabb6f387ce7a4f341501d7e9a1d2af4e3fc91d48ac5777139f74462cb8fd54c",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1 (in-context adopted English only)",
+            "judge": "Fresh context-free independent strong-model agent, single call with the official PROMPT + 36 numbered shuffled converted sentences",
+            "disclosure": "Contexts were designed by the PR author. One 36-sentence call lets the judge cross-infer between sentences. Deterministic replay: one answer per sentence reused over three seeds.",
+            "meaning_match_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_meaning.json",
+            "meaning_match_sha256": "cffc9ff5df209268d89a9ba2d5136bfae764c32322b24e7e4f3608f535706c57"
+          },
+          "meaning_match_ref": {
+            "Acharei the key.": "same",
+            "Maybe acharei the key today.": "same",
+            "She told me that acharei the key.": "same",
+            "Acharei a better job.": "same",
+            "Maybe acharei a better job today.": "same",
+            "She told me that acharei a better job.": "same",
+            "Acharei your phone.": "same",
+            "Maybe acharei your phone today.": "same",
+            "She told me that acharei your phone.": "same"
+          }
         }
       ],
       "accounting_version": 4,
-      "completed": 9,
+      "completed": 36,
       "timeouts": 0,
       "execution_errors": 0,
-      "attempted": 9
+      "attempted": 36
     },
     "pt:logo": {
       "lang": "pt",
@@ -168045,6 +169253,1394 @@
         "judge": "Fresh context-free independent strong-model agent (#172-level), single call; not the assistant doing the work",
         "disclosure": "The judge received only the official scripts/roundtrip.py PROMPT plus the 12 converted sentences in one call; no repository, source English or glosses. Its numbered reply is stored verbatim (only the 'N. ' prefixes mapped to their sentences). An earlier local Qwen2.5-7B-Instruct run was superseded at the owner's request and is not scored. Deterministic replay: three answers reused over three seeds, not nine independent live inferences."
       }
+    },
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "c869185a-2837-4cad-8ae4-bbb9149010da",
+      "config": {
+        "only_lang": null,
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s} the bus.",
+          "Maybe {s} the bus today.",
+          "She told me that {s} the bus.",
+          "{s} the blue one.",
+          "Maybe {s} the blue one today.",
+          "She told me that {s} the blue one.",
+          "{s} your advice.",
+          "Maybe {s} your advice today.",
+          "She told me that {s} your advice."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "c877ac478fa31cbdcb49f802454dd3b69f07d4735a85557efc645ab29411ddb4",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1",
+        "source_acceptance": "any-official-source-v1",
+        "accepted_sources_sha256": "a161082e0fce4e2a743cadc09033b2b27f18667b9a737a405313b3714ed4be8e"
+      },
+      "selected_forms": [
+        "es:tomaré"
+      ],
+      "duplicate_targets": 0,
+      "requested": 27,
+      "scheduled": 27,
+      "attempted": 27,
+      "completed": 27,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true,
+      "judge_provenance": {
+        "kind": "independent_blind_judge",
+        "scope": "designed_context",
+        "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_blind.json",
+        "judge_sha256": "8bfefa6279cce2078a4e471a083e1aaf23669a06e354dc35b093adb62874d8f3",
+        "raw_reply_sha256": "cdd34ac2b296c9b3563af00caa0045c802853f6ef3d53e2cc41b453c0d01599a",
+        "request_sha256": "cabb6f387ce7a4f341501d7e9a1d2af4e3fc91d48ac5777139f74462cb8fd54c",
+        "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+        "source_acceptance": "any-official-source-v1 (in-context adopted English only)",
+        "judge": "Fresh context-free independent strong-model agent, single call with the official PROMPT + 36 numbered shuffled converted sentences",
+        "disclosure": "Contexts were designed by the PR author. One 36-sentence call lets the judge cross-infer between sentences. Deterministic replay: one answer per sentence reused over three seeds.",
+        "meaning_match_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_meaning.json",
+        "meaning_match_sha256": "cffc9ff5df209268d89a9ba2d5136bfae764c32322b24e7e4f3608f535706c57"
+      }
+    },
+    {
+      "accounting_version": 4,
+      "evaluation_scope": "latest_cohort",
+      "run_id": "d07f2f8d-0dac-4689-8c88-a47454c63ed4",
+      "config": {
+        "only_lang": null,
+        "timeout": 120,
+        "workers": 8,
+        "templates": [
+          "{s} the key.",
+          "Maybe {s} the key today.",
+          "She told me that {s} the key.",
+          "{s} a better job.",
+          "Maybe {s} a better job today.",
+          "She told me that {s} a better job.",
+          "{s} your phone.",
+          "Maybe {s} your phone today.",
+          "She told me that {s} your phone."
+        ],
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "command_sha256": "c877ac478fa31cbdcb49f802454dd3b69f07d4735a85557efc645ab29411ddb4",
+        "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+        "evaluation_policy": {
+          "min_trials": 9,
+          "thresholds": {
+            "lt100m": 0.9,
+            "ge100m": 0.6
+          },
+          "ge100m_langs": [
+            "en",
+            "zh",
+            "es",
+            "fr",
+            "pt",
+            "de",
+            "it",
+            "ru",
+            "ja",
+            "id",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "tr",
+            "vi"
+          ]
+        },
+        "normalization": "norm-nfc-v1",
+        "source_acceptance": "any-official-source-v1",
+        "accepted_sources_sha256": "0358cc8410c75062a4ba98078d7a7aebf3262b55254ba7ea7eb614c8eb2c1376"
+      },
+      "selected_forms": [
+        "pt:acharei"
+      ],
+      "duplicate_targets": 0,
+      "requested": 27,
+      "scheduled": 27,
+      "attempted": 27,
+      "completed": 27,
+      "timeouts": 0,
+      "execution_errors": 0,
+      "complete": true,
+      "verifiable": true,
+      "judge_provenance": {
+        "kind": "independent_blind_judge",
+        "scope": "designed_context",
+        "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_blind.json",
+        "judge_sha256": "8bfefa6279cce2078a4e471a083e1aaf23669a06e354dc35b093adb62874d8f3",
+        "raw_reply_sha256": "cdd34ac2b296c9b3563af00caa0045c802853f6ef3d53e2cc41b453c0d01599a",
+        "request_sha256": "cabb6f387ce7a4f341501d7e9a1d2af4e3fc91d48ac5777139f74462cb8fd54c",
+        "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+        "source_acceptance": "any-official-source-v1 (in-context adopted English only)",
+        "judge": "Fresh context-free independent strong-model agent, single call with the official PROMPT + 36 numbered shuffled converted sentences",
+        "disclosure": "Contexts were designed by the PR author. One 36-sentence call lets the judge cross-infer between sentences. Deterministic replay: one answer per sentence reused over three seeds.",
+        "meaning_match_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_meaning.json",
+        "meaning_match_sha256": "cffc9ff5df209268d89a9ba2d5136bfae764c32322b24e7e4f3608f535706c57"
+      }
     }
-  ]
+  ],
+  "context_studies": {
+    "remaining_20261110": {
+      "pt:logo": {
+        "lang": "pt",
+        "form": "logo",
+        "gate_visible": false,
+        "reason": "exact-match context cohort below threshold; reversal kept",
+        "cohort": {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "ed37e5b6-0367-4fb3-a0c3-ca39aabb97ba",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "the bus broke down and {s} we were late.",
+              "Maybe the bus broke down and {s} we were late today.",
+              "She told me that the bus broke down and {s} we were late.",
+              "it rained all night and {s} the roads are flooded.",
+              "Maybe it rained all night and {s} the roads are flooded today.",
+              "She told me that it rained all night and {s} the roads are flooded.",
+              "he lost his keys and {s} he is locked out.",
+              "Maybe he lost his keys and {s} he is locked out today.",
+              "She told me that he lost his keys and {s} he is locked out."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "c877ac478fa31cbdcb49f802454dd3b69f07d4735a85557efc645ab29411ddb4",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "e0b0a6ed038c3a3084789d35f78348159e3d019a8a37a6d742ceabccbad32f6f"
+          },
+          "targets": [
+            {
+              "target_id": "2e50a3e9c78ff88bd5d8b40d61fb0c9b17b66eb28596f7d531d4be757204670c",
+              "lang": "pt",
+              "form": "logo",
+              "source": "The bus broke down and as a result we were late.",
+              "converted": "The bus broke down and logo we were late.",
+              "seed": "1",
+              "prompt_sha256": "2065fd8ad34d51eebff0d822c7350915c9dbc851eea13f842d2031a353e7ec13",
+              "accepted_sources": [
+                "The bus broke down and as a result we were late."
+              ],
+              "status": "completed",
+              "response": "The bus broke down, so we were late.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5eb1dee50ad824828fe4680bef7e3de07e0124f5ab8e0ee53d55cd80370f91e8",
+              "lang": "pt",
+              "form": "logo",
+              "source": "The bus broke down and as a result we were late.",
+              "converted": "The bus broke down and logo we were late.",
+              "seed": "2",
+              "prompt_sha256": "2065fd8ad34d51eebff0d822c7350915c9dbc851eea13f842d2031a353e7ec13",
+              "accepted_sources": [
+                "The bus broke down and as a result we were late."
+              ],
+              "status": "completed",
+              "response": "The bus broke down, so we were late.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "f1e9826cf516dfac61b39c7ac72d0516b85f29fa9d8854de2817be86d4ff120b",
+              "lang": "pt",
+              "form": "logo",
+              "source": "The bus broke down and as a result we were late.",
+              "converted": "The bus broke down and logo we were late.",
+              "seed": "3",
+              "prompt_sha256": "2065fd8ad34d51eebff0d822c7350915c9dbc851eea13f842d2031a353e7ec13",
+              "accepted_sources": [
+                "The bus broke down and as a result we were late."
+              ],
+              "status": "completed",
+              "response": "The bus broke down, so we were late.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "40b99552308ac53d0f803500ad62a3ca856dceadff63db6f6ba9c961655d2c9b",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe the bus broke down and as a result we were late today.",
+              "converted": "Maybe the bus broke down and logo we were late today.",
+              "seed": "1",
+              "prompt_sha256": "0d36d65283d41b0751f9477f32cd2204badd25b40be46df9c1fda0eacac9b708",
+              "accepted_sources": [
+                "Maybe the bus broke down and as a result we were late today."
+              ],
+              "status": "completed",
+              "response": "Maybe the bus broke down, so we were late today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "313cabf2444b2e0cbe2a00d2f31d3c05422678591341d27c4d624970180e7679",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe the bus broke down and as a result we were late today.",
+              "converted": "Maybe the bus broke down and logo we were late today.",
+              "seed": "2",
+              "prompt_sha256": "0d36d65283d41b0751f9477f32cd2204badd25b40be46df9c1fda0eacac9b708",
+              "accepted_sources": [
+                "Maybe the bus broke down and as a result we were late today."
+              ],
+              "status": "completed",
+              "response": "Maybe the bus broke down, so we were late today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5b2a6e00630455908458008f980cb8603714c6aeee6871e3950306e579e578dd",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe the bus broke down and as a result we were late today.",
+              "converted": "Maybe the bus broke down and logo we were late today.",
+              "seed": "3",
+              "prompt_sha256": "0d36d65283d41b0751f9477f32cd2204badd25b40be46df9c1fda0eacac9b708",
+              "accepted_sources": [
+                "Maybe the bus broke down and as a result we were late today."
+              ],
+              "status": "completed",
+              "response": "Maybe the bus broke down, so we were late today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "1a107b0b401fe171445ae2ab9b621a85e5567e5c2fb7401179891eba60b113c7",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that the bus broke down and as a result we were late.",
+              "converted": "She told me that the bus broke down and logo we were late.",
+              "seed": "1",
+              "prompt_sha256": "c5ae4b5e7611e303d12bf68bd3900965ebce4cc5ece03efcc222a1041b8f77d5",
+              "accepted_sources": [
+                "She told me that the bus broke down and as a result we were late."
+              ],
+              "status": "completed",
+              "response": "She told me that the bus broke down, so we were late.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "acab914df00095b5427a83637c767d9578a033c418a39f1f55178feefbcd2e72",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that the bus broke down and as a result we were late.",
+              "converted": "She told me that the bus broke down and logo we were late.",
+              "seed": "2",
+              "prompt_sha256": "c5ae4b5e7611e303d12bf68bd3900965ebce4cc5ece03efcc222a1041b8f77d5",
+              "accepted_sources": [
+                "She told me that the bus broke down and as a result we were late."
+              ],
+              "status": "completed",
+              "response": "She told me that the bus broke down, so we were late.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "abba9c4843a9a82ce98ed648b4c49caf539ba6e10fb2ce37b1493ed031701565",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that the bus broke down and as a result we were late.",
+              "converted": "She told me that the bus broke down and logo we were late.",
+              "seed": "3",
+              "prompt_sha256": "c5ae4b5e7611e303d12bf68bd3900965ebce4cc5ece03efcc222a1041b8f77d5",
+              "accepted_sources": [
+                "She told me that the bus broke down and as a result we were late."
+              ],
+              "status": "completed",
+              "response": "She told me that the bus broke down, so we were late.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "a49ba2a7e8ac89d81035e4f580f39b84ec5cd347c83e9169c5aed80a0efad2f3",
+              "lang": "pt",
+              "form": "logo",
+              "source": "It rained all night and as a result the roads are flooded.",
+              "converted": "It rained all night and logo the roads are flooded.",
+              "seed": "1",
+              "prompt_sha256": "af5e157ccbca845b6628f603b0db78f61e599d3ca155a64bbf0eb8f8a5b2c3ae",
+              "accepted_sources": [
+                "It rained all night and as a result the roads are flooded."
+              ],
+              "status": "completed",
+              "response": "It rained all night, so the roads are flooded.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "d72e0be47c2cbac44eb670c31fd5a83a8c0121c5cdf9e53c0627a1345e60b293",
+              "lang": "pt",
+              "form": "logo",
+              "source": "It rained all night and as a result the roads are flooded.",
+              "converted": "It rained all night and logo the roads are flooded.",
+              "seed": "2",
+              "prompt_sha256": "af5e157ccbca845b6628f603b0db78f61e599d3ca155a64bbf0eb8f8a5b2c3ae",
+              "accepted_sources": [
+                "It rained all night and as a result the roads are flooded."
+              ],
+              "status": "completed",
+              "response": "It rained all night, so the roads are flooded.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "68442a4d2d6cccee9db51281577395315d86ce97c939b11cd26fecd0c166172b",
+              "lang": "pt",
+              "form": "logo",
+              "source": "It rained all night and as a result the roads are flooded.",
+              "converted": "It rained all night and logo the roads are flooded.",
+              "seed": "3",
+              "prompt_sha256": "af5e157ccbca845b6628f603b0db78f61e599d3ca155a64bbf0eb8f8a5b2c3ae",
+              "accepted_sources": [
+                "It rained all night and as a result the roads are flooded."
+              ],
+              "status": "completed",
+              "response": "It rained all night, so the roads are flooded.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "ee502fab1639f31bcd2ce0cd1debde5eaa30e88ad540a58a4fd5199553d26b7d",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe it rained all night and as a result the roads are flooded today.",
+              "converted": "Maybe it rained all night and logo the roads are flooded today.",
+              "seed": "1",
+              "prompt_sha256": "971a01c0ab1d4d16de608396b233b27ed77a9b02f1fba41d332d58eba9aa56ce",
+              "accepted_sources": [
+                "Maybe it rained all night and as a result the roads are flooded today."
+              ],
+              "status": "completed",
+              "response": "Maybe it rained all night, so the roads are flooded today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4506f7ee265d245aac608b6f9ae0dc15b15e43ab1c0c194bea09816001728ef6",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe it rained all night and as a result the roads are flooded today.",
+              "converted": "Maybe it rained all night and logo the roads are flooded today.",
+              "seed": "2",
+              "prompt_sha256": "971a01c0ab1d4d16de608396b233b27ed77a9b02f1fba41d332d58eba9aa56ce",
+              "accepted_sources": [
+                "Maybe it rained all night and as a result the roads are flooded today."
+              ],
+              "status": "completed",
+              "response": "Maybe it rained all night, so the roads are flooded today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "c7577bad345012785bc5cc092facb87a107080eeab424f2da31101b9db3c34e7",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe it rained all night and as a result the roads are flooded today.",
+              "converted": "Maybe it rained all night and logo the roads are flooded today.",
+              "seed": "3",
+              "prompt_sha256": "971a01c0ab1d4d16de608396b233b27ed77a9b02f1fba41d332d58eba9aa56ce",
+              "accepted_sources": [
+                "Maybe it rained all night and as a result the roads are flooded today."
+              ],
+              "status": "completed",
+              "response": "Maybe it rained all night, so the roads are flooded today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "0bd3f06548f610012f7e768d6a7800a31ca68e88733a5e46ca16140f2b564f0e",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that it rained all night and as a result the roads are flooded.",
+              "converted": "She told me that it rained all night and logo the roads are flooded.",
+              "seed": "1",
+              "prompt_sha256": "02a846c92c2a800917706169be5f88987feed3f22774b57c337c4f3fe5795efc",
+              "accepted_sources": [
+                "She told me that it rained all night and as a result the roads are flooded."
+              ],
+              "status": "completed",
+              "response": "She told me that it rained all night, so the roads are flooded.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "68c574ec6162c06b7f512cdd70d6ee78c8f5580eb3bf39897dfff6f4d6901289",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that it rained all night and as a result the roads are flooded.",
+              "converted": "She told me that it rained all night and logo the roads are flooded.",
+              "seed": "2",
+              "prompt_sha256": "02a846c92c2a800917706169be5f88987feed3f22774b57c337c4f3fe5795efc",
+              "accepted_sources": [
+                "She told me that it rained all night and as a result the roads are flooded."
+              ],
+              "status": "completed",
+              "response": "She told me that it rained all night, so the roads are flooded.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5d8bcfc04ade8be2d1dfee97e980770c0599777dc86b89ff26f49121396883e1",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that it rained all night and as a result the roads are flooded.",
+              "converted": "She told me that it rained all night and logo the roads are flooded.",
+              "seed": "3",
+              "prompt_sha256": "02a846c92c2a800917706169be5f88987feed3f22774b57c337c4f3fe5795efc",
+              "accepted_sources": [
+                "She told me that it rained all night and as a result the roads are flooded."
+              ],
+              "status": "completed",
+              "response": "She told me that it rained all night, so the roads are flooded.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "3e74a52fdbd5808cdc68a6beb4bf47c46d1d92f9c9fadf2415adbdf8e5580dab",
+              "lang": "pt",
+              "form": "logo",
+              "source": "He lost his keys and as a result he is locked out.",
+              "converted": "He lost his keys and logo he is locked out.",
+              "seed": "1",
+              "prompt_sha256": "0f8278c3aa0a243004fff7dbd0e0779f2a3bfef6ba6ddde37272188627b47192",
+              "accepted_sources": [
+                "He lost his keys and as a result he is locked out."
+              ],
+              "status": "completed",
+              "response": "He lost his keys, so he is locked out.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "81dcca9722e9317ec4ec51f5e7ff5016ceb97545740b56e68b1d176d1e95162e",
+              "lang": "pt",
+              "form": "logo",
+              "source": "He lost his keys and as a result he is locked out.",
+              "converted": "He lost his keys and logo he is locked out.",
+              "seed": "2",
+              "prompt_sha256": "0f8278c3aa0a243004fff7dbd0e0779f2a3bfef6ba6ddde37272188627b47192",
+              "accepted_sources": [
+                "He lost his keys and as a result he is locked out."
+              ],
+              "status": "completed",
+              "response": "He lost his keys, so he is locked out.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "a874adb7382b616b9d43e047a00236e098bcdee8156dee4fd73b94a29b116678",
+              "lang": "pt",
+              "form": "logo",
+              "source": "He lost his keys and as a result he is locked out.",
+              "converted": "He lost his keys and logo he is locked out.",
+              "seed": "3",
+              "prompt_sha256": "0f8278c3aa0a243004fff7dbd0e0779f2a3bfef6ba6ddde37272188627b47192",
+              "accepted_sources": [
+                "He lost his keys and as a result he is locked out."
+              ],
+              "status": "completed",
+              "response": "He lost his keys, so he is locked out.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "88a5b7b1ec6e8a2e99b4c517ffb35ed1729b091fc2f61554e738d397bdfa9598",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe he lost his keys and as a result he is locked out today.",
+              "converted": "Maybe he lost his keys and logo he is locked out today.",
+              "seed": "1",
+              "prompt_sha256": "c99a948936ed94bd62190d613439b93f940c4b3ec1824ddc7450742eb72ef125",
+              "accepted_sources": [
+                "Maybe he lost his keys and as a result he is locked out today."
+              ],
+              "status": "completed",
+              "response": "Maybe he lost his keys, so he is locked out today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4be587c14d100dbafc4ae36ec1be7d9b8d839f74d23cba52395f49f72c7bdc2a",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe he lost his keys and as a result he is locked out today.",
+              "converted": "Maybe he lost his keys and logo he is locked out today.",
+              "seed": "2",
+              "prompt_sha256": "c99a948936ed94bd62190d613439b93f940c4b3ec1824ddc7450742eb72ef125",
+              "accepted_sources": [
+                "Maybe he lost his keys and as a result he is locked out today."
+              ],
+              "status": "completed",
+              "response": "Maybe he lost his keys, so he is locked out today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "d95825c9405d90d479bd65fba625651b84ac6be5665a659075a25713d2b9aaa5",
+              "lang": "pt",
+              "form": "logo",
+              "source": "Maybe he lost his keys and as a result he is locked out today.",
+              "converted": "Maybe he lost his keys and logo he is locked out today.",
+              "seed": "3",
+              "prompt_sha256": "c99a948936ed94bd62190d613439b93f940c4b3ec1824ddc7450742eb72ef125",
+              "accepted_sources": [
+                "Maybe he lost his keys and as a result he is locked out today."
+              ],
+              "status": "completed",
+              "response": "Maybe he lost his keys, so he is locked out today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "d96adcf42f7ca0d8e9a923b50e3a9de87623cec8ff0a607c91ccf4c2c8525ddd",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that he lost his keys and as a result he is locked out.",
+              "converted": "She told me that he lost his keys and logo he is locked out.",
+              "seed": "1",
+              "prompt_sha256": "9b63d15cadc82e96e0564440177202fdb3bb723d028ba12c855fb25bf6b676ac",
+              "accepted_sources": [
+                "She told me that he lost his keys and as a result he is locked out."
+              ],
+              "status": "completed",
+              "response": "She told me that he lost his keys, so he is locked out.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "37fdee29837f49a25b56c7175a1447c0f252fe618914e292ecbd6db0ce45f32d",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that he lost his keys and as a result he is locked out.",
+              "converted": "She told me that he lost his keys and logo he is locked out.",
+              "seed": "2",
+              "prompt_sha256": "9b63d15cadc82e96e0564440177202fdb3bb723d028ba12c855fb25bf6b676ac",
+              "accepted_sources": [
+                "She told me that he lost his keys and as a result he is locked out."
+              ],
+              "status": "completed",
+              "response": "She told me that he lost his keys, so he is locked out.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "30c184481e6afae71bcf36563e060719eaccc4acac177bbea79652fb1ee1ab54",
+              "lang": "pt",
+              "form": "logo",
+              "source": "She told me that he lost his keys and as a result he is locked out.",
+              "converted": "She told me that he lost his keys and logo he is locked out.",
+              "seed": "3",
+              "prompt_sha256": "9b63d15cadc82e96e0564440177202fdb3bb723d028ba12c855fb25bf6b676ac",
+              "accepted_sources": [
+                "She told me that he lost his keys and as a result he is locked out."
+              ],
+              "status": "completed",
+              "response": "She told me that he lost his keys, so he is locked out.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 27,
+          "completed": 27,
+          "expected_target_ids": [
+            "2e50a3e9c78ff88bd5d8b40d61fb0c9b17b66eb28596f7d531d4be757204670c",
+            "5eb1dee50ad824828fe4680bef7e3de07e0124f5ab8e0ee53d55cd80370f91e8",
+            "f1e9826cf516dfac61b39c7ac72d0516b85f29fa9d8854de2817be86d4ff120b",
+            "40b99552308ac53d0f803500ad62a3ca856dceadff63db6f6ba9c961655d2c9b",
+            "313cabf2444b2e0cbe2a00d2f31d3c05422678591341d27c4d624970180e7679",
+            "5b2a6e00630455908458008f980cb8603714c6aeee6871e3950306e579e578dd",
+            "1a107b0b401fe171445ae2ab9b621a85e5567e5c2fb7401179891eba60b113c7",
+            "acab914df00095b5427a83637c767d9578a033c418a39f1f55178feefbcd2e72",
+            "abba9c4843a9a82ce98ed648b4c49caf539ba6e10fb2ce37b1493ed031701565",
+            "a49ba2a7e8ac89d81035e4f580f39b84ec5cd347c83e9169c5aed80a0efad2f3",
+            "d72e0be47c2cbac44eb670c31fd5a83a8c0121c5cdf9e53c0627a1345e60b293",
+            "68442a4d2d6cccee9db51281577395315d86ce97c939b11cd26fecd0c166172b",
+            "ee502fab1639f31bcd2ce0cd1debde5eaa30e88ad540a58a4fd5199553d26b7d",
+            "4506f7ee265d245aac608b6f9ae0dc15b15e43ab1c0c194bea09816001728ef6",
+            "c7577bad345012785bc5cc092facb87a107080eeab424f2da31101b9db3c34e7",
+            "0bd3f06548f610012f7e768d6a7800a31ca68e88733a5e46ca16140f2b564f0e",
+            "68c574ec6162c06b7f512cdd70d6ee78c8f5580eb3bf39897dfff6f4d6901289",
+            "5d8bcfc04ade8be2d1dfee97e980770c0599777dc86b89ff26f49121396883e1",
+            "3e74a52fdbd5808cdc68a6beb4bf47c46d1d92f9c9fadf2415adbdf8e5580dab",
+            "81dcca9722e9317ec4ec51f5e7ff5016ceb97545740b56e68b1d176d1e95162e",
+            "a874adb7382b616b9d43e047a00236e098bcdee8156dee4fd73b94a29b116678",
+            "88a5b7b1ec6e8a2e99b4c517ffb35ed1729b091fc2f61554e738d397bdfa9598",
+            "4be587c14d100dbafc4ae36ec1be7d9b8d839f74d23cba52395f49f72c7bdc2a",
+            "d95825c9405d90d479bd65fba625651b84ac6be5665a659075a25713d2b9aaa5",
+            "d96adcf42f7ca0d8e9a923b50e3a9de87623cec8ff0a607c91ccf4c2c8525ddd",
+            "37fdee29837f49a25b56c7175a1447c0f252fe618914e292ecbd6db0ce45f32d",
+            "30c184481e6afae71bcf36563e060719eaccc4acac177bbea79652fb1ee1ab54"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "scope": "designed_context",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_blind.json",
+            "judge_sha256": "8bfefa6279cce2078a4e471a083e1aaf23669a06e354dc35b093adb62874d8f3",
+            "raw_reply_sha256": "cdd34ac2b296c9b3563af00caa0045c802853f6ef3d53e2cc41b453c0d01599a",
+            "request_sha256": "cabb6f387ce7a4f341501d7e9a1d2af4e3fc91d48ac5777139f74462cb8fd54c",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1 (in-context adopted English only)",
+            "judge": "Fresh context-free independent strong-model agent, single call with the official PROMPT + 36 numbered shuffled converted sentences",
+            "disclosure": "Contexts were designed by the PR author. One 36-sentence call lets the judge cross-infer between sentences. Deterministic replay: one answer per sentence reused over three seeds.",
+            "meaning_match_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_meaning.json",
+            "meaning_match_sha256": "cffc9ff5df209268d89a9ba2d5136bfae764c32322b24e7e4f3608f535706c57"
+          },
+          "meaning_match_ref": {
+            "The bus broke down and logo we were late.": "same",
+            "Maybe the bus broke down and logo we were late today.": "same",
+            "She told me that the bus broke down and logo we were late.": "same",
+            "It rained all night and logo the roads are flooded.": "same",
+            "Maybe it rained all night and logo the roads are flooded today.": "same",
+            "She told me that it rained all night and logo the roads are flooded.": "same",
+            "He lost his keys and logo he is locked out.": "same",
+            "Maybe he lost his keys and logo he is locked out today.": "same",
+            "She told me that he lost his keys and logo he is locked out.": "same"
+          }
+        }
+      },
+      "pt:por isso": {
+        "lang": "pt",
+        "form": "por isso",
+        "gate_visible": false,
+        "reason": "exact-match context cohort below threshold; reversal kept",
+        "cohort": {
+          "accounting_version": 4,
+          "evaluation_scope": "latest_cohort",
+          "run_id": "00f07db7-a31c-4655-8be8-f0c03c7643ec",
+          "config": {
+            "only_lang": null,
+            "timeout": 120,
+            "workers": 8,
+            "templates": [
+              "the shop is closed and {s} we are going home.",
+              "Maybe the shop is closed and {s} we are going home today.",
+              "She told me that the shop is closed and {s} we are going home.",
+              "she is sick and {s} she will stay in bed.",
+              "Maybe she is sick and {s} she will stay in bed today.",
+              "She told me that she is sick and {s} she will stay in bed.",
+              "the price went up and {s} I will wait.",
+              "Maybe the price went up and {s} I will wait today.",
+              "She told me that the price went up and {s} I will wait."
+            ],
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "command_sha256": "c877ac478fa31cbdcb49f802454dd3b69f07d4735a85557efc645ab29411ddb4",
+            "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+            "evaluation_policy": {
+              "min_trials": 9,
+              "thresholds": {
+                "lt100m": 0.9,
+                "ge100m": 0.6
+              },
+              "ge100m_langs": [
+                "en",
+                "zh",
+                "es",
+                "fr",
+                "pt",
+                "de",
+                "it",
+                "ru",
+                "ja",
+                "id",
+                "ar",
+                "hi",
+                "bn",
+                "ur",
+                "tr",
+                "vi"
+              ]
+            },
+            "normalization": "norm-nfc-v1",
+            "source_acceptance": "any-official-source-v1",
+            "accepted_sources_sha256": "c42233930826aa54778c3f7c61a641ad46b1718b33e42118fe53218aec003875"
+          },
+          "targets": [
+            {
+              "target_id": "af6d1ffc7f731ecf1d58b69956a70a13d5da0a1f3dd376725c43b0fccd5211db",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "The shop is closed and for this reason we are going home.",
+              "converted": "The shop is closed and por isso we are going home.",
+              "seed": "1",
+              "prompt_sha256": "13b5e6fa5c4649d94d5f025b5e54b37eacceca6b090e4a1fd79baf559f169afd",
+              "accepted_sources": [
+                "The shop is closed and for this reason we are going home."
+              ],
+              "status": "completed",
+              "response": "The shop is closed, so we are going home.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "f1e6bb4ec1cb5011994d59d32a5cade4092cfaeab6f07cc454c5dfd4968de213",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "The shop is closed and for this reason we are going home.",
+              "converted": "The shop is closed and por isso we are going home.",
+              "seed": "2",
+              "prompt_sha256": "13b5e6fa5c4649d94d5f025b5e54b37eacceca6b090e4a1fd79baf559f169afd",
+              "accepted_sources": [
+                "The shop is closed and for this reason we are going home."
+              ],
+              "status": "completed",
+              "response": "The shop is closed, so we are going home.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5553a85bff9eac9c760220a0525f1dec6331297b4ac2286f037da91d5c3fb020",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "The shop is closed and for this reason we are going home.",
+              "converted": "The shop is closed and por isso we are going home.",
+              "seed": "3",
+              "prompt_sha256": "13b5e6fa5c4649d94d5f025b5e54b37eacceca6b090e4a1fd79baf559f169afd",
+              "accepted_sources": [
+                "The shop is closed and for this reason we are going home."
+              ],
+              "status": "completed",
+              "response": "The shop is closed, so we are going home.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "6808488f6f6da3aae24a3991af18e01bfff573eb6a240adbc56f5f5353a2a740",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe the shop is closed and for this reason we are going home today.",
+              "converted": "Maybe the shop is closed and por isso we are going home today.",
+              "seed": "1",
+              "prompt_sha256": "967ee45add220ef47e0c329e63776e8187d000ea8bd5203b89cb344ab4530968",
+              "accepted_sources": [
+                "Maybe the shop is closed and for this reason we are going home today."
+              ],
+              "status": "completed",
+              "response": "Maybe the shop is closed, so we are going home today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "d2e0126974b76ccb9a01b19f45ceaf82efcac66bfd3f829ae745bef95b5a4ad3",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe the shop is closed and for this reason we are going home today.",
+              "converted": "Maybe the shop is closed and por isso we are going home today.",
+              "seed": "2",
+              "prompt_sha256": "967ee45add220ef47e0c329e63776e8187d000ea8bd5203b89cb344ab4530968",
+              "accepted_sources": [
+                "Maybe the shop is closed and for this reason we are going home today."
+              ],
+              "status": "completed",
+              "response": "Maybe the shop is closed, so we are going home today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "af76c4ac882ac044184edc354b65d942171b12c2635e64dfc1b57ddd04311ac9",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe the shop is closed and for this reason we are going home today.",
+              "converted": "Maybe the shop is closed and por isso we are going home today.",
+              "seed": "3",
+              "prompt_sha256": "967ee45add220ef47e0c329e63776e8187d000ea8bd5203b89cb344ab4530968",
+              "accepted_sources": [
+                "Maybe the shop is closed and for this reason we are going home today."
+              ],
+              "status": "completed",
+              "response": "Maybe the shop is closed, so we are going home today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "28a6b86a8499ba23141ee545d657097c03717e65017bddd49328e17fb49aeac9",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that the shop is closed and for this reason we are going home.",
+              "converted": "She told me that the shop is closed and por isso we are going home.",
+              "seed": "1",
+              "prompt_sha256": "c296129693da08dc3514199f8b2f2ca8aec0dd07323ad72f755d28cee08462ec",
+              "accepted_sources": [
+                "She told me that the shop is closed and for this reason we are going home."
+              ],
+              "status": "completed",
+              "response": "She told me that the shop is closed, so we are going home.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "b7b5b8cbdcded633e5297f2b0afeddcdccb328b2792252225bd8dd9676026c27",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that the shop is closed and for this reason we are going home.",
+              "converted": "She told me that the shop is closed and por isso we are going home.",
+              "seed": "2",
+              "prompt_sha256": "c296129693da08dc3514199f8b2f2ca8aec0dd07323ad72f755d28cee08462ec",
+              "accepted_sources": [
+                "She told me that the shop is closed and for this reason we are going home."
+              ],
+              "status": "completed",
+              "response": "She told me that the shop is closed, so we are going home.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "5c505471251bb9fa1e48bf46c79c2c362ca95f44ab6e39047a2fbdde56b13541",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that the shop is closed and for this reason we are going home.",
+              "converted": "She told me that the shop is closed and por isso we are going home.",
+              "seed": "3",
+              "prompt_sha256": "c296129693da08dc3514199f8b2f2ca8aec0dd07323ad72f755d28cee08462ec",
+              "accepted_sources": [
+                "She told me that the shop is closed and for this reason we are going home."
+              ],
+              "status": "completed",
+              "response": "She told me that the shop is closed, so we are going home.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "aa09758e351ddba129c3f0a10e37b0e7c54962b446c429a8bfed9d268f4cb015",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She is sick and for this reason she will stay in bed.",
+              "converted": "She is sick and por isso she will stay in bed.",
+              "seed": "1",
+              "prompt_sha256": "c0a70d8b20807c109f49e48d0b1caa432b206ecc40e96d14e60ade9ca2ceb48e",
+              "accepted_sources": [
+                "She is sick and for this reason she will stay in bed."
+              ],
+              "status": "completed",
+              "response": "She is sick, so she will stay in bed.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "d85c18807a84fbcb16a8dde89ea2412769e4340e44e0f50eb0bbf6e5aa515766",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She is sick and for this reason she will stay in bed.",
+              "converted": "She is sick and por isso she will stay in bed.",
+              "seed": "2",
+              "prompt_sha256": "c0a70d8b20807c109f49e48d0b1caa432b206ecc40e96d14e60ade9ca2ceb48e",
+              "accepted_sources": [
+                "She is sick and for this reason she will stay in bed."
+              ],
+              "status": "completed",
+              "response": "She is sick, so she will stay in bed.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "467cfbba0fc534f18034aa3e22794fb76eb3a371764672971420bdc7051fe037",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She is sick and for this reason she will stay in bed.",
+              "converted": "She is sick and por isso she will stay in bed.",
+              "seed": "3",
+              "prompt_sha256": "c0a70d8b20807c109f49e48d0b1caa432b206ecc40e96d14e60ade9ca2ceb48e",
+              "accepted_sources": [
+                "She is sick and for this reason she will stay in bed."
+              ],
+              "status": "completed",
+              "response": "She is sick, so she will stay in bed.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "153d64951c84988db00e9ada0addf176e2f55fdefbf869549e8664d115f1b704",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe she is sick and for this reason she will stay in bed today.",
+              "converted": "Maybe she is sick and por isso she will stay in bed today.",
+              "seed": "1",
+              "prompt_sha256": "c3d9b10330141e5cc7d6a972ae7fb73ef95296c8581cdff8daf3355cc1e9fdc2",
+              "accepted_sources": [
+                "Maybe she is sick and for this reason she will stay in bed today."
+              ],
+              "status": "completed",
+              "response": "Maybe she is sick, so she will stay in bed today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "8bba35ad1a4ebd8bd4033e436aae6ccdccb15d8c4f07b4a751c19de23fa4e9f3",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe she is sick and for this reason she will stay in bed today.",
+              "converted": "Maybe she is sick and por isso she will stay in bed today.",
+              "seed": "2",
+              "prompt_sha256": "c3d9b10330141e5cc7d6a972ae7fb73ef95296c8581cdff8daf3355cc1e9fdc2",
+              "accepted_sources": [
+                "Maybe she is sick and for this reason she will stay in bed today."
+              ],
+              "status": "completed",
+              "response": "Maybe she is sick, so she will stay in bed today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "90d7b2ceb44485b62d2b971fae6773de253365a5badbc10ec7aaf540d9def64c",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe she is sick and for this reason she will stay in bed today.",
+              "converted": "Maybe she is sick and por isso she will stay in bed today.",
+              "seed": "3",
+              "prompt_sha256": "c3d9b10330141e5cc7d6a972ae7fb73ef95296c8581cdff8daf3355cc1e9fdc2",
+              "accepted_sources": [
+                "Maybe she is sick and for this reason she will stay in bed today."
+              ],
+              "status": "completed",
+              "response": "Maybe she is sick, so she will stay in bed today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "3af2e4b8335fb35d02c34dc03aae27cdee1b5b5c1a5d2b7e7479125f83e97d85",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that she is sick and for this reason she will stay in bed.",
+              "converted": "She told me that she is sick and por isso she will stay in bed.",
+              "seed": "1",
+              "prompt_sha256": "13840ab3ae4bd4301769fc081303d7f4dfcf7060e996d0543e1fadde29c00d65",
+              "accepted_sources": [
+                "She told me that she is sick and for this reason she will stay in bed."
+              ],
+              "status": "completed",
+              "response": "She told me that she is sick, so she will stay in bed.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "809be94b01482fa2718f63fc5e948d59a444de22a00f293ae160f346cc0f1a89",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that she is sick and for this reason she will stay in bed.",
+              "converted": "She told me that she is sick and por isso she will stay in bed.",
+              "seed": "2",
+              "prompt_sha256": "13840ab3ae4bd4301769fc081303d7f4dfcf7060e996d0543e1fadde29c00d65",
+              "accepted_sources": [
+                "She told me that she is sick and for this reason she will stay in bed."
+              ],
+              "status": "completed",
+              "response": "She told me that she is sick, so she will stay in bed.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "e339d9c3367803c6b1bb545ce78ca1497d568d88e1cb3785598e815310a4417b",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that she is sick and for this reason she will stay in bed.",
+              "converted": "She told me that she is sick and por isso she will stay in bed.",
+              "seed": "3",
+              "prompt_sha256": "13840ab3ae4bd4301769fc081303d7f4dfcf7060e996d0543e1fadde29c00d65",
+              "accepted_sources": [
+                "She told me that she is sick and for this reason she will stay in bed."
+              ],
+              "status": "completed",
+              "response": "She told me that she is sick, so she will stay in bed.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "1b549ac3d3e44c95aff06a337b8f677ef5045b6bf111a923ba9c972ee6ae79fc",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "The price went up and for this reason I will wait.",
+              "converted": "The price went up and por isso I will wait.",
+              "seed": "1",
+              "prompt_sha256": "f8fd068489dfecf8f21e3c56b6f708fb62bc7a13f73504806d21bd0d2cf81926",
+              "accepted_sources": [
+                "The price went up and for this reason I will wait."
+              ],
+              "status": "completed",
+              "response": "The price went up, so I will wait.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "fa2cb33a48bce1eb1add98e17fb2131da09560107e68548dec0e0ee255e1c8a2",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "The price went up and for this reason I will wait.",
+              "converted": "The price went up and por isso I will wait.",
+              "seed": "2",
+              "prompt_sha256": "f8fd068489dfecf8f21e3c56b6f708fb62bc7a13f73504806d21bd0d2cf81926",
+              "accepted_sources": [
+                "The price went up and for this reason I will wait."
+              ],
+              "status": "completed",
+              "response": "The price went up, so I will wait.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "daf0ee42cde9f8d2ae0b782e252c7837a7c89fb7fc45b43082f39988f89793d9",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "The price went up and for this reason I will wait.",
+              "converted": "The price went up and por isso I will wait.",
+              "seed": "3",
+              "prompt_sha256": "f8fd068489dfecf8f21e3c56b6f708fb62bc7a13f73504806d21bd0d2cf81926",
+              "accepted_sources": [
+                "The price went up and for this reason I will wait."
+              ],
+              "status": "completed",
+              "response": "The price went up, so I will wait.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "b0f085557e4fa46ea385689307a4eeb47de6cb96ba971bfaeebdb9e97951bd90",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe the price went up and for this reason I will wait today.",
+              "converted": "Maybe the price went up and por isso I will wait today.",
+              "seed": "1",
+              "prompt_sha256": "3a0f5c94ac81f3cd97b3b07d41aaddf111ec69f828a61b25cc0fb4a5c12c2181",
+              "accepted_sources": [
+                "Maybe the price went up and for this reason I will wait today."
+              ],
+              "status": "completed",
+              "response": "Maybe the price went up, so I will wait today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "f9de580d3e825709699bd3ba3c76d348ea27b4dd160559565c5a2b84ce7f6fb5",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe the price went up and for this reason I will wait today.",
+              "converted": "Maybe the price went up and por isso I will wait today.",
+              "seed": "2",
+              "prompt_sha256": "3a0f5c94ac81f3cd97b3b07d41aaddf111ec69f828a61b25cc0fb4a5c12c2181",
+              "accepted_sources": [
+                "Maybe the price went up and for this reason I will wait today."
+              ],
+              "status": "completed",
+              "response": "Maybe the price went up, so I will wait today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "e62d175c7693ae8e9bf246bcb1ad4c80cf700c3915d6f4a578a29103750822e6",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "Maybe the price went up and for this reason I will wait today.",
+              "converted": "Maybe the price went up and por isso I will wait today.",
+              "seed": "3",
+              "prompt_sha256": "3a0f5c94ac81f3cd97b3b07d41aaddf111ec69f828a61b25cc0fb4a5c12c2181",
+              "accepted_sources": [
+                "Maybe the price went up and for this reason I will wait today."
+              ],
+              "status": "completed",
+              "response": "Maybe the price went up, so I will wait today.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "3927838e6018a655b569d8fab8427cc37a4bd36a0625597e99ac231148bc6f9a",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that the price went up and for this reason I will wait.",
+              "converted": "She told me that the price went up and por isso I will wait.",
+              "seed": "1",
+              "prompt_sha256": "fe99767fda58583d4572623008286c9cd2ff6587e2e729de1806320fe83747cf",
+              "accepted_sources": [
+                "She told me that the price went up and for this reason I will wait."
+              ],
+              "status": "completed",
+              "response": "She told me that the price went up, so I will wait.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "4845cf08aedb9f0e7a0046e677adb691a1e3635ebd9029719e5f451c545187fa",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that the price went up and for this reason I will wait.",
+              "converted": "She told me that the price went up and por isso I will wait.",
+              "seed": "2",
+              "prompt_sha256": "fe99767fda58583d4572623008286c9cd2ff6587e2e729de1806320fe83747cf",
+              "accepted_sources": [
+                "She told me that the price went up and for this reason I will wait."
+              ],
+              "status": "completed",
+              "response": "She told me that the price went up, so I will wait.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            },
+            {
+              "target_id": "74fffaa092b8fcd9a5e4ecc3a80606e1147c2ebf65e92cbd7ab7eae8ae7b96ed",
+              "lang": "pt",
+              "form": "por isso",
+              "source": "She told me that the price went up and for this reason I will wait.",
+              "converted": "She told me that the price went up and por isso I will wait.",
+              "seed": "3",
+              "prompt_sha256": "fe99767fda58583d4572623008286c9cd2ff6587e2e729de1806320fe83747cf",
+              "accepted_sources": [
+                "She told me that the price went up and for this reason I will wait."
+              ],
+              "status": "completed",
+              "response": "She told me that the price went up, so I will wait.",
+              "restored": false,
+              "first_source_match": false,
+              "matched_source": null,
+              "matched_via_alternate": false
+            }
+          ],
+          "attempted": 27,
+          "completed": 27,
+          "expected_target_ids": [
+            "af6d1ffc7f731ecf1d58b69956a70a13d5da0a1f3dd376725c43b0fccd5211db",
+            "f1e6bb4ec1cb5011994d59d32a5cade4092cfaeab6f07cc454c5dfd4968de213",
+            "5553a85bff9eac9c760220a0525f1dec6331297b4ac2286f037da91d5c3fb020",
+            "6808488f6f6da3aae24a3991af18e01bfff573eb6a240adbc56f5f5353a2a740",
+            "d2e0126974b76ccb9a01b19f45ceaf82efcac66bfd3f829ae745bef95b5a4ad3",
+            "af76c4ac882ac044184edc354b65d942171b12c2635e64dfc1b57ddd04311ac9",
+            "28a6b86a8499ba23141ee545d657097c03717e65017bddd49328e17fb49aeac9",
+            "b7b5b8cbdcded633e5297f2b0afeddcdccb328b2792252225bd8dd9676026c27",
+            "5c505471251bb9fa1e48bf46c79c2c362ca95f44ab6e39047a2fbdde56b13541",
+            "aa09758e351ddba129c3f0a10e37b0e7c54962b446c429a8bfed9d268f4cb015",
+            "d85c18807a84fbcb16a8dde89ea2412769e4340e44e0f50eb0bbf6e5aa515766",
+            "467cfbba0fc534f18034aa3e22794fb76eb3a371764672971420bdc7051fe037",
+            "153d64951c84988db00e9ada0addf176e2f55fdefbf869549e8664d115f1b704",
+            "8bba35ad1a4ebd8bd4033e436aae6ccdccb15d8c4f07b4a751c19de23fa4e9f3",
+            "90d7b2ceb44485b62d2b971fae6773de253365a5badbc10ec7aaf540d9def64c",
+            "3af2e4b8335fb35d02c34dc03aae27cdee1b5b5c1a5d2b7e7479125f83e97d85",
+            "809be94b01482fa2718f63fc5e948d59a444de22a00f293ae160f346cc0f1a89",
+            "e339d9c3367803c6b1bb545ce78ca1497d568d88e1cb3785598e815310a4417b",
+            "1b549ac3d3e44c95aff06a337b8f677ef5045b6bf111a923ba9c972ee6ae79fc",
+            "fa2cb33a48bce1eb1add98e17fb2131da09560107e68548dec0e0ee255e1c8a2",
+            "daf0ee42cde9f8d2ae0b782e252c7837a7c89fb7fc45b43082f39988f89793d9",
+            "b0f085557e4fa46ea385689307a4eeb47de6cb96ba971bfaeebdb9e97951bd90",
+            "f9de580d3e825709699bd3ba3c76d348ea27b4dd160559565c5a2b84ce7f6fb5",
+            "e62d175c7693ae8e9bf246bcb1ad4c80cf700c3915d6f4a578a29103750822e6",
+            "3927838e6018a655b569d8fab8427cc37a4bd36a0625597e99ac231148bc6f9a",
+            "4845cf08aedb9f0e7a0046e677adb691a1e3635ebd9029719e5f451c545187fa",
+            "74fffaa092b8fcd9a5e4ecc3a80606e1147c2ebf65e92cbd7ab7eae8ae7b96ed"
+          ],
+          "timeouts": 0,
+          "execution_errors": 0,
+          "restored": 0,
+          "complete": true,
+          "judge_provenance": {
+            "kind": "independent_blind_judge",
+            "scope": "designed_context",
+            "judge_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_blind.json",
+            "judge_sha256": "8bfefa6279cce2078a4e471a083e1aaf23669a06e354dc35b093adb62874d8f3",
+            "raw_reply_sha256": "cdd34ac2b296c9b3563af00caa0045c802853f6ef3d53e2cc41b453c0d01599a",
+            "request_sha256": "cabb6f387ce7a4f341501d7e9a1d2af4e3fc91d48ac5777139f74462cb8fd54c",
+            "origin_main_sha": "2e5312adc25c445685994aa03211804bd1d7ef4a",
+            "source_acceptance": "any-official-source-v1 (in-context adopted English only)",
+            "judge": "Fresh context-free independent strong-model agent, single call with the official PROMPT + 36 numbered shuffled converted sentences",
+            "disclosure": "Contexts were designed by the PR author. One 36-sentence call lets the judge cross-infer between sentences. Deterministic replay: one answer per sentence reused over three seeds.",
+            "meaning_match_file": "SentenceCalibratedMosaic/fixtures/roundtrip_judge/remaining_20261110_ctx_meaning.json",
+            "meaning_match_sha256": "cffc9ff5df209268d89a9ba2d5136bfae764c32322b24e7e4f3608f535706c57"
+          },
+          "meaning_match_ref": {
+            "The shop is closed and por isso we are going home.": "same",
+            "Maybe the shop is closed and por isso we are going home today.": "same",
+            "She told me that the shop is closed and por isso we are going home.": "same",
+            "She is sick and por isso she will stay in bed.": "same",
+            "Maybe she is sick and por isso she will stay in bed today.": "same",
+            "She told me that she is sick and por isso she will stay in bed.": "same",
+            "The price went up and por isso I will wait.": "same",
+            "Maybe the price went up and por isso I will wait today.": "same",
+            "She told me that the price went up and por isso I will wait.": "same"
+          }
+        }
+      }
+    }
+  }
 }

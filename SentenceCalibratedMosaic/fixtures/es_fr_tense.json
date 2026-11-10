@@ -795,6 +795,34 @@
       "note": "explicit going-to; not progressive voy"
     },
     {
+      "id": "take-fut-1s",
+      "from": [
+        "I will take",
+        "I'll take"
+      ],
+      "to": "tomaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tomaré",
+          "lang": "es"
+        },
+        {
+          "form": "tomarei",
+          "lang": "pt"
+        }
+      ],
+      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take."
+    },
+    {
       "id": "take-pres-1s",
       "from": [
         "I take"
@@ -827,6 +855,34 @@
           "lang": "de"
         }
       ]
+    },
+    {
+      "id": "take-fut-goingto-1s",
+      "from": [
+        "I am going to take",
+        "I'm going to take"
+      ],
+      "to": "tomaré",
+      "lang": "es",
+      "tense": "future",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 2,
+        "utf8_before": 18,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "tomaré",
+          "lang": "es"
+        },
+        {
+          "form": "tomarei",
+          "lang": "pt"
+        }
+      ],
+      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take."
     },
     {
       "id": "think-fut-1s",
@@ -958,6 +1014,53 @@
         "both_shrink": true
       },
       "note": "explicit going-to; future densifier only"
+    },
+    {
+      "id": "find-fut-1s",
+      "from": [
+        "I will find"
+      ],
+      "to": "acharei",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 3,
+        "token_after": 2,
+        "utf8_before": 11,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "acharei",
+          "lang": "pt"
+        }
+      ],
+      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained."
+    },
+    {
+      "id": "find-fut-goingto-1s",
+      "from": [
+        "I am going to find",
+        "I'm going to find"
+      ],
+      "to": "acharei",
+      "lang": "pt",
+      "tense": "future",
+      "metrics": {
+        "token_before": 5,
+        "token_after": 2,
+        "utf8_before": 18,
+        "utf8_after": 7,
+        "both_shrink": true
+      },
+      "candidates": [
+        {
+          "form": "acharei",
+          "lang": "pt"
+        }
+      ],
+      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained."
     },
     {
       "id": "call-fut-1s",
@@ -2000,117 +2103,6 @@
         }
       ],
       "why_dropped": "AI round-trip exact-match 0/9 (restored as I found; scored on tense_matrix-first form 'fand' / from[0] 'I have found' for the shared surface, and this es_fr entry from[0] 'I found' shares the surface); ge100m threshold 0.6 not met. Other candidates not promoted; EN stays."
-    },
-    {
-      "id": "take-fut-1s",
-      "from": [
-        "I will take",
-        "I'll take"
-      ],
-      "to": "tomaré",
-      "lang": "es",
-      "tense": "future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "utf8_before": 11,
-        "utf8_after": 7,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tomaré",
-          "lang": "es"
-        },
-        {
-          "form": "tomarei",
-          "lang": "pt"
-        }
-      ],
-      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take.",
-      "roundtrip_reversed": true,
-      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < es threshold 0.6; actual restorations: [\"I will take it.\", \"Maybe I will take it today.\", \"She told me that I will take it.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json (docs/es_pt_remaining_roundtrip_20261110.md)."
-    },
-    {
-      "id": "take-fut-goingto-1s",
-      "from": [
-        "I am going to take",
-        "I'm going to take"
-      ],
-      "to": "tomaré",
-      "lang": "es",
-      "tense": "future",
-      "metrics": {
-        "token_before": 5,
-        "token_after": 2,
-        "utf8_before": 18,
-        "utf8_after": 7,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "tomaré",
-          "lang": "es"
-        },
-        {
-          "form": "tomarei",
-          "lang": "pt"
-        }
-      ],
-      "note": "Spanish tomaré wins the 2-token tie on UTF-8 bytes (7 vs Greek πάρω 8); Greek candidate removed after exact English round-trip restored as I take.",
-      "roundtrip_reversed": true,
-      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < es threshold 0.6; actual restorations: [\"I will take it.\", \"Maybe I will take it today.\", \"She told me that I will take it.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json (docs/es_pt_remaining_roundtrip_20261110.md)."
-    },
-    {
-      "id": "find-fut-1s",
-      "from": [
-        "I will find"
-      ],
-      "to": "acharei",
-      "lang": "pt",
-      "tense": "future",
-      "metrics": {
-        "token_before": 3,
-        "token_after": 2,
-        "utf8_before": 11,
-        "utf8_after": 7,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "acharei",
-          "lang": "pt"
-        }
-      ],
-      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained.",
-      "roundtrip_reversed": true,
-      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"I will find it.\", \"Maybe I will find it today.\", \"She told me that I will find it.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json (docs/es_pt_remaining_roundtrip_20261110.md)."
-    },
-    {
-      "id": "find-fut-goingto-1s",
-      "from": [
-        "I am going to find",
-        "I'm going to find"
-      ],
-      "to": "acharei",
-      "lang": "pt",
-      "tense": "future",
-      "metrics": {
-        "token_before": 5,
-        "token_after": 2,
-        "utf8_before": 18,
-        "utf8_after": 7,
-        "both_shrink": true
-      },
-      "candidates": [
-        {
-          "form": "acharei",
-          "lang": "pt"
-        }
-      ],
-      "note": "Greek βρω removed: exact English round-trip restored as I find; next-cheapest Portuguese acharei retained.",
-      "roundtrip_reversed": true,
-      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"I will find it.\", \"Maybe I will find it today.\", \"She told me that I will find it.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json (docs/es_pt_remaining_roundtrip_20261110.md)."
     }
   ]
 }

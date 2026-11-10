@@ -91,9 +91,12 @@ def test_only_failed_pt_entries_removed_no_unmeasured_promotions(name):
     }
     got = {e["id"]: e["to"] for e in read(name)["entries"] if e["lang"] == "pt"}
     # #161 (la reversal of ergo / ideo) and #164 (el βρω reversal) promoted pt runner-ups
-    # that are NOT in the pt blind judge (#171). They were measured separately on
-    # 2026-11-10 (logo / por isso / acharei all 0/9) and reversed, so no unmeasured pt
-    # promotion remains (tests/test_es_pt_remaining_roundtrip_gate.py).
+    # before the pt round-trip (#171) existed; they are NOT in the pt blind judge. Measured
+    # separately on 2026-11-10: acharei passed in designed contexts (kept), logo / por isso
+    # failed (reversed). Listed explicitly so no other unmeasured pt promotion slips in.
+    measured_later = {"es_fr_tense": {"find-fut-1s": "acharei", "find-fut-goingto-1s": "acharei"}}
+    for k, v in measured_later.get(name, {}).items():
+        assert got.pop(k) == v and rt.status(data, "pt", v) == "pass"
     assert got == expected
 
 
@@ -114,13 +117,11 @@ def test_generated_reversals_are_per_form_and_leave_empty_english_cells():
     assert all(c["status"] == "reject" and c["candidates"] == [] for c in reversed_cells)
 
 
-# es_fr_tense 3 → 5 (acharei find-fut-1s / find-fut-goingto-1s) and pt_el_latin_phrases
-# 4 → 6 (logo / por isso) after the 2026-11-10 measurement of the unmeasured #161/#164 promotions.
-@pytest.mark.parametrize("name,removed", [("es_fr_tense", 5), ("pt_el_latin_phrases", 6), ("pt_el_latin_tense", 1)])
+# pt_el_latin_phrases 4 → 6: logo / por isso reversed on 2026-11-10 (0/9 bare and in context).
+@pytest.mark.parametrize("name,removed", [("es_fr_tense", 3), ("pt_el_latin_phrases", 6), ("pt_el_latin_tense", 1)])
 def test_quarantined_failure_evidence_and_sources_reserved(name, removed):
     data = read(name)
-    # es_fr_tense also holds the reversed es tomaré rows (2026-11-10); pt only here.
-    reversed_entries = [e for e in data["examples_not_registered"] if e.get("roundtrip_reversed") and e["lang"] == "pt"]
+    reversed_entries = [e for e in data["examples_not_registered"] if e.get("roundtrip_reversed")]
     assert len(reversed_entries) == removed
     assert all(e["lang"] == "pt" and "0/9" in e["why_dropped"] and "actual restorations" in e["why_dropped"] for e in reversed_entries)
     if name != "pt_el_latin_phrases":
