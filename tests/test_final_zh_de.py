@@ -525,7 +525,9 @@ def test_tense_tranche2_all_going_to_entries_use_full_future_phrase():
 def test_tense_tranche2_and_sibling_longest_sources_coexist():
     t = _mosaic()
     raw = "I will do it; I did it; I want to go; I need to go; I'm going to take it."
-    assert t.apply_es_fr_tense(raw) == "haré it; fiz; quero ir; preciso ir; tomaré it."
+    # I did it → fiz it: do-it-past-1s (object-dropping fiz) is unregistered like do-it-fut-1s;
+    # do-past-1s (I did → fiz) still applies and the object stays.
+    assert t.apply_es_fr_tense(raw) == "haré it; fiz it; quero ir; preciso ir; tomaré it."
     raw = "I will take my mobile phone to the train station as soon as possible."
     assert t.apply_es_fr_tense(t.apply_zh_de_phrases(raw)) == "tomaré my Handy to the Bahnhof ASAP."
 
