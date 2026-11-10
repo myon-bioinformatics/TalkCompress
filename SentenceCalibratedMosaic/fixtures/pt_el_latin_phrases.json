@@ -12,6 +12,33 @@
   ],
   "entries": [
     {
+      "id": "blood-pressure-el-pt",
+      "from": [
+        "blood pressure"
+      ],
+      "to": "tensão",
+      "lang": "pt",
+      "class": "compound",
+      "candidates": [
+        {
+          "form": "tensão",
+          "lang": "pt",
+          "class": "compound"
+        },
+        {
+          "form": "πίεση",
+          "lang": "el",
+          "class": "compound"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 2,
+        "both_shrink": true
+      },
+      "note": "PA (pt medical acronym) dropped — jargon / unstable outside clinical PT"
+    },
+    {
       "id": "per-month-pt-el",
       "from": [
         "per month"
@@ -437,35 +464,6 @@
       "note": "BR cel / EL κιν (κινητό); beats EN multiword",
       "roundtrip_reversed": true,
       "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Cell.\", \"Maybe cell today.\", \"She told me that cell.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
-    },
-    {
-      "id": "blood-pressure-el-pt",
-      "from": [
-        "blood pressure"
-      ],
-      "to": "tensão",
-      "lang": "pt",
-      "class": "compound",
-      "candidates": [
-        {
-          "form": "tensão",
-          "lang": "pt",
-          "class": "compound"
-        },
-        {
-          "form": "πίεση",
-          "lang": "el",
-          "class": "compound"
-        }
-      ],
-      "metrics": {
-        "token_before": 4,
-        "token_after": 2,
-        "both_shrink": true
-      },
-      "note": "PA (pt medical acronym) dropped — jargon / unstable outside clinical PT",
-      "roundtrip_reversed": true,
-      "why_dropped": "Independent blind AI round-trip: 0/9 (0.000) < pt threshold 0.6; actual restorations: [\"Tension.\", \"Maybe tension today.\", \"She told me that tension.\"]. Whole entry unregistered; no unmeasured fallback language promoted. Evidence retained in roundtrip.json."
     },
     {
       "id": "in-other-words-pt-el",

@@ -79,6 +79,11 @@ RESULTS = [
 ]
 
 
+# Bare 0/9 forms whose reversal the reaudit_b_4bot context round-trip undid (roundtrip.json untouched;
+# evidence in roundtrip_judge/reaudit_b_4bot_results.json).
+CONTEXT_UNDONE = {"understand-zh", "herzinfarkt", "eetkamer", "phone-zh"}
+
+
 def fixture(name):
     return json.loads((ROOT / "SentenceCalibratedMosaic/fixtures" / name).read_text(encoding="utf-8"))
 
@@ -119,8 +124,12 @@ def test_scoped_zh_evidence(form, eid, restored, completed, loaded):
     bank = fixture("zh_de_phrases.json")
     live = {e["id"]: e for e in bank["entries"]}
     dropped = {e["id"]: e for e in bank.get("examples_not_registered", [])}
-    if restored == completed:
+    if restored == completed or eid in CONTEXT_UNDONE:
         assert live[eid]["to"] == form and live[eid]["lang"] == "zh"
+        if eid in CONTEXT_UNDONE:
+            assert eid not in dropped
+            ctx = fixture("roundtrip_judge/reaudit_b_4bot_results.json")["forms"][f"zh:{form}"]
+            assert ctx["status"] == "pass" and ctx["reversal_undone"]
     else:
         assert eid not in live
         assert dropped[eid]["to"] == form and "restored as" in dropped[eid]["why_dropped"]
@@ -130,7 +139,8 @@ def test_runtime_pairs_after_gate():
     t = load("mosaic_zh_gate", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     zh_entry_forms = {e["to"] for e in fixture("zh_de_phrases.json")["entries"] if e["lang"] == "zh"}
     loaded = {r for _, r, lg in t.zh_de_phrase_pairs() if lg == "zh"} & zh_entry_forms
-    assert loaded == {"开源", "全栈", "思维链"}
+    # 电话 (phone number) is back via the reaudit_b_4bot context round-trip.
+    assert loaded == {"开源", "全栈", "思维链", "电话"}
 
 
 def test_non_zh_entries_unchanged():

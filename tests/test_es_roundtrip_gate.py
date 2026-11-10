@@ -43,7 +43,6 @@ REVERSED = [
     "que dijeron",
     "vamos",
     "fue",
-    "pude",
 ]
 
 
@@ -68,6 +67,15 @@ def test_every_short_es_winner_passed_independent_blind_roundtrip():
     unmeasured_from_164 = {"tomaré"}
     assert unmeasured_from_164 <= forms
     forms -= unmeasured_from_164
+    # pude: bare 0/9 kept in roundtrip.json (untouched); its reversal was undone by the
+    # reaudit_b_4bot context round-trip (9/9), whose evidence lives in roundtrip_judge.
+    context_undone = {"pude"}
+    assert context_undone <= forms
+    forms -= context_undone
+    ctx = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/roundtrip_judge/reaudit_b_4bot_results.json").read_text(encoding="utf-8"))
+    for form in context_undone:
+        assert rt.status(DATA, "es", form) == "never"
+        assert ctx["forms"][f"es:{form}"]["status"] == "pass" and ctx["forms"][f"es:{form}"]["reversal_undone"]
     # 100 → 99: #161 replaced es ``vendré`` (I will come) with la ``veniam``.
     assert len(forms) == 99
     for form in forms:
@@ -87,7 +95,13 @@ def test_failed_es_forms_reversed(form):
     assert all(not (e.get("lang") == "es" and e["to"] == form) for e in _es_entries())
 
 
-@pytest.mark.parametrize("form,eid", [("vamos", "go-fut-1p"), ("fue", "go-past-3s"), ("pude", "could-past-1s")])
+def test_pude_reversal_undone_entry_is_live():
+    live = [e for e in ES_FR["entries"] if e["id"] == "could-past-1s"]
+    assert len(live) == 1 and live[0]["to"] == "pude" and live[0]["lang"] == "es"
+    assert not any(e["id"] == "could-past-1s" for e in ES_FR["examples_not_registered"])
+
+
+@pytest.mark.parametrize("form,eid", [("vamos", "go-fut-1p"), ("fue", "go-past-3s")])
 def test_es_fr_short_forms_recorded_as_not_registered(form, eid):
     dropped = next(e for e in ES_FR["examples_not_registered"] if e["id"] == eid and e["to"] == form)
     assert "0/9" in dropped["why_dropped"]

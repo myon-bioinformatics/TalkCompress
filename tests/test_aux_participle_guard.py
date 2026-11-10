@@ -67,7 +67,7 @@ def test_no_converted_aux_with_unconverted_english_participle():
 def test_modal_before_have_participle_not_converted():
     assert t.apply_es_fr_tense("I could have gone") == "I could have gone"
     assert t.apply_es_fr_tense("I must have seen it") == "I must have seen it"
-    assert t.apply_es_fr_tense("I could") == "I could"  # pude reversed: docs/es_roundtrip_20261109.md
+    assert t.apply_es_fr_tense("I could") == "pude"  # reversal undone: docs/reaudit_b_4bot_context_roundtrip_20261110.md
 
 
 def test_conj_table_has_no_garbage_forms():
