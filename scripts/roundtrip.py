@@ -116,6 +116,31 @@ def norm(s: str) -> str:
     return " ".join(s.split())
 
 
+# Versioned scoring equivalence (approved by the owner, 2026-11-10): the pipeline writes the
+# relative marker of ``que …`` sources as ``que``; a restoration that decodes that single
+# phrase-leading marker as English ``that`` counts as the same sentence. Nothing else is
+# relaxed: the rest of the sentence must still match exactly under norm-nfc-v1.
+MARKER_EQUIVALENCE = "leading-que-that-v1"
+
+
+def leading_que_that(sentence: str, templates: list[str]) -> list[str]:
+    """Variants of ``sentence`` whose template phrase starts with ``que`` -> ``that``."""
+    out = []
+    for t in templates:
+        pre, post = t.split("{s}", 1)
+        if not sentence.endswith(post) or len(sentence) < len(pre) + len(post):
+            continue
+        head = sentence[:len(pre)]
+        if (head[:1].lower() + head[1:]) != (pre[:1].lower() + pre[1:]):
+            continue
+        phrase = sentence[len(pre):len(sentence) - len(post)]
+        if re.match(r"que\s", phrase, flags=re.IGNORECASE):
+            variant = sentence[:len(pre)] + ("That" if phrase[0] == "Q" else "that") + phrase[3:] + post
+            if variant not in out:
+                out.append(variant)
+    return out
+
+
 def sentences(data: dict, src: str, to: str) -> list[tuple[str, str]]:
     """(original EN, converted) pairs, one per template."""
     out = []
@@ -144,6 +169,9 @@ def _valid_cohort(current) -> bool:
     any_source = config.get("source_acceptance") == "any-official-source-v1"
     if "accepted_sources_sha256" in config and not any_source:
         return False
+    marker = config.get("marker_equivalence")
+    if "marker_equivalence" in config and (marker != MARKER_EQUIVALENCE or not any_source):
+        return False
     if "source_acceptance" in config and (not any_source or not isinstance(config.get("accepted_sources_sha256"), str)
             or not re.fullmatch(r"[0-9a-f]{64}", config["accepted_sources_sha256"])):
         return False
@@ -163,6 +191,8 @@ def _valid_cohort(current) -> bool:
         if not any_source and any(k in target for k in (
                 "accepted_sources", "first_source_match", "matched_source", "matched_via_alternate")):
             return False
+        if marker is None and any(k in target for k in ("equivalent_sources", "matched_via_marker_equivalence")):
+            return False
         if not re.fullmatch(r"[0-9a-f]{64}", target["prompt_sha256"]):
             return False
         target_id = _identity({k: target[k] for k in identity_fields})
@@ -180,8 +210,17 @@ def _valid_cohort(current) -> bool:
                         or any(not isinstance(s, str) for s in accepted)
                         or target["source"] not in accepted or not isinstance(response, str)):
                     return False
-                matched = next((s for s in accepted if norm(response) == norm(s)), None)
+                pool = list(accepted)
+                if marker is not None:
+                    equivalent = [v for s in accepted for v in leading_que_that(s, config.get("templates") or [])]
+                    if target.get("equivalent_sources") != equivalent:
+                        return False
+                    pool += equivalent
+                matched = next((s for s in pool if norm(response) == norm(s)), None)
                 first = norm(response) == norm(target["source"])
+                if marker is not None and target.get("matched_via_marker_equivalence") != (
+                        matched is not None and matched not in accepted):
+                    return False
                 if (target["restored"] != (matched is not None) or target.get("matched_source") != matched
                         or type(target.get("first_source_match")) is not bool or target["first_source_match"] != first
                         or type(target.get("matched_via_alternate")) is not bool
@@ -340,7 +379,8 @@ def _valid_policy(data: dict, *, required: bool = False) -> bool:
 
 def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
         entries: list[dict] | None = None, timeout: float = 120,
-        accepted_sources: dict[str, list[str]] | None = None, provenance: dict | None = None) -> dict:
+        accepted_sources: dict[str, list[str]] | None = None,
+        marker_equivalence: str | None = None, provenance: dict | None = None) -> dict:
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout must be finite and positive")
     if not _valid_policy(data):
@@ -364,6 +404,8 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
         raise ValueError("accepted_sources must map form keys to nonempty source lists")
     if provenance is not None and not valid_provenance(provenance):
         raise ValueError("provenance needs origin_main_sha (40-hex or None) and a timezone-aware ISO 8601 timestamp")
+    if marker_equivalence is not None and (marker_equivalence != MARKER_EQUIVALENCE or accepted_sources is None):
+        raise ValueError("marker_equivalence needs accepted_sources and must be " + MARKER_EQUIVALENCE)
     prompt_template = PROMPT
     config = {"only_lang": only_lang, "timeout": timeout, "workers": workers,
               "templates": copy.deepcopy(data["templates"]), "seeds": copy.deepcopy(data["seeds"]),
@@ -374,6 +416,8 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
     if accepted_sources is not None:
         config["source_acceptance"] = "any-official-source-v1"
         config["accepted_sources_sha256"] = _identity(accepted_sources)
+    if marker_equivalence is not None:
+        config["marker_equivalence"] = marker_equivalence
     run_id = str(uuid.uuid4())
     selected = {}
     targets = {}
@@ -394,6 +438,9 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
                     target["accepted_sources"] = list(dict.fromkeys(
                         [en] + [sentences(data, src, e["to"])[template_index][0] for src in sources]
                     ))
+                    if marker_equivalence is not None:
+                        target["equivalent_sources"] = [
+                            v for s in target["accepted_sources"] for v in leading_que_that(s, data["templates"])]
                 if target_id in targets:
                     duplicate_targets += 1
                 else:
@@ -415,10 +462,14 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
         first_match = norm(p.stdout) == norm(target["source"])
         if accepted_sources is None:
             return {**result, "status": "completed", "restored": first_match}
-        matched = next((src for src in target["accepted_sources"] if norm(p.stdout) == norm(src)), None)
-        return {**result, "status": "completed", "response": p.stdout.strip(),
-                "restored": matched is not None, "first_source_match": first_match,
-                "matched_source": matched, "matched_via_alternate": matched is not None and not first_match}
+        pool = target["accepted_sources"] + target.get("equivalent_sources", [])
+        matched = next((src for src in pool if norm(p.stdout) == norm(src)), None)
+        out = {**result, "status": "completed", "response": p.stdout.strip(),
+               "restored": matched is not None, "first_source_match": first_match,
+               "matched_source": matched, "matched_via_alternate": matched is not None and not first_match}
+        if marker_equivalence is not None:
+            out["matched_via_marker_equivalence"] = matched is not None and matched not in target["accepted_sources"]
+        return out
 
     provenance = run_provenance() if provenance is None else copy.deepcopy(provenance)  # run start
     if not valid_provenance(provenance):

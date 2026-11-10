@@ -7,22 +7,24 @@
 
 ## 件数
 
-`tense_merge`: 23 形（pt 10 / de 9 / es 3 / fr 1）。
+`tense_merge`: 26 形（de 10 / pt 10 / es 3 / fr 2 / la 1）。
 
 | lang | 形の数 |
 |---|---|
-| de | 9 |
+| de | 10 |
 | es | 3 |
-| fr | 1 |
+| fr | 2 |
+| la | 1 |
 | pt | 10 |
 
 統合している時制の組み合わせ:
 
 | 時制 | 形の数 | 形 |
 |---|---|---|
-| 過去＋現在完了 | 18 | `de:dachten`、`de:dachtest`、`de:fanden`、`de:kam`、`de:kamen`、`de:nahmen`、`de:sagten`、`de:sah`、`de:sahen`、`es:dije`、`es:dijeron`、`es:fui`、`pt:achaste`、`pt:demos`、`pt:deste`、`pt:deu`、`pt:fiz`、`pt:fomos` |
+| 過去＋現在完了 | 20 | `de:dachten`、`de:dachtest`、`de:fand`、`de:fanden`、`de:kam`、`de:kamen`、`de:nahmen`、`de:sagten`、`de:sah`、`de:sahen`、`es:dije`、`es:dijeron`、`es:fui`、`fr:ont su`、`pt:achaste`、`pt:demos`、`pt:deste`、`pt:deu`、`pt:fiz`、`pt:fomos` |
 | 過去＋現在完了＋過去完了 | 2 | `pt:deram`、`pt:foram` |
 | 現在＋未来 | 2 | `pt:vou`、`pt:vão` |
+| among other things＋among others | 1 | `la:inter alia` |
 | 現在＋過去 | 1 | `fr:dit` |
 
 同じ `--collisions` の他の分類（参考）: `cross_language` 0、`lang_label_mismatch` 0、`multi_meaning` 0。
@@ -30,8 +32,8 @@
 ## 往復で確かめた読み
 
 往復の判定は形ごとの最新コホートで行い、復元させた英語はコホートの `targets[].source` に残る。
-上の 23 形が採用されている英語は計 77 行で、そのうち最新コホートで復元対象だったのは 23 行。
-最新コホートが測っていない時制を含む形は 23 形ある。その時制の英語へ AI が戻せるかは、往復ではまだ確かめていない。
+上の 26 形が採用されている英語は計 89 行で、そのうち最新コホートで復元対象だったのは 26 行。
+最新コホートが測っていない時制を含む形は 26 形ある。その時制の英語へ AI が戻せるかは、往復ではまだ確かめていない。
 
 ## 一覧
 
@@ -39,6 +41,7 @@
 |---|---|---|---|---|---|
 | `de:dachten` | 過去＋現在完了 | they thought（mx-think-past-3p）<br>they have thought（mx-think-perf-3p） ※未測定 | they thought | pass | 9/9 |
 | `de:dachtest` | 過去＋現在完了 | you thought（mx-think-past-2）<br>you have thought（mx-think-perf-2） ※未測定 | you thought | pass | 9/9 |
+| `de:fand` | 過去＋現在完了 | i found（find-past-1s） ※未測定<br>he found（mx-find-past-3s-he） ※未測定<br>it found（mx-find-past-3s-it） ※未測定<br>she found（mx-find-past-3s-she） ※未測定<br>i have found（mx-find-perf-1s）<br>he has found（mx-find-perf-3s-he） ※未測定<br>it has found（mx-find-perf-3s-it） ※未測定<br>she has found（mx-find-perf-3s-she） ※未測定 | i have found | pass | 9/9 |
 | `de:fanden` | 過去＋現在完了 | we found（mx-find-past-1p）<br>they found（mx-find-past-3p） ※未測定<br>we have found（mx-find-perf-1p） ※未測定<br>they have found（mx-find-perf-3p） ※未測定 | we found | pass | 9/9 |
 | `de:kam` | 過去＋現在完了 | i came（mx-come-past-1s）<br>he came（mx-come-past-3s-he） ※未測定<br>it came（mx-come-past-3s-it） ※未測定<br>she came（mx-come-past-3s-she） ※未測定<br>i have come（mx-come-perf-1s） ※未測定<br>he has come（mx-come-perf-3s-he） ※未測定<br>it has come（mx-come-perf-3s-it） ※未測定<br>she has come（mx-come-perf-3s-she） ※未測定 | i came | pass | 9/9 |
 | `de:kamen` | 過去＋現在完了 | we came（mx-come-past-1p）<br>they came（mx-come-past-3p） ※未測定<br>we have come（mx-come-perf-1p） ※未測定<br>they have come（mx-come-perf-3p） ※未測定 | we came | pass | 9/9 |
@@ -50,6 +53,8 @@
 | `es:dijeron` | 過去＋現在完了 | they said（mx-say-past-3p）<br>they have said（mx-say-perf-3p） ※未測定 | they said | pass | 9/9 |
 | `es:fui` | 過去＋現在完了 | i went（go-past-1s）<br>i have gone（mx-go-perf-1s） ※未測定 | i went | pass | 9/9 |
 | `fr:dit` | 現在＋過去 | he says（mx-say-pres-3s-he）<br>it says（mx-say-pres-3s-it） ※未測定<br>she says（mx-say-pres-3s-she） ※未測定<br>he said（mx-say-past-3s-he） ※未測定<br>it said（mx-say-past-3s-it） ※未測定<br>she said（mx-say-past-3s-she） ※未測定 | he says | pass | 9/9 |
+| `fr:ont su` | 過去＋現在完了 | they knew（mx-know-past-3p）<br>they have known（mx-know-perf-3p） ※未測定 | they knew | pass | 9/9 |
+| `la:inter alia` | among other things＋among others | among other things（among-other-things-la）<br>among others（among-others-la） ※未測定 | among other things | pass | 9/9 |
 | `pt:achaste` | 過去＋現在完了 | you found（mx-find-past-2）<br>you have found（mx-find-perf-2） ※未測定 | you found | pass | 9/9 |
 | `pt:demos` | 過去＋現在完了 | we gave（mx-give-past-1p）<br>we have given（mx-give-perf-1p） ※未測定 | we gave | pass | 9/9 |
 | `pt:deram` | 過去＋現在完了＋過去完了 | they gave（mx-give-past-3p）<br>they have given（mx-give-perf-3p） ※未測定<br>they had given（mx-give-pluperf-3p） ※未測定 | they gave | pass | 9/9 |

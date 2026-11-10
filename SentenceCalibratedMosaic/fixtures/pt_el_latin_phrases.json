@@ -107,6 +107,27 @@
       }
     },
     {
+      "id": "among-others-la",
+      "from": [
+        "among others"
+      ],
+      "to": "inter alia",
+      "lang": "la",
+      "class": "densifier",
+      "candidates": [
+        {
+          "form": "inter alia",
+          "lang": "la",
+          "class": "densifier"
+        }
+      ],
+      "metrics": {
+        "token_before": 4,
+        "token_after": 3,
+        "both_shrink": true
+      }
+    },
+    {
       "id": "with-respect-to-la-el",
       "from": [
         "with respect to"
@@ -147,7 +168,7 @@
         "token_after": 3,
         "both_shrink": true
       },
-      "note": "source among others reversed (restored as among other things); only the passing source kept"
+      "note": "source among others restored by the form-level any-official-source re-score (inter alia 9/9; docs/roundtrip_rescore_20261110.md)"
     },
     {
       "id": "in-a-test-tube-la",
@@ -790,16 +811,9 @@
       ],
       "to": "quotidie",
       "lang": "la",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as daily) — reversed (<100M gate)"
-    },
-    {
-      "id": "among-others-inter-alia",
-      "from": [
-        "among others"
-      ],
-      "to": "inter alia",
-      "lang": "la",
-      "why_dropped": "AI round-trip exact-match 0/9 (restored as among other things) — reversed"
+      "why_dropped": "AI round-trip exact-match 0/9 (restored as daily) — reversed (<100M gate)",
+      "roundtrip_status": "untested",
+      "roundtrip_note": "No la:quotidie record in roundtrip.json and no quotidie sentence in roundtrip_judge/la_blind.json. The 0/9 in why_dropped is not backed by a recorded cohort; kept reversed as before (docs/roundtrip_rescore_20261110.md)."
     },
     {
       "id": "for-this-reason-la-pt-ideo",

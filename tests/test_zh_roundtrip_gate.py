@@ -23,8 +23,8 @@ RESULTS = [
     ('几点', 'time-zh', 0, 9, True),
     ('明天见', 'tomorrow-zh', 9, 9, False),
     ('当然', 'course-zh', 9, 9, False),
-    ('高速', 'high-speed-zh', 0, 9, True),
-    ('短期', 'short-term-zh', 0, 9, False),
+    ('高速', 'high-speed-zh', 9, 9, True),  # re-score: another official source of the form
+    ('短期', 'short-term-zh', 9, 9, False),  # re-score: another official source of the form
     ('绿茶', 'green-tea-zh', 9, 9, False),
     ('红茶', 'black-tea-zh', 9, 9, False),
     ('驾照', 'fuehrerschein', 0, 9, False),
@@ -36,7 +36,7 @@ RESULTS = [
     ('餐厅', 'eetkamer', 0, 9, False),
     ('高中', 'high-school-zh', 9, 9, False),
     ('初中', 'middle-school-zh', 9, 9, False),
-    ('小学', 'primary-school-zh', 0, 9, False),
+    ('小学', 'primary-school-zh', 9, 9, False),  # re-score: another official source of the form
     ('地铁站', 'subway-zh', 9, 9, False),
     ('客厅', 'living-room-zh', 9, 9, False),
     ('限速', 'speed-limit-zh', 9, 9, False),
@@ -45,7 +45,7 @@ RESULTS = [
     ('开源', 'open-source-zh', 9, 9, True),
     ('酱油', 'soy-sauce-zh', 9, 9, False),
     ('炒饭', 'fried-rice-zh', 9, 9, False),
-    ('高铁', 'hsr-zh', 0, 9, True),
+    ('高铁', 'hsr-zh', 9, 9, True),  # re-score: another official source of the form
     ('便利店', 'convenience-zh', 9, 9, False),
     ('商场', 'mall-zh', 9, 9, False),
     ('百货', 'dept-store-zh', 9, 9, False),
@@ -65,7 +65,7 @@ RESULTS = [
     ('向量库', 'vecdb-zh', 0, 9, False),
     ('大模型', 'llm-zh', 0, 9, True),
     ('思维链', 'cot-zh', 9, 9, True),
-    ('微调', 'finetune-zh', 0, 9, True),
+    ('微调', 'finetune-zh', 9, 9, True),  # re-score: another official source of the form
     ('限流', 'ratelimit-zh', 0, 9, False),
     ('高可用', 'ha-zh', 9, 9, False),
     ('灾备', 'dr-zh', 9, 9, False),
@@ -92,9 +92,10 @@ def test_parent_judge_table_is_unchanged():
 def test_counts():
     assert len(RESULTS) == len({r[0] for r in RESULTS}) == 62
     assert sum(r[3] for r in RESULTS) == 558
-    assert sum(r[2] == r[3] for r in RESULTS) == 37
+    # 37 → 42 / 3 → 6 after the accepted-sources re-score (docs/roundtrip_rescore_20261110.md)
+    assert sum(r[2] == r[3] for r in RESULTS) == 42
     assert sum(r[4] for r in RESULTS) == 10
-    assert sum(r[4] and r[2] == r[3] for r in RESULTS) == 3
+    assert sum(r[4] and r[2] == r[3] for r in RESULTS) == 6
 
 
 @pytest.mark.parametrize("form,eid,restored,completed,loaded", RESULTS)
@@ -114,7 +115,9 @@ def test_scoped_zh_evidence(form, eid, restored, completed, loaded):
     assert roundtrip.status(data, "zh", form) == ("pass" if restored / completed >= 0.6 else "never")
     answers = fixture("roundtrip_judge/zh_blind.json")
     for target in cohort["targets"]:
-        assert target["restored"] == (roundtrip.norm(answers[target["converted"]]) == roundtrip.norm(target["source"]))
+        # the latest cohort is the accepted-sources re-score: any official source of the form counts
+        accepted = target.get("accepted_sources", [target["source"]]) + target.get("equivalent_sources", [])
+        assert target["restored"] == any(roundtrip.norm(answers[target["converted"]]) == roundtrip.norm(s) for s in accepted)
     assert set(Counter(t["source"] for t in cohort["targets"]).values()) == {3}
     bank = fixture("zh_de_phrases.json")
     live = {e["id"]: e for e in bank["entries"]}
@@ -130,7 +133,8 @@ def test_runtime_pairs_after_gate():
     t = load("mosaic_zh_gate", "SentenceCalibratedMosaic/sentence_calibrated_mosaic.py")
     zh_entry_forms = {e["to"] for e in fixture("zh_de_phrases.json")["entries"] if e["lang"] == "zh"}
     loaded = {r for _, r, lg in t.zh_de_phrase_pairs() if lg == "zh"} & zh_entry_forms
-    assert loaded == {"开源", "全栈", "思维链"}
+    # + 高速 / 高铁 / 微调 restored by the accepted-sources re-score (短期 / 小学 are not loaded at runtime)
+    assert loaded == {"开源", "全栈", "思维链", "高速", "高铁", "微调"}
 
 
 def test_non_zh_entries_unchanged():
