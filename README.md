@@ -6,13 +6,27 @@ TalkCompress は、**誰が、どの共有知識・規則を持てば理解で�
 
 自然言語の縮約・活用・助数詞・複合語・文法上の省略、数式やプログラミング言語の簡潔な表記などを候補源とします。各言語の工夫を借り、実際に短くなるか、曖昧さや情報損失が増えないかを確かめます。全言語・全構文を扱う実装があるわけではありません。
 
+## 🖼️ 公式アイコン
+
+公式デザインは案A（吹き出しプレス）です。myon の指定（2026-11-13）による確定で、暫定ではありません。
+
+<p align="center">
+  <img src="assets/brand/talkcompress-icon.png" width="160" height="160" alt="TalkCompress の公式アイコン（案A：吹き出しプレス）">
+</p>
+
+アイコンと favicon は `assets/brand/talkcompress-designs.jpg` の案Aパネルから切り出しています。overview 上部の3つ吹き出しは案Aと別デザインのため使っていません。原本の PNG / SVG はなく、JPEG からの切り出しです。詳細は [assets/brand/README.md](assets/brand/README.md) を参照してください。
+
 ## 🖼️ 概念図
 
-[![TalkCompress の全体像：入力・圧縮の4層・共通CLI・出力](assets/brand/talkcompress-overview.jpg)](assets/brand/talkcompress-overview.jpg)
+[![TalkCompress の概念図：入力・圧縮の4層・共通CLI・出力](assets/brand/talkcompress-concept.jpg)](assets/brand/talkcompress-concept.jpg)
 
-[![TalkCompress のデザイン案：吹き出しプレス・4層グラデーション・言語モザイク](assets/brand/talkcompress-designs.jpg)](assets/brand/talkcompress-designs.jpg)
+概念図は `talkcompress-overview.jpg` の4層セクションです。図は旧名称を含むコンセプト資料です。現在の名称・実装範囲は以下の本文と[層の設計](docs/layers.md)を参照してください。画像をクリックすると拡大できます。
 
-図は旧名称を含むコンセプト資料です。現在の名称・実装範囲は以下の本文と[層の設計](docs/layers.md)を参照してください。画像をクリックすると拡大できます。
+## 🖼️ デザイン比較
+
+[![TalkCompress のデザイン案：吹き出しプレス・4層グラデーション・言語モザイク。案Aが公式](assets/brand/talkcompress-designs.jpg)](assets/brand/talkcompress-designs.jpg)
+
+案A / B / C の比較資料です。公式は案Aです。
 
 ## 研究の見取り図と現在地
 
