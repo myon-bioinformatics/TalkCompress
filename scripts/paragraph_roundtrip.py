@@ -25,8 +25,9 @@ Methods (DensityFacadeRoute layers, CLI defaults)::
 
 Scoring is rule-based and offline (stdlib only): sentence exact match under
 ``roundtrip.norm`` after an order-preserving alignment (difflib similarity, 1-1 / 2-1 / 1-2 /
-skip moves), paragraph exact, a looser rule-based "semantic" match, an error taxonomy and a
-per-substitution attribution (which source span -> compressed span preceded each error).
+skip moves), paragraph exact, a looser rule-based "semantic" match, a notation-tolerant match
+(newspaper typography / number words / percent signs; not lexical synonyms), an error taxonomy
+and a per-substitution attribution (which source span -> compressed span preceded each error).
 AI readability is not measured here (``"未測定"``).
 
 ``tiktoken`` (dev group) is imported lazily and only by ``build`` to count tokens.
@@ -421,13 +422,104 @@ def substitutions(gold: str, compressed: str) -> list[dict]:
     return out
 
 
+# --- notation-tolerant metric ------------------------------------------------------------------
+# Approved by the owner 2026-11-13 (t1208): newspaper-style typography and number/percent
+# notation must not count as meaning errors. 「厳密であることと正確であることは別」.
+# Sentence *exact* stays strict (roundtrip.norm). This third metric equals two sentences after
+# the closed table below is applied. Lexical synonyms (at least ≉ about) still fail. The
+# number-word and percent-word lists are English; typographic folding applies to every language.
+
+# Typographic quotes / apostrophes / primes → ASCII. (U+2019 vs "'" is the usual exact-fail.)
+NOTATION_QUOTES = {
+    "\u2018": "'", "\u2019": "'", "\u201A": "'", "\u201B": "'", "\u2032": "'",
+    "\u201C": '"', "\u201D": '"', "\u201E": '"', "\u201F": '"',
+    "\u00AB": '"', "\u00BB": '"',
+}
+# Dash / minus variants → ASCII hyphen.
+NOTATION_DASHES = {
+    "\u2010": "-", "\u2011": "-", "\u2012": "-", "\u2013": "-", "\u2014": "-",
+    "\u2015": "-", "\u2212": "-", "\uFE58": "-", "\uFE63": "-", "\uFF0D": "-",
+}
+# Fullwidth digits and percent (compatibility forms of the same notation).
+NOTATION_FULLWIDTH = {chr(0xFF10 + i): str(i) for i in range(10)}
+NOTATION_FULLWIDTH["\uFF05"] = "%"
+NOTATION_TRANS = str.maketrans({**NOTATION_QUOTES, **NOTATION_DASHES, **NOTATION_FULLWIDTH})
+
+# "per cent" / "percent" / "per-cent" (optional plural) → %. Not "percentage" (word meaning differs).
+NOTATION_PERCENT = (
+    (re.compile(r"\bper[\s-]*cents?\b"), "%"),
+    (re.compile(r"\bpercents?\b"), "%"),
+)
+
+_ONES = "zero one two three four five six seven eight nine".split()
+_TEENS = "ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+_TENS = "twenty thirty forty fifty sixty seventy eighty ninety".split()
+_ORD_ONES = "zeroth first second third fourth fifth sixth seventh eighth ninth".split()
+_ORD_TEENS = ("tenth eleventh twelfth thirteenth fourteenth fifteenth sixteenth "
+              "seventeenth eighteenth nineteenth").split()
+_ORD_TENS = "twentieth thirtieth fortieth fiftieth sixtieth seventieth eightieth ninetieth".split()
+
+
+def _ord_suffix(n: int) -> str:
+    if 10 <= n % 100 <= 20:
+        return "th"
+    return {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+
+
+def _number_word_pairs() -> list[tuple[str, str]]:
+    """Closed English table: cardinals 0-99, a/one hundred, a/one thousand; matching ordinals.
+
+    Each hyphenated compound is also listed with a space (twenty-one and twenty one).
+    """
+    pairs: list[tuple[str, str]] = []
+    pairs.append(("a hundred", "100"))
+    pairs.append(("one hundred", "100"))
+    pairs.append(("a thousand", "1000"))
+    pairs.append(("one thousand", "1000"))
+    for i, ten in enumerate(_TENS, 2):
+        for j, one in enumerate(_ONES[1:], 1):
+            n = i * 10 + j
+            pairs.append((f"{ten}-{one}", str(n)))
+            pairs.append((f"{ten} {one}", str(n)))
+            pairs.append((f"{ten}-{_ORD_ONES[j]}", f"{n}{_ord_suffix(n)}"))
+            pairs.append((f"{ten} {_ORD_ONES[j]}", f"{n}{_ord_suffix(n)}"))
+        pairs.append((ten, str(i * 10)))
+        pairs.append((_ORD_TENS[i - 2], f"{i * 10}{_ord_suffix(i * 10)}"))
+    for i, w in enumerate(_TEENS, 10):
+        pairs.append((w, str(i)))
+        pairs.append((_ORD_TEENS[i - 10], f"{i}{_ord_suffix(i)}"))
+    for i, w in enumerate(_ONES):
+        pairs.append((w, str(i)))
+        pairs.append((_ORD_ONES[i], f"{i}{_ord_suffix(i)}"))
+    pairs.sort(key=lambda kv: len(kv[0]), reverse=True)
+    return pairs
+
+
+NOTATION_NUMBERS = tuple((re.compile(rf"\b{re.escape(w)}\b"), d) for w, d in _number_word_pairs())
+
+
+def notation_form(s: str) -> str:
+    """Apply the closed notation table. Result is compared as a space-normalised string."""
+    s = unicodedata.normalize("NFC", s).lower().translate(NOTATION_TRANS)
+    for pat, rep in NOTATION_PERCENT:
+        s = pat.sub(rep, s)
+    for pat, rep in NOTATION_NUMBERS:
+        s = pat.sub(rep, s)
+    s = re.sub(r"\s*%\s*", "%", s)
+    # Separator / trailing punctuation becomes space; keep %, word-internal apostrophes and hyphens.
+    s = re.sub(r"(?<![\w%])[-']+|[-']+(?![\w%])", " ", s)
+    s = re.sub(r"[^\w\s'%]+", " ", s)
+    return " ".join(s.split())
+
+
 # --- scoring -----------------------------------------------------------------------------------
 
 def score_answer(para: dict, compressed: str, answer: str | None) -> dict:
     gold, lang = para["sentences"], para["lang"]
     if answer is None:
         return {"status": "no_answer", "sentences": len(gold), "exact": 0, "semantic_rule": 0,
-                "paragraph_exact": False, "format_followed": False, "labels": {}, "sentence_rows": []}
+                "notation_tolerant": 0, "paragraph_exact": False, "format_followed": False,
+                "labels": {}, "sentence_rows": []}
     got, fmt = split_answer(answer, len(gold))
     comp_sents = split_compressed(compressed, len(gold))
     comp_map: dict[int, str] = {}
@@ -446,9 +538,11 @@ def score_answer(para: dict, compressed: str, answer: str | None) -> dict:
             seg = "merge_split"
         exact = bool(gi and ri) and norm(g_txt) == norm(r_txt)
         sem = exact or (bool(gi and ri) and loose(g_txt, lang) == loose(r_txt, lang))
-        errs = [] if exact or not gi or not ri else classify(g_txt, r_txt, lang)
+        note = exact or (bool(gi and ri) and notation_form(g_txt) == notation_form(r_txt))
+        # notation-only differences are not meaning errors (t1208); skip classify / leftovers.
+        errs = [] if exact or note or not gi or not ri else classify(g_txt, r_txt, lang)
         c_txt = " ".join(comp_map.get(k, "") for k in gi)
-        lefts = [] if exact or not gi else leftovers(g_txt, r_txt, c_txt, lang)
+        lefts = [] if exact or note or not gi else leftovers(g_txt, r_txt, c_txt, lang)
         subs = substitutions(g_txt, c_txt) if gi else []
         attrib = []
         for s in subs:
@@ -458,14 +552,17 @@ def score_answer(para: dict, compressed: str, answer: str | None) -> dict:
         for lab in [e["label"] for e in errs] + [e["label"] for e in lefts] + ([seg] if seg else []):
             labels[lab] += 1
         rows.append({"gold": gi, "got": ri, "exact": exact, "semantic_rule": sem,
+                     "notation_tolerant": note,
                      "segmentation": seg, "errors": errs, "leftovers": lefts, "rules": attrib,
                      "unattributed": [e["label"] for e in errs if e["label"] not in BENIGN and not any(
                          s["gold_span"][0] < max(e["gold_span"][1], e["gold_span"][0] + 1) and s["gold_span"][1] > e["gold_span"][0]
                          for s in subs)]})
     exact_n = sum(len(r["gold"]) for r in rows if r["exact"])
     sem_n = sum(len(r["gold"]) for r in rows if r["semantic_rule"])
+    note_n = sum(len(r["gold"]) for r in rows if r["notation_tolerant"])
     return {"status": "ok", "sentences": len(gold), "restored_sentences": len(got), "exact": exact_n,
-            "semantic_rule": sem_n, "paragraph_exact": exact_n == len(gold) and len(got) == len(gold),
+            "semantic_rule": sem_n, "notation_tolerant": note_n,
+            "paragraph_exact": exact_n == len(gold) and len(got) == len(gold),
             "format_followed": fmt, "labels": dict(sorted(labels.items())), "sentence_rows": rows}
 
 
@@ -498,6 +595,7 @@ def score_all(items: dict, sources: dict, blinds: dict[int, dict]) -> dict:
                 row["sentences"] += sc["sentences"]
                 row["exact"] += sc["exact"]
                 row["semantic_rule"] += sc["semantic_rule"]
+                row["notation_tolerant"] += sc["notation_tolerant"]
                 row["paragraph_exact"] += int(sc["paragraph_exact"])
                 row["format_followed"] += int(sc["format_followed"])
                 row["no_answer"] += int(sc["status"] != "ok")
@@ -522,6 +620,7 @@ def score_all(items: dict, sources: dict, blinds: dict[int, dict]) -> dict:
             n = c["sentences"] or 1
             d["exact_rate"] = round(c["exact"] / n, 4)
             d["semantic_rule_rate"] = round(c["semantic_rule"] / n, 4)
+            d["notation_tolerant_rate"] = round(c["notation_tolerant"] / n, 4)
             d["paragraph_exact_rate"] = round(c["paragraph_exact"] / (c["judgements"] or 1), 4)
             out_summary[m][scope] = d
     rule_rows = sorted(({**v, "methods": dict(sorted(v["methods"].items())), "labels": dict(sorted(v["labels"].items())),
@@ -531,7 +630,9 @@ def score_all(items: dict, sources: dict, blinds: dict[int, dict]) -> dict:
             "ai_readability": AI_READABILITY,
             "notes": "exact = norm()-equal content per gold sentence (a split/merge with equal content still counts, "
                      "and is labelled merge_split); semantic_rule = exact or equal after contractions expanded and "
-                     "articles/determiners removed (rule-based, not an AI judgement); labels are rule-based.",
+                     "articles/determiners removed (rule-based, not an AI judgement); notation_tolerant = exact or "
+                     "equal after the closed typography/number/percent table in notation_form() (newspaper notation, "
+                     "not lexical synonyms); labels are rule-based.",
             "summary": out_summary, "rules": rule_rows, "items": per_item}
 
 
@@ -584,12 +685,17 @@ def ingest(seed: int, d: Path | None = None) -> dict:
 
 
 def run_cmd(seed: int, cmd: str, workers: int = 4, judge_type: str = "local command") -> dict:
-    """Optional: ask a local command (prompt on stdin, PARA_SEED in env) instead of helper bots."""
+    """Optional: ask a local command (prompt on stdin; PARA_SEED and PARA_ITEM in env).
+
+    PARA_ITEM is the pack item id (``<paragraph>|<method>``). It is required to replay
+    recorded answers when two methods share a prompt (CEF can leave a paragraph unchanged,
+    so control and CEF then have the same sha256 but independent judge answers).
+    """
     pack = load_json(path("pack", seed))
-    env = dict(os.environ, PARA_SEED=str(seed))
 
     def one(p):
         started = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        env = dict(os.environ, PARA_SEED=str(seed), PARA_ITEM=p["id"])
         try:
             r = subprocess.run(cmd, shell=True, input=p["prompt"], capture_output=True, text=True, env=env, timeout=600)
             ok = r.returncode == 0
@@ -643,7 +749,9 @@ def main(argv: list[str] | None = None) -> int:
         res = json.loads(text)
         for m, sc in res["summary"].items():
             al = sc.get("all", {})
-            print(f"{m}: exact {al.get('exact', 0)}/{al.get('sentences', 0)} semantic_rule {al.get('semantic_rule', 0)} "
+            print(f"{m}: exact {al.get('exact', 0)}/{al.get('sentences', 0)} "
+                  f"semantic_rule {al.get('semantic_rule', 0)} "
+                  f"notation_tolerant {al.get('notation_tolerant', 0)} "
                   f"paragraph_exact {al.get('paragraph_exact', 0)}/{al.get('judgements', 0)}")
         return 0
     if a.action == "run":

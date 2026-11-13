@@ -63,7 +63,8 @@ Replaying a recorded seed through the normal `--cmd` interface:
 uv run python scripts/paragraph_roundtrip.py run --seed N --cmd 'uv run python scripts/paragraph_replay.py N'
 ```
 
-(this overwrites `_raw.json` with the replayed answers, so run it on a scratch copy).
+(`run --cmd` sets `PARA_ITEM` to the pack item id so replay can distinguish methods that share a
+prompt; this overwrites `_raw.json` with the replayed answers, so run it on a scratch copy).
 
 ## Sources and licences
 

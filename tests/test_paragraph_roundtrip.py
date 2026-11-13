@@ -194,6 +194,44 @@ def test_contraction_is_benign_and_semantic():
     assert r["labels"] == {"contraction_or_variant": 1} and r["semantic_rule"] == 3 and r["exact"] == 2
 
 
+def pair(gold, got, lang="en"):
+    return pr.score_answer(P([gold, "Same.", "Same again."], lang), "x", f"{got}\nSame.\nSame again.")
+
+
+def test_notation_tolerant_number_words_and_percent():
+    r = pair("It rose eighteen per cent.", "It rose 18%.")
+    assert r["exact"] == 2 and r["semantic_rule"] == 2
+    assert r["notation_tolerant"] == 3
+    assert r["sentence_rows"][0]["notation_tolerant"] is True
+    assert r["labels"] == {}
+    r = pair("the eighteenth century", "the 18th century")
+    assert r["exact"] == 2 and r["notation_tolerant"] == 3
+    assert pr.notation_form("twenty-one") == pr.notation_form("21")
+    assert pr.notation_form("one hundred") == pr.notation_form("100")
+
+
+def test_notation_tolerant_quotes_dashes_and_punctuation():
+    r = pair("She said it\u2019s done.", "She said it's done.")
+    assert r["exact"] == 2 and r["notation_tolerant"] == 3
+    r = pair("He said \u201chello\u201d.", 'He said "hello".')
+    assert r["notation_tolerant"] == 3
+    r = pair("foo \u2014 bar.", "foo - bar.")
+    assert r["notation_tolerant"] == 3
+
+
+def test_notation_tolerant_rejects_lexical_synonyms_and_added_words():
+    r = pair("There were at least four people.", "There were about four people.")
+    assert r["notation_tolerant"] == 2
+    assert r["sentence_rows"][0]["notation_tolerant"] is False
+    r = pair("By failure it stopped.", "By the failure it stopped.")
+    assert r["notation_tolerant"] == 2
+    r = pair("Die Antwort kam.", "Die Reaktion kam.", "de")
+    assert r["notation_tolerant"] == 2
+    # contractions are wording, not notation
+    r = pair("I've won.", "I have won.")
+    assert r["semantic_rule"] == 3 and r["notation_tolerant"] == 2
+
+
 def test_rule_attribution_marks_unrestored_substitution():
     p = P(["I challenge any one here.", "Same.", "Again."])
     r = pr.score_answer(p, "reto any 1 here. Same. Again.", "I challenge anyone here.\nSame.\nAgain.")
@@ -204,6 +242,7 @@ def test_rule_attribution_marks_unrestored_substitution():
 def test_missing_answer_scores_zero():
     r = pr.score_answer(P(["A b.", "C d.", "E f."]), "x", None)
     assert r["status"] == "no_answer" and r["exact"] == 0
+    assert r["semantic_rule"] == 0 and r["notation_tolerant"] == 0
 
 
 # --- ingest / score / replay round trip in a scratch directory ------------------------------------
@@ -240,18 +279,23 @@ def test_gold_answers_score_perfectly_and_replay(scratch):
     for m in pr.JUDGED:
         a = res["summary"][m]["all"]
         assert a["exact"] == a["sentences"] and a["paragraph_exact"] == 60
+        assert a["notation_tolerant"] == a["sentences"] and "notation_tolerant_rate" in a
+        assert "en" in res["summary"][m] and "notation_tolerant" in res["summary"][m]["en"]
     pr.path("results").write_text(pr.dumps(res), encoding="utf-8")
     assert rp.check(rebuild=False) == []
     item = pack[0]
-    assert rp.replay(1, item["prompt"]) == gold(item)
+    assert rp.replay(1, item["id"]) == gold(item)
     pr.path("results").write_text("{}", encoding="utf-8")
     assert rp.check(rebuild=False) == ["results stale (run paragraph_roundtrip.py score)"]
 
 
 def test_run_cmd_records_answers_with_seed_env(scratch):
-    raw = pr.run_cmd(1, 'printf "seed=$PARA_SEED"', workers=8)
-    assert len(raw["answers"]) == 180 and {a["answer"] for a in raw["answers"]} == {"seed=1"}
-    assert pr.validate_raw(raw, pr.load_json(pr.path("pack", 1)), 1) == []
+    pack = pr.load_json(pr.path("pack", 1))
+    raw = pr.run_cmd(1, 'printf "seed=$PARA_SEED item=$PARA_ITEM"', workers=8)
+    byid = {a["id"]: a["answer"] for a in raw["answers"]}
+    assert len(raw["answers"]) == 180
+    assert all(byid[p["id"]] == f"seed=1 item={p['id']}" for p in pack)
+    assert pr.validate_raw(raw, pack, 1) == []
 
 
 def test_mosaic_tiles_are_split_for_attribution():
@@ -263,3 +307,40 @@ def test_mosaic_tiles_are_split_for_attribution():
 
 def test_answer_split_before_a_number():
     assert pr.split_answer("He left. 34 per cent agreed. It rained.", 3)[0] == ["He left.", "34 per cent agreed.", "It rained."]
+
+
+def test_replay_keys_by_item_id_when_prompts_collide(scratch):
+    """control and unchanged-CEF share a prompt sha but have independent answers."""
+    pack = pr.load_json(pr.path("pack", 1))
+    byid = {p["id"]: p for p in pack}
+    control = byid["el-flores-01|control"]
+    cef = byid["el-flores-01|CEF"]
+    assert control["prompt"] == cef["prompt"]
+    assert control["prompt_sha256"] == cef["prompt_sha256"]
+    answers = {
+        control["id"]: "CONTROL-ONLY ANSWER",
+        cef["id"]: "CEF-ONLY ANSWER",
+    }
+    pr.path("blind", 1).write_text(pr.dumps({
+        "run": pr.RUN, "seed": 1, "prompt_version": pr.PROMPT_VERSION,
+        "judge": {"type": "test"}, "no_answer": [],
+        "answers": {iid: {"answer": ans, "prompt_sha256": byid[iid]["prompt_sha256"]}
+                    for iid, ans in answers.items()},
+    }), encoding="utf-8")
+    pr.path("results").write_text(pr.dumps(pr.current_results()), encoding="utf-8")
+    assert rp.check(rebuild=False) == []
+    assert rp.replay(1, control["id"]) == "CONTROL-ONLY ANSWER"
+    assert rp.replay(1, cef["id"]) == "CEF-ONLY ANSWER"
+    # stdin/prompt sha is also accepted when it matches this id's pack prompt
+    assert rp.replay(1, control["id"], prompt=control["prompt"]) == "CONTROL-ONLY ANSWER"
+    assert rp.replay(1, cef["id"], prompt=cef["prompt"]) == "CEF-ONLY ANSWER"
+
+    blind = pr.load_blind(1)
+    blind["answers"][control["id"]]["prompt_sha256"] = "0" * 64
+    pr.path("blind", 1).write_text(pr.dumps(blind), encoding="utf-8")
+    problems = rp.check(rebuild=False)
+    assert any("el-flores-01|control" in p and "different prompt" in p for p in problems)
+    assert not any("el-flores-01|CEF" in p for p in problems)
+    assert rp.replay(1, control["id"]) is None
+    assert rp.replay(1, cef["id"]) == "CEF-ONLY ANSWER"
+
