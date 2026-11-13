@@ -114,3 +114,10 @@ for that same id. Looking up by sha256 alone would pick the first of two methods
 prompt (the 16 unchanged-CEF paragraphs) and report a false mismatch when their independent
 judges gave different answers. `run --cmd` therefore sets `PARA_ITEM` to the item id, in addition
 to `PARA_SEED`. `tiktoken` is used only by `build` (dev group); everything else is stdlib.
+
+## Results (2026-11-13)
+
+Three seeds have been judged and scored. The aggregate tables, per-language commentary, provenance
+and disclosures are in [`docs/paragraph-roundtrip-results-20261113.md`](paragraph-roundtrip-results-20261113.md).
+AI readability remains 未測定.
+

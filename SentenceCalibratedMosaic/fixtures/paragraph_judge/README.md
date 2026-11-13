@@ -14,6 +14,8 @@ Judge input for the paragraph benchmark (`scripts/paragraph_roundtrip.py`, metho
 | `para20261113_seed<N>_blind.json` | `{id: answer}` made by `ingest` (replay source) |
 | `para20261113_results.json` | scores made by `score` |
 
+Recorded answers and scores for this run (seeds 1–3) live in the `_raw.json` / `_blind.json` / `_results.json` files above. The Japanese aggregate write-up is `docs/paragraph-roundtrip-results-20261113.md`.
+
 ## Steps for a helper running seed N
 
 You run **one seed only**. Use the same judge type as the other helpers:
