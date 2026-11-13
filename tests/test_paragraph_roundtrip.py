@@ -219,17 +219,57 @@ def test_notation_tolerant_quotes_dashes_and_punctuation():
     assert r["notation_tolerant"] == 3
 
 
-def test_notation_tolerant_rejects_lexical_synonyms_and_added_words():
+def test_notation_tolerant_rejects_lexical_synonyms():
     r = pair("There were at least four people.", "There were about four people.")
     assert r["notation_tolerant"] == 2
     assert r["sentence_rows"][0]["notation_tolerant"] is False
-    r = pair("By failure it stopped.", "By the failure it stopped.")
-    assert r["notation_tolerant"] == 2
     r = pair("Die Antwort kam.", "Die Reaktion kam.", "de")
     assert r["notation_tolerant"] == 2
-    # contractions are wording, not notation
+
+
+def test_notation_tolerant_includes_semantic_rule():
+    """Article and contraction differences already pass semantic_rule, so they pass here too."""
+    r = pair("By failure it stopped.", "By the failure it stopped.")
+    assert r["exact"] == 2 and r["semantic_rule"] == 3 and r["notation_tolerant"] == 3
+    assert "article_demonstrative" in r["labels"]  # taxonomy still records the wording change
     r = pair("I've won.", "I have won.")
-    assert r["semantic_rule"] == 3 and r["notation_tolerant"] == 2
+    assert r["semantic_rule"] == 3 and r["notation_tolerant"] == 3
+    assert r["labels"] == {"contraction_or_variant": 1}
+
+
+def test_notation_tolerant_cjk_spaces_around_digits():
+    """zh-flores-03|BEF sentence 2 (seed 1): 从 1959 年 vs 从1959年 is typography, not meaning."""
+    gold = "他接受过产科医生培训，从 1959 年开始在奥克兰国家妇女医院工作。"
+    got = "他接受过产科医生培训，从1959年开始在奥克兰国家妇女医院工作。"
+    assert pr.notation_form(gold) == pr.notation_form(got)
+    r = pair(gold, got, "zh")
+    assert r["exact"] == 2 and r["semantic_rule"] == 3
+    assert r["notation_tolerant"] == 3
+    assert r["sentence_rows"][0]["errors"] == []
+    # fullwidth vs ASCII parentheses also fold
+    assert pr.notation_form("利金斯 (Liggins) 在医院工作时。") == pr.notation_form("利金斯（Liggins）在医院工作时。")
+
+
+def test_notation_tolerant_is_superset_of_semantic_rule():
+    cases = [
+        ("I've won.", "I have won.", "en"),
+        ("By failure it stopped.", "By the failure it stopped.", "en"),
+        ("It rose eighteen per cent.", "It rose 18%.", "en"),
+        ("There were at least four people.", "There were about four people.", "en"),
+        ("She said it’s done.", "She said it's done.", "en"),
+        ("Die Antwort kam.", "Die Reaktion kam.", "de"),
+        ("他接受过产科医生培训，从 1959 年开始在奥克兰国家妇女医院工作。",
+         "他接受过产科医生培训，从1959年开始在奥克兰国家妇女医院工作。", "zh"),
+        ("利金斯 (Liggins) 在医院工作时，开始在业余时间研究早产。",
+         "利金斯（Liggins）在医院工作时，开始在业余时间研究早产。", "zh"),
+        ("Same.", "Same.", "en"),
+    ]
+    for gold, got, lang in cases:
+        r = pair(gold, got, lang)
+        assert r["notation_tolerant"] >= r["semantic_rule"] >= r["exact"], (gold, got, r)
+        for row in r["sentence_rows"]:
+            assert (not row["exact"]) or row["semantic_rule"]
+            assert (not row["semantic_rule"]) or row["notation_tolerant"]
 
 
 def test_rule_attribution_marks_unrestored_substitution():

@@ -425,9 +425,11 @@ def substitutions(gold: str, compressed: str) -> list[dict]:
 # --- notation-tolerant metric ------------------------------------------------------------------
 # Approved by the owner 2026-11-13 (t1208): newspaper-style typography and number/percent
 # notation must not count as meaning errors. 「厳密であることと正確であることは別」.
-# Sentence *exact* stays strict (roundtrip.norm). This third metric equals two sentences after
-# the closed table below is applied. Lexical synonyms (at least ≉ about) still fail. The
-# number-word and percent-word lists are English; typographic folding applies to every language.
+# Sentence *exact* stays strict (roundtrip.norm). notation_tolerant is applied on top of
+# semantic_rule: a sentence passes if it already passes semantic_rule, or if loose() of the
+# two sides matches after this table (so notation_tolerant >= semantic_rule >= exact).
+# Lexical synonyms (at least ≉ about) still fail. The number-word and percent-word lists are
+# English; typographic folding (including CJK-adjacent spaces) applies to every language.
 
 # Typographic quotes / apostrophes / primes → ASCII. (U+2019 vs "'" is the usual exact-fail.)
 NOTATION_QUOTES = {
@@ -509,6 +511,10 @@ def notation_form(s: str) -> str:
     # Separator / trailing punctuation becomes space; keep %, word-internal apostrophes and hyphens.
     s = re.sub(r"(?<![\w%])[-']+|[-']+(?![\w%])", " ", s)
     s = re.sub(r"[^\w\s'%]+", " ", s)
+    # Spaces next to CJK are typographic (从 1959 年 ↔ 从1959年; mixed Latin after parentheses
+    # fold). ASCII spaces in Latin-script text are left alone.
+    s = re.sub(r"(?<=[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff])\s+", "", s)
+    s = re.sub(r"\s+(?=[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff])", "", s)
     return " ".join(s.split())
 
 
@@ -538,11 +544,14 @@ def score_answer(para: dict, compressed: str, answer: str | None) -> dict:
             seg = "merge_split"
         exact = bool(gi and ri) and norm(g_txt) == norm(r_txt)
         sem = exact or (bool(gi and ri) and loose(g_txt, lang) == loose(r_txt, lang))
-        note = exact or (bool(gi and ri) and notation_form(g_txt) == notation_form(r_txt))
-        # notation-only differences are not meaning errors (t1208); skip classify / leftovers.
-        errs = [] if exact or note or not gi or not ri else classify(g_txt, r_txt, lang)
+        form_eq = bool(gi and ri) and notation_form(g_txt) == notation_form(r_txt)
+        # On top of semantic_rule: also pass if loose() matches after notation_form().
+        note = sem or form_eq or (bool(gi and ri) and loose(notation_form(g_txt), lang) == loose(notation_form(r_txt), lang))
+        # Pure notation differences are not meaning errors (t1208). Article/contraction
+        # labels still apply when the match is only via semantic_rule.
+        errs = [] if exact or form_eq or not gi or not ri else classify(g_txt, r_txt, lang)
         c_txt = " ".join(comp_map.get(k, "") for k in gi)
-        lefts = [] if exact or note or not gi else leftovers(g_txt, r_txt, c_txt, lang)
+        lefts = [] if exact or form_eq or not gi else leftovers(g_txt, r_txt, c_txt, lang)
         subs = substitutions(g_txt, c_txt) if gi else []
         attrib = []
         for s in subs:
@@ -632,7 +641,8 @@ def score_all(items: dict, sources: dict, blinds: dict[int, dict]) -> dict:
                      "and is labelled merge_split); semantic_rule = exact or equal after contractions expanded and "
                      "articles/determiners removed (rule-based, not an AI judgement); notation_tolerant = exact or "
                      "equal after the closed typography/number/percent table in notation_form() (newspaper notation, "
-                     "not lexical synonyms); labels are rule-based.",
+                     "including CJK-adjacent spaces) or already semantic_rule (notation_tolerant >= semantic_rule >= "
+                     "exact; not lexical synonyms); labels are rule-based.",
             "summary": out_summary, "rules": rule_rows, "items": per_item}
 
 

@@ -63,8 +63,10 @@ One fresh, independent knowledgeWork subagent call per item, nothing but the pro
 3. **Paragraph exact**: every gold sentence exact and the same number of sentences.
 4. **Semantic (rule-based)**: exact, or equal after English contractions are expanded and
    articles/determiners removed. This is not an AI judgement.
-5. **Notation-tolerant** (`notation_tolerant`): exact, or equal after a closed, stdlib-only
-   normalisation table (`notation_form` in `scripts/paragraph_roundtrip.py`). This is the third
+5. **Notation-tolerant** (`notation_tolerant`): applied *on top of* `semantic_rule`. A sentence
+   passes if it already passes `semantic_rule`, or if `loose()` of the two sides matches after a
+   closed, stdlib-only normalisation table (`notation_form` in `scripts/paragraph_roundtrip.py`).
+   The invariant is `notation_tolerant >= semantic_rule >= exact` (always). This is the third
    sentence metric, reported per method and per language alongside `exact` and `semantic_rule`.
    Sentence *exact* is unchanged and stays strict. The table folds only newspaper-style
    *notation*, not wording:
@@ -76,14 +78,16 @@ One fresh, independent knowledgeWork subagent call per item, nothing but the pro
    - typographic quotes and apostrophes ↔ ASCII (`'` / `"`), including U+2019 vs `'`;
    - dash / minus variants ↔ ASCII hyphen;
    - fullwidth digits and `%`;
-   - whitespace, and trailing or separator punctuation (word-internal apostrophes and hyphens
-     are kept).
-   Lexical synonyms and other meaning-changing edits still fail (*at least* ≉ *about*,
-   *Antwort* ≉ *Reaktion*, adding or dropping *the*). When two sentences match only by this
-   table, they are not labelled as errors in the taxonomy (the difference is notation, not
-   meaning). Number-word and percent-word lists are English; typographic folding applies to
-   every language. Roman numerals and other lexical number names (*XV*, *quindecim*) are
-   outside the table.
+   - whitespace, trailing or separator punctuation (word-internal apostrophes and hyphens
+     are kept), and spaces next to CJK characters (*从 1959 年* ↔ *从1959年*). Fullwidth
+     parentheses (*（Liggins）* ↔ * (Liggins) *) already fold as separator punctuation.
+   Lexical synonyms still fail (*at least* ≉ *about*, *Antwort* ≉ *Reaktion*). Differences
+   that `semantic_rule` already accepts (English contractions, articles/determiners) also
+   pass `notation_tolerant`. When two sentences match by the notation table itself, they are
+   not labelled as errors in the taxonomy (the difference is notation, not meaning).
+   Number-word and percent-word lists are English; typographic folding applies to every
+   language. Roman numerals and other lexical number names (*XV*, *quindecim*) are outside
+   the table.
    Rationale (myon, 2026-11-13, t1208): 「厳密であることと正確であることは別」— symbols and
    digits that survive or are substituted in newspaper-style English (*per cent* ↔ `%`,
    *eighteen* ↔ *18*, U+2019 ↔ ASCII `'`) should not count as errors.
