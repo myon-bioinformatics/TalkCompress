@@ -135,10 +135,11 @@ word order and paraphrases fail the rules even when the meaning is kept). `repor
 | piece | where |
 |---|---|
 | restorer and judge models, weights pins (revision, bytes, SHA-256) | catalog keys in `shared/l3_models.json` (shared with SVG L3) |
-| defaults | `DEFAULTS` at the top of the script: restorer `qwen-1.5b` (Qwen2.5-1.5B-Instruct Q4_K_M); judge `lfm2.5-1.2b-qad` (LiquidAI LFM2.5-1.2B, **暫定**: the judge choice is still open, non-Qwen candidates are being evaluated) |
-| llama.cpp | `image`: official b12004 by OCI digest (commit `3c809f44`); `build`: `build-llama` compiles `llama-server` from pinned commit `b1b770d9` (v1.0.0, CPU, portable AVX2), cached by commit, for models that need newer support |
-| decoding | CPU, all runner cores, context 4096, temperature 0, seed 42; restore `max_tokens` 1024, judge 8 |
-| workflow | `.github/workflows/ai-readability.yml`: `plan` → `weights` (each GGUF downloaded once, cached) + `llama` (build once if `build`) → `restore` (matrix of shards, round-robin over sorted item ids) → `merge` → `judge` (matrix judge × shard) → `report` |
+| defaults | `DEFAULTS` at the top of the script: judge `lfm2.5-1.2b-qad` (LiquidAI LFM2.5-1.2B, **暫定**: the judge choice is still open, non-Qwen candidates are being evaluated) |
+| presets (models per purpose) | `PRESETS` in the script, see below; restorer default `qwen3-0.6b` (Qwen3-0.6B Q8_0, **暫定**, from 2bot's restorer bench; Qwen2.5-1.5B paraphrased even the control) |
+| llama.cpp | `image`: official b12004 by OCI digest (commit `3c809f44`); `build`: `build-llama` compiles `llama-server` from pinned commit `9d925e7c` (b12381, the build 2bot used for Qwen3; CPU, portable AVX2), cached by commit. Presets use `build` |
+| decoding | CPU, all runner cores, context 4096, temperature 0, seed 42, thinking off (`--reasoning off` and `chat_template_kwargs.enable_thinking=false`); restore `max_tokens` 1024, judge 8 |
+| workflow | `.github/workflows/ai-readability.yml`: `plan` → `weights` (each GGUF downloaded once, cached) + `llama` (build once if `build`) → `restore` (matrix restorer × shard, round-robin over sorted item ids) → `merge` (per restorer) → `judge` (restorer × judge × shard) → `report` (per restorer) |
 
 **Judge metrics** (`report`, per method, in sentences): `judge_equivalent_rate` (judge YES),
 `agreement_rate` with `notation_tolerant`, `rule_pass_judge_no` (rules accept, judge rejects) and
@@ -146,19 +147,30 @@ word order and paraphrases fail the rules even when the meaning is kept). `repor
 judge prompt is `sentence-equivalence-v1` (YES/NO, numbers/symbols/punctuation ignored). A
 missing answer is a loss for both. A judge from the restorer's own family is not independent.
 
-**Triggers.** Pull requests that touch the pipeline run 1 paragraph per language (39 items),
-4 shards, the default judge and `llama=build` (so both llama.cpp paths stay exercised);
-`workflow_dispatch` takes `restorer`, `judges`, `shards`, `per_lang` (0 = all 180 items) and `llama`.
-Normal `ci.yml` only runs the offline plumbing test (`tests/test_ai_readability.py`, a fake
-server). Low scores never fail a job.
+**Presets** (`PRESETS`; every field can be overridden per run):
 
-**Traceability (artifacts, 30 days; nothing is committed).** `air-shard-N`: `shard-N.json` with,
+| preset | restorers | paragraphs | items per restorer | shards | use |
+|---|---|---|---|---|---|
+| `pr-smoke` | `qwen3-0.6b` | 1 per language | 39 | 4 | pull requests: the pipeline still works end to end |
+| `accuracy` | `qwen3-1.7b` | 2 per language | 78 | 8 | accuracy check with the larger Qwen3 |
+| `full` | `qwen3-0.6b` | all | 180 | 8 | the full measurement |
+| `full-pair` | `qwen3-0.6b`, `qwen3-1.7b` | all | 180 each | 8 each | both restorers side by side in one matrix |
+
+**Triggers.** Pull requests that touch the pipeline run `pr-smoke`. `workflow_dispatch` takes
+`preset` (default `full`) and optional overrides `restorers`, `judges`, `shards`, `per_lang` and
+`llama`. Normal `ci.yml` only runs the offline plumbing test (`tests/test_ai_readability.py`, a
+fake server). Low scores never fail a job.
+
+The two Qwen3 catalog entries carry `"lanes": ["readability"]`, so the SVG L3 lane's `all` stays at
+its 7 models (`scripts/svg_l3_bench.py svg_models`).
+
+**Traceability (artifacts, 30 days; nothing is committed).** `air-shard-<restorer>-N`: `shard-<restorer>-N.json` with,
 per item id, the prompt, prompt sha256, compressed text, raw server response and answer, plus the
 pins (model revision + SHA-256, llama image digest or build commit + binary sha256, git SHA, run
 URL, sha256 of `sources.json` / items / pack), the weights receipt and the server log.
-`air-merged`: `readability.json` (rule scores, every sentence pair, failures with reasons, sha256 of
-each shard file). `air-judge-<key>-N`: every verdict with prompt sha256 and raw response, judge
-pins and log. `air-report`: `report.json` and `summary.md` (sha256 of the merged and judge files).
+`air-merged-<restorer>`: `readability.json` (rule scores, every sentence pair, failures with reasons, sha256 of
+each shard file). `air-judge-<restorer>-<judge>-N`: every verdict with prompt sha256 and raw response, judge
+pins and log. `air-report-<restorer>`: `report.json` and `summary.md` (sha256 of the merged and judge files).
 `merge`, `judge` and `report` are pure functions of those files, so any number can be re-derived:
 
 ```
@@ -169,8 +181,8 @@ uv run python scripts/ai_readability.py report merged/readability.json 'judges/j
 Local or from olnm (`serve` uses docker, or `--llama-bin` for a built server):
 
 ```
-uv run python scripts/fetch_l3_model.py qwen-1.5b models/qwen-1.5b/model.gguf
-uv run python scripts/ai_readability.py serve --model qwen-1.5b
+uv run python scripts/fetch_l3_model.py qwen3-0.6b models/qwen3-0.6b/model.gguf
+uv run python scripts/ai_readability.py serve --model qwen3-0.6b
 uv run python scripts/ai_readability.py restore --per-lang 1 --out out/shard-0.json
 uv run python scripts/ai_readability.py stop
 ```

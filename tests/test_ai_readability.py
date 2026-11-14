@@ -37,17 +37,25 @@ def url():
     srv.shutdown()
 
 
-def test_plan_is_catalog_driven_and_shards_cover_once():
-    p = ar.plan(4, ["lfm2.5-1.2b-qad"], per_lang=1)
-    assert p["items"] == 39 and json.loads(p["judge_matrix"]) == {"judge": ["lfm2.5-1.2b-qad"], "shard": [0, 1, 2, 3]}
-    assert json.loads(p["models"]) == {"model": ["qwen-1.5b", "lfm2.5-1.2b-qad"]}
+def test_presets_are_catalog_driven_and_shards_cover_once():
+    p = ar.plan("pr-smoke")
+    assert p["restorers"] == ["qwen3-0.6b"] and p["items_per_restorer"] == 39 and p["llama"] == "image"
+    jm = json.loads(p["judge_matrix"])["include"]
+    assert [(x["restorer"], x["judge"], x["shard"]) for x in jm] == [("qwen3-0.6b", "lfm2.5-1.2b-qad", s) for s in range(4)]
+    assert all(x["sha256"] == ar.catalog()[x["model"]]["sha256"] for x in json.loads(p["models"])["include"])
+    pair = ar.plan("full-pair", shards=2, judges=["qwen-0.5b"])
+    assert pair["items_per_restorer"] == 180 and len(json.loads(pair["restore_matrix"])["include"]) == 4
+    assert json.loads(pair["restorer_matrix"]) == {"restorer": ["qwen3-0.6b", "qwen3-1.7b"]}
+    for name, cfg in ar.PRESETS.items():  # every preset resolves against the catalog
+        assert all(k in ar.catalog() for k in [*cfg["restorers"], *ar.DEFAULTS["judges"]]), name
     items = ar.select(ar.pr.load_json(ar.pr.path("pack", 1)), 1)
     ids = [x["id"] for s in range(4) for x in ar.shard_of(items, s, 4)]
     assert sorted(ids) == sorted(x["id"] for x in items) and len(set(ids)) == len(ids)
-    for bad in (["no-such-judge"], []):
+    for bad in ({"judges": ["no-such-judge"]}, {"restorers": ["nope"]}, {"llama": "gpu"}):
         with pytest.raises(SystemExit):
-            ar.plan(2, bad, 0)
-    assert all(k in ar.catalog() for k in [ar.DEFAULTS["restorer"], *ar.DEFAULTS["judges"]])
+            ar.plan("pr-smoke", **bad)
+    with pytest.raises(SystemExit):
+        ar.plan("no-such-preset")
 
 
 def test_restore_merge_judge_report_end_to_end(tmp_path, url):
@@ -71,7 +79,7 @@ def test_restore_merge_judge_report_end_to_end(tmp_path, url):
     assert ar.main(["report", str(tmp_path / "m.json"), str(tmp_path / "judge-*.json"),
                     "--out", str(tmp_path / "r.json"), "--markdown", str(tmp_path / "r.md")]) == 0
     r = json.loads((tmp_path / "r.json").read_text(encoding="utf-8"))
-    assert r["ai_readability"] == {"status": "measured", "restorer": "qwen-1.5b", "judges": ["rule", "lfm2.5-1.2b-qad"]}
+    assert r["ai_readability"] == {"status": "measured", "restorer": "qwen3-0.6b", "judges": ["rule", "lfm2.5-1.2b-qad"]}
     j = r["judges"]["lfm2.5-1.2b-qad"]
     assert j["shards"] == 2 and j["pins"]["sha256"] == ar.catalog()["lfm2.5-1.2b-qad"]["sha256"]
     for meth, s in j["summary"].items():
@@ -83,7 +91,7 @@ def test_restore_merge_judge_report_end_to_end(tmp_path, url):
 
 
 def test_unreachable_server_is_recorded_not_raised(tmp_path):
-    res = ar.restore(0, 60, "qwen-1.5b", "http://127.0.0.1:9/v1/chat/completions", 1, ar.llama_pin(None))
+    res = ar.restore(0, 60, "qwen3-0.6b", "http://127.0.0.1:9/v1/chat/completions", 1, ar.llama_pin(None))
     assert res["answers"] and all(a["status"] == "error" for a in res["answers"])
     ar.write(tmp_path / "s.json", res)
     m = ar.merge([tmp_path / "s.json"])

@@ -42,7 +42,7 @@ UI から回す場合は Actions → `svg-l3-matrix` → Run workflow。入力�
 ## 設定
 
 - `LLAMA_MAX_TOKENS=2048`、llama.cpp は `-c 4096`、CPU、reasoning off。
-- モデルと pin（revision、bytes、SHA-256）は `shared/l3_models.json`。mcp-toolcall-lab の `fixtures/budget_compression/models.json` と同じ 7 件・同じ値（テンプレートのパスのみ本リポジトリ内）。キャッシュヒット時も再ハッシュする。
+- モデルと pin（revision、bytes、SHA-256）は `shared/l3_models.json`。可読性専用の `qwen3-0.6b` / `qwen3-1.7b` は `"lanes": ["readability"]` を持ち、この lane の `all` には入らない（`svg_models`）。この lane の 7 件は mcp-toolcall-lab の `fixtures/budget_compression/models.json` と同じ 7 件・同じ値（テンプレートのパスのみ本リポジトリ内）。キャッシュヒット時も再ハッシュする。
 - キャッシュはモデルごとに 1 エントリ。7 件合計で約 6.86 GB（リポジトリ既定の上限 10 GB 未満）。
 
 ## 合否

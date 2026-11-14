@@ -10,7 +10,7 @@ restorer and the judge can be swapped without code changes. Every subcommand pri
 
 One entry point for uv, olnm, CI or an agent (paths come from ``__file__``)::
 
-    uv run python scripts/ai_readability.py plan --shards 8 [--per-lang 1] [--judges KEY,...]
+    uv run python scripts/ai_readability.py plan --preset pr-smoke [--restorers KEY,..] [--judges KEY,..]
     uv run python scripts/ai_readability.py build-llama --dest llama-bin      # optional, pinned commit
     uv run python scripts/ai_readability.py serve --model KEY [--llama-bin llama-bin/llama-server]
     uv run python scripts/ai_readability.py restore --shard 0 --shards 8 --out out/shard-0.json
@@ -43,7 +43,6 @@ import paragraph_roundtrip as pr  # noqa: E402  (pack, prompt, rule scoring: sha
 
 CATALOG = ROOT / "shared/l3_models.json"
 DEFAULTS = {
-    "restorer": "qwen-1.5b",            # Qwen2.5-1.5B-Instruct Q4_K_M (quality_gate in the catalog)
     # 暫定 (provisional) judge: LiquidAI LFM2.5-1.2B, not Qwen-family, already pinned and run by SVG L3.
     # The judge choice is still open (non-Qwen candidates under evaluation); swap the key here or per run.
     "judges": ["lfm2.5-1.2b-qad"],
@@ -51,11 +50,21 @@ DEFAULTS = {
     "temperature": 0, "llama_seed": 42, "max_tokens": 1024, "judge_max_tokens": 8, "context": 4096,
     "timeout": 600, "port": 8080, "name": "ai-readability",
     # llama.cpp, two pinned ways: official image b12004 by OCI digest (same as svg-l3-matrix / mcp-toolcall-lab),
-    # or a build from a pinned commit (v1.0.0) for models that need newer support.
+    # or a build from a pinned commit (b12381, the build 2bot's restorer bench used for Qwen3) for newer models.
     "llama_image": "ghcr.io/ggml-org/llama.cpp@sha256:b32890309c1a33a534a01b0b461e953dc2c5a6bac20213abcf48e22847a19c85",
     "llama_image_commit": "3c809f44383bcebc318b8cddd8c6d11aaa861e9b",
-    "llama_commit": "b1b770d90d94cad9e9ea5b993bdbc383a522fb28",
+    "llama_commit": "9d925e7c02eb4e2e0da5be64a982cf79f9103fc7",
 }
+# Named presets: models per purpose (t1234u). The restorer default is 暫定 (myon has not decided):
+# Qwen3-0.6B Q8_0, recommended by 2bot's restorer bench; Qwen2.5-1.5B paraphrased even the control.
+# per_lang = paragraphs per language (0 = all 60 paragraphs = 180 items). Every field can be overridden per run.
+PRESETS = {
+    "pr-smoke": {"restorers": ["qwen3-0.6b"], "per_lang": 1, "shards": 4, "llama": "image"},
+    "accuracy": {"restorers": ["qwen3-1.7b"], "per_lang": 2, "shards": 8, "llama": "build"},
+    "full": {"restorers": ["qwen3-0.6b"], "per_lang": 0, "shards": 8, "llama": "build"},
+    "full-pair": {"restorers": ["qwen3-0.6b", "qwen3-1.7b"], "per_lang": 0, "shards": 8, "llama": "build"},
+}
+DEFAULT_PRESET = "pr-smoke"
 JUDGE_PROMPT_VERSION = "sentence-equivalence-v1"
 JUDGE_PROMPT = ("Two {lang} sentences follow. Sentence B is an attempt to restore sentence A. Ignore spelling of "
                 "numbers, symbols and punctuation. Do they mean the same thing? Answer YES or NO only.\n\n"
@@ -100,17 +109,29 @@ def shard_of(items: list, shard: int, shards: int) -> list:
     return items[shard::shards]  # round-robin keeps languages and methods spread over shards
 
 
-def plan(shards: int, judges: list[str], per_lang: int, restorer: str = DEFAULTS["restorer"]) -> dict:
+def plan(preset: str = DEFAULT_PRESET, *, restorers: list[str] | None = None, judges: list[str] | None = None,
+         per_lang: int | None = None, shards: int | None = None, llama: str | None = None) -> dict:
+    """Resolve a preset (+ overrides) into GitHub matrices; cache keys use each model's SHA-256."""
+    if preset not in PRESETS:
+        raise SystemExit(f"unknown preset {preset!r}; choose from {', '.join(PRESETS)}")
+    cfg = {**PRESETS[preset], "judges": DEFAULTS["judges"]}
+    for k, v in {"restorers": restorers, "judges": judges, "per_lang": per_lang, "shards": shards, "llama": llama}.items():
+        if v not in (None, [], ""):
+            cfg[k] = v
     cat = catalog()
-    unknown = [k for k in [restorer, *judges] if k not in cat]
-    if unknown or shards < 1 or not judges:
-        raise SystemExit(f"bad plan: shards={shards} judges={judges} unknown catalog keys={unknown}")
-    n = len(select(pr.load_json(pr.path("pack", DEFAULTS["seed"])), per_lang))
+    unknown = [k for k in [*cfg["restorers"], *cfg["judges"]] if k not in cat]
+    if unknown or cfg["shards"] < 1 or not cfg["judges"] or not cfg["restorers"] or cfg["llama"] not in ("image", "build"):
+        raise SystemExit(f"bad plan {cfg}; unknown catalog keys={unknown}")
+    n = len(select(pr.load_json(pr.path("pack", DEFAULTS["seed"])), cfg["per_lang"]))
     c = lambda o: json.dumps(o, separators=(",", ":"))  # noqa: E731
-    return {"restorer": restorer, "judges_list": judges, "llama_commit": DEFAULTS["llama_commit"], "items": n, "per_lang": per_lang, "shards": shards,
-            "matrix": c({"shard": list(range(shards))}),
-            "models": c({"model": list(dict.fromkeys([restorer, *judges]))}),
-            "judge_matrix": c({"judge": judges, "shard": list(range(shards))})}
+    sha = lambda k: cat[k]["sha256"]  # noqa: E731
+    shard_ids = range(cfg["shards"])
+    return {"preset": preset, **cfg, "llama_commit": DEFAULTS["llama_commit"], "items_per_restorer": n,
+            "models": c({"include": [{"model": k, "sha256": sha(k)} for k in dict.fromkeys([*cfg["restorers"], *cfg["judges"]])]}),
+            "restore_matrix": c({"include": [{"restorer": r, "sha256": sha(r), "shard": s} for r in cfg["restorers"] for s in shard_ids]}),
+            "restorer_matrix": c({"restorer": cfg["restorers"]}),
+            "judge_matrix": c({"include": [{"restorer": r, "judge": j, "sha256": sha(j), "shard": s}
+                                           for r in cfg["restorers"] for j in cfg["judges"] for s in shard_ids]})}
 
 
 # --- llama.cpp ------------------------------------------------------------------------------------
@@ -203,7 +224,9 @@ def stop(log: Path) -> dict:
 def ask(prompt: str, url: str, max_tokens: int) -> dict:
     from llama_cmd import extract_answer  # shared: rejects truncated / reasoning-only answers
     body = json.dumps({"messages": [{"role": "user", "content": prompt}], "temperature": DEFAULTS["temperature"],
-                       "seed": DEFAULTS["llama_seed"], "max_tokens": max_tokens, "stream": False}).encode()
+                       "seed": DEFAULTS["llama_seed"], "max_tokens": max_tokens, "stream": False,
+                       # Thinking off for Qwen3-style templates (the server also runs with --reasoning off).
+                       "chat_template_kwargs": {"enable_thinking": False}}).encode()
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
     t0 = time.monotonic()
     rec: dict = {"status": "error", "answer": None}
@@ -412,18 +435,20 @@ def markdown(rep: dict) -> str:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="action", required=True)
-    p = sub.add_parser("plan"); p.add_argument("--shards", type=int, default=8)
-    p.add_argument("--per-lang", type=int, default=0); p.add_argument("--judges", default=",".join(DEFAULTS["judges"]))
-    p.add_argument("--restorer", default=DEFAULTS["restorer"]); p.add_argument("--github-output", type=Path)
+    p = sub.add_parser("plan"); p.add_argument("--preset", default=DEFAULT_PRESET, choices=list(PRESETS))
+    p.add_argument("--restorers", default="", help="comma list of catalog keys (overrides the preset)")
+    p.add_argument("--judges", default="", help="comma list of catalog keys (default: DEFAULTS judges)")
+    p.add_argument("--shards", type=int); p.add_argument("--per-lang", type=int)
+    p.add_argument("--llama", choices=["image", "build"]); p.add_argument("--github-output", type=Path)
     b = sub.add_parser("build-llama"); b.add_argument("--dest", type=Path, default=ROOT / "llama-bin")
     b.add_argument("--commit", default=DEFAULTS["llama_commit"])
     llama = argparse.ArgumentParser(add_help=False)
     llama.add_argument("--llama-bin", type=Path, help="built llama-server (default: the pinned docker image)")
-    s = sub.add_parser("serve", parents=[llama]); s.add_argument("--model", default=DEFAULTS["restorer"])
+    s = sub.add_parser("serve", parents=[llama]); s.add_argument("--model", default=PRESETS[DEFAULT_PRESET]["restorers"][0])
     s.add_argument("--models-dir", type=Path); s.add_argument("--log", type=Path, default=Path("out/llama-server.log"))
     t = sub.add_parser("stop"); t.add_argument("--log", type=Path, default=Path("out/llama-server.log"))
     r = sub.add_parser("restore", parents=[llama]); r.add_argument("--shard", type=int, default=0)
-    r.add_argument("--shards", type=int, default=1); r.add_argument("--model", default=DEFAULTS["restorer"])
+    r.add_argument("--shards", type=int, default=1); r.add_argument("--model", default=PRESETS[DEFAULT_PRESET]["restorers"][0])
     r.add_argument("--url", default=f"http://127.0.0.1:{DEFAULTS['port']}/v1/chat/completions")
     r.add_argument("--per-lang", type=int, default=0); r.add_argument("--workers", type=int, default=1)
     r.add_argument("--out", type=Path, required=True)
@@ -436,10 +461,13 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--out", type=Path, required=True); e.add_argument("--markdown", type=Path)
     a = ap.parse_args(argv)
     if a.action == "plan":
-        res = plan(a.shards, [x.strip() for x in a.judges.split(",") if x.strip()], a.per_lang, a.restorer)
+        keys = lambda v: [x.strip() for x in v.split(",") if x.strip()]  # noqa: E731
+        res = plan(a.preset, restorers=keys(a.restorers), judges=keys(a.judges), per_lang=a.per_lang,
+                   shards=a.shards, llama=a.llama)
         if a.github_output:
             with a.github_output.open("a", encoding="utf-8") as fh:
-                for k in ("restorer", "llama_commit", "per_lang", "shards", "matrix", "models", "judge_matrix"):
+                for k in ("preset", "llama", "llama_commit", "per_lang", "shards", "models", "restore_matrix",
+                          "restorer_matrix", "judge_matrix"):
                     fh.write(f"{k}={res[k]}\n")
         return out(res)
     if a.action == "build-llama":
