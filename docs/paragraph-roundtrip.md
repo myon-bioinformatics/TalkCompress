@@ -156,10 +156,20 @@ missing answer is a loss for both. A judge from the restorer's own family is not
 | `full` | `qwen3-0.6b` | all | 180 | 8 | the full measurement |
 | `full-pair` | `qwen3-0.6b`, `qwen3-1.7b` | all | 180 each | 8 each | both restorers side by side in one matrix |
 
-**Triggers.** Pull requests that touch the pipeline run `pr-smoke`. `workflow_dispatch` takes
-`preset` (default `full`) and optional overrides `restorers`, `judges`, `shards`, `per_lang` and
-`llama`. Normal `ci.yml` only runs the offline plumbing test (`tests/test_ai_readability.py`, a
-fake server). Low scores never fail a job.
+**Triggers (no manual runs).** The GitHub event picks the preset (`EVENT_PRESETS` in the script;
+the workflow only passes `--event "$GITHUB_EVENT_NAME"`):
+
+| event | preset | why |
+|---|---|---|
+| `pull_request` touching the pipeline (path filter) | `pr-smoke` | proves the pipeline still works, about 5 minutes |
+| `push` to `main` touching the same paths | `accuracy` | each merged change gets the larger-restorer check |
+| `schedule`, weekly (Sunday 03:17 JST) | `full` | all 180 items without a manual trigger and without tying it to every merge |
+
+`full` runs on a schedule rather than on push because one weekly full measurement is enough to
+follow drift, keeps merge-time cost small, and needs no inputs or extra env vars. `full-pair` and any
+override (`--restorers`, `--judges`, `--shards`, `--per-lang`, `--llama`) are for the CLI (local,
+olnm, agents): `plan --preset <name>` prints the same matrices. Normal `ci.yml` only runs the
+offline plumbing test (`tests/test_ai_readability.py`, a fake server). Low scores never fail a job.
 
 The two Qwen3 catalog entries carry `"lanes": ["readability"]`, so the SVG L3 lane's `all` stays at
 its 7 models (`scripts/svg_l3_bench.py svg_models`).

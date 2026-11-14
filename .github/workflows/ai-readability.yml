@@ -2,9 +2,9 @@ name: ai-readability
 
 # AI readability of control / CEF / BEF paragraphs: pinned small GGUFs restore them on CPU runners,
 # then the rules (exact / notation_tolerant, baseline) and an LLM judge score every sentence pair.
-# Models are catalog keys (shared/l3_models.json); presets and defaults live in scripts/ai_readability.py
-# (PRESETS / DEFAULTS). Heavy, so never on every push: pull requests that touch this pipeline run the
-# pr-smoke preset; workflow_dispatch takes any preset, with optional overrides.
+# Models are catalog keys (shared/l3_models.json); presets live in scripts/ai_readability.py.
+# No manual runs: the event picks the preset (EVENT_PRESETS in the script):
+#   pull_request (paths below) -> pr-smoke, push to main (same paths) -> accuracy, weekly schedule -> full.
 # This file only fans out; all logic is in the script. Low scores never fail a job.
 on:
   pull_request:
@@ -16,39 +16,24 @@ on:
       - shared/llama_cmd.py
       - shared/l3_models.json
       - SentenceCalibratedMosaic/fixtures/paragraph_judge/**
-  workflow_dispatch:
-    inputs:
-      preset:
-        description: pr-smoke (qwen3-0.6b, 39 items) / accuracy (qwen3-1.7b, 78 items) / full (qwen3-0.6b, 180) / full-pair (both, 180)
-        type: choice
-        options: [pr-smoke, accuracy, full, full-pair]
-        default: full
-      restorers:
-        description: Override restore model keys, comma list (empty = preset)
-        type: string
-        default: ""
-      judges:
-        description: Override LLM judge keys, comma list (empty = DEFAULTS, provisional)
-        type: string
-        default: ""
-      shards:
-        description: Override parallel jobs per restorer and per judge (empty = preset)
-        type: string
-        default: ""
-      per_lang:
-        description: Override paragraphs per language, 0 = all (empty = preset)
-        type: string
-        default: ""
-      llama:
-        description: Override llama.cpp (empty = preset; image = pinned b12004 digest; build = pinned commit, cached)
-        type: string
-        default: ""
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/ai-readability.yml
+      - scripts/ai_readability.py
+      - scripts/paragraph_roundtrip.py
+      - scripts/fetch_l3_model.py
+      - shared/llama_cmd.py
+      - shared/l3_models.json
+      - SentenceCalibratedMosaic/fixtures/paragraph_judge/**
+  schedule:
+    - cron: "17 18 * * 6" # Sunday 03:17 JST, weekly full run
 
 permissions:
   contents: read
 
 concurrency:
-  group: ai-readability-${{ github.event.pull_request.number || github.ref }}
+  group: ai-readability-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -69,18 +54,8 @@ jobs:
           persist-credentials: false
       - id: plan
         env:
-          PRESET: ${{ inputs.preset || 'pr-smoke' }}
-          RESTORERS: ${{ inputs.restorers }}
-          JUDGES: ${{ inputs.judges }}
-          SHARDS: ${{ inputs.shards }}
-          PER_LANG: ${{ inputs.per_lang }}
-          LLAMA: ${{ inputs.llama }}
-        run: |
-          args=(--preset "$PRESET" --restorers "$RESTORERS" --judges "$JUDGES" --github-output "$GITHUB_OUTPUT")
-          if [ -n "$SHARDS" ]; then args+=(--shards "$SHARDS"); fi
-          if [ -n "$PER_LANG" ]; then args+=(--per-lang "$PER_LANG"); fi
-          if [ -n "$LLAMA" ]; then args+=(--llama "$LLAMA"); fi
-          python3 scripts/ai_readability.py plan "${args[@]}"
+          EVENT: ${{ github.event_name }}
+        run: python3 scripts/ai_readability.py plan --event "$EVENT" --github-output "$GITHUB_OUTPUT"
 
   # Download each GGUF once (revision + bytes + SHA-256 verified) so parallel jobs only restore the cache.
   weights:

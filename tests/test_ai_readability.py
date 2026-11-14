@@ -56,6 +56,17 @@ def test_presets_are_catalog_driven_and_shards_cover_once():
             ar.plan("pr-smoke", **bad)
     with pytest.raises(SystemExit):
         ar.plan("no-such-preset")
+    assert set(ar.EVENT_PRESETS.values()) <= set(ar.PRESETS)
+
+
+def test_ci_event_picks_preset(tmp_path, capsys):
+    for event, preset in ar.EVENT_PRESETS.items():
+        gh = tmp_path / f"{event}.txt"
+        assert ar.main(["plan", "--event", event, "--github-output", str(gh)]) == 0
+        lines = dict(line.split("=", 1) for line in gh.read_text(encoding="utf-8").splitlines())
+        assert lines["preset"] == preset
+    with pytest.raises(SystemExit):
+        ar.main(["plan", "--event", "push", "--preset", "full"])
 
 
 def test_restore_merge_judge_report_end_to_end(tmp_path, url):

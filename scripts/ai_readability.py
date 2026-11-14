@@ -11,6 +11,7 @@ restorer and the judge can be swapped without code changes. Every subcommand pri
 One entry point for uv, olnm, CI or an agent (paths come from ``__file__``)::
 
     uv run python scripts/ai_readability.py plan --preset pr-smoke [--restorers KEY,..] [--judges KEY,..]
+    uv run python scripts/ai_readability.py plan --event push       # CI: preset from EVENT_PRESETS
     uv run python scripts/ai_readability.py build-llama --dest llama-bin      # optional, pinned commit
     uv run python scripts/ai_readability.py serve --model KEY [--llama-bin llama-bin/llama-server]
     uv run python scripts/ai_readability.py restore --shard 0 --shards 8 --out out/shard-0.json
@@ -65,6 +66,9 @@ PRESETS = {
     "full-pair": {"restorers": ["qwen3-0.6b", "qwen3-1.7b"], "per_lang": 0, "shards": 8, "llama": "build"},
 }
 DEFAULT_PRESET = "pr-smoke"
+# CI picks the preset from the event; there is no manual run (t1236u). pull_request: the pipeline still
+# works; push to main (path-filtered): accuracy with the larger restorer; weekly schedule: the full set.
+EVENT_PRESETS = {"pull_request": "pr-smoke", "push": "accuracy", "schedule": "full"}
 JUDGE_PROMPT_VERSION = "sentence-equivalence-v1"
 JUDGE_PROMPT = ("Two {lang} sentences follow. Sentence B is an attempt to restore sentence A. Ignore spelling of "
                 "numbers, symbols and punctuation. Do they mean the same thing? Answer YES or NO only.\n\n"
@@ -443,7 +447,8 @@ def markdown(rep: dict) -> str:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="action", required=True)
-    p = sub.add_parser("plan"); p.add_argument("--preset", default=DEFAULT_PRESET, choices=list(PRESETS))
+    p = sub.add_parser("plan"); p.add_argument("--preset", choices=list(PRESETS), help=f"default: {DEFAULT_PRESET}")
+    p.add_argument("--event", choices=list(EVENT_PRESETS), help="CI: choose the preset from the GitHub event")
     p.add_argument("--restorers", default="", help="comma list of catalog keys (overrides the preset)")
     p.add_argument("--judges", default="", help="comma list of catalog keys (default: DEFAULTS judges)")
     p.add_argument("--shards", type=int); p.add_argument("--per-lang", type=int)
@@ -470,7 +475,9 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
     if a.action == "plan":
         keys = lambda v: [x.strip() for x in v.split(",") if x.strip()]  # noqa: E731
-        res = plan(a.preset, restorers=keys(a.restorers), judges=keys(a.judges), per_lang=a.per_lang,
+        if a.preset and a.event:
+            ap.error("--preset and --event are exclusive")
+        res = plan(a.preset or EVENT_PRESETS.get(a.event, DEFAULT_PRESET), restorers=keys(a.restorers), judges=keys(a.judges), per_lang=a.per_lang,
                    shards=a.shards, llama=a.llama)
         if a.github_output:
             with a.github_output.open("a", encoding="utf-8") as fh:
