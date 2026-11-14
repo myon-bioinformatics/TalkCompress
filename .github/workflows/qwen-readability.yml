@@ -1,0 +1,194 @@
+name: qwen-readability
+
+# AI readability of control / CEF / BEF paragraphs, restored by a pinned Qwen GGUF on CPU runners.
+# Heavy, so never on every push: pull requests that touch this pipeline run a small subset
+# (1 paragraph per language = 39 items, 4 shards); workflow_dispatch runs any size.
+# Everything (selection, serving, scoring, JSON) lives in scripts/qwen_readability.py; this file only fans out.
+# No quality threshold: low scores never fail a job, only an incomplete measurement does.
+on:
+  pull_request:
+    paths:
+      - .github/workflows/qwen-readability.yml
+      - scripts/qwen_readability.py
+      - scripts/paragraph_roundtrip.py
+      - scripts/fetch_l3_model.py
+      - shared/llama_cmd.py
+      - shared/l3_models.json
+      - SentenceCalibratedMosaic/fixtures/paragraph_judge/**
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Restore model key in shared/l3_models.json
+        type: string
+        default: qwen-1.5b
+      shards:
+        description: Parallel restore jobs
+        type: string
+        default: "8"
+      per_lang:
+        description: Paragraphs per language (0 = all 60 paragraphs, 180 items)
+        type: string
+        default: "0"
+      judges:
+        description: Optional LLM judge keys, comma list (empty = rule judge only)
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qwen-readability-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      model: ${{ steps.plan.outputs.model }}
+      per_lang: ${{ steps.plan.outputs.per_lang }}
+      shards: ${{ steps.plan.outputs.shards }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+      models: ${{ steps.plan.outputs.models }}
+      judges: ${{ steps.plan.outputs.judges }}
+      has_llm_judge: ${{ steps.plan.outputs.has_llm_judge }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: plan
+        env:
+          # Pull requests: fixed small subset that also exercises the LLM judge hook with qwen-0.5b.
+          MODEL: ${{ github.event_name == 'workflow_dispatch' && inputs.model || 'qwen-1.5b' }}
+          SHARDS: ${{ github.event_name == 'workflow_dispatch' && inputs.shards || '4' }}
+          PER_LANG: ${{ github.event_name == 'workflow_dispatch' && inputs.per_lang || '1' }}
+          JUDGES: ${{ github.event_name == 'workflow_dispatch' && inputs.judges || (github.event_name != 'workflow_dispatch' && 'qwen-0.5b' || '') }}
+        run: |
+          python3 scripts/qwen_readability.py plan --model "$MODEL" --shards "$SHARDS" --per-lang "$PER_LANG" \
+            --judges "$JUDGES" --github-output "$GITHUB_OUTPUT"
+          { echo "model=$MODEL"; echo "shards=$SHARDS"; echo "per_lang=$PER_LANG"; } >> "$GITHUB_OUTPUT"
+
+  # Download each GGUF once (revision + bytes + SHA-256 verified) so parallel shards only restore the cache.
+  weights:
+    needs: plan
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix: ${{ fromJSON(needs.plan.outputs.models) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ matrix.model }}/model.gguf
+          key: gguf-${{ matrix.model }}-${{ hashFiles('shared/l3_models.json') }}
+          lookup-only: true
+      - if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          MODEL: ${{ matrix.model }}
+        run: python3 scripts/fetch_l3_model.py "$MODEL" "models/$MODEL/model.gguf"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ matrix.model }}/model.gguf
+          key: gguf-${{ matrix.model }}-${{ hashFiles('shared/l3_models.json') }}
+
+  restore:
+    needs: [plan, weights]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ needs.plan.outputs.model }}/model.gguf
+          key: gguf-${{ needs.plan.outputs.model }}-${{ hashFiles('shared/l3_models.json') }}
+          fail-on-cache-miss: true
+      - name: Verify weights and start llama-server (pinned image digest)
+        env:
+          MODEL: ${{ needs.plan.outputs.model }}
+        run: |
+          python3 scripts/fetch_l3_model.py "$MODEL" "models/$MODEL/model.gguf"
+          python3 scripts/qwen_readability.py serve --model "$MODEL" --models-dir "models/$MODEL"
+      - name: Restore this shard
+        env:
+          MODEL: ${{ needs.plan.outputs.model }}
+          SHARD: ${{ matrix.shard }}
+          SHARDS: ${{ needs.plan.outputs.shards }}
+          PER_LANG: ${{ needs.plan.outputs.per_lang }}
+        run: |
+          python3 scripts/qwen_readability.py restore --model "$MODEL" --shard "$SHARD" --shards "$SHARDS" \
+            --per-lang "$PER_LANG" --out "out/shard-$SHARD.json"
+      - if: always()
+        run: docker logs qwen-readability > out/llama-server-${{ matrix.shard }}.log 2>&1 || true
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: qwen-shard-${{ matrix.shard }}
+          path: out/
+          retention-days: 30
+
+  merge:
+    needs: [plan, restore]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: qwen-shard-*
+          merge-multiple: true
+          path: shards/
+      - run: |
+          python3 scripts/qwen_readability.py merge 'shards/shard-*.json' --out out/readability.json --markdown out/summary.md
+          cat out/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: qwen-readability
+          path: out/
+          retention-days: 30
+
+  # Optional judge axis: each LLM judge re-reads only the sentences that failed notation_tolerant.
+  judge:
+    needs: [plan, weights, merge]
+    if: ${{ needs.plan.outputs.has_llm_judge == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.judges) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ matrix.judge }}/model.gguf
+          key: gguf-${{ matrix.judge }}-${{ hashFiles('shared/l3_models.json') }}
+          fail-on-cache-miss: true
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: qwen-readability
+          path: merged/
+      - env:
+          JUDGE: ${{ matrix.judge }}
+        run: |
+          python3 scripts/fetch_l3_model.py "$JUDGE" "models/$JUDGE/model.gguf"
+          python3 scripts/qwen_readability.py serve --model "$JUDGE" --models-dir "models/$JUDGE"
+          python3 scripts/qwen_readability.py judge merged/readability.json --model "$JUDGE" \
+            --out "out/judge-$JUDGE.json" --markdown out/summary.md
+          cat out/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: qwen-judge-${{ matrix.judge }}
+          path: out/
+          retention-days: 30
