@@ -39,7 +39,7 @@ def url():
 
 def test_presets_are_catalog_driven_and_shards_cover_once():
     p = ar.plan("pr-smoke")
-    assert p["restorers"] == ["qwen3-0.6b"] and p["items_per_restorer"] == 39 and p["llama"] == "image"
+    assert p["restorers"] == ["qwen3-0.6b"] and p["items_per_restorer"] == 39 and p["llama"] == "build"
     jm = json.loads(p["judge_matrix"])["include"]
     assert [(x["restorer"], x["judge"], x["shard"]) for x in jm] == [("qwen3-0.6b", "lfm2.5-1.2b-qad", s) for s in range(4)]
     assert all(x["sha256"] == ar.catalog()[x["model"]]["sha256"] for x in json.loads(p["models"])["include"])

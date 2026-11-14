@@ -59,7 +59,7 @@ DEFAULTS = {
 # Qwen3-0.6B Q8_0, recommended by 2bot's restorer bench; Qwen2.5-1.5B paraphrased even the control.
 # per_lang = paragraphs per language (0 = all 60 paragraphs = 180 items). Every field can be overridden per run.
 PRESETS = {
-    "pr-smoke": {"restorers": ["qwen3-0.6b"], "per_lang": 1, "shards": 4, "llama": "image"},
+    "pr-smoke": {"restorers": ["qwen3-0.6b"], "per_lang": 1, "shards": 4, "llama": "build"},
     "accuracy": {"restorers": ["qwen3-1.7b"], "per_lang": 2, "shards": 8, "llama": "build"},
     "full": {"restorers": ["qwen3-0.6b"], "per_lang": 0, "shards": 8, "llama": "build"},
     "full-pair": {"restorers": ["qwen3-0.6b", "qwen3-1.7b"], "per_lang": 0, "shards": 8, "llama": "build"},
@@ -244,13 +244,21 @@ def ask(prompt: str, url: str, max_tokens: int) -> dict:
     return rec
 
 
+def head_sha() -> str | None:
+    """On pull_request, GITHUB_SHA is the test merge commit; the branch head is in the event payload."""
+    event = os.environ.get("GITHUB_EVENT_PATH")
+    if event and Path(event).is_file():
+        return (json.loads(Path(event).read_text(encoding="utf-8")).get("pull_request") or {}).get("head", {}).get("sha")
+    return None
+
+
 def provenance(model: str, llama: dict) -> dict:
     entry = catalog()[model]
     inputs = {p.name: file_sha(p) for p in (pr.SOURCES, pr.path("items"), pr.path("pack", DEFAULTS["seed"]))}
     return {"model": model, **{k: entry[k] for k in ("repository", "revision", "filename", "bytes", "sha256")},
             **{k: llama[k] for k in llama if k.startswith(("llama", "binary"))},
             **{k: DEFAULTS[k] for k in ("temperature", "llama_seed", "context")},
-            "inputs_sha256": inputs, "git_sha": os.environ.get("GITHUB_SHA"),
+            "inputs_sha256": inputs, "git_sha": os.environ.get("GITHUB_SHA"), "head_sha": head_sha(),
             "run_url": (f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
                         if os.environ.get("GITHUB_RUN_ID") else None),
             "runner": platform.platform(), "cpus": os.cpu_count()}
