@@ -122,38 +122,58 @@ and disclosures are in [`docs/paragraph-roundtrip-results-20261113.md`](paragrap
 AI readability remains 未測定.
 
 
-## AI readability on CI (Qwen nano environment)
+## AI readability on CI (nano environment, model-agnostic)
 
-`scripts/qwen_readability.py` (one CLI, JSON on stdout, stdlib only) replays the same
-`paragraph-restore-v1` pack through a small local model instead of a subagent, and scores it with the
-same rules (`exact`, `semantic_rule`, `notation_tolerant`, error labels). Results carry
-`ai_readability: {"status": "measured", "restorer": <model key>, "judge": "rule"}`.
+`scripts/ai_readability.py` (one CLI, JSON on stdout, stdlib only) replays the same
+`paragraph-restore-v1` pack through a small local model (the *restorer*) instead of a subagent,
+scores it with the same rules (`exact`, `semantic_rule`, `notation_tolerant`, error labels), and
+has an LLM *judge* re-read every aligned sentence pair. The rules stay the baseline; the judge is
+reported next to them with its agreement, because rule scoring alone is not rock-solid (synonyms,
+word order and paraphrases fail the rules even when the meaning is kept). `report.json` carries
+`ai_readability: {"status": "measured", "restorer": <key>, "judges": ["rule", <key>...]}`.
 
 | piece | where |
 |---|---|
-| restore model, weights pins (revision, bytes, SHA-256) | `shared/l3_models.json` (shared with SVG L3); default `qwen-1.5b` = Qwen2.5-1.5B-Instruct Q4_K_M |
-| llama.cpp | official image b12004 by OCI digest (`DEFAULTS["llama_image"]`), CPU, all runner cores, context 4096, temperature 0, seed 42 |
-| defaults and judges | `DEFAULTS` / `JUDGES` at the top of the script (the one place to change) |
-| workflow | `.github/workflows/qwen-readability.yml`: `plan` → `weights` (download once per model, cache) → `restore` (matrix of shards, round-robin over sorted item ids) → `merge` → optional `judge` (matrix of LLM judges) |
+| restorer and judge models, weights pins (revision, bytes, SHA-256) | catalog keys in `shared/l3_models.json` (shared with SVG L3) |
+| defaults | `DEFAULTS` at the top of the script: restorer `qwen-1.5b` (Qwen2.5-1.5B-Instruct Q4_K_M); judge `lfm2.5-1.2b-qad` (LiquidAI LFM2.5-1.2B, **暫定**: the judge choice is still open, non-Qwen candidates are being evaluated) |
+| llama.cpp | `image`: official b12004 by OCI digest (commit `3c809f44`); `build`: `build-llama` compiles `llama-server` from pinned commit `b1b770d9` (v1.0.0, CPU, portable AVX2), cached by commit, for models that need newer support |
+| decoding | CPU, all runner cores, context 4096, temperature 0, seed 42; restore `max_tokens` 1024, judge 8 |
+| workflow | `.github/workflows/ai-readability.yml`: `plan` → `weights` (each GGUF downloaded once, cached) + `llama` (build once if `build`) → `restore` (matrix of shards, round-robin over sorted item ids) → `merge` → `judge` (matrix judge × shard) → `report` |
 
-Triggers: pull requests that touch the pipeline run 1 paragraph per language (39 items, 4 shards)
-and the `qwen-0.5b` judge; `workflow_dispatch` takes `model`, `shards`, `per_lang` (0 = all 180
-items) and `judges`. Normal `ci.yml` only runs the offline plumbing test
-(`tests/test_qwen_readability.py`, a fake server). Low scores never fail a job.
+**Judge metrics** (`report`, per method, in sentences): `judge_equivalent_rate` (judge YES),
+`agreement_rate` with `notation_tolerant`, `rule_pass_judge_no` (rules accept, judge rejects) and
+`rule_fail_judge_yes` (rules reject, judge accepts: candidate rule gaps or judge leniency). The
+judge prompt is `sentence-equivalence-v1` (YES/NO, numbers/symbols/punctuation ignored). A
+missing answer is a loss for both. A judge from the restorer's own family is not independent.
 
-Local or from olnm (a running `llama-server` on port 8080, or `serve` with docker):
+**Triggers.** Pull requests that touch the pipeline run 1 paragraph per language (39 items),
+4 shards, the default judge and `llama=build` (so both llama.cpp paths stay exercised);
+`workflow_dispatch` takes `restorer`, `judges`, `shards`, `per_lang` (0 = all 180 items) and `llama`.
+Normal `ci.yml` only runs the offline plumbing test (`tests/test_ai_readability.py`, a fake
+server). Low scores never fail a job.
+
+**Traceability (artifacts, 30 days; nothing is committed).** `air-shard-N`: `shard-N.json` with,
+per item id, the prompt, prompt sha256, compressed text, raw server response and answer, plus the
+pins (model revision + SHA-256, llama image digest or build commit + binary sha256, git SHA, run
+URL, sha256 of `sources.json` / items / pack), the weights receipt and the server log.
+`air-merged`: `readability.json` (rule scores, every sentence pair, failures with reasons, sha256 of
+each shard file). `air-judge-<key>-N`: every verdict with prompt sha256 and raw response, judge
+pins and log. `air-report`: `report.json` and `summary.md` (sha256 of the merged and judge files).
+`merge`, `judge` and `report` are pure functions of those files, so any number can be re-derived:
+
+```
+uv run python scripts/ai_readability.py merge 'shards/shard-*.json' --out merged/readability.json
+uv run python scripts/ai_readability.py report merged/readability.json 'judges/judge-*.json' --out report.json
+```
+
+Local or from olnm (`serve` uses docker, or `--llama-bin` for a built server):
 
 ```
 uv run python scripts/fetch_l3_model.py qwen-1.5b models/qwen-1.5b/model.gguf
-uv run python scripts/qwen_readability.py serve --model qwen-1.5b --models-dir models/qwen-1.5b
-uv run python scripts/qwen_readability.py restore --per-lang 1 --out out/shard-0.json
-uv run python scripts/qwen_readability.py merge out/shard-0.json --out out/readability.json
+uv run python scripts/ai_readability.py serve --model qwen-1.5b
+uv run python scripts/ai_readability.py restore --per-lang 1 --out out/shard-0.json
+uv run python scripts/ai_readability.py stop
 ```
 
-**Judges.** `rule` is the baseline and always runs. An LLM judge is a hook: pass any catalog key
-to `--judges` (add a new small GGUF to `shared/l3_models.json` with its revision, bytes and SHA-256
-first). `judge` asks it, per sentence that failed `notation_tolerant`, whether the restored sentence
-still means the same (`sentence-equivalence-v1`, YES/NO), and reports `llm_equivalent` and
-`notation_tolerant_or_llm_rate` next to the untouched rule numbers. The PR run uses `qwen-0.5b`
-only to exercise the hook; a judge from the same family as the restorer is not independent.
-Because decoding is greedy, repeating seeds would repeat answers, so this pipeline has one seed.
+To swap a model, add it to `shared/l3_models.json` (revision, bytes, SHA-256) and pass its key.
+Greedy decoding repeats answers, so this pipeline has one seed.
