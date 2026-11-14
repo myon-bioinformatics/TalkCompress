@@ -79,11 +79,15 @@ def test_restore_merge_judge_report_end_to_end(tmp_path, url):
                         "--out", str(tmp_path / f"shard-{s}.json")]) == 0
     shard = json.loads((tmp_path / "shard-0.json").read_text(encoding="utf-8"))
     a0 = shard["answers"][0]  # traceable: inputs, raw response and pins are in the shard file
-    assert {"id", "prompt", "prompt_sha256", "compressed_text", "response", "answer"} <= set(a0)
+    assert {"id", "prompt", "prompt_sha256", "restore_prompt_sha256", "compressed_text", "response", "raw", "answer"} <= set(a0)
+    assert shard["restore_prompt_version"] == ar.RESTORE_PROMPT_VERSION and a0["raw"].startswith("1. ")
+    assert a0["restore_prompt_sha256"] == ar.pr.sha256(a0["prompt"]) != a0["prompt_sha256"]
     assert shard["restore"]["sha256"] and shard["restore"]["llama"] == "image" and shard["restore"]["inputs_sha256"]
     assert ar.main(["merge", str(tmp_path / "shard-*.json"), "--out", str(tmp_path / "m.json")]) == 0
     m = json.loads((tmp_path / "m.json").read_text(encoding="utf-8"))
     assert m["items_answered"] == m["items_expected"] == 39
+    assert all(v["status"] == "ok" and v["format_followed"] for v in m["items"].values())
+    assert m["summary"]["control"]["all"]["format_followed"] == m["summary"]["control"]["all"]["judgements"]
     ctl = m["summary"]["control"]["all"]
     assert ctl["notation_tolerant"] >= ctl["semantic_rule"] >= ctl["exact"]
     assert m["summary"]["control"]["size"]["o200k_delta_pct"] == 0
@@ -104,7 +108,8 @@ def test_restore_merge_judge_report_end_to_end(tmp_path, url):
         assert s["rule_pass_judge_yes"] + s["rule_pass_judge_no"] == r["rule"][meth]["notation_tolerant"]
         assert 0 <= s["agreement_rate"] <= 1 and 0 <= s["mean_score"] <= 1
     assert sum(s["rule_fail_judge_yes"] for s in j["summary"].values()) > 0  # the judge can disagree with the rules
-    assert "agreement with notation_tolerant" in (tmp_path / "r.md").read_text(encoding="utf-8")
+    md = (tmp_path / "r.md").read_text(encoding="utf-8")
+    assert "agreement with notation_tolerant" in md and "one sentence per line" in md and ar.RESTORE_PROMPT_VERSION in md
     # YES/NO is derived from the scores afterwards: a threshold above every score turns all into NO.
     strict = ar.report(m, ar.expand([str(tmp_path / "judge-*.json")]), threshold=0.95)
     assert all(s["judge_yes"] == 0 for s in strict["judges"]["lfm2.5-1.2b-qad"]["summary"].values())
@@ -137,3 +142,31 @@ def test_unreachable_server_is_recorded_not_raised(tmp_path):
     assert all(f["reasons"][0].startswith("no_answer") or f["reasons"] for f in m["failures"])
     r = ar.report(m, [])
     assert r["judges"] == {} and r["rule"]["control"]["no_answer"] >= 1
+
+
+def test_restore_prompt_numbers_the_input_sentences_not_the_gold():
+    pack = {p["id"]: p for p in ar.pr.load_json(ar.pr.path("pack", 1))}
+    gold = {p["id"]: p["sentences"] for p in ar.pr.load_json(ar.pr.SOURCES)["paragraphs"]}
+    # Latin: the input splits on ";" into 7 pieces while the gold has 4 sentences; the B mosaic has 4 tiles.
+    ctl = pack["la-caesar-01|control"]["compressed_text"]
+    assert len(ar.input_sentences(ctl)) == 7 != len(gold["la-caesar-01"])
+    assert len(ar.input_sentences(pack["la-caesar-01|BEF"]["compressed_text"])) == 4
+    prompt = ar.restore_prompt("la", ctl)
+    assert "Its 7 sentences are numbered" in prompt and "Write them in Latin; do not translate." in prompt
+    body = prompt.split("\n\n", 1)[1].split("\n")
+    assert [ln.split(". ", 1)[0] for ln in body] == [str(k) for k in range(1, 8)]
+    assert ar.input_sentences("") == [""]
+
+
+def test_unnumber():
+    assert ar.unnumber("1. Uno.\r\n\n2) Due.\n 3、三。\nNo number.") == "Uno.\nDue.\n三。\nNo number."
+    assert ar.pr.split_answer(ar.unnumber("1. A.\n2. B."), 2) == (["A.", "B."], True)
+
+
+def test_merge_rejects_shards_from_another_restore_prompt(tmp_path, url):
+    assert ar.main(["restore", "--per-lang", "1", "--shards", "60", "--url", url, "--out", str(tmp_path / "s.json")]) == 0
+    s = json.loads((tmp_path / "s.json").read_text(encoding="utf-8"))
+    s["restore_prompt_version"] = "paragraph-restore-v1"  # an old shard (pack prompt, unnumbered answers)
+    ar.write(tmp_path / "s.json", s)
+    with pytest.raises(SystemExit):
+        ar.merge([tmp_path / "s.json"])

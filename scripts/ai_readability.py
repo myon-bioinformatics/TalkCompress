@@ -4,7 +4,8 @@
 The paragraph benchmark (``paragraph_roundtrip.py``, prompt ``paragraph-restore-v1``) is reused
 unchanged: the same pack items (control / CEF / BEF) and the same rule scores (exact,
 semantic_rule, notation_tolerant, error labels). New here: the restorer is a local model behind
-llama.cpp ``llama-server`` on CPU, and an LLM judge re-reads every aligned sentence pair, reported
+llama.cpp ``llama-server`` on CPU, sent ``RESTORE_PROMPT`` (the pack prompt with the input sentences
+numbered, so that it answers one sentence per line; numbers are stripped before scoring), and an LLM judge re-reads every aligned sentence pair, reported
 next to the rules with its agreement. Models are catalog keys (``shared/l3_models.json``), so the
 restorer and the judge can be swapped without code changes. Judges are plug-ins (``JUDGE_BACKENDS``:
 ``nli-onnx``, ``llm-logprob``) that return a confidence in [0, 1]; YES/NO comes from a threshold in
@@ -35,7 +36,7 @@ identical answers). Digits/symbols differences are not errors (``notation_tolera
 """
 from __future__ import annotations
 
-import argparse, glob, hashlib, json, math, os, platform, shutil, subprocess, sys, time, urllib.error, urllib.request
+import argparse, glob, hashlib, json, math, os, platform, re, shutil, subprocess, sys, time, urllib.error, urllib.request
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -77,6 +78,25 @@ EVENT_PRESETS = {"pull_request": "pr-smoke", "push": "accuracy", "schedule": "fu
 # Judges return a number only: a confidence in [0, 1] that the restored sentence keeps the gold meaning.
 # YES/NO is derived later in ``report`` from a threshold (catalog "threshold", or --threshold); no judgement
 # is read from generated text (t1242u).
+# One sentence per line (numbered_keep, 4bot 96ff64f): with the pack prompt small restorers answer the
+# paragraph on one line, so sentences are re-split by punctuation and merge_split rises (Qwen2.5-1.5B,
+# 39 items: format_followed 6/39). The restorer prompt numbers the input sentences, asks for the same
+# numbers one per line and "in {lang}; do not translate" (without it Latin came back in English); the
+# numbers are stripped before scoring. 39 items: format 39/39, exact 0.531 -> 0.656, notation_tolerant
+# 0.573 -> 0.766, merge_split 30 -> 13. Rejected: a JSON schema of N strings / a GBNF of N lines (keep the
+# pack prompt byte-for-byte, but the model put the whole paragraph in the first item and repeated it to
+# max_tokens: 3/39 unanswered, GBNF answered 8/18) and one call per sentence (no context: exact 0.17).
+# Sentences come from the *compressed input* (``input_sentences``), never from the gold. Answers are still
+# checked against the pack prompt sha256 (``paragraph-restore-v1``), and record ``restore_prompt_sha256``.
+RESTORE_PROMPT_VERSION = "paragraph-restore-numbered-v1"
+RESTORE_PROMPT = (
+    "The following paragraph was written in {lang} and may have been compressed: some words may be "
+    "abbreviated, replaced by symbols, or swapped for short forms from other languages, and subject "
+    "pronouns may be dropped. It may also be unchanged. Its {n} sentences are numbered. Rewrite each one as "
+    "the original plain {lang} sentence, keeping its number, one sentence per line, in the original order. "
+    "Write them in {lang}; do not translate. Reply with the {n} numbered sentences only.\n\n{c}"
+)
+_NUMBER = re.compile(r"^\s*\d+\s*[.)、:]\s*")
 JUDGE_PROMPT_VERSION = "sentence-equivalence-v2"
 JUDGE_PROMPT = ("Two {lang} sentences follow. Sentence B is an attempt to restore sentence A. Ignore spelling of "
                 "numbers, symbols and punctuation. Do they mean the same thing? Answer YES or NO.\n\n"
@@ -288,6 +308,25 @@ def ask(prompt: str, url: str, max_tokens: int) -> dict:
     return rec
 
 
+# --- restorer prompt ---------------------------------------------------------------------------
+
+def input_sentences(compressed: str) -> list[str]:
+    """Sentences of the compressed paragraph the model is given (no gold): ``split_compressed`` with
+    ``n_gold=0``, i.e. B mosaic tiles (tags dropped) or the sentence-end splitter."""
+    return pr.split_compressed(compressed, 0) or [compressed]
+
+
+def restore_prompt(lang: str, compressed: str) -> str:
+    sents = input_sentences(compressed)
+    return RESTORE_PROMPT.format(lang=pr.LANG_NAMES[lang], n=len(sents),
+                                 c="\n".join(f"{k}. {x}" for k, x in enumerate(sents, 1)))
+
+
+def unnumber(answer: str) -> str:
+    """Numbered reply -> one sentence per line without the numbers (empty lines dropped)."""
+    return "\n".join(_NUMBER.sub("", ln).strip() for ln in answer.replace("\r\n", "\n").split("\n") if ln.strip())
+
+
 def head_sha() -> str | None:
     """On pull_request, GITHUB_SHA is the test merge commit; the branch head is in the event payload."""
     event = os.environ.get("GITHUB_EVENT_PATH")
@@ -312,16 +351,21 @@ def provenance(model: str, llama: dict) -> dict:
 
 def restore(shard: int, shards: int, model: str, url: str, per_lang: int, llama: dict, workers: int = 1) -> dict:
     todo = shard_of(select(pr.load_json(pr.path("pack", DEFAULTS["seed"])), per_lang), shard, shards)
+    langs = {q["id"]: q["lang"] for q in pr.load_json(pr.SOURCES)["paragraphs"]}
     t0 = time.monotonic()
 
     def one(p):
+        prompt = restore_prompt(langs[p["id"].split("|")[0]], p["compressed_text"])
+        rec = ask(prompt, url, DEFAULTS["max_tokens"])
+        if rec["answer"] is not None:  # raw numbered reply kept; scoring sees it without the numbers
+            rec["raw"], rec["answer"] = rec["answer"], unnumber(rec["answer"])
         return {"id": p["id"], "prompt_sha256": p["prompt_sha256"], "compressed_text": p["compressed_text"],
-                "prompt": p["prompt"], **ask(p["prompt"], url, DEFAULTS["max_tokens"])}
+                "prompt": prompt, "restore_prompt_sha256": pr.sha256(prompt), **rec}
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
         answers = list(ex.map(one, todo))
-    return {"run": pr.RUN, "prompt_version": pr.PROMPT_VERSION, "restore": provenance(model, llama),
-            "max_tokens": DEFAULTS["max_tokens"], "shard": shard, "shards": shards, "per_lang": per_lang,
+    return {"run": pr.RUN, "prompt_version": pr.PROMPT_VERSION, "restore_prompt_version": RESTORE_PROMPT_VERSION,
+            "restore": provenance(model, llama), "max_tokens": DEFAULTS["max_tokens"], "shard": shard, "shards": shards, "per_lang": per_lang,
             "elapsed_seconds": round(time.monotonic() - t0, 1), "answers": answers}
 
 
@@ -338,7 +382,8 @@ def merge(files: list[Path]) -> dict:
     if not shards:
         raise SystemExit("no shard files")
     pins = {json.dumps({k: v for k, v in s["restore"].items() if k not in ("runner", "cpus")}, sort_keys=True) for s in shards}
-    if len(pins) != 1 or {s["prompt_version"] for s in shards} != {pr.PROMPT_VERSION}:
+    if len(pins) != 1 or {s["prompt_version"] for s in shards} != {pr.PROMPT_VERSION} \
+            or {s.get("restore_prompt_version") for s in shards} != {RESTORE_PROMPT_VERSION}:
         raise SystemExit("shards disagree on restore pins or prompt version")
     pack = {p["id"]: p for p in pr.load_json(pr.path("pack", DEFAULTS["seed"]))}
     paras = {p["id"]: p for p in pr.load_json(pr.SOURCES)["paragraphs"]}
@@ -370,6 +415,7 @@ def merge(files: list[Path]) -> dict:
             for k in ("exact", "semantic_rule", "notation_tolerant"):
                 c[k] += sc[k]
             c["paragraph_exact"] += int(sc["paragraph_exact"]); c["no_answer"] += int(not ok)
+            c["format_followed"] += int(sc["format_followed"])
             for k, v in sc["labels"].items():
                 c["label:" + k] += v
         got = pr.split_answer(a["answer"], len(para["sentences"]))[0] if ok else []
@@ -395,8 +441,8 @@ def merge(files: list[Path]) -> dict:
         out_summary[m]["size"] = {"o200k": z["o200k"], "bytes": z["bytes"],
                                   "o200k_delta_pct": pr.pct(z["o200k"], z["o200k_control"]),
                                   "bytes_delta_pct": pr.pct(z["bytes"], z["bytes_control"])}
-    return {"run": pr.RUN, "prompt_version": pr.PROMPT_VERSION, "restore": shards[0]["restore"],
-            "shard_files": {f.name: file_sha(f) for f in files}, "per_lang": shards[0]["per_lang"],
+    return {"run": pr.RUN, "prompt_version": pr.PROMPT_VERSION, "restore_prompt_version": RESTORE_PROMPT_VERSION,
+            "restore": shards[0]["restore"], "shard_files": {f.name: file_sha(f) for f in files}, "per_lang": shards[0]["per_lang"],
             "shards": len(shards), "shard_elapsed_seconds": [s["elapsed_seconds"] for s in shards],
             "items_expected": len(expected), "items_answered": sum(1 for i in expected if i in answers),
             "summary": out_summary, "pairs": pairs, "failures": failures, "items": per_item}
@@ -533,7 +579,7 @@ def report(merged: dict, judge_files: list[Path], threshold: float | None = None
                        "threshold": thr, "shards": len(parts), "shard_elapsed_seconds": [j["elapsed_seconds"] for j in parts],
                        "judge_files": {f.name: file_sha(f) for f in files}, "summary": summ}
     return {"run": merged["run"], "prompt_version": merged["prompt_version"],
-            "ai_readability": {"status": "measured", "restorer": merged["restore"]["model"],
+            "restore_prompt_version": merged.get("restore_prompt_version"), "ai_readability": {"status": "measured", "restorer": merged["restore"]["model"],
                                "judges": ["rule", *judges]},
             "restore": merged["restore"], "readability_sha256": pr.sha256(json.dumps(merged, sort_keys=True)),
             "items_expected": merged["items_expected"], "items_answered": merged["items_answered"],
@@ -545,15 +591,17 @@ def report(merged: dict, judge_files: list[Path], threshold: float | None = None
 def markdown(rep: dict) -> str:
     r = rep["restore"]
     pin = r.get("llama_image") or f"llama.cpp build {r['llama_commit'][:12]}"
-    lines = [f"### AI readability: restorer {r['model']} ({r['repository']}@{r['revision'][:8]}), {rep['prompt_version']}", "",
+    lines = [f"### AI readability: restorer {r['model']} ({r['repository']}@{r['revision'][:8]}), {rep['prompt_version']} (restorer prompt {rep.get('restore_prompt_version')})", "",
              f"items {rep['items_answered']}/{rep['items_expected']}, slowest restore shard {max(rep['shard_elapsed_seconds'])} s, {pin}", "",
-             "| method | o200k Δ | bytes Δ | exact | notation_tolerant | paragraphs exact | no answer |", "|---|---|---|---|---|---|---|"]
+             "| method | o200k Δ | bytes Δ | exact | notation_tolerant | paragraphs exact | one sentence per line | merge/split | no answer |",
+             "|---|---|---|---|---|---|---|---|---|"]
     for m, a in rep["rule"].items():
         z = a["size"]
         lines.append(f"| {m} | {z['o200k_delta_pct']:+.2f}% | {z['bytes_delta_pct']:+.2f}% | "
                      f"{a['exact']}/{a['sentences']} ({a['exact_rate']:.2%}) | "
                      f"{a['notation_tolerant']}/{a['sentences']} ({a['notation_tolerant_rate']:.2%}) | "
-                     f"{a['paragraph_exact']}/{a['judgements']} | {a['no_answer']} |")
+                     f"{a['paragraph_exact']}/{a['judgements']} | {a.get('format_followed', 0)}/{a['judgements']} | "
+                     f"{a.get('label:merge_split', 0)} | {a['no_answer']} |")
     for key, j in rep["judges"].items():
         lines += ["", f"judge {key} ({j['pins']['backend']}, {j['pins']['repository']}@{j['pins']['revision'][:8]}, "
                       f"score > {j['threshold']} = equivalent, slowest shard {max(j['shard_elapsed_seconds'])} s)", "",

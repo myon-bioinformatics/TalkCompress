@@ -141,6 +141,24 @@ word order and paraphrases fail the rules even when the meaning is kept). `repor
 | decoding | CPU, all runner cores, context 4096, temperature 0, seed 42, thinking off (`--reasoning off` and `chat_template_kwargs.enable_thinking=false`); restore `max_tokens` 1024, judge 8 |
 | workflow | `.github/workflows/ai-readability.yml`: `plan` → `weights` (each GGUF downloaded once, cached) + `llama` (build once if `build`) → `restore` (matrix restorer × shard, round-robin over sorted item ids) → `merge` (per restorer) → `judge` (restorer × judge × shard) → `report` (per restorer) |
 
+**One sentence per line (restorer prompt `paragraph-restore-numbered-v1`).** With the pack prompt,
+small restorers answered almost every paragraph on one line, so sentences were re-split by
+punctuation and `merge_split` rose. The restorer therefore sends its own prompt (`RESTORE_PROMPT`):
+the same instructions, the input sentences numbered one per line, "keep the number, one sentence per
+line", and "write them in <language>; do not translate" (without it the Latin paragraph came back in
+English). Numbers are stripped before scoring (`unnumber`; the raw reply is kept as `raw`). The
+sentences are split from the compressed text the model is given (`input_sentences` =
+`split_compressed(text, 0)`: B mosaic tiles, otherwise the sentence-end splitter), never from the
+gold, so the count can differ from the gold (Latin `;`, a gold sentence holding two sentences) and
+those merge/split labels remain. Answers are still checked against the pack prompt sha256; each also
+records `restore_prompt_sha256`, and `merge` refuses shards from another restorer prompt version.
+4bot's comparison (Qwen2.5-1.5B Q4_K_M, 39 items, `96ff64f`): pack prompt format 6/39, exact 0.531,
+notation_tolerant 0.573, merge_split 30; numbered 39/39, 0.656, 0.766, 13. A llama.cpp JSON schema of
+exactly N strings and a GBNF grammar of N lines keep the pack prompt byte-for-byte but were rejected
+(the model put the whole paragraph in the first item and repeated it until `max_tokens`; JSON 3/39
+unanswered, GBNF 8/18 answered), and one call per sentence lost the context (exact 0.17 on 18 items).
+The rule table reports `format_followed` ("one sentence per line") and `label:merge_split`.
+
 **Judges are numeric and pluggable.** A judge returns only a confidence in [0, 1] per aligned
 sentence pair; YES/NO is derived later in `report` from a threshold (the catalog entry's
 `threshold`, default 0.5, or `report --threshold`), so a threshold change needs no re-run. No
