@@ -127,7 +127,7 @@ AI readability remains 未測定.
 `scripts/ai_readability.py` (one CLI, JSON on stdout, stdlib only) replays the same
 `paragraph-restore-v1` pack through a small local model (the *restorer*) instead of a subagent,
 scores it with the same rules (`exact`, `semantic_rule`, `notation_tolerant`, error labels), and
-has an LLM *judge* re-read every aligned sentence pair. The rules stay the baseline; the judge is
+has a *judge* model score every aligned sentence pair. The rules stay the baseline; the judge is
 reported next to them with its agreement, because rule scoring alone is not rock-solid (synonyms,
 word order and paraphrases fail the rules even when the meaning is kept). `report.json` carries
 `ai_readability: {"status": "measured", "restorer": <key>, "judges": ["rule", <key>...]}`.
@@ -135,17 +135,33 @@ word order and paraphrases fail the rules even when the meaning is kept). `repor
 | piece | where |
 |---|---|
 | restorer and judge models, weights pins (revision, bytes, SHA-256) | catalog keys in `shared/l3_models.json` (shared with SVG L3) |
-| defaults | `DEFAULTS` at the top of the script: judge `lfm2.5-1.2b-qad` (LiquidAI LFM2.5-1.2B, **暫定**: the judge choice is still open, non-Qwen candidates are being evaluated) |
+| defaults | `DEFAULTS` at the top of the script: judge `mdeberta-xnli-onnx` (MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7 @`b5113eb3`, fp32 ONNX, **暫定**: not decided by myon; 3bot's comparison (judge-model/3bot `9c8d7d8`) found 88.2% agreement with its reference labels and 0 output tokens) |
 | presets (models per purpose) | `PRESETS` in the script, see below; restorer default `qwen3-0.6b` (Qwen3-0.6B Q8_0, **暫定**, from 2bot's restorer bench; Qwen2.5-1.5B paraphrased even the control) |
 | llama.cpp | `image`: official b12004 by OCI digest (commit `3c809f44`); `build`: `build-llama` compiles `llama-server` from pinned commit `9d925e7c` (b12381, the build 2bot used for Qwen3; CPU, portable AVX2), cached by commit. Presets use `build` |
 | decoding | CPU, all runner cores, context 4096, temperature 0, seed 42, thinking off (`--reasoning off` and `chat_template_kwargs.enable_thinking=false`); restore `max_tokens` 1024, judge 8 |
 | workflow | `.github/workflows/ai-readability.yml`: `plan` → `weights` (each GGUF downloaded once, cached) + `llama` (build once if `build`) → `restore` (matrix restorer × shard, round-robin over sorted item ids) → `merge` (per restorer) → `judge` (restorer × judge × shard) → `report` (per restorer) |
 
-**Judge metrics** (`report`, per method, in sentences): `judge_equivalent_rate` (judge YES),
-`agreement_rate` with `notation_tolerant`, `rule_pass_judge_no` (rules accept, judge rejects) and
-`rule_fail_judge_yes` (rules reject, judge accepts: candidate rule gaps or judge leniency). The
-judge prompt is `sentence-equivalence-v1` (YES/NO, numbers/symbols/punctuation ignored). A
-missing answer is a loss for both. A judge from the restorer's own family is not independent.
+**Judges are numeric and pluggable.** A judge returns only a confidence in [0, 1] per aligned
+sentence pair; YES/NO is derived later in `report` from a threshold (the catalog entry's
+`threshold`, default 0.5, or `report --threshold`), so a threshold change needs no re-run. No
+judgement is read from generated text. The catalog entry's `backend` picks the plug-in
+(`JUDGE_BACKENDS`):
+
+| backend | score | dependencies |
+|---|---|---|
+| `nli-onnx` (default judge) | min(P(entailment) gold→restored, restored→gold), ONNX cross-encoder on CPU | onnxruntime, tokenizers, numpy: uv group `judge`, imported lazily, installed only in the judge job (`uv sync --locked --only-group judge`) |
+| `llm-logprob` | P(YES) / (P(YES) + P(NO)) of the first token from llama-server's top logprobs (`sentence-equivalence-v2`) | none (stdlib; GGUF via llama.cpp) |
+
+A catalog entry may fix its own shard count (`shards`; the NLI judge uses 1 job, about 0.2 s per
+pair) and list extra pinned files (`files`: tokenizer, config), all checked by `fetch` (bytes and
+SHA-256, also on cache hits). To add another backend, write `fn(pairs, entry, model_dir, url) ->
+[{"score": float | None, ...}]` and register it in `JUDGE_BACKENDS`.
+
+**Judge metrics** (`report`, per method, in sentences): `mean_score`, `judge_equivalent_rate`
+(score above the threshold), `agreement_rate` with `notation_tolerant`, `rule_pass_judge_no`
+(rules accept, judge rejects) and `rule_fail_judge_yes` (rules reject, judge accepts: candidate
+rule gaps or judge leniency). A missing answer is a loss for both. A judge from the restorer's own
+family is not independent.
 
 **Presets** (`PRESETS`; every field can be overridden per run):
 
@@ -171,7 +187,7 @@ override (`--restorers`, `--judges`, `--shards`, `--per-lang`, `--llama`) are fo
 olnm, agents): `plan --preset <name>` prints the same matrices. Normal `ci.yml` only runs the
 offline plumbing test (`tests/test_ai_readability.py`, a fake server). Low scores never fail a job.
 
-The two Qwen3 catalog entries carry `"lanes": ["readability"]`, so the SVG L3 lane's `all` stays at
+The Qwen3 and mDeBERTa catalog entries carry `"lanes": ["readability"]`, so the SVG L3 lane's `all` stays at
 its 7 models (`scripts/svg_l3_bench.py svg_models`).
 
 **Traceability (artifacts, 30 days; nothing is committed).** `air-shard-<restorer>-N`: `shard-<restorer>-N.json` with,
@@ -179,8 +195,8 @@ per item id, the prompt, prompt sha256, compressed text, raw server response and
 pins (model revision + SHA-256, llama image digest or build commit + binary sha256, git SHA, run
 URL, sha256 of `sources.json` / items / pack), the weights receipt and the server log.
 `air-merged-<restorer>`: `readability.json` (rule scores, every sentence pair, failures with reasons, sha256 of
-each shard file). `air-judge-<restorer>-<judge>-N`: every verdict with prompt sha256 and raw response, judge
-pins and log. `air-report-<restorer>`: `report.json` and `summary.md` (sha256 of the merged and judge files).
+each shard file). `air-judge-<restorer>-<judge>-N`: every score with its components (entailment both ways, or
+YES/NO token probabilities with the raw response and prompt sha256), judge pins and log. `air-report-<restorer>`: `report.json` and `summary.md` (sha256 of the merged and judge files).
 `merge`, `judge` and `report` are pure functions of those files, so any number can be re-derived:
 
 ```
@@ -191,7 +207,7 @@ uv run python scripts/ai_readability.py report merged/readability.json 'judges/j
 Local or from olnm (`serve` uses docker, or `--llama-bin` for a built server):
 
 ```
-uv run python scripts/fetch_l3_model.py qwen3-0.6b models/qwen3-0.6b/model.gguf
+uv run python scripts/ai_readability.py fetch qwen3-0.6b
 uv run python scripts/ai_readability.py serve --model qwen3-0.6b
 uv run python scripts/ai_readability.py restore --per-lang 1 --out out/shard-0.json
 uv run python scripts/ai_readability.py stop

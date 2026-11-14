@@ -6,18 +6,22 @@ unchanged: the same pack items (control / CEF / BEF) and the same rule scores (e
 semantic_rule, notation_tolerant, error labels). New here: the restorer is a local model behind
 llama.cpp ``llama-server`` on CPU, and an LLM judge re-reads every aligned sentence pair, reported
 next to the rules with its agreement. Models are catalog keys (``shared/l3_models.json``), so the
-restorer and the judge can be swapped without code changes. Every subcommand prints JSON.
+restorer and the judge can be swapped without code changes. Judges are plug-ins (``JUDGE_BACKENDS``:
+``nli-onnx``, ``llm-logprob``) that return a confidence in [0, 1]; YES/NO comes from a threshold in
+``report``. Only the NLI backend imports third-party packages (onnxruntime, tokenizers, numpy, uv group
+``judge``), lazily and in its own CI job; everything else is stdlib. Every subcommand prints JSON.
 
 One entry point for uv, olnm, CI or an agent (paths come from ``__file__``)::
 
     uv run python scripts/ai_readability.py plan --preset pr-smoke [--restorers KEY,..] [--judges KEY,..]
     uv run python scripts/ai_readability.py plan --event push       # CI: preset from EVENT_PRESETS
+    uv run python scripts/ai_readability.py fetch KEY                         # pinned files, SHA-256 verified
     uv run python scripts/ai_readability.py build-llama --dest llama-bin      # optional, pinned commit
     uv run python scripts/ai_readability.py serve --model KEY [--llama-bin llama-bin/llama-server]
     uv run python scripts/ai_readability.py restore --shard 0 --shards 8 --out out/shard-0.json
     uv run python scripts/ai_readability.py merge 'out/shard-*.json' --out out/readability.json
     uv run python scripts/ai_readability.py judge out/readability.json --model KEY --out out/judge-KEY-0.json
-    uv run python scripts/ai_readability.py report out/readability.json 'out/judge-*.json' --out out/report.json
+    uv run python scripts/ai_readability.py report out/readability.json 'out/judge-*.json' --out out/report.json [--threshold 0.5]
     uv run python scripts/ai_readability.py stop --log out/llama-server.log
 
 Central definitions (the one place to change, conftest-style): ``DEFAULTS`` below and the model
@@ -31,7 +35,7 @@ identical answers). Digits/symbols differences are not errors (``notation_tolera
 """
 from __future__ import annotations
 
-import argparse, glob, hashlib, json, os, platform, shutil, subprocess, sys, time, urllib.error, urllib.request
+import argparse, glob, hashlib, json, math, os, platform, shutil, subprocess, sys, time, urllib.error, urllib.request
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -44,11 +48,12 @@ import paragraph_roundtrip as pr  # noqa: E402  (pack, prompt, rule scoring: sha
 
 CATALOG = ROOT / "shared/l3_models.json"
 DEFAULTS = {
-    # 暫定 (provisional) judge: LiquidAI LFM2.5-1.2B, not Qwen-family, already pinned and run by SVG L3.
-    # The judge choice is still open (non-Qwen candidates under evaluation); swap the key here or per run.
-    "judges": ["lfm2.5-1.2b-qad"],
+    # 暫定 (provisional) judge, not decided by myon: mDeBERTa-v3-base XNLI (fp32 ONNX, bidirectional entailment,
+    # min of both directions, threshold 0.5): 88.2% vs 3bot's reference labels, 0 output tokens (judge-model/3bot
+    # 9c8d7d8). Any catalog key works; its "backend" picks the plug-in (JUDGE_BACKENDS).
+    "judges": ["mdeberta-xnli-onnx"],
     "seed": 1,                          # pack file that supplies the prompts (content is identical across seeds)
-    "temperature": 0, "llama_seed": 42, "max_tokens": 1024, "judge_max_tokens": 8, "context": 4096,
+    "temperature": 0, "llama_seed": 42, "max_tokens": 1024, "context": 4096,
     "timeout": 600, "port": 8080, "name": "ai-readability",
     # llama.cpp, two pinned ways: official image b12004 by OCI digest (same as svg-l3-matrix / mcp-toolcall-lab),
     # or a build from a pinned commit (b12381, the build 2bot's restorer bench used for Qwen3) for newer models.
@@ -69,9 +74,12 @@ DEFAULT_PRESET = "pr-smoke"
 # CI picks the preset from the event; there is no manual run (t1236u). pull_request: the pipeline still
 # works; push to main (path-filtered): accuracy with the larger restorer; weekly schedule: the full set.
 EVENT_PRESETS = {"pull_request": "pr-smoke", "push": "accuracy", "schedule": "full"}
-JUDGE_PROMPT_VERSION = "sentence-equivalence-v1"
+# Judges return a number only: a confidence in [0, 1] that the restored sentence keeps the gold meaning.
+# YES/NO is derived later in ``report`` from a threshold (catalog "threshold", or --threshold); no judgement
+# is read from generated text (t1242u).
+JUDGE_PROMPT_VERSION = "sentence-equivalence-v2"
 JUDGE_PROMPT = ("Two {lang} sentences follow. Sentence B is an attempt to restore sentence A. Ignore spelling of "
-                "numbers, symbols and punctuation. Do they mean the same thing? Answer YES or NO only.\n\n"
+                "numbers, symbols and punctuation. Do they mean the same thing? Answer YES or NO.\n\n"
                 "A: {gold}\nB: {got}")
 
 
@@ -134,8 +142,40 @@ def plan(preset: str = DEFAULT_PRESET, *, restorers: list[str] | None = None, ju
             "models": c({"include": [{"model": k, "sha256": sha(k)} for k in dict.fromkeys([*cfg["restorers"], *cfg["judges"]])]}),
             "restore_matrix": c({"include": [{"restorer": r, "sha256": sha(r), "shard": s} for r in cfg["restorers"] for s in shard_ids]}),
             "restorer_matrix": c({"restorer": cfg["restorers"]}),
-            "judge_matrix": c({"include": [{"restorer": r, "judge": j, "sha256": sha(j), "shard": s}
-                                           for r in cfg["restorers"] for j in cfg["judges"] for s in shard_ids]})}
+            # A judge may fix its own shard count (catalog "shards"; the NLI judge needs one job, ~0.14 s per pair).
+            "judge_matrix": c({"include": [{"restorer": r, "judge": j, "sha256": sha(j), "backend": backend_of(j),
+                                            "shard": s, "shards": cat[j].get("shards", cfg["shards"])}
+                                           for r in cfg["restorers"] for j in cfg["judges"]
+                                           for s in range(cat[j].get("shards", cfg["shards"]))]})}
+
+
+# --- weights ------------------------------------------------------------------------------------
+
+def fetch(key: str, dest: Path) -> dict:
+    """Download every pinned file of a catalog entry (if missing) and verify bytes + SHA-256, also on cache hits.
+
+    A GGUF lands as ``dest/model.gguf`` (what ``serve`` expects); multi-file entries (``files``, e.g. an ONNX
+    model with its tokenizer) keep their repository paths under ``dest``.
+    """
+    entry = catalog()[key]
+    gguf = entry["filename"].endswith(".gguf")
+    base = entry["url"].rsplit(entry["filename"], 1)[0]
+    files = [{"filename": entry["filename"], "bytes": entry["bytes"], "sha256": entry["sha256"]}, *entry.get("files", [])]
+    for f in files:
+        target = dest / ("model.gguf" if gguf and f is files[0] else f["filename"])
+        if not target.is_file():
+            target.parent.mkdir(parents=True, exist_ok=True)
+            part = target.with_name(target.name + ".part")
+            with urllib.request.urlopen(base + f["filename"], timeout=120) as r, part.open("wb") as fh:
+                while chunk := r.read(1 << 20):
+                    fh.write(chunk)
+            part.replace(target)
+        if target.stat().st_size != f["bytes"] or file_sha(target) != f["sha256"]:
+            raise SystemExit(f"{key}: {f['filename']} size or SHA-256 mismatch (including cached bytes)")
+    receipt = {"model": key, "repository": entry["repository"], "revision": entry["revision"], "files": files,
+               "sha256_verified": True}
+    write(dest / "provenance.json", receipt)
+    return receipt
 
 
 # --- llama.cpp ------------------------------------------------------------------------------------
@@ -362,38 +402,118 @@ def merge(files: list[Path]) -> dict:
             "summary": out_summary, "pairs": pairs, "failures": failures, "items": per_item}
 
 
-def judge(merged: dict, model: str, url: str, llama: dict, shard: int = 0, shards: int = 1) -> dict:
-    """Ask the judge, for every aligned (gold, restored) sentence pair, whether the meaning is kept."""
-    todo = shard_of([p for p in merged["pairs"] if p["gold_index"] and p["got_index"]], shard, shards)
-    t0, verdicts = time.monotonic(), []
-    for p in todo:
+def _llm_logprob(pairs: list[dict], entry: dict, model_dir: Path, url: str) -> list[dict]:
+    """LLM backend: P(YES) / (P(YES) + P(NO)) of the first answer token from the server's top logprobs."""
+    rows = []
+    for p in pairs:
         prompt = JUDGE_PROMPT.format(lang=pr.LANG_NAMES[p["lang"]], gold=p["gold"], got=p["restored"])
-        rec = ask(prompt, url, DEFAULTS["judge_max_tokens"])
-        text = (rec["answer"] or "").strip().upper()
-        verdicts.append({"id": p["id"], "gold_index": p["gold_index"], "prompt_sha256": pr.sha256(prompt),
-                         "verdict": "yes" if text.startswith("YES") else "no" if text.startswith("NO") else "unparsed",
-                         **rec})
-    return {"run": merged["run"], "judge": {"prompt_version": JUDGE_PROMPT_VERSION, "prompt": JUDGE_PROMPT,
-                                            "max_tokens": DEFAULTS["judge_max_tokens"], **provenance(model, llama)},
+        body = json.dumps({"messages": [{"role": "user", "content": prompt}], "temperature": 0, "max_tokens": 1,
+                           "logprobs": True, "top_logprobs": 20, "seed": DEFAULTS["llama_seed"],
+                           "chat_template_kwargs": {"enable_thinking": False}}).encode()
+        t0, row = time.monotonic(), {"prompt_sha256": pr.sha256(prompt), "score": None}
+        try:
+            req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=DEFAULTS["timeout"]) as r:
+                payload = json.loads(r.read().decode("utf-8"))
+            row["response"] = payload
+            top = payload["choices"][0]["logprobs"]["content"][0]["top_logprobs"]
+            mass = Counter()
+            for t in top:
+                word = t["token"].strip().upper()
+                if word in ("YES", "NO"):
+                    mass[word] += math.exp(t["logprob"])
+            if mass:
+                row["score"] = round(mass["YES"] / (mass["YES"] + mass["NO"]), 6)
+            row["p_yes_token"], row["p_no_token"] = round(mass["YES"], 6), round(mass["NO"], 6)
+        except (urllib.error.URLError, TimeoutError, ValueError, KeyError, IndexError, TypeError) as exc:
+            row["error"] = f"{type(exc).__name__}: {exc}"
+        row["elapsed_seconds"] = round(time.monotonic() - t0, 3)
+        rows.append(row)
+    return rows
+
+
+def _nli_onnx(pairs: list[dict], entry: dict, model_dir: Path, url: str) -> list[dict]:
+    """NLI backend (3bot's method): entailment probability in both directions, score = the smaller one.
+
+    Needs onnxruntime, tokenizers and numpy (``uv sync --only-group judge``), imported here only, so the
+    rest of the pipeline stays stdlib.
+    """
+    import numpy as np, onnxruntime as ort  # noqa: E401
+    from tokenizers import Tokenizer
+    labels = {v.lower(): int(k) for k, v in pr.load_json(model_dir / "config.json")["id2label"].items()}
+    tok = Tokenizer.from_file(str(model_dir / "tokenizer.json"))
+    so = ort.SessionOptions(); so.intra_op_num_threads = os.cpu_count() or 2; so.inter_op_num_threads = 1
+    sess = ort.InferenceSession(str(model_dir / entry["filename"]), so, providers=["CPUExecutionProvider"])
+    names = {i.name for i in sess.get_inputs()}
+    rows = []
+    for p in pairs:
+        t0 = time.monotonic()
+        encs = [tok.encode(p["gold"], p["restored"]), tok.encode(p["restored"], p["gold"])]
+        n = max(len(e.ids) for e in encs)
+        feed = {"input_ids": np.array([e.ids + [0] * (n - len(e.ids)) for e in encs], dtype=np.int64),
+                "attention_mask": np.array([e.attention_mask + [0] * (n - len(e.ids)) for e in encs], dtype=np.int64)}
+        if "token_type_ids" in names:
+            feed["token_type_ids"] = np.zeros_like(feed["input_ids"])
+        logits = sess.run(None, feed)[0]
+        prob = np.exp(logits - logits.max(-1, keepdims=True)); prob /= prob.sum(-1, keepdims=True)
+        ent = prob[:, labels["entailment"]]
+        rows.append({"score": round(float(ent.min()), 6), "p_entail_fwd": round(float(ent[0]), 6),
+                     "p_entail_bwd": round(float(ent[1]), 6), "input_tokens": sum(len(e.ids) for e in encs),
+                     "elapsed_seconds": round(time.monotonic() - t0, 3)})
+    return rows
+
+
+# Pluggable judge backends: catalog "backend" -> function(pairs, entry, model_dir, url) -> [{"score": 0..1|None, ...}].
+JUDGE_BACKENDS = {"nli-onnx": _nli_onnx, "llm-logprob": _llm_logprob}
+
+
+def backend_of(key: str) -> str:
+    return catalog()[key].get("backend", "llm-logprob")
+
+
+def judge(merged: dict, model: str, url: str, llama: dict, shard: int = 0, shards: int = 1,
+          model_dir: Path | None = None) -> dict:
+    """Score every aligned (gold, restored) sentence pair with a confidence in [0, 1]."""
+    entry, backend = catalog()[model], backend_of(model)
+    todo = shard_of([p for p in merged["pairs"] if p["gold_index"] and p["got_index"]], shard, shards)
+    t0 = time.monotonic()
+    rows = JUDGE_BACKENDS[backend](todo, entry, model_dir or ROOT / "models" / model, url)
+    scores = [{"id": p["id"], "gold_index": p["gold_index"], **r} for p, r in zip(todo, rows)]
+    pins = provenance(model, llama if backend.startswith("llm") else {})
+    return {"run": merged["run"], "judge": {"backend": backend, "threshold": entry.get("threshold", 0.5),
+                                            **({"prompt_version": JUDGE_PROMPT_VERSION, "prompt": JUDGE_PROMPT}
+                                               if backend.startswith("llm") else {"score": "min(P(entail) both directions)"}),
+                                            **pins},
             "restorer": merged["restore"]["model"], "readability_sha256": pr.sha256(json.dumps(merged, sort_keys=True)),
-            "shard": shard, "shards": shards, "elapsed_seconds": round(time.monotonic() - t0, 1), "verdicts": verdicts}
+            "shard": shard, "shards": shards, "elapsed_seconds": round(time.monotonic() - t0, 1), "scores": scores}
 
 
-def report(merged: dict, judge_files: list[Path]) -> dict:
-    """Rules (baseline) and every judge side by side, with judge-vs-notation_tolerant agreement."""
+def report(merged: dict, judge_files: list[Path], threshold: float | None = None) -> dict:
+    """Rules (baseline) and every judge side by side. A judge YES is score > threshold (derived here)."""
     by_judge: dict[str, list[dict]] = {}
     for f in judge_files:
         j = pr.load_json(f)
         by_judge.setdefault(j["judge"]["model"], []).append(j)
     judges = {}
     for key, parts in by_judge.items():
-        verdict = {(v["id"], tuple(v["gold_index"])): v["verdict"] for j in parts for v in j["verdicts"]}
+        thr = parts[0]["judge"]["threshold"] if threshold is None else threshold
+        score = {(v["id"], tuple(v["gold_index"])): v["score"] for j in parts for v in j["scores"]}
         table: dict[str, Counter] = {}
+        sums: dict[str, list[float]] = {}
         for p in merged["pairs"]:
             if not p["gold_index"]:
                 continue
             n, c = len(p["gold_index"]), table.setdefault(p["method"], Counter())
-            v = verdict.get((p["id"], tuple(p["gold_index"])), "no" if not p["got_index"] else "missing")
+            k = (p["id"], tuple(p["gold_index"]))
+            if not p["got_index"]:
+                v = "no"  # dropped sentence: nothing to judge, counted as lost
+            elif k not in score:
+                v = "missing"
+            elif score[k] is None:
+                v = "unscored"
+            else:
+                v = "yes" if score[k] > thr else "no"
+                sums.setdefault(p["method"], []).extend([score[k]] * n)
             rule = "pass" if p["notation_tolerant"] else "fail"
             c["sentences"] += n; c[f"judge_{v}"] += n; c[f"rule_{rule}_judge_{v}"] += n
         for f in merged["failures"]:  # no answer at all: both the rules and the judge count it as lost
@@ -404,13 +524,14 @@ def report(merged: dict, judge_files: list[Path]) -> dict:
         for m, c in table.items():
             n = c["sentences"] or 1
             agree = c["rule_pass_judge_yes"] + c["rule_fail_judge_no"]
-            summ[m] = {**dict(sorted(c.items())), "judge_equivalent_rate": round(c["judge_yes"] / n, 4),
-                       "agreement_rate": round(agree / n, 4),
+            sc = sums.get(m, [])
+            summ[m] = {"judge_yes": 0, "judge_no": 0, **dict(sorted(c.items())), "mean_score": round(sum(sc) / len(sc), 4) if sc else None,
+                       "judge_equivalent_rate": round(c["judge_yes"] / n, 4), "agreement_rate": round(agree / n, 4),
                        "rule_pass_judge_no": c["rule_pass_judge_no"], "rule_fail_judge_yes": c["rule_fail_judge_yes"]}
+        files = [f for f in judge_files if pr.load_json(f)["judge"]["model"] == key]
         judges[key] = {"pins": {k: v for k, v in parts[0]["judge"].items() if k not in ("runner", "cpus", "prompt")},
-                       "shards": len(parts), "shard_elapsed_seconds": [j["elapsed_seconds"] for j in parts],
-                       "judge_files": {f.name: file_sha(f) for f in judge_files if pr.load_json(f)["judge"]["model"] == key},
-                       "summary": summ}
+                       "threshold": thr, "shards": len(parts), "shard_elapsed_seconds": [j["elapsed_seconds"] for j in parts],
+                       "judge_files": {f.name: file_sha(f) for f in files}, "summary": summ}
     return {"run": merged["run"], "prompt_version": merged["prompt_version"],
             "ai_readability": {"status": "measured", "restorer": merged["restore"]["model"],
                                "judges": ["rule", *judges]},
@@ -434,12 +555,14 @@ def markdown(rep: dict) -> str:
                      f"{a['notation_tolerant']}/{a['sentences']} ({a['notation_tolerant_rate']:.2%}) | "
                      f"{a['paragraph_exact']}/{a['judgements']} | {a['no_answer']} |")
     for key, j in rep["judges"].items():
-        lines += ["", f"judge {key} ({j['pins']['prompt_version']}, slowest shard {max(j['shard_elapsed_seconds'])} s)", "",
-                  "| method | judge equivalent | agreement with notation_tolerant | rule pass / judge no | rule fail / judge yes | unparsed |",
-                  "|---|---|---|---|---|---|"]
+        lines += ["", f"judge {key} ({j['pins']['backend']}, {j['pins']['repository']}@{j['pins']['revision'][:8]}, "
+                      f"score > {j['threshold']} = equivalent, slowest shard {max(j['shard_elapsed_seconds'])} s)", "",
+                  "| method | mean score | judge equivalent | agreement with notation_tolerant | rule pass / judge no | rule fail / judge yes | unscored |",
+                  "|---|---|---|---|---|---|---|"]
         for m, s in j["summary"].items():
-            lines.append(f"| {m} | {s['judge_yes']}/{s['sentences']} ({s['judge_equivalent_rate']:.2%}) | {s['agreement_rate']:.2%} | "
-                         f"{s['rule_pass_judge_no']} | {s['rule_fail_judge_yes']} | {s.get('judge_unparsed', 0) + s.get('judge_missing', 0)} |")
+            ms = "-" if s["mean_score"] is None else f"{s['mean_score']:.3f}"
+            lines.append(f"| {m} | {ms} | {s['judge_yes']}/{s['sentences']} ({s['judge_equivalent_rate']:.2%}) | {s['agreement_rate']:.2%} | "
+                         f"{s['rule_pass_judge_no']} | {s['rule_fail_judge_yes']} | {s.get('judge_unscored', 0) + s.get('judge_missing', 0)} |")
     lines += ["", "failure reasons (rule): " + ", ".join(f"{k} {v}" for k, v in list(rep["failure_reasons"].items())[:8])]
     return "\n".join(lines) + "\n"
 
@@ -453,6 +576,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--judges", default="", help="comma list of catalog keys (default: DEFAULTS judges)")
     p.add_argument("--shards", type=int); p.add_argument("--per-lang", type=int)
     p.add_argument("--llama", choices=["image", "build"]); p.add_argument("--github-output", type=Path)
+    f = sub.add_parser("fetch"); f.add_argument("model"); f.add_argument("--dest", type=Path)
     b = sub.add_parser("build-llama"); b.add_argument("--dest", type=Path, default=ROOT / "llama-bin")
     b.add_argument("--commit", default=DEFAULTS["llama_commit"])
     llama = argparse.ArgumentParser(add_help=False)
@@ -469,8 +593,9 @@ def main(argv: list[str] | None = None) -> int:
     j = sub.add_parser("judge", parents=[llama]); j.add_argument("merged", type=Path); j.add_argument("--model", required=True)
     j.add_argument("--url", default=f"http://127.0.0.1:{DEFAULTS['port']}/v1/chat/completions")
     j.add_argument("--shard", type=int, default=0); j.add_argument("--shards", type=int, default=1)
-    j.add_argument("--out", type=Path, required=True)
+    j.add_argument("--models-dir", type=Path); j.add_argument("--out", type=Path, required=True)
     e = sub.add_parser("report"); e.add_argument("merged", type=Path); e.add_argument("judge_files", nargs="*")
+    e.add_argument("--threshold", type=float, help="override every judge's catalog threshold (score > t = equivalent)")
     e.add_argument("--out", type=Path, required=True); e.add_argument("--markdown", type=Path)
     a = ap.parse_args(argv)
     if a.action == "plan":
@@ -485,6 +610,8 @@ def main(argv: list[str] | None = None) -> int:
                           "restorer_matrix", "judge_matrix"):
                     fh.write(f"{k}={res[k]}\n")
         return out(res)
+    if a.action == "fetch":
+        return out(fetch(a.model, a.dest or ROOT / "models" / a.model))
     if a.action == "build-llama":
         return out(build_llama(a.dest, a.commit))
     if a.action == "serve":
@@ -501,11 +628,14 @@ def main(argv: list[str] | None = None) -> int:
         write(a.out, res)
         return out({k: res[k] for k in ("items_answered", "items_expected")} | {"restorer": res["restore"]["model"], "out": str(a.out)})
     if a.action == "judge":
-        res = judge(pr.load_json(a.merged), a.model, a.url, llama_pin(a.llama_bin), a.shard, a.shards)
+        res = judge(pr.load_json(a.merged), a.model, a.url, llama_pin(a.llama_bin) if backend_of(a.model).startswith("llm") else {},
+                    a.shard, a.shards, a.models_dir)
+        scored = [v["score"] for v in res["scores"] if v["score"] is not None]
         write(a.out, res)
-        return out({"judge": a.model, "shard": a.shard, "verdicts": dict(Counter(v["verdict"] for v in res["verdicts"])),
+        return out({"judge": a.model, "backend": res["judge"]["backend"], "shard": a.shard, "pairs": len(res["scores"]),
+                    "scored": len(scored), "mean_score": round(sum(scored) / len(scored), 4) if scored else None,
                     "elapsed_seconds": res["elapsed_seconds"], "out": str(a.out)})
-    res = report(pr.load_json(a.merged), [f for f in expand(a.judge_files) if f.is_file()])
+    res = report(pr.load_json(a.merged), [f for f in expand(a.judge_files) if f.is_file()], a.threshold)
     write(a.out, res)
     if a.markdown:
         a.markdown.write_text(markdown(res), encoding="utf-8")

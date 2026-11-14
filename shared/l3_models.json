@@ -94,5 +94,33 @@
     "lanes": [
       "readability"
     ]
+  },
+  "mdeberta-xnli-onnx": {
+    "repository": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+    "revision": "b5113eb38ab63efdd7f280f8c144ea8b13f978ce",
+    "filename": "onnx/model.onnx",
+    "bytes": 1116115065,
+    "sha256": "e9238a33e07411eae1d1cef1d5f22e5f556717ce586c827581bb59598a45fe37",
+    "url": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7/resolve/b5113eb38ab63efdd7f280f8c144ea8b13f978ce/onnx/model.onnx",
+    "template": null,
+    "quality_gate": false,
+    "lanes": [
+      "readability"
+    ],
+    "backend": "nli-onnx",
+    "threshold": 0.5,
+    "shards": 1,
+    "files": [
+      {
+        "filename": "tokenizer.json",
+        "bytes": 16316151,
+        "sha256": "e23095eb61ba944c7be3a5d3e8ec19e37ce7ced0daa03550bde03e83c21b3f8a"
+      },
+      {
+        "filename": "config.json",
+        "bytes": 1093,
+        "sha256": "bc7b85f164a17c1b007d87fb99d3676f4a4d2e6511d2288dd3f5334dc0f34e6b"
+      }
+    ]
   }
 }

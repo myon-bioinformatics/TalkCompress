@@ -22,7 +22,7 @@ def test_catalog_has_seven_pinned_models_about_6_86_gb():
         assert re.fullmatch(r"[0-9a-f]{64}", model["sha256"])
         assert model["revision"] in model["url"]
     assert MODELS["qwen-0.5b"]["sha256"] == "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db"
-    total = sum(m["bytes"] for m in MODELS.values())
+    total = sum(m["bytes"] for m in bench.svg_models(MODELS).values())
     assert 6.8e9 < total < 10e9
 
 
