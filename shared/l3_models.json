@@ -121,6 +121,65 @@
         "bytes": 1093,
         "sha256": "bc7b85f164a17c1b007d87fb99d3676f4a4d2e6511d2288dd3f5334dc0f34e6b"
       }
-    ]
+    ],
+    "release_url": "https://github.com/myon-bioinformatics/TalkCompress/releases/download/judge-model-mdeberta-xnli-onnx-b5113eb3/"
+  },
+  "mdeberta-xnli-onnx-int8": {
+    "repository": "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7",
+    "revision": "b5113eb38ab63efdd7f280f8c144ea8b13f978ce",
+    "filename": "onnx/model_quantized.onnx",
+    "bytes": 338679133,
+    "sha256": "18307c3bcb5d896a624c077af061b259d341829f3d13c8b3d49a044e28d4fe6a",
+    "url": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7/resolve/b5113eb38ab63efdd7f280f8c144ea8b13f978ce/onnx/model_quantized.onnx",
+    "template": null,
+    "quality_gate": false,
+    "lanes": [
+      "readability"
+    ],
+    "backend": "nli-onnx",
+    "threshold": 0.5,
+    "shards": 1,
+    "files": [
+      {
+        "filename": "tokenizer.json",
+        "bytes": 16316151,
+        "sha256": "e23095eb61ba944c7be3a5d3e8ec19e37ce7ced0daa03550bde03e83c21b3f8a"
+      },
+      {
+        "filename": "config.json",
+        "bytes": 1093,
+        "sha256": "bc7b85f164a17c1b007d87fb99d3676f4a4d2e6511d2288dd3f5334dc0f34e6b"
+      }
+    ],
+    "release_url": "https://github.com/myon-bioinformatics/TalkCompress/releases/download/judge-model-mdeberta-xnli-onnx-int8-b5113eb3/"
+  },
+  "minilm-l6-xnli-onnx": {
+    "repository": "MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli",
+    "revision": "0a71e92a985b6e1ad1828cf67ce9c459639c1dca",
+    "filename": "onnx/model.onnx",
+    "bytes": 428127016,
+    "sha256": "79f8cda2b1230585a95ea0514a6f1bd21c5c986ba0529bb3261213a3e195fa6e",
+    "url": "https://huggingface.co/MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli/resolve/0a71e92a985b6e1ad1828cf67ce9c459639c1dca/onnx/model.onnx",
+    "template": null,
+    "quality_gate": false,
+    "lanes": [
+      "readability"
+    ],
+    "backend": "nli-onnx",
+    "threshold": 0.5,
+    "shards": 1,
+    "files": [
+      {
+        "filename": "onnx/tokenizer.json",
+        "bytes": 17082854,
+        "sha256": "b2116c05e7305eea30394284760789681c5b3440dd4cd9a8c77539da68f9e8a6"
+      },
+      {
+        "filename": "onnx/config.json",
+        "bytes": 921,
+        "sha256": "e08b628c4d46c8601dda34ddb40a7857e5961870b80482382d420db6dfb6e00e"
+      }
+    ],
+    "release_url": "https://github.com/myon-bioinformatics/TalkCompress/releases/download/judge-model-minilm-l6-xnli-onnx-0a71e92a/"
   }
 }

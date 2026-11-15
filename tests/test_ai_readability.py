@@ -43,7 +43,8 @@ def test_presets_are_catalog_driven_and_shards_cover_once():
     assert p["restorers"] == ["qwen3-0.6b"] and p["items_per_restorer"] == 39 and p["llama"] == "build"
     jm = json.loads(p["judge_matrix"])["include"]  # the NLI judge fixes its own shard count (1)
     assert [(x["restorer"], x["judge"], x["backend"], x["shard"], x["shards"]) for x in jm] == [
-        ("qwen3-0.6b", "mdeberta-xnli-onnx", "nli-onnx", 0, 1)]
+        ("qwen3-0.6b", "mdeberta-xnli-onnx", "nli-onnx", 0, 1),  # the default judge first, then the candidates
+        ("qwen3-0.6b", "mdeberta-xnli-onnx-int8", "nli-onnx", 0, 1), ("qwen3-0.6b", "minilm-l6-xnli-onnx", "nli-onnx", 0, 1)]
     llm = json.loads(ar.plan("pr-smoke", judges=["lfm2.5-1.2b-qad"])["judge_matrix"])["include"]
     assert [(x["backend"], x["shard"], x["shards"]) for x in llm] == [("llm-logprob", s, 4) for s in range(4)]
     assert all(x["sha256"] == ar.catalog()[x["model"]]["sha256"] for x in json.loads(p["models"])["include"])
@@ -203,3 +204,64 @@ def test_report_separates_model_coverage_from_failed_recovery(tmp_path, numeric_
     assert row["judge_equivalent_rate"] == (0.0 if numeric_score is None else 0.25)
     assert "agreement with notation_tolerant (scored only)" in ar.markdown(report)
     assert report["failure_reasons"] == {"no_answer": 1}
+
+
+# --- judge weights from GitHub Release assets (t1246u / t1247u) -----------------------------------
+
+def test_judges_come_from_this_repos_prereleases_and_cache_keys_name_the_source():
+    cat, base = ar.catalog(), "https://github.com/myon-bioinformatics/TalkCompress/releases/download/"
+    judges = [*ar.DEFAULTS["judges"], *ar.DEFAULTS["judge_candidates"]]
+    assert ar.DEFAULTS["judges"] == ["mdeberta-xnli-onnx"]  # candidates never replace the default
+    for k in judges:
+        e = cat[k]
+        assert e["backend"] == "nli-onnx" and "readability" in e["lanes"]
+        # tag naming: judge-model-<catalog key>-<first 8 of the HF revision>, one prerelease per entry
+        assert e["release_url"] == f"{base}judge-model-{k}-{e['revision'][:8]}/"
+        names = [ar.local_name(e, f["filename"]) for f in [e, *e["files"]]]
+        assert len(set(names)) == len(names) and "tokenizer.json" in names and "config.json" in names
+        assert all(f["bytes"] < 2 * 1024**3 for f in [e, *e["files"]])  # GitHub's per-asset limit
+        assert ar.cache_key(k) == f"model-{k}-{e['sha256']}-judge-model-{k}-{e['revision'][:8]}"
+    p = ar.plan("pr-smoke")
+    keys = {x["model"]: x["cache_key"] for x in json.loads(p["models"])["include"]}
+    assert keys["qwen3-0.6b"] == f"model-qwen3-0.6b-{cat['qwen3-0.6b']['sha256']}"  # HF restorers keep their cache
+    assert all(x["cache_key"] == keys[x["judge"]] for x in json.loads(p["judge_matrix"])["include"])
+    assert all(x["cache_key"] == keys[x["restorer"]] for x in json.loads(p["restore_matrix"])["include"])
+    assert [x["judge"] for x in json.loads(ar.plan("pr-smoke", judges=["minilm-l6-xnli-onnx"])["judge_matrix"])["include"]] == [
+        "minilm-l6-xnli-onnx"]
+
+
+def _release(tmp_path, monkeypatch, onnx: bytes, tok: bytes = b"{}"):
+    """A fake catalog entry whose release_url is a local directory (file://), so no network is needed."""
+    import hashlib
+    rel = tmp_path / "release"; rel.mkdir()
+    (rel / "model.onnx").write_bytes(b"ONNX"); (rel / "tokenizer.json").write_bytes(tok)
+    entry = {"repository": "o/r", "revision": "0" * 40, "filename": "onnx/model.onnx", "bytes": len(onnx),
+             "sha256": hashlib.sha256(onnx).hexdigest(), "url": "https://example.invalid/o/r/onnx/model.onnx",
+             "backend": "nli-onnx", "release_url": rel.as_uri() + "/",
+             "files": [{"filename": "onnx/tokenizer.json", "bytes": 2, "sha256": hashlib.sha256(b"{}").hexdigest()}]}
+    monkeypatch.setattr(ar, "catalog", lambda: {"j": entry})
+    return rel
+
+
+def test_fetch_downloads_release_assets_flat_and_records_the_source(tmp_path, monkeypatch):
+    rel = _release(tmp_path, monkeypatch, b"ONNX")
+    rec = ar.fetch("j", tmp_path / "models/j")
+    assert sorted(p.name for p in (tmp_path / "models/j").iterdir()) == ["model.onnx", "provenance.json", "tokenizer.json"]
+    assert rec["source"] == rel.as_uri() + "/" and rec["sha256_verified"] and rec["revision"] == "0" * 40
+    assert ar.cache_key("j").endswith("-release")  # the tag is the last path segment of release_url
+
+
+def test_fetch_fails_and_removes_bytes_on_sha256_mismatch(tmp_path, monkeypatch):
+    _release(tmp_path, monkeypatch, b"EXPECTED")  # same length, different bytes in the release
+    (tmp_path / "release/model.onnx").write_bytes(b"TAMPERED")
+    with pytest.raises(SystemExit, match="SHA-256 mismatch"):
+        ar.fetch("j", tmp_path / "models/j")
+    assert not (tmp_path / "models/j/model.onnx").exists()  # nothing unverified is left for actions/cache
+
+
+def test_fetch_rechecks_cached_files(tmp_path, monkeypatch):
+    _release(tmp_path, monkeypatch, b"ONNX")
+    ar.fetch("j", tmp_path / "models/j")
+    (tmp_path / "models/j/tokenizer.json").write_bytes(b"[]")  # a corrupted cache hit
+    with pytest.raises(SystemExit, match="tokenizer.json"):
+        ar.fetch("j", tmp_path / "models/j")

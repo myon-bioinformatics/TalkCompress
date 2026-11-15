@@ -53,6 +53,10 @@ DEFAULTS = {
     # min of both directions, threshold 0.5): 88.2% vs 3bot's reference labels, 0 output tokens (judge-model/3bot
     # 9c8d7d8). Any catalog key works; its "backend" picks the plug-in (JUDGE_BACKENDS).
     "judges": ["mdeberta-xnli-onnx"],
+    # Lighter candidates judged side by side (t1247u), never the default; each is one parallel NLI job.
+    # 3bot's 127 reference cases (box CPU, 8 threads): fp32 88.2% / 0.079 s per case, int8 80.3% / 0.078 s
+    # (same repo, onnx/model_quantized.onnx, 0.34 GB), MiniLMv2-L6 87.4% / 0.017 s (0.43 GB).
+    "judge_candidates": ["mdeberta-xnli-onnx-int8", "minilm-l6-xnli-onnx"],
     "seed": 1,                          # pack file that supplies the prompts (content is identical across seeds)
     "temperature": 0, "llama_seed": 42, "max_tokens": 1024, "context": 4096,
     "timeout": 600, "port": 8080, "name": "ai-readability",
@@ -65,11 +69,13 @@ DEFAULTS = {
 # Named presets: models per purpose (t1234u). The restorer default is 暫定 (myon has not decided):
 # Qwen3-0.6B Q8_0, recommended by 2bot's restorer bench; Qwen2.5-1.5B paraphrased even the control.
 # per_lang = paragraphs per language (0 = all 60 paragraphs = 180 items). Every field can be overridden per run.
+# candidates = also run DEFAULTS["judge_candidates"]. On in pr-smoke too: the NLI jobs run in parallel with the
+# default judge (int8 ~10 s, MiniLM ~3 s for 192 pairs on the box) and add 0.8 GB to the 10 GB cache.
 PRESETS = {
-    "pr-smoke": {"restorers": ["qwen3-0.6b"], "per_lang": 1, "shards": 4, "llama": "build"},
-    "accuracy": {"restorers": ["qwen3-1.7b"], "per_lang": 2, "shards": 8, "llama": "build"},
-    "full": {"restorers": ["qwen3-0.6b"], "per_lang": 0, "shards": 8, "llama": "build"},
-    "full-pair": {"restorers": ["qwen3-0.6b", "qwen3-1.7b"], "per_lang": 0, "shards": 8, "llama": "build"},
+    "pr-smoke": {"restorers": ["qwen3-0.6b"], "per_lang": 1, "shards": 4, "llama": "build", "candidates": True},
+    "accuracy": {"restorers": ["qwen3-1.7b"], "per_lang": 2, "shards": 8, "llama": "build", "candidates": True},
+    "full": {"restorers": ["qwen3-0.6b"], "per_lang": 0, "shards": 8, "llama": "build", "candidates": True},
+    "full-pair": {"restorers": ["qwen3-0.6b", "qwen3-1.7b"], "per_lang": 0, "shards": 8, "llama": "build", "candidates": True},
 }
 DEFAULT_PRESET = "pr-smoke"
 # CI picks the preset from the event; there is no manual run (t1236u). pull_request: the pipeline still
@@ -146,7 +152,8 @@ def plan(preset: str = DEFAULT_PRESET, *, restorers: list[str] | None = None, ju
     """Resolve a preset (+ overrides) into GitHub matrices; cache keys use each model's SHA-256."""
     if preset not in PRESETS:
         raise SystemExit(f"unknown preset {preset!r}; choose from {', '.join(PRESETS)}")
-    cfg = {**PRESETS[preset], "judges": DEFAULTS["judges"]}
+    cfg = {**PRESETS[preset]}
+    cfg["judges"] = [*DEFAULTS["judges"], *(DEFAULTS["judge_candidates"] if cfg.pop("candidates", False) else [])]
     for k, v in {"restorers": restorers, "judges": judges, "per_lang": per_lang, "shards": shards, "llama": llama}.items():
         if v not in (None, [], ""):
             cfg[k] = v
@@ -159,17 +166,32 @@ def plan(preset: str = DEFAULT_PRESET, *, restorers: list[str] | None = None, ju
     sha = lambda k: cat[k]["sha256"]  # noqa: E731
     shard_ids = range(cfg["shards"])
     return {"preset": preset, **cfg, "llama_commit": DEFAULTS["llama_commit"], "items_per_restorer": n,
-            "models": c({"include": [{"model": k, "sha256": sha(k)} for k in dict.fromkeys([*cfg["restorers"], *cfg["judges"]])]}),
-            "restore_matrix": c({"include": [{"restorer": r, "sha256": sha(r), "shard": s} for r in cfg["restorers"] for s in shard_ids]}),
+            "models": c({"include": [{"model": k, "sha256": sha(k), "cache_key": cache_key(k)}
+                                     for k in dict.fromkeys([*cfg["restorers"], *cfg["judges"]])]}),
+            "restore_matrix": c({"include": [{"restorer": r, "sha256": sha(r), "cache_key": cache_key(r), "shard": s}
+                                             for r in cfg["restorers"] for s in shard_ids]}),
             "restorer_matrix": c({"restorer": cfg["restorers"]}),
             # A judge may fix its own shard count (catalog "shards"; the NLI judge needs one job, ~0.14 s per pair).
-            "judge_matrix": c({"include": [{"restorer": r, "judge": j, "sha256": sha(j), "backend": backend_of(j),
+            "judge_matrix": c({"include": [{"restorer": r, "judge": j, "sha256": sha(j), "cache_key": cache_key(j),
+                                            "backend": backend_of(j),
                                             "shard": s, "shards": cat[j].get("shards", cfg["shards"])}
                                            for r in cfg["restorers"] for j in cfg["judges"]
                                            for s in range(cat[j].get("shards", cfg["shards"]))]})}
 
 
 # --- weights ------------------------------------------------------------------------------------
+
+def local_name(entry: dict, filename: str) -> str:
+    """Release assets are flat (``onnx/model.onnx`` -> ``model.onnx``); HF downloads keep repository paths."""
+    return Path(filename).name if entry.get("release_url") else filename
+
+
+def cache_key(key: str) -> str:
+    """actions/cache key: the source is part of it, so switching HF -> Release really downloads once."""
+    e = catalog()[key]
+    tag = e["release_url"].rstrip("/").rsplit("/", 1)[1] if e.get("release_url") else ""
+    return "-".join(x for x in ("model", key, e["sha256"], tag) if x)
+
 
 def fetch(key: str, dest: Path) -> dict:
     """Download every pinned file of a catalog entry (if missing) and verify bytes + SHA-256, also on cache hits.
@@ -179,21 +201,25 @@ def fetch(key: str, dest: Path) -> dict:
     """
     entry = catalog()[key]
     gguf = entry["filename"].endswith(".gguf")
-    base = entry["url"].rsplit(entry["filename"], 1)[0]
+    # Judge weights come from this repository's prerelease assets (catalog "release_url", t1246u), so CI does
+    # not depend on the HF CDN; "url" stays the HF source of the same bytes (provenance, same SHA-256).
+    base = entry.get("release_url") or entry["url"].rsplit(entry["filename"], 1)[0]
     files = [{"filename": entry["filename"], "bytes": entry["bytes"], "sha256": entry["sha256"]}, *entry.get("files", [])]
     for f in files:
-        target = dest / ("model.gguf" if gguf and f is files[0] else f["filename"])
+        name = local_name(entry, f["filename"])
+        target = dest / ("model.gguf" if gguf and f is files[0] else name)
         if not target.is_file():
             target.parent.mkdir(parents=True, exist_ok=True)
             part = target.with_name(target.name + ".part")
-            with urllib.request.urlopen(base + f["filename"], timeout=120) as r, part.open("wb") as fh:
+            with urllib.request.urlopen(base + name, timeout=120) as r, part.open("wb") as fh:
                 while chunk := r.read(1 << 20):
                     fh.write(chunk)
             part.replace(target)
         if target.stat().st_size != f["bytes"] or file_sha(target) != f["sha256"]:
+            target.unlink()  # never leave unverified bytes where the cache step or a retry would pick them up
             raise SystemExit(f"{key}: {f['filename']} size or SHA-256 mismatch (including cached bytes)")
     receipt = {"model": key, "repository": entry["repository"], "revision": entry["revision"], "files": files,
-               "sha256_verified": True}
+               "source": base, "sha256_verified": True}
     write(dest / "provenance.json", receipt)
     return receipt
 
@@ -489,7 +515,7 @@ def _nli_onnx(pairs: list[dict], entry: dict, model_dir: Path, url: str) -> list
     labels = {v.lower(): int(k) for k, v in pr.load_json(model_dir / "config.json")["id2label"].items()}
     tok = Tokenizer.from_file(str(model_dir / "tokenizer.json"))
     so = ort.SessionOptions(); so.intra_op_num_threads = os.cpu_count() or 2; so.inter_op_num_threads = 1
-    sess = ort.InferenceSession(str(model_dir / entry["filename"]), so, providers=["CPUExecutionProvider"])
+    sess = ort.InferenceSession(str(model_dir / local_name(entry, entry["filename"])), so, providers=["CPUExecutionProvider"])
     names = {i.name for i in sess.get_inputs()}
     rows = []
     for p in pairs:

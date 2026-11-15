@@ -175,6 +175,24 @@ pair) and list extra pinned files (`files`: tokenizer, config), all checked by `
 SHA-256, also on cache hits). To add another backend, write `fn(pairs, entry, model_dir, url) ->
 [{"score": float | None, ...}]` and register it in `JUDGE_BACKENDS`.
 
+**Judge weights come from GitHub Releases** (t1246u). Each NLI judge has its own prerelease in this
+repository (never latest), tagged `judge-model-<catalog key>-<first 8 of the HF revision>`, with the
+HF files unchanged (no conversion; directories dropped, so `onnx/model.onnx` becomes the asset
+`model.onnx`), the license / model card and `SHA256SUMS`. The catalog keeps the HF `repository`,
+`revision` and `url` as the source and adds `release_url`; `fetch` downloads from `release_url`
+(public, no token), checks bytes and SHA-256 and deletes a mismatching file before failing. The
+actions/cache key includes the tag (`cache_key`), so the switch from HF really downloads once.
+
+| catalog key | role | release tag | model file | 3bot reference (127) | s/case (box) |
+|---|---|---|---|---|---|
+| `mdeberta-xnli-onnx` | default | `judge-model-mdeberta-xnli-onnx-b5113eb3` | fp32, 1,116,115,065 B | 88.2% | 0.079 |
+| `mdeberta-xnli-onnx-int8` | candidate | `judge-model-mdeberta-xnli-onnx-int8-b5113eb3` | int8 (`model_quantized.onnx`), 338,679,133 B | 80.3% | 0.078 |
+| `minilm-l6-xnli-onnx` | candidate | `judge-model-minilm-l6-xnli-onnx-0a71e92a` | MiniLMv2-L6 fp32, 428,127,016 B | 87.4% | 0.017 |
+
+Candidates (`DEFAULTS["judge_candidates"]`, t1247u) run next to the default in every preset
+(`"candidates": True`), one parallel job each; `plan --judges` replaces the whole list. All three
+are MIT per their model cards; the MiniLM base model card carries no license line (see its release).
+
 **Judge metrics** (`report`, per method, in sentences): `scored_sentences` counts actual numeric
 scores; `agreement_rate` with `notation_tolerant` uses only those sentences (null if none).
 `rule_pass_judge_no` and `rule_fail_judge_yes` are disagreements on scored sentences.
