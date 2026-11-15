@@ -60,9 +60,22 @@ One fresh, independent knowledgeWork subagent call per item, nothing but the pro
    `difflib` similarity (1-1, 2-1 merge, 1-2 split, drop, add). A gold sentence is exact when
    `roundtrip.norm` of gold and restored content are equal; a merge/split with equal content still
    counts as exact and is labelled `merge_split`.
-3. **Paragraph exact**: every gold sentence exact and the same number of sentences.
-4. **Semantic (rule-based)**: exact, or equal after English contractions are expanded and
-   articles/determiners removed. This is not an AI judgement.
+3. **Paragraph exact**: every gold sentence exact, the same number of sentences, and every
+   aligned pair 1-1 (no `merge_split`, added or dropped line).
+4. **Semantic (rule-based)**: exact, or equal after English contractions are expanded
+   (including *can't/cannot* → *can not*, *won't* → *will not*), preposition + article
+   contractions are folded to the bare preposition (pt *do/da/no/ao/pelo/pro…*, es *del/al*,
+   fr *au/aux*, it *del/nel/al…*, de *im/zum/zur/vom…*; closed tables) and articles/determiners
+   removed. This is not an AI judgement.
+   **Meaning-bearing symbols** (`% ‰ ° $ € £ ¥ + ±` and a minus sign directly before a digit)
+   are kept by every metric: `roundtrip.norm` drops them, so before the 2026-11-15 audit
+   *29%* ↔ *29* or *−5* ↔ *5* passed even sentence exact. Exact now also requires the same
+   sequence of these symbols.
+   **Shifted boundaries**: when a judge breaks lines inside sentences (en-pd-02|BEF seed 3 broke
+   after every *Mr.*), the 1-1/2-1/1-2 alignment cannot line the lines up. The shortest run of
+   consecutive failing alignment pairs whose joined content is equal is then merged into one
+   `merge_split` row (per metric: exact, then semantic_rule, then notation_tolerant). A changed
+   word anywhere in the window still fails.
 5. **Notation-tolerant** (`notation_tolerant`): applied *on top of* `semantic_rule`. A sentence
    passes if it already passes `semantic_rule`, or if `loose()` of the two sides matches after a
    closed, stdlib-only normalisation table (`notation_form` in `scripts/paragraph_roundtrip.py`).
@@ -86,8 +99,19 @@ One fresh, independent knowledgeWork subagent call per item, nothing but the pro
    pass `notation_tolerant`. When two sentences match by the notation table itself, they are
    not labelled as errors in the taxonomy (the difference is notation, not meaning).
    Number-word and percent-word lists are English; typographic folding applies to every
-   language. Roman numerals and other lexical number names (*XV*, *quindecim*) are outside
-   the table.
+   language. Lexical number names in other languages stay outside the table, except the Latin
+   rule below.
+   Score audit additions (2026-11-15, t1232u; cases in
+   [`paragraph-score-audit-20261115.md`](paragraph-score-audit-20261115.md)), each closed and
+   tested in both directions:
+   - letter/digit boundaries are spacing (*minimálně100* ↔ *minimálně 100*);
+   - unit names after a number ↔ unit symbol (*100 metres* ↔ *100 m* ↔ *100メートル*; km, cm, ft);
+   - English spelling variants *towards/toward*, *afterwards/afterward*;
+   - ja/zh: a parenthesised Latin-script gloss right after CJK text (*利金斯 (Liggins)* ↔ *利金斯*);
+   - la only: Roman numerals of two or more letters (not an abbreviation with a dot) and the
+     indeclinable cardinals 4–20, tens, *centum*, *mille* ↔ digits (*XV* ↔ *quindecim*);
+   - el only: a word of 4+ letters that differs only by a *missing* accent (*μελη* ↔ *μέλη*);
+     a moved accent (*πότε* ≠ *ποτέ*) or a short word (*η* ≠ *ή*) still differs.
    Rationale (myon, 2026-11-13, t1208): 「厳密であることと正確であることは別」— symbols and
    digits that survive or are substituted in newspaper-style English (*per cent* ↔ `%`,
    *eighteen* ↔ *18*, U+2019 ↔ ASCII `'`) should not count as errors.
@@ -119,5 +143,8 @@ to `PARA_SEED`. `tiktoken` is used only by `build` (dev group); everything else 
 
 Three seeds have been judged and scored. The aggregate tables, per-language commentary, provenance
 and disclosures are in [`docs/paragraph-roundtrip-results-20261113.md`](paragraph-roundtrip-results-20261113.md).
-AI readability remains 未測定.
+AI readability remains 未測定. The figures in that file were scored before the 2026-11-15 score
+audit; the audit's before/after table is in
+[`docs/paragraph-score-audit-20261115.md`](paragraph-score-audit-20261115.md) and
+`para20261113_results.json` holds the post-audit scores.
 

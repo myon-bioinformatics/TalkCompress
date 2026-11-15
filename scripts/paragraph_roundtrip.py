@@ -341,17 +341,53 @@ PRONOUNS = {
 AUX_EN = set("have has had 've 'd will would shall should was were is are am be been being do does did".split())
 ARTICLES = {k: set(v.split()) for k, v in ARTICLES.items()}
 PRONOUNS = {k: set(v.split()) for k, v in PRONOUNS.items()}
-CONTRACTIONS = [(r"n't\b", " not"), (r"'ve\b", " have"), (r"'ll\b", " will"), (r"'re\b", " are"),
+CONTRACTIONS = [(r"\bcan't\b", "can not"), (r"\bcannot\b", "can not"), (r"\bwon't\b", "will not"),
+                (r"\bshan't\b", "shall not"),
+                (r"n't\b", " not"), (r"'ve\b", " have"), (r"'ll\b", " will"), (r"'re\b", " are"),
                 (r"'m\b", " am"), (r"'d\b", " would")]
+
+# Preposition + article contractions (score audit 2026-11-15, t1232u). loose() already drops the
+# articles, so a contraction is folded to its bare preposition: "do Martelly" ~ "de Martelly".
+# Closed per-language tables; pt also folds the colloquial pro/pra ("da noite pro dia").
+PREP_ARTICLE = {
+    "pt": {"de": "do da dos das", "em": "no na nos nas num numa nuns numas", "a": "ao aos à às",
+           "por": "pelo pela pelos pelas", "para": "pro pra pros pras"},
+    "es": {"de": "del", "a": "al"},
+    "fr": {"à": "au aux"},
+    "it": {"di": "del dello della dei degli delle", "a": "al allo alla ai agli alle",
+           "da": "dal dallo dalla dai dagli dalle", "in": "nel nello nella nei negli nelle",
+           "su": "sul sullo sulla sui sugli sulle"},
+    "de": {"in": "im ins", "an": "am ans", "zu": "zum zur", "von": "vom", "bei": "beim"},
+}
+PREP_ARTICLE = {lang: {w: base for base, ws in t.items() for w in ws.split()} for lang, t in PREP_ARTICLE.items()}
+
+# Symbols that carry meaning and must survive loose() / notation_form(): dropping or changing
+# one is a content change (29% ≠ 29, $5 ≠ €5, −5 °C ≠ 5 °C). Other symbols stay ignored.
+MEANING_SYMBOLS = set("%‰‱°$€£¥₩₹+±−")
+_MINUS = re.compile(r"(?<![\w.,)\]])[-\u2010\u2011\u2012\u2013\u2014\u2212](?=\d)")
+
+
+def _mark_minus(s: str) -> str:
+    """A dash directly before a digit and not after a word/number is a minus sign."""
+    return _MINUS.sub(" \u2212", s)
 
 
 def loose(s: str, lang: str) -> str:
-    """norm + English contractions expanded + articles/determiners removed (rule-based semantic)."""
-    s = unicodedata.normalize("NFC", s).lower()
+    """norm + English contractions expanded + preposition/article contractions folded +
+    articles/determiners removed (rule-based semantic). Meaning-bearing symbols are kept."""
+    s = _mark_minus(unicodedata.normalize("NFC", s).lower())
     if lang == "en":
         for pat, rep in CONTRACTIONS:
             s = re.sub(pat, rep, s)
-    return " ".join(t for t in tokens(s) if t not in ARTICLES.get(lang, ()))
+    arts, prep = ARTICLES.get(lang, ()), PREP_ARTICLE.get(lang, {})
+    out = []
+    for t in tokens(s, keep_symbols=True):
+        if not t[0].isalnum() and t not in MEANING_SYMBOLS:
+            continue
+        t = prep.get(t, t)
+        if t not in arts:
+            out.append(t)
+    return " ".join(out)
 
 
 def same_stem(a: str, b: str) -> bool:
@@ -500,22 +536,161 @@ def _number_word_pairs() -> list[tuple[str, str]]:
 NOTATION_NUMBERS = tuple((re.compile(rf"\b{re.escape(w)}\b"), d) for w, d in _number_word_pairs())
 
 
-def notation_form(s: str) -> str:
+# Closed English spelling variants (same word, two spellings).
+NOTATION_SPELLING = tuple((re.compile(rf"\b{a}\b"), b) for a, b in (
+    ("towards", "toward"), ("afterwards", "afterward")))
+
+# Unit names after a number → the unit symbol (100 meters ~ 100 m ~ 100メートル).
+NOTATION_UNITS = (
+    (re.compile(r"(?<=\d)\s*(?:kilomet(?:er|re)s?|キロメートル|公里)(?![^\W\d_])"), " km"),
+    (re.compile(r"(?<=\d)\s*(?:centimet(?:er|re)s?|センチメートル|厘米)(?![^\W\d_])"), " cm"),
+    (re.compile(r"(?<=\d)\s*(?:met(?:er|re)s?|メートル)(?![^\W\d_])"), " m"),
+    (re.compile(r"(?<=\d)\s*(?:feet|foot|フィート)(?![^\W\d_])"), " ft"),
+    (re.compile(r"(?<=\d)\s*(km|cm|m|ft)\b"), r" \1"),
+)
+
+# A parenthesised Latin-script gloss right after CJK text (利金斯 (Liggins) ~ 利金斯) repeats the
+# name in its original spelling; dropping it is notation, not content (ja/zh only).
+_CJK_GLOSS = re.compile(r"(?<=[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff])\s*[(（]\s*[A-Za-z][A-Za-z .'\-]*\s*[)）]")
+
+# Latin (la only): Roman numerals (2+ letters, not an abbreviation with a dot) and the
+# indeclinable cardinals 4-20, tens, 100, 1000 → digits (XV ~ quindecim ~ 15).
+LATIN_CARDINALS = {w: n for n, w in [
+    (4, "quattuor"), (5, "quinque"), (6, "sex"), (7, "septem"), (8, "octo"), (9, "novem"), (10, "decem"),
+    (11, "undecim"), (12, "duodecim"), (13, "tredecim"), (14, "quattuordecim"), (15, "quindecim"),
+    (16, "sedecim"), (17, "septendecim"), (18, "duodeviginti"), (19, "undeviginti"), (20, "viginti"),
+    (30, "triginta"), (40, "quadraginta"), (50, "quinquaginta"), (60, "sexaginta"), (70, "septuaginta"),
+    (80, "octoginta"), (90, "nonaginta"), (100, "centum"), (1000, "mille")]}
+_ROMAN = re.compile(r"\b(?=[MDCLXVI]{2,}\b)(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})\b(?!\.)")
+
+
+def _roman_to_int(m: re.Match) -> str:
+    vals = {"M": 1000, "D": 500, "C": 100, "L": 50, "X": 10, "V": 5, "I": 1}
+    t, total = m.group(0), 0
+    for i, ch in enumerate(t):
+        v = vals[ch]
+        total += -v if i + 1 < len(t) and vals[t[i + 1]] > v else v
+    return str(total)
+
+
+def notation_form(s: str, lang: str | None = None) -> str:
     """Apply the closed notation table. Result is compared as a space-normalised string."""
-    s = unicodedata.normalize("NFC", s).lower().translate(NOTATION_TRANS)
+    s = unicodedata.normalize("NFC", s)
+    if lang in ("ja", "zh"):
+        s = _CJK_GLOSS.sub("", s)
+    if lang == "la":
+        s = _ROMAN.sub(_roman_to_int, s)
+    s = _mark_minus(s.lower().translate(NOTATION_TRANS))
+    if lang == "la":
+        s = re.sub(r"\b[a-z]+\b", lambda m: str(LATIN_CARDINALS.get(m.group(0), m.group(0))), s)
     for pat, rep in NOTATION_PERCENT:
         s = pat.sub(rep, s)
     for pat, rep in NOTATION_NUMBERS:
         s = pat.sub(rep, s)
+    for pat, rep in NOTATION_SPELLING:
+        s = pat.sub(rep, s)
+    for pat, rep in NOTATION_UNITS:
+        s = pat.sub(rep, s)
     s = re.sub(r"\s*%\s*", "%", s)
-    # Separator / trailing punctuation becomes space; keep %, word-internal apostrophes and hyphens.
+    # Letter/digit boundaries are spacing, not content (minimálně100 ~ minimálně 100).
+    s = re.sub(r"(?<=[^\W\d_])(?=\d)|(?<=\d)(?=[^\W\d_])", " ", s)
+    # Separator / trailing punctuation becomes space; keep %, meaning symbols, word-internal
+    # apostrophes and hyphens.
     s = re.sub(r"(?<![\w%])[-']+|[-']+(?![\w%])", " ", s)
-    s = re.sub(r"[^\w\s'%]+", " ", s)
+    keep = re.escape("".join(sorted(MEANING_SYMBOLS)))
+    s = re.sub(rf"[^\w\s'{keep}]+", " ", s)
+    s = re.sub(rf"([{keep}])", r" \1 ", s)
     # Spaces next to CJK are typographic (从 1959 年 ↔ 从1959年; mixed Latin after parentheses
     # fold). ASCII spaces in Latin-script text are left alone.
     s = re.sub(r"(?<=[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff])\s+", "", s)
     s = re.sub(r"\s+(?=[\u3040-\u30ff\u3400-\u9fff\uf900-\ufaff])", "", s)
     return " ".join(s.split())
+
+
+def _strip_accents(w: str) -> str:
+    return unicodedata.normalize("NFC", "".join(
+        c for c in unicodedata.normalize("NFD", w) if not unicodedata.combining(c)))
+
+
+def _greek_missing_tonos(x: str, y: str) -> bool:
+    """Same Greek word where one side simply lacks its accent (μελη ~ μέλη). Words under 4
+    letters are excluded (η/ή, που/πού differ in meaning) and a *moved* accent still differs
+    (πότε ≠ ποτέ)."""
+    if len(x) < 4 or _strip_accents(x) != _strip_accents(y):
+        return False
+    return x == _strip_accents(x) or y == _strip_accents(y)
+
+
+def _forms_equal(a: str, b: str, lang: str) -> bool:
+    if a == b:
+        return True
+    if lang != "el":
+        return False
+    ta, tb = a.split(), b.split()
+    return len(ta) == len(tb) and all(x == y or _greek_missing_tonos(x, y) for x, y in zip(ta, tb))
+
+
+def notation_equal(g: str, r: str, lang: str) -> bool:
+    """notation_form() equality, plus the Greek missing-accent fold."""
+    return _forms_equal(notation_form(g, lang), notation_form(r, lang), lang)
+
+
+def meaning_symbols(s: str) -> list[str]:
+    """Meaning-bearing symbols in order (roundtrip.norm drops them: 29% ~ 29 would be exact)."""
+    s = _mark_minus(unicodedata.normalize("NFC", s).translate(NOTATION_TRANS))
+    return [c for c in s if c in MEANING_SYMBOLS]
+
+
+def _metric_eq(kind: str, g: str, r: str, lang: str) -> bool:
+    if kind == "exact":
+        return norm(g) == norm(r) and meaning_symbols(g) == meaning_symbols(r)
+    if kind == "semantic_rule":
+        return _metric_eq("exact", g, r, lang) or loose(g, lang) == loose(r, lang)
+    return (_metric_eq("exact", g, r, lang) or loose(g, lang) == loose(r, lang) or notation_equal(g, r, lang)
+            or _forms_equal(loose(notation_form(g, lang), lang), loose(notation_form(r, lang), lang), lang))
+
+
+def regroup(pairs, gold: list[str], got: list[str], lang: str):
+    """Sentence boundaries that moved without changing content (a judge breaking lines at
+    "Mr." so every later line is shifted): merge the shortest run of consecutive failing
+    alignment pairs whose joined gold and joined answer are equal under each metric in turn
+    (exact, then semantic_rule, then notation_tolerant). Returns the new pairs and the set of
+    merged-pair indices. Content must be equal over the whole window, so a real change inside
+    it still fails."""
+    groups = [(list(gi), list(ri), False) for gi, ri in pairs]
+    for kind in ("exact", "semantic_rule", "notation_tolerant"):
+        def ok(gi, ri):
+            return bool(gi and ri) and _metric_eq(kind, " ".join(gold[k] for k in gi),
+                                                  " ".join(got[k] for k in ri), lang)
+        changed = True
+        while changed:
+            changed = False
+            bad = [i for i, (gi, ri, _) in enumerate(groups) if not ok(gi, ri)]
+            runs, cur = [], []
+            for i in bad:
+                if cur and i != cur[-1] + 1:
+                    runs.append(cur); cur = []
+                cur.append(i)
+            if cur:
+                runs.append(cur)
+            for run in runs:
+                best = None
+                for width in range(2, len(run) + 1):
+                    for st in range(0, len(run) - width + 1):
+                        idx = run[st:st + width]
+                        gi = [k for i in idx for k in groups[i][0]]
+                        ri = [k for i in idx for k in groups[i][1]]
+                        if ok(gi, ri):
+                            best = (idx, gi, ri)
+                            break
+                    if best:
+                        break
+                if best:
+                    idx, gi, ri = best
+                    groups[idx[0]:idx[-1] + 1] = [(gi, ri, True)]
+                    changed = True
+                    break
+    return [(gi, ri) for gi, ri, _ in groups], {i for i, (_, _, m) in enumerate(groups) if m}
 
 
 # --- scoring -----------------------------------------------------------------------------------
@@ -533,20 +708,22 @@ def score_answer(para: dict, compressed: str, answer: str | None) -> dict:
         for k in gi:
             comp_map[k] = " ".join(comp_sents[x] for x in ci)
     rows, labels = [], Counter()
-    for gi, ri in align(gold, got):
+    pairs, regrouped = regroup(align(gold, got), gold, got, lang)
+    for n, (gi, ri) in enumerate(pairs):
         g_txt = " ".join(gold[k] for k in gi); r_txt = " ".join(got[k] for k in ri)
         seg = None
         if not gi:
             seg = "added_sentence"
         elif not ri:
             seg = "dropped_sentence"
-        elif len(gi) != len(ri):
+        elif len(gi) != len(ri) or n in regrouped:
             seg = "merge_split"
-        exact = bool(gi and ri) and norm(g_txt) == norm(r_txt)
-        sem = exact or (bool(gi and ri) and loose(g_txt, lang) == loose(r_txt, lang))
-        form_eq = bool(gi and ri) and notation_form(g_txt) == notation_form(r_txt)
+        both = bool(gi and ri)
+        exact = both and _metric_eq("exact", g_txt, r_txt, lang)
+        sem = both and _metric_eq("semantic_rule", g_txt, r_txt, lang)
+        form_eq = both and notation_equal(g_txt, r_txt, lang)
         # On top of semantic_rule: also pass if loose() matches after notation_form().
-        note = sem or form_eq or (bool(gi and ri) and loose(notation_form(g_txt), lang) == loose(notation_form(r_txt), lang))
+        note = both and _metric_eq("notation_tolerant", g_txt, r_txt, lang)
         # Pure notation differences are not meaning errors (t1208). Article/contraction
         # labels still apply when the match is only via semantic_rule.
         errs = [] if exact or form_eq or not gi or not ri else classify(g_txt, r_txt, lang)
@@ -571,7 +748,10 @@ def score_answer(para: dict, compressed: str, answer: str | None) -> dict:
     note_n = sum(len(r["gold"]) for r in rows if r["notation_tolerant"])
     return {"status": "ok", "sentences": len(gold), "restored_sentences": len(got), "exact": exact_n,
             "semantic_rule": sem_n, "notation_tolerant": note_n,
-            "paragraph_exact": exact_n == len(gold) and len(got) == len(gold),
+            # one answer line per gold sentence: equal line counts with shifted boundaries are not
+            # a paragraph-exact restoration
+            "paragraph_exact": exact_n == len(gold) and len(got) == len(gold)
+                               and all(r["segmentation"] is None for r in rows),
             "format_followed": fmt, "labels": dict(sorted(labels.items())), "sentence_rows": rows}
 
 

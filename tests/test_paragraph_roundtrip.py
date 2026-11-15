@@ -384,3 +384,113 @@ def test_replay_keys_by_item_id_when_prompts_collide(scratch):
     assert rp.replay(1, control["id"]) is None
     assert rp.replay(1, cef["id"]) == "CEF-ONLY ANSWER"
 
+
+
+# --- score audit 2026-11-15 (t1232u): each fixed rule type, both directions ---------------------
+
+def rows3(gold, got, lang="en"):
+    """(exact, semantic_rule, notation_tolerant) of the first sentence."""
+    row = pair(gold, got, lang)["sentence_rows"][0]
+    return row["exact"], row["semantic_rule"], row["notation_tolerant"]
+
+
+def test_audit_meaning_symbols_are_not_dropped():
+    # should pass: same symbol, spacing / typography only
+    assert rows3("It rose 8 % in 2010.", "It rose 8% in 2010.")[1] is True
+    assert rows3("It cost $5.", "It cost $5.")[0] is True
+    # should fail: a dropped or changed meaning-bearing symbol changes the content
+    assert rows3("It rose 29% last year.", "It rose 29 last year.") == (False, False, False)
+    assert rows3("It was −5 degrees.", "It was 5 degrees.") == (False, False, False)
+    assert rows3("It was -5 degrees.", "It was 5 degrees.") == (False, False, False)
+    assert rows3("It cost $5.", "It cost €5.") == (False, False, False)
+    assert rows3("It was 5 °C.", "It was 5 C.")[1] is False
+    # a range dash between numbers is not a minus sign
+    assert rows3("from 100–250 metres", "from 100-250 metres")[2] is True
+
+
+def test_audit_negation_and_number_changes_fail_every_metric():
+    assert rows3("He did not go home.", "He did go home.") == (False, False, False)
+    assert rows3("He can't swim.", "He can swim.") == (False, False, False)
+    assert rows3("She never came.", "She came.") == (False, False, False)
+    assert rows3("It rose eighteen per cent.", "It rose 80%.") == (False, False, False)
+    assert rows3("It rose 18 per cent.", "It rose 19%.") == (False, False, False)
+    assert rows3("Out of 1,400 people.", "Out of 1,500 people.") == (False, False, False)
+    assert rows3("Nie powinna nią zostać.", "Powinna nią zostać.", "pl") == (False, False, False)
+
+
+def test_audit_english_negative_contractions():
+    assert rows3("He cannot swim.", "He can't swim.")[1] is True
+    assert rows3("He will not swim.", "He won't swim.")[1] is True
+    assert rows3("He will not swim.", "He will swim.")[1] is False
+
+
+def test_audit_preposition_article_contractions():
+    # pt-flores-01 / pt-flores-02 (seeds 1-3)
+    assert rows3("É o quinto CEP do Martelly.", "É o quinto CEP de Martelly.", "pt")[1] is True
+    assert rows3("da noite pro dia", "da noite para o dia", "pt")[1] is True
+    assert rows3("Ich bin im Haus.", "Ich bin in dem Haus.", "de")[1] is True
+    # should fail: a different preposition is still a change
+    assert rows3("É o quinto CEP do Martelly.", "É o quinto CEP para Martelly.", "pt")[1] is False
+    assert rows3("Ich bin im Haus.", "Ich bin vor dem Haus.", "de")[2] is False
+
+
+def test_audit_letter_digit_spacing():
+    # cs-flores-02 (seeds 1-3): gold "minimálně100"
+    g = "Mají minimálně100 až 250 metrů."
+    assert rows3(g, "Mají minimálně 100 až 250 metrů.", "cs") == (False, False, True)
+    assert rows3(g, "Mají minimálně 150 až 250 metrů.", "cs")[2] is False
+
+
+def test_audit_greek_missing_accent_only():
+    # el-flores-01 (seeds 1-3): gold "μελη" lacks its accent
+    assert rows3("Αποτελείται από εννέα μελη.", "Αποτελείται από εννέα μέλη.", "el")[2] is True
+    # a moved accent or a short word stays different (πότε ≠ ποτέ, η ≠ ή)
+    assert rows3("Δεν ξέρω πότε έρχεται.", "Δεν ξέρω ποτέ έρχεται.", "el")[2] is False
+    assert rows3("Ο Γιάννης η Μαρία.", "Ο Γιάννης ή Μαρία.", "el")[2] is False
+
+
+def test_audit_unit_words_after_numbers():
+    # ja-flores-02 (seeds 2-3)
+    assert rows3("直径100～250 m(328～820フィート)ほどです。", "直径100～250メートル（328～820フィート）ほどです。", "ja")[2] is True
+    assert rows3("It is 100 metres wide.", "It is 100 m wide.")[2] is True
+    assert rows3("It is 100 metres wide.", "It is 100 km wide.")[2] is False
+    assert rows3("It is 100 metres wide.", "It is 100 feet wide.")[2] is False
+
+
+def test_audit_latin_roman_numerals_and_cardinals():
+    # la-caesar-04 (seeds 1-3)
+    g = "Ita dies circiter XV iter fecerunt."
+    assert rows3(g, "Ita dies circiter quindecim iter fecerunt.", "la")[2] is True
+    assert rows3(g, "Ita dies circiter decem iter fecerunt.", "la")[2] is False
+    # an abbreviation with a dot is not a numeral
+    assert pr.notation_form("M. Messala consule", "la") != pr.notation_form("1000 Messala consule", "la")
+    # outside Latin, Roman numerals are not converted (Elizabeth II stays II)
+    assert pr.notation_form("Elizabeth II", "en") == "elizabeth ii"
+
+
+def test_audit_cjk_latin_gloss():
+    # zh-flores-03|BEF (seed 3), zh-flores-01 (seeds 2-3)
+    assert rows3("利金斯 (Liggins) 追随父亲的脚步。", "利金斯追随父亲的脚步。", "zh")[2] is True
+    # a different name is still a change, gloss or not
+    assert rows3("马特利 (Martelly) 第五次。", "马尔泰利第五次。", "zh")[2] is False
+    # only after CJK text, and only for ja/zh
+    assert pr.notation_form("Hare (Lepus) ran.", "en") != pr.notation_form("Hare ran.", "en")
+
+
+def test_audit_spelling_variant_towards():
+    assert rows3("to move the country towards new elections", "to move the country toward new elections")[2] is True
+    assert rows3("to move the country towards new elections", "to move the country away from new elections")[2] is False
+
+
+def test_audit_shifted_sentence_boundaries_with_equal_content():
+    """en-pd-02|BEF seed 3: the judge broke lines after "Mr." so every later line is shifted
+    across the gold boundaries (no 1-2 / 2-1 move can line them up)."""
+    gold = ["He came home.", '"My dear Mr. Bennet," she said.', "Mr. Bennet replied.", "It ended."]
+    ans = 'He came home. "My dear Mr.\nBennet," she said. Mr.\nBennet replied.\nIt ended.'
+    r = pr.score_answer(P(gold), "x", ans)
+    assert (r["exact"], r["semantic_rule"], r["notation_tolerant"]) == (4, 4, 4)
+    assert not r["paragraph_exact"] and r["labels"].get("merge_split")
+    # same shifted lines but a changed word inside the window: still a miss
+    bad = 'He came home. "My dear Mr.\nBennet," she said. Mr.\nBennet refused.\nIt ended.'
+    r = pr.score_answer(P(gold), "x", bad)
+    assert r["exact"] < 4 and r["notation_tolerant"] < 4 and r["sentence_rows"][-1]["exact"]
