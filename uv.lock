@@ -960,6 +960,10 @@ session-test = [
     { name = "pytest" },
     { name = "tiktoken" },
 ]
+stdlib-test = [
+    { name = "pytest" },
+    { name = "pyyaml" },
+]
 translate = [
     { name = "deep-translator" },
 ]
@@ -982,6 +986,10 @@ session-test = [
     { name = "anyio", specifier = ">=4.15.1" },
     { name = "pytest", specifier = ">=8" },
     { name = "tiktoken" },
+]
+stdlib-test = [
+    { name = "pytest", specifier = ">=8" },
+    { name = "pyyaml", specifier = ">=6" },
 ]
 translate = [{ name = "deep-translator", specifier = ">=1.11.4" }]
 

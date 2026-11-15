@@ -99,7 +99,7 @@ def test_summarize_cli_exit_codes(tmp_path):
 def test_workflow_matches_issue_87_decisions():
     text = WORKFLOW.read_text(encoding="utf-8")
     assert 'LLAMA_MAX_TOKENS: "2048"' in text and 'LLAMA_CONTEXT: "4096"' in text and '-c "$LLAMA_CONTEXT"' in text
-    assert "pull_request:" in text and "workflow_dispatch:" in text
+    assert "pull_request:" in text and "workflow_dispatch:" not in text
     assert "svg_l3_bench.py matrix" in text and "fromJSON(needs.plan.outputs.matrix)" in text
     assert "fail-fast: false" in text
     # svg_l3.py's DSL exit 1 is recorded, not a verdict.

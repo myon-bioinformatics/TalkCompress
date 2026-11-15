@@ -1,7 +1,7 @@
 name: svg-l3-matrix
 
 # Issue #87: SVG L3 per model, one workflow and one matrix (pattern of mcp-toolcall-lab #182).
-# Pull requests measure only the default model; every model or a selection is workflow_dispatch only.
+# Pull requests measure only the default model.
 # No quality threshold: DSL failures, unfinished answers and low scores never fail a job.
 # A job fails only when the measurement itself does not complete (download, startup, inference, tokenizer).
 # L2 (Chromium rendering) is out of scope.
@@ -18,12 +18,6 @@ on:
       - shared/l3_models.json
       - shared/l3_templates/**
       - examples/figures/*.svg
-  workflow_dispatch:
-    inputs:
-      models:
-        description: 'Model key, comma list of keys, or "all" (7 models, about 6.86 GB of weights)'
-        type: string
-        default: qwen-0.5b
 
 permissions:
   contents: read
@@ -51,7 +45,7 @@ jobs:
       - id: models
         env:
           EVENT: ${{ github.event_name }}
-          MODEL_CHOICE: ${{ inputs.models }}
+          MODEL_CHOICE: ""
         run: python3 scripts/svg_l3_bench.py matrix "$EVENT" "$MODEL_CHOICE" --github-output "$GITHUB_OUTPUT"
 
   l3:
