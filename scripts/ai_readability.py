@@ -535,7 +535,7 @@ def judge(merged: dict, model: str, url: str, llama: dict, shard: int = 0, shard
 
 
 def report(merged: dict, judge_files: list[Path], threshold: float | None = None) -> dict:
-    """Rules (baseline) and every judge side by side. A judge YES is score > threshold (derived here)."""
+    """Compare rules and judges on scored sentences; keep recovery losses separate."""
     by_judge: dict[str, list[dict]] = {}
     for f in judge_files:
         j = pr.load_json(f)
@@ -552,7 +552,7 @@ def report(merged: dict, judge_files: list[Path], threshold: float | None = None
             n, c = len(p["gold_index"]), table.setdefault(p["method"], Counter())
             k = (p["id"], tuple(p["gold_index"]))
             if not p["got_index"]:
-                v = "no"  # dropped sentence: nothing to judge, counted as lost
+                v = "not_restored"  # dropped sentence: nothing to judge
             elif k not in score:
                 v = "missing"
             elif score[k] is None:
@@ -562,17 +562,20 @@ def report(merged: dict, judge_files: list[Path], threshold: float | None = None
                 sums.setdefault(p["method"], []).extend([score[k]] * n)
             rule = "pass" if p["notation_tolerant"] else "fail"
             c["sentences"] += n; c[f"judge_{v}"] += n; c[f"rule_{rule}_judge_{v}"] += n
-        for f in merged["failures"]:  # no answer at all: both the rules and the judge count it as lost
+        for f in merged["failures"]:  # no answer at all: a recovery loss, not a model verdict
             if f["reasons"][0].startswith("no_answer"):
                 c, n = table.setdefault(f["method"], Counter()), len(f["gold_index"])
-                c["sentences"] += n; c["judge_no"] += n; c["rule_fail_judge_no"] += n
+                c["sentences"] += n; c["judge_not_restored"] += n
         summ = {}
         for m, c in table.items():
-            n = c["sentences"] or 1
+            n = c["sentences"]
+            scored = c["judge_yes"] + c["judge_no"]
             agree = c["rule_pass_judge_yes"] + c["rule_fail_judge_no"]
             sc = sums.get(m, [])
-            summ[m] = {"judge_yes": 0, "judge_no": 0, **dict(sorted(c.items())), "mean_score": round(sum(sc) / len(sc), 4) if sc else None,
-                       "judge_equivalent_rate": round(c["judge_yes"] / n, 4), "agreement_rate": round(agree / n, 4),
+            summ[m] = {"judge_yes": 0, "judge_no": 0, "judge_not_restored": 0, **dict(sorted(c.items())),
+                       "scored_sentences": scored, "mean_score": round(sum(sc) / len(sc), 4) if sc else None,
+                       "judge_equivalent_rate": round(c["judge_yes"] / n, 4) if n else None,
+                       "agreement_rate": round(agree / scored, 4) if scored else None,
                        "rule_pass_judge_no": c["rule_pass_judge_no"], "rule_fail_judge_yes": c["rule_fail_judge_yes"]}
         files = [f for f in judge_files if pr.load_json(f)["judge"]["model"] == key]
         judges[key] = {"pins": {k: v for k, v in parts[0]["judge"].items() if k not in ("runner", "cpus", "prompt")},
@@ -605,12 +608,16 @@ def markdown(rep: dict) -> str:
     for key, j in rep["judges"].items():
         lines += ["", f"judge {key} ({j['pins']['backend']}, {j['pins']['repository']}@{j['pins']['revision'][:8]}, "
                       f"score > {j['threshold']} = equivalent, slowest shard {max(j['shard_elapsed_seconds'])} s)", "",
-                  "| method | mean score | judge equivalent | agreement with notation_tolerant | rule pass / judge no | rule fail / judge yes | unscored |",
-                  "|---|---|---|---|---|---|---|"]
+                  "| method | mean score | equivalent / all | scored / all | agreement with notation_tolerant (scored only) | rule pass / judge no | rule fail / judge yes | not restored | unscored |",
+                  "|---|---|---|---|---|---|---|---|---|"]
         for m, s in j["summary"].items():
             ms = "-" if s["mean_score"] is None else f"{s['mean_score']:.3f}"
-            lines.append(f"| {m} | {ms} | {s['judge_yes']}/{s['sentences']} ({s['judge_equivalent_rate']:.2%}) | {s['agreement_rate']:.2%} | "
-                         f"{s['rule_pass_judge_no']} | {s['rule_fail_judge_yes']} | {s.get('judge_unscored', 0) + s.get('judge_missing', 0)} |")
+            eq = "-" if s["judge_equivalent_rate"] is None else f"{s['judge_equivalent_rate']:.2%}"
+            agree = "-" if s["agreement_rate"] is None else f"{s['agreement_rate']:.2%}"
+            lines.append(f"| {m} | {ms} | {s['judge_yes']}/{s['sentences']} ({eq}) | "
+                         f"{s['scored_sentences']}/{s['sentences']} | {agree} | "
+                         f"{s['rule_pass_judge_no']} | {s['rule_fail_judge_yes']} | "
+                         f"{s['judge_not_restored']} | {s.get('judge_unscored', 0) + s.get('judge_missing', 0)} |")
     lines += ["", "failure reasons (rule): " + ", ".join(f"{k} {v}" for k, v in list(rep["failure_reasons"].items())[:8])]
     return "\n".join(lines) + "\n"
 

@@ -170,3 +170,36 @@ def test_merge_rejects_shards_from_another_restore_prompt(tmp_path, url):
     ar.write(tmp_path / "s.json", s)
     with pytest.raises(SystemExit):
         ar.merge([tmp_path / "s.json"])
+
+
+@pytest.mark.parametrize("numeric_score", [None, 0.9])
+def test_report_separates_model_coverage_from_failed_recovery(tmp_path, numeric_score):
+    merged = {
+        "run": "fixture", "prompt_version": "fixture",
+        "restore": {"model": "fixture", "repository": "fixture", "revision": "test", "llama_commit": "test"},
+        "summary": {}, "items_expected": 2, "items_answered": 1, "shard_elapsed_seconds": [0],
+        "pairs": [
+            {"id": "restored", "gold_index": [1], "got_index": [1], "method": "control", "notation_tolerant": True},
+            {"id": "restored", "gold_index": [2], "got_index": [], "method": "control", "notation_tolerant": False},
+        ],
+        "failures": [{"method": "control", "reasons": ["no_answer"], "gold_index": [1, 2]}],
+    }
+    path = tmp_path / "judge.json"
+    path.write_text(json.dumps({
+        "judge": {"model": "fixture", "threshold": 0.5, "backend": "fixture",
+                  "repository": "fixture", "revision": "test"},
+        "readability_sha256": ar.pr.sha256(json.dumps(merged, sort_keys=True)),
+        "elapsed_seconds": 0,
+        "scores": [{"id": "restored", "gold_index": [1], "score": numeric_score}],
+    }), encoding="utf-8")
+
+    report = ar.report(merged, [path])
+    row = report["judges"]["fixture"]["summary"]["control"]
+    assert row["sentences"] == 4
+    assert row["judge_not_restored"] == 3
+    assert row["judge_no"] == row.get("rule_fail_judge_no", 0) == 0
+    assert row["scored_sentences"] == int(numeric_score is not None)
+    assert row["agreement_rate"] == (None if numeric_score is None else 1.0)
+    assert row["judge_equivalent_rate"] == (0.0 if numeric_score is None else 0.25)
+    assert "agreement with notation_tolerant (scored only)" in ar.markdown(report)
+    assert report["failure_reasons"] == {"no_answer": 1}

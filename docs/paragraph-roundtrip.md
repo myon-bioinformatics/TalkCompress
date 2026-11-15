@@ -175,11 +175,13 @@ pair) and list extra pinned files (`files`: tokenizer, config), all checked by `
 SHA-256, also on cache hits). To add another backend, write `fn(pairs, entry, model_dir, url) ->
 [{"score": float | None, ...}]` and register it in `JUDGE_BACKENDS`.
 
-**Judge metrics** (`report`, per method, in sentences): `mean_score`, `judge_equivalent_rate`
-(score above the threshold), `agreement_rate` with `notation_tolerant`, `rule_pass_judge_no`
-(rules accept, judge rejects) and `rule_fail_judge_yes` (rules reject, judge accepts: candidate
-rule gaps or judge leniency). A missing answer is a loss for both. A judge from the restorer's own
-family is not independent.
+**Judge metrics** (`report`, per method, in sentences): `scored_sentences` counts actual numeric
+scores; `agreement_rate` with `notation_tolerant` uses only those sentences (null if none).
+`rule_pass_judge_no` and `rule_fail_judge_yes` are disagreements on scored sentences.
+Missing or dropped answers count under `judge_not_restored`, not as judge verdicts.
+`judge_equivalent_rate` is the fraction of all reference sentences scored above the threshold,
+so recovery losses still reduce the end-to-end rate. A judge from the restorer's own family
+is not independent.
 
 **Presets** (`PRESETS`; every field can be overridden per run):
 
