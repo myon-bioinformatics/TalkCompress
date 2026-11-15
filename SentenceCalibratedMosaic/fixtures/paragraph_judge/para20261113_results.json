@@ -17,34 +17,34 @@
     "label:added_content": 21,
     "label:added_subject_object": 2,
     "label:article_demonstrative": 5,
-    "label:dropped_content": 11,
+    "label:dropped_content": 10,
     "label:inflection_change": 12,
     "label:merge_split": 22,
-    "label:rewrite": 11,
-    "label:synonym_drift": 46,
+    "label:rewrite": 10,
+    "label:synonym_drift": 40,
     "no_answer": 0,
-    "notation_tolerant": 708,
+    "notation_tolerant": 716,
     "paragraph_exact": 126,
     "semantic_rule": 703,
     "sentences": 771,
     "exact_rate": 0.9066,
     "semantic_rule_rate": 0.9118,
-    "notation_tolerant_rate": 0.9183,
+    "notation_tolerant_rate": 0.9287,
     "paragraph_exact_rate": 0.7
    },
    "cs": {
     "exact": 47,
     "format_followed": 12,
     "judgements": 12,
-    "label:synonym_drift": 4,
+    "label:synonym_drift": 1,
     "no_answer": 0,
-    "notation_tolerant": 47,
+    "notation_tolerant": 50,
     "paragraph_exact": 8,
     "semantic_rule": 47,
     "sentences": 51,
     "exact_rate": 0.9216,
     "semantic_rule_rate": 0.9216,
-    "notation_tolerant_rate": 0.9216,
+    "notation_tolerant_rate": 0.9804,
     "paragraph_exact_rate": 0.6667
    },
    "de": {
@@ -72,15 +72,15 @@
     "label:added_content": 5,
     "label:dropped_content": 1,
     "label:inflection_change": 5,
-    "label:synonym_drift": 6,
+    "label:synonym_drift": 4,
     "no_answer": 0,
-    "notation_tolerant": 39,
+    "notation_tolerant": 41,
     "paragraph_exact": 4,
     "semantic_rule": 39,
     "sentences": 51,
     "exact_rate": 0.7255,
     "semantic_rule_rate": 0.7647,
-    "notation_tolerant_rate": 0.7647,
+    "notation_tolerant_rate": 0.8039,
     "paragraph_exact_rate": 0.3333
    },
    "en": {
@@ -152,30 +152,29 @@
     "judgements": 12,
     "label:added_content": 5,
     "label:dropped_content": 3,
-    "label:rewrite": 3,
+    "label:rewrite": 2,
     "no_answer": 0,
-    "notation_tolerant": 45,
+    "notation_tolerant": 46,
     "paragraph_exact": 9,
     "semantic_rule": 45,
     "sentences": 51,
     "exact_rate": 0.8824,
     "semantic_rule_rate": 0.8824,
-    "notation_tolerant_rate": 0.8824,
+    "notation_tolerant_rate": 0.902,
     "paragraph_exact_rate": 0.75
    },
    "la": {
     "exact": 41,
     "format_followed": 12,
     "judgements": 12,
-    "label:synonym_drift": 1,
     "no_answer": 0,
-    "notation_tolerant": 41,
+    "notation_tolerant": 42,
     "paragraph_exact": 11,
     "semantic_rule": 41,
     "sentences": 42,
     "exact_rate": 0.9762,
     "semantic_rule_rate": 0.9762,
-    "notation_tolerant_rate": 0.9762,
+    "notation_tolerant_rate": 1.0,
     "paragraph_exact_rate": 0.9167
    },
    "nl": {
@@ -235,17 +234,17 @@
     "format_followed": 12,
     "judgements": 12,
     "label:added_content": 5,
-    "label:dropped_content": 5,
+    "label:dropped_content": 4,
     "label:rewrite": 1,
     "label:synonym_drift": 4,
     "no_answer": 0,
-    "notation_tolerant": 46,
+    "notation_tolerant": 47,
     "paragraph_exact": 11,
     "semantic_rule": 46,
     "sentences": 51,
     "exact_rate": 0.902,
     "semantic_rule_rate": 0.902,
-    "notation_tolerant_rate": 0.902,
+    "notation_tolerant_rate": 0.9216,
     "paragraph_exact_rate": 0.9167
    }
   },
@@ -257,23 +256,23 @@
     "label:added_content": 25,
     "label:added_subject_object": 2,
     "label:article_demonstrative": 22,
-    "label:contraction_or_variant": 3,
-    "label:dropped_content": 39,
+    "label:contraction_or_variant": 8,
+    "label:dropped_content": 38,
     "label:inflection_change": 10,
     "label:leftover_foreign": 3,
     "label:leftover_kanji_symbol": 6,
     "label:merge_split": 21,
     "label:rewrite": 15,
-    "label:synonym_drift": 99,
-    "label:tense_swap": 8,
+    "label:synonym_drift": 89,
+    "label:tense_swap": 5,
     "no_answer": 0,
-    "notation_tolerant": 640,
+    "notation_tolerant": 654,
     "paragraph_exact": 92,
-    "semantic_rule": 627,
+    "semantic_rule": 632,
     "sentences": 771,
     "exact_rate": 0.7912,
-    "semantic_rule_rate": 0.8132,
-    "notation_tolerant_rate": 0.8301,
+    "semantic_rule_rate": 0.8197,
+    "notation_tolerant_rate": 0.8482,
     "paragraph_exact_rate": 0.5111
    },
    "cs": {
@@ -284,15 +283,15 @@
     "label:dropped_content": 5,
     "label:inflection_change": 4,
     "label:rewrite": 6,
-    "label:synonym_drift": 16,
+    "label:synonym_drift": 15,
     "no_answer": 0,
-    "notation_tolerant": 33,
+    "notation_tolerant": 34,
     "paragraph_exact": 3,
     "semantic_rule": 33,
     "sentences": 51,
     "exact_rate": 0.6471,
     "semantic_rule_rate": 0.6471,
-    "notation_tolerant_rate": 0.6471,
+    "notation_tolerant_rate": 0.6667,
     "paragraph_exact_rate": 0.25
    },
    "de": {
@@ -318,15 +317,15 @@
     "label:dropped_content": 1,
     "label:inflection_change": 1,
     "label:rewrite": 1,
-    "label:synonym_drift": 6,
+    "label:synonym_drift": 4,
     "no_answer": 0,
-    "notation_tolerant": 44,
+    "notation_tolerant": 46,
     "paragraph_exact": 4,
     "semantic_rule": 44,
     "sentences": 51,
     "exact_rate": 0.8235,
     "semantic_rule_rate": 0.8627,
-    "notation_tolerant_rate": 0.8627,
+    "notation_tolerant_rate": 0.902,
     "paragraph_exact_rate": 0.3333
    },
    "en": {
@@ -342,15 +341,15 @@
     "label:leftover_kanji_symbol": 6,
     "label:merge_split": 9,
     "label:synonym_drift": 21,
-    "label:tense_swap": 8,
+    "label:tense_swap": 5,
     "no_answer": 0,
-    "notation_tolerant": 137,
+    "notation_tolerant": 140,
     "paragraph_exact": 16,
     "semantic_rule": 125,
     "sentences": 168,
     "exact_rate": 0.6964,
     "semantic_rule_rate": 0.744,
-    "notation_tolerant_rate": 0.8155,
+    "notation_tolerant_rate": 0.8333,
     "paragraph_exact_rate": 0.4444
    },
    "es": {
@@ -421,15 +420,15 @@
     "exact": 39,
     "format_followed": 12,
     "judgements": 12,
-    "label:synonym_drift": 3,
+    "label:synonym_drift": 1,
     "no_answer": 0,
-    "notation_tolerant": 39,
+    "notation_tolerant": 41,
     "paragraph_exact": 10,
     "semantic_rule": 39,
     "sentences": 42,
     "exact_rate": 0.9286,
     "semantic_rule_rate": 0.9286,
-    "notation_tolerant_rate": 0.9286,
+    "notation_tolerant_rate": 0.9762,
     "paragraph_exact_rate": 0.8333
    },
    "nl": {
@@ -471,61 +470,63 @@
     "format_followed": 12,
     "judgements": 12,
     "label:article_demonstrative": 4,
+    "label:contraction_or_variant": 5,
     "label:dropped_content": 4,
     "label:inflection_change": 1,
     "label:merge_split": 3,
     "label:rewrite": 1,
-    "label:synonym_drift": 12,
+    "label:synonym_drift": 7,
     "no_answer": 0,
-    "notation_tolerant": 38,
+    "notation_tolerant": 43,
     "paragraph_exact": 3,
-    "semantic_rule": 38,
+    "semantic_rule": 43,
     "sentences": 51,
     "exact_rate": 0.6667,
-    "semantic_rule_rate": 0.7451,
-    "notation_tolerant_rate": 0.7451,
+    "semantic_rule_rate": 0.8431,
+    "notation_tolerant_rate": 0.8431,
     "paragraph_exact_rate": 0.25
    },
    "zh": {
     "exact": 45,
     "format_followed": 12,
     "judgements": 12,
-    "label:dropped_content": 3,
+    "label:dropped_content": 2,
     "label:synonym_drift": 3,
     "no_answer": 0,
-    "notation_tolerant": 48,
+    "notation_tolerant": 49,
     "paragraph_exact": 10,
     "semantic_rule": 48,
     "sentences": 51,
     "exact_rate": 0.8824,
     "semantic_rule_rate": 0.9412,
-    "notation_tolerant_rate": 0.9412,
+    "notation_tolerant_rate": 0.9608,
     "paragraph_exact_rate": 0.8333
    }
   },
   "BEF": {
    "all": {
-    "exact": 614,
+    "exact": 618,
     "format_followed": 180,
     "judgements": 180,
-    "label:added_content": 30,
+    "label:added_content": 27,
     "label:added_subject_object": 2,
     "label:article_demonstrative": 21,
-    "label:dropped_content": 29,
+    "label:contraction_or_variant": 3,
+    "label:dropped_content": 24,
     "label:inflection_change": 8,
     "label:leftover_foreign": 4,
-    "label:merge_split": 51,
-    "label:rewrite": 10,
-    "label:synonym_drift": 105,
+    "label:merge_split": 48,
+    "label:rewrite": 9,
+    "label:synonym_drift": 97,
     "label:tense_swap": 3,
     "no_answer": 0,
-    "notation_tolerant": 642,
+    "notation_tolerant": 657,
     "paragraph_exact": 73,
-    "semantic_rule": 636,
+    "semantic_rule": 643,
     "sentences": 771,
-    "exact_rate": 0.7964,
-    "semantic_rule_rate": 0.8249,
-    "notation_tolerant_rate": 0.8327,
+    "exact_rate": 0.8016,
+    "semantic_rule_rate": 0.834,
+    "notation_tolerant_rate": 0.8521,
     "paragraph_exact_rate": 0.4056
    },
    "cs": {
@@ -537,15 +538,15 @@
     "label:inflection_change": 4,
     "label:merge_split": 4,
     "label:rewrite": 3,
-    "label:synonym_drift": 20,
+    "label:synonym_drift": 19,
     "no_answer": 0,
-    "notation_tolerant": 34,
+    "notation_tolerant": 35,
     "paragraph_exact": 3,
     "semantic_rule": 34,
     "sentences": 51,
     "exact_rate": 0.6667,
     "semantic_rule_rate": 0.6667,
-    "notation_tolerant_rate": 0.6667,
+    "notation_tolerant_rate": 0.6863,
     "paragraph_exact_rate": 0.25
    },
    "de": {
@@ -571,37 +572,37 @@
     "label:added_content": 3,
     "label:inflection_change": 4,
     "label:rewrite": 1,
-    "label:synonym_drift": 5,
+    "label:synonym_drift": 2,
     "no_answer": 0,
-    "notation_tolerant": 41,
+    "notation_tolerant": 44,
     "paragraph_exact": 4,
     "semantic_rule": 41,
     "sentences": 51,
     "exact_rate": 0.7647,
     "semantic_rule_rate": 0.8039,
-    "notation_tolerant_rate": 0.8039,
+    "notation_tolerant_rate": 0.8627,
     "paragraph_exact_rate": 0.3333
    },
    "en": {
-    "exact": 125,
+    "exact": 129,
     "format_followed": 36,
     "judgements": 36,
-    "label:added_content": 8,
+    "label:added_content": 5,
     "label:added_subject_object": 2,
     "label:article_demonstrative": 20,
-    "label:dropped_content": 7,
+    "label:dropped_content": 4,
     "label:leftover_foreign": 4,
-    "label:merge_split": 33,
+    "label:merge_split": 30,
     "label:synonym_drift": 19,
     "label:tense_swap": 3,
     "no_answer": 0,
-    "notation_tolerant": 140,
+    "notation_tolerant": 144,
     "paragraph_exact": 1,
-    "semantic_rule": 137,
+    "semantic_rule": 141,
     "sentences": 168,
-    "exact_rate": 0.744,
-    "semantic_rule_rate": 0.8155,
-    "notation_tolerant_rate": 0.8333,
+    "exact_rate": 0.7679,
+    "semantic_rule_rate": 0.8393,
+    "notation_tolerant_rate": 0.8571,
     "paragraph_exact_rate": 0.0278
    },
    "es": {
@@ -656,31 +657,30 @@
     "judgements": 12,
     "label:added_content": 12,
     "label:dropped_content": 9,
-    "label:rewrite": 3,
+    "label:rewrite": 2,
     "label:synonym_drift": 15,
     "no_answer": 0,
-    "notation_tolerant": 27,
+    "notation_tolerant": 28,
     "paragraph_exact": 3,
     "semantic_rule": 27,
     "sentences": 51,
     "exact_rate": 0.5294,
     "semantic_rule_rate": 0.5294,
-    "notation_tolerant_rate": 0.5294,
+    "notation_tolerant_rate": 0.549,
     "paragraph_exact_rate": 0.25
    },
    "la": {
     "exact": 41,
     "format_followed": 12,
     "judgements": 12,
-    "label:synonym_drift": 1,
     "no_answer": 0,
-    "notation_tolerant": 41,
+    "notation_tolerant": 42,
     "paragraph_exact": 11,
     "semantic_rule": 41,
     "sentences": 42,
     "exact_rate": 0.9762,
     "semantic_rule_rate": 0.9762,
-    "notation_tolerant_rate": 0.9762,
+    "notation_tolerant_rate": 1.0,
     "paragraph_exact_rate": 0.9167
    },
    "nl": {
@@ -723,33 +723,33 @@
     "format_followed": 12,
     "judgements": 12,
     "label:article_demonstrative": 1,
+    "label:contraction_or_variant": 3,
     "label:dropped_content": 3,
     "label:merge_split": 2,
     "label:rewrite": 1,
-    "label:synonym_drift": 9,
+    "label:synonym_drift": 6,
     "no_answer": 0,
-    "notation_tolerant": 40,
+    "notation_tolerant": 43,
     "paragraph_exact": 5,
-    "semantic_rule": 40,
+    "semantic_rule": 43,
     "sentences": 51,
     "exact_rate": 0.7843,
-    "semantic_rule_rate": 0.7843,
-    "notation_tolerant_rate": 0.7843,
+    "semantic_rule_rate": 0.8431,
+    "notation_tolerant_rate": 0.8431,
     "paragraph_exact_rate": 0.4167
    },
    "zh": {
     "exact": 41,
     "format_followed": 12,
     "judgements": 12,
-    "label:dropped_content": 2,
     "no_answer": 0,
-    "notation_tolerant": 49,
+    "notation_tolerant": 51,
     "paragraph_exact": 8,
     "semantic_rule": 49,
     "sentences": 51,
     "exact_rate": 0.8039,
     "semantic_rule_rate": 0.9608,
-    "notation_tolerant_rate": 0.9608,
+    "notation_tolerant_rate": 1.0,
     "paragraph_exact_rate": 0.6667
    }
   }
@@ -1145,22 +1145,6 @@
    },
    "examples": [
     "de-flores-03|BEF"
-   ],
-   "error_rate": 0.5
-  },
-  {
-   "rule": "towards → →",
-   "methods": {
-    "BEF": 3,
-    "CEF": 3
-   },
-   "applied": 6,
-   "restored_ok": 3,
-   "labels": {
-    "tense_swap": 3
-   },
-   "examples": [
-    "en-flores-01|CEF"
    ],
    "error_rate": 0.5
   },
@@ -1994,6 +1978,18 @@
    "rule": "they are → they're",
    "methods": {
     "CEF": 6
+   },
+   "applied": 6,
+   "restored_ok": 6,
+   "labels": {},
+   "examples": [],
+   "error_rate": 0.0
+  },
+  {
+   "rule": "towards → →",
+   "methods": {
+    "BEF": 3,
+    "CEF": 3
    },
    "applied": 6,
    "restored_ok": 6,
@@ -3168,15 +3164,14 @@
      "restored_sentences": 5,
      "exact": 1,
      "semantic_rule": 1,
-     "notation_tolerant": 1,
+     "notation_tolerant": 2,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
       "added_content": 2,
       "article_demonstrative": 1,
       "dropped_content": 1,
-      "synonym_drift": 1,
-      "tense_swap": 1
+      "synonym_drift": 1
      },
      "sentence_rows": [
       {
@@ -3265,19 +3260,9 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "tense_swap",
-         "gold": "towards",
-         "got": "toward",
-         "gold_span": [
-          21,
-          22
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [
         {
@@ -3302,10 +3287,8 @@
         },
         {
          "rule": "towards → →",
-         "restored_ok": false,
-         "labels": [
-          "tense_swap"
-         ]
+         "restored_ok": true,
+         "labels": []
         }
        ],
        "unattributed": []
@@ -3401,14 +3384,13 @@
      "restored_sentences": 5,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
       "added_content": 2,
       "article_demonstrative": 1,
-      "dropped_content": 1,
-      "tense_swap": 1
+      "dropped_content": 1
      },
      "sentence_rows": [
       {
@@ -3497,19 +3479,9 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "tense_swap",
-         "gold": "towards",
-         "got": "toward",
-         "gold_span": [
-          21,
-          22
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [
         {
@@ -3534,10 +3506,8 @@
         },
         {
          "rule": "towards → →",
-         "restored_ok": false,
-         "labels": [
-          "tense_swap"
-         ]
+         "restored_ok": true,
+         "labels": []
         }
        ],
        "unattributed": []
@@ -3621,14 +3591,13 @@
      "restored_sentences": 5,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
       "added_content": 1,
       "article_demonstrative": 1,
-      "synonym_drift": 1,
-      "tense_swap": 1
+      "synonym_drift": 1
      },
      "sentence_rows": [
       {
@@ -3706,19 +3675,9 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "tense_swap",
-         "gold": "towards",
-         "got": "toward",
-         "gold_span": [
-          21,
-          22
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [
         {
@@ -3743,10 +3702,8 @@
         },
         {
          "rule": "towards → →",
-         "restored_ok": false,
-         "labels": [
-          "tense_swap"
-         ]
+         "restored_ok": true,
+         "labels": []
         }
        ],
        "unattributed": []
@@ -14710,15 +14667,13 @@
      "status": "ok",
      "sentences": 5,
      "restored_sentences": 9,
-     "exact": 1,
-     "semantic_rule": 1,
-     "notation_tolerant": 1,
+     "exact": 5,
+     "semantic_rule": 5,
+     "notation_tolerant": 5,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "added_content": 3,
-      "dropped_content": 3,
-      "merge_split": 4
+      "merge_split": 1
      },
      "sentence_rows": [
       {
@@ -14760,27 +14715,26 @@
       },
       {
        "gold": [
-        1
+        1,
+        2,
+        3,
+        4
        ],
        "got": [
         1,
-        2
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
        ],
-       "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "exact": true,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": "merge_split",
-       "errors": [
-        {
-         "label": "added_content",
-         "gold": "",
-         "got": "my dear mr",
-         "gold_span": [
-          48,
-          48
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [
         {
@@ -14827,46 +14781,7 @@
          "rule": "or → /",
          "restored_ok": true,
          "labels": []
-        }
-       ],
-       "unattributed": [
-        "added_content"
-       ]
-      },
-      {
-       "gold": [
-        2
-       ],
-       "got": [
-        3,
-        4
-       ],
-       "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
-       "segmentation": "merge_split",
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "my dear mr",
-         "got": "",
-         "gold_span": [
-          0,
-          3
-         ]
         },
-        {
-         "label": "added_content",
-         "gold": "",
-         "got": "mr",
-         "gold_span": [
-          21,
-          21
-         ]
-        }
-       ],
-       "leftovers": [],
-       "rules": [
         {
          "rule": "you → u",
          "restored_ok": true,
@@ -14876,86 +14791,14 @@
          "rule": "at last → 遂",
          "restored_ok": true,
          "labels": []
-        }
-       ],
-       "unattributed": [
-        "dropped_content",
-        "added_content"
-       ]
-      },
-      {
-       "gold": [
-        3
-       ],
-       "got": [
-        5,
-        6
-       ],
-       "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
-       "segmentation": "merge_split",
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "mr",
-         "got": "",
-         "gold_span": [
-          0,
-          1
-         ]
         },
-        {
-         "label": "added_content",
-         "gold": "",
-         "got": "but it is returned she for mrs",
-         "gold_span": [
-          7,
-          7
-         ]
-        }
-       ],
-       "leftovers": [],
-       "rules": [],
-       "unattributed": [
-        "dropped_content",
-        "added_content"
-       ]
-      },
-      {
-       "gold": [
-        4
-       ],
-       "got": [
-        7,
-        8
-       ],
-       "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
-       "segmentation": "merge_split",
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "but it is returned she for mrs",
-         "got": "",
-         "gold_span": [
-          0,
-          7
-         ]
-        }
-       ],
-       "leftovers": [],
-       "rules": [
         {
          "rule": "and → &",
          "restored_ok": true,
          "labels": []
         }
        ],
-       "unattributed": [
-        "dropped_content"
-       ]
+       "unattributed": []
       }
      ]
     }
@@ -32052,13 +31895,13 @@
      "sentences": 5,
      "restored_sentences": 6,
      "exact": 4,
-     "semantic_rule": 4,
-     "notation_tolerant": 4,
+     "semantic_rule": 5,
+     "notation_tolerant": 5,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "merge_split": 1,
-      "synonym_drift": 1
+      "contraction_or_variant": 1,
+      "merge_split": 1
      },
      "sentence_rows": [
       {
@@ -32091,12 +31934,12 @@
         1
        ],
        "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": null,
        "errors": [
         {
-         "label": "synonym_drift",
+         "label": "contraction_or_variant",
          "gold": "do",
          "got": "de",
          "gold_span": [
@@ -32107,9 +31950,7 @@
        ],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -32184,15 +32025,16 @@
      "sentences": 5,
      "restored_sentences": 6,
      "exact": 0,
-     "semantic_rule": 0,
-     "notation_tolerant": 0,
+     "semantic_rule": 1,
+     "notation_tolerant": 1,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
+      "contraction_or_variant": 1,
       "dropped_content": 1,
       "merge_split": 1,
       "rewrite": 1,
-      "synonym_drift": 7
+      "synonym_drift": 6
      },
      "sentence_rows": [
       {
@@ -32237,12 +32079,12 @@
         1
        ],
        "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": null,
        "errors": [
         {
-         "label": "synonym_drift",
+         "label": "contraction_or_variant",
          "gold": "do",
          "got": "de",
          "gold_span": [
@@ -32253,9 +32095,7 @@
        ],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -32631,13 +32471,14 @@
      "sentences": 5,
      "restored_sentences": 5,
      "exact": 0,
-     "semantic_rule": 0,
-     "notation_tolerant": 0,
+     "semantic_rule": 1,
+     "notation_tolerant": 1,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
+      "contraction_or_variant": 1,
       "rewrite": 1,
-      "synonym_drift": 6
+      "synonym_drift": 5
      },
      "sentence_rows": [
       {
@@ -32676,12 +32517,12 @@
         1
        ],
        "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": null,
        "errors": [
         {
-         "label": "synonym_drift",
+         "label": "contraction_or_variant",
          "gold": "do",
          "got": "de",
          "gold_span": [
@@ -32692,9 +32533,7 @@
        ],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -33118,13 +32957,13 @@
      "sentences": 4,
      "restored_sentences": 4,
      "exact": 2,
-     "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "semantic_rule": 3,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "dropped_content": 1,
-      "synonym_drift": 1
+      "contraction_or_variant": 1,
+      "dropped_content": 1
      },
      "sentence_rows": [
       {
@@ -33169,12 +33008,12 @@
         1
        ],
        "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": null,
        "errors": [
         {
-         "label": "synonym_drift",
+         "label": "contraction_or_variant",
          "gold": "pro",
          "got": "para o",
          "gold_span": [
@@ -33185,9 +33024,7 @@
        ],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -33228,12 +33065,122 @@
      "sentences": 4,
      "restored_sentences": 4,
      "exact": 2,
+     "semantic_rule": 3,
+     "notation_tolerant": 3,
+     "paragraph_exact": false,
+     "format_followed": true,
+     "labels": {
+      "contraction_or_variant": 1,
+      "dropped_content": 1
+     },
+     "sentence_rows": [
+      {
+       "gold": [
+        0
+       ],
+       "got": [
+        0
+       ],
+       "exact": false,
+       "semantic_rule": false,
+       "notation_tolerant": false,
+       "segmentation": null,
+       "errors": [
+        {
+         "label": "dropped_content",
+         "gold": "de",
+         "got": "",
+         "gold_span": [
+          15,
+          16
+         ]
+        }
+       ],
+       "leftovers": [],
+       "rules": [
+        {
+         "rule": "menos de → ≤",
+         "restored_ok": false,
+         "labels": [
+          "dropped_content"
+         ]
+        }
+       ],
+       "unattributed": []
+      },
+      {
+       "gold": [
+        1
+       ],
+       "got": [
+        1
+       ],
+       "exact": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
+       "segmentation": null,
+       "errors": [
+        {
+         "label": "contraction_or_variant",
+         "gold": "pro",
+         "got": "para o",
+         "gold_span": [
+          11,
+          12
+         ]
+        }
+       ],
+       "leftovers": [],
+       "rules": [],
+       "unattributed": []
+      },
+      {
+       "gold": [
+        2
+       ],
+       "got": [
+        2
+       ],
+       "exact": true,
+       "semantic_rule": true,
+       "notation_tolerant": true,
+       "segmentation": null,
+       "errors": [],
+       "leftovers": [],
+       "rules": [],
+       "unattributed": []
+      },
+      {
+       "gold": [
+        3
+       ],
+       "got": [
+        3
+       ],
+       "exact": true,
+       "semantic_rule": true,
+       "notation_tolerant": true,
+       "segmentation": null,
+       "errors": [],
+       "leftovers": [],
+       "rules": [],
+       "unattributed": []
+      }
+     ]
+    },
+    "3": {
+     "status": "ok",
+     "sentences": 4,
+     "restored_sentences": 4,
+     "exact": 1,
      "semantic_rule": 2,
      "notation_tolerant": 2,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
+      "contraction_or_variant": 1,
       "dropped_content": 1,
+      "inflection_change": 1,
       "synonym_drift": 1
      },
      "sentence_rows": [
@@ -33279,12 +33226,12 @@
         1
        ],
        "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": null,
        "errors": [
         {
-         "label": "synonym_drift",
+         "label": "contraction_or_variant",
          "gold": "pro",
          "got": "para o",
          "gold_span": [
@@ -33295,120 +33242,7 @@
        ],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
-      },
-      {
-       "gold": [
-        2
-       ],
-       "got": [
-        2
-       ],
-       "exact": true,
-       "semantic_rule": true,
-       "notation_tolerant": true,
-       "segmentation": null,
-       "errors": [],
-       "leftovers": [],
-       "rules": [],
        "unattributed": []
-      },
-      {
-       "gold": [
-        3
-       ],
-       "got": [
-        3
-       ],
-       "exact": true,
-       "semantic_rule": true,
-       "notation_tolerant": true,
-       "segmentation": null,
-       "errors": [],
-       "leftovers": [],
-       "rules": [],
-       "unattributed": []
-      }
-     ]
-    },
-    "3": {
-     "status": "ok",
-     "sentences": 4,
-     "restored_sentences": 4,
-     "exact": 1,
-     "semantic_rule": 1,
-     "notation_tolerant": 1,
-     "paragraph_exact": false,
-     "format_followed": true,
-     "labels": {
-      "dropped_content": 1,
-      "inflection_change": 1,
-      "synonym_drift": 2
-     },
-     "sentence_rows": [
-      {
-       "gold": [
-        0
-       ],
-       "got": [
-        0
-       ],
-       "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
-       "segmentation": null,
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "de",
-         "got": "",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
-       "leftovers": [],
-       "rules": [
-        {
-         "rule": "menos de → ≤",
-         "restored_ok": false,
-         "labels": [
-          "dropped_content"
-         ]
-        }
-       ],
-       "unattributed": []
-      },
-      {
-       "gold": [
-        1
-       ],
-       "got": [
-        1
-       ],
-       "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
-       "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "pro",
-         "got": "para o",
-         "gold_span": [
-          11,
-          12
-         ]
-        }
-       ],
-       "leftovers": [],
-       "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
       },
       {
        "gold": [
@@ -33480,13 +33314,13 @@
      "sentences": 4,
      "restored_sentences": 4,
      "exact": 2,
-     "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "semantic_rule": 3,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "dropped_content": 1,
-      "synonym_drift": 1
+      "contraction_or_variant": 1,
+      "dropped_content": 1
      },
      "sentence_rows": [
       {
@@ -33531,12 +33365,12 @@
         1
        ],
        "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": null,
        "errors": [
         {
-         "label": "synonym_drift",
+         "label": "contraction_or_variant",
          "gold": "pro",
          "got": "para o",
          "gold_span": [
@@ -33547,9 +33381,7 @@
        ],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -33687,13 +33519,13 @@
      "sentences": 4,
      "restored_sentences": 4,
      "exact": 2,
-     "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "semantic_rule": 3,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "dropped_content": 1,
-      "synonym_drift": 1
+      "contraction_or_variant": 1,
+      "dropped_content": 1
      },
      "sentence_rows": [
       {
@@ -33738,12 +33570,12 @@
         1
        ],
        "exact": false,
-       "semantic_rule": false,
-       "notation_tolerant": false,
+       "semantic_rule": true,
+       "notation_tolerant": true,
        "segmentation": null,
        "errors": [
         {
-         "label": "synonym_drift",
+         "label": "contraction_or_variant",
          "gold": "pro",
          "got": "para o",
          "gold_span": [
@@ -33754,9 +33586,7 @@
        ],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -37812,12 +37642,10 @@
      "restored_sentences": 4,
      "exact": 3,
      "semantic_rule": 3,
-     "notation_tolerant": 3,
+     "notation_tolerant": 4,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "rewrite": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -37828,19 +37656,9 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "rewrite",
-         "gold": "m",
-         "got": "メ ー ト ル",
-         "gold_span": [
-          32,
-          33
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [
         {
@@ -37854,9 +37672,7 @@
          "labels": []
         }
        ],
-       "unattributed": [
-        "rewrite"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -38827,12 +38643,11 @@
      "restored_sentences": 4,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
       "added_content": 3,
-      "rewrite": 1,
       "synonym_drift": 2
      },
      "sentence_rows": [
@@ -38845,19 +38660,9 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "rewrite",
-         "gold": "m",
-         "got": "メ ー ト ル",
-         "gold_span": [
-          32,
-          33
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [
         {
@@ -38881,9 +38686,7 @@
          "labels": []
         }
        ],
-       "unattributed": [
-        "rewrite"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -42598,12 +42401,12 @@
      "restored_sentences": 5,
      "exact": 0,
      "semantic_rule": 0,
-     "notation_tolerant": 0,
+     "notation_tolerant": 1,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
       "added_content": 5,
-      "dropped_content": 5,
+      "dropped_content": 4,
       "rewrite": 1,
       "synonym_drift": 4
      },
@@ -42781,24 +42584,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "martelly",
-         "got": "",
-         "gold_span": [
-          9,
-          10
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "dropped_content"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -42976,11 +42767,11 @@
      "restored_sentences": 5,
      "exact": 0,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "dropped_content": 3,
+      "dropped_content": 2,
       "synonym_drift": 3
      },
      "sentence_rows": [
@@ -43107,24 +42898,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "martelly",
-         "got": "",
-         "gold_span": [
-          9,
-          10
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "dropped_content"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -45326,12 +45105,10 @@
      "restored_sentences": 4,
      "exact": 1,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 4,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "dropped_content": 2
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -45342,24 +45119,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "liggins",
-         "got": "",
-         "gold_span": [
-          3,
-          4
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "dropped_content"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -45386,24 +45151,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "dropped_content",
-         "gold": "liggins",
-         "got": "",
-         "gold_span": [
-          3,
-          4
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "dropped_content"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -53203,12 +52956,11 @@
      "restored_sentences": 5,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "inflection_change": 2,
-      "synonym_drift": 1
+      "inflection_change": 2
      },
      "sentence_rows": [
       {
@@ -53220,24 +52972,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "μελη",
-         "got": "μέλη",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -53335,12 +53075,11 @@
      "restored_sentences": 5,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "inflection_change": 2,
-      "synonym_drift": 1
+      "inflection_change": 2
      },
      "sentence_rows": [
       {
@@ -53352,24 +53091,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "μελη",
-         "got": "μέλη",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -53748,12 +53475,10 @@
      "restored_sentences": 5,
      "exact": 4,
      "semantic_rule": 4,
-     "notation_tolerant": 4,
+     "notation_tolerant": 5,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -53764,24 +53489,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "μελη",
-         "got": "μέλη",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -53855,12 +53568,10 @@
      "restored_sentences": 5,
      "exact": 4,
      "semantic_rule": 4,
-     "notation_tolerant": 4,
+     "notation_tolerant": 5,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -53871,24 +53582,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "μελη",
-         "got": "μέλη",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -53971,12 +53670,11 @@
      "restored_sentences": 5,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "inflection_change": 2,
-      "synonym_drift": 1
+      "inflection_change": 2
      },
      "sentence_rows": [
       {
@@ -53988,24 +53686,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "μελη",
-         "got": "μέλη",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -54103,12 +53789,11 @@
      "restored_sentences": 5,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "inflection_change": 2,
-      "synonym_drift": 1
+      "inflection_change": 2
      },
      "sentence_rows": [
       {
@@ -54120,24 +53805,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "μελη",
-         "got": "μέλη",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -54235,12 +53908,10 @@
      "restored_sentences": 5,
      "exact": 4,
      "semantic_rule": 4,
-     "notation_tolerant": 4,
+     "notation_tolerant": 5,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -54251,24 +53922,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "μελη",
-         "got": "μέλη",
-         "gold_span": [
-          15,
-          16
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -58257,12 +57916,10 @@
      "restored_sentences": 4,
      "exact": 3,
      "semantic_rule": 3,
-     "notation_tolerant": 3,
+     "notation_tolerant": 4,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -58273,24 +57930,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "minimálně100",
-         "got": "minimálně 100",
-         "gold_span": [
-          10,
-          11
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -58360,12 +58005,10 @@
      "restored_sentences": 4,
      "exact": 3,
      "semantic_rule": 3,
-     "notation_tolerant": 3,
+     "notation_tolerant": 4,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -58376,24 +58019,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "minimálně100",
-         "got": "minimálně 100",
-         "gold_span": [
-          10,
-          11
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -58463,12 +58094,10 @@
      "restored_sentences": 4,
      "exact": 3,
      "semantic_rule": 3,
-     "notation_tolerant": 3,
+     "notation_tolerant": 4,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -58479,24 +58108,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "minimálně100",
-         "got": "minimálně 100",
-         "gold_span": [
-          10,
-          11
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -58975,12 +58592,11 @@
      "restored_sentences": 4,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "dropped_content": 1,
-      "synonym_drift": 1
+      "dropped_content": 1
      },
      "sentence_rows": [
       {
@@ -58992,24 +58608,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "minimálně100",
-         "got": "minimálně 100",
-         "gold_span": [
-          10,
-          11
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -59234,12 +58838,10 @@
      "restored_sentences": 4,
      "exact": 3,
      "semantic_rule": 3,
-     "notation_tolerant": 3,
+     "notation_tolerant": 4,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -59250,24 +58852,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "minimálně100",
-         "got": "minimálně 100",
-         "gold_span": [
-          10,
-          11
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       },
       {
        "gold": [
@@ -67475,12 +67065,10 @@
      "restored_sentences": 3,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -67523,24 +67111,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "xv",
-         "got": "quindecim",
-         "gold_span": [
-          3,
-          4
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       }
      ]
     }
@@ -67626,12 +67202,10 @@
      "restored_sentences": 3,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -67680,24 +67254,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "xv",
-         "got": "quindecim",
-         "gold_span": [
-          3,
-          4
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       }
      ]
     },
@@ -67707,11 +67269,11 @@
      "restored_sentences": 3,
      "exact": 1,
      "semantic_rule": 1,
-     "notation_tolerant": 1,
+     "notation_tolerant": 2,
      "paragraph_exact": false,
      "format_followed": true,
      "labels": {
-      "synonym_drift": 2
+      "synonym_drift": 1
      },
      "sentence_rows": [
       {
@@ -67773,24 +67335,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "xv",
-         "got": "quindecim",
-         "gold_span": [
-          3,
-          4
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       }
      ]
     }
@@ -67809,12 +67359,10 @@
      "restored_sentences": 3,
      "exact": 2,
      "semantic_rule": 2,
-     "notation_tolerant": 2,
+     "notation_tolerant": 3,
      "paragraph_exact": false,
      "format_followed": true,
-     "labels": {
-      "synonym_drift": 1
-     },
+     "labels": {},
      "sentence_rows": [
       {
        "gold": [
@@ -67863,24 +67411,12 @@
        ],
        "exact": false,
        "semantic_rule": false,
-       "notation_tolerant": false,
+       "notation_tolerant": true,
        "segmentation": null,
-       "errors": [
-        {
-         "label": "synonym_drift",
-         "gold": "xv",
-         "got": "quindecim",
-         "gold_span": [
-          3,
-          4
-         ]
-        }
-       ],
+       "errors": [],
        "leftovers": [],
        "rules": [],
-       "unattributed": [
-        "synonym_drift"
-       ]
+       "unattributed": []
       }
      ]
     },
