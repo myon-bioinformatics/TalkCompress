@@ -6,38 +6,13 @@
 
 ## 実行
 
-- pull_request: 関連ファイルが変わったときだけ、既定の 1 モデル（`qwen-0.5b`）を回す。全モデルは回さない。
-- workflow_dispatch: 入力 `models` に、モデルキー 1 件、カンマ区切りのキー、または `all`（7 件）を指定する。未指定時の既定は `qwen-0.5b`。
+- pull_request: 関連ファイルが変わったときだけ、既定の 1 モデル（`qwen-0.5b`）を回す。全モデルは回さない。手動の `workflow_dispatch` は置かない。
 
 現在の 7 キー（`shared/l3_models.json` の順）:
 
 `qwen-1.5b`, `qwen-0.5b`, `minicpm5-2b`, `lfm2.5-350m-qad`, `lfm2.5-1.2b-qad`, `lfm2.5-2.6b`, `lfm3-1.7b`
 
-### workflow_dispatch の回し方（`gh`）
-
-リポジトリ: `myon-bioinformatics/TalkCompress`。既定ブランチ（または `-r` で指定した ref）のワークフロー定義が使われる。
-
-```bash
-# 既定どおり 1 モデル（qwen-0.5b）
-gh workflow run svg-l3-matrix --repo myon-bioinformatics/TalkCompress
-
-# 同じことを入力で明示
-gh workflow run svg-l3-matrix --repo myon-bioinformatics/TalkCompress -f models=qwen-0.5b
-
-# 複数キー（カンマ区切り、空白可）
-gh workflow run svg-l3-matrix --repo myon-bioinformatics/TalkCompress -f models=qwen-0.5b,qwen-1.5b
-
-# 7 件すべて（重み合計 約 6.86 GB。max-parallel は 3）
-gh workflow run svg-l3-matrix --repo myon-bioinformatics/TalkCompress -f models=all
-```
-
-特定ブランチや SHA で回すときは `-r <ref>` を付ける。ファイル名でも呼べる（`gh workflow run svg-l3-matrix.yml ...`）。
-
-UI から回す場合は Actions → `svg-l3-matrix` → Run workflow。入力欄 `models` に上と同じ値を入れる。
-
-未知のキーや空のリストは `scripts/svg_l3_bench.py matrix` が拒否する。`pull_request` イベントでは入力を無視して必ず `qwen-0.5b` だけになる。
-
-7 モデルすべての実行と Issue #87 のクローズは、myon の承認を待ってから行う。この文書は回し方の記録であり、実行そのものではない。
+全モデル実行は、手動トリガーを戻す判断がいる。この文書は測定の範囲の記録であり、実行そのものではない。
 
 ## 設定
 
