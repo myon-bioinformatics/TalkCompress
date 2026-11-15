@@ -16,6 +16,7 @@ dev = [
     "tiktoken",
     "tokenizers",
 ]
+stdlib-test = ["pytest>=8", "pyyaml>=6"]
 # Opt-in live MT for SentenceCalibratedMosaic --translate-engine=deep (not pulled by default uv sync).
 # Argos is intentionally omitted here (heavy language packs); install manually if needed.
 translate = ["deep-translator>=1.11.4"]
