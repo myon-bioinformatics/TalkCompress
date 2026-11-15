@@ -1,11 +1,26 @@
-"""es / pt / fr の文では英語専用の規則（冠詞 a 削除・数詞→数字・3sg -s 落とし）を発火させない。"""
+"""shared/romance_gate.py: es / pt / fr の文で英語専用規則を発火させない。
+
+- romance_gate: es / pt / fr の文では英語専用の規則（冠詞 a 削除・数詞→数字・3sg -s 落とし）を発火させない。
+- romance_followup: #106 フォローアップ（3bot レビューの Should 2 点）。
+- romance_con: Regression: ``con`` is never rewritten to ``with`` (Romance or English).
+"""
+
+from MorphoGrammarMinimal.morpho_grammar_minimal import compress
+from MorphoGrammarMinimal.morpho_grammar_minimal import drop_3sg_after_inventory_pronoun
+from MorphoGrammarMinimal.morpho_grammar_minimal import strip_articles
+from shared.lex_policy import apply_spelled_numbers
+from shared.romance_gate import apply_outside_romance
+from shared.romance_gate import is_romance
+import morpho_grammar_minimal as m
 import unicodedata
 
 import pytest
 
-from MorphoGrammarMinimal.morpho_grammar_minimal import compress, drop_3sg_after_inventory_pronoun, strip_articles
-from shared.lex_policy import apply_spelled_numbers
-from shared.romance_gate import apply_outside_romance, is_romance
+
+# ──── romance_gate ────────────────────────────────────────────────
+
+"""es / pt / fr の文では英語専用の規則（冠詞 a 削除・数詞→数字・3sg -s 落とし）を発火させない。"""
+
 
 ROMANCE = [
     "Voy a la playa.",
@@ -21,6 +36,8 @@ ROMANCE = [
     "Le four est chaud.",
     "Une seconde, s'il vous plaît.",
 ]
+
+
 ENGLISH = [
     "I have a cat.",
     "A cat sat.",
@@ -184,3 +201,143 @@ def test_pivot_tracking_preserves_global_context_and_replacement_origins():
 def test_pivot_tracking_identity(source):
     from shared.romance_gate import substitute_with_romance_context
     assert substitute_with_romance_context(source, [], lambda text, protected: text) == source
+
+
+# ──── romance_followup ────────────────────────────────────────────
+
+"""#106 フォローアップ（3bot レビューの Should 2 点）。"""
+
+
+@pytest.mark.parametrize(
+    "src",
+    ["Il a un chat.", "Je vais au marché.", "Elle est très belle.", "Ella es muy alta.", "Ils sont avec nous."],
+)
+def test_romance_sentence_keeps_pronoun(src):
+    out = compress(src)
+    assert out.split()[0] == src.split()[0], out
+
+
+def test_english_sentence_still_pivots_pronoun():
+    # 英語文中の je は従来どおり I へ（ゲート外では挙動不変）
+    assert compress("I said je. He left.") == "I said I. He left."
+
+
+def test_mixed_text_only_romance_sentence_protected():
+    out = compress("Il a un chat. You see the dog.")
+    assert out.startswith("Il a un chat.")
+    assert "dog" in out and " the " not in out
+
+
+@pytest.mark.parametrize("src", ["A Maria come.", "Veo a Juan.", "A Pedro le gusta."])
+def test_spanish_personal_a_without_cues_kept(src):
+    # #122: 文頭 A＋名前は A\u2011Maria（U+2011）で保護され、実際の復元経路 expand で元に戻る。
+    from MorphoGrammarMinimal.morpho_grammar_minimal import expand
+    assert expand(compress(src)) == src
+
+
+@pytest.mark.parametrize(
+    "src, want",
+    [
+        ("A dog ran.", "dog ran."),
+        ("The dog ran. A dog ran.", "dog ran. dog ran."),
+        ("A Ford is fast.", "A\u2011Ford is fast."),  # #122: 英語 A＋大文字語はハイフン保護
+        ("I have a cat.", "I have cat."),
+    ],
+)
+def test_english_article_drop_unchanged(src, want):
+    assert compress(src) == want
+
+
+@pytest.mark.parametrize('literal', ['\ue0a10', '\ue0a11', '\ue0a1', '\ue0a1\ue0a10', 'x\ue0a10y'])
+def test_personal_a_does_not_decode_user_placeholder_text(literal):
+    from MorphoGrammarMinimal.morpho_grammar_minimal import strip_articles
+    source = f'A Maria {literal}.'
+    from MorphoGrammarMinimal.morpho_grammar_minimal import expand, restore_a_hyphen
+    assert restore_a_hyphen(strip_articles(source)) == source
+    assert expand(compress(source)) == source
+
+
+@pytest.mark.parametrize('name', ['Łukasz', 'Žan', 'İpek', 'ǅuro', 'Στέφανος', 'Дмитрий', '𐐀name', 'Álvaro'])
+@pytest.mark.parametrize('form', ['NFC', 'NFD'])
+def test_personal_a_supports_unicode_capital_and_titlecase_names(name, form):
+    import unicodedata
+    source = unicodedata.normalize(form, f'Veo a {name}.')
+    assert compress(source) == unicodedata.normalize('NFC', source)
+
+
+@pytest.mark.parametrize('source,want', [
+    ('"a" Veo a Łukasz.', 'a Veo a Łukasz.'),
+    ('"a" "a" Veo a ǅuro.', 'a a Veo a ǅuro.'),
+    ('Veo a Łukasz. "a" A Maria come.', 'Veo a Łukasz. a A Maria come.'),
+    ('I met a Łukasz.', 'I met a\u2011Łukasz.'),
+    ('Veo a łukasz.', 'Veo łukasz.'),
+    ('A Maria come. I have a cat.', 'A\u2011Maria come. I have cat.'),
+])
+def test_personal_a_offsets_survive_quotes_and_respect_sentence_cues(source, want):
+    from MorphoGrammarMinimal.morpho_grammar_minimal import strip_articles
+    assert strip_articles(source) == want
+
+
+@pytest.mark.parametrize("source", ["Lleva a Ana.", "Dame a mí.", "Llámame a mí.", "Todo vuelve a ti.", "Se mira a sí mismo."])
+@pytest.mark.parametrize("form", ["NFC", "NFD"])
+def test_sparse_spanish_personal_a(source, form):
+    import unicodedata
+    assert compress(unicodedata.normalize(form, source)) == source
+
+
+def test_sparse_spanish_mixed_with_english():
+    assert compress("Dame a mí. I have a cat. Lleva a Ana.") == (
+        "Dame a mí. I have cat. Lleva a Ana."
+    )
+
+
+@pytest.mark.parametrize("source,want", [
+    ("Give a minute.", "provide minute."),
+    ("A mime ran.", "mime ran."),
+    ("I saw a mí label.", "I saw mí label."),
+])
+def test_personal_pronoun_guard_does_not_expand_english_scope(source, want):
+    assert compress(source) == want
+
+
+# ──── romance_con ─────────────────────────────────────────────────
+
+"""Regression: ``con`` is never rewritten to ``with`` (Romance or English)."""
+
+
+def _c(s: str) -> str:
+    return m.compress(s, unique=False, etymon=False, counters=False)
+
+
+@pytest.mark.parametrize(
+    "src",
+    [
+        "Vado al cinema con Marco.",  # IT
+        "Io parlo con lui.",  # IT
+        "Esco con la mia amica.",  # IT
+        "Caffè con latte.",  # ES/IT
+        "Voy a la playa con mis amigos.",  # ES
+        "Ela saiu com o irmão.",  # PT (com)
+    ],
+)
+def test_romance_con_kept(src):
+    assert _c(src) == src
+
+
+@pytest.mark.parametrize("src", ["pro and con", "He is a con man."])
+def test_english_con_not_with(src):
+    assert "with" not in _c(src) and "con" in _c(src).split()
+
+
+def test_mixed_text_con_never_with():
+    out = _c("Vado al cinema con Marco. He is a con man.")
+    assert "with" not in out and out.startswith("Vado al cinema con Marco.")
+
+
+def test_con_word_boundary():
+    out = _c("I like the concert and icons.")
+    assert "concert" in out and "icons" in out
+
+
+def test_inventory_alias_unchanged():
+    assert m.canonicalize_closed("preposition", "con") == "with"

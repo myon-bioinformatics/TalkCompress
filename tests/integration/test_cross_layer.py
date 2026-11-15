@@ -45,7 +45,7 @@ def test_parse_pipeline():
 
 
 def test_pipeline_c_e_classic_three_animals():
-    """Canonical C→E pipe for classic example (C/E alone → test_features)."""
+    """Canonical C→E pipe for classic example (C/E alone → test_layer_features)."""
     from shared.lex_policy import INFO_GLYPH
 
     c = load("density_facade_route", "DensityFacadeRoute/density_facade_route.py")

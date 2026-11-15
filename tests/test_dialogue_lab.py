@@ -1,10 +1,32 @@
+"""RulePeerCodec/dialogue_lab.py: 交渉ラボ、ASCII 畳み込み、CLI/HTTP 証跡。
+
+- dialogue_lab
+- dialogue_lab_casefold: ASCII rules must not case-fold onto Turkish İ/ı, long s ſ or the Kelvin sign.
+- dialogue_workflow_cli: CLI/HTTP evidence regression without weights or model downloads.
+"""
+
 from __future__ import annotations
 
+from RulePeerCodec import dialogue_lab
+from RulePeerCodec.dialogue_lab import Client
+from RulePeerCodec.dialogue_lab import corpus
+from RulePeerCodec.dialogue_lab import encode
+from RulePeerCodec.dialogue_lab import experiment
+from RulePeerCodec.dialogue_lab import negotiate
+from RulePeerCodec.dialogue_lab import receiver_prompt
+from RulePeerCodec.dialogue_lab import valid_task
+from RulePeerCodec.dialogue_lab import validate_mapping
+from http.server import BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer
 import json
-import pytest
-from RulePeerCodec.dialogue_lab import (Client, corpus, encode, experiment, negotiate,
-                                    receiver_prompt, valid_task, validate_mapping)
+import subprocess
+import sys
+import threading
 
+import pytest
+
+
+# ──── dialogue_lab ────────────────────────────────────────────────
 
 def test_heldout_is_disjoint_and_task_data_is_not_trivial():
     training, heldout = corpus()
@@ -343,3 +365,114 @@ def test_cli_writes_failed_receiver_evidence_and_returns_nonzero(monkeypatch, tm
     assert len(report['calls']) == 63
     assert len(report['groups'][0]['cases']) == 60
     assert report['groups'][0]['summary']['raw']['completion_content_tokens'] is None
+
+
+# ──── dialogue_lab_casefold ───────────────────────────────────────
+
+"""ASCII rules must not case-fold onto Turkish İ/ı, long s ſ or the Kelvin sign."""
+
+
+RULE = [{"long": "kiss", "short": "k"}]
+
+
+@pytest.mark.parametrize("text", ["KİSS", "kıss", "kiſs"])
+def test_encode_leaves_non_ascii_lookalikes(text):
+    assert encode(text, RULE) == text
+
+
+def test_encode_kelvin_sign_is_nfc_k():
+    # NFC は U+212A（ケルビン記号）を正準等価な ASCII の K に置き換えるので、
+    # encode の NFC 正規化後は普通の KISS として扱われる。
+    assert encode("\u212aISS", RULE) == "k"
+
+
+def test_encode_keeps_ascii_and_unicode_case_insensitivity():
+    assert encode("KISS, Kiss kiss", RULE) == "k, k k"
+    assert encode("Café CAFÉ", [{"long": "café", "short": "c"}]) == "c c"
+
+
+def _train(text):
+    return [{"text": text}]
+
+
+def test_validate_code_does_not_collide_with_dotless_i():
+    # observed is casefolded first (K/ſ already become k/s there: a conservative
+    # rejection); ı survives casefold and must not match code "i" via re.I.
+    payload = {"mapping": [{"long": "hello world", "short": "i"}]}
+    assert validate_mapping(payload, _train("hello world ı")) == payload["mapping"]
+    with pytest.raises(ValueError, match="collides"):
+        validate_mapping(payload, _train("hello world I"))
+
+
+def test_validate_code_inside_long_ignores_dotless_i():
+    payload = {"mapping": [{"long": "ı like it", "short": "i"}, {"long": "hello there", "short": "h"}]}
+    assert len(validate_mapping(payload, _train("ı like it hello there"))) == 2
+
+
+def test_encode_non_ascii_long_with_lookalike_does_not_raise():
+    # Non-ASCII long forms keep Unicode re.I, so "Ié" matches "ıé" but its
+    # casefold misses the lookup: leave it as-is instead of KeyError.
+    rule = [{"long": "ıé", "short": "q"}]
+    assert encode("Ié yes", rule) == "Ié yes"
+    assert encode("ıé", rule) == "q"
+
+
+# ──── dialogue_workflow_cli ───────────────────────────────────────
+
+"""CLI/HTTP evidence regression without weights or model downloads."""
+
+
+def test_incomplete_http_outputs_preserve_report_and_exit_failure(tmp_path):
+    requests = []
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_POST(self):
+            payload = json.loads(self.rfile.read(int(self.headers['Content-Length'])))
+            requests.append((self.path, payload))
+            if self.path == '/tokenize':
+                response = {'tokens': [1, 2]}
+            else:
+                # Valid-looking JSON with length termination must never count as agreement.
+                response = {'choices': [{'finish_reason': 'length',
+                                         'message': {'content': '{"mapping":[]}'}}]}
+            raw = json.dumps(response).encode()
+            self.send_response(200)
+            self.send_header('Content-Length', str(len(raw)))
+            self.end_headers()
+            self.wfile.write(raw)
+
+        def log_message(self, *args):
+            pass
+
+    server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    output = tmp_path / 'nested' / 'report.json'
+    try:
+        result = subprocess.run([
+            sys.executable, '-m', 'RulePeerCodec.dialogue_lab', '--base-url',
+            f'http://127.0.0.1:{server.server_port}', '--groups', '1', '--peers', '2',
+            '--rounds', '2', '--timeout', '5', '--model-label', 'fake-length',
+            '--output', str(output)], capture_output=True, text=True, timeout=30)
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()
+    assert result.returncode == 1, result.stderr
+    report = json.loads(output.read_text())
+    assert report['run_config']['model_label'] == 'fake-length'
+    assert report['run_config']['request_timeout_seconds'] == 5
+    group = report['groups'][0]
+    assert group['status'] == 'no_agreement'
+    assert group['receiver_evaluation_status'] == 'not_run_no_agreement'
+    assert not group.get('positive_evidence')
+    assert len(report['calls']) == 2
+    assert all('incomplete model output' in call['error'] for call in report['calls'])
+    assert len([path for path, _ in requests if path == '/v1/chat/completions']) == 2
+
+
+def test_cli_rejects_nonpositive_timeout_before_network(tmp_path):
+    with pytest.raises(SystemExit) as error:
+        dialogue_lab.main(['--timeout', '0', '--output', str(tmp_path / 'unused.json')])
+    assert error.value.code == 2
+    assert not (tmp_path / 'unused.json').exists()

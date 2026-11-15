@@ -1,14 +1,33 @@
-"""ShorthandSessionEdge (C) agreed-convention ledger: load + C-applied lex."""
+"""ShorthandSessionEdge (C) の合意台帳 shared/ledger.py と lex_policy: 読み込み、適用、リテラル置換、語境界、ASCII 畳み込み。
+
+- ledger: ShorthandSessionEdge (C) agreed-convention ledger: load + C-applied lex.
+- ledger_literal_replace: shared.ledger: 規約の置換先はリテラル、that is 判定は ASCII のみの大小無視。
+- lex_ascii_casefold: ASCII lexicon rows must not case-fold onto Turkish ı/İ or the Kelvin sign (U+212A).
+- nonascii_latin_boundary: Non-ASCII Latin ledger/etymon sources must not fire inside a longer word.
+"""
 
 from __future__ import annotations
 
-import pytest
-import sys
 from pathlib import Path
-
+from shared import ledger as G
+from shared import lex_policy as L
 from tests._helpers import load as _load
+import json
+import re
+import sys
+import unicodedata
+
+import pytest
+
+
+# ──── ledger ──────────────────────────────────────────────────────
+
+"""ShorthandSessionEdge (C) agreed-convention ledger: load + C-applied lex."""
+
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -97,7 +116,6 @@ def test_morpho_does_not_apply_ledger_under():
     out3 = m.compress("この道はデコボコだ", unique=False, etymon=False, counters=False)
     assert "デコボコ" in out3
     assert "凹凸" not in out3
-
 
 
 def test_furniture_table_removed_no_token_saving():
@@ -714,6 +732,7 @@ def test_abbrev_family_contractions_synced():
     assert by_id["c-asap"]["family"] == "abbrev"
     assert by_id["c-asap"]["abbrev_kind"] == "acronym"
 
+
     # E rows for polarity remain E; no duplicate I'll ownership
 
 
@@ -745,7 +764,6 @@ def test_that_is_latin_owns_not_contraction():
     assert "i.e." not in m.compress("ok, that is, fine", unique=False, etymon=False, counters=False)
     # longer discursive form collapses to plain "that is"
     assert "i.e." not in apply_ledger_lex("that is to say yes")
-
 
 
 def test_emoji_family_synced():
@@ -1044,7 +1062,6 @@ def test_lex_breakdown_flat_pos_or_tag():
     assert compact_breakdown("pronoun") == "代"
 
 
-
 def test_eng_dev_qed_abbrev_tranche():
     """Engineer/programmer + QED-style acronyms: dual-metric WIN, C family=abbrev."""
     from shared.ledger import apply_ledger_lex, list_conventions, validate_ledger_metrics
@@ -1121,6 +1138,7 @@ def test_eng_dev_qed_abbrev_tranche():
     assert "CI/CD" in s.compress("continuous integration and continuous delivery")
     assert "perconvo" in s.compress("per our conversation")
     assert "PoC" not in s.compress("per our conversation")
+
 
 def test_path_unix_short_tranche():
     """Unix/path classic shorts (family=path): dual-metric WIN + meaning gates."""
@@ -1205,7 +1223,6 @@ def test_path_unix_short_tranche():
     assert all(c.get("to") != "conf" for c in by_id.values() if str(c.get("id","")).startswith("path-"))
     assert by_id["path-util"]["to"] == "util"
     assert "send" not in [str(x).lower() for x in by_id["path-snd"]["from"]]
-
 
 
 def test_music_term_abbrev_tranche():
@@ -1435,3 +1452,168 @@ def test_light_review_kiss_nan_e2e_aka():
     assert "E2E" in s.compress("end to end tests")
     assert "E2E" not in s.compress("the end to end of the story")
     assert "aka" in s.compress("also known as Bob")
+
+
+# ──── ledger_literal_replace ──────────────────────────────────────
+
+"""shared.ledger: 規約の置換先はリテラル、that is 判定は ASCII のみの大小無視。"""
+
+
+sys.path.insert(0, str(ROOT))
+
+
+def _book(tmp_path: Path, src: str, to: str) -> Path:
+    p = tmp_path / "conv.json"
+    p.write_text(
+        json.dumps(
+            {"version": 1, "conventions": [
+                {"id": "t", "kind": "lex", "apply_layer": "C", "from": [src], "to": to}
+            ]}
+        ),
+        encoding="utf-8",
+    )
+    return p
+
+
+@pytest.mark.parametrize("to", [r"C:\new\1x", r"\g<0>!", r"a\tb", "\\"])
+def test_replace_src_literal(to: str) -> None:
+    assert G._replace_src("see my path now", "my path", to) == f"see {to} now"
+
+
+@pytest.mark.parametrize("to", [r"i\.e\.", r"\g<0>!"])
+def test_appositive_that_is_literal(tmp_path: Path, to: str) -> None:
+    out = G.apply_ledger_lex("the plan, that is, ours", _book(tmp_path, "that is", to))
+    assert out == f"the plan, {to}, ours"
+
+
+def test_appositive_ascii_only_case(tmp_path: Path) -> None:
+    book = _book(tmp_path, "that is", "ie")
+    assert G.apply_ledger_lex("the plan, THAT IS, ours", book) == "the plan, ie, ours"
+    assert G.apply_ledger_lex("the plan, that ıs, ours", book) == "the plan, that ıs, ours"
+    assert G.apply_ledger_lex("the plan, that iſ, ours", book) == "the plan, that iſ, ours"
+
+
+# ──── lex_ascii_casefold ──────────────────────────────────────────
+
+"""ASCII lexicon rows must not case-fold onto Turkish ı/İ or the Kelvin sign (U+212A)."""
+
+
+def test_contractions():
+    assert L.apply_en_contractions("İ wıll") == "İ wıll"
+    assert L.apply_en_contractions("I WILL") != "I WILL"
+
+
+def test_spelled_numbers():
+    assert L.apply_spelled_numbers("fıve") == "fıve"
+    assert L.apply_spelled_numbers("FIVE") == "5"
+
+
+def test_fillers():
+    assert L.strip_fillers("Kınd of, ok") == "Kınd of, ok"
+    assert L.strip_fillers("Kind of, ok") == "ok"
+
+
+def test_unique_readings_and_compact():
+    kelvin_make = "ma\u212ae"
+    assert L.apply_unique_readings(kelvin_make, compact=False) == kelvin_make
+    assert L.apply_unique_compact("obtaın") == "obtaın"
+    assert L.apply_unique_compact("OBTAIN") == "obt"
+
+
+def test_etymon_align():
+    assert L.apply_etymon_align("communıcatıon") == "communıcatıon"
+    assert L.apply_etymon_align("COMMUNICATION") == "comm"
+
+
+def test_ledger_word_present_and_replace():
+    assert G._word_present("in my opınıon", "in my opinion") is False
+    assert G._word_present("IN MY OPINION", "in my opinion") is True
+    assert G._replace_src("in my opınıon", "in my opinion", "IMO") == "in my opınıon"
+    assert G._replace_src("In My Opinion", "in my opinion", "IMO") == "IMO"
+
+
+def test_ascii_ci_keeps_unicode_case_folding_for_non_ascii_words():
+    import re
+
+    for mod in (G, L):
+        assert re.fullmatch(mod._ascii_ci("été"), "ÉTÉ", re.I)
+        assert not re.fullmatch(mod._ascii_ci("it"), "ıt", re.I)
+
+
+# ──── nonascii_latin_boundary ─────────────────────────────────────
+
+"""Non-ASCII Latin ledger/etymon sources must not fire inside a longer word."""
+
+
+def _e(t: str) -> str:
+    return G.apply_ledger_lex(t, apply_layer="E")
+
+
+def test_ledger_nonascii_latin_src_word_edges():
+    assert _e("für dich") == "for dich"
+    assert _e("él come") == "he come"
+    assert _e("tú y yo") == "U & I"
+    # mid-word: dafür / draußen / aquél / virtú stay intact
+    for t in ("Danke dafür", "wofür ist das", "wir sind draußen", "aquél día", "virtú", "fürs"):
+        assert _e(t) == t
+    # NFD trailing combining mark after the source (é = e + U+0301) is mid-word
+    nfd = "für" + "\u0301"
+    assert _e(nfd) == nfd
+    # CJK sources keep plain-substring semantics
+    assert _e("彼の本") == "he本"
+    assert _e("外です") == "外です"
+
+
+def test_ledger_pattern_edges():
+    p = G.nonascii_word_pattern
+    assert p("彼の") == "彼の"
+    assert p("für").startswith("(?<!") and "(?!" in p("für")
+    assert p("°") == "°"
+
+
+def test_ledger_word_present_and_collision():
+    assert G._word_present("ok für dich", "für")
+    assert not G._word_present("Danke dafür", "für")
+    conv = {"ambiguity_sensitive": True}
+    # dst still present as a whole word after removing src → keep original
+    assert G._ambiguity_skip("für x for", "für", "for", conv, prefer_precision=False) is True
+    assert G._ambiguity_skip("dafür x", "für", "for", conv, prefer_precision=False) is False
+    # mid-word src (dafür) must not be stripped when probing the collision
+    assert G._ambiguity_skip("dafür x", "für", "da", conv, prefer_precision=False) is False
+    assert G._replace_src("dafür für", "für", "for") == "dafür for"
+
+
+def test_etymon_nonascii_word_edges():
+    assert L.apply_etymon_align("l'insécurité du réseau") == "l'insécurité du net"
+    assert L.apply_etymon_align("les réseaux") == "les réseaux"
+    assert L.apply_etymon_align("subversión") == "subversión"
+    assert L.apply_etymon_align("la versión") == "la ver"
+    assert L.apply_etymon_align("Sécurité ok") == "sec ok"
+    assert L.apply_etymon_align("base de données") == "db"
+    nfd_tail = "réseau" + "\u0301"
+    assert L.apply_etymon_align(nfd_tail) == nfd_tail
+    p = L.nonascii_word_pattern
+    assert p("彼の") == "彼の" and p("°") == "°"
+
+
+@pytest.mark.parametrize("mark", ["\u0301", "\u1ab0", "\u1dc0", "\u20d0", "\ufe20", "\u093e", "\u20dd", "\U0001d165"])
+def test_all_mark_categories_block_latin_edges(mark):
+    assert unicodedata.category(mark).startswith("M")
+    for module in (G, L):
+        for text in ("für" + mark, mark + "für"):
+            assert re.search(module.nonascii_word_pattern("für"), text) is None
+        assert re.search(module.nonascii_word_pattern("für"), "「für」")
+        assert re.search(module.nonascii_word_pattern("彼の"), "彼の本")
+        assert re.search(module.nonascii_word_pattern("外"), "在外面")
+    assert _e("für" + mark) == "für" + mark
+    assert G._replace_src("für" + mark, "für", "for") == "für" + mark
+    assert not G._word_present("für" + mark, "für")
+    assert L.apply_etymon_align("réseau" + mark) == "réseau" + mark
+
+
+def test_mark_pattern_matches_exactly_unicode_mark_categories():
+    from shared.unicode_boundary import mark_pattern
+
+    characters = "".join(map(chr, range(sys.maxunicode + 1)))
+    expected = [c for c in characters if unicodedata.category(c).startswith("M")]
+    assert re.findall(mark_pattern(), characters) == expected
