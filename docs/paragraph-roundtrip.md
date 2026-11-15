@@ -148,3 +148,135 @@ audit; the audit's before/after table is in
 [`docs/paragraph-score-audit-20261115.md`](paragraph-score-audit-20261115.md) and
 `para20261113_results.json` holds the post-audit scores.
 
+
+## AI readability on CI (nano environment, model-agnostic)
+
+`scripts/ai_readability.py` (one CLI, JSON on stdout, stdlib only) replays the same
+`paragraph-restore-v1` pack through a small local model (the *restorer*) instead of a subagent,
+scores it with the same rules (`exact`, `semantic_rule`, `notation_tolerant`, error labels), and
+has a *judge* model score every aligned sentence pair. The rules stay the baseline; the judge is
+reported next to them with its agreement, because rule scoring alone is not rock-solid (synonyms,
+word order and paraphrases fail the rules even when the meaning is kept). `report.json` carries
+`ai_readability: {"status": "measured", "restorer": <key>, "judges": ["rule", <key>...]}`.
+
+| piece | where |
+|---|---|
+| restorer and judge models, weights pins (revision, bytes, SHA-256) | catalog keys in `shared/l3_models.json` (shared with SVG L3) |
+| defaults | `DEFAULTS` at the top of the script: judge `mdeberta-xnli-onnx` (MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7 @`b5113eb3`, fp32 ONNX, **暫定**: not decided by myon; 3bot's comparison (judge-model/3bot `9c8d7d8`) found 88.2% agreement with its reference labels and 0 output tokens) |
+| presets (models per purpose) | `PRESETS` in the script, see below; restorer default `qwen3-0.6b` (Qwen3-0.6B Q8_0, **暫定**, from 2bot's restorer bench; Qwen2.5-1.5B paraphrased even the control) |
+| llama.cpp | `image`: official b12004 by OCI digest (commit `3c809f44`); `build`: `build-llama` compiles `llama-server` from pinned commit `9d925e7c` (b12381, the build 2bot used for Qwen3; CPU, portable AVX2), cached by commit. Presets use `build` |
+| decoding | CPU, all runner cores, context 4096, temperature 0, seed 42, thinking off (`--reasoning off` and `chat_template_kwargs.enable_thinking=false`); restore `max_tokens` 1024, judge 8 |
+| workflow | `.github/workflows/ai-readability.yml`: `plan` → `weights` (each GGUF downloaded once, cached) + `llama` (build once if `build`) → `restore` (matrix restorer × shard, round-robin over sorted item ids) → `merge` (per restorer) → `judge` (restorer × judge × shard) → `report` (per restorer) |
+
+**One sentence per line (restorer prompt `paragraph-restore-numbered-v1`).** With the pack prompt,
+small restorers answered almost every paragraph on one line, so sentences were re-split by
+punctuation and `merge_split` rose. The restorer therefore sends its own prompt (`RESTORE_PROMPT`):
+the same instructions, the input sentences numbered one per line, "keep the number, one sentence per
+line", and "write them in <language>; do not translate" (without it the Latin paragraph came back in
+English). Numbers are stripped before scoring (`unnumber`; the raw reply is kept as `raw`). The
+sentences are split from the compressed text the model is given (`input_sentences` =
+`split_compressed(text, 0)`: B mosaic tiles, otherwise the sentence-end splitter), never from the
+gold, so the count can differ from the gold (Latin `;`, a gold sentence holding two sentences) and
+those merge/split labels remain. Answers are still checked against the pack prompt sha256; each also
+records `restore_prompt_sha256`, and `merge` refuses shards from another restorer prompt version.
+4bot's comparison (Qwen2.5-1.5B Q4_K_M, 39 items, `96ff64f`): pack prompt format 6/39, exact 0.531,
+notation_tolerant 0.573, merge_split 30; numbered 39/39, 0.656, 0.766, 13. A llama.cpp JSON schema of
+exactly N strings and a GBNF grammar of N lines keep the pack prompt byte-for-byte but were rejected
+(the model put the whole paragraph in the first item and repeated it until `max_tokens`; JSON 3/39
+unanswered, GBNF 8/18 answered), and one call per sentence lost the context (exact 0.17 on 18 items).
+The rule table reports `format_followed` ("one sentence per line") and `label:merge_split`.
+
+**Judges are numeric and pluggable.** A judge returns only a confidence in [0, 1] per aligned
+sentence pair; YES/NO is derived later in `report` from a threshold (the catalog entry's
+`threshold`, default 0.5, or `report --threshold`), so a threshold change needs no re-run. No
+judgement is read from generated text. The catalog entry's `backend` picks the plug-in
+(`JUDGE_BACKENDS`):
+
+| backend | score | dependencies |
+|---|---|---|
+| `nli-onnx` (default judge) | min(P(entailment) gold→restored, restored→gold), ONNX cross-encoder on CPU | onnxruntime, tokenizers, numpy: uv group `judge`, imported lazily, installed only in the judge job (`uv sync --locked --only-group judge`) |
+| `llm-logprob` | P(YES) / (P(YES) + P(NO)) of the first token from llama-server's top logprobs (`sentence-equivalence-v2`) | none (stdlib; GGUF via llama.cpp) |
+
+A catalog entry may fix its own shard count (`shards`; the NLI judge uses 1 job, about 0.2 s per
+pair) and list extra pinned files (`files`: tokenizer, config), all checked by `fetch` (bytes and
+SHA-256, also on cache hits). To add another backend, write `fn(pairs, entry, model_dir, url) ->
+[{"score": float | None, ...}]` and register it in `JUDGE_BACKENDS`.
+
+**Judge weights come from GitHub Releases** (t1246u). Each NLI judge has its own prerelease in this
+repository (never latest), tagged `judge-model-<catalog key>-<first 8 of the HF revision>`, with the
+HF files unchanged (no conversion; directories dropped, so `onnx/model.onnx` becomes the asset
+`model.onnx`), the license / model card and `SHA256SUMS`. The catalog keeps the HF `repository`,
+`revision` and `url` as the source and adds `release_url`; `fetch` downloads from `release_url`
+(public, no token), checks bytes and SHA-256 and deletes a mismatching file before failing. The
+actions/cache key includes the tag (`cache_key`), so the switch from HF really downloads once.
+
+| catalog key | role | release tag | model file | 3bot reference (127) | s/case (box) |
+|---|---|---|---|---|---|
+| `mdeberta-xnli-onnx` | default | `judge-model-mdeberta-xnli-onnx-b5113eb3` | fp32, 1,116,115,065 B | 88.2% | 0.079 |
+| `mdeberta-xnli-onnx-int8` | candidate | `judge-model-mdeberta-xnli-onnx-int8-b5113eb3` | int8 (`model_quantized.onnx`), 338,679,133 B | 80.3% | 0.078 |
+| `minilm-l6-xnli-onnx` | candidate | `judge-model-minilm-l6-xnli-onnx-0a71e92a` | MiniLMv2-L6 fp32, 428,127,016 B | 87.4% | 0.017 |
+
+Candidates (`DEFAULTS["judge_candidates"]`, t1247u) run next to the default in every preset
+(`"candidates": True`), one parallel job each; `plan --judges` replaces the whole list. All three
+are MIT per their model cards; the MiniLM base model card carries no license line (see its release).
+
+**Judge metrics** (`report`, per method, in sentences): `scored_sentences` counts actual numeric
+scores; `agreement_rate` with `notation_tolerant` uses only those sentences (null if none).
+`rule_pass_judge_no` and `rule_fail_judge_yes` are disagreements on scored sentences.
+Missing or dropped answers count under `judge_not_restored`, not as judge verdicts.
+`judge_equivalent_rate` is the fraction of all reference sentences scored above the threshold,
+so recovery losses still reduce the end-to-end rate. A judge from the restorer's own family
+is not independent.
+
+**Presets** (`PRESETS`; every field can be overridden per run):
+
+| preset | restorers | paragraphs | items per restorer | shards | use |
+|---|---|---|---|---|---|
+| `pr-smoke` | `qwen3-0.6b` | 1 per language | 39 | 4 | pull requests: the pipeline still works end to end |
+| `accuracy` | `qwen3-1.7b` | 2 per language | 78 | 8 | accuracy check with the larger Qwen3 |
+| `full` | `qwen3-0.6b` | all | 180 | 8 | the full measurement |
+| `full-pair` | `qwen3-0.6b`, `qwen3-1.7b` | all | 180 each | 8 each | both restorers side by side in one matrix |
+
+**Triggers (no manual runs).** The GitHub event picks the preset (`EVENT_PRESETS` in the script;
+the workflow only passes `--event "$GITHUB_EVENT_NAME"`):
+
+| event | preset | why |
+|---|---|---|
+| `pull_request` touching the pipeline (path filter) | `pr-smoke` | proves the pipeline still works, about 5 minutes |
+| `push` to `main` touching the same paths | `accuracy` | each merged change gets the larger-restorer check |
+| `schedule`, weekly (Sunday 03:17 JST) | `full` | all 180 items without a manual trigger and without tying it to every merge |
+
+`full` runs on a schedule rather than on push because one weekly full measurement is enough to
+follow drift, keeps merge-time cost small, and needs no inputs or extra env vars. `full-pair` and any
+override (`--restorers`, `--judges`, `--shards`, `--per-lang`, `--llama`) are for the CLI (local,
+olnm, agents): `plan --preset <name>` prints the same matrices. Normal `ci.yml` only runs the
+offline plumbing test (`tests/test_ai_readability.py`, a fake server). Low scores never fail a job.
+
+The Qwen3 and mDeBERTa catalog entries carry `"lanes": ["readability"]`, so the SVG L3 lane's `all` stays at
+its 7 models (`scripts/svg_l3_bench.py svg_models`).
+
+**Traceability (artifacts, 30 days; nothing is committed).** `air-shard-<restorer>-N`: `shard-<restorer>-N.json` with,
+per item id, the prompt, prompt sha256, compressed text, raw server response and answer, plus the
+pins (model revision + SHA-256, llama image digest or build commit + binary sha256, git SHA, run
+URL, sha256 of `sources.json` / items / pack), the weights receipt and the server log.
+`air-merged-<restorer>`: `readability.json` (rule scores, every sentence pair, failures with reasons, sha256 of
+each shard file). `air-judge-<restorer>-<judge>-N`: every score with its components (entailment both ways, or
+YES/NO token probabilities with the raw response and prompt sha256), judge pins and log. `air-report-<restorer>`: `report.json` and `summary.md` (sha256 of the merged and judge files).
+`merge`, `judge` and `report` are pure functions of those files, so any number can be re-derived:
+
+```
+uv run python scripts/ai_readability.py merge 'shards/shard-*.json' --out merged/readability.json
+uv run python scripts/ai_readability.py report merged/readability.json 'judges/judge-*.json' --out report.json
+```
+
+Local or from olnm (`serve` uses docker, or `--llama-bin` for a built server):
+
+```
+uv run python scripts/ai_readability.py fetch qwen3-0.6b
+uv run python scripts/ai_readability.py serve --model qwen3-0.6b
+uv run python scripts/ai_readability.py restore --per-lang 1 --out out/shard-0.json
+uv run python scripts/ai_readability.py stop
+```
+
+To swap a model, add it to `shared/l3_models.json` (revision, bytes, SHA-256) and pass its key.
+Greedy decoding repeats answers, so this pipeline has one seed.

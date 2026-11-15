@@ -22,6 +22,9 @@ translate = ["deep-translator>=1.11.4"]
 # Chromium lane for the SVG L2 pixel checks (tests/test_svg_render.py, test_svg_figure.py):
 # `uv sync --group browser` then `python -m playwright install --only-shell chromium`.
 browser = ["playwright>=1.64.1"]
+# NLI judge backend of scripts/ai_readability.py (judge job only; the core stays stdlib):
+# `uv sync --only-group judge`.
+judge = ["onnxruntime>=1.20", "tokenizers", "numpy"]
 
 # Runtime modules stay dependency-light; uv manages contributor/CI tools.
 [tool.uv]

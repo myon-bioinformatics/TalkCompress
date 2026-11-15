@@ -29,8 +29,13 @@ def catalog() -> dict:
     return json.loads(CATALOG.read_text(encoding="utf-8"))
 
 
+def svg_models(models: dict) -> dict:
+    """Catalog entries for this lane; entries with ``lanes`` (e.g. readability-only Qwen3) stay out of ``all``."""
+    return {k: v for k, v in models.items() if "svg-l3" in v.get("lanes", ["svg-l3"])}
+
+
 def select_models(event: str, choice: str | None, models: dict | None = None) -> list[str]:
-    models = catalog() if models is None else models
+    models = svg_models(catalog() if models is None else models)
     if event != "workflow_dispatch":
         # PR / push events never fan out to every model.
         return [DEFAULT_MODEL]

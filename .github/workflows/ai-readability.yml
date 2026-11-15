@@ -1,0 +1,297 @@
+name: ai-readability
+
+# AI readability of control / CEF / BEF paragraphs: pinned small GGUFs restore them on CPU runners,
+# then the rules (exact / notation_tolerant, baseline) and an LLM judge score every sentence pair.
+# Models are catalog keys (shared/l3_models.json); presets live in scripts/ai_readability.py.
+# No manual runs: the event picks the preset (EVENT_PRESETS in the script):
+#   pull_request (paths below) -> pr-smoke, push to main (same paths) -> accuracy, weekly schedule -> full.
+# This file only fans out; all logic is in the script. Low scores never fail a job.
+on:
+  pull_request:
+    paths:
+      - .github/workflows/ai-readability.yml
+      - scripts/ai_readability.py
+      - scripts/paragraph_roundtrip.py
+      - shared/llama_cmd.py
+      - shared/l3_models.json
+      - SentenceCalibratedMosaic/fixtures/paragraph_judge/**
+      - uv.lock
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/ai-readability.yml
+      - scripts/ai_readability.py
+      - scripts/paragraph_roundtrip.py
+      - shared/llama_cmd.py
+      - shared/l3_models.json
+      - SentenceCalibratedMosaic/fixtures/paragraph_judge/**
+      - uv.lock
+  schedule:
+    - cron: "17 18 * * 6" # Sunday 03:17 JST, weekly full run
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-readability-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      llama: ${{ steps.plan.outputs.llama }}
+      llama_commit: ${{ steps.plan.outputs.llama_commit }}
+      per_lang: ${{ steps.plan.outputs.per_lang }}
+      shards: ${{ steps.plan.outputs.shards }}
+      models: ${{ steps.plan.outputs.models }}
+      restore_matrix: ${{ steps.plan.outputs.restore_matrix }}
+      restorer_matrix: ${{ steps.plan.outputs.restorer_matrix }}
+      judge_matrix: ${{ steps.plan.outputs.judge_matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+        run: python3 scripts/ai_readability.py plan --event "$EVENT" --github-output "$GITHUB_OUTPUT"
+
+  # Download each model once (revision + bytes + SHA-256 of every file verified) so parallel jobs only restore the cache.
+  # Judges come from this repo's prerelease assets (catalog release_url, public: no token); the key includes the tag.
+  weights:
+    needs: plan
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix: ${{ fromJSON(needs.plan.outputs.models) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ matrix.model }}
+          key: ${{ matrix.cache_key }}
+          lookup-only: true
+      - if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          MODEL: ${{ matrix.model }}
+        run: python3 scripts/ai_readability.py fetch "$MODEL"
+      - if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ matrix.model }}
+          key: ${{ matrix.cache_key }}
+
+  # Optional: build llama-server once from the pinned commit, cached by commit (image mode skips the work).
+  llama:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - if: needs.plan.outputs.llama == 'build'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - if: needs.plan.outputs.llama == 'build'
+        id: cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: llama-bin
+          key: llama-server-${{ needs.plan.outputs.llama_commit }}-ubuntu-24.04-avx2
+          lookup-only: true
+      - if: needs.plan.outputs.llama == 'build' && steps.cache.outputs.cache-hit != 'true'
+        env:
+          COMMIT: ${{ needs.plan.outputs.llama_commit }}
+        run: python3 scripts/ai_readability.py build-llama --dest llama-bin --commit "$COMMIT"
+      - if: needs.plan.outputs.llama == 'build' && steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: llama-bin
+          key: llama-server-${{ needs.plan.outputs.llama_commit }}-ubuntu-24.04-avx2
+      - if: needs.plan.outputs.llama != 'build'
+        run: echo "pinned image mode; nothing to build"
+
+  restore:
+    needs: [plan, weights, llama]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.restore_matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ matrix.restorer }}
+          key: ${{ matrix.cache_key }}
+          fail-on-cache-miss: true
+      - if: needs.plan.outputs.llama == 'build'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: llama-bin
+          key: llama-server-${{ needs.plan.outputs.llama_commit }}-ubuntu-24.04-avx2
+          fail-on-cache-miss: true
+      - name: Verify weights, serve, restore this shard
+        env:
+          MODEL: ${{ matrix.restorer }}
+          LLAMA: ${{ needs.plan.outputs.llama }}
+          SHARD: ${{ matrix.shard }}
+          SHARDS: ${{ needs.plan.outputs.shards }}
+          PER_LANG: ${{ needs.plan.outputs.per_lang }}
+        run: |
+          bin=(); if [ "$LLAMA" = build ]; then bin=(--llama-bin llama-bin/llama-server); fi
+          python3 scripts/ai_readability.py fetch "$MODEL"
+          mkdir -p out && cp "models/$MODEL/provenance.json" "out/weights-$MODEL.json"
+          python3 scripts/ai_readability.py serve --model "$MODEL" "${bin[@]}" --log "out/llama-server-$MODEL-$SHARD.log"
+          python3 scripts/ai_readability.py restore --model "$MODEL" "${bin[@]}" --shard "$SHARD" --shards "$SHARDS" \
+            --per-lang "$PER_LANG" --out "out/shard-$MODEL-$SHARD.json"
+      - if: always()
+        env:
+          MODEL: ${{ matrix.restorer }}
+          SHARD: ${{ matrix.shard }}
+        run: python3 scripts/ai_readability.py stop --log "out/llama-server-$MODEL-$SHARD.log" || true
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: air-shard-${{ matrix.restorer }}-${{ matrix.shard }}
+          path: out/
+          retention-days: 30
+
+  merge:
+    needs: [plan, restore]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.restorer_matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: air-shard-${{ matrix.restorer }}-*
+          merge-multiple: true
+          path: shards/
+      - env:
+          MODEL: ${{ matrix.restorer }}
+        run: python3 scripts/ai_readability.py merge "shards/shard-$MODEL-*.json" --out merged/readability.json
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: air-merged-${{ matrix.restorer }}
+          path: merged/
+          retention-days: 30
+
+  # The judge is part of every run: restorer × judge × shard; it returns a confidence per sentence pair.
+  # Backends (matrix.backend): nli-onnx runs in uv's isolated "judge" group (onnxruntime, tokenizers, numpy);
+  # llm-logprob serves a GGUF with llama.cpp. Only this job ever installs third-party packages.
+  judge:
+    needs: [plan, weights, llama, merge]
+    if: ${{ !cancelled() && needs.merge.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.judge_matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: models/${{ matrix.judge }}
+          key: ${{ matrix.cache_key }}
+          fail-on-cache-miss: true
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: air-merged-${{ matrix.restorer }}
+          path: merged/
+      - name: Verify judge files
+        env:
+          JUDGE: ${{ matrix.judge }}
+        run: |
+          python3 scripts/ai_readability.py fetch "$JUDGE"
+          mkdir -p out && cp "models/$JUDGE/provenance.json" "out/weights-$JUDGE.json"
+      - if: matrix.backend == 'nli-onnx'
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          version: "latest"
+          python-version: "3.12.15"
+          enable-cache: false
+      - if: matrix.backend == 'nli-onnx'
+        name: Judge this shard (NLI, locked judge group)
+        env:
+          JUDGE: ${{ matrix.judge }}
+          RESTORER: ${{ matrix.restorer }}
+          SHARD: ${{ matrix.shard }}
+          SHARDS: ${{ matrix.shards }}
+        run: |
+          uv sync --locked --only-group judge
+          uv run --no-sync python scripts/ai_readability.py judge merged/readability.json --model "$JUDGE" \
+            --shard "$SHARD" --shards "$SHARDS" --out "out/judge-$RESTORER-$JUDGE-$SHARD.json"
+      - if: matrix.backend != 'nli-onnx' && needs.plan.outputs.llama == 'build'
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: llama-bin
+          key: llama-server-${{ needs.plan.outputs.llama_commit }}-ubuntu-24.04-avx2
+          fail-on-cache-miss: true
+      - if: matrix.backend != 'nli-onnx'
+        name: Judge this shard (LLM logprobs)
+        env:
+          JUDGE: ${{ matrix.judge }}
+          RESTORER: ${{ matrix.restorer }}
+          LLAMA: ${{ needs.plan.outputs.llama }}
+          SHARD: ${{ matrix.shard }}
+          SHARDS: ${{ matrix.shards }}
+        run: |
+          bin=(); if [ "$LLAMA" = build ]; then bin=(--llama-bin llama-bin/llama-server); fi
+          python3 scripts/ai_readability.py serve --model "$JUDGE" "${bin[@]}" --log "out/llama-server-$JUDGE-$SHARD.log"
+          python3 scripts/ai_readability.py judge merged/readability.json --model "$JUDGE" "${bin[@]}" \
+            --shard "$SHARD" --shards "$SHARDS" --out "out/judge-$RESTORER-$JUDGE-$SHARD.json"
+      - if: always() && matrix.backend != 'nli-onnx'
+        env:
+          JUDGE: ${{ matrix.judge }}
+          SHARD: ${{ matrix.shard }}
+        run: python3 scripts/ai_readability.py stop --log "out/llama-server-$JUDGE-$SHARD.log" || true
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: air-judge-${{ matrix.restorer }}-${{ matrix.judge }}-${{ matrix.shard }}
+          path: out/
+          retention-days: 30
+
+  report:
+    needs: [plan, merge, judge]
+    if: ${{ !cancelled() && needs.merge.result == 'success' }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.restorer_matrix) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: air-merged-${{ matrix.restorer }}
+          path: merged/
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: air-judge-${{ matrix.restorer }}-*
+          merge-multiple: true
+          path: judges/
+      - env:
+          MODEL: ${{ matrix.restorer }}
+        run: |
+          python3 scripts/ai_readability.py report merged/readability.json "judges/judge-$MODEL-*.json" \
+            --out report/report.json --markdown report/summary.md
+          cat report/summary.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: air-report-${{ matrix.restorer }}
+          path: report/
+          retention-days: 30

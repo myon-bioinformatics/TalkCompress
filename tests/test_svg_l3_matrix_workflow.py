@@ -16,13 +16,13 @@ MODELS = json.loads((ROOT / "shared/l3_models.json").read_text(encoding="utf-8")
 
 
 def test_catalog_has_seven_pinned_models_about_6_86_gb():
-    assert len(MODELS) == 7
+    assert len(bench.svg_models(MODELS)) == 7  # readability-only entries carry lanes=["readability"]
     for model in MODELS.values():
         assert re.fullmatch(r"[0-9a-f]{40}", model["revision"])
         assert re.fullmatch(r"[0-9a-f]{64}", model["sha256"])
         assert model["revision"] in model["url"]
     assert MODELS["qwen-0.5b"]["sha256"] == "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db"
-    total = sum(m["bytes"] for m in MODELS.values())
+    total = sum(m["bytes"] for m in bench.svg_models(MODELS).values())
     assert 6.8e9 < total < 10e9
 
 
@@ -33,7 +33,7 @@ def test_pull_request_never_fans_out():
 
 def test_dispatch_default_all_and_selection():
     assert bench.select_models("workflow_dispatch", "", MODELS) == ["qwen-0.5b"]
-    assert bench.select_models("workflow_dispatch", "all", MODELS) == list(MODELS)
+    assert bench.select_models("workflow_dispatch", "all", MODELS) == list(bench.svg_models(MODELS))
     assert bench.select_models("workflow_dispatch", "lfm3-1.7b, qwen-1.5b,lfm3-1.7b", MODELS) == ["lfm3-1.7b", "qwen-1.5b"]
     with pytest.raises(ValueError):
         bench.select_models("workflow_dispatch", "nope", MODELS)
@@ -43,7 +43,7 @@ def test_matrix_cli_writes_github_output(tmp_path):
     out = tmp_path / "o"
     subprocess.run([sys.executable, "scripts/svg_l3_bench.py", "matrix", "workflow_dispatch", "all",
                     "--github-output", str(out)], cwd=ROOT, check=True, capture_output=True)
-    assert json.loads(out.read_text().split("=", 1)[1]) == {"model": list(MODELS)}
+    assert json.loads(out.read_text().split("=", 1)[1]) == {"model": list(bench.svg_models(MODELS))}
 
 
 def _req(fig, completed=True, usage=(10, 5)):
