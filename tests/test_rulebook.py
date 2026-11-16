@@ -1,10 +1,28 @@
-"""RulePeerCodec RuleBook: shared-rule growth (layer A core)."""
+"""RulePeerCodec (A) RuleBook: 共有ルールの成長、語境界、リテラル置換。
+
+- rulebook: RulePeerCodec RuleBook: shared-rule growth (layer A core).
+- rulebook_boundaries: 監査: rulebook の語境界と Unicode 対応。
+- rulebook_literal_ascii_case: RulePeerCodec RuleBook: 置換はリテラル、ASCII 文字の大小無視は ASCII のみ。
+"""
 
 from __future__ import annotations
 
-import json, sys
-
+from RulePeerCodec.rulebook import Rule
+from RulePeerCodec.rulebook import RuleBook
+from RulePeerCodec.rulebook import _bounded
+from RulePeerCodec.rulebook import _extract_phrases
+from pathlib import Path
+from rulebook import RuleBook
 from tests._helpers import load as _load
+import json
+import sys
+
+import pytest
+
+
+# ──── rulebook ────────────────────────────────────────────────────
+
+"""RulePeerCodec RuleBook: shared-rule growth (layer A core)."""
 
 
 def test_rulebook_grows_after_repeated_phrases(tmp_path):
@@ -123,9 +141,130 @@ def test_rule_encode_with_optional_key(tmp_path, capsys):
     assert "ping pong" in buf.out
 
 
-
 def test_crypto_roundtrip_still_works():
     """Do not regress classic RulePeerCodec envelope."""
     z = _load("rule_peer_codec", "RulePeerCodec/rule_peer_codec.py")
     env = z.encode(b"hello bots", key="k")
     assert z.decode(env, key="k") == b"hello bots"
+
+
+# ──── rulebook_boundaries ─────────────────────────────────────────
+
+"""監査: rulebook の語境界と Unicode 対応。"""
+
+
+def _book():
+    return RuleBook(rules=[Rule("r1", "in the", "r1"), Rule("r2", "ありがとう", "r2")])
+
+
+def test_encode_does_not_rewrite_inside_words():
+    b = _book()
+    assert b.encode_with_rules("within these walls") == "within these walls"
+    assert b.encode_with_rules("sit in the car") == "sit r1 car"
+    assert b.encode_with_rules("In the end") == "r1 end"
+
+
+def test_cjk_rule_roundtrips_without_spaces():
+    b = _book()
+    enc = b.encode_with_rules("はいありがとう")
+    assert enc == "はいr2"
+    assert b.decode_with_rules(enc) == "はいありがとう"
+
+
+def test_decode_keeps_latin_word_boundary():
+    b = _book()
+    assert b.decode_with_rules("xr1 r1y r1") == "xr1 r1y in the"
+    assert b.decode_with_rules("r1, r1") == "in the, in the"
+
+
+def test_bounded_edges():
+    assert _bounded("ab") == r"(?<![^\W\u3040-\u30ff\u3400-\u9fff])ab(?![^\W\u3040-\u30ff\u3400-\u9fff])"
+    assert _bounded("あa") == r"あa(?![^\W\u3040-\u30ff\u3400-\u9fff])"
+    assert _bounded("aあ") == r"(?<![^\W\u3040-\u30ff\u3400-\u9fff])aあ"
+    assert _bounded("!") == "!"
+    assert _bounded("") == ""
+
+
+def test_extract_phrases_keeps_accented_words():
+    got = _extract_phrases("ça va très bien")
+    assert "ça va" in got and "très bien" in got
+    assert "a va" not in got and "tr s" not in got
+    assert "Привет мир" in _extract_phrases("Привет мир")
+
+
+def test_corpus_rules_do_not_overlap_and_roundtrip():
+    """規則どうしの重なり検出: 実コーパスで学習した全規則の組で往復できること。"""
+    import itertools
+    import re
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent
+    lines = []
+    for f in sorted((root / "fixtures" / "pd_corpus").glob("*.txt")):
+        lines += [ln for ln in f.read_text(encoding="utf-8").splitlines() if ln.strip()]
+    book = RuleBook(threshold=3)
+    for ln in lines:
+        book.observe(ln)
+    rules = book.rules
+    assert len(rules) >= 20
+    for a, c in itertools.permutations(rules, 2):
+        assert not re.search(_bounded(c.long), a.short, re.I)
+        assert not re.search(_bounded(c.short), a.long)
+        t = f"{a.long} {c.long}"
+        assert book.decode_with_rules(book.encode_with_rules(t)).lower() == t.lower()
+    for ln in lines:
+        assert book.decode_with_rules(book.encode_with_rules(ln)).lower() == ln.lower()
+
+
+# ──── rulebook_literal_ascii_case ─────────────────────────────────
+
+"""RulePeerCodec RuleBook: 置換はリテラル、ASCII 文字の大小無視は ASCII のみ。"""
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+sys.path.insert(0, str(ROOT / "RulePeerCodec"))
+
+
+@pytest.mark.parametrize("short", [r"C:\new\1x", r"\g<0>!", r"a\tb", "\\"])
+def test_encode_decode_literal(short: str) -> None:
+    book = RuleBook()
+    book.declare("my path here", short)
+    enc = book.encode_with_rules("see my path here now")
+    assert enc == f"see {short} now"
+    assert book.decode_with_rules(enc) == "see my path here now"
+
+
+@pytest.mark.parametrize(
+    "text",
+    ["the opınıon panel", "the OPİNİON panel", "the ſkip list", "the \u212aind word"],
+)
+def test_unicode_fold_not_matched(text: str) -> None:
+    book = RuleBook()
+    for long in ("opinion panel", "skip list", "kind word"):
+        book.declare(long)
+    assert book.encode_with_rules(text) == text
+
+
+def test_ascii_and_nonascii_case_still_fold() -> None:
+    book = RuleBook()
+    r1 = book.declare("opinion panel")
+    r2 = book.declare("café crème")
+    assert book.encode_with_rules("The OPINION Panel") == f"The {r1.short}"
+    assert book.encode_with_rules("CAFÉ CRÈME ok") == f"{r2.short} ok"
+
+
+def test_ascii_case_match_helper() -> None:
+    from rulebook import _ascii_case_match
+
+    assert _ascii_case_match("Kind", "kind")
+    assert not _ascii_case_match("\u212aind", "kind")
+    assert not _ascii_case_match("kind", "\u212aind")
+    assert not _ascii_case_match("kin", "kind")
+
+
+def test_decode_long_form_is_literal() -> None:
+    book = RuleBook()
+    rule = book.declare(r"dir C:\new\1x", "DP")
+    assert book.decode_with_rules(f"open {rule.short} ok") == r"open dir C:\new\1x ok"

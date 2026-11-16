@@ -3,8 +3,13 @@
 from __future__ import annotations
 
 import os
+import sys
+from pathlib import Path
 
 import pytest
+
+# scripts/ modules (roundtrip, tense_matrix, corpus_manifest, ...) are imported by name from many tests.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 
 @pytest.fixture(scope="session")
@@ -63,10 +68,6 @@ def pytest_addoption(parser):
 def pytest_terminal_summary(terminalreporter):
     """Report stdlib estimate_tokens vs o200k_base agreement in every CI run
     (yardstick for eventually dropping the tiktoken dev dependency)."""
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
     try:
         import tokenizer_compat as tc
 
