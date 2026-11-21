@@ -29,7 +29,7 @@ PATH_RE = re.compile(r"(?<![\w:/.])(?:\.{1,2}/)?[\w.-]+(?:/[\w.-]+)+")
 SHA_RE = re.compile(r"\b(?=[0-9a-f]*[0-9])(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b")
 DATE_RE = re.compile(r"\b\d{4}[-/]\d{2}[-/]\d{2}\b")
 ISSUE_RE = re.compile(r"(?<![\w&#])#\d+\b")
-NUMBER_RE = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?!\w|\.\d)")
+NUMBER_RE = re.compile(r"(?<![\w/#.,])[+−-]?\d+(?:\.\d+)?(?!\w|[.,]\d)")
 
 NEGATION_RE = re.compile(
     r"\b(?:not|no|never|cannot|without)\b|\b\w*n['\u2019\u02bc\uff07]t\b|ない|ません|なし|禁止|不要",
@@ -71,10 +71,20 @@ def extract_exact(text: str) -> dict[str, set[str]]:
     ]
     found = {kind: {m.group() for m in ms} for kind, ms in matches.items()}
     spans = [m.span() for ms in matches.values() for m in ms]
-    found["number"] = {
-        m.group() for m in NUMBER_RE.finditer(text)
-        if not any(start <= m.start() and m.end() <= end for start, end in spans)
-    }
+    numbers: set[str] = set()
+    previous_end = -1
+    for m in NUMBER_RE.finditer(text):
+        if any(start <= m.start() and m.end() <= end for start, end in spans):
+            continue
+        before = text[m.start() - 1] if m.start() else ""
+        if before in {"+", "−", "-"}:
+            # Do not fall back to unsigned after a rejected sign/ID suffix.
+            # A single hyphen separating two numbers (e.g. 3-5) is a range.
+            if before != "-" or previous_end != m.start() - 1 or not m.group()[0].isdecimal():
+                continue
+        numbers.add(m.group())
+        previous_end = m.end()
+    found["number"] = numbers
     return found
 
 

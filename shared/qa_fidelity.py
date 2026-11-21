@@ -26,9 +26,9 @@ import argparse, json, re, shlex, subprocess, sys, unicodedata
 from dataclasses import dataclass; from datetime import date; from pathlib import Path
 
 try:
-    from shared.keep_check import extract_exact
+    from shared.keep_check import contains_exact, extract_exact
 except ImportError:
-    from keep_check import extract_exact
+    from keep_check import contains_exact, extract_exact
 
 KIND_QUESTION = {
     "url": "List all URLs mentioned. Copy each URL exactly.",
@@ -108,17 +108,15 @@ def matches(probe: Probe, answer: str) -> bool:
     if probe.kind == "date":
         expected = _dates(expected_value)
         return bool(expected and expected.intersection(_dates(answer)))
+    if probe.kind == "number":
+        return contains_exact(answer, expected_value, "number")
     # Do not accept #400 for #40, a longer hash, or a child path/URL. Terminal
     # sentence punctuation is allowed. Keep URI/path suffix characters strict.
     if probe.kind in {"url", "path"}:
         end = r"(?![\w/\-?#=&%+~:@;]|\.[\w/])"
-    elif probe.kind == "number":
-        end = r"(?![\w]|[.,]\d)"
     else:
         end = r"(?!\w)"
     start = r"(?<![\w/#])"
-    if probe.kind == "number":
-        start = r"(?<![\w/#.,+\-])"
     flags = 0 if probe.kind in {"url", "path", "id"} else re.I
     return re.search(start + re.escape(expected_value) + end, answer, flags) is not None
 

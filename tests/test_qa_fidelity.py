@@ -156,3 +156,16 @@ def test_custom_id_not_leaked_in_question():
 
 def test_sentence_final_number_is_scored():
     assert score(build_probes('42'), '', lambda prompt: '42.')['hits'] == 1
+
+
+def test_numeric_probe_requires_the_sign_present_in_the_source():
+    signed = "Latency delta: -0.25."
+    unsigned = "Latency delta: 0.25."
+    for source, wrong in [(signed, unsigned), (unsigned, signed)]:
+        probes = build_probes(source)
+        assert len(probes) == 1
+        assert score(probes, source, lambda _: source)["hits"] == 1
+        assert score(probes, source, lambda _: wrong)["hits"] == 0
+    probes = build_probes("Value: -42.")
+    for wrong in ("item-42", "https://example.com/-42", "3-42", "−42"):
+        assert score(probes, "", lambda _: wrong)["hits"] == 0
