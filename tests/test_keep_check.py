@@ -164,3 +164,21 @@ def test_negation_is_stable_under_nfd_and_accents():
         nfd = count_items(unicodedata.normalize("NFD", text))["negation"]
         assert nfc == nfd, text
     assert count_items(unicodedata.normalize("NFD", "Él dijo nó."))["negation"] == 0
+
+
+def test_keep_check_preserves_standalone_numeric_signs():
+    source = "Latency delta: -0.25."
+    assert extract_exact(source)["number"] == {"-0.25"}
+    assert check(source, source).ok
+    assert check(source, "Latency delta: 0.25.").missing == [
+        {"kind": "number", "item": "-0.25"}
+    ]
+    assert not check("Latency: 0.25.", source).ok
+    assert extract_exact("Changes: (+2), −3.")["number"] == {"+2", "−3"}
+
+
+def test_numeric_sign_does_not_create_values_inside_identifiers_or_dates():
+    text = "item-42; node+7; 2026-11-21; #40; https://example.com/-8"
+    assert extract_exact(text)["number"] == set()
+    assert extract_exact("Range 3-5, not 3,000.")["number"] == {"3", "5"}
+    assert extract_exact("3--5; --4; +-2.")["number"] == {"3"}
