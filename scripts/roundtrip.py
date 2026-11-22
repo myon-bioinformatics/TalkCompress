@@ -377,10 +377,13 @@ def _valid_policy(data: dict, *, required: bool = False) -> bool:
     return True
 
 
-def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
+def run(data: dict, cmd: str | list[str], *, workers: int = 8, only_lang: str | None = None,
         entries: list[dict] | None = None, timeout: float = 120,
         accepted_sources: dict[str, list[str]] | None = None,
         marker_equivalence: str | None = None, provenance: dict | None = None) -> dict:
+    shell = isinstance(cmd, str)
+    if not shell and (not isinstance(cmd, list) or not cmd or not all(isinstance(arg, str) for arg in cmd)):
+        raise ValueError("cmd must be a shell command or a nonempty argument list")
     if not math.isfinite(timeout) or timeout <= 0:
         raise ValueError("timeout must be finite and positive")
     if not _valid_policy(data):
@@ -409,7 +412,7 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
     prompt_template = PROMPT
     config = {"only_lang": only_lang, "timeout": timeout, "workers": workers,
               "templates": copy.deepcopy(data["templates"]), "seeds": copy.deepcopy(data["seeds"]),
-              "command_sha256": hashlib.sha256(cmd.encode("utf-8")).hexdigest(),
+              "command_sha256": hashlib.sha256(cmd.encode("utf-8")).hexdigest() if shell else _identity({"argv": cmd}),
               "prompt_sha256": hashlib.sha256(prompt_template.encode("utf-8")).hexdigest(),
               "evaluation_policy": copy.deepcopy({k: data.get(k) for k in ("min_trials", "thresholds", "ge100m_langs")}),
               "normalization": "norm-nfc-v1"}
@@ -451,7 +454,7 @@ def run(data: dict, cmd: str, *, workers: int = 8, only_lang: str | None = None,
         env = dict(os.environ, ROUNDTRIP_SEED=str(target["seed"]))
         result = {"target_id": target_id, **target}
         try:
-            p = subprocess.run(cmd, shell=True, input=prompt_template.format(c=target["converted"]),
+            p = subprocess.run(cmd, shell=shell, input=prompt_template.format(c=target["converted"]),
                                capture_output=True, text=True, env=env, timeout=timeout)
         except subprocess.TimeoutExpired:
             return {**result, "status": "timeout"}
