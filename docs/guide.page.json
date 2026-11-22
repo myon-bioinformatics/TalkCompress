@@ -1,0 +1,109 @@
+{
+  "schema": "web-ui-page/1",
+  "title": "TalkCompress 利用ガイド",
+  "theme": "auto",
+  "description": "誰が、どの共有知識・規則を持てば理解できるかを条件に、意味を保てる短い表現を探す実験リポジトリ。文字数・通信バイト数・LLM のトークン数を測ります。",
+  "icon": "./icon.png",
+  "favicon": "./favicon.png",
+  "blocks": [
+    {
+      "type": "badges",
+      "items": [
+        "🗜️ 会話の圧縮",
+        "📏 文字・バイト・トークンを測る",
+        "🐍 Python 3.11.5+"
+      ]
+    },
+    {
+      "type": "section",
+      "title": "📥 取得",
+      "blocks": [
+        {
+          "type": "text",
+          "text": "Python 3.11.5+、git、uv が必要です。以下の例はリポジトリ全体を取得して実行します。"
+        },
+        {
+          "type": "output",
+          "text": "git clone https://github.com/myon-bioinformatics/TalkCompress.git\ncd TalkCompress"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "▶️ 実行",
+      "blocks": [
+        {
+          "type": "card",
+          "title": "📦 準備",
+          "text": "依存を入れます。",
+          "blocks": [
+            {
+              "type": "output",
+              "text": "$ uv sync"
+            }
+          ]
+        },
+        {
+          "type": "card",
+          "title": "✂️ 1つの層で縮める",
+          "text": "層3は、登録済みの略語に置き換えます。",
+          "blocks": [
+            {
+              "type": "output",
+              "text": "$ uv run python DensityFacadeRoute/density_facade_route.py --layer 3 --text \"as soon as possible\"\nASAP"
+            }
+          ]
+        },
+        {
+          "type": "card",
+          "title": "🔗 層を順に適用",
+          "text": "C の次に E を適用します。",
+          "blocks": [
+            {
+              "type": "output",
+              "text": "$ uv run python DensityFacadeRoute/density_facade_route.py --pipeline C,E --text \"um thank you for your information\"\nty FYI"
+            }
+          ]
+        },
+        {
+          "type": "card",
+          "title": "🎯 予算まで縮める",
+          "text": "長さが N 以下になるか、縮まなくなるまで繰り返します。",
+          "blocks": [
+            {
+              "type": "output",
+              "text": "$ uv run python DensityFacadeRoute/density_facade_route.py --budget 40 --stats --text \"um thank you for your information please\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "🔗 リンク",
+      "blocks": [
+        {
+          "type": "links",
+          "items": [
+            {
+              "label": "📦 リポジトリ",
+              "href": "https://github.com/myon-bioinformatics/TalkCompress"
+            },
+            {
+              "label": "📖 README",
+              "href": "https://github.com/myon-bioinformatics/TalkCompress#readme"
+            },
+            {
+              "label": "🧱 層の設計",
+              "href": "https://github.com/myon-bioinformatics/TalkCompress/blob/main/docs/layers.md"
+            },
+            {
+              "label": "📏 G4 の測定記録",
+              "href": "https://github.com/myon-bioinformatics/TalkCompress/blob/main/docs/measurements/g4-live.md"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
