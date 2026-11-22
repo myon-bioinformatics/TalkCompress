@@ -9,7 +9,7 @@
 """
 from __future__ import annotations
 
-import re, string, sys
+import argparse, re, string, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -107,9 +107,11 @@ def hyphen_join(text: str) -> str:
 
 
 def main(argv=None) -> int:
-    argv = sys.argv[1:] if argv is None else list(argv)
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--md", action="store_true", help="also print the failures as a Markdown table")
+    args = parser.parse_args(argv)
     fails = run()
-    if "--md" in argv:
+    if args.md:
         print(md_table(fails))
     for f in fails:
         print(*f, sep="\t")
