@@ -1,0 +1,2174 @@
+{
+  "checkout": "bea8a88b71e6e988ca451ea1d76c2c4074d824bb",
+  "model": {
+    "repository": "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+    "revision": "91cad51170dc346986eccefdc2dd33a9da36ead9",
+    "filename": "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "bytes": 1117320736,
+    "sha256": "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "url": "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+    "template": null,
+    "quality_gate": true,
+    "model_id": "qwen-1.5b",
+    "sha256_verified": true,
+    "template_sha256": null,
+    "reasoning": "off"
+  },
+  "runtime": "llama.cpp b12004 linux x64 CPU 4 threads, 2 slots, context 4096, release archive sha256:49f4af38e26791e61ebec38f570e01541b1e63328981eb56f7395fb25598a1f9",
+  "sampling_temperature": 0.2,
+  "run": {
+    "accounting_version": 4,
+    "evaluation_scope": "latest_cohort",
+    "run_id": "711f7e2e-4d0b-4252-8c59-d574846d8811",
+    "config": {
+      "only_lang": null,
+      "timeout": 120,
+      "workers": 2,
+      "templates": [
+        "{s}.",
+        "Maybe {s} today.",
+        "She told me that {s}."
+      ],
+      "seeds": [
+        1,
+        2,
+        3
+      ],
+      "command_sha256": "41432d4f5861dc023bae39ca5a33b9f824f85bdea9e457b4b93524f5e8a13d61",
+      "prompt_sha256": "e0ce3d7c8280fbe87121b9a6491c3c2e4755c2a7c3d0a7d268c576789eb8a43f",
+      "evaluation_policy": {
+        "min_trials": 9,
+        "thresholds": {
+          "lt100m": 0.9,
+          "ge100m": 0.6
+        },
+        "ge100m_langs": [
+          "en",
+          "zh",
+          "es",
+          "fr",
+          "pt",
+          "de",
+          "it",
+          "ru",
+          "ja",
+          "id",
+          "ar",
+          "hi",
+          "bn",
+          "ur",
+          "tr",
+          "vi"
+        ]
+      },
+      "normalization": "norm-nfc-v1",
+      "source_acceptance": "any-official-source-v1",
+      "accepted_sources_sha256": "104895d1d38e8f1611e056065779c4c97c7c264ddc62ecf055b1238a841e442f"
+    },
+    "selected_forms": [
+      "nl:kom",
+      "cs:vezmete",
+      "pl:dasz",
+      "nl:gaan",
+      "nl:komen",
+      "nl:zien",
+      "nl:weten",
+      "cs:najdeme",
+      "pl:damy",
+      "cs:najdou",
+      "cs:dají",
+      "cs:these najdou",
+      "cs:these dají",
+      "cs:those najdou",
+      "cs:those dají",
+      "nl:who wil",
+      "nl:which wil",
+      "nl:que wil"
+    ],
+    "duplicate_targets": 0,
+    "requested": 162,
+    "scheduled": 162,
+    "attempted": 162,
+    "completed": 162,
+    "timeouts": 0,
+    "execution_errors": 0,
+    "provenance": {
+      "origin_main_sha": "bea8a88b71e6e988ca451ea1d76c2c4074d824bb",
+      "timestamp": "2026-11-22T08:09:39+00:00"
+    },
+    "complete": true,
+    "verifiable": true
+  },
+  "forms": {
+    "nl:kom": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Kom.",
+          "source": "I come.",
+          "accepted_sources": [
+            "I come."
+          ],
+          "status": "completed",
+          "response": "Come.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Kom.",
+          "source": "I come.",
+          "accepted_sources": [
+            "I come."
+          ],
+          "status": "completed",
+          "response": "Okay.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Kom.",
+          "source": "I come.",
+          "accepted_sources": [
+            "I come."
+          ],
+          "status": "completed",
+          "response": "Okay.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe kom today.",
+          "source": "Maybe I come today.",
+          "accepted_sources": [
+            "Maybe I come today."
+          ],
+          "status": "completed",
+          "response": "Maybe I'll go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe kom today.",
+          "source": "Maybe I come today.",
+          "accepted_sources": [
+            "Maybe I come today."
+          ],
+          "status": "completed",
+          "response": "Maybe you're here today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe kom today.",
+          "source": "Maybe I come today.",
+          "accepted_sources": [
+            "Maybe I come today."
+          ],
+          "status": "completed",
+          "response": "Maybe you're here today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that kom.",
+          "source": "She told me that I come.",
+          "accepted_sources": [
+            "She told me that I come."
+          ],
+          "status": "completed",
+          "response": "She told me that she was here.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that kom.",
+          "source": "She told me that I come.",
+          "accepted_sources": [
+            "She told me that I come."
+          ],
+          "status": "completed",
+          "response": "She told me that she was there.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that kom.",
+          "source": "She told me that I come.",
+          "accepted_sources": [
+            "She told me that I come."
+          ],
+          "status": "completed",
+          "response": "She told me that she was here.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:vezmete": {
+      "status": "fail",
+      "restored": 3,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Vezmete.",
+          "source": "You will take.",
+          "accepted_sources": [
+            "You will take."
+          ],
+          "status": "completed",
+          "response": "You take.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Vezmete.",
+          "source": "You will take.",
+          "accepted_sources": [
+            "You will take."
+          ],
+          "status": "completed",
+          "response": "Please take it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Vezmete.",
+          "source": "You will take.",
+          "accepted_sources": [
+            "You will take."
+          ],
+          "status": "completed",
+          "response": "Please take it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe vezmete today.",
+          "source": "Maybe you will take today.",
+          "accepted_sources": [
+            "Maybe you will take today."
+          ],
+          "status": "completed",
+          "response": "Maybe you will take today.",
+          "restored": true,
+          "first_source_match": true
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe vezmete today.",
+          "source": "Maybe you will take today.",
+          "accepted_sources": [
+            "Maybe you will take today."
+          ],
+          "status": "completed",
+          "response": "Maybe you will take today.",
+          "restored": true,
+          "first_source_match": true
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe vezmete today.",
+          "source": "Maybe you will take today.",
+          "accepted_sources": [
+            "Maybe you will take today."
+          ],
+          "status": "completed",
+          "response": "Maybe you will take today.",
+          "restored": true,
+          "first_source_match": true
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that vezmete.",
+          "source": "She told me that you will take.",
+          "accepted_sources": [
+            "She told me that you will take."
+          ],
+          "status": "completed",
+          "response": "She told me that you took it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that vezmete.",
+          "source": "She told me that you will take.",
+          "accepted_sources": [
+            "She told me that you will take."
+          ],
+          "status": "completed",
+          "response": "She told me that you took.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that vezmete.",
+          "source": "She told me that you will take.",
+          "accepted_sources": [
+            "She told me that you will take."
+          ],
+          "status": "completed",
+          "response": "She told me that you took it.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "pl:dasz": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Dasz.",
+          "source": "You will give.",
+          "accepted_sources": [
+            "You will give."
+          ],
+          "status": "completed",
+          "response": "I am.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Dasz.",
+          "source": "You will give.",
+          "accepted_sources": [
+            "You will give."
+          ],
+          "status": "completed",
+          "response": "I am not sure.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Dasz.",
+          "source": "You will give.",
+          "accepted_sources": [
+            "You will give."
+          ],
+          "status": "completed",
+          "response": "I'm sorry, but the sentence you provided is incomplete and doesn't make sense. It appears to be a mix of English and other languages, but without more context, it's difficult to determine what you're trying to say. Could you please provide more information or clarify your request?",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe dasz today.",
+          "source": "Maybe you will give today.",
+          "accepted_sources": [
+            "Maybe you will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe it's today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe dasz today.",
+          "source": "Maybe you will give today.",
+          "accepted_sources": [
+            "Maybe you will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe it's today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe dasz today.",
+          "source": "Maybe you will give today.",
+          "accepted_sources": [
+            "Maybe you will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe it's today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that dasz.",
+          "source": "She told me that you will give.",
+          "accepted_sources": [
+            "She told me that you will give."
+          ],
+          "status": "completed",
+          "response": "She told me that it was.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that dasz.",
+          "source": "She told me that you will give.",
+          "accepted_sources": [
+            "She told me that you will give."
+          ],
+          "status": "completed",
+          "response": "She told me that it was.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that dasz.",
+          "source": "She told me that you will give.",
+          "accepted_sources": [
+            "She told me that you will give."
+          ],
+          "status": "completed",
+          "response": "She told me that it was.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "nl:gaan": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Gaan.",
+          "source": "We go.",
+          "accepted_sources": [
+            "We go."
+          ],
+          "status": "completed",
+          "response": "Go.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Gaan.",
+          "source": "We go.",
+          "accepted_sources": [
+            "We go."
+          ],
+          "status": "completed",
+          "response": "Go.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Gaan.",
+          "source": "We go.",
+          "accepted_sources": [
+            "We go."
+          ],
+          "status": "completed",
+          "response": "Go.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe gaan today.",
+          "source": "Maybe we go today.",
+          "accepted_sources": [
+            "Maybe we go today."
+          ],
+          "status": "completed",
+          "response": "Maybe go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe gaan today.",
+          "source": "Maybe we go today.",
+          "accepted_sources": [
+            "Maybe we go today."
+          ],
+          "status": "completed",
+          "response": "Maybe go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe gaan today.",
+          "source": "Maybe we go today.",
+          "accepted_sources": [
+            "Maybe we go today."
+          ],
+          "status": "completed",
+          "response": "Maybe go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that gaan.",
+          "source": "She told me that we go.",
+          "accepted_sources": [
+            "She told me that we go."
+          ],
+          "status": "completed",
+          "response": "She told me that she went.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that gaan.",
+          "source": "She told me that we go.",
+          "accepted_sources": [
+            "She told me that we go."
+          ],
+          "status": "completed",
+          "response": "She told me that she went.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that gaan.",
+          "source": "She told me that we go.",
+          "accepted_sources": [
+            "She told me that we go."
+          ],
+          "status": "completed",
+          "response": "She told me that she went.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "nl:komen": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Komen.",
+          "source": "We come.",
+          "accepted_sources": [
+            "We come."
+          ],
+          "status": "completed",
+          "response": "OK.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Komen.",
+          "source": "We come.",
+          "accepted_sources": [
+            "We come."
+          ],
+          "status": "completed",
+          "response": "Okay.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Komen.",
+          "source": "We come.",
+          "accepted_sources": [
+            "We come."
+          ],
+          "status": "completed",
+          "response": "Okay.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe komen today.",
+          "source": "Maybe we come today.",
+          "accepted_sources": [
+            "Maybe we come today."
+          ],
+          "status": "completed",
+          "response": "Maybe you can come today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe komen today.",
+          "source": "Maybe we come today.",
+          "accepted_sources": [
+            "Maybe we come today."
+          ],
+          "status": "completed",
+          "response": "Maybe I can come today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe komen today.",
+          "source": "Maybe we come today.",
+          "accepted_sources": [
+            "Maybe we come today."
+          ],
+          "status": "completed",
+          "response": "Maybe I can come today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that komen.",
+          "source": "She told me that we come.",
+          "accepted_sources": [
+            "She told me that we come."
+          ],
+          "status": "completed",
+          "response": "She told me that she came.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that komen.",
+          "source": "She told me that we come.",
+          "accepted_sources": [
+            "She told me that we come."
+          ],
+          "status": "completed",
+          "response": "She told me that she came.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that komen.",
+          "source": "She told me that we come.",
+          "accepted_sources": [
+            "She told me that we come."
+          ],
+          "status": "completed",
+          "response": "She told me that she came.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "nl:zien": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Zien.",
+          "source": "We see.",
+          "accepted_sources": [
+            "We see."
+          ],
+          "status": "completed",
+          "response": "I don't understand.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Zien.",
+          "source": "We see.",
+          "accepted_sources": [
+            "We see."
+          ],
+          "status": "completed",
+          "response": "I don't know.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Zien.",
+          "source": "We see.",
+          "accepted_sources": [
+            "We see."
+          ],
+          "status": "completed",
+          "response": "I don't know.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe zien today.",
+          "source": "Maybe we see today.",
+          "accepted_sources": [
+            "Maybe we see today."
+          ],
+          "status": "completed",
+          "response": "Maybe see today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe zien today.",
+          "source": "Maybe we see today.",
+          "accepted_sources": [
+            "Maybe we see today."
+          ],
+          "status": "completed",
+          "response": "Maybe see today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe zien today.",
+          "source": "Maybe we see today.",
+          "accepted_sources": [
+            "Maybe we see today."
+          ],
+          "status": "completed",
+          "response": "Maybe see today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that zien.",
+          "source": "She told me that we see.",
+          "accepted_sources": [
+            "She told me that we see."
+          ],
+          "status": "completed",
+          "response": "She told me to see.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that zien.",
+          "source": "She told me that we see.",
+          "accepted_sources": [
+            "She told me that we see."
+          ],
+          "status": "completed",
+          "response": "She told me that she saw.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that zien.",
+          "source": "She told me that we see.",
+          "accepted_sources": [
+            "She told me that we see."
+          ],
+          "status": "completed",
+          "response": "She told me that she saw.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "nl:weten": {
+      "status": "fail",
+      "restored": 3,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Weten.",
+          "source": "We know.",
+          "accepted_sources": [
+            "We know."
+          ],
+          "status": "completed",
+          "response": "We know.",
+          "restored": true,
+          "first_source_match": true
+        },
+        {
+          "seed": "2",
+          "converted": "Weten.",
+          "source": "We know.",
+          "accepted_sources": [
+            "We know."
+          ],
+          "status": "completed",
+          "response": "We know.",
+          "restored": true,
+          "first_source_match": true
+        },
+        {
+          "seed": "3",
+          "converted": "Weten.",
+          "source": "We know.",
+          "accepted_sources": [
+            "We know."
+          ],
+          "status": "completed",
+          "response": "We know.",
+          "restored": true,
+          "first_source_match": true
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe weten today.",
+          "source": "Maybe we know today.",
+          "accepted_sources": [
+            "Maybe we know today."
+          ],
+          "status": "completed",
+          "response": "Maybe it will rain today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe weten today.",
+          "source": "Maybe we know today.",
+          "accepted_sources": [
+            "Maybe we know today."
+          ],
+          "status": "completed",
+          "response": "Maybe it will rain today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe weten today.",
+          "source": "Maybe we know today.",
+          "accepted_sources": [
+            "Maybe we know today."
+          ],
+          "status": "completed",
+          "response": "Maybe it will rain today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that weten.",
+          "source": "She told me that we know.",
+          "accepted_sources": [
+            "She told me that we know."
+          ],
+          "status": "completed",
+          "response": "She told me that weten. (She told me that she weten.)",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that weten.",
+          "source": "She told me that we know.",
+          "accepted_sources": [
+            "She told me that we know."
+          ],
+          "status": "completed",
+          "response": "She told me that weten. (She told me that she weten.)",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that weten.",
+          "source": "She told me that we know.",
+          "accepted_sources": [
+            "She told me that we know."
+          ],
+          "status": "completed",
+          "response": "She told me that weten. (She told me that she weten.)",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:najdeme": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Najdeme.",
+          "source": "We will find.",
+          "accepted_sources": [
+            "We will find."
+          ],
+          "status": "completed",
+          "response": "We find.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Najdeme.",
+          "source": "We will find.",
+          "accepted_sources": [
+            "We will find."
+          ],
+          "status": "completed",
+          "response": "We find.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Najdeme.",
+          "source": "We will find.",
+          "accepted_sources": [
+            "We will find."
+          ],
+          "status": "completed",
+          "response": "We find.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe najdeme today.",
+          "source": "Maybe we will find today.",
+          "accepted_sources": [
+            "Maybe we will find today."
+          ],
+          "status": "completed",
+          "response": "Let's try to find it today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe najdeme today.",
+          "source": "Maybe we will find today.",
+          "accepted_sources": [
+            "Maybe we will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe we will find it today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe najdeme today.",
+          "source": "Maybe we will find today.",
+          "accepted_sources": [
+            "Maybe we will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe we can find it today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that najdeme.",
+          "source": "She told me that we will find.",
+          "accepted_sources": [
+            "She told me that we will find."
+          ],
+          "status": "completed",
+          "response": "She told me to find it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that najdeme.",
+          "source": "She told me that we will find.",
+          "accepted_sources": [
+            "She told me that we will find."
+          ],
+          "status": "completed",
+          "response": "She told me to find it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that najdeme.",
+          "source": "She told me that we will find.",
+          "accepted_sources": [
+            "She told me that we will find."
+          ],
+          "status": "completed",
+          "response": "She told me to find it.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "pl:damy": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Damy.",
+          "source": "We will give.",
+          "accepted_sources": [
+            "We will give."
+          ],
+          "status": "completed",
+          "response": "Damy. translates to \"I am\" in English.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Damy.",
+          "source": "We will give.",
+          "accepted_sources": [
+            "We will give."
+          ],
+          "status": "completed",
+          "response": "I don't understand the sentence you provided. Could you please clarify or rephrase it in English?",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Damy.",
+          "source": "We will give.",
+          "accepted_sources": [
+            "We will give."
+          ],
+          "status": "completed",
+          "response": "I'm sorry, but the sentence you provided is incomplete and doesn't contain any English words or grammar. It appears to be a mix of languages or a typo. Could you please provide a complete sentence or clarify your request?",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe damy today.",
+          "source": "Maybe we will give today.",
+          "accepted_sources": [
+            "Maybe we will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe I am today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe damy today.",
+          "source": "Maybe we will give today.",
+          "accepted_sources": [
+            "Maybe we will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe I'm going today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe damy today.",
+          "source": "Maybe we will give today.",
+          "accepted_sources": [
+            "Maybe we will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe I am today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that damy.",
+          "source": "She told me that we will give.",
+          "accepted_sources": [
+            "She told me that we will give."
+          ],
+          "status": "completed",
+          "response": "She told me about damy.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that damy.",
+          "source": "She told me that we will give.",
+          "accepted_sources": [
+            "She told me that we will give."
+          ],
+          "status": "completed",
+          "response": "She told me that she did it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that damy.",
+          "source": "She told me that we will give.",
+          "accepted_sources": [
+            "She told me that we will give."
+          ],
+          "status": "completed",
+          "response": "She told me that damy.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:najdou": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Najdou.",
+          "source": "They will find.",
+          "accepted_sources": [
+            "They will find."
+          ],
+          "status": "completed",
+          "response": "I found it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Najdou.",
+          "source": "They will find.",
+          "accepted_sources": [
+            "They will find."
+          ],
+          "status": "completed",
+          "response": "I found.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Najdou.",
+          "source": "They will find.",
+          "accepted_sources": [
+            "They will find."
+          ],
+          "status": "completed",
+          "response": "I found it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe najdou today.",
+          "source": "Maybe they will find today.",
+          "accepted_sources": [
+            "Maybe they will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe we'll find it today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe najdou today.",
+          "source": "Maybe they will find today.",
+          "accepted_sources": [
+            "Maybe they will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe we will find today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe najdou today.",
+          "source": "Maybe they will find today.",
+          "accepted_sources": [
+            "Maybe they will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe we'll find it today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that najdou.",
+          "source": "She told me that they will find.",
+          "accepted_sources": [
+            "She told me that they will find."
+          ],
+          "status": "completed",
+          "response": "She told me that they would find it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that najdou.",
+          "source": "She told me that they will find.",
+          "accepted_sources": [
+            "She told me that they will find."
+          ],
+          "status": "completed",
+          "response": "She told me that they would find it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that najdou.",
+          "source": "She told me that they will find.",
+          "accepted_sources": [
+            "She told me that they will find."
+          ],
+          "status": "completed",
+          "response": "She told me that they would find it.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:dají": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Dají.",
+          "source": "They will give.",
+          "accepted_sources": [
+            "They will give."
+          ],
+          "status": "completed",
+          "response": "He said.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Dají.",
+          "source": "They will give.",
+          "accepted_sources": [
+            "They will give."
+          ],
+          "status": "completed",
+          "response": "They said.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Dají.",
+          "source": "They will give.",
+          "accepted_sources": [
+            "They will give."
+          ],
+          "status": "completed",
+          "response": "They said.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe dají today.",
+          "source": "Maybe they will give today.",
+          "accepted_sources": [
+            "Maybe they will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe they will today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe dají today.",
+          "source": "Maybe they will give today.",
+          "accepted_sources": [
+            "Maybe they will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe they will go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe dají today.",
+          "source": "Maybe they will give today.",
+          "accepted_sources": [
+            "Maybe they will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe they will go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that dají.",
+          "source": "She told me that they will give.",
+          "accepted_sources": [
+            "She told me that they will give."
+          ],
+          "status": "completed",
+          "response": "She told me that she was going.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that dají.",
+          "source": "She told me that they will give.",
+          "accepted_sources": [
+            "She told me that they will give."
+          ],
+          "status": "completed",
+          "response": "She told me that she was going.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that dají.",
+          "source": "She told me that they will give.",
+          "accepted_sources": [
+            "She told me that they will give."
+          ],
+          "status": "completed",
+          "response": "She told me that she was going.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:these najdou": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "These najdou.",
+          "source": "These will find.",
+          "accepted_sources": [
+            "These will find."
+          ],
+          "status": "completed",
+          "response": "These discovered them.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "These najdou.",
+          "source": "These will find.",
+          "accepted_sources": [
+            "These will find."
+          ],
+          "status": "completed",
+          "response": "They found it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "These najdou.",
+          "source": "These will find.",
+          "accepted_sources": [
+            "These will find."
+          ],
+          "status": "completed",
+          "response": "They found them.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe these najdou today.",
+          "source": "Maybe these will find today.",
+          "accepted_sources": [
+            "Maybe these will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe I found them today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe these najdou today.",
+          "source": "Maybe these will find today.",
+          "accepted_sources": [
+            "Maybe these will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe I found them today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe these najdou today.",
+          "source": "Maybe these will find today.",
+          "accepted_sources": [
+            "Maybe these will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe they found these today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that these najdou.",
+          "source": "She told me that these will find.",
+          "accepted_sources": [
+            "She told me that these will find."
+          ],
+          "status": "completed",
+          "response": "She told me that these were found.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that these najdou.",
+          "source": "She told me that these will find.",
+          "accepted_sources": [
+            "She told me that these will find."
+          ],
+          "status": "completed",
+          "response": "She told me that these were found.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that these najdou.",
+          "source": "She told me that these will find.",
+          "accepted_sources": [
+            "She told me that these will find."
+          ],
+          "status": "completed",
+          "response": "She told me that these were found.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:these dají": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "These dají.",
+          "source": "These will give.",
+          "accepted_sources": [
+            "These will give."
+          ],
+          "status": "completed",
+          "response": "They are here.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "These dají.",
+          "source": "These will give.",
+          "accepted_sources": [
+            "These will give."
+          ],
+          "status": "completed",
+          "response": "They are doing it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "These dají.",
+          "source": "These will give.",
+          "accepted_sources": [
+            "These will give."
+          ],
+          "status": "completed",
+          "response": "These are dogs.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe these dají today.",
+          "source": "Maybe these will give today.",
+          "accepted_sources": [
+            "Maybe these will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe I will go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe these dají today.",
+          "source": "Maybe these will give today.",
+          "accepted_sources": [
+            "Maybe these will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe these are dají today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe these dají today.",
+          "source": "Maybe these will give today.",
+          "accepted_sources": [
+            "Maybe these will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe these are dají today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that these dají.",
+          "source": "She told me that these will give.",
+          "accepted_sources": [
+            "She told me that these will give."
+          ],
+          "status": "completed",
+          "response": "She told me those are dají.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that these dají.",
+          "source": "She told me that these will give.",
+          "accepted_sources": [
+            "She told me that these will give."
+          ],
+          "status": "completed",
+          "response": "She told me that these are dají.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that these dají.",
+          "source": "She told me that these will give.",
+          "accepted_sources": [
+            "She told me that these will give."
+          ],
+          "status": "completed",
+          "response": "She told me that these are dají.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:those najdou": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Those najdou.",
+          "source": "Those will find.",
+          "accepted_sources": [
+            "Those will find."
+          ],
+          "status": "completed",
+          "response": "They found it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Those najdou.",
+          "source": "Those will find.",
+          "accepted_sources": [
+            "Those will find."
+          ],
+          "status": "completed",
+          "response": "They found it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Those najdou.",
+          "source": "Those will find.",
+          "accepted_sources": [
+            "Those will find."
+          ],
+          "status": "completed",
+          "response": "They found it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe those najdou today.",
+          "source": "Maybe those will find today.",
+          "accepted_sources": [
+            "Maybe those will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe they found those today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe those najdou today.",
+          "source": "Maybe those will find today.",
+          "accepted_sources": [
+            "Maybe those will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe they found it today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe those najdou today.",
+          "source": "Maybe those will find today.",
+          "accepted_sources": [
+            "Maybe those will find today."
+          ],
+          "status": "completed",
+          "response": "Maybe they found it today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that those najdou.",
+          "source": "She told me that those will find.",
+          "accepted_sources": [
+            "She told me that those will find."
+          ],
+          "status": "completed",
+          "response": "She told me that they found those.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that those najdou.",
+          "source": "She told me that those will find.",
+          "accepted_sources": [
+            "She told me that those will find."
+          ],
+          "status": "completed",
+          "response": "She told me that they found those.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that those najdou.",
+          "source": "She told me that those will find.",
+          "accepted_sources": [
+            "She told me that those will find."
+          ],
+          "status": "completed",
+          "response": "She told me that those were found.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "cs:those dají": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Those dají.",
+          "source": "Those will give.",
+          "accepted_sources": [
+            "Those will give."
+          ],
+          "status": "completed",
+          "response": "Those are doing it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Those dají.",
+          "source": "Those will give.",
+          "accepted_sources": [
+            "Those will give."
+          ],
+          "status": "completed",
+          "response": "They are doing it.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Those dají.",
+          "source": "Those will give.",
+          "accepted_sources": [
+            "Those will give."
+          ],
+          "status": "completed",
+          "response": "They are there.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe those dají today.",
+          "source": "Maybe those will give today.",
+          "accepted_sources": [
+            "Maybe those will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe those people came today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe those dají today.",
+          "source": "Maybe those will give today.",
+          "accepted_sources": [
+            "Maybe those will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe they are going today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe those dají today.",
+          "source": "Maybe those will give today.",
+          "accepted_sources": [
+            "Maybe those will give today."
+          ],
+          "status": "completed",
+          "response": "Maybe they went today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that those dají.",
+          "source": "She told me that those will give.",
+          "accepted_sources": [
+            "She told me that those will give."
+          ],
+          "status": "completed",
+          "response": "She told me that those are dají.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that those dají.",
+          "source": "She told me that those will give.",
+          "accepted_sources": [
+            "She told me that those will give."
+          ],
+          "status": "completed",
+          "response": "She told me that those are dají.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that those dají.",
+          "source": "She told me that those will give.",
+          "accepted_sources": [
+            "She told me that those will give."
+          ],
+          "status": "completed",
+          "response": "She told me that those are dají.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "nl:who wil": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Who wil.",
+          "source": "Who wants.",
+          "accepted_sources": [
+            "Who wants."
+          ],
+          "status": "completed",
+          "response": "Who will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Who wil.",
+          "source": "Who wants.",
+          "accepted_sources": [
+            "Who wants."
+          ],
+          "status": "completed",
+          "response": "Who will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Who wil.",
+          "source": "Who wants.",
+          "accepted_sources": [
+            "Who wants."
+          ],
+          "status": "completed",
+          "response": "Who will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe who wil today.",
+          "source": "Maybe who wants today.",
+          "accepted_sources": [
+            "Maybe who wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe whoever will be here today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe who wil today.",
+          "source": "Maybe who wants today.",
+          "accepted_sources": [
+            "Maybe who wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe whoever is today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe who wil today.",
+          "source": "Maybe who wants today.",
+          "accepted_sources": [
+            "Maybe who wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe whoever will come today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that who wil.",
+          "source": "She told me that who wants.",
+          "accepted_sources": [
+            "She told me that who wants."
+          ],
+          "status": "completed",
+          "response": "She told me that whoever will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that who wil.",
+          "source": "She told me that who wants.",
+          "accepted_sources": [
+            "She told me that who wants."
+          ],
+          "status": "completed",
+          "response": "She told me that whoever will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that who wil.",
+          "source": "She told me that who wants.",
+          "accepted_sources": [
+            "She told me that who wants."
+          ],
+          "status": "completed",
+          "response": "She told me that whoever would.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "nl:which wil": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Which wil.",
+          "source": "Which wants.",
+          "accepted_sources": [
+            "Which wants."
+          ],
+          "status": "completed",
+          "response": "Who will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Which wil.",
+          "source": "Which wants.",
+          "accepted_sources": [
+            "Which wants."
+          ],
+          "status": "completed",
+          "response": "Which will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Which wil.",
+          "source": "Which wants.",
+          "accepted_sources": [
+            "Which wants."
+          ],
+          "status": "completed",
+          "response": "Which will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe which wil today.",
+          "source": "Maybe which wants today.",
+          "accepted_sources": [
+            "Maybe which wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe what day is today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe which wil today.",
+          "source": "Maybe which wants today.",
+          "accepted_sources": [
+            "Maybe which wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe what will happen today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe which wil today.",
+          "source": "Maybe which wants today.",
+          "accepted_sources": [
+            "Maybe which wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe what day it is today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that which wil.",
+          "source": "She told me that which wants.",
+          "accepted_sources": [
+            "She told me that which wants."
+          ],
+          "status": "completed",
+          "response": "She told me that which will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that which wil.",
+          "source": "She told me that which wants.",
+          "accepted_sources": [
+            "She told me that which wants."
+          ],
+          "status": "completed",
+          "response": "She told me that which will.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that which wil.",
+          "source": "She told me that which wants.",
+          "accepted_sources": [
+            "She told me that which wants."
+          ],
+          "status": "completed",
+          "response": "She told me that which will.",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    },
+    "nl:que wil": {
+      "status": "never",
+      "restored": 0,
+      "completed": 9,
+      "trials": [
+        {
+          "seed": "1",
+          "converted": "Que wil.",
+          "source": "Que wants.",
+          "accepted_sources": [
+            "Que wants."
+          ],
+          "status": "completed",
+          "response": "What would you like?",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Que wil.",
+          "source": "Que wants.",
+          "accepted_sources": [
+            "Que wants."
+          ],
+          "status": "completed",
+          "response": "Who wants to go.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Que wil.",
+          "source": "Que wants.",
+          "accepted_sources": [
+            "Que wants."
+          ],
+          "status": "completed",
+          "response": "Who wants to go.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "Maybe que wil today.",
+          "source": "Maybe que wants today.",
+          "accepted_sources": [
+            "Maybe que wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe you want to go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "Maybe que wil today.",
+          "source": "Maybe que wants today.",
+          "accepted_sources": [
+            "Maybe que wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe you want to go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "Maybe que wil today.",
+          "source": "Maybe que wants today.",
+          "accepted_sources": [
+            "Maybe que wants today."
+          ],
+          "status": "completed",
+          "response": "Maybe you want to go today.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "1",
+          "converted": "She told me that que wil.",
+          "source": "She told me that que wants.",
+          "accepted_sources": [
+            "She told me that que wants."
+          ],
+          "status": "completed",
+          "response": "She told me that \"que\" means \"to\" in English.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "2",
+          "converted": "She told me that que wil.",
+          "source": "She told me that que wants.",
+          "accepted_sources": [
+            "She told me that que wants."
+          ],
+          "status": "completed",
+          "response": "She told me that \"que\" means \"what\" in English.",
+          "restored": false,
+          "first_source_match": false
+        },
+        {
+          "seed": "3",
+          "converted": "She told me that que wil.",
+          "source": "She told me that que wants.",
+          "accepted_sources": [
+            "She told me that que wants."
+          ],
+          "status": "completed",
+          "response": "She told me that \"que\" means \"that.\"",
+          "restored": false,
+          "first_source_match": false
+        }
+      ]
+    }
+  }
+}
