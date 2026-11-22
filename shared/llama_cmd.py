@@ -55,12 +55,16 @@ def extract_answer(payload: dict) -> str:
 
 
 def ask_llama(prompt: str, url: str = DEFAULT_URL, timeout: int = 300) -> str:
+    sampling = {}
+    if "ROUNDTRIP_SEED" in os.environ:
+        sampling = {"seed": int(os.environ["ROUNDTRIP_SEED"]), "temperature": 0.2}
     body = json.dumps(
         {
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0,
             "max_tokens": int(os.environ.get("LLAMA_MAX_TOKENS", "128")),
             "stream": False,
+            **sampling,
         }
     ).encode("utf-8")
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
@@ -71,7 +75,7 @@ def ask_llama(prompt: str, url: str = DEFAULT_URL, timeout: int = 300) -> str:
                 "phase": os.environ.get("LLAMA_EVIDENCE_PHASE", "roundtrip"),
                 "stage": "describe" if prompt.startswith("Below is an SVG") else
                          "generate" if prompt.startswith("Write one SVG") else "probe",
-                "max_tokens": json.loads(body)["max_tokens"], "temperature": 0}
+                "max_tokens": json.loads(body)["max_tokens"], "temperature": 0, **sampling}
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             payload = json.loads(resp.read().decode("utf-8"))
