@@ -62,15 +62,15 @@ Issue #40 はクローズ済みです。候補は番号だけでなく、何を�
 | G1 `struct-bullet` | 文章を1事実1行にすると、短くなり要素も残るか | 変換と検査は [struct_bullet.py](shared/struct_bullet.py)。文章版との比較による既定化の判断は未実施 |
 | G2 `hist-state` | 古い履歴を「決定・未決・識別子・次の一手」の固定スロットへ要約できるか | 規則ベースで実装あり（[hist_state.py](shared/hist_state.py)） |
 | G3 `keep-check` | 圧縮後に URL・SHA・数値・否定・条件が残り、秘密情報が残らないか | 実装あり（[keep_check.py](shared/keep_check.py)） |
-| G4 `qa-fidelity` | 圧縮後の文だけで原文への質問に答えられるか | 採用18形を実測。正答率0.9に達した形は0/18（[測定記録](docs/measurements/g4-live.md)） |
+| G4 `qa-fidelity` | 圧縮後の文だけで原文への質問に答えられるか | 採用18形を実測。正答率0.9に達した形は0/18（[測定記録](docs/measurements/g4-live.md)）。品質gate（0.9）を有効にするかは検討中 |
 | G5 `struct-data` | JSON・API 結果・CI ログを、不要キーを捨てた1行レコードにできるか | 専用の実装なし |
-| G6 `tokenizer-check` | トークン数を、モデルごとの確定値と共通の目安に分けて測れるか | 目安は [claude_token_stub.py](shared/claude_token_stub.py) と [tokenizer 間の互換レポート](docs/tokenizer-compat.md)。API による確定値は未接続 |
+| G6 `tokenizer-check` | トークン数を、モデルごとの確定値と共通の目安に分けて測れるか | 一部あり。目安は [claude_token_stub.py](shared/claude_token_stub.py)、[tokenizer_compat.py](scripts/tokenizer_compat.py)、[tokenizer 間の互換レポート](docs/tokenizer-compat.md)。API による確定値は未接続 |
 | G7 `cache-stable` | 要約を末尾へ追加して prefix を保つ方式は、書き換え方式より安いか | 専用の実装なし |
-| G8 `reader-fit` | 受け手（モデル・人間）ごとに読める形式を決められるか | 専用の実装なし |
+| G8 `reader-fit` | 受け手（モデル・人間）ごとに読める形式を決められるか | 一部あり。モデルが読めるかの確認は [ai_readability.py](scripts/ai_readability.py)。人間向けの確認は未実施 |
 
 G1・G5〜G8 の残りは、同じ入力で G3 と G4 を通して比べるのが次の一手です。着手するときはこの表の行を更新します。
 
-次の6件は、外部 API や Claude Code の実際の挙動を課金つきで測る必要があるため見送りました。実測に使う利用枠と比較用の会話ログが揃ったときに再開します。
+次の6件は実装対象から外しました。外部 API や Claude Code の実際の挙動を測る必要があり、ローカル・キーなしで動かす方針と合わないためです。比較の参考として問いだけ残します。
 
 | 候補 | 何を問うか |
 | --- | --- |
