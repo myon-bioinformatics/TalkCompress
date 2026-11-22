@@ -24,6 +24,7 @@ reproduces the recorded run. ``--check`` verifies, without subprocesses, that
 """
 from __future__ import annotations
 
+import argparse
 import os
 import sys
 from pathlib import Path
@@ -78,13 +79,19 @@ def check(d: Path | None = None, *, rebuild: bool = False) -> list[str]:
     return problems
 
 
-def main(argv: list[str]) -> int:
-    if argv[:1] == ["--check"]:
-        problems = check(rebuild="--rebuild" in argv)
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], epilog="Reads the prompt from stdin when piped.")
+    parser.add_argument("--check", action="store_true", help="verify the recorded replays instead of answering")
+    parser.add_argument("--rebuild", action="store_true", help="with --check: rewrite the records")
+    parser.add_argument("seed", nargs="?", type=int, help="seed (default: PARA_SEED or 1)")
+    parser.add_argument("item", nargs="?", help="item id (default: PARA_ITEM)")
+    args = parser.parse_args(argv)
+    if args.check:
+        problems = check(rebuild=args.rebuild)
         print("paragraph replay: OK" if not problems else "\n".join(problems))
         return 1 if problems else 0
-    seed = int(argv[0]) if argv else int(os.environ.get("PARA_SEED", "1"))
-    iid = argv[1] if len(argv) > 1 else os.environ.get("PARA_ITEM")
+    seed = args.seed if args.seed is not None else int(os.environ.get("PARA_SEED", "1"))
+    iid = args.item or os.environ.get("PARA_ITEM")
     if not iid:
         print("item id required (argv or PARA_ITEM)", file=sys.stderr)
         return 2
@@ -98,4 +105,4 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main())

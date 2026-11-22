@@ -8,7 +8,7 @@ English); the judge is deterministic, so every ROUNDTRIP_SEED gives the same ans
     uv run python scripts/roundtrip.py --run --lang nl \
         --cmd 'uv run python scripts/roundtrip_replay.py nl'
 """
-import json, sys
+import argparse, json, sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,8 +25,9 @@ def replay(prompt, lang="nl"):
 
 
 def main(argv=None):
-    argv = sys.argv[1:] if argv is None else list(argv)
-    print(replay(sys.stdin.read(), argv[0] if argv else "nl"))
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], epilog="Reads the prompt from stdin.")
+    parser.add_argument("name", nargs="?", default="nl", help="replay to use (default: nl)")
+    print(replay(sys.stdin.read(), parser.parse_args(argv).name))
 
 
 if __name__ == "__main__":

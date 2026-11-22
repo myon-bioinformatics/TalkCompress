@@ -1,0 +1,14 @@
+{
+  "schema": "vendor-lock/1",
+  "files": [
+    {
+      "repository": "myon-bioinformatics/myon-bioinformatics",
+      "ref": "64db25eb0fd9025dbe3cbcbced8b88a39ecb9266",
+      "commit": "64db25eb0fd9025dbe3cbcbced8b88a39ecb9266",
+      "source": "fleet_check.py",
+      "destination": "vendor/fleet_check.py",
+      "blob_sha": "e464c95809c288029d6b3a8562cf65214205de33",
+      "sha256": "2906b1583593567816abd91d24367bd6db14cef61c35e5abe17bd46cc64ad140"
+    }
+  ]
+}

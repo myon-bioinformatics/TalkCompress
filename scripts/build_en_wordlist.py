@@ -14,7 +14,7 @@ closed-class words the .dic omits or only derives via letter plurals.
 
 from __future__ import annotations
 
-import re, sys
+import argparse, re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -85,10 +85,9 @@ def build(dic_text: str) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    argv = sys.argv[1:] if argv is None else argv
-    if len(argv) != 1:
-        raise SystemExit(__doc__)
-    OUT.write_text(build(Path(argv[0]).read_text(encoding="utf-8")), encoding="utf-8")
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("source", type=Path, help="word list to read")
+    OUT.write_text(build(parser.parse_args(argv).source.read_text(encoding="utf-8")), encoding="utf-8")
     print(OUT)
     return 0
 
