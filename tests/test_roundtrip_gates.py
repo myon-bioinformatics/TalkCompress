@@ -880,6 +880,39 @@ def test_alt_only_passes_are_transparently_documented():
     assert all(f"`{form}`" in results for form in alternate)
 
 
+def test_live_runner_uses_its_own_checkout_from_another_repo(tmp_path, monkeypatch):
+    from http.server import HTTPServer
+    from threading import Thread
+    import live_roundtrip
+    from tests.test_llama_cmd import _Handler
+
+    checkout = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    caller = tmp_path / "other project"
+    caller.mkdir()
+    monkeypatch.chdir(caller)
+    subprocess.run(["git", "init", "-q"], check=True)
+    Path("receipt.json").write_text("{}")
+    monkeypatch.setattr(sys, "argv", ["live_roundtrip", "--output", "report.json",
+                                     "--model-receipt", "receipt.json", "--runtime", "test server"])
+    monkeypatch.setattr(rt, "load", lambda: {
+        "templates": ["{s}."], "seeds": [1, 2, 3], "min_trials": 3, "records": {},
+        "thresholds": {"lt100m": 0.9, "ge100m": 0.6}, "ge100m_langs": []})
+    monkeypatch.setattr(tm, "build", lambda: ({"entries": [{"lang": "nl", "to": "x", "from": ["none"]}]},))
+    with HTTPServer(("127.0.0.1", 0), _Handler) as server:
+        monkeypatch.setenv("LLAMA_URL", f"http://127.0.0.1:{server.server_port}/v1/chat/completions")
+        worker = Thread(target=server.serve_forever, daemon=True)
+        worker.start()
+        try:
+            assert live_roundtrip.main() == 0
+        finally:
+            server.shutdown()
+            worker.join()
+    result = json.loads(Path("report.json").read_text())
+    assert result["checkout"] == checkout
+    assert result["run"]["completed"] == 3
+    assert all(t["response"] == "none" for t in result["forms"]["nl:x"]["trials"])
+
+
 def test_any_source_run_keeps_first_source_identity_and_judge_response(monkeypatch):
     data = {"templates": ["{s}."], "seeds": [1, 2, 3], "min_trials": 3,
             "thresholds": {"lt100m": 0.9, "ge100m": 0.6}, "ge100m_langs": ["pt"], "records": {}}

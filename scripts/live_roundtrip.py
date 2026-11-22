@@ -2,7 +2,6 @@
 import argparse
 import json
 from pathlib import Path
-import shlex
 import subprocess
 import sys
 
@@ -16,6 +15,8 @@ def main():
     parser.add_argument("--model-receipt", required=True, type=Path)
     parser.add_argument("--runtime", required=True, help="llama.cpp build or image digest")
     args = parser.parse_args()
+    root = roundtrip.ROOT
+    checkout = subprocess.check_output(["git", "rev-parse", "--verify", "HEAD"], cwd=root, text=True).strip()
     data = roundtrip.load()
     bank = tense_matrix.build()[0]
     entries = [e for e in bank["entries"] if e["lang"] not in data["ge100m_langs"]]
@@ -24,7 +25,7 @@ def main():
     for entry in entries:
         key = roundtrip.key(entry["lang"], entry["to"])
         sources.setdefault(key, []).extend(entry["from"])
-    cmd = shlex.join([sys.executable, "shared/llama_cmd.py"])
+    cmd = [sys.executable, str(root / "shared" / "llama_cmd.py")]
     receipt = json.loads(args.model_receipt.read_text())
     roundtrip.run(data, cmd, entries=entries, workers=2, accepted_sources=sources)
     run = data["run_history"][-1]
@@ -38,7 +39,7 @@ def main():
                 "seed", "converted", "source", "accepted_sources", "status", "response",
                 "restored", "first_source_match") if field in target} for target in cohort["targets"]],
         }
-    report = {"checkout": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
+    report = {"checkout": checkout,
               "model": receipt, "runtime": args.runtime, "sampling_temperature": 0.2,
               "run": run, "forms": forms}
     args.output.parent.mkdir(parents=True, exist_ok=True)
