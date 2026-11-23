@@ -1,5 +1,7 @@
 # TalkCompress
 
+🌐 [GitHub Pages](https://myon-bioinformatics.github.io/TalkCompress/) · 🏠 [Portfolio](https://myon-bioinformatics.github.io/)
+
 TalkCompress は、**誰が、どの共有知識・規則を持てば理解できるかを条件に、意味を保てる短い表現を探す**実験リポジトリです。文字数・通信バイト数・LLM のトークン数を測り、人と機械が扱える表現の幅を広げます。
 
 出発点は、機械同士で対話し、独自の略語や共有言語を作る試みです。そこから、人間にも規則があれば読める表現、日常的な省略やスラングまで、理解に必要な条件の異なる複数の層を研究しています。独自表現が生まれることに加え、別の入力・実行・受信者でも意味を復元できる再現性を重視します。
