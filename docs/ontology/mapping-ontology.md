@@ -6,8 +6,8 @@ SentenceCalibratedMosaic（旧 TesseraTalk）の対応表（英語 → 短い他
 - 実装: `scripts/mapping_graph.py`（標準ライブラリのみ。tiktoken も tense_matrix の import も不要）
 - グラフ核: `shared/kgraph.py`（自前の標準ライブラリ実装。型付き隣接リスト・逆引き索引・関係種別で絞った探索・status 集計）。
   数一致追従の判定順（追従元が先）と循環検出は標準の `graphlib.TopologicalSorter`（`CycleError`）を使う。
-  単一ファイル配布 `dist/kgraph_min.py` は `docs/distributions.md` を参照
-- テスト: `tests/test_mapping_graph.py`、`tests/test_kgraph.py`、`tests/test_distributions.py`
+  1ファイルで完結しているので、ほかで使うときは `shared/kgraph.py` をそのまま写す（束ねない）
+- テスト: `tests/test_mapping_graph.py`、`tests/test_kgraph.py`
 - **これはモデルと読み取り専用ツールであり、移行ではない。** 採用・リバース・往復ゲートの挙動は一切変えない。
   既存の設定（`ROUNDTRIP_*`）と生成物（`tense_matrix.json` / `tense_matrix_report.json` / `roundtrip.json`）を
   読むだけで、どのファイルにも書き込まない。

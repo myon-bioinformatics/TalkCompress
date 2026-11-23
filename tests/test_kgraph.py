@@ -67,3 +67,22 @@ def test_dependency_order_and_cycle():
     assert order.index("base") < order.index("follow") < order.index("derived")
     with pytest.raises(CycleError):
         dependency_order({"x": {"y"}, "y": {"x"}})
+
+
+def test_kgraph_file_runs_alone_on_the_standard_library(tmp_path):
+    """shared/kgraph.py is used as one file: copied alone, it imports under ``python -I -S``."""
+    import subprocess, sys
+    from pathlib import Path
+
+    (tmp_path / "kgraph.py").write_bytes((Path(__file__).resolve().parents[1] / "shared/kgraph.py").read_bytes())
+    code = (
+        "import sys; sys.path.insert(0, '.')\n"
+        "import kgraph as k\n"
+        "g = k.Graph(); g.add('a','Form'); g.add('b','Form'); g.link('a','follows','b')\n"
+        "assert g.traverse('a', ['follows']) == ['b']\n"
+        "assert k.dependency_order({'f': {'b'}}) == ['b', 'f']\n"
+        "assert k.aggregate([{'l': 'pt', 's': 'pass'}], 'l', 's')['pt']['pass'] == 1\n"
+        "print('ok')\n"
+    )
+    out = subprocess.run([sys.executable, "-I", "-S", "-c", code], cwd=tmp_path, capture_output=True, text=True)
+    assert out.returncode == 0 and out.stdout.strip() == "ok", out.stderr

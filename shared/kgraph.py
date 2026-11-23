@@ -1,7 +1,7 @@
 """Small typed knowledge graph on the standard library only.
 
-Self-written core for ``scripts/mapping_graph.py`` (docs/ontology/), also shipped
-as the single-file bundle ``dist/kgraph_min.py`` (docs/distributions.md).
+Self-written core for ``scripts/mapping_graph.py`` (docs/ontology/). It is one
+self-contained file: copy ``shared/kgraph.py`` alone to use it elsewhere.
 
 * typed nodes (``id`` + ``type`` + properties) and directed triples
   ``(subject, predicate, object)`` with per-predicate adjacency in both directions
