@@ -960,9 +960,6 @@ session-test = [
     { name = "pytest" },
     { name = "tiktoken" },
 ]
-stdlib-test = [
-    { name = "pytest" },
-]
 translate = [
     { name = "deep-translator" },
 ]
@@ -986,7 +983,6 @@ session-test = [
     { name = "pytest", specifier = ">=8" },
     { name = "tiktoken" },
 ]
-stdlib-test = [{ name = "pytest", specifier = ">=8" }]
 translate = [{ name = "deep-translator", specifier = ">=1.11.4" }]
 
 [[package]]
