@@ -38,6 +38,7 @@ concurrency:
 
 jobs:
   plan:
+    timeout-minutes: 30
     runs-on: ubuntu-24.04
     outputs:
       llama: ${{ steps.plan.outputs.llama }}
@@ -60,6 +61,7 @@ jobs:
   # Download each model once (revision + bytes + SHA-256 of every file verified) so parallel jobs only restore the cache.
   # Judges come from this repo's prerelease assets (catalog release_url, public: no token); the key includes the tag.
   weights:
+    timeout-minutes: 30
     needs: plan
     runs-on: ubuntu-24.04
     strategy:
@@ -162,6 +164,7 @@ jobs:
           retention-days: 30
 
   merge:
+    timeout-minutes: 30
     needs: [plan, restore]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
@@ -265,6 +268,7 @@ jobs:
           retention-days: 30
 
   report:
+    timeout-minutes: 30
     needs: [plan, merge, judge]
     if: ${{ !cancelled() && needs.merge.result == 'success' }}
     runs-on: ubuntu-24.04
