@@ -20,9 +20,9 @@ TalkCompress は、**誰が、どの共有知識・規則を持てば理解で�
 
 ## 🖼️ 概念図
 
-[![TalkCompress の概念図：入力・圧縮の4層・共通CLI・出力](assets/brand/talkcompress-concept.jpg)](assets/brand/talkcompress-concept.jpg)
+[![TalkCompress の概念図：入力・圧縮の4層・共通CLI・出力](assets/brand/repository-concept.jpg)](assets/brand/repository-concept.jpg)
 
-概念図は `talkcompress-overview.jpg` の4層セクションです。図は旧名称を含むコンセプト資料です。現在の名称・実装範囲は以下の本文と[層の設計](docs/layers.md)を参照してください。画像をクリックすると拡大できます。
+概念図は `repository-overview.jpg` の4層セクションです。図は旧名称を含むコンセプト資料です。現在の名称・実装範囲は以下の本文と[層の設計](docs/layers.md)を参照してください。画像をクリックすると拡大できます。
 
 ## 🖼️ デザイン比較
 
