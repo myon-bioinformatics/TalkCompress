@@ -23,8 +23,9 @@ permissions:
 
 jobs:
   pages:
-    uses: myon-bioinformatics/myon-bioinformatics/.github/workflows/reusable-pages-static.yml@1368174821fb03be258ecf3312ce0ea809f6ea22
+    uses: myon-bioinformatics/myon-bioinformatics/.github/workflows/reusable-pages-static.yml@0778ede0c872d609bb2dc590f9f9898a39a18668
     with:
       artifact_path: _site
       guide_page: docs/guide.page.json
-      guide_assets: assets/brand/talkcompress-icon.png=icon.png assets/brand/favicon.png=favicon.png docs/evidence/browser.gif=demos/browser.gif
+      guide_assets: docs/evidence/browser.gif=demos/browser.gif
+      guide_brand: TalkCompress   # ♻️ icon and favicon from CaChereCyCle (TalkCompress.icon / TalkCompress.favicon)
