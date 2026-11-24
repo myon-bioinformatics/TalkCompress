@@ -4,9 +4,11 @@
 
 公式デザインは案A（吹き出しプレス）です。myon の指定（2026-11-13）による確定で、暫定ではありません。overview 上部の3つ吹き出しは案Aと別デザインのため、公式アイコンには使っていません。
 
-- [公式アイコン](talkcompress-icon.png): `talkcompress-designs.jpg` の案Aパネル。切り出し箱 `(29, 185, 309, 461)`（右・下は含まない、280×276）。背景で 280×280 にパディング。
-- [favicon PNG](favicon.png): 同パネルの favicon。切り出し箱 `(358, 333, 469, 437)`（111×104）。背景で 111×111 にパディング。
+- [公式アイコン](https://myon-bioinformatics.github.io/TalkCompress/icon.png): `talkcompress-designs.jpg` の案Aパネル。切り出し箱 `(29, 185, 309, 461)`（右・下は含まない、280×276）。背景で 280×280 にパディング。
+- [favicon PNG](https://myon-bioinformatics.github.io/TalkCompress/favicon.png): 同パネルの favicon。切り出し箱 `(358, 333, 469, 437)`（111×104）。背景で 111×111 にパディング。
 - [favicon ICO](favicon.ico): 上記 PNG を LANCZOS で 16×16 / 32×32 / 48×48 に縮小した 32-bit フレーム。
 - [概念図](repository-concept.jpg): `repository-overview.jpg` の4層セクション。切り出し箱 `(0, 408, 1536, 1024)`。非公式アイコンとそのキャプション行より下。JPEG quality=95, subsampling=0 で再保存（ソースも JPEG）。
 - [全体ボード](repository-overview.jpg): 上部に非公式の3つ吹き出しアイコンを含む見本。概念図の切り出し元。
 - [デザイン比較](talkcompress-designs.jpg): 案A / B / C の比較資料。案Aが公式。アイコンと favicon の切り出し元。
+
+♻️ 公式アイコンと favicon PNG の本体は [CaChereCyCle](https://github.com/myon-bioinformatics/CaChereCyCle) の `TalkCompress.icon` / `TalkCompress.favicon`（同じバイト）。Pages が `icon.png` / `favicon.png` として公開します。

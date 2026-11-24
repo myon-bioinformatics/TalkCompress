@@ -13,7 +13,7 @@ TalkCompress は、**誰が、どの共有知識・規則を持てば理解で�
 公式デザインは案A（吹き出しプレス）です。myon の指定（2026-11-13）による確定で、暫定ではありません。
 
 <p align="center">
-  <img src="assets/brand/talkcompress-icon.png" width="160" height="160" alt="TalkCompress の公式アイコン（案A：吹き出しプレス）">
+  <img src="https://myon-bioinformatics.github.io/TalkCompress/icon.png" width="160" height="160" alt="TalkCompress の公式アイコン（案A：吹き出しプレス）">
 </p>
 
 アイコンと favicon は `assets/brand/talkcompress-designs.jpg` の案Aパネルから切り出しています。overview 上部の3つ吹き出しは案Aと別デザインのため使っていません。原本の PNG / SVG はなく、JPEG からの切り出しです。詳細は [assets/brand/README.md](assets/brand/README.md) を参照してください。
