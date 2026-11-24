@@ -33,7 +33,8 @@ jobs:
       fail-fast: false
       matrix:
         # failure-identity の expected-reports と揃えること
-        python-version: ["3.11", "3.12", "3.13", "3.14"]
+        # Pull requests run the newest Python only; push runs the full matrix.
+        python-version: ${{ github.event_name == 'pull_request' && fromJSON('["3.14"]') || fromJSON('["3.11", "3.12", "3.13", "3.14"]') }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -129,6 +130,6 @@ jobs:
     uses: myon-bioinformatics/myon-bioinformatics/.github/workflows/reusable-junit-identity.yml@1368174821fb03be258ecf3312ce0ea809f6ea22
     with:
       commit-sha: ${{ github.event.pull_request.head.sha || github.sha }}
-      expected-reports: '["junit-py3.11/pytest-3.11.xml","junit-py3.12/pytest-3.12.xml","junit-py3.13/pytest-3.13.xml","junit-py3.14/pytest-3.14.xml","junit-pybrowser/pytest-browser.xml"]'
+      expected-reports: ${{ github.event_name == 'pull_request' && '["junit-py3.14/pytest-3.14.xml","junit-pybrowser/pytest-browser.xml"]' || '["junit-py3.11/pytest-3.11.xml","junit-py3.12/pytest-3.12.xml","junit-py3.13/pytest-3.13.xml","junit-py3.14/pytest-3.14.xml","junit-pybrowser/pytest-browser.xml"]' }}
       artifact-pattern: "junit-py*"
       output-artifact: "failure-identity"
