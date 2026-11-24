@@ -47,6 +47,9 @@ from __future__ import annotations
 
 import json, re
 from functools import lru_cache; from pathlib import Path; from typing import Any
+# ⚡ compiled once per pattern: these loops build more patterns than re's own cache keeps (512),
+# so re.sub / re.search recompiled on almost every call (95% of the pipeline's time)
+_rx = lru_cache(maxsize=8192)(re.compile)
 
 # Also support direct CLI execution with shared/ on sys.path.
 if __package__:
@@ -63,7 +66,7 @@ def nonascii_word_pattern(src: str) -> str:
     pat = re.escape(src)
     if re.match(_LATIN_EDGE_CH, src):
         pat = rf"(?<!{_LATIN_EDGE_CH})(?<!{mark_pattern()}){pat}"
-    if re.search(rf"{_LATIN_EDGE_CH}$", src):
+    if _rx(rf"{_LATIN_EDGE_CH}$").search(src):
         pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{mark_pattern()})"
     return pat
 
@@ -901,8 +904,8 @@ def _word_present(text: str, word: str) -> bool:
     if not word:
         return False
     if word.isascii() and all(ch.isascii() for ch in word):
-        return re.search(rf"(?i)\b{_ascii_ci(word)}\b", text) is not None
-    return re.search(nonascii_word_pattern(word), text) is not None
+        return _rx(rf"(?i)\b{_ascii_ci(word)}\b").search(text) is not None
+    return _rx(nonascii_word_pattern(word)).search(text) is not None
 
 
 def sql_tech_context(text: str, *, extra_near: list[str] | None = None) -> bool:
@@ -952,9 +955,9 @@ def _ambiguity_skip(
     # Collision: after removing one src match, dst still present → keep original.
     tmp = text
     if src.isascii() and all(ch.isascii() for ch in src):
-        tmp = re.sub(rf"(?i)\b{re.escape(src)}\b", " ", tmp, count=1)
+        tmp = _rx(rf"(?i)\b{re.escape(src)}\b").sub(" ", tmp, count=1)
     else:
-        tmp = re.sub(nonascii_word_pattern(src), " ", tmp, count=1)
+        tmp = _rx(nonascii_word_pattern(src)).sub(" ", tmp, count=1)
     if _word_present(tmp, dst):
         return True
     return False
@@ -975,7 +978,7 @@ def _skip_convention(text: str, convention: dict[str, Any]) -> bool:
                 return True
     skip_re = convention.get("skip_if_re")
     if isinstance(skip_re, str) and skip_re:
-        if re.search(skip_re, text, flags=re.IGNORECASE):
+        if _rx(skip_re, re.IGNORECASE).search(text):
             return True
     return False
 
@@ -984,8 +987,8 @@ def _replace_src(text: str, src: str, dst: str) -> str:
     """ASCII word-boundary replace; non-ASCII Latin edges bounded, CJK plain."""
     if src.isascii() and all(ch.isascii() for ch in src):
         # literal dst: a backslash in a convention value is not a template
-        return re.sub(rf"(?i)\b{_ascii_ci(src)}\b", lambda _m: dst, text)
-    return re.sub(nonascii_word_pattern(src), lambda _m: dst, text)
+        return _rx(rf"(?i)\b{_ascii_ci(src)}\b").sub(lambda _m: dst, text)
+    return _rx(nonascii_word_pattern(src)).sub(lambda _m: dst, text)
 
 
 _THAT_IS_APPOSITIVE = re.compile(r"(?:(?<=[,(;—] )|(?<=[(—]))(?a:that is)(?=[,:])", re.I)

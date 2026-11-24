@@ -12,6 +12,10 @@ from __future__ import annotations
 
 import argparse, json, re, sys, unicodedata
 from pathlib import Path
+from functools import lru_cache
+# ⚡ compiled once per pattern: these loops build more patterns than re's own cache keeps (512),
+# so re.sub / re.search recompiled on almost every call (95% of the pipeline's time)
+_rx = lru_cache(maxsize=8192)(re.compile)
 
 _ROOT = Path(__file__).resolve().parents[1]
 if str(_ROOT) not in sys.path:
@@ -366,9 +370,9 @@ def _apply_map(text: str, m: dict[str, str]) -> str:
             continue
         if re.search(r"[^\x00-\x7f]", long) or not long.isascii():
             # Latin edges word-bounded like expand (señor ∌ señora); kana/CJK stay substrings.
-            out = re.sub(nonascii_word_pattern(long), lambda _m, _s=short: _s, out)
+            out = _rx(nonascii_word_pattern(long)).sub(lambda _m, _s=short: _s, out)
             continue
-        pat = re.compile(_ascii_phrase_pattern(long), re.IGNORECASE)
+        pat = _rx(_ascii_phrase_pattern(long), re.IGNORECASE)
         # literal replacement: a short such as ``C:\new`` or ``\g<0>`` is not a template
         out = pat.sub(lambda _m, _s=short: _s, out)
     return out
@@ -419,12 +423,12 @@ def expand(text: str, mapping: dict[str, str] | None = None, session: Session | 
             continue
         if re.search(r"[^\x00-\x7f]", short) or not short.isascii():
             # Latin edges are word-bounded (séc ∌ sécheresse); kana/CJK stay substrings.
-            out = re.sub(nonascii_word_pattern(short), lambda _m, _l=long: _l, out)
+            out = _rx(nonascii_word_pattern(short)).sub(lambda _m, _l=long: _l, out)
         else:
             pat = _word_bounded(short)
-            out = re.sub(pat, lambda _m, _l=long: _l, out)
+            out = _rx(pat).sub(lambda _m, _l=long: _l, out)
             if short.lower() != short:
-                out = re.sub(pat, lambda _m, _l=long: _l, out, flags=re.IGNORECASE)
+                out = _rx(pat, re.IGNORECASE).sub(lambda _m, _l=long: _l, out)
     return out
 
 
