@@ -14,6 +14,10 @@ from __future__ import annotations
 
 import json, re
 from pathlib import Path; from typing import Any
+from functools import lru_cache
+# ⚡ compiled once per pattern: these loops build more patterns than re's own cache keeps (512),
+# so re.sub / re.search recompiled on almost every call (95% of the pipeline's time)
+_rx = lru_cache(maxsize=8192)(re.compile)
 
 
 # Also support direct CLI execution with shared/ on sys.path.
@@ -33,7 +37,7 @@ def nonascii_word_pattern(src: str) -> str:
     pat = re.escape(src)
     if re.match(_LATIN_EDGE_CH, src):
         pat = rf"(?<!{_LATIN_EDGE_CH})(?<!{mark_pattern()}){pat}"
-    if re.search(rf"{_LATIN_EDGE_CH}$", src):
+    if _rx(rf"{_LATIN_EDGE_CH}$").search(src):
         pat = rf"{pat}(?!{_LATIN_EDGE_CH}|{mark_pattern()})"
     return pat
 
@@ -411,7 +415,7 @@ def _spelled_numbers_en(text: str) -> str:
 
     out = _COMPOUND_NUM.sub(_comp, out)
     for word, num in sorted(_ALL_NUM_WORDS.items(), key=lambda kv: len(kv[0]), reverse=True):
-        out = re.sub(rf"(?i)\b{_ascii_ci(word)}\b", str(num), out)
+        out = _rx(rf"(?i)\b{_ascii_ci(word)}\b").sub(str(num), out)
     return out
 
 
@@ -987,7 +991,7 @@ def _strip_fillers_ja(text: str) -> str:
             pat = rf"(?<![\w「『\"“]){e}(?:[、,，]\s*|\s+)?"
         else:
             pat = rf"(?<![\w「『\"“]){e}(?:[、,，]\s*|\s+|(?=[。．.!?！？」』）)]|$))"
-        out = re.sub(pat, "", out)
+        out = _rx(pat).sub("", out)
     out = re.sub(r"[、,，]\s*(?=[、。．!?！？]|$)", "", out)
     out = re.sub(r"(?:(?<=^)|(?<=[。．!?！？\n]))\s*[、，]\s*", "", out)
     return out
@@ -1008,13 +1012,13 @@ def strip_fillers(text: str, *, aggressive: bool = False) -> str:
             continue
         e = _ascii_ci(f)
         # "Oh, X" / "Well, X": drop the filler together with its comma.
-        out = re.sub(rf"(?i)(?:(?<=^)|(?<=[\s“\"(\[—])){e}\s*,\s*", "", out)
+        out = _rx(rf"(?i)(?:(?<=^)|(?<=[\s“\"(\[—])){e}\s*,\s*").sub("", out)
         # "..., I suppose, ..." / "..., you know." : drop with the leading comma.
-        out = re.sub(rf"(?i),\s*{e}(?=\s*[,.;:!?”\"—)\]]|\s*$)", "", out)
+        out = _rx(rf"(?i),\s*{e}(?=\s*[,.;:!?”\"—)\]]|\s*$)").sub("", out)
         if f in _PUNCT_BOUNDED_ONLY:
             continue
         # Bare filler only when it is not an exclamation ("Oh!" / "Oh, oh!").
-        out = re.sub(rf"(?i)\b{e}\b(?!\s*[!?])", "", out)
+        out = _rx(rf"(?i)\b{e}\b(?!\s*[!?])").sub("", out)
 
     out = re.sub(r"[ \t]{2,}", " ", out)
     out = re.sub(r"\s+([,.;:!?])", r"\1", out)
@@ -1042,7 +1046,7 @@ def apply_unique_readings(text: str, *, compact: bool = False) -> str:
             # Only main-verb do + object. Aux/pro-verb do ("I do.", "Do you?") untouched.
             out = re.sub(_DO_MAIN_VERB, tight, out)
             continue
-        out = re.sub(rf"(?i)\b{_ascii_ci(long)}\b", tight, out)
+        out = _rx(rf"(?i)\b{_ascii_ci(long)}\b").sub(tight, out)
     if compact:
         out = apply_unique_compact(out)
     return out
@@ -1054,7 +1058,7 @@ def apply_unique_compact(text: str) -> str:
     for long, short in sorted(UNIQUE_COMPACT.items(), key=lambda kv: len(kv[0]), reverse=True):
         if long == short:
             continue
-        out = re.sub(rf"(?i)\b{_ascii_ci(long)}\b", short, out)
+        out = _rx(rf"(?i)\b{_ascii_ci(long)}\b").sub(short, out)
     return out
 
 
@@ -1063,10 +1067,10 @@ def apply_etymon_align(text: str) -> str:
     out = text
     for surface, etymon in sorted(ETYMON_ALIGN.items(), key=lambda kv: len(kv[0]), reverse=True):
         if surface.isascii():
-            out = re.sub(rf"(?i)\b{_ascii_ci(surface)}\b", etymon, out)
+            out = _rx(rf"(?i)\b{_ascii_ci(surface)}\b").sub(etymon, out)
         else:
             for form in (surface, surface[:1].upper() + surface[1:]):
-                out = re.sub(nonascii_word_pattern(form), etymon, out)
+                out = _rx(nonascii_word_pattern(form)).sub(etymon, out)
     return out
 
 

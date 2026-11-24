@@ -391,6 +391,8 @@ _COSTLY_WS_COST = {
 # ideographic space overestimates Japanese / fullwidth contexts.
 
 
+@lru_cache(maxsize=1 << 16)  # ⚡ a pure function of the text (the committed calibration never changes at runtime);
+# the phrase-pair banks ask for the same strings millions of times
 def estimate_tokens(text: str) -> int:
     """Stdlib-only token estimate calibrated toward o200k_base (no tiktoken at runtime).
 
