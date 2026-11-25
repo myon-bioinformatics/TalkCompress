@@ -88,6 +88,40 @@
           ]
         },
         {
+          "label": "🔬 検証ガイド",
+          "blocks": [
+            {
+              "type": "runbook",
+              "id": "verify",
+              "books": [
+                {
+                  "label": "⚡ そのまま",
+                  "intro": "📋 コピーして手元で試し、結果を記録できます。🤖 の手順は、Pages の公開で実際に動かした結果も載ります。",
+                  "runbook": {
+                    "key": "talkcompress/verify",
+                    "steps": [
+                      {
+                        "id": "layer3",
+                        "title": "🗂 略語（layer 3）",
+                        "command": "python3 DensityFacadeRoute/density_facade_route.py --layer 3 --text 'as soon as possible'",
+                        "expect": "ASAP",
+                        "run": true
+                      },
+                      {
+                        "id": "pipeline",
+                        "title": "🗂 つなげて圧縮",
+                        "command": "python3 DensityFacadeRoute/density_facade_route.py --pipeline C,E --text 'um thank you for your information'",
+                        "expect": "ty FYI",
+                        "run": true
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
           "label": "🎞 GIF デモ",
           "blocks": [
             {
