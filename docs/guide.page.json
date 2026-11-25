@@ -1,7 +1,7 @@
 {
   "schema": "web-ui-page/1",
   "title": "TalkCompress 利用ガイド",
-  "theme": "auto",
+  "theme": "modern",
   "description": "誰が、どの共有知識・規則を持てば理解できるかを条件に、意味を保てる短い表現を探す実験リポジトリ。文字数・通信バイト数・LLM のトークン数を測ります。",
   "icon": "./icon.png",
   "favicon": "./favicon.png",
