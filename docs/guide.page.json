@@ -19,22 +19,6 @@
       "id": "guide",
       "tabs": [
         {
-          "label": "🎞 GIF デモ",
-          "blocks": [
-            {
-              "type": "card",
-              "title": "🧪 ブラウザテスト",
-              "blocks": [
-                {
-                  "type": "image",
-                  "src": "./demos/browser.gif",
-                  "alt": "ブラウザテストを実際の Chromium で動かした様子"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "label": "🧩 機能一覧",
           "blocks": [
             {
@@ -98,6 +82,22 @@
                       "text": "$ uv run python DensityFacadeRoute/density_facade_route.py --budget 40 --stats --text \"um thank you for your information please\""
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "🎞 GIF デモ",
+          "blocks": [
+            {
+              "type": "card",
+              "title": "🧪 ブラウザテスト",
+              "blocks": [
+                {
+                  "type": "image",
+                  "src": "./demos/browser.gif",
+                  "alt": "ブラウザテストを実際の Chromium で動かした様子"
                 }
               ]
             }
