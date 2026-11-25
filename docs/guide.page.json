@@ -105,6 +105,7 @@
                         "title": "🗂 略語（layer 3）",
                         "command": "python3 DensityFacadeRoute/density_facade_route.py --layer 3 --text 'as soon as possible'",
                         "expect": "ASAP",
+                        "expect_stdout_contains": "ASAP",
                         "run": true
                       },
                       {
@@ -112,6 +113,7 @@
                         "title": "🗂 つなげて圧縮",
                         "command": "python3 DensityFacadeRoute/density_facade_route.py --pipeline C,E --text 'um thank you for your information'",
                         "expect": "ty FYI",
+                        "expect_stdout_contains": "ty FYI",
                         "run": true
                       }
                     ]
