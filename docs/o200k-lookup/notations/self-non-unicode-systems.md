@@ -13,7 +13,7 @@
 
 ## 新たに見つかった重要な候補（本表の全件実測には入れていない）
 
-1. **Manuel de Codage (MdC, 1984)**: 古代エジプトのヒエログリフをGardiner符号とASCIIの配置演算子で書く。`A40`, `I3`、横配置 `*`、縦配置 `:`、区画 `-`、括弧。一次の説明: https://khety.qenherkhopeshef.org/HieroEncoding/MDC/mdc.html 。JSeshの対応: https://jseshdoc.qenherkhopeshef.org/en/jsesh/introduction 。Unicode単字一覧だけでは配置・合字を覆えない。JSeshソフトウェアのCeCILLと、フォントの制限付きライセンスは別物。フォント図形を一括再配布しない。コード文字列のデータセットを追加するなら許諾を確認する。
+1. **Manuel de Codage (MdC, 1984)**: 古代エジプトのヒエログリフをGardiner符号とASCIIの配置演算子で書く。`A40`, `I3`、横配置 `*`、縦配置 `:`、区画 `-`、括弧。一次の説明: https://khety.qenherkhopeshef.org/HieroEncoding/MDC/mdc.html 。JSeshの対応: https://jseshdoc.qenherkhopeshef.org/en/jsesh9/introduction 。Unicode単字一覧だけでは配置・合字を覆えない。JSeshソフトウェアのCeCILLと、フォントの制限付きライセンスは別物。フォント図形を一括再配布しない。コード文字列のデータセットを追加するなら許諾を確認する。
 2. **Blissymbolics (1949〜)**: 意味を組み合わせる図形言語。BCIの2026 Authorized Vocabularyは6,551 symbolsと案内され、CC BY 4.0（BCI帰属表示必須）: https://blissymbolics.org/index.php/bci-av-2026 / https://blissymbolics.org/index.php/licensing 。Unicode提案の仮符号を確定した文字として扱わない。SVG/画像/数値IDのどれをtokenizeしているか明記すべき。図形のトークン数は通常のtiktokenでは測れず、ラベルやIDのコストとの混同に注意。
 3. **楔形文字のATF・転写体系**: Unicodeの楔形単字とは別に、文字名・読み・破損・向き・行配置をASCII等で表す系統がある。ORACC ATFドキュメント候補: https://oracc.museum.upenn.edu/doc/help/editinginatf/ 。ここでは内容・ライセンスを未精査、データは未取得。
 4. **音楽のテキスト記法**: ABC notation / LilyPond / MusicXML / Humdrum。音符のUnicode単字一覧は時間・声部・演奏指定を覆わない。ソフト本体の自由ライセンスと曲データの著作権は分ける。今回コーパス未取得。
