@@ -27,8 +27,8 @@ ND を外すのは、圧縮変換そのものが「改変」にあたるため�
 | FLORES-200（dev/devtest） | CC BY-SA 4.0 | 可（BY-SA） | https://github.com/facebookresearch/flores/blob/main/flores200/README.md | 評価用セット。数百 KB 規模なので外部取得＋sha256 固定 |
 | Common Voice 文テキスト（validated_sentences） | CC0 1.0 | 可 | https://commonvoice.mozilla.org/en/datasets | テキストのみ使う。音声は CC0 だが大容量・本件は不要。話者メタデータは入れない |
 | Project Gutenberg（米国 PD 作品） | Public domain（米国） | 可 | https://www.gutenberg.org/policy/license.html | 既存 `tests/fixtures/pd_corpus/` と同方針。Gutenberg のヘッダ/フッタ（商標条項）は削る |
-| OPUS: Tatoeba サブセット | CC BY 2.0 FR | 可 | https://opus.nlpl.eu/Tatoeba/ | 本家 Tatoeba から取る方が投稿者表示が楽 |
-| OPUS: WikiMatrix | CC BY-SA 4.0 | 可（BY-SA） | https://opus.nlpl.eu/WikiMatrix/ | 自動抽出の対訳で質にムラ。往復テストには不向き、トークン計測向け |
+| OPUS: Tatoeba サブセット | CC BY 2.0 FR | 可 | https://opus.nlpl.eu/datasets/Tatoeba | 本家 Tatoeba から取る方が投稿者表示が楽 |
+| OPUS: WikiMatrix | CC BY-SA 4.0 | 可（BY-SA） | https://opus.nlpl.eu/datasets/WikiMatrix | 自動抽出の対訳で質にムラ。往復テストには不向き、トークン計測向け |
 | OPUS: Europarl | 欧州議会の再利用規約（明示の CC ではない） | **保留** | https://www.europarl.europa.eu/legal-notice/en/ | 許可リスト外なので入れない。必要なら別途確認 |
 | OPUS: OpenSubtitles / CCMatrix / ParaCrawl など | 権利不明・クロール由来 | **不可** | 各 OPUS ページ | 字幕・Web クロールは元の著作権が不明 |
 | Universal Dependencies 各ツリーバンク | ツリーバンクごとに異なる（CC BY-SA / CC BY-NC-SA 混在） | 個別判定 | 各ツリーバンクの LICENSE | NC のもの（例：一部の日本語 UD）は不可 |

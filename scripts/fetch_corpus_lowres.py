@@ -55,7 +55,7 @@ SHORT_MAX_CHARS = 60
 SHORT_LIMIT = 500
 MEDIUM_LIMIT = 500
 ROOT = Path(__file__).resolve().parents[1]
-OPUS_TATOEBA_PAGE = "https://opus.nlpl.eu/Tatoeba/"
+OPUS_TATOEBA_PAGE = "https://opus.nlpl.eu/datasets/Tatoeba"
 FLORES_AUTHOR = "FLORES-200 (NLLB Team, Meta AI)"
 KEYS = ("id", "text", "lang", "tier", "source", "license", "author", "url")
 
