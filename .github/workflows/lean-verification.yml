@@ -1,0 +1,38 @@
+name: Lean verification
+
+on:
+  pull_request:
+    paths:
+      - "formal/**"
+      - "DensityFacadeRoute/**"
+      - "tests/test_formal_budget_bridge.py"
+      - ".github/workflows/lean-verification.yml"
+  push:
+    branches: [main]
+    paths:
+      - "formal/**"
+      - "DensityFacadeRoute/**"
+      - "tests/test_formal_budget_bridge.py"
+      - ".github/workflows/lean-verification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lean-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  budget:
+    uses: myon-bioinformatics/myon-bioinformatics/.github/workflows/reusable-lean-verify.yml@6c2558c4251698c50bc07bad86fb49f902b2738f
+    with:
+      project-directory: formal
+      proof: Budget.lean
+      theorems: |
+        TalkCompress.candidate_count_bounded
+        TalkCompress.shortest_not_larger
+        TalkCompress.shortest_is_minimum
+        TalkCompress.no_improvement_keeps_original
+        TalkCompress.within_budget_skips_pipeline
+        TalkCompress.budget_result_not_larger

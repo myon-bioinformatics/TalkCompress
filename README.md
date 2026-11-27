@@ -281,6 +281,10 @@ See [standard-library discovery commands](docs/unittest-discovery.md) for
 validated `python -S -m unittest discover` recipes, filename/name filtering,
 and the boundary with the full pytest suite.
 
+[Formal verification](docs/formal-verification.md) covers the character-budget
+controller's iteration bound and shortest observed result, with Lean proofs and
+tests of the actual Python controller. Semantic fidelity is evaluated separately.
+
 ## ライセンス
 
 MIT
