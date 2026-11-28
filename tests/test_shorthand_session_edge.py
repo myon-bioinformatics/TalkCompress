@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 from ShorthandSessionEdge import shorthand_session_edge as S
 from ShorthandSessionEdge import shorthand_session_edge as s
 from ShorthandSessionEdge.shorthand_session_edge import Session
@@ -21,9 +22,21 @@ import subprocess
 import sys
 import unicodedata
 
-from vendor.cli_args import run_cli
 
 import pytest
+
+
+def load_vendored(name, relpath):
+    """Load a vendored file by path under a repo-unique name (cli_args README: Loading a vendored copy)."""
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, Path(__file__).resolve().parents[1] / relpath)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[name] = module
+        spec.loader.exec_module(module)
+    return sys.modules[name]
+
+
+run_cli = load_vendored("talkcompress_cli_args", "vendor/cli_args.py").run_cli
 
 
 # ──── shorthand_compress_literal ──────────────────────────────────

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json, sys
 from collections import Counter; from pathlib import Path
 
@@ -9,9 +10,21 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import tense_matrix as tm  # noqa: E402
-from vendor.cli_args import run_cli  # noqa: E402
 
 from tests._helpers import load as _load
+
+
+def load_vendored(name, relpath):
+    """Load a vendored file by path under a repo-unique name (cli_args README: Loading a vendored copy)."""
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, Path(__file__).resolve().parents[1] / relpath)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[name] = module
+        spec.loader.exec_module(module)
+    return sys.modules[name]
+
+
+run_cli = load_vendored("talkcompress_cli_args", "vendor/cli_args.py").run_cli
 
 ROOT = Path(__file__).resolve().parents[1]
 BANK = json.loads((ROOT / "SentenceCalibratedMosaic/fixtures/tense_matrix.json").read_text(encoding="utf-8"))

@@ -13,12 +13,12 @@
 
 from __future__ import annotations
 
+import importlib.util
 from collections import Counter
 from pathlib import Path
 from tests._helpers import load
 from types import SimpleNamespace
 
-from vendor.cli_args import run_cli
 import copy
 import hashlib
 import json
@@ -32,6 +32,19 @@ import sys
 import tense_matrix as tm
 
 import pytest
+
+
+def load_vendored(name, relpath):
+    """Load a vendored file by path under a repo-unique name (cli_args README: Loading a vendored copy)."""
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, Path(__file__).resolve().parents[1] / relpath)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[name] = module
+        spec.loader.exec_module(module)
+    return sys.modules[name]
+
+
+run_cli = load_vendored("talkcompress_cli_args", "vendor/cli_args.py").run_cli
 
 
 # ──── de_roundtrip_gate ───────────────────────────────────────────
