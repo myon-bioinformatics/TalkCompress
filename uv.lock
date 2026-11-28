@@ -943,6 +943,7 @@ source = { virtual = "." }
 [package.dev-dependencies]
 browser = [
     { name = "playwright" },
+    { name = "pytest" },
 ]
 dev = [
     { name = "pytest" },
@@ -967,7 +968,10 @@ translate = [
 [package.metadata]
 
 [package.metadata.requires-dev]
-browser = [{ name = "playwright", specifier = ">=1.64.1" }]
+browser = [
+    { name = "playwright", specifier = ">=1.64.1" },
+    { name = "pytest", specifier = ">=8" },
+]
 dev = [
     { name = "pytest", specifier = ">=8" },
     { name = "tiktoken" },
