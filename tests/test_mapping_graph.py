@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import mapping_graph as mg  # noqa: E402
+from vendor.cli_args import run_cli  # noqa: E402
 import roundtrip as rt  # noqa: E402
 
 
@@ -111,8 +112,8 @@ def test_collisions_report(g):
 
 def test_cli_check_is_read_only():
     before = {p: p.stat().st_mtime_ns for p in (ROOT / "SentenceCalibratedMosaic/fixtures").glob("*.json")}
-    out = subprocess.run([sys.executable, str(ROOT / "scripts/mapping_graph.py"), "--check", "--json"],
-                         capture_output=True, text=True, check=True)
+    out = run_cli(ROOT / "scripts/mapping_graph.py", "--check", "--json")
+    assert out.returncode == 0, out.stderr
     res = json.loads(out.stdout)
     assert res["enforced_langs"] == ["nl"]
     assert {p: p.stat().st_mtime_ns for p in before} == before

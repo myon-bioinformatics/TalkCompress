@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-import json, subprocess, sys
+import json, sys
 from collections import Counter; from pathlib import Path
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import tense_matrix as tm  # noqa: E402
+from vendor.cli_args import run_cli  # noqa: E402
 
 from tests._helpers import load as _load
 
@@ -25,9 +26,7 @@ def _t():
 
 
 def test_generator_outputs_up_to_date():
-    r = subprocess.run(
-        [sys.executable, "scripts/tense_matrix.py", "--check"], cwd=ROOT, capture_output=True, text=True
-    )
+    r = run_cli("scripts/tense_matrix.py", "--check", cwd=ROOT)
     assert r.returncode == 0, r.stdout + r.stderr
 
 

@@ -22,6 +22,8 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 
+from vendor.cli_args import Command, run_command  # noqa: E402
+
 
 SAMPLE = ROOT / "examples" / "window_chat.jsonl"
 
@@ -38,8 +40,9 @@ def _run(*extra: str) -> list[dict]:
         str(SAMPLE),
         *extra,
     ]
-    out = subprocess.run(cmd, capture_output=True, text=True, check=True, cwd=ROOT).stdout
-    return [json.loads(line) for line in out.splitlines() if line.startswith("{")]
+    result = run_command(Command(cmd), cwd=ROOT)
+    assert result.returncode == 0, result.stderr
+    return [json.loads(line) for line in result.stdout.splitlines() if line.startswith("{")]
 
 
 def test_hist_state_replaces_old_rows_with_one_state_block():

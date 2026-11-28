@@ -17,6 +17,8 @@ from collections import Counter
 from pathlib import Path
 from tests._helpers import load
 from types import SimpleNamespace
+
+from vendor.cli_args import run_cli
 import copy
 import hashlib
 import json
@@ -669,8 +671,9 @@ def test_nl_records_complete():
 def test_replay_harness_matches_judge_file():
     # reproducible: replay restorer returns the recorded blind judge answer
     conv = "Maybe kom today."
-    p = subprocess.run([sys.executable, str(ROOT / "scripts/roundtrip_replay.py"), "nl"],
-                       input=rt.PROMPT.format(c=conv), capture_output=True, text=True, check=True)
+    p = run_cli(ROOT / "scripts/roundtrip_replay.py", "nl",
+                stdin=rt.PROMPT.format(c=conv))
+    assert p.returncode == 0, p.stderr
     assert p.stdout.strip() == JUDGE_nl_roundtrip_gate[conv] == "Maybe I come today."
 
 
