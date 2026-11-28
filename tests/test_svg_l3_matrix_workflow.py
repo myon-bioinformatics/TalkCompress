@@ -1,4 +1,5 @@
 """#87: SVG L3 matrix workflow and its helper (no quality threshold)."""
+import importlib.util
 import json
 import re
 import subprocess
@@ -10,7 +11,22 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import svg_l3_bench as bench  # noqa: E402
-from vendor.cli_args import Command, run_cli, run_command  # noqa: E402
+
+
+def load_vendored(name, relpath):
+    """Load a vendored file by path under a repo-unique name (cli_args README: Loading a vendored copy)."""
+    if name not in sys.modules:
+        spec = importlib.util.spec_from_file_location(name, Path(__file__).resolve().parents[1] / relpath)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[name] = module
+        spec.loader.exec_module(module)
+    return sys.modules[name]
+
+
+_cli_args = load_vendored("talkcompress_cli_args", "vendor/cli_args.py")
+Command = _cli_args.Command
+run_cli = _cli_args.run_cli
+run_command = _cli_args.run_command
 
 WORKFLOW = ROOT / ".github/workflows/svg-l3-matrix.yml"
 MODELS = json.loads((ROOT / "shared/l3_models.json").read_text(encoding="utf-8"))
