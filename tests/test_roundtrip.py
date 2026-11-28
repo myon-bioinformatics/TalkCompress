@@ -18,6 +18,7 @@ import copy
 import importlib.util
 import json
 import mapping_graph as mg
+from vendor.cli_args import run_cli
 import roundtrip
 import roundtrip as rt
 import shlex
@@ -556,11 +557,10 @@ def test_tense_merge_rows_match_collisions(g):
 
 
 def test_cli_markdown_needs_collisions():
-    out = subprocess.run([sys.executable, str(ROOT / "scripts/mapping_graph.py"), "--check", "--markdown"],
-                         capture_output=True, text=True)
+    out = run_cli(ROOT / "scripts/mapping_graph.py", "--check", "--markdown")
     assert out.returncode == 2 and "--markdown needs --collisions" in out.stderr
-    out = subprocess.run([sys.executable, str(ROOT / "scripts/mapping_graph.py"), "--collisions", "--markdown"],
-                         capture_output=True, text=True, check=True)
+    out = run_cli(ROOT / "scripts/mapping_graph.py", "--collisions", "--markdown")
+    assert out.returncode == 0, out.stderr
     assert out.stdout == DOC.read_text(encoding="utf-8")
 
 

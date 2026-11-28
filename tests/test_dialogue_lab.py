@@ -18,6 +18,8 @@ from RulePeerCodec.dialogue_lab import valid_task
 from RulePeerCodec.dialogue_lab import validate_mapping
 from http.server import BaseHTTPRequestHandler
 from http.server import ThreadingHTTPServer
+
+from vendor.cli_args import Command, run_command
 import json
 import subprocess
 import sys
@@ -449,11 +451,11 @@ def test_incomplete_http_outputs_preserve_report_and_exit_failure(tmp_path):
     thread.start()
     output = tmp_path / 'nested' / 'report.json'
     try:
-        result = subprocess.run([
+        result = run_command(Command([
             sys.executable, '-m', 'RulePeerCodec.dialogue_lab', '--base-url',
             f'http://127.0.0.1:{server.server_port}', '--groups', '1', '--peers', '2',
             '--rounds', '2', '--timeout', '5', '--model-label', 'fake-length',
-            '--output', str(output)], capture_output=True, text=True, timeout=30)
+            '--output', str(output)]), timeout=30)
     finally:
         server.shutdown()
         server.server_close()

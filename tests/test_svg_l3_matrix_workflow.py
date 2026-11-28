@@ -10,6 +10,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import svg_l3_bench as bench  # noqa: E402
+from vendor.cli_args import Command, run_cli, run_command  # noqa: E402
 
 WORKFLOW = ROOT / ".github/workflows/svg-l3-matrix.yml"
 MODELS = json.loads((ROOT / "shared/l3_models.json").read_text(encoding="utf-8"))
@@ -41,8 +42,9 @@ def test_dispatch_default_all_and_selection():
 
 def test_matrix_cli_writes_github_output(tmp_path):
     out = tmp_path / "o"
-    subprocess.run([sys.executable, "scripts/svg_l3_bench.py", "matrix", "workflow_dispatch", "all",
-                    "--github-output", str(out)], cwd=ROOT, check=True, capture_output=True)
+    result = run_cli("scripts/svg_l3_bench.py", "matrix", "workflow_dispatch", "all",
+                     "--github-output", str(out), cwd=ROOT)
+    assert result.returncode == 0, result.stderr
     assert json.loads(out.read_text().split("=", 1)[1]) == {"model": list(bench.svg_models(MODELS))}
 
 
@@ -90,10 +92,10 @@ def test_summarize_cli_exit_codes(tmp_path):
     rep.write_text(json.dumps({"reports": [{"figure": "a.svg", "dsl_ok": False}]}))
     req.write_text(json.dumps(_req("a.svg")) + "\n")
     cmd = [sys.executable, "scripts/svg_l3_bench.py", "summarize", str(rep), str(req), "--out-dir", str(tmp_path / "o"), "--figures", str(figs)]
-    assert subprocess.run(cmd, cwd=ROOT, capture_output=True).returncode == 0
+    assert run_command(Command(cmd), cwd=ROOT).returncode == 0
     assert json.loads((tmp_path / "o/summary.json").read_text())["figures"][0]["dsl_ok"] is False
     req.write_text("")
-    assert subprocess.run(cmd, cwd=ROOT, capture_output=True).returncode == 1
+    assert run_command(Command(cmd), cwd=ROOT).returncode == 1
 
 
 def test_workflow_matches_issue_87_decisions():
@@ -146,8 +148,8 @@ def test_missing_figure_requests_fail_cli_and_preserve_summary(tmp_path):
     req = tmp_path / "requests.jsonl"
     req.write_text(json.dumps(_req("a.svg")) + "\n")
     out = tmp_path / "out"
-    result = subprocess.run([sys.executable, "scripts/svg_l3_bench.py", "summarize", str(rep), str(req),
-                             "--out-dir", str(out), "--figures", str(figs)], cwd=ROOT, capture_output=True)
+    result = run_cli("scripts/svg_l3_bench.py", "summarize", str(rep), str(req),
+                     "--out-dir", str(out), "--figures", str(figs), cwd=ROOT)
     assert result.returncode == 1
     summary = json.loads((out / "summary.json").read_text())
     assert summary["measurement_complete"] is False

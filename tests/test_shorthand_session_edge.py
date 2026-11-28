@@ -21,6 +21,8 @@ import subprocess
 import sys
 import unicodedata
 
+from vendor.cli_args import run_cli
+
 import pytest
 
 
@@ -65,15 +67,11 @@ def test_single_declaration_and_empty() -> None:
 
 def test_cli_does_not_double_trailing_newline() -> None:
     script = ROOT / "ShorthandSessionEdge" / "shorthand_session_edge.py"
-    r = subprocess.run(
-        [sys.executable, str(script), "compress", "--no-ledger"],
-        input="hello\n", capture_output=True, text=True, check=True,
-    )
+    r = run_cli(script, "compress", "--no-ledger", stdin="hello\n")
+    assert r.returncode == 0, r.stderr
     assert r.stdout == "hello\n"
-    r = subprocess.run(
-        [sys.executable, str(script), "compress", "--no-ledger", "--text", "hello"],
-        capture_output=True, text=True, check=True,
-    )
+    r = run_cli(script, "compress", "--no-ledger", "--text", "hello")
+    assert r.returncode == 0, r.stderr
     assert r.stdout == "hello\n"
 
 
